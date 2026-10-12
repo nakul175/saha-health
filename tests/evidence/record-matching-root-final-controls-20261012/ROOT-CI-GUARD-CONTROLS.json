@@ -1,0 +1,27 @@
+{
+  "positive": true,
+  "negativeControls": [
+    {
+      "case": "old-minimum",
+      "rejected": true
+    },
+    {
+      "case": "old-file",
+      "rejected": true
+    },
+    {
+      "case": "new45-minimum",
+      "rejected": true
+    },
+    {
+      "case": "new53-minimum",
+      "rejected": true
+    },
+    {
+      "case": "missing-new",
+      "rejected": true
+    }
+  ],
+  "exactInlineCI": "additional = {\"unit/record-matching-contract\":{\"layer\":\"unit\",\"file\":\"tests/record-matching-contract.mjs\",\"minPassed\":45},\"smoke/record-matching-browser\":{\"layer\":\"smoke\",\"file\":\"tests/smoke/record-matching-browser.mjs\",\"minPassed\":53}}\noriginal_suites = {k:v for k,v in baseline['suites'].items() if k not in additional}\nassert len(original_suites) == 389, 'Original389 must remain'\nassert hashlib.sha256(json.dumps(original_suites,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 objects/minima changed'\nassert len(baseline['suites']) == 391 and all(baseline['suites'].get(k)==v for k,v in additional.items()), 'Only observed45 intent and53 native matching records added'\n",
+  "scope": "Original389 objects/minima digest and exactly observed45/53 additional objects; no catalogue structure-only trust"
+}

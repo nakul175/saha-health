@@ -40,6 +40,7 @@ const need = (res, status, what) => assert.equal(res.status, status, `${what}: e
 const SIGN_IN = /sign in/i;
 // Query strings the GET routes need so that the owner (and an anonymous caller) reach the handler rather than a missing-parameter answer.
 const recipes = (visitId, org) => ({
+  '/api/record-matching': '',
   '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/routine-visit': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
   '/api/inbound-conflicts': '?personId=p_meena',
@@ -240,7 +241,7 @@ try {
     const bad = [];
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
-      if (route === '/api/today' || route === '/api/routine-visit') {
+      if (route === '/api/today' || route === '/api/routine-visit' || route === '/api/record-matching') {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
         continue;
@@ -302,6 +303,7 @@ try {
       assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal has no protected content');
     }
   });
+  await r.check('Matching setup discloses only current ASHA org/account/team metadata, no patient packet', async () => { const value=await c.get(asha,'/api/record-matching',org);need(value,200,'matching setup');assert.deepEqual(Object.keys(value.json).sort(),['actorId','organisationId','teams']);assert.equal(value.json.actorId,asha.id);assert.equal(value.json.organisationId,org);assert.ok(Array.isArray(value.json.teams));const refused=await c.get(owner,'/api/record-matching',org);need(refused,403,'matching owner refusal');assert.deepEqual(Object.keys(refused.json),['error']); });
   for (const row of sweep) if (row.skipped) r.skip(`GET ${row.route}`, row.skipped);
   for (const route of gets.filter(x => x in unsuppliable)) r.skip(`GET ${route}`, unsuppliable[route]);
   await r.check('the Worker logged no 5xx response and no unhandled workspace error during the run', async () => {

@@ -502,7 +502,7 @@
       "sourceTextLine": 178,
       "implementation": "partial",
       "target": "R12",
-      "current": "R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution. Slice 1c: merges need two different stewards and are never automatic; merged records are not offered as matches. Slice 10e: search by one complete issuer identifier (a linked ABHA number, RCH ID or Ni-kshay ID) inside the searcher's own care scope only; exact whole-value formats, so a partial or wildcard identifier is refused rather than searched; each search is a material read audited before it returns and a search that finds nothing is audited too; per-searcher limits (30 an hour, 8 finding nothing an hour, 24 a day); a record outside the scope gets the same answer as no record. The programme issuer formats are illustrative and unchecked against the registries. Atomic-review slice: D1 admission reservations bound concurrent ABHA review probes before lookup; stable retries do not probe again, generic refusal is preserved, and 32 local concurrent attempts admit exactly three. No raw ABHA or patient identifiers enter protection rows.",
+      "current": "R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution. Slice 1c: merges need two different stewards and are never automatic; merged records are not offered as matches. Slice 10e: search by one complete issuer identifier (a linked ABHA number, RCH ID or Ni-kshay ID) inside the searcher's own care scope only; exact whole-value formats, so a partial or wildcard identifier is refused rather than searched; each search is a material read audited before it returns and a search that finds nothing is audited too; per-searcher limits (30 an hour, 8 finding nothing an hour, 24 a day); a record outside the scope gets the same answer as no record. The programme issuer formats are illustrative and unchecked against the registries. Atomic-review slice: D1 admission reservations bound concurrent ABHA review probes before lookup; stable retries do not probe again, generic refusal is preserved, and 32 local concurrent attempts admit exactly three. No raw ABHA or patient identifiers enter protection rows. Bounded12October2026 increment: Explicit matching and read-only selection of an assigned existing record; see docs/current/next50/PATIENT-MATCHING-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.",
       "remaining": "Issuer-registry-backed identifier lookup (nothing contacts an issuer), validated matching performance, timing and enumeration testing by an independent reviewer, and approved wider identity resolution.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -520,7 +520,18 @@
         "lib/saha/abha-review-reservation.ts",
         "drizzle/0018_abha_review_reservations.sql",
         "tests/atomic-abha-review-contract.mjs",
-        "docs/current/ATOMIC-ABHA-REVIEW.md"
+        "docs/current/ATOMIC-ABHA-REVIEW.md",
+        "app/api/record-matching/route.ts",
+        "app/record-matching/page.tsx",
+        "app/record-matching/record-matching.tsx",
+        "app/record-matching/record-matching.css",
+        "app/today/today.tsx",
+        "lib/saha/record-matching.ts",
+        "lib/saha/record-matching-server.ts",
+        "lib/saha/record-matching-purpose.ts",
+        "tests/record-matching-contract.mjs",
+        "tests/smoke/record-matching-browser.mjs",
+        "docs/current/next50/PATIENT-MATCHING-20261012.md"
       ],
       "automatedAcceptanceClaim": false
     },

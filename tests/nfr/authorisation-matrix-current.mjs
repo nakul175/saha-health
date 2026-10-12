@@ -35,6 +35,7 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 // Documented query parameters per GET route (read from the route readers). kind: which resource the request names.
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
+  '/api/record-matching': () => [{q:''}],
   '/api/today': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/routine-visit': w => [
     { q: `?personId=${w.people.a2}`, kind: 'person' },
@@ -125,7 +126,7 @@ try {
   await r.check('route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)', () => none(unclassified, `unclassified GET routes: ${unclassified.join(', ')}`));
   await r.check(`grid is complete: ${cases.length} requests x ${PRINCIPALS.length} principals, every cell has a status`, () => { if (cases.length < 40) throw new Error(`only ${cases.length} cases`); none(violations((c, p) => (Number.isInteger(c.cells[p].status) ? '' : 'no status')), 'cells'); });
   // Today and Routine have exact ASHA-only contracts; all old legacy owner responses remain unchanged.
-  await r.check('control: owner gets 2xx on legacy routes and403 on the exact ASHA-only Today/Routine contracts', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('control: owner gets 2xx on legacy routes and403 on the exact ASHA-only Today/Routine contracts', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit','/api/record-matching'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
   await r.check('Today list allows both active ASHAs and refuses all other roles; ASHA 2 opens its own record', () => {
     const list = cases.find(c => c.route === '/api/today' && c.kind === 'plain');
     const detail = cases.find(c => c.route === '/api/today' && c.kind === 'person');
@@ -138,6 +139,7 @@ try {
   await r.check('clinical source history permits scoped clinicians and refuses both ASHAs including the assigned ASHA', () => { const c=cases.find(c=>c.route==='/api/imported-evidence');assert.ok(c);for(const p of ['owner','clinician'])assert.equal(c.cells[p].status,200,fmt(c,p));for(const p of ['asha1','asha2'])assert.equal(c.cells[p].status,403,fmt(c,p)); });
   await r.check('inbound conflict history permits scoped care clinicians and supervisor and refuses ASHAs and administrator', () => { const c=cases.find(c=>c.route==='/api/inbound-conflicts');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','clinician','supervisor'].includes(p)?200:403,fmt(c,p)); });
   await r.check('frozen figure metadata permits current reporting owner/supervisor and refuses other roles', () => { const c=cases.find(c=>c.route==='/api/indicator-figures');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','supervisor'].includes(p)?200:403,fmt(c,p)); });
+  await r.check('Matching setup permits both current ASHAs and refuses all other roles without patient disclosure', () => { const row=cases.find(c=>c.route==='/api/record-matching');assert.ok(row);for(const role of ['asha1','asha2'])assert.equal(row.cells[role].status,200,fmt(row,role));for(const role of ['owner','admin','supervisor','clinician','stranger'])assert.equal(row.cells[role].status,403,fmt(row,role));assert.equal(row.cells.anonymous.status,401); });
   await r.check('(i) no route returns 5xx for any role or anonymously', () => none(violations((c, p) => c.cells[p].status >= 500 ? 'server error' : ''), '5xx'));
   await r.check('(ii) anonymous gets 401 on every GET /api/ route', () => none(violations((c, p) => p === 'anonymous' && c.cells[p].status !== 401 ? 'expected 401' : ''), 'anonymous'));
   await r.check('(iii-a) the stranger never gets 2xx for this organisation (every GET route refuses with 403)', () => none(violations((c, p) => p === 'stranger' && c.cells[p].status !== 403 ? 'expected 403' : ''), 'stranger status'));

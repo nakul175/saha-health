@@ -1,0 +1,241 @@
+{
+  "suite": "Explicit existing-record candidate selection and uncertainty",
+  "layer": "unit",
+  "passed": 45,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T17:35:11.649Z",
+  "completedAt": "2026-10-12T17:35:12.340Z",
+  "environment": "Actual unchanged patientMatches and new strict selection TypeScript, synthetic objects",
+  "limits": [
+    "No server/runtime/formal/issuer/clinical or performance acceptance from these checks."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "Original matching keeps same-name shared-phone twins as two distinct references",
+      "ok": true,
+      "ms": 8
+    },
+    {
+      "label": "Possible match has assistance evidence, never an invented score or official link",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original matching never mutates records or joins twin identities",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original permitted scope excludes foreign assigned records from hash",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original evidence supports spelling variant only with demographic support",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unsupported spelling variant does not infer a different locality",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original NFKC name normalisation remains available",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original Hindi vowel distinctions remain meaningful",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original20-candidate bound marks overflow rather than falsely complete",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No candidate is selected without a human choice",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit affirmation is needed after choosing a record",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Foreign reference is not selected by fallback",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "Explicit choice binds exact candidate query/hash/id/version",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "A changed visible candidate version changes original fingerprint",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "A no-match snapshot stays explicit and unselected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Allowed response selected identity exactly matches candidate context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Mismatch in selected id refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Mismatch in selected version refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Mismatch in selected name refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Mismatch in selected age refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Mismatch in selected sex refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Mismatch in selected village refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Duplicate candidate IDs are unavailable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing or malformed source is unavailable, not empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing or malformed source is unavailable, not empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing or malformed source is unavailable, not empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing or malformed source is unavailable, not empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing or malformed source is unavailable, not empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing or malformed source is unavailable, not empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Read wrapper refuses createPerson",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Read wrapper refuses resolvePatientIdentity",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Read wrapper refuses mergePatient",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Read wrapper refuses preparePlan",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Demographic override fields refuse",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Selection without current version refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "A non-string reference cannot become an identifier",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Same-snapshot absent policy retains original no-grant permission",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Same-snapshot current named care purpose permits",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Same-snapshot purpose loss refuses despite older allowed source",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Revoked historical purpose cannot deny current original no-grant policy",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed or ambiguous same-snapshot purpose fails closed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed or ambiguous same-snapshot purpose fails closed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed or ambiguous same-snapshot purpose fails closed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed or ambiguous same-snapshot purpose fails closed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed or ambiguous same-snapshot purpose fails closed",
+      "ok": true,
+      "ms": 0
+    }
+  ]
+}
