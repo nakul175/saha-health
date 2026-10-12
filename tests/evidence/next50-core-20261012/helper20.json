@@ -1,0 +1,29 @@
+{
+  "suite": "Connected routine lifecycle save-state contract",
+  "passed": 20,
+  "failed": 0,
+  "checks": [
+    "No draft cannot claim a server save",
+    "Saved draft is separate from confirmed encounter",
+    "Confirmation retains actual server revision",
+    "Voided history cannot display confirmed-current status",
+    "Superseded history cannot display confirmed-current status",
+    "Editing after readback is not a new server acknowledgement",
+    "In-flight operation is not confirmed success",
+    "Unresolved attempt takes precedence and directs exact recovery",
+    "No acknowledgement of absent local persistence",
+    "Confirmed local record does not imply external destination state",
+    "Display projection is nonmutating and preserves separation none dirty=false",
+    "Display projection is nonmutating and preserves separation none dirty=true",
+    "Display projection is nonmutating and preserves separation draft dirty=false",
+    "Display projection is nonmutating and preserves separation draft dirty=true",
+    "Display projection is nonmutating and preserves separation confirmed dirty=false",
+    "Display projection is nonmutating and preserves separation confirmed dirty=true",
+    "Display projection is nonmutating and preserves separation confirmed dirty=false",
+    "Display projection is nonmutating and preserves separation confirmed dirty=true",
+    "Display projection is nonmutating and preserves separation confirmed dirty=false",
+    "Display projection is nonmutating and preserves separation confirmed dirty=true"
+  ],
+  "completedAt": "2026-10-12T09:52:21.813Z",
+  "limits": "Presentation contract only, not formal cancellation/destination/device/UAT acceptance."
+}

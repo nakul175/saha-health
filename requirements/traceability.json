@@ -218,7 +218,7 @@
       "sourceTextLine": 152,
       "implementation": "implemented-local",
       "target": "R12",
-      "current": "Local, server, queued, uncertain and destination-specific states remain separate. The app sync centre explicitly separates encrypted device drafts from programme submissions and never infers a zero queue from a locked notebook.",
+      "current": "Local, server, queued, uncertain and destination-specific states remain separate. The app sync centre explicitly separates encrypted device drafts from programme submissions and never infers a zero queue from a locked notebook. Bounded12October2026 increment: Connected routine save-state display; see docs/current/next50/CORE-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.",
       "remaining": "Real destination and device-state acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -227,7 +227,12 @@
         "tests/app-first-ui.cjs",
         "tests/ui/app-first-phone.spec.mjs",
         "docs/current/APP-FIRST-UI.md",
-        "docs/current/ANDROID-APP.md"
+        "docs/current/ANDROID-APP.md",
+        "app/routine-visit/save-status.tsx",
+        "lib/saha/routine-save-status.ts",
+        "tests/routine-save-status-contract.mjs",
+        "tests/integration/routine-save-status-browser.mjs",
+        "docs/current/next50/CORE-20261012.md"
       ],
       "automatedAcceptanceClaim": false
     },
