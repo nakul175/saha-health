@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "reviewer": "/root/next50_identity",
+  "reviewedAt": "2026-10-12T11:27:36.740501+00:00",
+  "sourceSHA": "48804685e1aa1135df1de4d1acf0483d22e893fe",
+  "ancestorSHA": "7adfc69c135ddbc0ce22df9bebbcafcac096229b",
+  "baseSHA": "22a271033eaa57e124a235fc615744928f1ac106",
+  "canonicalParent": "SAHA037 / APL60 / BR-PROG-06 / FR-PROG-06",
+  "canonicalTask": "ENG-BR-PROG-06 / APL220",
+  "verdict": "PASS_BOUNDED_SOURCE_AND_ACTUAL_EVIDENCE; FINAL_METADATA_AND_CI_PENDING",
+  "resolvedFinding": {
+    "priorHeldReceipt": "INDEPENDENT-SOURCE-REVIEW-7AD-HELD.json",
+    "priorSha256": "d831266a8791681fd263772ea87dc4d6fef02dd3fc267d91a3f21ac7efc70faa",
+    "independentDiagnosis": "INDEPENDENT-CONTRADICTION-DIAGNOSIS.json",
+    "correction": "One early submitted/non-active destination guard correctly marks requested/uncertain/retryable as unavailable/inconsistent.",
+    "freezeBeforeCorrection": "2026-10-12 11:17:36 UTC",
+    "currentFreshRunStarted": "2026-10-12T11:18:20.550Z",
+    "original28LogicAnd53NativeOraclesRetained": true,
+    "additiveTests": {
+      "logic": 3,
+      "native": 2
+    },
+    "independentlyRepeatedImmutableLogic": {
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0,
+      "resultSha256": "9976151dbf6fdb1d6714bbe28c644d9d7f74d87c32ca172d685c16a1a15d699d"
+    }
+  },
+  "unchangedEarlierSourceAssessment": {
+    "authority": "New API uses trusted identity, strict person/org selector, synthetic/training guard, current ASHA scope and assigned owner binding, durable access audit and existing final consistent assertAssignedRead. Source/server/store/identity/adapter schemas/service authority/original tests unchanged.",
+    "transport": "Existing real mock simulator only; status UI performs no command/provider call and distinguishes simulator receipt from official acceptance. Fixture setup commands deliberately populate synthetic state; zero-page-write claim applies only to the observed read segment.",
+    "checkpointRepair": "Pre-mutation before snapshot now captures real request delta. Original requestTarget still checks original caller version. Checkpoint advances its own changed person version before pinning; fresh service dispatch checks that committed pin, connector and unchanged digest. Finish retains concurrent newer person version as stale rather than repinning it. Lookup remains receipt lookup, not resend.",
+    "receipts": "Original command key retains append-only requested/uncertain checkpoint receipt. Deterministic enrolment_finish_operationId appends a separate internal result receipt. Actual exact original-body/key replay returns original requested receipt with currently accepted authorised snapshot, and patient/event/receipt equality proves no new mutation. No historical backfill or blind retry.",
+    "asyncUi": "AbortController checked after fetch and after parsed body; new loads clear protected state; offline/pagehide/hidden events abort and clear. Actual browser tests offline and audit failure/recovery, not a universal timing-model or hidden/pagehide execution claim."
+  },
+  "currentSourceChanges": {
+    "productionFilesChangedFromReviewedAncestor": [
+      "lib/saha/programme-status.ts"
+    ],
+    "unchangedAPIUIAuthorityAndCheckpointPaths": [
+      "app/api/programme-status/route.ts",
+      "app/programme-status/page.tsx",
+      "app/programme-status/programme-status.tsx",
+      "app/programme-status/programme-status.css",
+      "lib/saha/programme-status-server.ts",
+      "lib/saha/destination-enrolment-execution.ts"
+    ],
+    "sourcePins": {
+      "app/api/programme-status/route.ts": "2add7fa2dbc33ff0a264c8a6d3778073fd29e64f15cda0694013fb10267216b5",
+      "app/programme-status/page.tsx": "cd1285ebef10230cba619752830c6fc2911ea09edf1adcb782cbdd451402accc",
+      "app/programme-status/programme-status.tsx": "134a4a12539fc1a326f7b36fc862f295f125e1022c0234bdf8da25163f44cba7",
+      "app/programme-status/programme-status.css": "9bac08e3e921d8efa985fd73a5b1afe57d166791b624c80249d277b75c2b6cfe",
+      "lib/saha/programme-status.ts": "fea4b6bada2fb31c586dae498bc2eb27d8a9f46475564c6387036e76284d11b8",
+      "lib/saha/programme-status-server.ts": "10480c62ee7a4bac2236bfd5ad02f09b538dde21eb521b8c9e5eb7b7c8e99a3b",
+      "lib/saha/destination-enrolment-execution.ts": "2f422203860c9e0f4533a703965552aeb662d025c7f5ec166e140ca39f527faf",
+      "tests/programme-status-contract.mjs": "87a356d9914b5a7f60da7511d12416086a3ebd6ef78918796b257a44ceb752b7",
+      "tests/smoke/programme-status-browser.mjs": "fce7aee0d5c1eb277642560a32ffca880c0a27c250872074758f71fb63a18139"
+    }
+  },
+  "currentActualEvidence": {
+    "authorNewLogic": 31,
+    "authorNative": 55,
+    "unchangedOriginalUnitCounts": {
+      "destination": 45,
+      "envelope": 41,
+      "dispatch": 100
+    },
+    "totalSelectedChecks": 272,
+    "originalGuardEvaluated": 3,
+    "newSuiteRegistration": "Root pending; current runner correctly identifies2 new suites, no original389 modification.",
+    "freshBuild": "Native corrected010 build exit0; source/type checks passed per preserved actual outputs.",
+    "nativeScope": "Real owned D1/HTTP mobile browser,7 execution acceptance/lookup/activation/stale authority cohorts and6 BEFORE/AFTER-audit refusals plus fresh failure/recovery/offline. Existing provider is simulated, not mocked browser bodies.",
+    "readOnlyTableChecks": {
+      "tables": 60,
+      "primaryReadChangedTables": [
+        "audit_events",
+        "request_metrics"
+      ],
+      "contradictionReadChangedTables": [
+        "audit_events",
+        "request_metrics"
+      ],
+      "clinicalReceiptDifferences": 0
+    },
+    "custody": {
+      "sourceTestCompiledPins": 720,
+      "beforeAfterEqual": true,
+      "currentBytesEqual": true
+    },
+    "cleanup": {
+      "disposed": true,
+      "portFree": true
+    },
+    "visualReview": "Inspected real corrected010 mobile contradiction PNG; all3 episodes explicitly unavailable, no ordinary progress/acceptance labels, recorded simulator reference remains identified as historical evidence."
+  },
+  "evidenceIntegrity": {
+    "currentEvidencePins": 47,
+    "sourcePins": {
+      "app/api/programme-status/route.ts": "2add7fa2dbc33ff0a264c8a6d3778073fd29e64f15cda0694013fb10267216b5",
+      "app/programme-status/page.tsx": "cd1285ebef10230cba619752830c6fc2911ea09edf1adcb782cbdd451402accc",
+      "app/programme-status/programme-status.tsx": "134a4a12539fc1a326f7b36fc862f295f125e1022c0234bdf8da25163f44cba7",
+      "app/programme-status/programme-status.css": "9bac08e3e921d8efa985fd73a5b1afe57d166791b624c80249d277b75c2b6cfe",
+      "lib/saha/programme-status.ts": "fea4b6bada2fb31c586dae498bc2eb27d8a9f46475564c6387036e76284d11b8",
+      "lib/saha/programme-status-server.ts": "10480c62ee7a4bac2236bfd5ad02f09b538dde21eb521b8c9e5eb7b7c8e99a3b",
+      "lib/saha/destination-enrolment-execution.ts": "2f422203860c9e0f4533a703965552aeb662d025c7f5ec166e140ca39f527faf",
+      "tests/programme-status-contract.mjs": "87a356d9914b5a7f60da7511d12416086a3ebd6ef78918796b257a44ceb752b7",
+      "tests/smoke/programme-status-browser.mjs": "fce7aee0d5c1eb277642560a32ffca880c0a27c250872074758f71fb63a18139"
+    },
+    "currentManifestSha256": "98521f4f39ad4ee3ef80944702d4f74dea9db731b34e2e4f0810618aed5c6d38",
+    "nativeSummarySha256": "4bfef2b656abae2e30ea3c7cdecb3ff8757161e7645b7fe3fb19101aa5f54bfd",
+    "rawResultSha256": "a1f363f83a4fdccba691ac81293198c447ed8968cffcecaa9e0575ff110787e0",
+    "contradictoryNativeSha256": "51c9ce17805ff77e61ac5234465d937a761c48e97516c54b218e8c148c611eac",
+    "currentCustodySha256": "01ee3a41833fc9f03d5b691fdc4cb6bd3e7c49d0a2fbe6a564aeff42b62970a5",
+    "allOriginal42EvidenceBytePinsStillExistInImmutableAncestorGit": true,
+    "changedOriginalRawResultsAndManifestAlsoRetainedUnderAuthorHistory": true,
+    "rawFinal009AndFailedRunsNotRelabeled": true,
+    "allOriginal389GuardObjectsPreserved": true
+  },
+  "limits": [
+    "Final disclosure guards their consistent database snapshot; no promise for revocation after that instant.",
+    "No purpose/facility/clinical/model evaluation expansion, no physical/a11y/p95/capacity qualification, no formal TC-BR-PROG-06 acceptance, whole-story/UAT/human/domain/provider approval, merge or observed hosting.",
+    "Failed EPERM/checkpoint/own-version/finish-receipt/incorrect-destination fixture runs retained and not relabeled. Current raw53 passes do not erase them.",
+    "Final root sharedmetadata/native31+55 guard registration/new-route broad-smoke parameters/UAT/API classification and complete exact-head CI require a separate review. No draft publication yet.",
+    "Independent reviewer reran31 pure helper checks; current55 native browser/backend checks were independently source/output/custody/visual reviewed, not rerun.",
+    "No GitHub approval, genuine human/domain approval, whole-story/clinical/physical/official registration/formal UAT, merge or observed hosting claim."
+  ]
+}

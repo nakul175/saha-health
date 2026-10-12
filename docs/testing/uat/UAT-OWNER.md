@@ -322,7 +322,7 @@ Version-pinned illustrative packs plus immutable, independently reviewed source/
 - **Catalogue:** Functional, fixture FX-PROG-06, catalogue owner "QA with Programme owner".
 - **Run as:** Organisation owner / programme lead. Basis: requirement area default (BR-PROG; catalogue owner "QA with Programme owner").
 - **Default result:** **Blocked**
-- **Start from:** No screen is documented for BR-PROG-06: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** None of the screens the evidence map cites is in this role's navigation. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -338,7 +338,7 @@ Version-pinned illustrative packs plus immutable, independently reviewed source/
 
 <details><summary>What the build does today (assessment, current state of BR-PROG-06)</summary>
 
-Local episodes explicitly show official registration not submitted.
+Local episodes explicitly show official registration not submitted. Bounded12October2026 increment: Assigned-person programme status and persistent simulator checkpoints; see docs/current/next50/PROGRAMME-STATUS-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.
 
 </details>
 

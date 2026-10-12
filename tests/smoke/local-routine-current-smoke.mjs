@@ -40,6 +40,7 @@ const need = (res, status, what) => assert.equal(res.status, status, `${what}: e
 const SIGN_IN = /sign in/i;
 // Query strings the GET routes need so that the owner (and an anonymous caller) reach the handler rather than a missing-parameter answer.
 const recipes = (visitId, org) => ({
+  '/api/programme-status': '?personId=p_meena',
   '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/routine-visit': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
   '/api/inbound-conflicts': '?personId=p_meena',
@@ -240,7 +241,7 @@ try {
     const bad = [];
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
-      if (route === '/api/today' || route === '/api/routine-visit') {
+      if (route === '/api/today' || route === '/api/routine-visit' || route === '/api/programme-status') {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
         continue;
@@ -300,6 +301,16 @@ try {
       const res = await c.get(who, path, org);
       assert.ok(codes.includes(res.status), `expected Routine refusal for ${who.label}: ${path}, got ${res.status}`);
       assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal has no protected content');
+    }
+  });
+  await r.check('Programme status returns only the selected assigned ASHA record and refuses foreign scope or other roles', async () => {
+    const result = await c.get(asha, '/api/programme-status?personId=p_meena', org);
+    need(result, 200, 'assigned ASHA programme status');
+    assert.equal(result.json.person.id, 'p_meena'); assert.equal(result.json.organisationId, org);
+    assert.equal(result.json.actorId, asha.id); assert.ok(Array.isArray(result.json.episodes));
+    for (const [who, query, statuses] of [[asha, '?personId=p_rajesh', [403, 404]], [owner, '?personId=p_meena', [403]], [supervisor, '?personId=p_meena', [403]], [stranger, '?personId=p_meena', [403]], [null, '?personId=p_meena', [401]]]) {
+      const refusal = await c.get(who, '/api/programme-status' + query, org);
+      assert.ok(statuses.includes(refusal.status)); assert.deepEqual(Object.keys(refusal.json).sort(), ['error']);
     }
   });
   for (const row of sweep) if (row.skipped) r.skip(`GET ${row.route}`, row.skipped);

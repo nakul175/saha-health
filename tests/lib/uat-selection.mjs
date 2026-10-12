@@ -131,7 +131,10 @@ export async function loadNavigation() {
 // (a panel imported by another panel is hosted wherever that panel is). 'Person page' is a person's page opened from My work or People.
 const PERSON = 'Person page and visit';
 export const ROUTINE_CAPTURE_SCREEN = 'Candidate ASHA routine visit (Today > Review routine visit; deployment pending)';
+export const PROGRAMME_STATUS_SCREEN = 'Candidate ASHA programme status (/programme-status; simulator evidence; deployment pending)';
 export const PANEL_HOME = {
+  'app/programme-status/page.tsx': [PROGRAMME_STATUS_SCREEN],
+  'app/programme-status/programme-status.tsx': [PROGRAMME_STATUS_SCREEN],
   'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/registration-guidance.tsx': ['My work', 'People'],
   'app/frontline-guidance.tsx': ['ASHA app Home (/app)'],
