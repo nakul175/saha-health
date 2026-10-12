@@ -1,0 +1,15 @@
+{
+  "passed": 0,
+  "failed": 1,
+  "skipped": 0,
+  "checks": [],
+  "requests": [],
+  "errors": [],
+  "external": [],
+  "failure": "Error: Migrating the fresh local database failed: Error: listen EPERM: operation not permitted 127.0.0.1\n    at Server.setupListenHandle [as _listen2] (node:net:2306:21)\n    at listenInCluster (node:net:2437:12)\n    at node:net:2666:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {\n  code: 'EPERM',\n  errno: -1,\n  syscall: 'listen',\n  address: '127.0.0.1'\n}\n\n    at migrateOnce (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-institution-roster-review-20261013/tests/lib/migrate.mjs:23:11)\n    at freshDatabase (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-institution-roster-review-20261013/tests/lib/worker.mjs:18:3)\n    at startMiniflare (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-institution-roster-review-20261013/tests/lib/miniflare.mjs:36:14)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-institution-roster-review-20261013/tests/smoke/institution-roster-review-browser.mjs:1:1396\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\n    at async node:internal/modules/esm/loader:647:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)",
+  "disposed": false,
+  "portFree": false,
+  "statePreservedOnFailure": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-institution-roster-1461a1fa-55db-4657-8bca-2d8ced4770e0",
+  "completedAt": "2026-10-12T21:58:57.888Z",
+  "limits": "Manualexistingmemberpartialroster originalpreview/apply only; originalrights/sessionprovider/approvedfedwindow notcreated. Noinvites/credentials/provider/patientDB/clinicalpolicy/writerchanges. Originalstatusrequest rechecks are not upstreamsessiontermination. NativeassetsFirst usesrealbuiltassets/API; genuinecommitted200aborted only,no response substitution. Fullformal/physical/domain/CI/hosting unqualified."
+}
