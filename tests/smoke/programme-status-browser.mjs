@@ -135,6 +135,20 @@ try {
   check(geometry.scroll<=geometry.width&&geometry.controls.every(h=>h>=44),'Actual mobile layout avoids overflow and has44px controls');await page.screenshot({path:folder+'/programme-status-phone.png',fullPage:true});
   afterTables=await snapshot();const clinicalDiff=Object.keys(beforeTables).filter(k=>!['audit_events','request_metrics'].includes(k)&&JSON.stringify(beforeTables[k])!==JSON.stringify(afterTables[k]));
   check(Object.keys(beforeTables).length===60&&clinicalDiff.length===0,'All60 native tables compared; only expected read audit/metric tables change, with no clinical/episode/receipt mutation');
+  // Deliberately contradictory owned native fixture; no existing receipt is
+  // reinterpreted or repaired. Restore the exact fixture before original races.
+  const originalRow=await database.prepare('SELECT data FROM patients WHERE org_id=? AND id=?').bind(org,'p_meena').first(),contradictory=JSON.parse(originalRow.data);
+  contradictory.enrolments.forEach((e,i)=>{e.registration='submitted';e.destinationEnrolment.state=['requested','uncertain','retryable'][i];});
+  await database.prepare('UPDATE patients SET data=? WHERE org_id=? AND id=?').bind(JSON.stringify(contradictory),org,'p_meena').run();
+  const contradictionBefore=await snapshot(),requestIndex=requests.length;
+  await page.getByRole('button',{name:'Refresh selected status',exact:true}).click();await page.getByRole('region',{name:'Selected programme record',exact:true}).waitFor();
+  const contradictionText=await page.locator('main').innerText();
+  check(await page.getByText('Destination evidence unavailable or inconsistent.',{exact:true}).count()===3&&!/Simulation request pending|Simulation outcome unresolved|Simulation lookup recorded no destination entry|Simulation accepted/.test(contradictionText),'Actual D1 requested uncertain and retryable plus submitted markers all render unavailable evidence rather than ordinary progress');
+  const contradictionAfter=await snapshot();
+  check(requests.slice(requestIndex).every(r=>r.method==='GET')&&external.length===0&&Object.keys(contradictionBefore).filter(k=>!['audit_events','request_metrics'].includes(k)&&JSON.stringify(contradictionBefore[k])!==JSON.stringify(contradictionAfter[k])).length===0,'Contradictory native read adds no command provider clinical episode or receipt writes across all60 tables');
+  await page.screenshot({path:folder+'/programme-status-contradiction-phone.png',fullPage:true});
+  writeFileSync(folder+'/contradictory-native-fixture.json',JSON.stringify({states:['requested','uncertain','retryable'],registration:'submitted',contradictionBefore,contradictionAfter,originalRowSha256:hash(originalRow.data)},null,2));
+  await database.prepare('UPDATE patients SET data=? WHERE org_id=? AND id=?').bind(originalRow.data,org,'p_meena').run();
   const membership=()=>database.prepare('SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?').bind(org,asha.id).first();
   for(const timing of ['BEFORE','AFTER'])for(const mutation of ['membership','assignment','role-owner']){
     const m=await membership(),p=await person(),trigger='qa_programme_'+timing.toLowerCase()+'_'+mutation.replaceAll('-','_');

@@ -1,5 +1,5 @@
 {
-  "passed": 53,
+  "passed": 55,
   "failed": 0,
   "skipped": 0,
   "checks": [
@@ -44,6 +44,8 @@
     "Page performs GET-only reads and no provider or command call",
     "Actual mobile layout avoids overflow and has44px controls",
     "All60 native tables compared; only expected read audit/metric tables change, with no clinical/episode/receipt mutation",
+    "Actual D1 requested uncertain and retryable plus submitted markers all render unavailable evidence rather than ordinary progress",
+    "Contradictory native read adds no command provider clinical episode or receipt writes across all60 tables",
     "Actual BEFORE-audit membership change refuses before protected response",
     "Actual BEFORE-audit assignment change refuses before protected response",
     "Actual BEFORE-audit role-owner change refuses before protected response",
@@ -61,6 +63,10 @@
     {
       "method": "GET",
       "path": "/api/today"
+    },
+    {
+      "method": "GET",
+      "path": "/api/programme-status"
     },
     {
       "method": "GET",
@@ -210,7 +216,7 @@
     },
     "accounts": {
       "rows": 30,
-      "sha256": "bbf6ce9e2a6d70ba253b119bd47b7d28605a562a008438954f5f897588d9fdd5"
+      "sha256": "d46193eb31839c4692f100d89583f9ad868eac2007b8aa326f7c78abaf7088c8"
     },
     "ai_results": {
       "rows": 0,
@@ -226,7 +232,7 @@
     },
     "audit_events": {
       "rows": 390,
-      "sha256": "c8a21b73877132cd8228f08df8b01375b050530d3629edcf0a011007d379f4dd"
+      "sha256": "65ca9e5fdcab99a3f3442ddefb3ed78ccf7fc712637edcebf73a4bede86bbf03"
     },
     "availability_samples": {
       "rows": 0,
@@ -242,7 +248,7 @@
     },
     "command_receipts": {
       "rows": 56,
-      "sha256": "6343bc3c1e73bc5f6b6f55df672305f5a14bc712a506544fb1e8416b7f9bb4ac"
+      "sha256": "d899f9170efebd2ebf196ee53978617e34f55458842658424bfa2999c757e28c"
     },
     "device_match_copies": {
       "rows": 0,
@@ -274,7 +280,7 @@
     },
     "governance": {
       "rows": 10,
-      "sha256": "7c7c75ca5092d42db41eedf434863a1f2e83e96a869a8ffa08b15b055f593f7a"
+      "sha256": "ea01f4e1482097dbb944192f53c87f2946a51b949c63de8f77faa3f3d3294933"
     },
     "households": {
       "rows": 0,
@@ -314,15 +320,15 @@
     },
     "integrations": {
       "rows": 60,
-      "sha256": "bbdf7138f6fdad9880d65afd493528f85845f58a41024c07dc36c0100c3a38e3"
+      "sha256": "b7bcd45acecf08670a0136eecc1c4df49c03817ba16a81c3d1706e3170b2f0d2"
     },
     "invitations": {
       "rows": 8,
-      "sha256": "2ac7e0f011902782e4ae56b0580e22d3b300e0e77bc4eca241c65f7e3a6019f3"
+      "sha256": "b7c062498167d24ecfb7449070895468c35f7af2fab77548f4e9e48d8d93f7ab"
     },
     "legacy_migrations": {
       "rows": 10,
-      "sha256": "ec9d95ec5fc28836018f7f9f1f3064bc0a1de595422b1efd14d7209579aa6cf2"
+      "sha256": "6306912b9cbafee9fe736aaef8b06dba983e4a053435fcd980729f83f48cbf0e"
     },
     "media": {
       "rows": 0,
@@ -334,7 +340,7 @@
     },
     "memberships": {
       "rows": 38,
-      "sha256": "b6623c27b1be0dcf25c953e62b24013f75e2618fe2e3075f75c5e53f460e21cb"
+      "sha256": "4942bd63cc33061e67a54a8107a3b93e2bd0a650a93383114b5ee62099072112"
     },
     "notification_messages": {
       "rows": 0,
@@ -354,7 +360,7 @@
     },
     "organisations": {
       "rows": 10,
-      "sha256": "cc92074780198fd40146e4bc0115a2cda9a3cbededefae0d16b5c989f442233f"
+      "sha256": "b8dab23b15c37606169e3762a9e75162b66a2d8b7ada1b23b715eecbf71406be"
     },
     "outreach": {
       "rows": 0,
@@ -362,7 +368,7 @@
     },
     "patients": {
       "rows": 60,
-      "sha256": "482e081726a877399ec8a2e1f24b913355f19da519ea5b4f45a878a927b1c856"
+      "sha256": "8e2cdbd7fc83005b0844ac7582dc2b3db58dc5b49992a4eea1a721a25c78daeb"
     },
     "pilot": {
       "rows": 0,
@@ -374,7 +380,7 @@
     },
     "record_revisions": {
       "rows": 99,
-      "sha256": "1795de0b1f7847fcd55a170e28520d3941af875cdc4295d60ffc5047138e16f2"
+      "sha256": "16f82f7650c71926625ae784b8f141e34a9089dede9e4342dcce8c415f81a6da"
     },
     "referrals": {
       "rows": 0,
@@ -402,7 +408,7 @@
     },
     "request_metrics": {
       "rows": 28,
-      "sha256": "38b5acd55089e984104622dbc8dd022f0818d5d694b14f187eef3883da45a428"
+      "sha256": "7d5d64cd49f7aa16da25cd06910c6a87dcd2bc2479793442c23fcad296a31116"
     },
     "retention": {
       "rows": 0,
@@ -422,11 +428,11 @@
     },
     "team_members": {
       "rows": 38,
-      "sha256": "06af08cb9bc941f76eb6a7f0350ffcee6a134ae0df0d068ddb8d1ab7bf832b42"
+      "sha256": "3dbbec26d0f89958e4a1e1853d3d5cccfc1430b3d0b24a3ff9d60d6de4ff0863"
     },
     "teams": {
       "rows": 10,
-      "sha256": "0cce8b070fb946f04a5128846956fdd5187bf2d0564eb8632d70c2af8d80d53d"
+      "sha256": "4887dd94af68deb0d57c8f23c8a624243a2780ba1baf1343ad4d374d15e9ee79"
     },
     "visits": {
       "rows": 0,
@@ -452,7 +458,7 @@
     },
     "accounts": {
       "rows": 30,
-      "sha256": "bbf6ce9e2a6d70ba253b119bd47b7d28605a562a008438954f5f897588d9fdd5"
+      "sha256": "d46193eb31839c4692f100d89583f9ad868eac2007b8aa326f7c78abaf7088c8"
     },
     "ai_results": {
       "rows": 0,
@@ -468,7 +474,7 @@
     },
     "audit_events": {
       "rows": 392,
-      "sha256": "d37caa643f0784161d3f706c1e35381c9b84930c2051ef4134df1330b56bed3a"
+      "sha256": "916b18ca050f0570f2141977f8e46f55f71462048cfe14f07a528504853d6dcc"
     },
     "availability_samples": {
       "rows": 0,
@@ -484,7 +490,7 @@
     },
     "command_receipts": {
       "rows": 56,
-      "sha256": "6343bc3c1e73bc5f6b6f55df672305f5a14bc712a506544fb1e8416b7f9bb4ac"
+      "sha256": "d899f9170efebd2ebf196ee53978617e34f55458842658424bfa2999c757e28c"
     },
     "device_match_copies": {
       "rows": 0,
@@ -516,7 +522,7 @@
     },
     "governance": {
       "rows": 10,
-      "sha256": "7c7c75ca5092d42db41eedf434863a1f2e83e96a869a8ffa08b15b055f593f7a"
+      "sha256": "ea01f4e1482097dbb944192f53c87f2946a51b949c63de8f77faa3f3d3294933"
     },
     "households": {
       "rows": 0,
@@ -556,15 +562,15 @@
     },
     "integrations": {
       "rows": 60,
-      "sha256": "bbdf7138f6fdad9880d65afd493528f85845f58a41024c07dc36c0100c3a38e3"
+      "sha256": "b7bcd45acecf08670a0136eecc1c4df49c03817ba16a81c3d1706e3170b2f0d2"
     },
     "invitations": {
       "rows": 8,
-      "sha256": "2ac7e0f011902782e4ae56b0580e22d3b300e0e77bc4eca241c65f7e3a6019f3"
+      "sha256": "b7c062498167d24ecfb7449070895468c35f7af2fab77548f4e9e48d8d93f7ab"
     },
     "legacy_migrations": {
       "rows": 10,
-      "sha256": "ec9d95ec5fc28836018f7f9f1f3064bc0a1de595422b1efd14d7209579aa6cf2"
+      "sha256": "6306912b9cbafee9fe736aaef8b06dba983e4a053435fcd980729f83f48cbf0e"
     },
     "media": {
       "rows": 0,
@@ -576,7 +582,7 @@
     },
     "memberships": {
       "rows": 38,
-      "sha256": "b6623c27b1be0dcf25c953e62b24013f75e2618fe2e3075f75c5e53f460e21cb"
+      "sha256": "4942bd63cc33061e67a54a8107a3b93e2bd0a650a93383114b5ee62099072112"
     },
     "notification_messages": {
       "rows": 0,
@@ -596,7 +602,7 @@
     },
     "organisations": {
       "rows": 10,
-      "sha256": "cc92074780198fd40146e4bc0115a2cda9a3cbededefae0d16b5c989f442233f"
+      "sha256": "b8dab23b15c37606169e3762a9e75162b66a2d8b7ada1b23b715eecbf71406be"
     },
     "outreach": {
       "rows": 0,
@@ -604,7 +610,7 @@
     },
     "patients": {
       "rows": 60,
-      "sha256": "482e081726a877399ec8a2e1f24b913355f19da519ea5b4f45a878a927b1c856"
+      "sha256": "8e2cdbd7fc83005b0844ac7582dc2b3db58dc5b49992a4eea1a721a25c78daeb"
     },
     "pilot": {
       "rows": 0,
@@ -616,7 +622,7 @@
     },
     "record_revisions": {
       "rows": 99,
-      "sha256": "1795de0b1f7847fcd55a170e28520d3941af875cdc4295d60ffc5047138e16f2"
+      "sha256": "16f82f7650c71926625ae784b8f141e34a9089dede9e4342dcce8c415f81a6da"
     },
     "referrals": {
       "rows": 0,
@@ -644,7 +650,7 @@
     },
     "request_metrics": {
       "rows": 28,
-      "sha256": "02900ce139778a649c5557417b416b38f5b5fc6ded4aaf585eda8f2567d0d3b5"
+      "sha256": "753a08251e0368358b86a0e94aa99bc4ad9f11f330895c09ed017d5884702218"
     },
     "retention": {
       "rows": 0,
@@ -664,11 +670,11 @@
     },
     "team_members": {
       "rows": 38,
-      "sha256": "06af08cb9bc941f76eb6a7f0350ffcee6a134ae0df0d068ddb8d1ab7bf832b42"
+      "sha256": "3dbbec26d0f89958e4a1e1853d3d5cccfc1430b3d0b24a3ff9d60d6de4ff0863"
     },
     "teams": {
       "rows": 10,
-      "sha256": "0cce8b070fb946f04a5128846956fdd5187bf2d0564eb8632d70c2af8d80d53d"
+      "sha256": "4887dd94af68deb0d57c8f23c8a624243a2780ba1baf1343ad4d374d15e9ee79"
     },
     "visits": {
       "rows": 0,
@@ -689,6 +695,6 @@
   },
   "disposed": true,
   "portFree": true,
-  "completedAt": "2026-10-12T11:12:12.709Z",
+  "completedAt": "2026-10-12T11:18:29.642Z",
   "limits": "Actual current native local synthetic backend and mobile Chromium; existing simulator lifecycle and disposable native race fixtures only. No real provider/clinical/partner/official registration approval, fullstory/UAT/physical/p95/staging qualification. Clinical-table equality applies to read-only browser segment before deliberate race/recovery setup."
 }

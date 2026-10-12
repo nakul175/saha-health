@@ -22,6 +22,7 @@ export function programmeStatusText(e: ProgrammeEpisode) {
   const rejectionReason = typeof d?.rejectionReason === 'string' && d.rejectionReason.trim();
   const unverified = { status: 'Destination evidence unavailable or inconsistent.', next: 'Ask the programme steward to check the recorded evidence. No acceptance or retry permission is inferred.' };
   if (!d) return e.registration === 'not_submitted' ? { status: 'Local episode recorded. Destination evidence not recorded.', next: 'Missing destination evidence does not prove no request was sent. Ask the programme steward to check existing receipts; do not resend automatically.' } : unverified;
+  if (e.registration === 'submitted' && d.state !== 'active') return unverified;
   switch (d.state) {
     case 'requested': return { status: 'Simulation request pending.', next: 'A request is not acceptance. Check its existing workflow; this page sends nothing.' };
     case 'uncertain': return { status: 'Simulation outcome unresolved.', next: 'The original worker must look up the receipt before any resend. Uncertain is neither rejected nor safe to retry.' };

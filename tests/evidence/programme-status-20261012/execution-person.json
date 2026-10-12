@@ -3,7 +3,7 @@
     "status": 200,
     "json": {
       "result": {
-        "enrolmentId": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
+        "enrolmentId": "dc88536e-dc8a-470d-a158-7a51accf2b8e",
         "state": "uncertain"
       },
       "snapshot": {
@@ -27,34 +27,34 @@
             "aiConsent": true,
             "exchangeConsent": false,
             "consentVersion": 2,
-            "createdAt": "2026-10-12T11:12:11.274Z",
+            "createdAt": "2026-10-12T11:18:28.060Z",
             "version": 6,
             "teamId": "default",
-            "assignedTo": "t-b9d08b3a-asha",
+            "assignedTo": "t-7d3a1f31-asha",
             "synthetic": true,
             "assignmentHistory": [
               {
-                "id": "c6afa996-2a65-4cb2-bc11-059dcf73a0c9",
-                "at": "2026-10-12T11:12:11.311Z",
-                "by": "t-b9d08b3a-steward-person",
+                "id": "10d605a7-badd-4df6-8447-e6a9acd4098c",
+                "at": "2026-10-12T11:18:28.091Z",
+                "by": "t-7d3a1f31-steward-person",
                 "fromTeam": "default",
-                "fromOwner": "t-b9d08b3a-steward-person",
+                "fromOwner": "t-7d3a1f31-steward-person",
                 "teamId": "default",
-                "ownerId": "t-b9d08b3a-asha",
+                "ownerId": "t-7d3a1f31-asha",
                 "reason": "Synthetic checkpoint person",
                 "openWork": 0
               }
             ],
             "enrolments": [
               {
-                "id": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
+                "id": "dc88536e-dc8a-470d-a158-7a51accf2b8e",
                 "packId": "maternal",
                 "packVersion": 1,
                 "state": "active",
                 "episodeLabel": "Synthetic checkpoint person",
                 "startDate": null,
-                "createdAt": "2026-10-12T11:12:11.326Z",
-                "createdBy": "t-b9d08b3a-asha",
+                "createdAt": "2026-10-12T11:18:28.105Z",
+                "createdBy": "t-7d3a1f31-asha",
                 "registration": "not_submitted",
                 "destinationEnrolment": {
                   "version": 1,
@@ -65,31 +65,31 @@
                   "attempts": 1,
                   "history": [
                     {
-                      "at": "2026-10-12T11:12:11.344Z",
+                      "at": "2026-10-12T11:18:28.121Z",
                       "from": "requested",
                       "to": "uncertain",
-                      "by": "t-b9d08b3a-asha",
+                      "by": "t-7d3a1f31-asha",
                       "reason": "No matching definitive receipt was received. Look up this key before any resend."
                     }
                   ],
-                  "requestedAt": "2026-10-12T11:12:11.341Z",
-                  "requestedBy": "t-b9d08b3a-asha",
+                  "requestedAt": "2026-10-12T11:18:28.118Z",
+                  "requestedBy": "t-7d3a1f31-asha",
                   "delivery": {
-                    "key": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
-                    "actorId": "t-b9d08b3a-asha",
+                    "key": "dc88536e-dc8a-470d-a158-7a51accf2b8e",
+                    "actorId": "t-7d3a1f31-asha",
                     "connectorVersion": 1,
                     "personVersion": 4,
-                    "expiresAt": "2026-10-12T11:27:11.341Z",
-                    "operationId": "051efe79-4218-447e-a79c-bb73f9f171c0",
-                    "startedAt": "2026-10-12T11:12:11.341Z",
+                    "expiresAt": "2026-10-12T11:33:28.119Z",
+                    "operationId": "8106786b-70e3-4a89-b381-1c74011388af",
+                    "startedAt": "2026-10-12T11:18:28.118Z",
                     "events": [
                       {
-                        "at": "2026-10-12T11:12:11.341Z",
+                        "at": "2026-10-12T11:18:28.119Z",
                         "state": "requested",
                         "detail": "Destination enrolment checkpoint saved before the request."
                       },
                       {
-                        "at": "2026-10-12T11:12:11.344Z",
+                        "at": "2026-10-12T11:18:28.121Z",
                         "state": "uncertain",
                         "detail": "No matching definitive receipt was received. Look up this key before any resend."
                       }
@@ -180,47 +180,47 @@
         "referrals": [],
         "audit": [
           {
-            "id": "fc163c4f-7723-4b97-b5fa-052c063b93b9",
-            "at": "2026-10-12T11:12:11.344Z",
-            "actor": "asha-b9d08b3a@example.invalid",
-            "actorId": "t-b9d08b3a-asha",
+            "id": "341f7e5b-3d4b-4b1e-ab78-7b9b2ab385f4",
+            "at": "2026-10-12T11:18:28.121Z",
+            "actor": "asha-7d3a1f31@example.invalid",
+            "actorId": "t-7d3a1f31-asha",
             "role": "asha",
             "action": "requestDestinationEnrolmentResult",
-            "subject": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
-            "detail": "Destination enrolment uncertain (reference none).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
+            "subject": "dc88536e-dc8a-470d-a158-7a51accf2b8e",
+            "detail": "Destination enrolment uncertain (reference none).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-7d3a1f31-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
             "personId": "p_meena"
           },
           {
-            "id": "8d97a3c0-1616-4a63-ba58-cbf1bd58efcc",
-            "at": "2026-10-12T11:12:11.341Z",
-            "actor": "asha-b9d08b3a@example.invalid",
-            "actorId": "t-b9d08b3a-asha",
+            "id": "f7803f09-59a2-47a3-a58d-c2f6daca87d5",
+            "at": "2026-10-12T11:18:28.119Z",
+            "actor": "asha-7d3a1f31@example.invalid",
+            "actorId": "t-7d3a1f31-asha",
             "role": "asha",
             "action": "requestDestinationEnrolment",
-            "subject": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
-            "detail": "Destination enrolment requested at Maternal & child register for Synthetic checkpoint person (maternal, programme Maternal care). Requested by asha-b9d08b3a@example.invalid; nothing is sent to a real partner (mock adapter).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
+            "subject": "dc88536e-dc8a-470d-a158-7a51accf2b8e",
+            "detail": "Destination enrolment requested at Maternal & child register for Synthetic checkpoint person (maternal, programme Maternal care). Requested by asha-7d3a1f31@example.invalid; nothing is sent to a real partner (mock adapter).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-7d3a1f31-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
             "personId": "p_meena"
           },
           {
-            "id": "70e71a9f-a96a-4e19-91c0-962c17a0aae2",
-            "at": "2026-10-12T11:12:11.326Z",
-            "actor": "asha-b9d08b3a@example.invalid",
-            "actorId": "t-b9d08b3a-asha",
+            "id": "62cd207e-c83c-48c2-a5d7-42e0f6f392d2",
+            "at": "2026-10-12T11:18:28.105Z",
+            "actor": "asha-7d3a1f31@example.invalid",
+            "actorId": "t-7d3a1f31-asha",
             "role": "asha",
             "action": "enrolProgramme",
             "subject": "p_meena",
-            "detail": "Local sandbox episode opened: Maternal care v1. Official registration not submitted.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "detail": "Local sandbox episode opened: Maternal care v1. Official registration not submitted.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-7d3a1f31-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
             "personId": "p_meena"
           },
           {
-            "id": "9af2d322-87a5-4b26-b75e-71049d4cf4f6",
-            "at": "2026-10-12T11:12:11.311Z",
-            "actor": "steward-person-b9d08b3a@example.invalid",
-            "actorId": "t-b9d08b3a-steward-person",
+            "id": "c1ed729e-d564-447c-9917-90ce72601cba",
+            "at": "2026-10-12T11:18:28.091Z",
+            "actor": "steward-person-7d3a1f31@example.invalid",
+            "actorId": "t-7d3a1f31-steward-person",
             "role": "clinician",
             "action": "assignPatient",
             "subject": "p_meena",
-            "detail": "Patient assignment updated. Reason: Synthetic checkpoint person\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-steward-person\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":1,\"isOwner\":true},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "detail": "Patient assignment updated. Reason: Synthetic checkpoint person\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-7d3a1f31-steward-person\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":1,\"isOwner\":true},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
             "personId": "p_meena"
           }
         ],
@@ -260,9 +260,9 @@
         ],
         "auditCursor": null,
         "user": {
-          "userId": "t-b9d08b3a-asha",
-          "displayName": "asha-b9d08b3a@example.invalid",
-          "accountCode": "2B1B86B60C7445616C8E7560"
+          "userId": "t-7d3a1f31-asha",
+          "displayName": "asha-7d3a1f31@example.invalid",
+          "accountCode": "70C9F0A8A32737730243AC91"
         },
         "maintenance": {
           "active": false,
@@ -294,63 +294,63 @@
         "ehrReadiness": [],
         "misReadiness": [],
         "organisation": {
-          "id": "org_9a977159c4a40a25fd5c6cd100202226",
+          "id": "org_5a350ce37e69c5bba61967feb20bd596",
           "name": "Rampur care organisation",
           "revision": 5,
-          "createdAt": "2026-10-12T11:12:11.274Z",
+          "createdAt": "2026-10-12T11:18:28.059Z",
           "patientRevision": 6
         },
         "organisations": [
           {
-            "id": "org_2e1ce41c175e1c53bf0bc313d7746aac",
+            "id": "org_c8507944ceb314431ce9508dada002ee",
             "name": "Rampur care organisation",
             "role": "asha",
             "isOwner": false
           },
           {
-            "id": "org_e744571d23e41e51eaf9d7d8cf2176e0",
+            "id": "org_bb65b05e8379eb5af42ecaef29df8d5d",
             "name": "Rampur care organisation",
             "role": "clinician",
             "isOwner": true
           },
           {
-            "id": "org_bf808fae637d5c0a5847384eec02bfa6",
+            "id": "org_f83a61f0958ada5d5826c12661832fa1",
             "name": "Rampur care organisation",
             "role": "asha",
             "isOwner": false
           },
           {
-            "id": "org_465f7614165b2a4a46e9550b394dd155",
+            "id": "org_1ae4bc7e483c678de7273589d83b47b6",
             "name": "Rampur care organisation",
             "role": "asha",
             "isOwner": false
           },
           {
-            "id": "org_42a3960eb47ff0956fa7c12031f2d496",
+            "id": "org_63ad3a17436a35e125928f10653224bd",
             "name": "Rampur care organisation",
             "role": "asha",
             "isOwner": false
           },
           {
-            "id": "org_9a977159c4a40a25fd5c6cd100202226",
+            "id": "org_5a350ce37e69c5bba61967feb20bd596",
             "name": "Rampur care organisation",
             "role": "asha",
             "isOwner": false
           }
         ],
         "membership": {
-          "userId": "t-b9d08b3a-asha",
+          "userId": "t-7d3a1f31-asha",
           "displayName": "Synthetic checkpoint person",
-          "accountCode": "2B1B86B60C7445616C8E7560",
+          "accountCode": "70C9F0A8A32737730243AC91",
           "role": "asha",
           "isOwner": false,
           "status": "active",
           "version": 1,
-          "createdAt": "2026-10-12T11:12:11.299Z",
+          "createdAt": "2026-10-12T11:18:28.080Z",
           "teamIds": [
             "default"
           ],
-          "accountName": "asha-b9d08b3a@example.invalid",
+          "accountName": "asha-7d3a1f31@example.invalid",
           "nameSource": "invitation",
           "nameVersion": 0,
           "language": "en",
@@ -358,14 +358,14 @@
         },
         "members": [
           {
-            "userId": "fixture:org_9a977159c4a40a25fd5c6cd100202226:clinician-author",
+            "userId": "fixture:org_5a350ce37e69c5bba61967feb20bd596:clinician-author",
             "displayName": "Demonstration clinician — author (synthetic)",
-            "accountCode": "2B6052FACDF100B72FE948A7",
+            "accountCode": "F496A2BA83C87C314BFD53EB",
             "role": "clinician",
             "isOwner": false,
             "status": "active",
             "version": 1,
-            "createdAt": "2026-10-12T11:12:11.274Z",
+            "createdAt": "2026-10-12T11:18:28.059Z",
             "teamIds": [
               "default"
             ],
@@ -374,14 +374,14 @@
             "nameVersion": 0
           },
           {
-            "userId": "fixture:org_9a977159c4a40a25fd5c6cd100202226:clinician-reviewer",
+            "userId": "fixture:org_5a350ce37e69c5bba61967feb20bd596:clinician-reviewer",
             "displayName": "Demonstration clinician — reviewer (synthetic)",
-            "accountCode": "47A69AB6A9D3E7BE9C49122F",
+            "accountCode": "546BFE24BECB63CAEA5625EF",
             "role": "clinician",
             "isOwner": false,
             "status": "active",
             "version": 1,
-            "createdAt": "2026-10-12T11:12:11.274Z",
+            "createdAt": "2026-10-12T11:18:28.059Z",
             "teamIds": [
               "default"
             ],
@@ -390,34 +390,34 @@
             "nameVersion": 0
           },
           {
-            "userId": "t-b9d08b3a-asha",
+            "userId": "t-7d3a1f31-asha",
             "displayName": "Synthetic checkpoint person",
-            "accountCode": "2B1B86B60C7445616C8E7560",
+            "accountCode": "70C9F0A8A32737730243AC91",
             "role": "asha",
             "isOwner": false,
             "status": "active",
             "version": 1,
-            "createdAt": "2026-10-12T11:12:11.299Z",
+            "createdAt": "2026-10-12T11:18:28.080Z",
             "teamIds": [
               "default"
             ],
-            "accountName": "asha-b9d08b3a@example.invalid",
+            "accountName": "asha-7d3a1f31@example.invalid",
             "nameSource": "invitation",
             "nameVersion": 0
           },
           {
-            "userId": "t-b9d08b3a-steward-person",
-            "displayName": "steward-person-b9d08b3a@example.invalid",
-            "accountCode": "1B486E7F1C3094715C9EDBC5",
+            "userId": "t-7d3a1f31-steward-person",
+            "displayName": "steward-person-7d3a1f31@example.invalid",
+            "accountCode": "251B706C35BBF305811F33CB",
             "role": "clinician",
             "isOwner": true,
             "status": "active",
             "version": 1,
-            "createdAt": "2026-10-12T11:12:11.274Z",
+            "createdAt": "2026-10-12T11:18:28.059Z",
             "teamIds": [
               "default"
             ],
-            "accountName": "steward-person-b9d08b3a@example.invalid",
+            "accountName": "steward-person-7d3a1f31@example.invalid",
             "nameSource": "account",
             "nameVersion": 0
           }
@@ -426,7 +426,7 @@
           {
             "id": "default",
             "name": "Rampur care team",
-            "createdAt": "2026-10-12T11:12:11.274Z"
+            "createdAt": "2026-10-12T11:18:28.059Z"
           }
         ],
         "invitations": [],
@@ -443,7 +443,7 @@
         "delegatedAuthority": [],
         "signOutPath": "/signout-with-chatgpt?return_to=%2F",
         "migration": {
-          "migratedAt": "2026-10-12T11:12:11.274Z",
+          "migratedAt": "2026-10-12T11:18:28.059Z",
           "counts": {
             "people": 6,
             "visits": 0,
@@ -456,8 +456,8 @@
         }
       }
     },
-    "text": "{\"result\":{\"enrolmentId\":\"4187d3b1-c8f1-437c-a2e9-d59c0c0119c5\",\"state\":\"uncertain\"},\"snapshot\":{\"schemaVersion\":1,\"revision\":5,\"role\":\"asha\",\"people\":[{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":2,\"createdAt\":\"2026-10-12T11:12:11.274Z\",\"version\":6,\"teamId\":\"default\",\"assignedTo\":\"t-b9d08b3a-asha\",\"synthetic\":true,\"assignmentHistory\":[{\"id\":\"c6afa996-2a65-4cb2-bc11-059dcf73a0c9\",\"at\":\"2026-10-12T11:12:11.311Z\",\"by\":\"t-b9d08b3a-steward-person\",\"fromTeam\":\"default\",\"fromOwner\":\"t-b9d08b3a-steward-person\",\"teamId\":\"default\",\"ownerId\":\"t-b9d08b3a-asha\",\"reason\":\"Synthetic checkpoint person\",\"openWork\":0}],\"enrolments\":[{\"id\":\"4187d3b1-c8f1-437c-a2e9-d59c0c0119c5\",\"packId\":\"maternal\",\"packVersion\":1,\"state\":\"active\",\"episodeLabel\":\"Synthetic checkpoint person\",\"startDate\":null,\"createdAt\":\"2026-10-12T11:12:11.326Z\",\"createdBy\":\"t-b9d08b3a-asha\",\"registration\":\"not_submitted\",\"destinationEnrolment\":{\"version\":1,\"state\":\"uncertain\",\"destinationId\":\"mis_maternal\",\"destinationName\":\"Maternal & child register\",\"payloadHash\":\"024cdce5d192be6c009420aa6c0e5e74fea5a3c79a74db1f8a995fd040f47ce7\",\"attempts\":1,\"history\":[{\"at\":\"2026-10-12T11:12:11.344Z\",\"from\":\"requested\",\"to\":\"uncertain\",\"by\":\"t-b9d08b3a-asha\",\"reason\":\"No matching definitive receipt was received. Look up this key before any resend.\"}],\"requestedAt\":\"2026-10-12T11:12:11.341Z\",\"requestedBy\":\"t-b9d08b3a-asha\",\"delivery\":{\"key\":\"4187d3b1-c8f1-437c-a2e9-d59c0c0119c5\",\"actorId\":\"t-b9d08b3a-asha\",\"connectorVersion\":1,\"personVersion\":4,\"expiresAt\":\"2026-10-12T11:27:11.341Z\",\"operationId\":\"051efe79-4218-447e-a79c-bb73f9f171c0\",\"startedAt\":\"2026-10-12T11:12:11.341Z\",\"events\":[{\"at\":\"2026-10-12T11:12:11.341Z\",\"state\":\"requested\",\"detail\":\"Destination enrolment checkpoint saved before the request.\"},{\"at\":\"2026-10-12T11:12:11.344Z\",\"state\":\"uncertain\",\"detail\":\"No matching definitive receipt was received. Look up this key before any resend.\"}]}}}],\"followUps\":[],\"assigned\":true}],\"visits\":[],\"integrations\":[{\"id\":\"abdm\",\"name\":\"ABDM exchange\",\"kind\":\"abdm\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"ABHA, HIP and HIU connections require separate onboarding, consent flows and current conformance validation.\",\"programmes\":[]},{\"id\":\"ai_completeness\",\"name\":\"Record completeness\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Checks missing visit fields and provenance. Deterministic demo adapter; no diagnosis.\",\"programmes\":[],\"capability\":\"completeness\"},{\"id\":\"ai_summary\",\"name\":\"Visit summariser\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Creates a structured summary from confirmed facts. Deterministic demo adapter; no clinical inference.\",\"programmes\":[],\"capability\":\"summary\"},{\"id\":\"ehr_fhir\",\"name\":\"Facility EHR\",\"kind\":\"ehr\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"FHIR R4 example export is available. Live access needs an owner-approved endpoint and resource mapping.\",\"programmes\":[]},{\"id\":\"mis_community\",\"name\":\"Community health MIS\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme simulator that demonstrates a lost response and safe reconciliation.\",\"programmes\":[\"General care\",\"Chronic care\",\"TB screening\"],\"behavior\":\"uncertain\"},{\"id\":\"mis_maternal\",\"name\":\"Maternal & child register\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme register simulator. Records acceptance and a distinct receipt.\",\"programmes\":[\"Maternal care\",\"Child health\"],\"behavior\":\"accept\"}],\"submissions\":[],\"referrals\":[],\"audit\":[{\"id\":\"fc163c4f-7723-4b97-b5fa-052c063b93b9\",\"at\":\"2026-10-12T11:12:11.344Z\",\"actor\":\"asha-b9d08b3a@example.invalid\",\"actorId\":\"t-b9d08b3a-asha\",\"role\":\"asha\",\"action\":\"requestDestinationEnrolmentResult\",\"subject\":\"4187d3b1-c8f1-437c-a2e9-d59c0c0119c5\",\"detail\":\"Destination enrolment uncertain (reference none).\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-b9d08b3a-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"not-tracked\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"8d97a3c0-1616-4a63-ba58-cbf1bd58efcc\",\"at\":\"2026-10-12T11:12:11.341Z\",\"actor\":\"asha-b9d08b3a@example.invalid\",\"actorId\":\"t-b9d08b3a-asha\",\"role\":\"asha\",\"action\":\"requestDestinationEnrolment\",\"subject\":\"4187d3b1-c8f1-437c-a2e9-d59c0c0119c5\",\"detail\":\"Destination enrolment requested at Maternal & child register for Synthetic checkpoint person (maternal, programme Maternal care). Requested by asha-b9d08b3a@example.invalid; nothing is sent to a real partner (mock adapter).\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-b9d08b3a-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"not-tracked\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"70e71a9f-a96a-4e19-91c0-962c17a0aae2\",\"at\":\"2026-10-12T11:12:11.326Z\",\"actor\":\"asha-b9d08b3a@example.invalid\",\"actorId\":\"t-b9d08b3a-asha\",\"role\":\"asha\",\"action\":\"enrolProgramme\",\"subject\":\"p_meena\",\"detail\":\"Local sandbox episode opened: Maternal care v1. Official registration not submitted.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-b9d08b3a-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"9af2d322-87a5-4b26-b75e-71049d4cf4f6\",\"at\":\"2026-10-12T11:12:11.311Z\",\"actor\":\"steward-person-b9d08b3a@example.invalid\",\"actorId\":\"t-b9d08b3a-steward-person\",\"role\":\"clinician\",\"action\":\"assignPatient\",\"subject\":\"p_meena\",\"detail\":\"Patient assignment updated. Reason: Synthetic checkpoint person\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-b9d08b3a-steward-person\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"clinician\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":true},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"}],\"burdenMeasurement\":{\"enabled\":false,\"version\":0},\"programmePacks\":[{\"id\":\"maternal\",\"version\":1,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"tb\",\"version\":1,\"name\":\"TB screening\",\"enrollable\":true,\"installed\":false},{\"id\":\"maternal\",\"version\":2,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"hypertension\",\"version\":1,\"name\":\"Hypertension follow-up\",\"enrollable\":true,\"installed\":false}],\"auditCursor\":null,\"user\":{\"userId\":\"t-b9d08b3a-asha\",\"displayName\":\"asha-b9d08b3a@example.invalid\",\"accountCode\":\"2B1B86B60C7445616C8E7560\"},\"maintenance\":{\"active\":false,\"reason\":\"\"},\"environment\":\"synthetic\",\"environmentLabel\":\"Synthetic development and demonstration environment\",\"externalApisEnabled\":false,\"agentProviders\":[{\"id\":\"local\",\"name\":\"Local record assistant\",\"mode\":\"local\",\"model\":\"structured-parser-v2\",\"version\":2,\"available\":true,\"reason\":\"Rules only; no language model or external data transfer.\"},{\"id\":\"openai\",\"name\":\"OpenAI extraction & evidence\",\"mode\":\"openai\",\"model\":\"gpt-4.1-mini-2025-04-14\",\"version\":1,\"available\":false,\"reason\":\"Live model unavailable: server API key and external API switch required.\"}],\"ehrReadiness\":[],\"misReadiness\":[],\"organisation\":{\"id\":\"org_9a977159c4a40a25fd5c6cd100202226\",\"name\":\"Rampur care organisation\",\"revision\":5,\"createdAt\":\"2026-10-12T11:12:11.274Z\",\"patientRevision\":6},\"organisations\":[{\"id\":\"org_2e1ce41c175e1c53bf0bc313d7746aac\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_e744571d23e41e51eaf9d7d8cf2176e0\",\"name\":\"Rampur care organisation\",\"role\":\"clinician\",\"isOwner\":true},{\"id\":\"org_bf808fae637d5c0a5847384eec02bfa6\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_465f7614165b2a4a46e9550b394dd155\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_42a3960eb47ff0956fa7c12031f2d496\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_9a977159c4a40a25fd5c6cd100202226\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false}],\"membership\":{\"userId\":\"t-b9d08b3a-asha\",\"displayName\":\"Synthetic checkpoint person\",\"accountCode\":\"2B1B86B60C7445616C8E7560\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.299Z\",\"teamIds\":[\"default\"],\"accountName\":\"asha-b9d08b3a@example.invalid\",\"nameSource\":\"invitation\",\"nameVersion\":0,\"language\":\"en\",\"languageVersion\":0},\"members\":[{\"userId\":\"fixture:org_9a977159c4a40a25fd5c6cd100202226:clinician-author\",\"displayName\":\"Demonstration clinician — author (synthetic)\",\"accountCode\":\"2B6052FACDF100B72FE948A7\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.274Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — author (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"fixture:org_9a977159c4a40a25fd5c6cd100202226:clinician-reviewer\",\"displayName\":\"Demonstration clinician — reviewer (synthetic)\",\"accountCode\":\"47A69AB6A9D3E7BE9C49122F\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.274Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — reviewer (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"t-b9d08b3a-asha\",\"displayName\":\"Synthetic checkpoint person\",\"accountCode\":\"2B1B86B60C7445616C8E7560\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.299Z\",\"teamIds\":[\"default\"],\"accountName\":\"asha-b9d08b3a@example.invalid\",\"nameSource\":\"invitation\",\"nameVersion\":0},{\"userId\":\"t-b9d08b3a-steward-person\",\"displayName\":\"steward-person-b9d08b3a@example.invalid\",\"accountCode\":\"1B486E7F1C3094715C9EDBC5\",\"role\":\"clinician\",\"isOwner\":true,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.274Z\",\"teamIds\":[\"default\"],\"accountName\":\"steward-person-b9d08b3a@example.invalid\",\"nameSource\":\"account\",\"nameVersion\":0}],\"teams\":[{\"id\":\"default\",\"name\":\"Rampur care team\",\"createdAt\":\"2026-10-12T11:12:11.274Z\"}],\"invitations\":[],\"canManage\":false,\"speechPolicy\":{\"cloudAllowed\":false,\"version\":0},\"signOffPolicy\":{\"required\":false,\"version\":0},\"canAssign\":false,\"delegatedAuthority\":[],\"signOutPath\":\"/signout-with-chatgpt?return_to=%2F\",\"migration\":{\"migratedAt\":\"2026-10-12T11:12:11.274Z\",\"counts\":{\"people\":6,\"visits\":0,\"integrations\":6,\"submissions\":0,\"referrals\":0,\"audit\":22,\"receipts\":0}}}}",
-    "ms": 10.387666999999965,
+    "text": "{\"result\":{\"enrolmentId\":\"dc88536e-dc8a-470d-a158-7a51accf2b8e\",\"state\":\"uncertain\"},\"snapshot\":{\"schemaVersion\":1,\"revision\":5,\"role\":\"asha\",\"people\":[{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":2,\"createdAt\":\"2026-10-12T11:18:28.060Z\",\"version\":6,\"teamId\":\"default\",\"assignedTo\":\"t-7d3a1f31-asha\",\"synthetic\":true,\"assignmentHistory\":[{\"id\":\"10d605a7-badd-4df6-8447-e6a9acd4098c\",\"at\":\"2026-10-12T11:18:28.091Z\",\"by\":\"t-7d3a1f31-steward-person\",\"fromTeam\":\"default\",\"fromOwner\":\"t-7d3a1f31-steward-person\",\"teamId\":\"default\",\"ownerId\":\"t-7d3a1f31-asha\",\"reason\":\"Synthetic checkpoint person\",\"openWork\":0}],\"enrolments\":[{\"id\":\"dc88536e-dc8a-470d-a158-7a51accf2b8e\",\"packId\":\"maternal\",\"packVersion\":1,\"state\":\"active\",\"episodeLabel\":\"Synthetic checkpoint person\",\"startDate\":null,\"createdAt\":\"2026-10-12T11:18:28.105Z\",\"createdBy\":\"t-7d3a1f31-asha\",\"registration\":\"not_submitted\",\"destinationEnrolment\":{\"version\":1,\"state\":\"uncertain\",\"destinationId\":\"mis_maternal\",\"destinationName\":\"Maternal & child register\",\"payloadHash\":\"024cdce5d192be6c009420aa6c0e5e74fea5a3c79a74db1f8a995fd040f47ce7\",\"attempts\":1,\"history\":[{\"at\":\"2026-10-12T11:18:28.121Z\",\"from\":\"requested\",\"to\":\"uncertain\",\"by\":\"t-7d3a1f31-asha\",\"reason\":\"No matching definitive receipt was received. Look up this key before any resend.\"}],\"requestedAt\":\"2026-10-12T11:18:28.118Z\",\"requestedBy\":\"t-7d3a1f31-asha\",\"delivery\":{\"key\":\"dc88536e-dc8a-470d-a158-7a51accf2b8e\",\"actorId\":\"t-7d3a1f31-asha\",\"connectorVersion\":1,\"personVersion\":4,\"expiresAt\":\"2026-10-12T11:33:28.119Z\",\"operationId\":\"8106786b-70e3-4a89-b381-1c74011388af\",\"startedAt\":\"2026-10-12T11:18:28.118Z\",\"events\":[{\"at\":\"2026-10-12T11:18:28.119Z\",\"state\":\"requested\",\"detail\":\"Destination enrolment checkpoint saved before the request.\"},{\"at\":\"2026-10-12T11:18:28.121Z\",\"state\":\"uncertain\",\"detail\":\"No matching definitive receipt was received. Look up this key before any resend.\"}]}}}],\"followUps\":[],\"assigned\":true}],\"visits\":[],\"integrations\":[{\"id\":\"abdm\",\"name\":\"ABDM exchange\",\"kind\":\"abdm\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"ABHA, HIP and HIU connections require separate onboarding, consent flows and current conformance validation.\",\"programmes\":[]},{\"id\":\"ai_completeness\",\"name\":\"Record completeness\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Checks missing visit fields and provenance. Deterministic demo adapter; no diagnosis.\",\"programmes\":[],\"capability\":\"completeness\"},{\"id\":\"ai_summary\",\"name\":\"Visit summariser\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Creates a structured summary from confirmed facts. Deterministic demo adapter; no clinical inference.\",\"programmes\":[],\"capability\":\"summary\"},{\"id\":\"ehr_fhir\",\"name\":\"Facility EHR\",\"kind\":\"ehr\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"FHIR R4 example export is available. Live access needs an owner-approved endpoint and resource mapping.\",\"programmes\":[]},{\"id\":\"mis_community\",\"name\":\"Community health MIS\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme simulator that demonstrates a lost response and safe reconciliation.\",\"programmes\":[\"General care\",\"Chronic care\",\"TB screening\"],\"behavior\":\"uncertain\"},{\"id\":\"mis_maternal\",\"name\":\"Maternal & child register\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme register simulator. Records acceptance and a distinct receipt.\",\"programmes\":[\"Maternal care\",\"Child health\"],\"behavior\":\"accept\"}],\"submissions\":[],\"referrals\":[],\"audit\":[{\"id\":\"341f7e5b-3d4b-4b1e-ab78-7b9b2ab385f4\",\"at\":\"2026-10-12T11:18:28.121Z\",\"actor\":\"asha-7d3a1f31@example.invalid\",\"actorId\":\"t-7d3a1f31-asha\",\"role\":\"asha\",\"action\":\"requestDestinationEnrolmentResult\",\"subject\":\"dc88536e-dc8a-470d-a158-7a51accf2b8e\",\"detail\":\"Destination enrolment uncertain (reference none).\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-7d3a1f31-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"not-tracked\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"f7803f09-59a2-47a3-a58d-c2f6daca87d5\",\"at\":\"2026-10-12T11:18:28.119Z\",\"actor\":\"asha-7d3a1f31@example.invalid\",\"actorId\":\"t-7d3a1f31-asha\",\"role\":\"asha\",\"action\":\"requestDestinationEnrolment\",\"subject\":\"dc88536e-dc8a-470d-a158-7a51accf2b8e\",\"detail\":\"Destination enrolment requested at Maternal & child register for Synthetic checkpoint person (maternal, programme Maternal care). Requested by asha-7d3a1f31@example.invalid; nothing is sent to a real partner (mock adapter).\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-7d3a1f31-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"not-tracked\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"62cd207e-c83c-48c2-a5d7-42e0f6f392d2\",\"at\":\"2026-10-12T11:18:28.105Z\",\"actor\":\"asha-7d3a1f31@example.invalid\",\"actorId\":\"t-7d3a1f31-asha\",\"role\":\"asha\",\"action\":\"enrolProgramme\",\"subject\":\"p_meena\",\"detail\":\"Local sandbox episode opened: Maternal care v1. Official registration not submitted.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-7d3a1f31-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"c1ed729e-d564-447c-9917-90ce72601cba\",\"at\":\"2026-10-12T11:18:28.091Z\",\"actor\":\"steward-person-7d3a1f31@example.invalid\",\"actorId\":\"t-7d3a1f31-steward-person\",\"role\":\"clinician\",\"action\":\"assignPatient\",\"subject\":\"p_meena\",\"detail\":\"Patient assignment updated. Reason: Synthetic checkpoint person\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-7d3a1f31-steward-person\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"clinician\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":true},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"}],\"burdenMeasurement\":{\"enabled\":false,\"version\":0},\"programmePacks\":[{\"id\":\"maternal\",\"version\":1,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"tb\",\"version\":1,\"name\":\"TB screening\",\"enrollable\":true,\"installed\":false},{\"id\":\"maternal\",\"version\":2,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"hypertension\",\"version\":1,\"name\":\"Hypertension follow-up\",\"enrollable\":true,\"installed\":false}],\"auditCursor\":null,\"user\":{\"userId\":\"t-7d3a1f31-asha\",\"displayName\":\"asha-7d3a1f31@example.invalid\",\"accountCode\":\"70C9F0A8A32737730243AC91\"},\"maintenance\":{\"active\":false,\"reason\":\"\"},\"environment\":\"synthetic\",\"environmentLabel\":\"Synthetic development and demonstration environment\",\"externalApisEnabled\":false,\"agentProviders\":[{\"id\":\"local\",\"name\":\"Local record assistant\",\"mode\":\"local\",\"model\":\"structured-parser-v2\",\"version\":2,\"available\":true,\"reason\":\"Rules only; no language model or external data transfer.\"},{\"id\":\"openai\",\"name\":\"OpenAI extraction & evidence\",\"mode\":\"openai\",\"model\":\"gpt-4.1-mini-2025-04-14\",\"version\":1,\"available\":false,\"reason\":\"Live model unavailable: server API key and external API switch required.\"}],\"ehrReadiness\":[],\"misReadiness\":[],\"organisation\":{\"id\":\"org_5a350ce37e69c5bba61967feb20bd596\",\"name\":\"Rampur care organisation\",\"revision\":5,\"createdAt\":\"2026-10-12T11:18:28.059Z\",\"patientRevision\":6},\"organisations\":[{\"id\":\"org_c8507944ceb314431ce9508dada002ee\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_bb65b05e8379eb5af42ecaef29df8d5d\",\"name\":\"Rampur care organisation\",\"role\":\"clinician\",\"isOwner\":true},{\"id\":\"org_f83a61f0958ada5d5826c12661832fa1\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_1ae4bc7e483c678de7273589d83b47b6\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_63ad3a17436a35e125928f10653224bd\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_5a350ce37e69c5bba61967feb20bd596\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false}],\"membership\":{\"userId\":\"t-7d3a1f31-asha\",\"displayName\":\"Synthetic checkpoint person\",\"accountCode\":\"70C9F0A8A32737730243AC91\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:28.080Z\",\"teamIds\":[\"default\"],\"accountName\":\"asha-7d3a1f31@example.invalid\",\"nameSource\":\"invitation\",\"nameVersion\":0,\"language\":\"en\",\"languageVersion\":0},\"members\":[{\"userId\":\"fixture:org_5a350ce37e69c5bba61967feb20bd596:clinician-author\",\"displayName\":\"Demonstration clinician — author (synthetic)\",\"accountCode\":\"F496A2BA83C87C314BFD53EB\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:28.059Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — author (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"fixture:org_5a350ce37e69c5bba61967feb20bd596:clinician-reviewer\",\"displayName\":\"Demonstration clinician — reviewer (synthetic)\",\"accountCode\":\"546BFE24BECB63CAEA5625EF\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:28.059Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — reviewer (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"t-7d3a1f31-asha\",\"displayName\":\"Synthetic checkpoint person\",\"accountCode\":\"70C9F0A8A32737730243AC91\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:28.080Z\",\"teamIds\":[\"default\"],\"accountName\":\"asha-7d3a1f31@example.invalid\",\"nameSource\":\"invitation\",\"nameVersion\":0},{\"userId\":\"t-7d3a1f31-steward-person\",\"displayName\":\"steward-person-7d3a1f31@example.invalid\",\"accountCode\":\"251B706C35BBF305811F33CB\",\"role\":\"clinician\",\"isOwner\":true,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:28.059Z\",\"teamIds\":[\"default\"],\"accountName\":\"steward-person-7d3a1f31@example.invalid\",\"nameSource\":\"account\",\"nameVersion\":0}],\"teams\":[{\"id\":\"default\",\"name\":\"Rampur care team\",\"createdAt\":\"2026-10-12T11:18:28.059Z\"}],\"invitations\":[],\"canManage\":false,\"speechPolicy\":{\"cloudAllowed\":false,\"version\":0},\"signOffPolicy\":{\"required\":false,\"version\":0},\"canAssign\":false,\"delegatedAuthority\":[],\"signOutPath\":\"/signout-with-chatgpt?return_to=%2F\",\"migration\":{\"migratedAt\":\"2026-10-12T11:18:28.059Z\",\"counts\":{\"people\":6,\"visits\":0,\"integrations\":6,\"submissions\":0,\"referrals\":0,\"audit\":22,\"receipts\":0}}}}",
+    "ms": 9.189957999999933,
     "headers": {}
   },
   "current": {
@@ -476,34 +476,34 @@
     "aiConsent": true,
     "exchangeConsent": false,
     "consentVersion": 2,
-    "createdAt": "2026-10-12T11:12:11.274Z",
+    "createdAt": "2026-10-12T11:18:28.060Z",
     "version": 6,
     "teamId": "default",
-    "assignedTo": "t-b9d08b3a-asha",
+    "assignedTo": "t-7d3a1f31-asha",
     "synthetic": true,
     "assignmentHistory": [
       {
-        "id": "c6afa996-2a65-4cb2-bc11-059dcf73a0c9",
-        "at": "2026-10-12T11:12:11.311Z",
-        "by": "t-b9d08b3a-steward-person",
+        "id": "10d605a7-badd-4df6-8447-e6a9acd4098c",
+        "at": "2026-10-12T11:18:28.091Z",
+        "by": "t-7d3a1f31-steward-person",
         "fromTeam": "default",
-        "fromOwner": "t-b9d08b3a-steward-person",
+        "fromOwner": "t-7d3a1f31-steward-person",
         "teamId": "default",
-        "ownerId": "t-b9d08b3a-asha",
+        "ownerId": "t-7d3a1f31-asha",
         "reason": "Synthetic checkpoint person",
         "openWork": 0
       }
     ],
     "enrolments": [
       {
-        "id": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
+        "id": "dc88536e-dc8a-470d-a158-7a51accf2b8e",
         "packId": "maternal",
         "packVersion": 1,
         "state": "active",
         "episodeLabel": "Synthetic checkpoint person",
         "startDate": null,
-        "createdAt": "2026-10-12T11:12:11.326Z",
-        "createdBy": "t-b9d08b3a-asha",
+        "createdAt": "2026-10-12T11:18:28.105Z",
+        "createdBy": "t-7d3a1f31-asha",
         "registration": "not_submitted",
         "destinationEnrolment": {
           "version": 1,
@@ -514,31 +514,31 @@
           "attempts": 1,
           "history": [
             {
-              "at": "2026-10-12T11:12:11.344Z",
+              "at": "2026-10-12T11:18:28.121Z",
               "from": "requested",
               "to": "uncertain",
-              "by": "t-b9d08b3a-asha",
+              "by": "t-7d3a1f31-asha",
               "reason": "No matching definitive receipt was received. Look up this key before any resend."
             }
           ],
-          "requestedAt": "2026-10-12T11:12:11.341Z",
-          "requestedBy": "t-b9d08b3a-asha",
+          "requestedAt": "2026-10-12T11:18:28.118Z",
+          "requestedBy": "t-7d3a1f31-asha",
           "delivery": {
-            "key": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
-            "actorId": "t-b9d08b3a-asha",
+            "key": "dc88536e-dc8a-470d-a158-7a51accf2b8e",
+            "actorId": "t-7d3a1f31-asha",
             "connectorVersion": 1,
             "personVersion": 4,
-            "expiresAt": "2026-10-12T11:27:11.341Z",
-            "operationId": "051efe79-4218-447e-a79c-bb73f9f171c0",
-            "startedAt": "2026-10-12T11:12:11.341Z",
+            "expiresAt": "2026-10-12T11:33:28.119Z",
+            "operationId": "8106786b-70e3-4a89-b381-1c74011388af",
+            "startedAt": "2026-10-12T11:18:28.118Z",
             "events": [
               {
-                "at": "2026-10-12T11:12:11.341Z",
+                "at": "2026-10-12T11:18:28.119Z",
                 "state": "requested",
                 "detail": "Destination enrolment checkpoint saved before the request."
               },
               {
-                "at": "2026-10-12T11:12:11.344Z",
+                "at": "2026-10-12T11:18:28.121Z",
                 "state": "uncertain",
                 "detail": "No matching definitive receipt was received. Look up this key before any resend."
               }
@@ -559,31 +559,31 @@
     "attempts": 1,
     "history": [
       {
-        "at": "2026-10-12T11:12:11.344Z",
+        "at": "2026-10-12T11:18:28.121Z",
         "from": "requested",
         "to": "uncertain",
-        "by": "t-b9d08b3a-asha",
+        "by": "t-7d3a1f31-asha",
         "reason": "No matching definitive receipt was received. Look up this key before any resend."
       }
     ],
-    "requestedAt": "2026-10-12T11:12:11.341Z",
-    "requestedBy": "t-b9d08b3a-asha",
+    "requestedAt": "2026-10-12T11:18:28.118Z",
+    "requestedBy": "t-7d3a1f31-asha",
     "delivery": {
-      "key": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
-      "actorId": "t-b9d08b3a-asha",
+      "key": "dc88536e-dc8a-470d-a158-7a51accf2b8e",
+      "actorId": "t-7d3a1f31-asha",
       "connectorVersion": 1,
       "personVersion": 4,
-      "expiresAt": "2026-10-12T11:27:11.341Z",
-      "operationId": "051efe79-4218-447e-a79c-bb73f9f171c0",
-      "startedAt": "2026-10-12T11:12:11.341Z",
+      "expiresAt": "2026-10-12T11:33:28.119Z",
+      "operationId": "8106786b-70e3-4a89-b381-1c74011388af",
+      "startedAt": "2026-10-12T11:18:28.118Z",
       "events": [
         {
-          "at": "2026-10-12T11:12:11.341Z",
+          "at": "2026-10-12T11:18:28.119Z",
           "state": "requested",
           "detail": "Destination enrolment checkpoint saved before the request."
         },
         {
-          "at": "2026-10-12T11:12:11.344Z",
+          "at": "2026-10-12T11:18:28.121Z",
           "state": "uncertain",
           "detail": "No matching definitive receipt was received. Look up this key before any resend."
         }

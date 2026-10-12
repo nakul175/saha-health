@@ -30,6 +30,10 @@ try {
   check('Rejected without a reason never invents one', () => assert.match(programmeStatusText(project({ destinationEnrolment: { state: 'rejected', destinationName: 'Synthetic' } })).status, /unavailable or inconsistent/));
   check('Rejected plus submitted registration is inconsistent, never active', () => assert.match(programmeStatusText(project({ registration: 'submitted', destinationEnrolment: { state: 'rejected', destinationName: 'Synthetic', rejectionReason: 'Synthetic reason' } })).status, /unavailable or inconsistent/));
   check('Unknown destination state stays unverified', () => assert.match(programmeStatusText(project({ destinationEnrolment: { state: 'invented', destinationName: 'Synthetic' } })).status, /unavailable or inconsistent/));
+  for (const state of ['requested', 'uncertain', 'retryable']) check(state + ' plus submitted registration is contradictory and never ordinary progress', () => {
+    const status = programmeStatusText(project({ registration: 'submitted', destinationEnrolment: { state, destinationName: 'Synthetic' } }));
+    assert.equal(status.status, 'Destination evidence unavailable or inconsistent.'); assert.match(status.next, /No acceptance or retry permission is inferred/);
+  });
   check('Projection retains exact person-episode source fields and drops private delivery payload/history', () => {
     const source = { ...e, destinationEnrolment: { state: 'uncertain', destinationName: 'Synthetic', delivery: { key: 'private-key', actorId: 'private-actor', payload: 'private' }, payloadHash: 'private-hash', history: [{ reason: 'private-history' }] } }, before = structuredClone(source);
     const value = programmeEpisode(source, 'Pinned pack name');

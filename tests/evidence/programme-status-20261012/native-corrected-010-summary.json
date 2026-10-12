@@ -1,0 +1,232 @@
+{
+  "generatedAt": "2026-10-12T11:18:29.789Z",
+  "startedAt": "2026-10-12T11:18:20.550Z",
+  "command": "node scripts/test.mjs unit smoke --only unit/programme-status-contract,unit/destination-enrolment-contract,unit/provider-specialised-envelope-contract,unit/service-dispatch-contract,smoke/programme-status-browser --report ../../outputs/saha-next50-20261012/programme-status/native-corrected-010-summary.json --guard",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "build",
+      "status": "passed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4575,
+      "failedSuites": 0
+    },
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 4,
+      "passed": 217,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1376,
+      "failedSuites": 0
+    },
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 1,
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3038,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 5,
+    "passed": 272,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 9239
+  },
+  "suites": [
+    {
+      "id": "unit/destination-enrolment-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/destination-enrolment-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 509,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/destination-enrolment-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__destination-enrolment-contract.log"
+    },
+    {
+      "id": "unit/programme-status-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/programme-status-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 136,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/programme-status-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__programme-status-contract.log"
+    },
+    {
+      "id": "unit/provider-specialised-envelope-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/provider-specialised-envelope-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 572,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__provider-specialised-envelope-contract.log"
+    },
+    {
+      "id": "unit/service-dispatch-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/service-dispatch-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 100,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 159,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__service-dispatch-contract.log"
+    },
+    {
+      "id": "build",
+      "layer": "build",
+      "kind": "step",
+      "file": "npm run build",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 4575,
+      "exitCode": 0,
+      "log": "tests/reports/logs/build.log"
+    },
+    {
+      "id": "smoke/programme-status-browser",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/programme-status-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3038,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__programme-status-browser.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 3,
+    "newSuites": [
+      "unit/programme-status-contract",
+      "smoke/programme-status-browser"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/service-identity-wiring/service-dispatch-result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/destination-enrolment-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 638,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}
