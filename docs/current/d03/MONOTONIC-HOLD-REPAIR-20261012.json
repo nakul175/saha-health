@@ -1,0 +1,76 @@
+{
+  "recordedAtUtc": "2026-10-12T08:18:57.021848+00:00",
+  "publishedPredecessor": "a7242964bc53e5baee674e0fb5a97175c7d660a2",
+  "scope": "Test fixture only: enforce original250ms outbound hold using same monotonic clock, at most8 ceil/min1ms sleeps, refuse below deadline before unchanged route.continue. Application, identity/org/person, body/status/transport and assertions unchanged.",
+  "testSHA256": "af5bbfb0c3ada7b9c7beb41f8cbd5dae80c80a28ca8becdcc2984216ef471998",
+  "appSHA256": "b3213356afedafddd8c8d8508122d53bc233eefc96ed4b46138e229a2c84d8e9",
+  "failedActualCI": {
+    "run": 38219783027,
+    "job": 114712974307,
+    "stableExpected": 28,
+    "includedExpectedNegativeHarnessControls": 5,
+    "actualPositiveFirstPass": 23,
+    "flaky": 1,
+    "firstActualHoldMs": 248.82329000000027,
+    "retryActualHoldMs": 250.003702,
+    "allPositiveAttemptAXEScans": 46,
+    "allPositiveAttemptViolations": 0,
+    "originalMinimumGuard": "passed; overallrunner refused flaky/exit1; thirteen-suite qualification correctly held",
+    "failureRetained": true,
+    "independentDiagnosis": "6bee6b127dd984a8e6d86433558fa62f50ff8392b75d607ecf8f8498a83479a6"
+  },
+  "preexecReview": "3b54c974bcc046182127e573d1db3661cb84cfc5ea535530a87c6f598c8360d4",
+  "virtualControls": {
+    "passed": 8,
+    "failed": 0,
+    "scope": "Pure source-derived virtual clocks only; not browser/product/story scenarios"
+  },
+  "actualLocalAuthorResults": {
+    "freshCanonicalBuild": 0,
+    "selectedCasesFirstAttemptPassed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "AXEScans": 9,
+    "AXEViolations": 0,
+    "actualHoldMs": 250.57041599999957,
+    "holdWaitCount": 1,
+    "genuineSeedActorOrgReadStatus": 200,
+    "responseBytes": 709,
+    "enabledSamples": 689,
+    "minimumContrast": 12.779238707294423,
+    "badFrames": 0,
+    "truncated": null,
+    "clinicalUnchanged": true,
+    "sourceRecords": 16944,
+    "dependencyRecords": 52299,
+    "compiledFiles": 281,
+    "owned21441Free": true
+  },
+  "independentActualReview": {
+    "status": "PASS bounded actual result review",
+    "sha256": "e87d73209462aa31e375bb459aa69ca634a6676cdb64027c1b59d02ac735bc8c",
+    "limits": "Full workspace API bodies not attached; actual unchanged in-test clinical equality oracle passes; cleanup is recorded receipt, not independent terminal inspection. All281 archived compiled bytes rehashed."
+  },
+  "NFRApplicability": {
+    "status": "PASS conditional test-only reuse",
+    "currentInputs": "All584 application/compiler inputs equal previous b321 candidate; test-only source delta",
+    "original04": "Original12000 measurements remain actual04 local surrogate evidence. Currentb321 differs by one class input; previous d3b bounded semantic applicability retained, not584 equality to04.",
+    "limits": "No new NFR/physical/capacity/clinical/formal/hosting observations; assembled source and freshwholeCI required."
+  },
+  "currentWholeCI": "PENDING unpublished successor; failed a724 notqualified",
+  "originalCriteriaPreserved": [
+    ">=250 ms assertion",
+    ">=4.5 unrounded visible enabled contrast",
+    "all originalHindi bytes/prefix",
+    "sampling15s/response30s/config/retry/deadline",
+    "389 guards/min26/nine existingimages/2%",
+    "frozenSPEC",
+    "failed firstattempt/retry/source/compiledcustody"
+  ],
+  "A9Qualified": false,
+  "mergedSHA": null,
+  "observedDeployedSHA": null,
+  "hosting": "Existingadminbrowser-security availability unconfirmed; no alternate-access bypass",
+  "formalAccepted": 0
+}

@@ -143,7 +143,14 @@ test('visible Hindi phone Action-plan Refresh retains contrast when the scoped r
       holdStartedWallMs: Date.now(), holdStartedMonotonicMs: performance.now(), continuation: 'route.continue() without overrides' };
     journal.heldRequests.push(record);
     try {
-      await new Promise(resolve => setTimeout(resolve, 250));
+      record.holdDeadlineMonotonicMs = record.holdStartedMonotonicMs + 250;
+      record.holdWaitCount = 0;
+      while (performance.now() < record.holdDeadlineMonotonicMs && record.holdWaitCount < 8) {
+        const remainingMs = record.holdDeadlineMonotonicMs - performance.now();
+        record.holdWaitCount += 1;
+        await new Promise(resolve => setTimeout(resolve, Math.max(1, Math.ceil(remainingMs))));
+      }
+      if (!(performance.now() >= record.holdDeadlineMonotonicMs)) throw new Error('The actual scoped read hold did not reach its 250 ms monotonic deadline in eight waits');
       record.holdReleasedWallMs = Date.now(); record.actualHoldMs = performance.now() - record.holdStartedMonotonicMs;
       await route.continue(); record.continueResolvedWallMs = Date.now();
     } catch (error) { record.transportError = String(error); throw error; }

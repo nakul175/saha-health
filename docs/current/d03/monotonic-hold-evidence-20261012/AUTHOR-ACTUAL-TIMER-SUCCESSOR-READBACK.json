@@ -1,0 +1,124 @@
+{
+  "role": "Author/tester actual candidate readback; separate genuine review required",
+  "conclusion": "LOCAL_TARGETED_SUCCESSOR_PASS",
+  "base": "a7242964bc53e5baee674e0fb5a97175c7d660a2",
+  "tree": "4ac4a2efcda5013ed719aab74d88acb518106a34",
+  "candidateFixtureSHA256": "af5bbfb0c3ada7b9c7beb41f8cbd5dae80c80a28ca8becdcc2984216ef471998",
+  "unchangedAppSHA256": "b3213356afedafddd8c8d8508122d53bc233eefc96ed4b46138e229a2c84d8e9",
+  "selectedCases": 2,
+  "firstAttemptPassed": 2,
+  "failed": 0,
+  "skipped": 0,
+  "flaky": 0,
+  "actualAXEScans": 9,
+  "actualAXEViolations": 0,
+  "hold": {
+    "personId": "p_meena",
+    "url": "http://127.0.0.1:21441/api/action-plan?personId=p_meena",
+    "method": "GET",
+    "organisationHeaderMatches": true,
+    "actorHeaderBindings": {
+      "oai-authenticated-user-id": true,
+      "oai-authenticated-user-email": true,
+      "oai-authenticated-user-full-name": true,
+      "oai-authenticated-user-full-name-encoding": true
+    },
+    "holdStartedWallMs": 1791792857414,
+    "holdStartedMonotonicMs": 7914.491084,
+    "continuation": "route.continue() without overrides",
+    "holdDeadlineMonotonicMs": 8164.491084,
+    "holdWaitCount": 1,
+    "holdReleasedWallMs": 1791792857665,
+    "actualHoldMs": 250.57041599999957,
+    "continueResolvedWallMs": 1791792857668
+  },
+  "realResponse": {
+    "status": 200,
+    "bodyBytes": 709,
+    "sameHeldRequestObject": true,
+    "personId": "p_meena"
+  },
+  "samples": {
+    "total": 722,
+    "enabled": 689,
+    "truncated": null,
+    "minimumRecomputedContrast": 12.779238707294423,
+    "belowUnchanged4_5": 0,
+    "observedOpacities": [
+      1.0
+    ]
+  },
+  "unchangedClinicalReadAssertionsExecuted": true,
+  "clinicalEvidenceLimit": "The original people/visits/submissions equality assertion actually executed in the first-pass case; full before/after clinical API bodies are not attached by this original test. Retained local D1 state is available separately.",
+  "custody": {
+    "trackedSourceFiles": 16944,
+    "readonlyDependencyRegularFiles": 52299,
+    "browserExecutables": 2,
+    "compiledAllHiddenFiles": 281,
+    "all281ArchivedBytesFreshlyRehashed": true,
+    "sourceProfileDependenciesBrowserFacadeAndCompiledMapsUnchanged": true
+  },
+  "ownedCleanup": {
+    "atUtc": "2026-10-12T08:14:29.805118+00:00",
+    "groups": [
+      4327,
+      4404,
+      4428
+    ],
+    "knownPids": [
+      4327,
+      4345,
+      4404,
+      4407,
+      4408,
+      4411,
+      4419,
+      4420,
+      4423,
+      4424,
+      4425,
+      4426,
+      4428,
+      4429,
+      4430,
+      4433,
+      4449,
+      4471
+    ],
+    "remainingOwnedProcesses": [],
+    "portFree": true,
+    "statePreserved": true
+  },
+  "rawResult": {
+    "path": "outputs/saha-staging-resume-20261012/visible-refresh-monotonic-hold-repair/candidate-actual-001/ACTUAL-VISIBLE-REFRESH-RAW-RESULT.json",
+    "bytes": 5253038,
+    "sha256": "487fa6577f4848f62c6cc8a144d98eba16126229c13e7745d69798b51f20d7ed"
+  },
+  "driver": {
+    "path": "outputs/saha-staging-resume-20261012/visible-refresh-monotonic-hold-repair/candidate-actual-001/run-owned-monotonic-hold.py",
+    "bytes": 16588,
+    "sha256": "c2a5f5381c0ac0d4b4d0b80bf0f5f2e609b8898605c0d8c462cb97019145a152"
+  },
+  "finalExecutionReceipt": {
+    "path": "outputs/saha-staging-resume-20261012/visible-refresh-monotonic-hold-repair/candidate-actual-001/FINAL-EXECUTION-RECEIPT.json",
+    "bytes": 3319,
+    "sha256": "d5d960b21af2d60fb53e6e48a0e36f4db8f8da73a6d1a5ec8ea223c7ec8deac2"
+  },
+  "actualPureVirtualControls": {
+    "counts": 8,
+    "failed": 0,
+    "skipped": 0,
+    "receipt": {
+      "path": "outputs/saha-staging-resume-20261012/visible-refresh-monotonic-hold-repair/PURE-TIMER-CONTROL-EXECUTION-RECEIPT.json",
+      "bytes": 741,
+      "sha256": "4c5e71fe0ed9a26cb71c355ab1fba1d551ad643277e7bd8b5ed1dd116360eae8"
+    }
+  },
+  "limits": [
+    "Pure8 controls are virtual-clock source controls, not Linux timer/app assertions.",
+    "Selected2 cases do not qualify whole29 UI/min26 guard/finalheadCI/A9.",
+    "Olda724 firstattempt248.823 failure and retry remain immutable evidence, never retroactively passed.",
+    "No production/secret/provider/identity/clinical-policy changes, externalhosting, mainmerge or observeddeployedSHA.",
+    "Performance source unchanged for this test-only fix; no new measurement claimed."
+  ]
+}
