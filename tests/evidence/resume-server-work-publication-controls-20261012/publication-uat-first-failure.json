@@ -1,0 +1,11 @@
+{
+  "observedExecutionTime": "2026-10-12T16:59:27.348Z",
+  "source": "42f7f50ea2b8bcfc0cd3f5392d7334bb69b00e19 plus uncommitted root publication metadata",
+  "command": "node tests/uat/generate-uat-pack.mjs",
+  "actualExit": 1,
+  "passed": 8,
+  "failed": 1,
+  "reason": "app/resume-work/page.tsx cited by evidence map but not mapped to a screen",
+  "repair": "Add that page to the existing candidate ASHA routine screen context. No acceptance/oracle/status change.",
+  "sourceOfReceipt": "Actual tool output chunk9be3e2, not an independently retained stdout file"
+}

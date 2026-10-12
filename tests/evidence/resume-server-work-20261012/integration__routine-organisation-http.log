@@ -1,0 +1,53 @@
+PASS Fixture has two distinct actual owner-created organisations
+PASS Fixture same ASHA has two current active care memberships
+PASS Fixture same stable person ID assigned to same ASHA in both organisations
+PASS Fixture both organisations initially have no current person draft
+PASS Omitted GET actual BEFORE audit fault changes account active selector to B
+PASS Omitted GET BEFORE returns originally audited A person projection without fallback to B
+PASS Omitted GET BEFORE keeps exact bounded one-person response shape
+PASS Omitted GET BEFORE has no clinical mutation in either organisation
+PASS Omitted GET BEFORE durably audits actual A read
+PASS Omitted GET BEFORE private response is no-store
+PASS Omitted GET BEFORE private response is nosniff
+PASS Omitted GET BEFORE prior immutable audit prefix remains byte exact
+PASS Omitted GET BEFORE targeted native trigger is removed
+PASS Omitted GET actual AFTER audit fault changes account active selector to B
+PASS Omitted GET AFTER returns originally audited A person projection without fallback to B
+PASS Omitted GET AFTER keeps exact bounded one-person response shape
+PASS Omitted GET AFTER has no clinical mutation in either organisation
+PASS Omitted GET AFTER durably audits actual A read
+PASS Omitted GET AFTER private response is no-store
+PASS Omitted GET AFTER private response is nosniff
+PASS Omitted GET AFTER prior immutable audit prefix remains byte exact
+PASS Omitted GET AFTER targeted native trigger is removed
+PASS Omitted POST account switch to B is actually applied and not silently rewritten
+PASS Omitted POST response remains in original organisation A
+PASS Omitted POST original actor/key receipt belongs only to A/person/startVisit
+PASS Omitted POST mutation and exact readback visit belong only to A
+PASS Omitted POST creates exactly one clinical draft in A
+PASS Omitted POST leaves all B patient and visit clinical bytes unchanged
+PASS Omitted POST one durable startVisit event belongs only to A
+PASS Omitted POST exact original committed receipt matches first acknowledgement
+PASS Omitted POST private response is no-store
+PASS Omitted POST private response is nosniff
+PASS Omitted POST prior immutable audit prefix remains byte exact
+PASS Omitted POST targeted native trigger is removed
+PASS Exact-key replay omitted header while active B refuses safely without cross-organisation private context
+PASS Wrong-origin omitted replay preserves both clinical snapshots and original receipt
+PASS Wrong-origin replay retains the actual active B account selector
+PASS Wrong-origin replay private response is no-store
+PASS Wrong-origin replay private response is nosniff
+PASS Wrong-origin replay prior immutable audit prefix remains byte exact
+PASS Explicit original A exact-key replay recovers original receipt and exact visit
+PASS Explicit original replay cannot duplicate clinical draft or rewrite original receipt
+PASS Explicit original replay does not rewrite account selector B
+PASS Explicit original replay private response is no-store
+PASS Explicit original replay private response is nosniff
+PASS Explicit original replay prior immutable audit prefix remains byte exact
+PASS Normal explicit A POST control remains A while account active B
+PASS Normal explicit A control leaves B clinical bytes and selector unchanged
+PASS Normal start control resolves the same sole A draft without a duplicate
+PASS Normal explicit A control private response is no-store
+PASS Normal explicit A control private response is nosniff
+PASS Normal explicit A control prior immutable audit prefix remains byte exact
+{"suite":"Routine operation resolved organisation pinning","passed":52,"failed":0,"skipped":0,"completedAt":"2026-10-12T16:32:29.245Z"}

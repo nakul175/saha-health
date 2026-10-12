@@ -1,0 +1,506 @@
+{
+  "suite": "Routine operation resolved organisation pinning",
+  "layer": "integration",
+  "passed": 52,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T16:18:47.467Z",
+  "completedAt": "2026-10-12T16:18:48.772Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Built local Worker/native D1 with two synthetic organisations and native audit interposition only.",
+    "No global ACL, full NFR, physical device, clinical/UAT, hosted/provider acceptance."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "Fixture has two distinct actual owner-created organisations",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Fixture same ASHA has two current active care memberships",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Fixture same stable person ID assigned to same ASHA in both organisations",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Fixture both organisations initially have no current person draft",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET actual BEFORE audit fault changes account active selector to B",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET BEFORE returns originally audited A person projection without fallback to B",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET BEFORE keeps exact bounded one-person response shape",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET BEFORE has no clinical mutation in either organisation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET BEFORE durably audits actual A read",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET BEFORE private response is no-store",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET BEFORE private response is nosniff",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET BEFORE prior immutable audit prefix remains byte exact",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET BEFORE targeted native trigger is removed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET actual AFTER audit fault changes account active selector to B",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET AFTER returns originally audited A person projection without fallback to B",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET AFTER keeps exact bounded one-person response shape",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET AFTER has no clinical mutation in either organisation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET AFTER durably audits actual A read",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET AFTER private response is no-store",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET AFTER private response is nosniff",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET AFTER prior immutable audit prefix remains byte exact",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted GET AFTER targeted native trigger is removed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST account switch to B is actually applied and not silently rewritten",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST response remains in original organisation A",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST original actor/key receipt belongs only to A/person/startVisit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST mutation and exact readback visit belong only to A",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST creates exactly one clinical draft in A",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST leaves all B patient and visit clinical bytes unchanged",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST one durable startVisit event belongs only to A",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST exact original committed receipt matches first acknowledgement",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST private response is no-store",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST private response is nosniff",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST prior immutable audit prefix remains byte exact",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Omitted POST targeted native trigger is removed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Exact-key replay omitted header while active B refuses safely without cross-organisation private context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrong-origin omitted replay preserves both clinical snapshots and original receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrong-origin replay retains the actual active B account selector",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrong-origin replay private response is no-store",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrong-origin replay private response is nosniff",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrong-origin replay prior immutable audit prefix remains byte exact",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit original A exact-key replay recovers original receipt and exact visit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit original replay cannot duplicate clinical draft or rewrite original receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit original replay does not rewrite account selector B",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit original replay private response is no-store",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit original replay private response is nosniff",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit original replay prior immutable audit prefix remains byte exact",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Normal explicit A POST control remains A while account active B",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Normal explicit A control leaves B clinical bytes and selector unchanged",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Normal start control resolves the same sole A draft without a duplicate",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Normal explicit A control private response is no-store",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Normal explicit A control private response is nosniff",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Normal explicit A control prior immutable audit prefix remains byte exact",
+      "ok": true,
+      "ms": 0
+    }
+  ],
+  "mode": "strict-resolved-organisation",
+  "recordedAtUtc": "2026-10-12T16:18:48.772Z",
+  "actualHttpCases": 6,
+  "wrongOrganisationMutationsObserved": 0,
+  "observations": [
+    {
+      "caseId": "CASE-ORG-GET-BEFORE",
+      "triggerTiming": "BEFORE",
+      "actualStatus": 200,
+      "actualBody": {
+        "organisationId": "org_50e0ad2e597319a0e2b52fee3385905d",
+        "person": {
+          "id": "p_meena",
+          "name": "Meena Devi",
+          "village": "Rampur",
+          "age": 26,
+          "sex": "Female",
+          "version": 2
+        },
+        "visit": null
+      },
+      "originallyResolvedOrganisationId": "org_50e0ad2e597319a0e2b52fee3385905d",
+      "currentAccountOrganisationId": "org_7d6713eca187340fab5b11403e29c012",
+      "otherOrganisationId": "org_7d6713eca187340fab5b11403e29c012",
+      "currentAccountSwitchPreserved": true,
+      "bothClinicalSnapshotsUnchanged": true
+    },
+    {
+      "caseId": "CASE-ORG-GET-AFTER",
+      "triggerTiming": "AFTER",
+      "actualStatus": 200,
+      "actualBody": {
+        "organisationId": "org_50e0ad2e597319a0e2b52fee3385905d",
+        "person": {
+          "id": "p_meena",
+          "name": "Meena Devi",
+          "village": "Rampur",
+          "age": 26,
+          "sex": "Female",
+          "version": 2
+        },
+        "visit": null
+      },
+      "originallyResolvedOrganisationId": "org_50e0ad2e597319a0e2b52fee3385905d",
+      "currentAccountOrganisationId": "org_7d6713eca187340fab5b11403e29c012",
+      "otherOrganisationId": "org_7d6713eca187340fab5b11403e29c012",
+      "currentAccountSwitchPreserved": true,
+      "bothClinicalSnapshotsUnchanged": true
+    },
+    {
+      "caseId": "CASE-ORG-POST-OMITTED",
+      "originalKey": "235f6450-4ea8-4739-9727-cce29bb1af72",
+      "requestBodySha256": "5c1234052a177e09c3bbd49c4c589feeb9669b82370b579817cd9f274e480b6d",
+      "originalOrganisationId": "org_50e0ad2e597319a0e2b52fee3385905d",
+      "otherOrganisationId": "org_7d6713eca187340fab5b11403e29c012",
+      "currentAccountOrganisationId": "org_7d6713eca187340fab5b11403e29c012",
+      "actualStatus": 200,
+      "actualBody": {
+        "result": {
+          "visitId": "addb32a3-547f-47c9-ba69-e3d361a82612"
+        },
+        "replayed": false,
+        "context": {
+          "organisationId": "org_50e0ad2e597319a0e2b52fee3385905d",
+          "person": {
+            "id": "p_meena",
+            "name": "Meena Devi",
+            "village": "Rampur",
+            "age": 26,
+            "sex": "Female",
+            "version": 3
+          },
+          "visit": {
+            "id": "addb32a3-547f-47c9-ba69-e3d361a82612",
+            "personId": "p_meena",
+            "version": 1,
+            "state": "draft",
+            "facts": {
+              "date": "2026-10-12T16:18",
+              "systolic": "",
+              "diastolic": "",
+              "weight": "",
+              "temperature": "",
+              "weeks": "",
+              "coughDays": "",
+              "notes": "",
+              "source": "measured"
+            },
+            "createdAt": "2026-10-12T16:18:48.720Z",
+            "recordVersion": 1,
+            "aiResults": [],
+            "programmeCapture": {
+              "packs": [],
+              "answers": {},
+              "absence": {}
+            }
+          }
+        }
+      },
+      "receipt": {
+        "actor_id": "t-915d76fa-asha",
+        "key": "235f6450-4ea8-4739-9727-cce29bb1af72",
+        "org_id": "org_50e0ad2e597319a0e2b52fee3385905d",
+        "hash": "ab451563dc595595d6f40ac326b1dc0a64d7a90e6fffeaea08ecaea432a050ac",
+        "result": "{\"visitId\":\"addb32a3-547f-47c9-ba69-e3d361a82612\"}",
+        "person_id": "p_meena",
+        "created_at": "2026-10-12T16:18:48.720Z",
+        "command_type": "startVisit",
+        "mutation_subject_id": "p_meena",
+        "mutation_event_id": "9722edd0-57bd-4e87-a6a6-87ff4d577308",
+        "mutation_context": null
+      },
+      "actualVisitOrganisations": [
+        "org_50e0ad2e597319a0e2b52fee3385905d"
+      ],
+      "wrongOrganisationMutation": false,
+      "writeCountDeltaA": 1,
+      "writeCountDeltaB": 0
+    },
+    {
+      "caseId": "CASE-ORG-REPLAY-OMITTED",
+      "originalKey": "235f6450-4ea8-4739-9727-cce29bb1af72",
+      "currentAccountOrganisationId": "org_7d6713eca187340fab5b11403e29c012",
+      "actualStatus": 409,
+      "actualBody": {
+        "error": "This operation key belongs to a different organisation."
+      },
+      "privatePersonDisclosed": false,
+      "originalReceiptUnchanged": true
+    },
+    {
+      "caseId": "CASE-ORG-REPLAY-EXPLICIT-A",
+      "originalKey": "235f6450-4ea8-4739-9727-cce29bb1af72",
+      "actualStatus": 200,
+      "actualBody": {
+        "result": {
+          "visitId": "addb32a3-547f-47c9-ba69-e3d361a82612"
+        },
+        "replayed": true,
+        "context": {
+          "organisationId": "org_50e0ad2e597319a0e2b52fee3385905d",
+          "person": {
+            "id": "p_meena",
+            "name": "Meena Devi",
+            "village": "Rampur",
+            "age": 26,
+            "sex": "Female",
+            "version": 3
+          },
+          "visit": {
+            "id": "addb32a3-547f-47c9-ba69-e3d361a82612",
+            "personId": "p_meena",
+            "version": 1,
+            "state": "draft",
+            "facts": {
+              "date": "2026-10-12T16:18",
+              "systolic": "",
+              "diastolic": "",
+              "weight": "",
+              "temperature": "",
+              "weeks": "",
+              "coughDays": "",
+              "notes": "",
+              "source": "measured"
+            },
+            "createdAt": "2026-10-12T16:18:48.720Z",
+            "recordVersion": 1,
+            "aiResults": [],
+            "programmeCapture": {
+              "packs": [],
+              "answers": {},
+              "absence": {}
+            }
+          }
+        }
+      },
+      "originalReceiptUnchanged": true,
+      "currentAccountOrganisationId": "org_7d6713eca187340fab5b11403e29c012"
+    },
+    {
+      "caseId": "CASE-ORG-CONTROL-EXPLICIT-A",
+      "actualStatus": 200,
+      "actualBody": {
+        "result": {
+          "visitId": "addb32a3-547f-47c9-ba69-e3d361a82612"
+        },
+        "replayed": false,
+        "context": {
+          "organisationId": "org_50e0ad2e597319a0e2b52fee3385905d",
+          "person": {
+            "id": "p_meena",
+            "name": "Meena Devi",
+            "village": "Rampur",
+            "age": 26,
+            "sex": "Female",
+            "version": 3
+          },
+          "visit": {
+            "id": "addb32a3-547f-47c9-ba69-e3d361a82612",
+            "personId": "p_meena",
+            "version": 1,
+            "state": "draft",
+            "facts": {
+              "date": "2026-10-12T16:18",
+              "systolic": "",
+              "diastolic": "",
+              "weight": "",
+              "temperature": "",
+              "weeks": "",
+              "coughDays": "",
+              "notes": "",
+              "source": "measured"
+            },
+            "createdAt": "2026-10-12T16:18:48.720Z",
+            "recordVersion": 1,
+            "aiResults": [],
+            "programmeCapture": {
+              "packs": [],
+              "answers": {},
+              "absence": {}
+            }
+          }
+        }
+      },
+      "receiptOrganisationId": "org_50e0ad2e597319a0e2b52fee3385905d",
+      "currentAccountOrganisationId": "org_7d6713eca187340fab5b11403e29c012",
+      "otherOrganisationClinicalUnchanged": true
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "sourceSha": "1799a0f5a1a87ce867a580ea6074a054b0980de2",
+  "observedAt": "2026-10-12T16:28:55.844Z",
+  "checks": [
+    {
+      "inputId": 42,
+      "expected": "refuse malformed non-string visit identity",
+      "observed": "accepted",
+      "result": {
+        "id": 42,
+        "version": 3,
+        "createdAt": "2026-10-12T00:00:00.000Z",
+        "href": "/routine-visit?personId=person-a&organisationId=org-a&visitId=42&actorId=trusted-actor"
+      }
+    },
+    {
+      "inputId": true,
+      "expected": "refuse malformed non-string visit identity",
+      "observed": "accepted",
+      "result": {
+        "id": true,
+        "version": 3,
+        "createdAt": "2026-10-12T00:00:00.000Z",
+        "href": "/routine-visit?personId=person-a&organisationId=org-a&visitId=true&actorId=trusted-actor"
+      }
+    },
+    {
+      "inputId": [
+        "visit-a"
+      ],
+      "expected": "refuse malformed non-string visit identity",
+      "observed": "accepted",
+      "result": {
+        "id": [
+          "visit-a"
+        ],
+        "version": 3,
+        "createdAt": "2026-10-12T00:00:00.000Z",
+        "href": "/routine-visit?personId=person-a&organisationId=org-a&visitId=visit-a&actorId=trusted-actor"
+      }
+    }
+  ],
+  "passed": 0,
+  "failed": 3,
+  "limits": "Pure copied exact-source helper diagnostic. No browser response substitution, backend mutation or story acceptance."
+}

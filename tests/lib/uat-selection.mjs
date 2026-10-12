@@ -133,6 +133,8 @@ const PERSON = 'Person page and visit';
 export const ROUTINE_CAPTURE_SCREEN = 'Candidate ASHA routine visit (Today > Review routine visit; deployment pending)';
 export const PANEL_HOME = {
   'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
+  'app/resume-work/resume-work.tsx': [ROUTINE_CAPTURE_SCREEN],
+  'app/resume-work/page.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/registration-guidance.tsx': ['My work', 'People'],
   'app/frontline-guidance.tsx': ['ASHA app Home (/app)'],
   'app/inbound-conflicts-panel.tsx': [PERSON],

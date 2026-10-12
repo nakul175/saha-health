@@ -1,0 +1,5 @@
+# Independent non-string identity correction
+
+Frozen 2026-10-12 16:30:44 UTC before correction. Independent reviewer retained0pass/3fail at independent-review/malformed-identity-diagnosis.json against immutable1799a0f5. Actual helper regex coerced visit.id number42, booleantrue and array['visit-a'] to strings and generated URLs, violating unchanged malformed-source refusal.
+
+Narrow correction only: reference predicate requires typeof value==='string' before its existing closed identifier regex. Add three exact independent non-string cases without removing original27 or31 native oracles. Expected current new logic30; rerun original34 and actual31 native on corrected source/build/custody, then unchanged original97/245/52 compatibility checks. Preserve1799 source/raw evidence/diagnosis in Git and historical output; no URL/API/writer/clinical/provider policy change or relaxed criteria/minima. Root metadata/publication waits for genuine corrected independent review. The separate observation-time tree remains untouched while this repair qualifies.
