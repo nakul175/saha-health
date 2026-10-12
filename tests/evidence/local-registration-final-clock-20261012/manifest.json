@@ -1,0 +1,534 @@
+{
+  "previousSource": "ee7fa3dc8964727b7429e5813d3be28f0286d964",
+  "sourcePins": {
+    "app/today/today.tsx": "e4c16153754ae57a6b6bfb094a8182777faca97f9b08e30e2920dcada37b8f2d",
+    "app/api/local-registration/route.ts": "864413107c17b5a8d2f2e07349f565b828398695f7738c116a97943340a818c1",
+    "app/local-registration/page.tsx": "c0e5a165eafd97792295c6bb06ee50b41b2d337da8344ed9c5a509193401c2d2",
+    "app/local-registration/local-registration.tsx": "43442a258c3c11d9e48127e0ae473c20a2fd1647be593b3c0393d50edb7293f8",
+    "app/local-registration/local-registration.css": "df6e6ce58ad38391244b9bdcf507c10e3c1148202f03b33496e1bb810f8308b5",
+    "lib/saha/local-registration.ts": "9cd678ff35fb29ab92492fd21ffe007ddba0b71bc1f14bb6ab66280c0f58850b",
+    "lib/saha/local-registration-server.ts": "92f7aa04fb63c967fea19273e1ec2ca7bc315d4c7b367d2e8f21dff887dbb0f7",
+    "lib/saha/local-registration-read-guard.ts": "8b2b6e4ddf9bf612c73bf2efc7fc22fb028e9fa0b4fdac13781cf888fe47739a",
+    "tests/local-registration-contract.mjs": "0536c0799448fb1d56ff1d6961cdd9aa98c48d43c90e2d8f1fa25d7b918b7947",
+    "tests/smoke/local-registration-browser.mjs": "f4947886a244455f27be94b8238e1cd66a7f4de9d33576a767a6de568ca2a77f"
+  },
+  "files": {
+    "tests/evidence/local-registration-final-clock-20261012/types001.log.json": {
+      "sha256": "64119642ccf5b28cc2ba8abcfe66ff410663116291e221f903b1396b2d8b1375",
+      "bytes": 126
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001.log.json": {
+      "sha256": "b552d4cb775530b715a6e065588a04fefa6b73f18d49eb60738b350862620831",
+      "bytes": 13285
+    },
+    "tests/evidence/local-registration-final-clock-20261012/lint003.log.json": {
+      "sha256": "64119642ccf5b28cc2ba8abcfe66ff410663116291e221f903b1396b2d8b1375",
+      "bytes": 126
+    },
+    "tests/evidence/local-registration-final-clock-20261012/original81.log.json": {
+      "sha256": "1366f90766051c525a56ceddd6a54dd053495ed2613f95a66516ebaf49863d8e",
+      "bytes": 820
+    },
+    "tests/evidence/local-registration-final-clock-20261012/catalogue001.log.json": {
+      "sha256": "80dd518d92a33c3ddd220c8799399fc2e6976ea7475c0bc7ea95c16d32280b91",
+      "bytes": 1370
+    },
+    "tests/evidence/local-registration-final-clock-20261012/BEFORE-NATIVE-DIAGNOSTIC-FREEZE.md": {
+      "sha256": "2bd14558a1758d7bd8126adedcfa3e4ac0c1d32f66d80c3b18fd3c4da038eb2a",
+      "bytes": 950
+    },
+    "tests/evidence/local-registration-final-clock-20261012/pure001.log.json": {
+      "sha256": "6cd1e4994f1a5a4af1dc1768fe02dcc1a0590ab61546669ff2bdfe8b4bf87b7e",
+      "bytes": 277
+    },
+    "tests/evidence/local-registration-final-clock-20261012/build001.log.json": {
+      "sha256": "4d2ef11ee3364766be0ce5f383c0fb1e672b55f9907a48db08e6b13965f9ffe4",
+      "bytes": 5966
+    },
+    "tests/evidence/local-registration-final-clock-20261012/before-native-probe.log.json": {
+      "sha256": "7ed25dc3dd5100d427d2b3ac225b476836718f9e09126d34eab20ff955ceb585",
+      "bytes": 1116
+    },
+    "tests/evidence/local-registration-final-clock-20261012/types002.log.json": {
+      "sha256": "64119642ccf5b28cc2ba8abcfe66ff410663116291e221f903b1396b2d8b1375",
+      "bytes": 126
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002.log.json": {
+      "sha256": "50f99352d4c282ca7a7c6a1d76c8be94a6480fea04cb32382c7dfc4c44987e55",
+      "bytes": 13285
+    },
+    "tests/evidence/local-registration-final-clock-20261012/original81-summary.json": {
+      "sha256": "fdc1952f6a1be3cf560d0eee6ed7d2c2a68dbfedf4b0a3d656fa844a8325d910",
+      "bytes": 4896
+    },
+    "tests/evidence/local-registration-final-clock-20261012/ASSESSMENT.md": {
+      "sha256": "b678b2bbaa01a2f382ed53c60a5beac468903054ba3483d81bed8e8fa4e4ea18",
+      "bytes": 2875
+    },
+    "tests/evidence/local-registration-final-clock-20261012/INDEPENDENT-CROSSED-AUDIT-CLOCK-DIAGNOSIS.json": {
+      "sha256": "9adb7fe87cf7021a611d8049ad7ed1c5029543621d1b6a1615f5b4770481e610",
+      "bytes": 807
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native-lint002.log.json": {
+      "sha256": "64119642ccf5b28cc2ba8abcfe66ff410663116291e221f903b1396b2d8b1375",
+      "bytes": 126
+    },
+    "tests/evidence/local-registration-final-clock-20261012/FROZEN-REPAIR.md": {
+      "sha256": "a68b119ad0dbe781b25ab8c2b4eb8deba7eaa71e943f74d0263e4081cbceb470",
+      "bytes": 1868
+    },
+    "tests/evidence/local-registration-final-clock-20261012/pure-current43-result.json": {
+      "sha256": "ac76b008092af588c730c49de61a53c303ef6f0282a297844f7d629ea35d6125",
+      "bytes": 5474
+    },
+    "tests/evidence/local-registration-final-clock-20261012/NATIVE56-FIRST-CLOCK-PREIMAGE.txt": {
+      "sha256": "47e5c1afcf84e7fd5176f6ae9c95b5a6bca79ec27253a3eb1fccb861b1432945",
+      "bytes": 29980
+    },
+    "tests/evidence/local-registration-final-clock-20261012/lint001.log.json": {
+      "sha256": "64119642ccf5b28cc2ba8abcfe66ff410663116291e221f903b1396b2d8b1375",
+      "bytes": 126
+    },
+    "tests/evidence/local-registration-final-clock-20261012/SOURCE-INVARIANTS.json": {
+      "sha256": "ab47d9390288facbf02683513fbe242505dea94703ddaa9354ce5a834b00c842",
+      "bytes": 3669
+    },
+    "tests/evidence/local-registration-final-clock-20261012/before-native-probe.mjs.txt": {
+      "sha256": "e3d438f58c1a57b015350125d42b68fabd1681d3680a224c23441c993d157c49",
+      "bytes": 5868
+    },
+    "tests/evidence/local-registration-final-clock-20261012/PORTABLE-CLOCK-FIXTURE-FREEZE.md": {
+      "sha256": "ef24d80eff3ed3310546b5b6ce586c46ad601eb9e066d6da8b7236eb3423de22",
+      "bytes": 881
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/fixture.json": {
+      "sha256": "cfa3b7e73b2e93ecd136e3336ed19f1b6e1afa21564d8de8c3a35d3cdba2a498",
+      "bytes": 496
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/post-audit-membership-refusal.json": {
+      "sha256": "e67253b0601870d0409d5bf7e353e2f66b1eeea3fdb29bb253b904d0cefa5a4f",
+      "bytes": 324
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/phone-review.png": {
+      "sha256": "83ed501afea2e13e92f7a14c8082b7c326831ca2ed03163a42d2b01990fdb73d",
+      "bytes": 106208
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/result.json": {
+      "sha256": "4aecf338b7f16feec7d0e056f1fabb1ac8544ae0da6d2082e94acbffadd95446",
+      "bytes": 8114
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/committed-response-loss-custody.json": {
+      "sha256": "66d3f9c61ce5203fc2516870066700a73682664143ee6976adfd5a705f5ec6ed",
+      "bytes": 62486
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/actual-d1-crossed-audit-clock-controls.json": {
+      "sha256": "6a87544001ca30f1e4f71b34f42f54841b0f7dfef5e7b17077691a75a2af7376",
+      "bytes": 53876
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/source-build-custody.json": {
+      "sha256": "b8dc14da9af5b90901e4b9115a99a862482bcb76e55fdd1f880e04e62c9c8ebb",
+      "bytes": 161356
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/pending-assignment-read-custody.json": {
+      "sha256": "780c0f53a7eda2ecfb0f42b8722cd7ef6953b6c5156627feab6c4e4209909f26",
+      "bytes": 16782
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/layout.json": {
+      "sha256": "5d8d94f223b0f8cd7c086d7dc5f201308c8f59cb5b48cc355a9aadade5ed6d33",
+      "bytes": 49
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/read-table-custody.json": {
+      "sha256": "a7bc836b46af61b4ccb02f196f20eb0ef91aa56364407dcc19ba581800d147d4",
+      "bytes": 16079
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/phone-registered.png": {
+      "sha256": "3923c568a1c3402a64b0f4e411f074bcf002df26eb5d0fee93d881be7b75763c",
+      "bytes": 58859
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/successful-create-custody.json": {
+      "sha256": "0356e501d03009c4a23adf4fb80486c6ec1fc31f2674020e7052c0ab5eed662f",
+      "bytes": 46034
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native001/axe.json": {
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "bytes": 2
+    },
+    "tests/evidence/local-registration-final-clock-20261012/before-native/SOURCE-COMPILED-CUSTODY.json": {
+      "sha256": "ea257fc2e294021a34e3991c5516135b1c1252335e717815a1ecd75a9b7627e9",
+      "bytes": 160940
+    },
+    "tests/evidence/local-registration-final-clock-20261012/before-native/ACTUAL-BEFORE-D1-CLOCK.json": {
+      "sha256": "c16e01fe07f817c5d7d5d421d7ded9105c6221029dbeb741371ef6c2ff8b13e8",
+      "bytes": 17177
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/fixture.json": {
+      "sha256": "9f6d3b08a8cb0ed7c42bea06f2ed9f41bb5eb50b7881c06edacb434547e7a072",
+      "bytes": 496
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/post-audit-membership-refusal.json": {
+      "sha256": "e67253b0601870d0409d5bf7e353e2f66b1eeea3fdb29bb253b904d0cefa5a4f",
+      "bytes": 324
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/phone-review.png": {
+      "sha256": "744003f8345d41d344f7d84f833c4ab1000f8d34ba7e0c3b9924f962bc777bb4",
+      "bytes": 106026
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/result.json": {
+      "sha256": "a2c4228b6e1a565e8879f15a62a2850c45156b658ca0b29b919698e2f845b456",
+      "bytes": 8114
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/committed-response-loss-custody.json": {
+      "sha256": "1fbb6a7ee6335b1733f4e5ec051d92bed4b80dbd1391e15ff1a3242039c8a82c",
+      "bytes": 62486
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/actual-d1-crossed-audit-clock-controls.json": {
+      "sha256": "3fe07e1c95ad05b770a67fd02dc0e1393a9994dfeb1b772a0806c828a52efbf3",
+      "bytes": 54131
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/source-build-custody.json": {
+      "sha256": "27b29610000a790c2aaeb585579a64306c55d59e40d3cf0d6626e9e5d9c2d069",
+      "bytes": 161356
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/pending-assignment-read-custody.json": {
+      "sha256": "7a2761fe15f10288e4fb269e85631721d6e72d881ebfa7b0e13d67f561315757",
+      "bytes": 16782
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/layout.json": {
+      "sha256": "5d8d94f223b0f8cd7c086d7dc5f201308c8f59cb5b48cc355a9aadade5ed6d33",
+      "bytes": 49
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/read-table-custody.json": {
+      "sha256": "4c60d5e5e27c0166c8e0e31be5ed91262422daa961948b3ec1eea1ab0b81dfd8",
+      "bytes": 16079
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/phone-registered.png": {
+      "sha256": "8ac4dba097e74cc895cd176ab7be0484e706e00ccf64f50c57e33b1f9a11a106",
+      "bytes": 58712
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/successful-create-custody.json": {
+      "sha256": "b4130f98189f027e81b36cb3fe1ac5d418ba8a3be978a06a3fe8d55437441a0f",
+      "bytes": 46034
+    },
+    "tests/evidence/local-registration-final-clock-20261012/native002/axe.json": {
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "bytes": 2
+    },
+    "tests/evidence/local-registration-final-clock-20261012/preimages/tests__local-registration-contract.mjs.txt": {
+      "sha256": "ed12a4b3b4ad39a345bd058285a2a3d08f9ce1fe33dd9f6bc8912dfc38395de6",
+      "bytes": 7229
+    },
+    "tests/evidence/local-registration-final-clock-20261012/preimages/lib__saha__local-registration-server.ts.txt": {
+      "sha256": "26f972ae0127c4d7b730282c23b937cc2833f3bb4b4b2c8996800304eb62487a",
+      "bytes": 7980
+    },
+    "tests/evidence/local-registration-final-clock-20261012/preimages/tests__smoke__local-registration-browser.mjs.txt": {
+      "sha256": "2645ddfd4203e197587e0a40b211f2bd07b3832b53d4d7ed2c672e22675ae04c",
+      "bytes": 26303
+    }
+  },
+  "compiledArchive": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/local-registration/clock-repair/native002-current-compiled.zip",
+    "sha256": "3ea8a1150e18bde0f6ad8a0e0d9d4ff19d62d3acb634d7f09bf3361f8f858bbb",
+    "files": 291,
+    "rawBytePins": {
+      "dist/server/saha-bundle-provenance.json": "4be5a9267becee2156824efc0cb1cadfa24820c0a26afac27038dd1a0dd9a2e2",
+      "dist/server/vinext-server.json": "224ee5da584145944a3535e6cfdc278a2538826cc0052a775b73277c5635badb",
+      "dist/server/wrangler.json": "68ee045cb7ea183573f9639d430259674a609cf623be4a723662e86565715c48",
+      "dist/server/vinext-externals.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "dist/server/index.js": "1108265d2bdb4bd99ffef7edbd192305b62d993f3200b96a907e5b7255ea603b",
+      "dist/server/BUILD_ID": "b410dad7748ed0cb336c8467229cf28b7f98c8cf0d1fd438d053527a20e0e72f",
+      "dist/server/vinext-client-assets.js": "073256f957313844d9fd285335df1405b07f6dbff4fcc2f62b501f12fb673c81",
+      "dist/server/__vite_rsc_assets_manifest.js": "d2df206882835018e31b2cb1b5f0e118235b0f7dc3b9bac84147d8d9019c37c5",
+      "dist/server/_next/static/page-b2HbZbWx.js": "7e6bc26acd5b88ece95757505418a8cb7d38faaf7dd16f0d201b9f87a919e444",
+      "dist/server/_next/static/route-DiC7g0N8.js": "b38b488f2483b259469ae16919bff168fcf56bf11169e6723d3e4efacab29cfc",
+      "dist/server/_next/static/app-segment-config-DEbggNRz.js": "0450e469ae593dd3fe3ade3a9fbce57790e00e617d83296489b77553ba3981ff",
+      "dist/server/_next/static/route-DhL-TSiE.js": "2374d4c5189a19a77165a3cbd693a9239d3c28c6e128c60199e07752a0353de1",
+      "dist/server/_next/static/app-page-cache-render-1xwy7j1d.js": "b2f8d60bcef0359310fb5166e33b43cd21f9dad17501e75a8c3f1d6916e1d59b",
+      "dist/server/_next/static/route-Eun7VvLa.js": "b356d59aff9a56940220a09cf65f0063feee60eb2f2b2a00901f3bcc1df9b951",
+      "dist/server/_next/static/implicit-tags-CfZr1hpp.js": "c34e3faed7317ef30f315fdcc91a00493eff6ff83ae327e51299415e72a62f45",
+      "dist/server/_next/static/route-D1Q-45p6.js": "6e46741cf07d3f528ca945fa052e2e1a1aa9c6834bbfbea0c116dc36210a1f9c",
+      "dist/server/_next/static/reminder-optout-server-BmS8krrK.js": "173c1deebb0dbbfb6d6165cc9fabe3b493aae288c876bac33c844eff45b1e3ba",
+      "dist/server/_next/static/pack-installation-server-BjVs70Y0.js": "603f097c93776ce69c90bd41f674be604e4b7e97655932723a930c9e539bc780",
+      "dist/server/_next/static/route-D02A1jkB.js": "a15eafa04caa1c660d7a260cfb1b5a798ff5a5a0eed8dbc8ff97554c7a3dcc14",
+      "dist/server/_next/static/route-PmnaXRyo.js": "08a932c3903897ef177f40b7a7574be124ac8707fb874efc8eb0ea4b2882292e",
+      "dist/server/_next/static/rolldown-runtime-DUnMT5BP.js": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75",
+      "dist/server/_next/static/route-DtKGHkRp.js": "6e1830a801d8940501cb470a49945d8d9cc130545308dd7853038f421fec5e98",
+      "dist/server/_next/static/headers-j0QAsRga.js": "d6db60f6759b11234d865969c3b08332223067a40da1fa0d77f6b567d12f81f0",
+      "dist/server/_next/static/route-CV74t4g4.js": "2fcf4c39399233a82328b1e732339189d1a3bed8ed2abbf968323f27ef4ddb4d",
+      "dist/server/_next/static/continuity-server-3aWYjEyD.js": "f33d6b533066d18c63cbc5189c6847d71e5bc21d2c9262ce0a641f13d7f6d051",
+      "dist/server/_next/static/navigation.react-server-C-r2hmvF.js": "50ac5f70f4a1fac030b197d1bed3e449410b09d2c0c7531c3ee7c4db19847cb8",
+      "dist/server/_next/static/route-BUwOpWyb.js": "5f00e7752c3d21f15899254ab519f1d00271dd4f98db6812dbdb4066c5cd9110",
+      "dist/server/_next/static/page-sYRVeDvw.js": "53131e46e938295368c1a153500ad1fca05cd1335eb34c794c5388616266be15",
+      "dist/server/_next/static/record-Cz3MrZeO.js": "b9bdb7b7d0e4844d241dba61104d18111d61ef92af3f137d15749531d276f9cf",
+      "dist/server/_next/static/indicators-Btt7vEyi.js": "90d0f63368bb90f622a67c4e6bfe67b5a921a3724a3d5724a5b6523b1417929a",
+      "dist/server/_next/static/route-Be4cxWRt.js": "2496e54e09a24a2cb228f0693d404bbaf2630e8ebc9bff55b79f8bb5206e893f",
+      "dist/server/_next/static/framework~index~page~page~page~page~page~page~page~page~app-route-handler-dispatch-SdIGq5QU.js": "882ede5fe09282a60543b614d5c5c5602f417064fbada3827c902f16678fa5ac",
+      "dist/server/_next/static/identity-B4j4kIxp.js": "2e036d9bb9d64301a89fe712036ebe16cb81b4284942a25f302873639a409035",
+      "dist/server/_next/static/route-DLHJX4KZ.js": "24521e6bd55b94ec6d3904184aed5f12b45e2ae4891031d02053f927e75157a3",
+      "dist/server/_next/static/access-TVab2yVC.js": "095b7a9c4f20ab26ad4b390f60e3190e2d17cab988e99015c439fbcc1a2c4b7d",
+      "dist/server/_next/static/app-prerender-static-params-DvXNdgtR.js": "6e964aa8668f6471bbd61cbe0c35f634520f654c499cac14950709481f96c1d2",
+      "dist/server/_next/static/route-DuW5ww9C.js": "12129c2c85de1c3cefaeadb03852914daf08642096626bacd1b1812e000914d0",
+      "dist/server/_next/static/route-C35lMZPa.js": "62769b3624cdad2c386b55ec470a1a53a89accc313b479d2bde4ef46821afbb1",
+      "dist/server/_next/static/route-RsPEuV5e.js": "4608b9ef5538dc97e9773ec678e35233103724399910f21bfd0b7a48d2219741",
+      "dist/server/_next/static/route-C2e7gaoD.js": "c92996d9760d7cb6a83134a2118283f9fb23e170ddcae4549fe36ed1a0140561",
+      "dist/server/_next/static/route-Ty6jBQwW.js": "dc525b8ad04c4bfd9fc72fb7787cae6adc15b0922714245bbe5f7c4d71631f2d",
+      "dist/server/_next/static/page-BlyANdnY.js": "6714a0a2a954482efe55ccfbab5cc69487cb9b764c30395d0de7195be9fbc287",
+      "dist/server/_next/static/route-CmpXBaQa.js": "90b02a1ef78f4cad26827ee06255fdb9a90fd279d673712ca61dac6fa7ab65c4",
+      "dist/server/_next/static/route-DKRoXOdw.js": "11616933f26510608eb2edbdf8ade5803f1ced28a7ee255476c2e326e9e1d05f",
+      "dist/server/_next/static/route-HGWc9Y0y.js": "c145bcd3760026d34bc1827a8efba5ee5ba8f4e1beb66852121c6dd40abfff5e",
+      "dist/server/_next/static/page-nfFbXTDR.js": "0616f1b45349682ffb86bc96b2da777359d1fd8e59b754c20594b1dea15b7844",
+      "dist/server/_next/static/route-CyYfclAx.js": "5c0d310d32bff1a453142536a66587ce3108017d3200f6e74ae13dc99c013d2a",
+      "dist/server/_next/static/route-DNXNvq_12.js": "639f7a07b17d8239844395344184d7ae9ad2fd30fd5f3ce7a97b3c95e0f6d381",
+      "dist/server/_next/static/route-C1p1E61N.js": "340b8c9293643f4ae79dffea1341e686b27655e65ee69be35812d034395302db",
+      "dist/server/_next/static/app-prerender-endpoints-BZG3uu3o.js": "759c1441a75cefe6860b9d503c1d2170dd51673a39cb77256a503a3c9dfb3e99",
+      "dist/server/_next/static/route-xumWEnyr2.js": "7cf003bf3a7d07ad33cf1b4704456ddebae8305331cac90813b8d4cd0f6b2bcc",
+      "dist/server/_next/static/route-C-TRmSpR.js": "1a50ce6e39cedeb6f584a55a02302c3d9eb272bb04afd7d3f8e7ef066ddc18a4",
+      "dist/server/_next/static/availability-DN8Svusv.js": "45fc3f5f91b321001d98fc046ca0b64560d48ac082f4df62765cf30e45001d0b",
+      "dist/server/_next/static/route-DGG3OSmi.js": "db7d07e6b1fa7351246625a414dd959d65baa4869319adc9caffbbc5cf3a0958",
+      "dist/server/_next/static/route-9SlCpas6.js": "fa307f584ac27310355a8d5758e5491547f7ff2b5f25d645603348a97b219552",
+      "dist/server/_next/static/export-audit--IgX5XzL.js": "608050c34f76512fda19f7ac849f8062962baed3993db4b0507cb6517a84d294",
+      "dist/server/_next/static/route-CgSm6xLt.js": "75c3acc54eab9162924d911f9470c899daff1363cfec5571a6be794e9af1c989",
+      "dist/server/_next/static/chatgpt-auth-Czdia5T2.js": "26bc1af3ab82daa1d5f1522b31f99870e062abdef087a0f7ab71ead9fad4d606",
+      "dist/server/_next/static/route-BkTkK-sK.js": "2e2375357b59b30e04c7aa1c949c5afda2aab9fbde9433fc9065a7d55d8701f7",
+      "dist/server/_next/static/route-BllAr_8u2.js": "bdc08babd8031f511f1e5668da8ef2b74dba8b5ed47a985dfb3fee3e9a455065",
+      "dist/server/_next/static/route-TF_iKZqS.js": "c6ef6869756869e24c5cc9ab12097250e2dca796a51e6b82e58d7f8184f7590d",
+      "dist/server/_next/static/route-CvAy3gCV2.js": "7a3c27b9ad117c43b050b23abea505e8c64571d194158269ba8b6a35eb78e6cb",
+      "dist/server/_next/static/route-BNHMfvoh.js": "cc184a5aaa51fe6320edbc2ee55f6be510b9e05b777d371f3c28fe496b065d67",
+      "dist/server/_next/static/app-static-generation-DvNctcEH.js": "71451721ae4a42108e9ed32567cd9d9861beb4952215b0fd57ffc373cd3edc01",
+      "dist/server/_next/static/route-BldqXWaD.js": "753fb4dc69aec4c1cf16501950f05a055a135650155ff0a8618bc5e35180b8ad",
+      "dist/server/_next/static/route-DfKN9YpB.js": "e3d09f2d4442d4fc0d557d1ded6c1018ee2fcb2515403d30e344c61b00c89c9a",
+      "dist/server/_next/static/clinical-source-2HY5woq1.js": "7ccd8d50f5d8c2d3e425b00123713cce21b2a1bbfb08e57d0010361c0a574594",
+      "dist/server/_next/static/outreach-server-CxJlqflK.js": "2047294f3712d4a20d46ae7d4cbda4d842fc4353a552fe15eb7fac6cbae81702",
+      "dist/server/_next/static/monitoring-BfOaQj9n.js": "2786c7c1f02fcf3e5ae70d5f93b28e9ba411e9406b2b4ae1e99d1f82ddc015fd",
+      "dist/server/_next/static/page-BFv5CqIw.js": "e19dfba458bfb32c4a4585756b3f3809c5865dd40f3a9d5717fff97731fbc787",
+      "dist/server/_next/static/route-5U-sfLn_2.js": "e5b9c9612bcf42d1c9f3a97c5d4adccb2482c3515ddfa73a8089eea836ad44fe",
+      "dist/server/_next/static/route-DeSzOlfE.js": "a3c3fa5689604f6e872293903dad1c0bb80f82dda048a2e57da0c5288c274356",
+      "dist/server/_next/static/route-DDqJyFbf2.js": "7e2c44c4b0387df6abc22ab030391b144ff27cd048fc3464cdfbf60f3a8ac70f",
+      "dist/server/_next/static/route-Bd_VGM4B.js": "8ab1e9a729bbca70b8b6d42d3b520ef30eb93306c4b51babadc974c719330e5a",
+      "dist/server/_next/static/framework~index~page~page~page~layout~page~page~page~page~page~app-page-cache-render~app-pa~j9qulj53-Dq9Qm12Z.js": "edad47733c6467a4c16bca288ebab0282f521c39272b3d51941d3e04de650e44",
+      "dist/server/_next/static/framework~index~page~layout~page~page~page~page~app-page-cache-render~app-page-cache~app-ro~czc1rg2u-CafGfKKK.js": "1936137c277d741309cc7e3a057c8a710d58d071d21c5344bb0510df0e46df3a",
+      "dist/server/_next/static/route-nrnIeir_2.js": "f54dd96e6a8aac42f0bc73f12f79be01e74193a25b8dbbd38b5a4eccea382a5e",
+      "dist/server/_next/static/cache-headers-Cp4N9cb1.js": "5ccd97f6f1a9760721ed47627212ef8a01cfcb85e88b3388fd84fc2f2b4d85de",
+      "dist/server/_next/static/route-r-5DAvMO2.js": "cc92ab5c4bd9e2c888b446504e5dbc70a359e95ab28caad67ed40e7491bfce72",
+      "dist/server/_next/static/route-Ve8SjpB2.js": "40f975fc45ccde29087cc665fe3f3bed96df12853ae52abf4e824b72c2e76fc9",
+      "dist/server/_next/static/route--qrMQTFT2.js": "debf45eb0b71608bc6f2a9f6c4a8c560d53ddfb278bdec53a71ab317ad0d2956",
+      "dist/server/_next/static/route-eDygCQCW.js": "3b0e4e60297abdfd798fcbee72eb68c8575cc8541256b054637f8544c9390731",
+      "dist/server/_next/static/route-XYUpkfd72.js": "d4010f7a97ef5f4ee6e39629800eea66ad97bb9fd5ced51a42bad63cf2f1ba6b",
+      "dist/server/_next/static/route-Bji1vkJp.js": "42a7014a468d4afc89853d6d21be73248ced63deae85b9abdc00770a830934d7",
+      "dist/server/_next/static/route-DpXn7GAM.js": "1fbbf4e5ec28d623b9318ee34a1c96aab86682f1f4b7c9008860ffa9cf49eb09",
+      "dist/server/_next/static/route-CJv1WPcz.js": "29e16d95b882e71fad56b762a9c43ec650354f0c7a5cbadd6472cf662635a90e",
+      "dist/server/_next/static/frontline-server-CXU5h70X.js": "6d9b2d9fac9257c0c3dde616954771fd7ab2b4de5a56e154e717ab344ec3dc0b",
+      "dist/server/_next/static/navigation-errors-CA2mStxA.js": "c8725c06eeaadddb761a357b6c6a552bad148e4889f7fcabefa25f4fce9e7989",
+      "dist/server/_next/static/route-CSraySUK2.js": "847cfc06ec6305a1b461a170c901283e6a10fbf6c45cd19017d53bee60b3395a",
+      "dist/server/_next/static/app-page-cache-finalizer-COrCNN9Z.js": "e8e385e1d26b3391783468bf194a1681d9cc8fbbf559f5c3172789afa16c55b4",
+      "dist/server/_next/static/route-ju620PYe2.js": "08ba5c6e9219ff562782f31c34664d12010e3157c631439bc299d983b6e2fed2",
+      "dist/server/_next/static/redirect-digest-C-06pD9r.js": "b92ec9aa7c6dcd33cfbe31e79016b8e95e069db3104601e782c0eab8aa9d331b",
+      "dist/server/_next/static/route-CoJhW2Z6.js": "6a9cabb158cf45e7c48d785ea6d9965341a3f5f1380aff4254fc1419f4f33fed",
+      "dist/server/_next/static/route-B__QDX94.js": "723fe6412e168064ef2843ecd79fd4fcaba544e745d24547a7c6a1ea55240182",
+      "dist/server/_next/static/media-CpBVcqJ6.js": "781c812b20255451f9ab6dfc8514fd359aacd6eb12e9ca9a8321263a5bda9e55",
+      "dist/server/_next/static/framework~index-BBZS3Ubn.js": "0bc842f154381ba883ef14de0b28f88065a1d5abd59043adb94c3d4c7aded024",
+      "dist/server/_next/static/route-ETxEGQbt.js": "c786687888c78faa5f3e5734c8459285f7de72d2594358c61ed127c4eb78ebcb",
+      "dist/server/_next/static/route-DwvWcdGT2.js": "b8e23256ef651a4d1ac25f751d45b870f6d10c2e5a2caffcdd374f3fbbb0773c",
+      "dist/server/_next/static/reporting-completeness-server-FNg0prel.js": "38fc3496a3ec6f28baff56ad07614a5ba11a0e5f7b1d00b7ad1835757612dd68",
+      "dist/server/_next/static/work-burden-ledger-store-uXriJjBw.js": "adff5f6630f7e57fd712dd842e7e1292960fe576ee90bf72687ed321f620136c",
+      "dist/server/_next/static/route-Y2VimUum.js": "a2553d4352a5914de1fe04078f283fe280f2679a25d0fc1b4bf50d6116979de0",
+      "dist/server/_next/static/headers-BBgHuOI_.js": "dea2c425b42d7d36acb126e0f8925d1d3685c307257cb8c0924ae88718883baf",
+      "dist/server/_next/static/route-DXJYhyW8.js": "fafb1ec926d838c09ee3b9225d9d5661519f12941e9217eab75326876951b138",
+      "dist/server/_next/static/route-DjoLOp6T.js": "cbfc7b98bb3e895beb0a4c2149ebd90b4464127884cd7701b4cc29b6e2a0c6e8",
+      "dist/server/_next/static/text-stream-KtvG8PrF.js": "9a8704b399cafb3c0d9f3806b2f797a3f92f7936c2b1e72f0db82139631e16dc",
+      "dist/server/_next/static/root-params-CarSBhWB.js": "b1dbb34ba341adf166a683d8a2382ddd30e511bbdc7099280f75771becf39a7e",
+      "dist/server/_next/static/route-C70LYIcj.js": "6291340a98ed13be957e0e23944c0421f7346b60e8cfb5974b56dc0e970bc62a",
+      "dist/server/_next/static/navigation-runtime-C77b-fKY.js": "4c70bf32160a4bfc471137575c10e33e728067e950ba90ce8974b72c4f774531",
+      "dist/server/_next/static/anaemia-server-3uG-K3sh.js": "bdb712f3aa672902efa4ceb117de2015bab8b5d16a01a1ab3016a6449b3e4654",
+      "dist/server/_next/static/route-BleCMAAm.js": "48a0bc50141d7867c88c4b56d2c87186ae76603216df0d4b809c3884dd4b9368",
+      "dist/server/_next/static/media-server-A5aFd9k2.js": "63ba187feed61b431c7a68df46e298e2fa576291532285c11acf8b6ba1b99540",
+      "dist/server/_next/static/page-CgixRKhR.js": "14b1459b426e57f8fb35abd6535546457e002abb0a83b58742dcdc958058d3ff",
+      "dist/server/_next/static/route-D6_1CKJj2.js": "faadc161c8385796690916a5f68b94babf9a48c67d38b2d5e9de5fbb8834a44f",
+      "dist/server/_next/static/route-BVOLqSkm2.js": "fad5caeddd699123975073aa6606ae75bf750de6604cc43366ddb12463a160d8",
+      "dist/server/_next/static/route-Dm9Ua5tR.js": "a66383ab1e9f09372b4f5c94cfaa2b115c0c4aa3d276e2c571bb87c02dd716ba",
+      "dist/server/_next/static/isr-cache-D_FtjMnu.js": "734014a718a4f58def04f1f48b917dd14af8b8cdda0c80a3a0ee0ce40528a9a9",
+      "dist/server/_next/static/route-Bue5Z4rj2.js": "7bd0f6f34130c4a8432fd1a7d0d928840b1552c9dd5ebeec3262903fee5e3859",
+      "dist/server/_next/static/route-CZvt-1qS.js": "b30ffcb99a4d5974486029a58609aed216506d079e4777b2bfc0a2563ef047db",
+      "dist/server/_next/static/request-discard-CzO4ENa9.js": "ce8a022d54777bb22d3b090123fdea1470ccc62e85d31a547d31a062d2fa5a10",
+      "dist/server/_next/static/app-page-stream-CG3QrqHz.js": "9b9fe5e26bd54fbad1650e7510ca06fe13b340308de2bef4a483447a2ec774db",
+      "dist/server/_next/static/route-C1Wya3Zy.js": "a4c160b7c86196148e0c6587a93ce5bcd380f6e6fcb4c4a2bd73017499666af2",
+      "dist/server/_next/static/route-DzI7xwjd.js": "00a859a4a46e6e76beca6e9364d19c13d0bd6a3a7354cf70e097a08506345855",
+      "dist/server/_next/static/routine-read-guard-BxNuY2gs.js": "d841f05d6cbfaad8fa7ab223909e668bc63072bcae465ebe3e412ee972ee4408",
+      "dist/server/_next/static/route-xQMESF3h.js": "6d030a2a3c9576c5bffe3101ae41348acfca0bf55b5b904e91da1983622af1f8",
+      "dist/server/_next/static/rsc-B0J1KoYu.js": "a3c9c7b864796f21879ccf65388cfece0f5683f7f2248d2072556104b88f56e9",
+      "dist/server/_next/static/route-rea7u5ho.js": "e7274136124bfa4cc1adfe47079072faffd149bd23226c4a7dfdab1d3d29ea2b",
+      "dist/server/_next/static/alert-delivery-server-BCp8x8Pr.js": "87925639788df01f4aa9eafc87f97cc2ff76a6df5d8d9351bc0705b1aefa9540",
+      "dist/server/_next/static/route-DopTPeDQ2.js": "8e18f6b4dbc5c7b6ccc7c3e5c595242e91cc7fbbd4a90d58372b76e15526e7ea",
+      "dist/server/_next/static/mis-callback-CwVUNNUH.js": "c3d8f407c1a9936a1d0208b817c3fb962da78182a642ae0545cdf2a36e794a8f",
+      "dist/server/_next/static/route-C2LvNkQE.js": "fe87db613b5265a5f745d6809f4442fc2e93493a2c43332958ea3082043aed13",
+      "dist/server/_next/static/route-DU5_LUKx.js": "a46658ab7ea78c606e3a3c7aa58efd36b1e5f098368cf08495159a63b44b0091",
+      "dist/server/_next/static/route-4eGIcqQn.js": "45f3eaf0ac597d08a4d80773a3779e9527b117d1a5ba6eaf30b10c4eb1c698be",
+      "dist/server/_next/static/route-D2D9ql1-.js": "33f98ed18a3f9bba1db5fd6ea87fb84b0bc5fcb19457d525f2139a1015e45cd2",
+      "dist/server/_next/static/page-CwQJLec7.js": "5de86acfe141263c29941771103dc24d51337bf8dc27808d5d8bc8e8de4d8f4e",
+      "dist/server/_next/static/reporting-completeness-DVmUuRsW.js": "592f3e70e0996b1b4fd1b8ae6e96573732837895cf8358e3111d352a4393c3f7",
+      "dist/server/_next/static/app-route-handler-dispatch-tfMonZN1.js": "6f7b7c82411aa16fe1cbdf75cfe93c899ffdb1da5ab197edca682237effa6e4e",
+      "dist/server/_next/static/route-4W40GM4P2.js": "dee9d0cf32e72fe197d194954dd80e445a36d7972eb15d176eff295063750c07",
+      "dist/server/_next/static/route-BnbfQxKA2.js": "df651bd46e174790ccccdab489f70429d1505325deaab2b82951d3ea12c27369",
+      "dist/server/_next/static/route-C_ZpTEQY2.js": "12b7c1f77c1bf4fd802fd62841358325d0869e7f906629633360c5eab3f3bf35",
+      "dist/server/_next/static/record-import-server-BGMIo-PC.js": "18644d52836bec68843f53339e938b31550db11131ba9ff268fbda6536edd1e6",
+      "dist/server/_next/static/route-DFYynPae.js": "6d1fb945b7780e1652bf9e2a1cfd98d7e683e4b81f8aa8199abb5c991a19908e",
+      "dist/server/_next/static/route-16IIfVMU.js": "c388a85cd77d3833e11ca03b9181d9d773732d584d4c882f15efd092236e9ae2",
+      "dist/server/_next/static/route-CDIlq3Xo.js": "c6bc0704ea0a49c06c4547a6ebb8f06aed76b053a6d4cbba9e8602b7115bd0f3",
+      "dist/server/_next/static/route-opcZMK0y.js": "941a82117a8aaec002d7e5a88468a44abbc68005f7defe03ec3e520faaca76d5",
+      "dist/server/_next/static/page-CgKkB6MJ.js": "546e0d3a7dc175faee54ee8718811a4c86449d06a5c86567cd83fa41a4325db7",
+      "dist/server/_next/static/route-BZMalyvx.js": "83b8d810556de7be3250a311bfe47150eda9506101f73c188a6bfee1e2b0b01e",
+      "dist/server/_next/static/patient-directory-server-Djh0eCzG.js": "ac7a06ac7cacb5110aba9f9edd0e5187ac6ac6f94693dd931b0f5a29477d63ca",
+      "dist/server/_next/static/app-page-cache-t8u7WJTx.js": "c284846bd1241c61aecdee1416296e9dec7fd3dfa549c86ded949dc43e719ab2",
+      "dist/server/_next/static/indicators-server-DDfh58Je.js": "5e7d28edaad41dd3a03391fafa2fab9eeb00ccedd2d5c0999252b6f4687d80bb",
+      "dist/server/_next/static/media-storage-ClByeXd8.js": "9c09da89f634250acc1831c268b33390a62f200f4ab773b07e83d8e646707ffe",
+      "dist/server/_next/static/route-BjMNNuP82.js": "68ca7e268965553d948f58f4b8cef4d57262ac3700928d65cafdd7971cf2b180",
+      "dist/server/_next/static/work-burden-server-Bh-XlSOg.js": "c17a32e5b286a5337af3e99c90392210756469b5f834d5ea2eae885117ded88c",
+      "dist/server/_next/static/route-zkVwQBkk.js": "3936dc7657c35f37eee8a52d84f207552716471e0b8c3684efc07fa2b24fcbdd",
+      "dist/server/_next/static/css/index.YeoBmIFq.css": "6e205f78444e8354e90910c54abedec4232e0e56dc97faad7fd430c99abfcd42",
+      "dist/server/ssr/saha-bundle-provenance.json": "fdab11de354d2919a31991447fbb7483c90bcd0e6ee5208f6e5ed5aeabe2f097",
+      "dist/server/ssr/vinext-server.json": "224ee5da584145944a3535e6cfdc278a2538826cc0052a775b73277c5635badb",
+      "dist/server/ssr/index.js": "231c39b491bcb9beca273e3a41b6f5d2075dfd6bcebf6c630476d496931ec3ad",
+      "dist/server/ssr/vinext-client-assets.js": "073256f957313844d9fd285335df1405b07f6dbff4fcc2f62b501f12fb673c81",
+      "dist/server/ssr/__vite_rsc_assets_manifest.js": "d2df206882835018e31b2cb1b5f0e118235b0f7dc3b9bac84147d8d9019c37c5",
+      "dist/server/ssr/_next/static/local-registration-DSbT1FNj.js": "5c455bd848456c234a351a9e3f3de63ce848346d884a27aa9f27be194e3d4154",
+      "dist/server/ssr/_next/static/layout-segment-context-D8voCBhh.js": "1621400fe5e17f387c4d38c41080771328053992ebc7c01f43b5ea78225580d6",
+      "dist/server/ssr/_next/static/referral-rules-a0d5wpu1.js": "11cad6ec0421bc33cd5b8f33c66a6138267044a6d31942fe1564350c5bca4f66",
+      "dist/server/ssr/_next/static/error-boundary-e0OXfy8O.js": "013dad3c0ea62859d75ef290703dc2547d9df0b1222d9235cc9c6011c5b1d806",
+      "dist/server/ssr/_next/static/workspace-C69C-4oi.js": "417e03f7b82420901b21d66ce473f0303e3e82a8ce996ded93c2de3be796ca8a",
+      "dist/server/ssr/_next/static/routine-visit-CtsC4ttk.js": "8262078b410ea2573cd3475bc03f9640b7d1c5ef5412818ccf3dcc4c060fa452",
+      "dist/server/ssr/_next/static/indicator-registry-panel-VnXKDFWc.js": "70d3d989aad69ce9ead8ddbc8e73e195e0d6f0af667331809b6f765548249f51",
+      "dist/server/ssr/_next/static/frontline-capture-C1QcELS_.js": "5735bbd6847ecdd5b6250ecb64b7e8603ccd59c5cb51b0168bfaefcac71f33c8",
+      "dist/server/ssr/_next/static/streamed-icons-gA-FlRK-.js": "bc2f0e070a49732231e8516fd3b78f49de63dff63b5d27db4b5b5f7ea2a4b228",
+      "dist/server/ssr/_next/static/app-prefetch-fetch-queue-w-fVQsK6.js": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dist/server/ssr/_next/static/page-B7kJ9wxx.js": "d8542b97259ce8a9af600c6879945edef480fecdeb6ea35abd723a6b8227ecd6",
+      "dist/server/ssr/_next/static/page-BRtEksU-.js": "8f1a204061b3ddd4bd2144225c3a17b66759e4d4f5c41d603b5afc2fca8a96a6",
+      "dist/server/ssr/_next/static/app-router-scroll-DKSVvT2N.js": "8aa68c48f347896ce1bc31ef186746a7cd9ae043f3e4e39a3856f13d1061bb3c",
+      "dist/server/ssr/_next/static/reporting-completeness-notice-5NVFRU7K.js": "ae7234781e92558191b6b3e9c2d8c61adb0d390f53cbd511860de21a907773cf",
+      "dist/server/ssr/_next/static/static.edge-B-gWcNg5.js": "9aa4706e79212b5ce4072eb3d7600afd525dc33bf2f7a66f64a94ffbc9fd7149",
+      "dist/server/ssr/_next/static/programmes-DXev2tKV.js": "53d3b7edc2e8e320b4e33876175bd9caf7752c684e4355a3fd78dd1c2c837c17",
+      "dist/server/ssr/_next/static/today-BiiUSkXv.js": "09ed898c4c660b7f0c332af9342c73bd685bc0e9f75d1cf4ebd1b1358a7a4eb1",
+      "dist/server/ssr/_next/static/access-B2pgS-bT.js": "c747af35f4e661081616add8b6fe8749fe9f93c9f631b93bbf0e1d96ea2b0d6b",
+      "dist/server/ssr/_next/static/select-C2rzH3bP.js": "8ff755225ad30bd9df1c05b9b38774cbca93cd4cd2046e7c1abbdd3576e2aee3",
+      "dist/server/ssr/_next/static/page-W_Pv56vV.js": "3c8f1a5bdb5df5a64eb5296324dd1300cb52eb3a52df17f0f45be53be0033c39",
+      "dist/server/ssr/_next/static/css/programmes.CaW0-nlR.css": "3f2d48bf5242fe9c03084d9dc6efe7fc5882bc5a194f4625f541f0a9a6a4391d",
+      "dist/server/ssr/_next/static/css/workspace.BpRC43vr.css": "409c05314c3d086974b57aa4b473ec8f3fd179dc96cd8d90dd7f25106034762c",
+      "dist/server/ssr/_next/static/css/routine-visit.BHynHarv.css": "d0fc13f9f671c3ab35348b020f1f980f10d3afe44a1ff09ffe2e8c27ec807a8e",
+      "dist/server/ssr/_next/static/css/today.DZq1cVxx.css": "3b5bbf46046832d8aa0c17a7792601ebf7f77598633cca33e9e5c92884e55c1c",
+      "dist/server/ssr/_next/static/css/local-registration.DmWGIvcJ.css": "091c11ab76eadc9924fc68407ab6354231f5017a8d673f030460c71555094713",
+      "dist/server/.vite/manifest.json": "e2890294f9d3c7f58d802e50c4fd91361dfca7418a3dcdc4d2c6722a00bbbf7a",
+      "dist/.openai/hosting.json": "68d6971fc3b2ade173acbdd6c99dc133b46723a9c80995d77fea4e1f010f351c",
+      "dist/.openai/drizzle/0007_households.sql": "9e7969af8750530819f3184a36f3fa4e65cbcad9afae16dad3febd6f76f8fb55",
+      "dist/.openai/drizzle/0020_device_work.sql": "f12c07f8698406fa354735b7d1393f648dc29b6150da51fdd8b0ebf67bf746c1",
+      "dist/.openai/drizzle/0008_caseload_transfers.sql": "79505896f6998e68976fce2039ed019dcc64f42be3d42a4bfd026d8b4dccf114",
+      "dist/.openai/drizzle/0004_freezing_scarlet_witch.sql": "12002e1afdce4461b293e33b62bb59e867c674350168dfa2e40f8e5848217c04",
+      "dist/.openai/drizzle/0021_work_burden.sql": "29901d522ebe932c75780d8d7c9588e034737a056e772729e82148c05734a223",
+      "dist/.openai/drizzle/0000_handy_blockbuster.sql": "2236e64f6447dbe48fbb36e4d3a7244dd03cf39cdb7123ab5c6e83f573defce6",
+      "dist/.openai/drizzle/0024_registration_wire_receipts.sql": "17a610fa08bf46f06a056b8c69d90db0accbc69ae9bc935e4e8d76b47e67206a",
+      "dist/.openai/drizzle/0002_petite_marten_broadcloak.sql": "f6af8de70b458aede86cfd9e60339fdcc2f5cfc3844b21281994f52718502f55",
+      "dist/.openai/drizzle/0010_rights_requests.sql": "146897ace5fafcd8a06d6c0c9ca8a587e2c690e7b0f0b7fd868e7cee93dd2b4c",
+      "dist/.openai/drizzle/0005_breezy_killraven.sql": "dee0b347e61d9e4105476fc22b28f496c28cbb15b86d8958f6736db5417ca03b",
+      "dist/.openai/drizzle/0011_retention.sql": "2a95cd06b7fd881a823ff8ddff3971ca3c43108305afdc548de04e0c11ca74cf",
+      "dist/.openai/drizzle/0032_installed_pack_transition.sql": "5a0a8999355222ffe4867ac30ef6a138d365c9f119cd707b999288de17536995",
+      "dist/.openai/drizzle/0022_registration_device_work.sql": "cbfe4dc10988e175c61cddd6ca7fbf0f974c2dc474ad16df23150eeba2c999ac",
+      "dist/.openai/drizzle/0027_indicator_figures.sql": "272ed0cdabacc87f91dd1ee48ca13e992a49e808e38dfb450ae5892fd41baaef",
+      "dist/.openai/drizzle/0029_object_media.sql": "dc6d79a38a3fa6b0d15f2843deda013c65f9e64bb8b445614a9667607d3f8a09",
+      "dist/.openai/drizzle/0019_availability_samples.sql": "93f9914cf9b01341c8f26315463ae9a31bb8c836751025d4ab25094d8e4591d3",
+      "dist/.openai/drizzle/0003_sparkling_red_wolf.sql": "2822e27e9b56cca50e9e3ced7195618825a36f0ecf51507d35b75ceff349811d",
+      "dist/.openai/drizzle/0015_notification_channel.sql": "b4a69051fe3c469a424b062fb0b81a86e1c28eaa7301d8d410981a3b7f0ce792",
+      "dist/.openai/drizzle/0006_patient_concurrency.sql": "aec549f8f38528a2ff556a76e1e3590abadaee7f3fac3c22ebba982e1d068cc3",
+      "dist/.openai/drizzle/0025_clinical_source_documents.sql": "979c344af89901879c39c377b4af335187ec8181bbc616f138730f8f55ce7dec",
+      "dist/.openai/drizzle/0013_audit_chain.sql": "f24a3d74d373b1629b6120459372558c407224585c1568b33af01662c3ade402",
+      "dist/.openai/drizzle/0030_reporting_completeness.sql": "b5bb2ac7f8a19e7a78318105117dad9e07c923fb118260ee569f7798ed8a47d4",
+      "dist/.openai/drizzle/0028_indicator_figure_disclosures.sql": "bbd7962a8a836e7c43eefceb41f6797814af75908217047b9f689a7edbf247f8",
+      "dist/.openai/drizzle/0012_media.sql": "cae1e5b2f698314d9efa7e69560347d4fae4d8247ef6ea20050dd328880abc12",
+      "dist/.openai/drizzle/0009_identity_cases.sql": "2a9bee76aaf7a4e4cebf17a8f919bf516d9f94cfdf6fd1fd775e8ff5fcc0fbab",
+      "dist/.openai/drizzle/0014_alert_delivery.sql": "7c54e02a59ef40099b3054c48a7ff0a29161008f2c6ed9c8e65546b172c24eb9",
+      "dist/.openai/drizzle/0031_installed_pack_work.sql": "17c9cefabde9885d6ab292bcc06ec376eb8f999a5919a33ed923806e4282b676",
+      "dist/.openai/drizzle/0016_scheduled_cursor.sql": "6d9a557b92fc0c330923bf050cc5f1e5ee67969f9f9f09295dc611e4472a4528",
+      "dist/.openai/drizzle/0017_audit_time_indexes.sql": "5f422573b8bb220d31b748121d393cbc34168a4ff3e02170f5399df471f40305",
+      "dist/.openai/drizzle/0018_abha_review_reservations.sql": "e6fbb3528dffc83ebc6ce8d8c842e8530ea71a85f5ab049a3d68b2c37a69be15",
+      "dist/.openai/drizzle/0023_offline_opens.sql": "d202d2b2ce30d50fc95f757bab4a5cc45e2a51c811bcc2db94d3da8476eb20a1",
+      "dist/.openai/drizzle/0001_tearful_victor_mancha.sql": "139f64838d42486d5a2c0563eca6ad65d9a64db71733fb81155d345189f76ee0",
+      "dist/.openai/drizzle/0026_work_burden_sessions.sql": "18449d9ba061f220a81da8ae49465683149c1195f89ef299fc242baa4b741ffe",
+      "dist/.openai/drizzle/meta/0010_snapshot.json": "349b52a69c145ece1aa8fe7389e47cb890b5503ac9982ec3ab828463eafc92dc",
+      "dist/.openai/drizzle/meta/0007_snapshot.json": "5c6c66aa7b2c0530f7ce34b0d4cab274be72f7e858ff6a84f904d5d0fadc89bb",
+      "dist/.openai/drizzle/meta/0003_snapshot.json": "835fb30a8ee69e4a12cb00ab8a174a6990d12f2c2d3d01b248cb586fba45f537",
+      "dist/.openai/drizzle/meta/0014_snapshot.json": "9dffdfbbf300950cc29ca2f34312f4f31d6234b04acd5ee2b627e7b479dec04c",
+      "dist/.openai/drizzle/meta/0004_snapshot.json": "9ce46a597dfc30a0a1217f954d6942d3debdefd2cd05992424a6202df74d8053",
+      "dist/.openai/drizzle/meta/0013_snapshot.json": "9cf47f742b4842d23c92f20f08e6b28b23e63927b193d84f6ea5292caaf61ef0",
+      "dist/.openai/drizzle/meta/0017_snapshot.json": "0facad2e166b51cbac49bfd2fffc969b0904911ca23ea7781a7c36c209662bd1",
+      "dist/.openai/drizzle/meta/0000_snapshot.json": "ce4764e65de8c626f0fae936faddd0ac93671246f43fdd0af368284c5793c05c",
+      "dist/.openai/drizzle/meta/0009_snapshot.json": "189e067cc936c3d2fb4a62b2ead8a578226cedbf16928f03a1e0c9ac00aa45bc",
+      "dist/.openai/drizzle/meta/0008_snapshot.json": "5b6743d72f817ef9056a3137c171b95d27cc99075e5d2d45022da41bc3a82c5e",
+      "dist/.openai/drizzle/meta/_journal.json": "f1c8fed537762c58f6d71adb871776e27d16dac641d71b98f20ca0f9115ded9c",
+      "dist/.openai/drizzle/meta/0001_snapshot.json": "4674eb6cf4d1b0d4ec356a2953a07341ecbc1d0f1902bdcd7840bcb4a0f1a1bd",
+      "dist/.openai/drizzle/meta/0016_snapshot.json": "f986915c73f0683dcbbad4577c56c065a65d9e5cee8c4a9b6464820e01009d6c",
+      "dist/.openai/drizzle/meta/0012_snapshot.json": "62bedfa2bb9326818aa2d1d796eafb15680d9cfa61762f88cf02252270e987f9",
+      "dist/.openai/drizzle/meta/0005_snapshot.json": "45172e9a187eb9e7830568d24446fa4b45112042336ec80b57f7ffc31f07ed39",
+      "dist/.openai/drizzle/meta/0015_snapshot.json": "8e1a4f15b606fedd63f48b7e57bd5a4cdbdf0e19c45ba3802caafd2d630ef21a",
+      "dist/.openai/drizzle/meta/0002_snapshot.json": "862343157adacf82004c4ac1d89eb0f63a362674779422985cb1085989f7548e",
+      "dist/.openai/drizzle/meta/0006_snapshot.json": "59f4bbc28f9f2ae5b6d4f26efed4127161d62f379d7ea0d5506e5c3f5724d9c6",
+      "dist/.openai/drizzle/meta/0011_snapshot.json": "29a181f32892084a1395651295b335053764c85018aaca1c9cfb10072efa7a9e",
+      "dist/client/saha-bundle-provenance.json": "0c6dc0374bf2c318b3ff1d8d07887dc1198a1e3ce128f09c3e1b6cc3ca090d6a",
+      "dist/client/_headers": "2148fb62669525f5091532d36d4a48a8da95b08a5a797bacde75d2fe981351bb",
+      "dist/client/app-sw.js": "5f9013c479277b53d602c11593ffc9e479ef586d1aae60a6a4a648be43f0e6ba",
+      "dist/client/app-manifest.webmanifest": "6d76a7b8b15ba50b757afb53ca9e6e5b9d0d7130a6d6958789d3b6a3821d1705",
+      "dist/client/.assetsignore": "14ce8d5101f6d8f172242053466d44f5e2cd622dee81db53c14bd445c25d1942",
+      "dist/client/vinext-client-entry-manifest.json": "a21c5dd155c162eed2f51a3f4f7220cd4b5fce1403c3d3f1e84a364820b99caf",
+      "dist/client/favicon.svg": "649be456cbb30645cfbf42fb265fdcfbddc1629db4f885f93aedaeb9fe58dd01",
+      "dist/client/_next/static/css/programmes.CaW0-nlR.css": "3f2d48bf5242fe9c03084d9dc6efe7fc5882bc5a194f4625f541f0a9a6a4391d",
+      "dist/client/_next/static/css/workspace.BpRC43vr.css": "409c05314c3d086974b57aa4b473ec8f3fd179dc96cd8d90dd7f25106034762c",
+      "dist/client/_next/static/css/routine-visit.BHynHarv.css": "d0fc13f9f671c3ab35348b020f1f980f10d3afe44a1ff09ffe2e8c27ec807a8e",
+      "dist/client/_next/static/css/today.DZq1cVxx.css": "3b5bbf46046832d8aa0c17a7792601ebf7f77598633cca33e9e5c92884e55c1c",
+      "dist/client/_next/static/css/index.YeoBmIFq.css": "6e205f78444e8354e90910c54abedec4232e0e56dc97faad7fd430c99abfcd42",
+      "dist/client/_next/static/css/local-registration.DmWGIvcJ.css": "091c11ab76eadc9924fc68407ab6354231f5017a8d673f030460c71555094713",
+      "dist/client/_next/static/5fae32a1-d04e-4874-9c4b-ffde381d7ac2/_ssgManifest.js": "653f3e53e89b4f8548ff86c19e92bb3c6b84b6be7485a320b1e00893ed877479",
+      "dist/client/_next/static/5fae32a1-d04e-4874-9c4b-ffde381d7ac2/_buildManifest.js": "47f02b34be6dc481257b6efce4c19e19111f37ef5c437f8ffed44f0da97fa9bb",
+      "dist/client/_next/static/chunks/programmes-zH0QQ3Hz.js": "0a966407cf372a88bdf48e9bb1b9caae9890273c04051b74ada9c89f975f1aa9",
+      "dist/client/_next/static/chunks/app-route-prefetch-policy-BCqxp-TX.js": "ec148f3942de021b030042168be7e3f709b2100cbe70a8436696b1c24a8454d7",
+      "dist/client/_next/static/chunks/page-B-IP8O1n.js": "7accc085c4fa3f49cf9e9d283efe154d27a301ccd56f2a4b02e0741eb52f49b8",
+      "dist/client/_next/static/chunks/frontline-capture-COBmyWUQ.js": "5735bbd6847ecdd5b6250ecb64b7e8603ccd59c5cb51b0168bfaefcac71f33c8",
+      "dist/client/_next/static/chunks/workspace-Bgbn5B6E.js": "ccb5f1fd52cae2f094bbe089fd595a75015c46d6ca7e7f0557c1bca4b3219fd4",
+      "dist/client/_next/static/chunks/rolldown-runtime-C60lm6uB.js": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75",
+      "dist/client/_next/static/chunks/today-DkVqdF5w.js": "232774eedc553aa62a927cd2d1e6c2df184a4603ad0eb6a8e2517919a718ff32",
+      "dist/client/_next/static/chunks/routine-visit-D9488wQ-.js": "0342c7cef18f64bd2ca109baf1862472898afaca6b3862f6847f7f7a483de5a2",
+      "dist/client/_next/static/chunks/access-CL1x6D79.js": "ac7233fbadf528aa81ef09bf5083acf7fc715661f9446768a5d733af6fd117f8",
+      "dist/client/_next/static/chunks/referral-rules-B5HhY3be.js": "11cad6ec0421bc33cd5b8f33c66a6138267044a6d31942fe1564350c5bca4f66",
+      "dist/client/_next/static/chunks/index-B0GmmCwt.js": "58cbe5676d154482b3521c6463ade7a504637bc10f563cbad78b535ac441cf15",
+      "dist/client/_next/static/chunks/local-registration-BKM2pN22.js": "d24400e91ed878d2be40d3b8cda6f8202fb428aaa7ed421e272598f9963e8714",
+      "dist/client/_next/static/chunks/layout-segment-context-2KDCBXR-.js": "1d07336f13dfdd54df08b27cc3c15696543c0cdb390d02c64baa2caffe50d788",
+      "dist/client/_next/static/chunks/select-CIenQlod.js": "d12d05e6c3b11188f8f945f0adb58841786f1b04d1c7be88c795d3a8f5da8972",
+      "dist/client/_next/static/chunks/indicator-registry-panel-DuG2jGub.js": "689b78c44ae587d73775b3a3314cadefed2660cc1f52e2de7fe6dfc99c65fc63",
+      "dist/client/_next/static/chunks/framework-YrLwah_k.js": "7521acf31051421c2647a502bf4246d2cbb1edfcb393f380f51254f89fb64fe8",
+      "dist/client/_next/static/chunks/page-DwuA-3fy.js": "0a187f5691d1bad64009c83cf0249b389600d75c1da891a5384420af6d7e61be",
+      "dist/client/_next/static/chunks/streamed-icons-DD5kJDsy.js": "d641b08d31c53a3dfcd128b1212aa4bded8cd12f4d486fe886d5b8269a51339c",
+      "dist/client/_next/static/chunks/page-fiL5vf7G.js": "3a6f5bb2c9e69010a69843388fabde340b33757ef20ae141e0c6e7b1b087f51e",
+      "dist/client/_next/static/chunks/reporting-completeness-notice-DreO-6_O.js": "0594ba84551f98d9f39fadeb9b9c4ac6abfa52495bcd3ae794b658e5d9bd25a8",
+      "dist/client/app-icons/icon-192.png": "39720f975c99a98b633f410b57792bd88525c695681c63fbdccfdb3b8b267d9f",
+      "dist/client/app-icons/icon-512.png": "7c4ebd0fbf635306073ed3a05bae73ab4ed47518eaf9b3713dddff7c11cb3730",
+      "dist/client/app/offline/index.html": "e4103286a524dc8e5a9208bf10c0f850161df408da88d9d5754e0945a1392776",
+      "dist/client/app/offline/style.css": "69c11f8d394096307bc65ff55de57ace2e255f439759c526c18998e363a5fc52",
+      "dist/client/field/index.html": "b2588f2ba9c76614ecaa9a972fbdbf08510d8139b776523c29662bb34dae1938",
+      "dist/client/field/guided-capture.js": "b492484cce7405ce46b98f35bc6d01621a10173a524becfa2f119f134491d1a7",
+      "dist/client/field/sync-receipt.js": "7f89b65c3172c915655919383c1e97121f36a49b352b864fd61c267968483386",
+      "dist/client/field/device-work.js": "47f177afd9723eb82c75036813135085c01d165ccabeb9c84ce0999e07ac248b",
+      "dist/client/field/offline-opens.js": "810669622a897d6c51c0506eefa62c34701795633dc833d126e5e563200b5a66",
+      "dist/client/field/registration-privacy.js": "f102f8b63350c45a47cedbef9382e661c1a7b0d1ec04f401617ee16809b3dedb",
+      "dist/client/field/burden.js": "ad52c619243c53a262709b855d072981f06ce6738e64e06184ae8b4567c1bbda",
+      "dist/client/field/burden-capture.js": "9f75bc39855eafddfb2263645f6fa0c5e8210b67b3fc0d9947de978e6179d646",
+      "dist/client/field/style.css": "3b53a1181a547be785df1bcb5dd61e0fba41d8743bdc014e8f4e71c4fa619aba",
+      "dist/client/field/vault.js": "67c5135c4d758e1138fc710e73ecaec6ca43a092e2e43ce6c16b1ee65f587210",
+      "dist/client/field/app-grants.js": "e843d0964da8d9fa5593a2bb5f24e9dc38798df471c7ae12444da5f18fc040d9",
+      "dist/client/field/app.js": "58b1ea093958d1a4def8f679af8b0de04c59b18fab231ff01ae22692ae5f74dd",
+      "dist/client/field/sw.js": "37f3e6254aa78db8f66c34a7c8cc6a47326dc89a6e64acca2de285613e00e995",
+      "dist/client/.vite/manifest.json": "e960aafba4c3a90ff278c58bddd2b9aa3d288263a67b076597fc62643fd2703d"
+    }
+  },
+  "counts": {
+    "pure": 43,
+    "native": 56,
+    "originalGuarded": 81,
+    "formal": 0
+  },
+  "limits": "Currentsourceonly narrow clock correction, independent review and rootmetadata pending."
+}
