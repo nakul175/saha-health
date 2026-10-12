@@ -1848,3 +1848,10 @@ Exact2e18 complete CI38134954151 fails: units208/10895passes/14failures in uncha
 11 October2026 — Native-control CI51f90 prerequisite correction: permission63/calendar97 pass, original185 browser assertions not qualified because dedicated job lacked Chromium (installed no count/device32+1failed). Add existing pinned Playwright browser install before unchanged controls; no criterion lowered. FullCI/current-source controls pending.
 
 11 October2026 — ff31 complete engineeringCI38137184201 SUCCESS:208units10910/0/0,147workflow7691/0/0,9finalsmoke/security/UAT497/0/1(inheritedmedia skip). Dedicated63/97/121/64 +12/15/400slot controls pass. Add unchangedoriginal94backendperformance/4no-inspector-memory CI qualification; actual98/newheadfullCI pending. No criteria or originalbaselines changed; slow-profile and independentreview/livegate pending.
+
+
+## 12 October 2026 — Strict finite signed-token validity claims
+
+Untouched predecessor7 unit/23 HTTP failures retained; new20 cryptographic and47 actual Worker checks pass,42 refused routes/all60native tables unchanged. Original identity19/security29/membership30/service10 pass. Build/types/catalogue and separate bounded review pass; full privileged MFA/recovery/formal/site criteria remain open.
+
+Scope/evidence boundary: [Strict finite signed-token validity claims](docs/current/next50/IDENTITY-20261012.md). Local results are not exact-head fullCI or full-story acceptance; no merge/deployed version claimed by this increment.

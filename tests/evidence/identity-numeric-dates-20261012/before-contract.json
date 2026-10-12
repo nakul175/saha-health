@@ -1,0 +1,100 @@
+{
+  "suite": "Identity finite numeric-date contract",
+  "requirement": "BR-ID-03",
+  "source": "lib/saha/identity.ts",
+  "passed": 13,
+  "failed": 7,
+  "checks": [
+    {
+      "name": "finite future expiry and absent activation",
+      "status": "pass"
+    },
+    {
+      "name": "finite past activation",
+      "status": "pass"
+    },
+    {
+      "name": "fractional finite expiry and activation",
+      "status": "pass"
+    },
+    {
+      "name": "exact expiry allowance boundary",
+      "status": "pass"
+    },
+    {
+      "name": "exact activation allowance boundary",
+      "status": "pass"
+    },
+    {
+      "name": "overflow expiry",
+      "status": "fail",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   displayName: 'numeric-date@example.invalid',\n+   email: 'numeric-date@example.invalid',\n+   fullName: null,\n+   provider: 'cloudflare-access',\n+   userId: 'access:numeric-date-positive'\n+ }\n- null\n"
+    },
+    {
+      "name": "negative overflow expiry",
+      "status": "pass"
+    },
+    {
+      "name": "missing expiry",
+      "status": "pass"
+    },
+    {
+      "name": "string expiry",
+      "status": "pass"
+    },
+    {
+      "name": "null expiry",
+      "status": "pass"
+    },
+    {
+      "name": "expiry outside allowance",
+      "status": "pass"
+    },
+    {
+      "name": "future activation outside allowance",
+      "status": "pass"
+    },
+    {
+      "name": "overflow activation",
+      "status": "pass"
+    },
+    {
+      "name": "negative overflow activation",
+      "status": "fail",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   displayName: 'numeric-date@example.invalid',\n+   email: 'numeric-date@example.invalid',\n+   fullName: null,\n+   provider: 'cloudflare-access',\n+   userId: 'access:numeric-date-positive'\n+ }\n- null\n"
+    },
+    {
+      "name": "string activation",
+      "status": "fail",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   displayName: 'numeric-date@example.invalid',\n+   email: 'numeric-date@example.invalid',\n+   fullName: null,\n+   provider: 'cloudflare-access',\n+   userId: 'access:numeric-date-positive'\n+ }\n- null\n"
+    },
+    {
+      "name": "null activation",
+      "status": "fail",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   displayName: 'numeric-date@example.invalid',\n+   email: 'numeric-date@example.invalid',\n+   fullName: null,\n+   provider: 'cloudflare-access',\n+   userId: 'access:numeric-date-positive'\n+ }\n- null\n"
+    },
+    {
+      "name": "boolean activation",
+      "status": "fail",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   displayName: 'numeric-date@example.invalid',\n+   email: 'numeric-date@example.invalid',\n+   fullName: null,\n+   provider: 'cloudflare-access',\n+   userId: 'access:numeric-date-positive'\n+ }\n- null\n"
+    },
+    {
+      "name": "array activation",
+      "status": "fail",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   displayName: 'numeric-date@example.invalid',\n+   email: 'numeric-date@example.invalid',\n+   fullName: null,\n+   provider: 'cloudflare-access',\n+   userId: 'access:numeric-date-positive'\n+ }\n- null\n"
+    },
+    {
+      "name": "object activation",
+      "status": "fail",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ {\n+   displayName: 'numeric-date@example.invalid',\n+   email: 'numeric-date@example.invalid',\n+   fullName: null,\n+   provider: 'cloudflare-access',\n+   userId: 'access:numeric-date-positive'\n+ }\n- null\n"
+    },
+    {
+      "name": "key endpoint remains cached",
+      "status": "pass"
+    }
+  ],
+  "completedAt": "2026-10-12T09:39:26.346Z",
+  "limits": [
+    "Local cryptographic fixture only; formal recovery, MFA, revocation and hosted identity acceptance remain pending."
+  ]
+}

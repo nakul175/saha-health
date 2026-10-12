@@ -1,0 +1,956 @@
+{
+  "suite": "Identity finite numeric-date built Worker",
+  "requirement": "BR-ID-03",
+  "sourceSha256": "0513c7bc2aa4d26d4f1208f43b4450e650444cacbf9493222e8bd72fb84157bb",
+  "port": 21533,
+  "passed": 47,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "HTTP control: finite future expiry and absent activation",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP control: finite past activation",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP control: fractional finite expiry and activation",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow expiry GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow expiry GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow expiry POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: negative overflow expiry GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: negative overflow expiry GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: negative overflow expiry POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: missing expiry GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: missing expiry GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: missing expiry POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: string expiry GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: string expiry GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: string expiry POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: null expiry GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: null expiry GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: null expiry POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: expiry outside allowance GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: expiry outside allowance GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: expiry outside allowance POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: future activation outside allowance GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: future activation outside allowance GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: future activation outside allowance POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow activation GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow activation GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow activation POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: negative overflow activation GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: negative overflow activation GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: negative overflow activation POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: string activation GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: string activation GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: string activation POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: null activation GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: null activation GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: null activation POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: boolean activation GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: boolean activation GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: boolean activation POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: array activation GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: array activation GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: array activation POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: object activation GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: object activation GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: object activation POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "Every application table is unchanged by all refused requests",
+      "status": "pass"
+    },
+    {
+      "name": "No refused principal account was created",
+      "status": "pass"
+    }
+  ],
+  "responses": [
+    {
+      "name": "finite future expiry and absent activation",
+      "path": "/api/workspace",
+      "status": 200
+    },
+    {
+      "name": "finite past activation",
+      "path": "/api/workspace",
+      "status": 200
+    },
+    {
+      "name": "fractional finite expiry and activation",
+      "path": "/api/workspace",
+      "status": 200
+    },
+    {
+      "name": "overflow expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "overflow expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "overflow expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "negative overflow expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "negative overflow expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "negative overflow expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "missing expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "missing expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "missing expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "string expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "string expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "string expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "null expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "null expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "null expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "expiry outside allowance",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "expiry outside allowance",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "expiry outside allowance",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "future activation outside allowance",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "future activation outside allowance",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "future activation outside allowance",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "overflow activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "overflow activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "overflow activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "negative overflow activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "negative overflow activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "negative overflow activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "string activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "string activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "string activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "null activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "null activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "null activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "boolean activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "boolean activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "boolean activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "array activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "array activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "array activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "object activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "object activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "object activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    }
+  ],
+  "before": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 3,
+      "sha256": "adbacd1517b53e36c07b284379a00a3d31e8cf095792d4e7a713b87b0f9b1470"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 27,
+      "sha256": "d06f3a8ad8c05f0071bf8224080d4f41eece9936f653ae68e81a627ac9355b66"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 1,
+      "sha256": "4c77f96cbfbfe4f556e647df2d95056e848f05e48539cd27ca7fe004151a7f1e"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 6,
+      "sha256": "d3a442df0dff5d7d50c8fbbdc21d0eeb3e14ef3f705c203a31ca8b6ee84915f9"
+    },
+    "invitations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "legacy_migrations": {
+      "rows": 1,
+      "sha256": "2ec776fdfcb65c4b449719ab89f039c83e2f92d8cf2868456eb05466dd14aa3b"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 3,
+      "sha256": "745b96052628732f6f618818b765e7bd87995c541373bf5efd98e6ec22da6260"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 1,
+      "sha256": "2fa89cc7ed41400a1169f69636bd260f82dfbda1bf55a600a201d04a23d73b1c"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 6,
+      "sha256": "062919f78c27954a1686e86d70920eb300a3f7bcf278161c41ef7ec8ee898330"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 6,
+      "sha256": "499d3cf2a259837a32093223094fb865d61f3f6298693568209729472ec3314f"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 1,
+      "sha256": "6780a5e3f8ae52676b72d50cdce6021e377b95598ed1a4bb99a6491685e354b6"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 3,
+      "sha256": "2259159583b9b0962d289aeebbb8c470402bf9c125066ca1ef99f838cfe1a63d"
+    },
+    "teams": {
+      "rows": 1,
+      "sha256": "9270ef867ceda07ee1bbbac97c1bfeb4b1094e7b7d0cb1b0268ad0f386e26a31"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "after": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 3,
+      "sha256": "adbacd1517b53e36c07b284379a00a3d31e8cf095792d4e7a713b87b0f9b1470"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 27,
+      "sha256": "d06f3a8ad8c05f0071bf8224080d4f41eece9936f653ae68e81a627ac9355b66"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 1,
+      "sha256": "4c77f96cbfbfe4f556e647df2d95056e848f05e48539cd27ca7fe004151a7f1e"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 6,
+      "sha256": "d3a442df0dff5d7d50c8fbbdc21d0eeb3e14ef3f705c203a31ca8b6ee84915f9"
+    },
+    "invitations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "legacy_migrations": {
+      "rows": 1,
+      "sha256": "2ec776fdfcb65c4b449719ab89f039c83e2f92d8cf2868456eb05466dd14aa3b"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 3,
+      "sha256": "745b96052628732f6f618818b765e7bd87995c541373bf5efd98e6ec22da6260"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 1,
+      "sha256": "2fa89cc7ed41400a1169f69636bd260f82dfbda1bf55a600a201d04a23d73b1c"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 6,
+      "sha256": "062919f78c27954a1686e86d70920eb300a3f7bcf278161c41ef7ec8ee898330"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 6,
+      "sha256": "499d3cf2a259837a32093223094fb865d61f3f6298693568209729472ec3314f"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 1,
+      "sha256": "6780a5e3f8ae52676b72d50cdce6021e377b95598ed1a4bb99a6491685e354b6"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 3,
+      "sha256": "2259159583b9b0962d289aeebbb8c470402bf9c125066ca1ef99f838cfe1a63d"
+    },
+    "teams": {
+      "rows": 1,
+      "sha256": "9270ef867ceda07ee1bbbac97c1bfeb4b1094e7b7d0cb1b0268ad0f386e26a31"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "disposed": true,
+  "completedAt": "2026-10-12T09:42:44.835Z",
+  "limits": [
+    "Synthetic local key endpoint and local D1 only; no hosted sign-in, recovery/MFA, real provider, physical-device or formal acceptance."
+  ]
+}

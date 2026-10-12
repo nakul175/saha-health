@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "reviewedAtUtc": "2026-10-12T09:50:36.768628+00:00",
+  "sourceSHA": "9d057286d13ff5a5bc788c4cc046b1e8f0339f90",
+  "baseSHA": "22a271033eaa57e124a235fc615744928f1ac106",
+  "reviewer": "Independent programme agent /root/next50_programme, distinct from identity author",
+  "kind": "Genuine bounded source and author-evidence review, plus independent execution of20-case cryptographic contract",
+  "frozenContractSHA256": "0da76d34de7141cab5f63ed3186dfa4b3db48fd2d0ee6d4488076ada293aa334",
+  "changedFilePinsVerified": {
+    "docs/current/identity-numeric-dates/CONTRACT.md": "0da76d34de7141cab5f63ed3186dfa4b3db48fd2d0ee6d4488076ada293aa334",
+    "docs/current/identity-numeric-dates/VALIDATION.md": "b2304680a8beee3a1eac4b8d699aede2c3b644e841053ae433917cad7e261aaa",
+    "lib/saha/identity.ts": "0513c7bc2aa4d26d4f1208f43b4450e650444cacbf9493222e8bd72fb84157bb",
+    "tests/evidence/identity-numeric-dates-20261012/after-contract.json": "d1c43a98432ae4bbc4f054c0b4e137a889180494ce6d274bed9d9d23f643105b",
+    "tests/evidence/identity-numeric-dates-20261012/after-http.json": "0ea09dcfa1650b685351b9b38584881fd2ae385dc83ab0856ec7e453d56186e7",
+    "tests/evidence/identity-numeric-dates-20261012/before-contract.json": "0ce98812dbedff19e19a3ca3357ec75b97759e2b0a4ee351808e9f6faa9c7fe2",
+    "tests/evidence/identity-numeric-dates-20261012/before-http-default.json": "224975088f524717bf7f6e1aaf0ffae32661235c2433b5723de587666c87db41",
+    "tests/evidence/identity-numeric-dates-20261012/before-http.json": "36dcc5c2571d25cbce27599d135b47c25f6b3b2d0f923c24459a81a65e2de98c",
+    "tests/evidence/identity-numeric-dates-20261012/current-service-identity.json": "228fbf9b132acdf2af66509d60a714e125548661eca68061f9c20ba25205ac03",
+    "tests/evidence/identity-numeric-dates-20261012/manifest.json": "8d6a0187611651bcf76dbde11b43dcb08ea6162e3166ba06a5f74537adf75514",
+    "tests/evidence/identity-numeric-dates-20261012/original-identity-contract.json": "78c19f6cfff372a72ac9af812ab1e70311992b4094a0104be6fc344353033e93",
+    "tests/evidence/identity-numeric-dates-20261012/original-identity-hardening.json": "6c6c2af60e640e680d90c8176206e3a4687c4bca48f0941f0fca03341e6aa5ed",
+    "tests/evidence/identity-numeric-dates-20261012/original-membership.json": "929e73e1a98d33f2d2693a24e5171211f5d48ab303c8c25e7e839c337d77d310",
+    "tests/evidence/identity-numeric-dates-20261012/original-service-identity.log": "c60b0a27eb3cfa58f374c7958ff191c9c678df9d66204afef553c26750391ff0",
+    "tests/identity-numeric-dates-contract.mjs": "a94959e1a29ed3e8a1f2720b9afc059c6194752a249af18c7f3cc78946a1eb84",
+    "tests/lib/identity-numeric-date-fixture.mjs": "1dd40807bea99b67e494e86e9151cae5a6bc6ce4d66805501c4a15a7f05e3bdc",
+    "tests/nfr/identity-numeric-dates.mjs": "b28484c1c998e49cb9836ba968a058ace3eb7ef9de3de11de06f3d5e14d126f9"
+  },
+  "findings": [],
+  "verdict": "PASS for frozen bounded finite-numeric-date correction; no full recovery/MFA/CI/release approval",
+  "productionAssessment": "Only exp finite numeric validation and present nbf finite numeric validation added. Existing RS256/provider/issuer/audience/subject/email checks,60-second skew with strict inequalities, fractional values and missing nbf stay unchanged. Signed overflow and malformed nbf cannot yield a principal.",
+  "independentActualRun": {
+    "report": "independent-contract.json",
+    "reportSHA256": "cd481c9579f99f6e58fa05efe59703782f9f75882e0483b63c47e89394e05d64",
+    "passed": 20,
+    "failed": 0
+  },
+  "authorEvidenceVerified": {
+    "beforeContract": "13pass7fail",
+    "afterContract": "20pass0fail",
+    "beforeWorker": "24pass23fail",
+    "afterWorker": "47pass0fail",
+    "deniedRouteRequests": 42,
+    "allDeniedStatuses401": true,
+    "nativeTablesCompared": 60,
+    "completeTableDataPinsUnchanged": true,
+    "disposedReported": true,
+    "beforeFailuresRetained": true,
+    "defaultEPERMRetained": true
+  },
+  "originalObjectsBytePreserved": {
+    "tests/identity-contract.mjs": true,
+    "tests/nfr/identity-hardening.mjs": true,
+    "tests/regression-baseline.json": true,
+    "scripts/test-guard.mjs": true,
+    ".github/workflows/ci.yml": true
+  },
+  "limits": [
+    "Native source/diff/report pins and current compiled identity predicate inspected, but full run source/dependency/compiled archival custody is not present.",
+    "Worker47 results are genuinely reviewed author execution; only20 cryptographic checks independently rerun. No additional local Worker execution or hosting attempt.",
+    "Table comparison covers60 native application table row-count/content hashes, excludes framework internal underscore tables; it is not allschema/index/capacity proof.",
+    "No formal TC-BR-ID-03-A/B, broad MFA/recovery/live identity/clinical/domain/human/GitHub approval, full final CI, merge or staging qualification.",
+    "Central generated documentation/immutable baseline/native task reconciliation remain controller work."
+  ]
+}

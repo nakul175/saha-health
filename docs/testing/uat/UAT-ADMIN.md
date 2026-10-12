@@ -56,7 +56,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 
 <details><summary>What the build does today (assessment, current state of BR-ID-03)</summary>
 
-Slice 0c: identity sits behind a provider layer; Sites/ChatGPT sign-in remains the default and a verified Cloudflare Access JWT provider allows an institutional identity provider. Shared application passwords are absent.
+Slice 0c: identity sits behind a provider layer; Sites/ChatGPT sign-in remains the default and a verified Cloudflare Access JWT provider allows an institutional identity provider. Shared application passwords are absent. Bounded12October2026 increment: Strict finite signed-token validity claims; see docs/current/next50/IDENTITY-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.
 
 </details>
 
