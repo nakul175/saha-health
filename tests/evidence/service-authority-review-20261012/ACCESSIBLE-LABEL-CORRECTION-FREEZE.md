@@ -1,0 +1,3 @@
+# Prospective accessible label correction
+
+Frozen at 2026-10-12T19:43:54.249999+00:00 before edit. Actual owned002 response succeeded and failure HTML contains the complete index/notice. The label nests a select; its accessible name also includes option text, so the existing exact label oracle cannot resolve it. Change only to separate explicitly associated label/htmlFor and select/id, retaining the same exact original test oracle and every authority predicate. Preserve all28 passed backend observations, failed timeout, HTML and screenshot. No longer timeout, test relaxation or response substitution.
