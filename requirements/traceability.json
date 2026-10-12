@@ -464,7 +464,7 @@
       "sourceTextLine": 175,
       "implementation": "partial",
       "target": "R14",
-      "current": "R10 transfers open patient work atomically, records effective time and receiving-worker acknowledgement. Slice 1b adds bulk caseload transfer with scheduled effective dates, re-checks at application, bulk acknowledgement and a responsibility-gap view with urgent work first. Slice 1f applies due scheduled transfers automatically on the first read or command at or after their effective time, with the same re-checks under the scheduling steward's authority, exactly once under the organisation-wide commit guard, a revision and audit event per application and a held state with the reason when a re-check fails; and adds whole-household transfer, refused when any current member is outside the requester's scope. Slice 10a: a Cloudflare Cron Trigger (every five minutes, set in the hosted staging configuration only) runs a scheduled job that applies due scheduled transfers through the same all-or-nothing path (slice 6ae), at most 10 per organisation per run, oldest effective time first, with the scheduling steward's authority re-checked, a revision and audit event per application naming a system actor, and a refused transfer held whole and never retried by the job; where no trigger is configured, application time still depends on use. Verified in contract tests and a local scheduled-handler check, not on Cloudflare.",
+      "current": "R10 transfers open patient work atomically, records effective time and receiving-worker acknowledgement. Slice 1b adds bulk caseload transfer with scheduled effective dates, re-checks at application, bulk acknowledgement and a responsibility-gap view with urgent work first. Slice 1f applies due scheduled transfers automatically on the first read or command at or after their effective time, with the same re-checks under the scheduling steward's authority, exactly once under the organisation-wide commit guard, a revision and audit event per application and a held state with the reason when a re-check fails; and adds whole-household transfer, refused when any current member is outside the requester's scope. Slice 10a: a Cloudflare Cron Trigger (every five minutes, set in the hosted staging configuration only) runs a scheduled job that applies due scheduled transfers through the same all-or-nothing path (slice 6ae), at most 10 per organisation per run, oldest effective time first, with the scheduling steward's authority re-checked, a revision and audit event per application naming a system actor, and a refused transfer held whole and never retried by the job; where no trigger is configured, application time still depends on use. Verified in contract tests and a local scheduled-handler check, not on Cloudflare. Bounded 12 October 2026 receiving-ASHA screen reviews the existing applied assignment and open-work ownership, then explicitly delegates acknowledgement to the unchanged original writer. Exact original-attempt in-memory recovery is tested. See docs/current/next50/RECEIVING-HANDOVER-20261012.md; full formal/field/hosted scope remains pending.",
       "remaining": "A timed trigger that has actually run on the hosted Worker (the job needs the Workers Paid plan and has not been seen firing on Cloudflare; on a host with no trigger the application time depends on use), locality transfer, field acceptance of handovers and approved urgency rules.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -488,7 +488,18 @@
         "docs/current/SLICE-10A-SCHEDULED-TRIGGER.md",
         "scripts/cloudflare-staging.mjs",
         "tests/cloudflare-staging-contract.mjs",
-        "docs/current/HOSTED-STAGING.md"
+        "docs/current/HOSTED-STAGING.md",
+        "app/api/handover/route.ts",
+        "app/handover/page.tsx",
+        "app/handover/handover.tsx",
+        "app/handover/handover.css",
+        "lib/saha/handover.ts",
+        "lib/saha/handover-server.ts",
+        "tests/handover-contract.mjs",
+        "tests/smoke/handover-browser.mjs",
+        "docs/current/next50/RECEIVING-HANDOVER-20261012.md",
+        "tests/nfr/authorisation-matrix-current.mjs",
+        "tests/smoke/local-routine-current-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
