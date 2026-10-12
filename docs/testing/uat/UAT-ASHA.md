@@ -417,7 +417,7 @@ Local registration and visits do not require ABHA, phone or biometrics.
 - **Catalogue:** Functional, fixture FX-ID-07, catalogue owner "QA with Deployment administrator and identity steward".
 - **Run as:** ASHA worker. Basis: household sharing previews and proxy records are used from a person's page by the worker who holds that person.
 - **Default result:** Not run
-- **Start from:** Candidate assigned household/proxy evidence (/household-proxy-review; ASHA only; deployment pending), Today (/; ASHA only). These are the screens the requirement's own evidence-map entry cites, not a verified click path.
+- **Start from:** Candidate assigned household/proxy evidence (/household-proxy-review; ASHA only; deployment pending), Today (/today; ASHA only). These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
