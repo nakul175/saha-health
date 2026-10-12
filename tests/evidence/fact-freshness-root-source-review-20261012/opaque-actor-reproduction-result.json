@@ -1,0 +1,274 @@
+{
+  "suite": "Original observation time and configured freshness/read-only relevance",
+  "layer": "unit",
+  "passed": 48,
+  "failed": 3,
+  "skipped": 0,
+  "startedAt": "2026-10-12T18:19:07.766Z",
+  "completedAt": "2026-10-12T18:19:08.456Z",
+  "environment": "Actual configured activeEntry and original provenance, plus owned read projection; local synthetic objects only",
+  "limits": [
+    "Fixture24hour limit/18..60context comes from existing governance-contract; no clinical/domain approval, actual model call or fullstory inferred."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "Existing currentconfigured24hour rule is used without authoring a threshold",
+      "ok": true,
+      "ms": 2
+    },
+    {
+      "label": "Original received time does not freshen a48hour-old observation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Exactly original maximum age remains within cutoff",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "One minute beyond configured age is stale",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original5minute future tolerance retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Beyond original5minute future tolerance is unknown",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Impossible or malformed effective time is not current 2026-02-30T12:00",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Impossible or malformed effective time is not current 2026-09-31T12:00",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Impossible or malformed effective time is not current 2026-10-12T24:00",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Impossible or malformed effective time is not current null",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Impossible or malformed effective time is not current 42",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Individually reused calendar predicate admits real leap day only",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit null effective time is unavailable, not replaced by visit time",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Absent optional effective time retains original legacy fallback",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit malformed provenance entry is not a visit-level finding null",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit malformed provenance entry is not a visit-level finding 42",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit malformed provenance entry is not a visit-level finding []",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit null measurement source is unavailable, not replaced by measured",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown/malformed current age cannot establish relevance undefined",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown/malformed current age cannot establish relevance null",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown/malformed current age cannot establish relevance 32",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown/malformed current age cannot establish relevance false",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown/malformed current age cannot establish relevance NaN",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown/malformed current age cannot establish relevance Infinity",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown/malformed current age cannot establish relevance -1",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown/malformed current age cannot establish relevance 121",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Valid age0 is preserved and outside existing18..60 scope",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "A different programme is not applicable rather than stale",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed programme context cannot become current",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "A changed team is not covered by existing rule",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Current source/service version change invalidates original dependency approval",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Reviewer membership version change invalidates stored rehearsal rule",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Suspended protocol is unavailable, not zero-day valid",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No configured rule invents no cutoff or eligibility",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Absent value and missing reason is not normal unknown",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Absent value and missing reason is not normal declined",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Absent value and missing reason is not normal not-asked",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Absent value and missing reason is not normal not-applicable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "A value contradicting a missing source is unknown",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Empty measurement with inherited source/time is explicitly no finding",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Non-numeric stored measurement is never an eligible input",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Imported source remains restricted read-only history",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Open original measurement dispute prevents current-input presentation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original raw and entered values/units remain separate and source is not redated",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Opening index invents no selected visit or measurement",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Foreign visit is never selected through fallback",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Read projection leaves all original source objects unchanged",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed response fields refuse rather than silently becoming empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Originaltrustedopaque actor retained worker@example.invalid",
+      "ok": false,
+      "ms": 0,
+      "error": "[\n  {\n    \"validation\": \"regex\",\n    \"code\": \"invalid_string\",\n    \"message\": \"Invalid\",\n    \"path\": [\n      \"actorId\"\n    ]\n  }\n]"
+    },
+    {
+      "label": "Originaltrustedopaque actor retained auth0|synthetic-worker",
+      "ok": false,
+      "ms": 4,
+      "error": "[\n  {\n    \"validation\": \"regex\",\n    \"code\": \"invalid_string\",\n    \"message\": \"Invalid\",\n    \"path\": [\n      \"actorId\"\n    ]\n  }\n]"
+    },
+    {
+      "label": "Originaltrustedopaque actor retained opaque/worker",
+      "ok": false,
+      "ms": 0,
+      "error": "[\n  {\n    \"validation\": \"regex\",\n    \"code\": \"invalid_string\",\n    \"message\": \"Invalid\",\n    \"path\": [\n      \"actorId\"\n    ]\n  }\n]"
+    }
+  ]
+}
