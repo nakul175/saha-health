@@ -1,0 +1,71 @@
+{
+  "source": "7aa784eefec1b5f34f035ee5ccbf47f01ba4c1f9",
+  "scenario": "Controlled original command-audit side mutation removes only own preference before post-command reader; no response substitution.",
+  "initial": {
+    "actorId": "t-1a1f7042-asha",
+    "organisationId": "org_f6b356d08abc09af965b9b623b1e5683",
+    "personId": "p_meena",
+    "language": "en",
+    "version": 0,
+    "refreshAt": null
+  },
+  "command": {
+    "language": "hi",
+    "version": 0
+  },
+  "key": "09796f5e-669c-47be-bb0b-c4b4d93fdfda",
+  "result": {
+    "status": 200,
+    "headers": {
+      "cache-control": "no-store",
+      "content-encoding": "gzip",
+      "content-type": "application/json",
+      "referrer-policy": "no-referrer",
+      "transfer-encoding": "chunked",
+      "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch, Next-Url, X-Vinext-Interception-Context, X-Vinext-Mounted-Slots, X-Vinext-Rsc-Render-Mode",
+      "x-content-type-options": "nosniff",
+      "x-saha-operation-actor": "t-1a1f7042-asha",
+      "x-saha-organisation": "org_f6b356d08abc09af965b9b623b1e5683",
+      "x-saha-request-id": "be0c4742-1e69-49d3-9d82-b8e7799f62e8"
+    },
+    "body": "{\"context\":{\"actorId\":\"t-1a1f7042-asha\",\"organisationId\":\"org_f6b356d08abc09af965b9b623b1e5683\",\"personId\":\"p_meena\",\"language\":\"en\",\"version\":0,\"refreshAt\":null},\"operation\":{\"key\":\"09796f5e-669c-47be-bb0b-c4b4d93fdfda\",\"language\":\"hi\",\"version\":1,\"replayed\":false}}",
+    "json": {
+      "context": {
+        "actorId": "t-1a1f7042-asha",
+        "organisationId": "org_f6b356d08abc09af965b9b623b1e5683",
+        "personId": "p_meena",
+        "language": "en",
+        "version": 0,
+        "refreshAt": null
+      },
+      "operation": {
+        "key": "09796f5e-669c-47be-bb0b-c4b4d93fdfda",
+        "language": "hi",
+        "version": 1,
+        "replayed": false
+      }
+    }
+  },
+  "receipt": {
+    "actor_id": "t-1a1f7042-asha",
+    "key": "09796f5e-669c-47be-bb0b-c4b4d93fdfda",
+    "org_id": "org_f6b356d08abc09af965b9b623b1e5683",
+    "hash": "850fa7775de39afadd236d445605cbd041a3cec2157c0cf8c893e3af1286754b",
+    "result": "{\"language\":\"hi\",\"version\":1}",
+    "person_id": null,
+    "created_at": "2026-10-12T21:47:10.352Z",
+    "command_type": "setMyLanguage",
+    "mutation_subject_id": "t-1a1f7042-asha",
+    "mutation_event_id": "263a95c2-d302-4a2b-bcd1-19fea3f46018",
+    "mutation_context": null
+  },
+  "storedOperations": {
+    "org_id": "org_f6b356d08abc09af965b9b623b1e5683",
+    "data": "{\"version\":0,\"maintenance\":false,\"reason\":\"\",\"updatedAt\":\"\",\"incidents\":[],\"rates\":null,\"memberLanguages\":{}}"
+  },
+  "clinicalBeforeSha256": "8113f4ceb1b184b72f8c1ac7f3b78b209a8f115412a28ccfd3b1f7eaf8e51f6b",
+  "clinicalAfterSha256": "8113f4ceb1b184b72f8c1ac7f3b78b209a8f115412a28ccfd3b1f7eaf8e51f6b",
+  "clinicalUnchanged": true,
+  "falseCurrentReceiptAccepted": true,
+  "limits": "Author diagnosis only; named ownedD1 corruption fixture, no UI/human/formal/hosting/currentCI approval."
+}

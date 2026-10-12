@@ -1,0 +1,47 @@
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import {mkdtempSync,readFileSync,writeFileSync,readdirSync,rmSync} from 'node:fs';
+import {join} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {suite} from './lib/report.mjs';
+const r=suite('Own interface-language preference boundary','tests/reports/interface-language-contract-result.json',{layer:'unit',limits:['Draft interface language only; no qualified Hindi translation, corpus evaluation, physical device or formal acceptance.']}),temp=mkdtempSync(join(process.cwd(),'.interface-language-contract-'));
+try {
+ for(const f of readdirSync('lib/saha').filter(x=>x.endsWith('.ts')))writeFileSync(join(temp,f.replace(/\.ts$/,'.js')),ts.transpileModule(readFileSync('lib/saha/'+f,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ const {interfaceLanguageContext:context,interfaceLanguageChange:change,interfaceLanguageReceipt:receipt,interfaceLanguageRefusal:refusal,currentInterfaceLanguage:current,sameLanguageBinding:same}=await import(pathToFileURL(join(temp,'interface-language.js'))),{interfaceLanguageTransferReadProof:proof}=await import(pathToFileURL(join(temp,'interface-language-read-guard.js'))),{chooseLanguage}=await import(pathToFileURL(join(temp,'messages.js')));
+ const actor='auth0|opaque/worker@example.invalid',ctx={actorId:actor,organisationId:'org',personId:'p',language:'en',version:0,refreshAt:null},at='2026-10-12T21:00:00.000Z',key='ca7391a5-2186-4c6e-ab4e-e75a15b6c2c7';
+ await r.check('Original absent own preference defaults to English zero without mutation',()=>assert.deepEqual(current(undefined,actor),{language:'en',version:0}));
+ await r.check('Original valid own Hindi version and canonical time preserved',()=>assert.deepEqual(current({[actor]:{language:'hi',version:2,at}},actor),{language:'hi',version:2}));
+ await r.check('Inherited preference never becomes an own record',()=>assert.deepEqual(current(Object.create({[actor]:{language:'hi',version:2,at}}),actor),{language:'en',version:0}));
+ for(const bad of [null,[],true,'hi'])await r.check('Malformed preference map unavailable '+JSON.stringify(bad),()=>assert.throws(()=>current(bad,actor)));
+ for(const bad of [{language:'fr',version:1,at},{language:'hi',version:0,at},{language:'hi',version:'1',at},{language:'hi',version:1,at:'yesterday'},{language:'hi',version:1,at,owner:'invented'}])await r.check('Malformed own preference not normalized '+JSON.stringify(bad),()=>assert.throws(()=>current({[actor]:bad},actor)));
+ await r.check('Other member preference does not select this actor',()=>assert.deepEqual(current({other:{language:'hi',version:2,at}},actor),{language:'en',version:0}));
+ await r.check('Original versioned self command semantics preserved',()=>{const records={};const c=chooseLanguage(records,actor,'hi',0,at);assert.equal(c.ok,true);assert.equal(c.record.version,1);assert.deepEqual(records,{});});
+ await r.check('Original stale version refuses',()=>assert.equal(chooseLanguage({[actor]:{language:'hi',version:2,at}},actor,'en',1,at).status,409));
+ await r.check('Original already-current choice refuses',()=>assert.equal(chooseLanguage({},actor,'en',0,at).status,422));
+ await r.check('Own opaque trusted actor is not a patient selector',()=>assert.equal(context.parse(ctx).actorId,actor));
+ for(const field of ['patientName','facts','members','translationsApproved'])await r.check('No extra protected or qualification field '+field,()=>assert.equal(context.safeParse({...ctx,[field]:'invented'}).success,false));
+ await r.check('Unsafe stored version is not a valid current preference',()=>assert.throws(()=>current({[actor]:{language:'hi',version:Number.MAX_SAFE_INTEGER+1,at}},actor)));
+ await r.check('Unsafe response and requested versions refuse without coercion',()=>{assert.equal(context.safeParse({...ctx,version:Number.MAX_SAFE_INTEGER+1}).success,false);assert.equal(change.safeParse({language:'hi',version:Number.MAX_SAFE_INTEGER+1}).success,false);});
+ await r.check('Only supported uncoerced explicit preference and version',()=>{assert.equal(change.safeParse({language:'hi',version:0}).success,true);for(const value of [{language:'fr',version:0},{language:'hi',version:'0'},{language:'hi',version:-1},{language:'hi',version:0,userId:'other'}])assert.equal(change.safeParse(value).success,false);});
+ await r.check('Minimal receipt strictly binds positive result and exact UUID',()=>{assert.equal(receipt.safeParse({context:{...ctx,language:'hi',version:1},operation:{key,language:'hi',version:1,replayed:false}}).success,true);assert.equal(receipt.safeParse({context:ctx,operation:{key:'invalid',language:'hi',version:1,replayed:false}}).success,false);});
+ await r.check('Current readback cannot be older than its preference receipt',()=>assert.equal(receipt.safeParse({context:ctx,operation:{key,language:'hi',version:1,replayed:false}}).success,false));
+ await r.check('Equal current version must agree with saved receipt language',()=>assert.equal(receipt.safeParse({context:{...ctx,version:1},operation:{key,language:'hi',version:1,replayed:false}}).success,false));
+ await r.check('Newer current preference may differ from older valid receipt',()=>assert.equal(receipt.safeParse({context:{...ctx,version:2},operation:{key,language:'hi',version:1,replayed:true}}).success,true));
+ await r.check('Matching original current preference receipt remains valid',()=>assert.equal(receipt.safeParse({context:{...ctx,language:'hi',version:1},operation:{key,language:'hi',version:1,replayed:true}}).success,true));
+ await r.check('Request-not-dispatched witness does not claim global absence',()=>{const {refreshAt,...binding}=ctx;void refreshAt;assert.equal(refusal.parse({...binding,key,outcome:'request-not-dispatched'}).outcome,'request-not-dispatched');});
+ await r.check('Every actor organisation and person binding must match',()=>{assert.ok(same(ctx,ctx));for(const field of ['actorId','organisationId','personId'])assert.equal(same(ctx,{...ctx,[field]:'other'}),false);});
+ await r.check('Empty recorded transfers retain original no-expiry proof',()=>assert.deepEqual(proof([],['p'],at),{fingerprint:'[]',refreshAt:null}));
+ const transfer={id:'transfer',version:1,state:'scheduled',teamId:'t',fromUserId:actor,toUserId:'other',personIds:['p'],effectiveAt:'2026-10-12T21:01:00.000Z',createdAt:at,createdBy:'owner',reason:'Synthetic transfer'},row={id:transfer.id,version:1,state:'scheduled',team_id:'t',data:JSON.stringify(transfer)};
+ await r.check('Future transfer retains expiry without applying scheduler',()=>{const before=JSON.stringify(row);assert.equal(proof([row],['p'],at).refreshAt,transfer.effectiveAt);assert.equal(JSON.stringify(row),before);});
+ await r.check('Original due transfer fails closed before disclosure',()=>assert.throws(()=>proof([row],['p'],transfer.effectiveAt),e=>e.status===409));
+ await r.check('Original held transfer fails closed',()=>assert.throws(()=>proof([{...row,state:'held',data:JSON.stringify({...transfer,state:'held'})}],['p'],at),e=>e.status===409));
+
+ await r.check('Dispatch guard refuses due transfers even outside this selected record',()=>{assert.deepEqual(proof([row],['other-record'],transfer.effectiveAt),{fingerprint:'[]',refreshAt:null});assert.throws(()=>proof([row],['other-record'],transfer.effectiveAt,true),e=>e.status===409);});
+ await r.check('Dispatch guard keeps original held predicate for all current organisation transfers',()=>assert.throws(()=>proof([{...row,state:'held',data:JSON.stringify({...transfer,state:'held'})}],['other-record'],at,true),e=>e.status===409));
+ await r.check('Unbound raw transfer is unavailable',()=>assert.throws(()=>proof([{...row,version:2}],['p'],at),e=>e.status===503));
+ await r.check('Reader uses direct scoped read and never bootstrap or mutating scheduler',()=>{const s=readFileSync('lib/saha/interface-language-server.ts','utf8');for(const forbidden of ['loadFor','ensureHome','ensureAccount','applyDueCaseloads'])assert.ok(!s.includes(forbidden));assert.ok(s.includes('readState(db(),org,[personId],actor.userId,true)'));});
+ await r.check('Only original setMyLanguage command dispatched, no clinical writer',()=>{const s=readFileSync('lib/saha/interface-language-server.ts','utf8');assert.ok(s.includes("type:'setMyLanguage'"));for(const writer of ['startVisit','saveVisit','confirmVisit','createPerson'])assert.ok(!s.includes(writer));});
+ await r.check('Existing clinical child provider stays mounted with English wording',()=>{const s=readFileSync('app/routine-visit/routine-visit.tsx','utf8');assert.ok(s.includes('<I18nProvider lang="en"><div lang="en"><CaptureStage'));assert.ok(s.includes('<TranslationNotice partial={true}'));assert.ok(!s.includes('<EnglishOnly'));});
+ await r.check('Visibility/context invalidation uses layout generation and original key held on retries',()=>{const s=readFileSync('app/routine-visit/interface-language.tsx','utf8');assert.ok(s.includes('useLayoutEffect'));assert.ok(s.includes('if(!retry&&witness.success'));assert.ok(s.includes('current.body'));assert.ok(s.includes('pagehide'));assert.ok(s.includes('visibilitychange'));});
+} finally {rmSync(temp,{recursive:true,force:true});}
+await r.finish();

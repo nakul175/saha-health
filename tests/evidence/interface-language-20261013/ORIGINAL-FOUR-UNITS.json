@@ -1,0 +1,180 @@
+{
+  "generatedAt": "2026-10-12T21:08:25.299Z",
+  "startedAt": "2026-10-12T21:08:22.438Z",
+  "command": "node scripts/test.mjs unit --only unit/i18n-contract,unit/routine-read-guard-contract,unit/caseload-contract,unit/caseload-schedule-contract --guard --report /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/routine-language/original-units001/summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 4,
+      "passed": 4415,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2697,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 4415,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 2861
+  },
+  "suites": [
+    {
+      "id": "unit/i18n-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/i18n-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 4318,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 161,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/i18n-contract-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__i18n-contract.log"
+    },
+    {
+      "id": "unit/caseload-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-caseload-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 630,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__caseload-contract.log"
+    },
+    {
+      "id": "unit/caseload-schedule-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-caseload-schedule-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 667,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__caseload-schedule-contract.log"
+    },
+    {
+      "id": "unit/routine-read-guard-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/routine-read-guard-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1239,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/routine-read-guard-contract-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": null,
+      "log": "tests/reports/logs/unit__routine-read-guard-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 4,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/verification-programme-root-integration/fixtures/caseload-contract/caseload-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/caseload-schedule-contract/caseload-schedule-contract-result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/i18n-contract-result.json",
+      "tests/routine-read-guard-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 41,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 638,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

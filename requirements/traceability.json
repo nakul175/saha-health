@@ -189,7 +189,7 @@
       "sourceTextLine": 149,
       "implementation": "partial",
       "target": "R14",
-      "current": "Hindi/English field notebook (slice 6f). Slice 10j: each member can choose English or Hindi for the workspace (saved for the member in the organisation) from a message catalogue of about 400 strings, with a draft Hindi translation of the ASHA journey screens (My work, patient page, visit capture, Review & act, Receipts, clinical review panel, navigation) and a visible notice on every Hindi screen that the text is an unreviewed draft. Protocol text, record contents, programme names, units and numbers are not translated; sign-off, verification, unusual-value confirmation, referral, media, supervisor and administration panels are still English. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending.",
+      "current": "Hindi/English field notebook (slice 6f). Slice 10j: each member can choose English or Hindi for the workspace (saved for the member in the organisation) from a message catalogue of about 400 strings, with a draft Hindi translation of the ASHA journey screens (My work, patient page, visit capture, Review & act, Receipts, clinical review panel, navigation) and a visible notice on every Hindi screen that the text is an unreviewed draft. Protocol text, record contents, programme names, units and numbers are not translated; sign-off, verification, unusual-value confirmation, referral, media, supervisor and administration panels are still English. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending. Current routine-language candidate (13 October IST; UTC evidence dated 12 October): scoped own per-member/per-org original versioned language writer, exact original-key/body receipt recovery, notified-account stale-save clearing and lower/equal readback receipt consistency are locally qualified with42 pure and55 actual native groups. Clinical values/units/source/names remain recorded; Hindi is explicitly draft and unreviewed. Portable CI/publication metadata qualification remains pending; no whole language/human/domain/formal acceptance. See docs/current/ROUTINE-LANGUAGE-CANDIDATE-20261013.md.",
       "remaining": "Qualified translator review of all Hindi text; translate the remaining workspace panels and views; user testing of the Hindi screens with ASHAs; complete reviewed localisation and accessibility/language acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -204,7 +204,14 @@
         "docs/current/SLICE-10J-HINDI-WORKSPACE.md",
         "tests/ui/hindi.spec.mjs",
         "tests/guided-registration-overflow-browser.mjs",
-        "tests/guided-registration-root-independent-browser.mjs"
+        "tests/guided-registration-root-independent-browser.mjs",
+        "docs/current/ROUTINE-LANGUAGE-CANDIDATE-20261013.md",
+        "app/routine-visit/interface-language.tsx",
+        "lib/saha/interface-language.ts",
+        "lib/saha/interface-language-server.ts",
+        "tests/interface-language-contract.mjs",
+        "tests/smoke/interface-language-owned-browser.mjs",
+        "tests/smoke/interface-language-browser.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -5174,7 +5181,7 @@
       "sourceTextLine": 732,
       "implementation": "unverified",
       "target": "R14",
-      "current": "Hindi/English notebook strings and neutral reminder copies exist. Slice 10j adds draft Hindi strings for the ASHA workspace screens; no qualified translator has reviewed the notebook or workspace Hindi.",
+      "current": "Hindi/English notebook strings and neutral reminder copies exist. Slice 10j adds draft Hindi strings for the ASHA workspace screens; no qualified translator has reviewed the notebook or workspace Hindi. Current routine-language candidate (13 October IST; UTC evidence dated 12 October): scoped own per-member/per-org original versioned language writer, exact original-key/body receipt recovery, notified-account stale-save clearing and lower/equal readback receipt consistency are locally qualified with42 pure and55 actual native groups. Clinical values/units/source/names remain recorded; Hindi is explicitly draft and unreviewed. Portable CI/publication metadata qualification remains pending; no whole language/human/domain/formal acceptance. See docs/current/ROUTINE-LANGUAGE-CANDIDATE-20261013.md.",
       "remaining": "Qualified review of critical translations (notebook and workspace) and language safety benchmark acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -5182,7 +5189,14 @@
         "lib/saha/messages.ts",
         "tests/i18n-contract.mjs",
         "docs/current/SLICE-10J-HINDI-WORKSPACE.md",
-        "tests/ui/hindi.spec.mjs"
+        "tests/ui/hindi.spec.mjs",
+        "docs/current/ROUTINE-LANGUAGE-CANDIDATE-20261013.md",
+        "app/routine-visit/interface-language.tsx",
+        "lib/saha/interface-language.ts",
+        "lib/saha/interface-language-server.ts",
+        "tests/interface-language-contract.mjs",
+        "tests/smoke/interface-language-owned-browser.mjs",
+        "tests/smoke/interface-language-browser.mjs"
       ],
       "automatedAcceptanceClaim": false
     },

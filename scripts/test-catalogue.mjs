@@ -34,6 +34,8 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+ 'tests/smoke/interface-language-owned-browser.mjs':['tests/reports/interface-language-owned-result.json'],
+ 'tests/interface-language-contract.mjs':['tests/reports/interface-language-contract-result.json'],
  'tests/integration/routine-telemetry-retention-http.mjs':['tests/reports/routine-telemetry-retention-result.json'],
  'tests/test-runner-manual-intake-v2-contract.mjs':['tests/reports/runner-manual-intake-v2-result.json'],
  'tests/installed-programme-single-runtime-current.mjs':['tests/reports/installed-programme-single-runtime-current/result.json'],
@@ -251,6 +253,8 @@ export function classify(file){
  if(file==='tests/nfr/load-burst-native-fixture-v2.mjs')return {id:'nfr/load-burst',layer:'nfr',role:'suite',tier:'extended',runner:'node',reason:'All15/400 plus actualtranscript guard, actual runtimeexception observation; no request replay'};
  if(file==='tests/nfr/load-burst-native-fixture.mjs')return {id:'nfr/load-burst',layer:'nfr',role:'suite',tier:'extended',runner:'node',reason:'Same15 actual400slot assertions/min13 with real captured native Worker transcript, no request replay'};
  if(file==='tests/nfr/load-burst-current-fixture.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Original stronger400slot fixture and actual failures retained; stable guarded ID uses byte-equivalent native launcher'};
+ if(file==='tests/smoke/interface-language-browser.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Unchanged native55 driver requires registered detached group; actual guarded ownership wrapper executes it'};
+ if(file==='tests/smoke/interface-language-owned-browser.mjs')return {id:'smoke/interface-language-browser',layer:'smoke',role:'suite',tier:'pr',runner:'node',reason:'Portable registered process group executes unchanged native55 driver; actual custody and empty-group qualification before report publication'};
  if(file==='tests/nfr/authorisation-matrix-current-fixture.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable stronger63 driver retained; same63 assertions now native current fixture'};
  if(file==='tests/reporting-completeness-repaired-http.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Original97 archived, current guarded scheduling adapter retains every assertion and stable minimum'};
  if(file==='tests/reporting-calendar-current-http.mjs')return {id:'integration/reporting-completeness-repaired-http',layer:'integration',role:'suite',tier:'pr',runner:'node',reason:'Original97 oracle; future5seconds and declared250ms pause only'};

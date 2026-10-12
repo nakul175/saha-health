@@ -1,0 +1,84 @@
+{
+  "atUtc": "2026-10-12T22:35:40.472876+00:00",
+  "fullCheckerNegatives": [
+    {
+      "case": "archive-bytes",
+      "exitCode": 1,
+      "refused": true,
+      "firstReason": "Changed historical language matrix preimage/boundary"
+    },
+    {
+      "case": "manifest-binding",
+      "exitCode": 1,
+      "refused": true,
+      "firstReason": "Unbound original language matrix source manifest"
+    },
+    {
+      "case": "source-binding",
+      "exitCode": 1,
+      "refused": true,
+      "firstReason": "Unbound original language matrix source pin"
+    },
+    {
+      "case": "archive-size",
+      "exitCode": 1,
+      "refused": true,
+      "firstReason": "Changed historical language matrix preimage/boundary"
+    },
+    {
+      "case": "archive-boundary",
+      "exitCode": 1,
+      "refused": true,
+      "firstReason": "Changed historical language matrix preimage/boundary"
+    },
+    {
+      "case": "current-source-binding",
+      "exitCode": 1,
+      "refused": true,
+      "firstReason": "Current language matrix source must match current baseline"
+    },
+    {
+      "case": "current-matrix",
+      "exitCode": 1,
+      "refused": true,
+      "firstReason": "Current language matrix source must match current baseline"
+    },
+    {
+      "case": "actual-report",
+      "exitCode": 1,
+      "refused": true,
+      "firstReason": "Changed slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-routine-language-preference-20261013/tests/evidence/interface-language-publication-20261013/native55-result.json"
+    }
+  ],
+  "exactInlineCiGuardControls": [
+    {
+      "case": "old-minimum",
+      "refused": true,
+      "reason": "Original389 records changed"
+    },
+    {
+      "case": "old-removed",
+      "refused": true,
+      "reason": "Original389 plus exact observed42/55 guards required"
+    },
+    {
+      "case": "new-minimum",
+      "refused": true,
+      "reason": "Observed language guard objects changed"
+    },
+    {
+      "case": "new-file",
+      "refused": true,
+      "reason": "Observed language guard objects changed"
+    },
+    {
+      "case": "extra",
+      "refused": true,
+      "reason": "Original389 plus exact observed42/55 guards required"
+    }
+  ],
+  "actualGuardBlockSha256": "722458ecd9bd000bdab1bd28b18962f77e75f6e0a359281b37deaaf7dc996c71",
+  "untamperedInlineGuardPass": true,
+  "originalPointerAndBytesRestored": true,
+  "limits": "Controlled copied temporary current manifest may repin variant registry/source bytes; final immutable manifest, original evidence/index and runtime inputs restored byteexact. No runtime/criteria edits retained."
+}

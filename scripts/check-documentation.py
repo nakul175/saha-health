@@ -196,6 +196,19 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
                 preimage=gzip.decompress(archive.read_bytes())
                 require(hashlib.sha256(preimage).hexdigest()==expected and len(preimage)==binding['bytes'],'Changed generated diagnostic preimage')
             continue
+        # One exact historical language route-matrix source preimage. Reports, goldens,
+        # minima and current runtime evidence cannot use this binding.
+        if (str(manifest_path.relative_to(ROOT)),report)==('tests/evidence/routine-current-source-integration-20261011/manifest.json','tests/nfr/authorisation-matrix-current.mjs') and path.is_file() and digest(path)!=expected:
+            registry='docs/verification/evidence-source-snapshot-interface-language-20261013.json'
+            binding=read_json(registry)
+            current_files=read_json('docs/verification/'+current_baseline)['files']
+            require(current_files.get(registry)==digest(ROOT/registry),'Language historical binding registry is not current-baseline pinned')
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound original language matrix source manifest')
+            require(binding['sourcePath']==report and binding['originalSourceSha256']==expected=='3779f8a562c132fac2b2ded74101a8438b5655389aacfb75e3da4990982fd5d3','Unbound original language matrix source pin')
+            require(current_files.get(report)==digest(path)==binding['currentSourceSha256'],'Current language matrix source must match current baseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical language matrix preimage/boundary')
+            path=archive
         # One bound historical test-source preimage: current test bytes remain checked by the current baseline.
         # This never substitutes for a test report, expected image, assertion count or current execution.
         if str(manifest_path.relative_to(ROOT))=='tests/evidence/guided-home/manifest.json' and report=='tests/ui/app-first-phone.spec.mjs' and path.is_file() and digest(path)!=expected:

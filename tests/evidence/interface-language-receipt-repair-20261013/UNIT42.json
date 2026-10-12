@@ -1,0 +1,226 @@
+{
+  "suite": "Own interface-language preference boundary",
+  "layer": "unit",
+  "passed": 42,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T21:56:41.616Z",
+  "completedAt": "2026-10-12T21:56:42.264Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Draft interface language only; no qualified Hindi translation, corpus evaluation, physical device or formal acceptance."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "Original absent own preference defaults to English zero without mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original valid own Hindi version and canonical time preserved",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "Inherited preference never becomes an own record",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed preference map unavailable null",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed preference map unavailable []",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed preference map unavailable true",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed preference map unavailable \"hi\"",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed own preference not normalized {\"language\":\"fr\",\"version\":1,\"at\":\"2026-10-12T21:00:00.000Z\"}",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed own preference not normalized {\"language\":\"hi\",\"version\":0,\"at\":\"2026-10-12T21:00:00.000Z\"}",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed own preference not normalized {\"language\":\"hi\",\"version\":\"1\",\"at\":\"2026-10-12T21:00:00.000Z\"}",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed own preference not normalized {\"language\":\"hi\",\"version\":1,\"at\":\"yesterday\"}",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed own preference not normalized {\"language\":\"hi\",\"version\":1,\"at\":\"2026-10-12T21:00:00.000Z\",\"owner\":\"invented\"}",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Other member preference does not select this actor",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original versioned self command semantics preserved",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original stale version refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original already-current choice refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Own opaque trusted actor is not a patient selector",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No extra protected or qualification field patientName",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No extra protected or qualification field facts",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No extra protected or qualification field members",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No extra protected or qualification field translationsApproved",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unsafe stored version is not a valid current preference",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unsafe response and requested versions refuse without coercion",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Only supported uncoerced explicit preference and version",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Minimal receipt strictly binds positive result and exact UUID",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Current readback cannot be older than its preference receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Equal current version must agree with saved receipt language",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Newer current preference may differ from older valid receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Matching original current preference receipt remains valid",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Request-not-dispatched witness does not claim global absence",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Every actor organisation and person binding must match",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Empty recorded transfers retain original no-expiry proof",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Future transfer retains expiry without applying scheduler",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original due transfer fails closed before disclosure",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original held transfer fails closed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Dispatch guard refuses due transfers even outside this selected record",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Dispatch guard keeps original held predicate for all current organisation transfers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unbound raw transfer is unavailable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Reader uses direct scoped read and never bootstrap or mutating scheduler",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Only original setMyLanguage command dispatched, no clinical writer",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Existing clinical child provider stays mounted with English wording",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Visibility/context invalidation uses layout generation and original key held on retries",
+      "ok": true,
+      "ms": 0
+    }
+  ]
+}

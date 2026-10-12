@@ -1,0 +1,38 @@
+{
+  "organisation": "org_dfe2d3b1c549864a255901f168326064",
+  "actor": "t-57f2e601-other",
+  "personId": "p_aarav",
+  "refusal": {
+    "status": 409,
+    "json": {
+      "error": "The saved preference and current readback could not be matched. Keep the exact original attempt unresolved."
+    },
+    "text": "{\"error\":\"The saved preference and current readback could not be matched. Keep the exact original attempt unresolved.\"}",
+    "headers": {}
+  },
+  "originalReceipt": {
+    "result": "{\"language\":\"hi\",\"version\":1}"
+  },
+  "restoration": {
+    "language": "hi",
+    "version": 1
+  },
+  "replay": {
+    "context": {
+      "actorId": "t-57f2e601-other",
+      "organisationId": "org_dfe2d3b1c549864a255901f168326064",
+      "personId": "p_aarav",
+      "language": "hi",
+      "version": 1,
+      "refreshAt": null
+    },
+    "operation": {
+      "key": "a8498c2d-17d5-47f5-9143-69b16b103f1d",
+      "language": "hi",
+      "version": 1,
+      "replayed": true
+    }
+  },
+  "key": "a8498c2d-17d5-47f5-9143-69b16b103f1d",
+  "fixture": "Existing other-account own home synthetic person; original self membership command retains ownership/teams/status and selects ASHA. Original-command audit trigger removes only own preference; original self language command restores valid choice. No response substitution/clinical writer; primary51 fixture untouched."
+}
