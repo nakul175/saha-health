@@ -3,7 +3,7 @@ import { mappedPayload, assertMappingEffective } from './mis';
 import { captureFor, unresolved, type Pack } from './programmes';
 import { z } from 'zod';
 import { PROGRAMMES, type Workspace, type Person, type Visit, type Integration, type Facts, type Measure, type RangeContext, type RangeCapture } from './types';
-import { ALT_UNITS, EXTRA_UNITS, FACT_SOURCES, MEASURES, MEASURE_LABEL, VALUE_FIELDS, VALUE_RANGES, WEEKS_DAYS, factProvenance, measureValue, normaliseUnits, rangeProblem, rangeContextProblem, selectionForVisit, unconfirmedValues } from './fact-provenance';
+import { ALT_UNITS, EXTRA_UNITS, FACT_SOURCES, MEASURES, MEASURE_LABEL, VALUE_FIELDS, VALUE_RANGES, WEEKS_DAYS, factProvenance, measureValue, normaliseUnits, rangeProblem, rangeContextProblem, selectionForVisit, unconfirmedValues, validObservationMinute } from './fact-provenance';
 export class AppError extends Error { constructor(public status:number,message:string){super(message);} }
 export function fail(status:number,message:string):never {throw new AppError(status,message)}
 export const uuid=()=>crypto.randomUUID();
@@ -13,7 +13,7 @@ export async function digest(value:unknown){const b=await crypto.subtle.digest('
 export const programmeRecord=<T extends z.ZodTypeAny>(value:T)=>z.record(z.string().refine(key=>key!=='__proto__','Unsupported programme record key.'),value);
 const str=z.string().trim().min(1).max(200);
 const numeric=z.string().trim().max(12).refine(x=>x===''||(/^[0-9]+(\.[0-9]+)?$/.test(x)&&Number.isFinite(+x)),'Enter a positive number or leave blank.');
-const minute=z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/).refine(x=>!isNaN(Date.parse(x+'Z')),'Select the observation date and time.');
+const minute=z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/).refine(validObservationMinute,'Select a real observation date and time.');
 // Slice 2c: per-measurement source and time (BR-DATA-02); helpers in fact-provenance.ts.
 const provenanceSchema=z.object({source:z.enum(FACT_SOURCES),at:minute.optional()}).strict();
 export const factsSchema=z.object({date:minute,systolic:numeric,diastolic:numeric,weight:numeric,temperature:numeric,weeks:numeric,coughDays:numeric,notes:z.string().trim().max(3000),source:z.enum(['measured','reported']),provenance:z.object(Object.fromEntries(MEASURES.map(m=>[m,provenanceSchema.optional()])) as Record<Measure,z.ZodOptional<typeof provenanceSchema>>).strict().optional(),
@@ -28,12 +28,14 @@ export const factsSchema=z.object({date:minute,systolic:numeric,diastolic:numeri
 export function checkFacts(input:Facts,now=Date.now(),context?:RangeContext,selection?:ReturnType<typeof selectionForVisit>):Facts{
  const units=normaliseUnits(input);if(units.problem)fail(422,units.problem);const f=units.facts;
  if(f.unusual){const kept=Object.fromEntries(Object.entries(f.unusual).filter(([,r])=>r!==undefined));if(Object.keys(kept).length)f.unusual=kept;else delete f.unusual;}
+ if(!validObservationMinute(f.date))fail(422,'Select a real observation date and time.');
  if(Date.parse(f.date+'Z')>now+300000)fail(422,'Observation time cannot be in the future.');
  if(!!f.systolic!==!!f.diastolic)fail(422,'Enter both blood pressure readings or leave both blank.');
  for(const m of MEASURES){const p=f.provenance?.[m];if(!p)continue;const value=measureValue(f,m),recorded=p.source==='measured'||p.source==='reported',label=MEASURE_LABEL[m];
   if(value&&!recorded)fail(422,`${label}: a recorded value must be measured or reported. Clear the value to record why it is missing.`);
   if(!value&&recorded)fail(422,`${label}: enter the value, or choose why it is missing.`);
   if(p.at&&!value)fail(422,`${label}: a time applies only to a recorded value.`);
+  if(p.at!==undefined&&!validObservationMinute(p.at))fail(422,`${label}: select a real observation date and time.`);
   if(p.at&&Date.parse(p.at+'Z')>now+300000)fail(422,`${label}: observation time cannot be in the future.`);}
  const range=rangeProblem(f,context,selection);if(range)fail(422,range);
  return f;

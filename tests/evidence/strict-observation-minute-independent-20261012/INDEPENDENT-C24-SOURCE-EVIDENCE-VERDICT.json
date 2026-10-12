@@ -1,0 +1,318 @@
+{
+  "reviewedAtUtc": "2026-10-12T17:01:10.307305+00:00",
+  "reviewerAgent": "/root/routine_independent_qa",
+  "authorAgent": "Separate programme author designated by root; canonical agent ID not independently available in current registry",
+  "head": "c24aa0fcf83c3a36fca9f12cab86787d8b0a39cc",
+  "tree": "537a4f5acff49886cdcc1017abf668a4a54d6afb",
+  "scope": "Independent source/evidence qualification for strict calendar minute software defect; no new runtime execution by reviewer",
+  "verdict": "PASS within declared bounded engineering scope; metadata and current-head CI pending",
+  "findings": [],
+  "checkedEvidenceRecords": 58,
+  "checkedSourcePins": {
+    "lib/saha/core.ts": "da999acd26c6ebef6352db5b5f6e231cc2d2a5498840354a012f60c889100600",
+    "lib/saha/fact-provenance.ts": "b22929f573defa80e42425ff5815e08a1dc57540e75f412439663e97fdab3c1e",
+    "app/guided-capture.tsx": "6b45f6ed1628b5c4cde900c2f0dd0e27e8e8d65caee54a4adf52d94db336d5ec",
+    "tests/observation-time-contract.mjs": "25fdc170f489bfb64b4daf15eac4e7ed8c68aa905028c90918decfd43bd04756",
+    "tests/smoke/observation-time-browser.mjs": "9c0602bb5d4ea0d18a228a3670170ea7a50398e3a1d99feaa2971faba217b112"
+  },
+  "actualBefore": {
+    "schemaDirectGuidedFailed": 14,
+    "invalidNativeStatus200": 6,
+    "realInvalidCommandReceipts": 6,
+    "invalidPersistedDraftVersions": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "actualAfter": {
+    "newUnitChecks": 39,
+    "nativeChecks": 21,
+    "invalidNativeStatus422": 6,
+    "invalidCommandReceipts": 0,
+    "nonAuditNonMetric60TableChanges": 0,
+    "guardedOriginalChecks": 529,
+    "oldUnitChecks": 139,
+    "routineAuthority": 245,
+    "routineRecovery": 97,
+    "guided": 48,
+    "nativeSourceBuildMapCount": 708,
+    "nativeMapsBeforeAfterEqual": true,
+    "currentNonDistSourceFilesEqual": 427,
+    "ownedDisposedAndPortFreeReported": true
+  },
+  "semanticPreservation": [
+    "Exact existing16-character UTC-minute format; non-coercing round-trip rejectsrollover, finite/calendar rules reused in schema/directcheck/guided presentation.",
+    "Omitted own measurement time retains visit-time fallback. Explicit malformed/null/empty supplied time refuses.",
+    "Original+300000ms future tolerance, validfuture warning labels, pairedBP/numeric/units/ranges/overrides/source/missingness/clinical authority unchanged.",
+    "Original389 objects/minima/config/roles/routeinventory unchanged.",
+    "No production migration/DB/provider/API/new writer changes."
+  ],
+  "custodyLimits": [
+    "Native005 before/after708 hashes are independently reconciled saved maps; actual compiled binaries for that run are not separately archived/rehashed.",
+    "Later original-guided current-source rebuild changed generated compiled identities: 30 current dist paths differ/absent, without changing the five reviewed runtime/test source pins. No raw compiled byte equality to native005 is claimed.",
+    "One original guided failed child rawlog was overwritten at a fixed runner path. Its dated failure summary/preimage remain; final successful childlog is not labelled original failure.",
+    "Three repeated wrong-role check titles correspond to three fixed source tuples; no invented separately retained full response bodies.",
+    "Author smoke stop/ECONNREFUSED observations are retained; no independent OS process-group measurement inferred.",
+    "No whole-story/formal/domain/clinical-policy/physical-device/fullNFR/finalCI/hosting acceptance."
+  ],
+  "evidenceManifestSHA256": "e90be80cc89cb2482b13b89985c1cf7d8881e335255ee451a4aa6ad7ebb3fac3",
+  "manifestFilesChecked": [
+    {
+      "path": "FAILURE-CUSTODY-LIMITS.md",
+      "sha256": "cb54f2701a92510c63c9ec8bd9b043405cd4c30a454abf305e0782d81b60111d"
+    },
+    {
+      "path": "FROZEN-SCOPE.md",
+      "sha256": "6d227b4502c8d9f23d41c6b707ffa7348b8f5fc055524b1fd8e4f5f56a001496"
+    },
+    {
+      "path": "FUTURE-LABEL-COMPATIBILITY.md",
+      "sha256": "60dcc4c948315b1205cff2968dbb70d4383f5fd1d0c0fc70ef4641ad1397f726"
+    },
+    {
+      "path": "GUIDED-ORACLE-CORRECTION.md",
+      "sha256": "fd7f9721166ad4baf1cf8145d88ef71010c460b855edb72d1b4cdf454b444a54"
+    },
+    {
+      "path": "NATIVE-SNAPSHOT.json",
+      "sha256": "1a40ff0d84a50f43771db5d2efee7e0a06470637d556b5071cc9610ddac7c6e7"
+    },
+    {
+      "path": "SOURCE-PINS.json",
+      "sha256": "e254578855934a70d11239f2ec39d44583e1153efe7250c03cfb9984ee9f6ba3"
+    },
+    {
+      "path": "author-history/before-future-label-compatibility/app/guided-capture.tsx.txt",
+      "sha256": "b70ac6ed833275d66d8058e5e2ad4e1f17393a106a394199cc01bc257911c26b"
+    },
+    {
+      "path": "author-history/main22a/app/guided-capture.tsx.txt",
+      "sha256": "c43ae3fabfdc04952ac28b95df1495ebd094f7c34aa0f0857ee6d542a0ae1de3"
+    },
+    {
+      "path": "author-history/main22a/lib/saha/core.ts.txt",
+      "sha256": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad"
+    },
+    {
+      "path": "author-history/main22a/lib/saha/fact-provenance.ts.txt",
+      "sha256": "6d4bc63c8ecc72a80530e611d1a1051e1a11495ed1cc6129c4c138aeb198c3cb"
+    },
+    {
+      "path": "author-history/main22a/source-pins.json",
+      "sha256": "e1026e2d37b95991cbf2ffd7709aa8352a477870e5ce011f1780d69dec6937e5"
+    },
+    {
+      "path": "native-after-owned-003/failure.html",
+      "sha256": "abdc2f5b0d4151d9c50ea458ad285d36be21c393953055d8a9f7728ab1b4120b"
+    },
+    {
+      "path": "native-after-owned-003/failure.png",
+      "sha256": "f30432e7fe596cfab461029701c24877a05f07c577e7527289fc867cbf41ec0a"
+    },
+    {
+      "path": "native-after-owned-003/result.json",
+      "sha256": "213103e6cd25f1d975dc70061e25f8726d06ee8cdcbbf3e9549fcbd2143b15ef"
+    },
+    {
+      "path": "native-after-owned-003/source-build-custody.json",
+      "sha256": "445512688f3e4809acf8d7746a8c496f52cdebcae517bce56dcc3ba6a0ad33e1"
+    },
+    {
+      "path": "native-after-owned-003-summary.json",
+      "sha256": "3507abee01305a881ab39eb438edacb85e916a1f3666b89d20c492ff58645749"
+    },
+    {
+      "path": "native-after-owned-004/calendar-validation-phone.png",
+      "sha256": "1269a28cf697034d3e4f823c0cd24f1bffaa2255af0337dfbfa635af2301bfcd"
+    },
+    {
+      "path": "native-after-owned-004/native-outcomes.json",
+      "sha256": "873e604a0b0670e37f5306b2e12071b6793100d8d626e612cc69f43f34fe1fd5"
+    },
+    {
+      "path": "native-after-owned-004/result.json",
+      "sha256": "6ea71bab71a00c66f8800a3981f3cca920f224ca86a5d52bef26cb506cc6136a"
+    },
+    {
+      "path": "native-after-owned-004/source-build-custody.json",
+      "sha256": "4f519b040864aa5a8f2a8f98e409dc131fc3b4635292e505e70b5ba440408ddb"
+    },
+    {
+      "path": "native-after-owned-004-summary.json",
+      "sha256": "169524e1a0305006addef2dcaaaf56fb4ee1726b3c814aeddbbeb31e9852cb75"
+    },
+    {
+      "path": "native-before-default-001/result.json",
+      "sha256": "bd0ee519b5da38776c79f7ef92af4b39d8813210e2bbfea7c641c76c11469fef"
+    },
+    {
+      "path": "native-before-default-001/source-build-custody.json",
+      "sha256": "7b1d7b24162fe482d6252ea6780c1cdc706dc71f2221678297da88bb00218a4a"
+    },
+    {
+      "path": "native-before-default-001-summary.json",
+      "sha256": "99575a33d8d0445f482e479d47c52255612b8ee29bc281802ba2be7bfe56c99a"
+    },
+    {
+      "path": "native-before-owned-002/calendar-validation-phone.png",
+      "sha256": "8d30af4145aaf3983dee6e83274f5fc6872dd967824d87d8541558e2cf333d5c"
+    },
+    {
+      "path": "native-before-owned-002/native-outcomes.json",
+      "sha256": "1c2ce66fee260263bd654dacf10145a4448fe6acc40ee10e0456c0c7eea4c138"
+    },
+    {
+      "path": "native-before-owned-002/result.json",
+      "sha256": "1f3f9a2c09d9ce17c7a00a91c89cc25ac0210e62b5e1f53549e2f80c3567da94"
+    },
+    {
+      "path": "native-before-owned-002/source-build-custody.json",
+      "sha256": "a73bdbaa6cac7f21043dcd690941392b52701c9a2069e7d28e685e75870881fb"
+    },
+    {
+      "path": "native-before-owned-002-summary.json",
+      "sha256": "6e34a6102e9f598674a5fc7d404b9e560e2d5594d4da1b0e4dbbac5dddb7a171"
+    },
+    {
+      "path": "native-final-owned-005/calendar-validation-phone.png",
+      "sha256": "eb2def0b1ad77c619dbcab06cd2c0bf44b4dcb6bd95c4bb401c6a4db7c76e198"
+    },
+    {
+      "path": "native-final-owned-005/native-outcomes.json",
+      "sha256": "225ea6aa91f11c974c8c059f75cb4907ef01ec4ffe9ccb75d3c0911457297739"
+    },
+    {
+      "path": "native-final-owned-005/result.json",
+      "sha256": "54b16f26ba4c5638ae951998af20db129f6f8893f6ebf4bd2381f21711616112"
+    },
+    {
+      "path": "native-final-owned-005/source-build-custody.json",
+      "sha256": "7c3e7aa145ca524636c95b1994786007cacb83ae217e496dbc372720d9707e60"
+    },
+    {
+      "path": "native-final-owned-005-summary.json",
+      "sha256": "e507cc79395dd59ac194f566f0206c602d027130fe46a96a8d0e989df375f271"
+    },
+    {
+      "path": "original-browser-authority-summary.json",
+      "sha256": "b8c624758f9a372f00d67eeab711d91e49873fbfc74970200c06e53e39584dfb"
+    },
+    {
+      "path": "original-guided-final-summary.json",
+      "sha256": "7b20817fdb1709e680dc5208ba213a20c10037a92e1d0f74ffa44aa6e36a4fa3"
+    },
+    {
+      "path": "original-units-summary.json",
+      "sha256": "253c86e7b7bdb191b0fcdb34281f491a0b6b626b4f623769034313c899b6ae90"
+    },
+    {
+      "path": "originals/logs/integration__asha-guided-capture-browser.log",
+      "sha256": "d20324cff1157033c5eb59ca99d065f4a5b44a46b9d369e69c6d05329e03bb70"
+    },
+    {
+      "path": "originals/logs/integration__routine-attempt-browser.log",
+      "sha256": "94aabd318cb0b70684e13dad78e5409e0440944934d9d688d7b13ca5326a443a"
+    },
+    {
+      "path": "originals/logs/integration__routine-authority-http.log",
+      "sha256": "08e0ede16dea3ec01c808f3b9dad6d37330ee5996a7e330be95b2392de34e075"
+    },
+    {
+      "path": "originals/logs/unit__fact-provenance-contract.log",
+      "sha256": "e7f9489f488b50e0e0abaca496a0482bd56486e12c5d4c521e1e4ece1c290677"
+    },
+    {
+      "path": "originals/logs/unit__fact-reuse-contract.log",
+      "sha256": "22cb52cf6d5d29c812a990c5bbe59cbcfd4fd348486b78e33cf6ff212ea03e18"
+    },
+    {
+      "path": "originals/logs/unit__fact-verification-contract.log",
+      "sha256": "f57d4dad8841cfd3b620693f19f79b1e804a4c478a2bb1c7f424b1afdf732785"
+    },
+    {
+      "path": "originals/logs/unit__field-units-client.log",
+      "sha256": "b26ff16aa841ae48b7340741805f752c23495ea9dce5fcaabec3ab7a287efe42"
+    },
+    {
+      "path": "originals/logs/unit__value-ranges-context-contract.log",
+      "sha256": "5918ed47d650e21b28205f60ff4d7720180f224c2cccd285b492876aa4762608"
+    },
+    {
+      "path": "originals/results/integration__asha-guided-capture-browser.json",
+      "sha256": "212cb20973661d04aff34495c02b41ba363cb3cb0edcfe8bc2bc08d1c5e189a3"
+    },
+    {
+      "path": "originals/results/integration__routine-attempt-browser.json",
+      "sha256": "04d4942dce416fbd3e80d4dcb60d2a41075ea304e4ea2f4161093a2cb1efb819"
+    },
+    {
+      "path": "originals/results/integration__routine-authority-http.json",
+      "sha256": "6bff9eecce2f7884a5997a04731a844b3ab513aefae26b7cee843b377f0737fd"
+    },
+    {
+      "path": "originals/results/unit__field-units-client.json",
+      "sha256": "fe7b3972d75e51f0d2b27aec8573cf6902e89ac5d76e918567501691c4e98949"
+    },
+    {
+      "path": "originals/routine-attempt-browser/actor-race-forwarded-response.json",
+      "sha256": "dc82438584d6dda98eb9bad112e44fe221a9e6e43c9637ba52e2dad4f844205d"
+    },
+    {
+      "path": "originals/routine-attempt-browser/observations.json",
+      "sha256": "2a18a42e8e961bd6bc882596815d442e7501ee5ec33eea4e51e7528be16fddef"
+    },
+    {
+      "path": "originals/routine-attempt-browser/result.json",
+      "sha256": "04d4942dce416fbd3e80d4dcb60d2a41075ea304e4ea2f4161093a2cb1efb819"
+    },
+    {
+      "path": "originals/routine-authority-http/observations.json",
+      "sha256": "17e7cfaf83df6f9020fa4be765ad4fd2187544d5bd0b2ff1ac0623072775359c"
+    },
+    {
+      "path": "originals/routine-authority-http/result.json",
+      "sha256": "6bff9eecce2f7884a5997a04731a844b3ab513aefae26b7cee843b377f0737fd"
+    },
+    {
+      "path": "schema-guided-after.json",
+      "sha256": "9c1530b035b4df28b7c6f663692c24fefe03c684832bf86626536565cd968359"
+    },
+    {
+      "path": "schema-guided-before-summary.json",
+      "sha256": "c36902d725e6851c76cbb5dfbc280d2f0c8a6048e5e1b19969ce9eb8321da974"
+    },
+    {
+      "path": "schema-guided-before.json",
+      "sha256": "a90d977e1de36b683e6580dfb8b156d9f3fca11d27d72d7daa97efc5e6cae3af"
+    },
+    {
+      "path": "schema-guided-final.json",
+      "sha256": "13baef590d67889591001d924bd2eee4c2c0d936e4522dcc244675a40e542399"
+    },
+    {
+      "path": "lib/saha/core.ts",
+      "sha256": "da999acd26c6ebef6352db5b5f6e231cc2d2a5498840354a012f60c889100600"
+    },
+    {
+      "path": "lib/saha/fact-provenance.ts",
+      "sha256": "b22929f573defa80e42425ff5815e08a1dc57540e75f412439663e97fdab3c1e"
+    },
+    {
+      "path": "app/guided-capture.tsx",
+      "sha256": "6b45f6ed1628b5c4cde900c2f0dd0e27e8e8d65caee54a4adf52d94db336d5ec"
+    },
+    {
+      "path": "tests/observation-time-contract.mjs",
+      "sha256": "25fdc170f489bfb64b4daf15eac4e7ed8c68aa905028c90918decfd43bd04756"
+    },
+    {
+      "path": "tests/smoke/observation-time-browser.mjs",
+      "sha256": "9c0602bb5d4ea0d18a228a3670170ea7a50398e3a1d99feaa2971faba217b112"
+    }
+  ],
+  "receiptCorrection": "Previous receipt guessed a canonical author task name; exact previous bytes retained. This receipt does not invent or register any author/reviewer identity."
+}

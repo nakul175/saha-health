@@ -1,0 +1,39 @@
+{
+  "passed": 13,
+  "failed": 2,
+  "skipped": 0,
+  "checks": [
+    "Actual date impossible timestamp 2026-02-30T10:00 refuses without coercion clinical or receipt mutation",
+    "Actual date impossible timestamp 1900-02-29T10:00 refuses without coercion clinical or receipt mutation",
+    "Actual date impossible timestamp 2026-09-30T24:00 refuses without coercion clinical or receipt mutation",
+    "Actual weight-at impossible timestamp 2026-02-30T10:00 refuses without coercion clinical or receipt mutation",
+    "Actual weight-at impossible timestamp 1900-02-29T10:00 refuses without coercion clinical or receipt mutation",
+    "Actual weight-at impossible timestamp 2026-09-30T24:00 refuses without coercion clinical or receipt mutation",
+    "Actual valid leap/calendar minute 2024-02-29T00:00 stored exactly without normalising or inventing observations",
+    "Actual valid leap/calendar minute 2000-02-29T23:59 stored exactly without normalising or inventing observations",
+    "Actual valid leap/calendar minute 2026-04-30T23:59 stored exactly without normalising or inventing observations",
+    "Existing wrong-role/tenant authority still refuses with no receipt",
+    "Existing wrong-role/tenant authority still refuses with no receipt",
+    "Existing wrong-role/tenant authority still refuses with no receipt",
+    "Existing stale version still refuses"
+  ],
+  "failures": [
+    {
+      "name": "Actual guided editor blocks explicitly invalid own observation time instead of silently using visit time"
+    }
+  ],
+  "failure": "AssertionError [ERR_ASSERTION]: Actual guided editor blocks explicitly invalid own observation time instead of silently using visit time\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/smoke/observation-time-browser.mjs:6:119)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/smoke/observation-time-browser.mjs:29:2",
+  "before": false,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21809/api/routine-visit?personId=p_meena"
+    }
+  ],
+  "external": [],
+  "errors": [],
+  "disposed": true,
+  "portFree": true,
+  "completedAt": "2026-10-12T16:39:03.867Z",
+  "limits": "Actual local synthetic calendar validation and unchanged writer/authority only. Before run intentionally records invalid accepted receipts and disposes fixture; no backfill/relabelled outcome. No clinical thresholds/formal story/device/p95/provider/live approval."
+}

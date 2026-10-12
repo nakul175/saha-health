@@ -1,0 +1,67 @@
+{
+  "passed": 0,
+  "failed": 14,
+  "skipped": 0,
+  "checks": [],
+  "failures": [
+    {
+      "name": "Schema refuses impossible UTC minute 2026-02-30T10:00",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\ntrue !== false\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:15:65\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:15:3"
+    },
+    {
+      "name": "Direct facts check refuses impossible UTC minute 2026-02-30T10:00",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:16:77\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:16:3"
+    },
+    {
+      "name": "Guided source identifies impossible UTC minute 2026-02-30T10:00",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(G.captureProblems({...base,date:time},{facts:base}).some(p=>p.step==='time'))\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:17:75\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:17:3"
+    },
+    {
+      "name": "Schema refuses impossible UTC minute 1900-02-29T10:00",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\ntrue !== false\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:15:65\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:15:3"
+    },
+    {
+      "name": "Direct facts check refuses impossible UTC minute 1900-02-29T10:00",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:16:77\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:16:3"
+    },
+    {
+      "name": "Guided source identifies impossible UTC minute 1900-02-29T10:00",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(G.captureProblems({...base,date:time},{facts:base}).some(p=>p.step==='time'))\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:17:75\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:17:3"
+    },
+    {
+      "name": "Schema refuses impossible UTC minute 2026-09-30T24:00",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\ntrue !== false\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:15:65\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:15:3"
+    },
+    {
+      "name": "Direct facts check refuses impossible UTC minute 2026-09-30T24:00",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:16:77\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:16:3"
+    },
+    {
+      "name": "Guided source identifies impossible UTC minute 2026-09-30T24:00",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(G.captureProblems({...base,date:time},{facts:base}).some(p=>p.step==='time'))\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:17:75\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:17:3"
+    },
+    {
+      "name": "Direct own measurement time cannot bypass finite/calendar validation not-a-date",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:19:145\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:19:43"
+    },
+    {
+      "name": "Direct own measurement time cannot bypass finite/calendar validation ",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:19:145\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:19:43"
+    },
+    {
+      "name": "Direct own measurement time cannot bypass finite/calendar validation null",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:19:145\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:19:43"
+    },
+    {
+      "name": "Guided own invalid time identifies weight field not-a-date",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(G.captureProblems({...base,provenance:{weight:{source:'measured',at:time}}},{facts:base}).some(p=>p.step==='fact:weight'))\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:20:111\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:20:38"
+    },
+    {
+      "name": "Guided own invalid time identifies weight field ",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(G.captureProblems({...base,provenance:{weight:{source:'measured',at:time}}},{facts:base}).some(p=>p.step==='fact:weight'))\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:20:111\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:13:30)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-observation-time-20261012/tests/observation-time-contract.mjs:20:38"
+    }
+  ],
+  "before": true,
+  "completedAt": "2026-10-12T16:30:21.977Z",
+  "limits": "Actual schema/shareddirectcheck and extracted unchanged source presentation function; no clinical thresholds/formal approval."
+}

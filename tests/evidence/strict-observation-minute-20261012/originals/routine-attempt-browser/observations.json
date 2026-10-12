@@ -1,0 +1,232 @@
+[
+  {
+    "caseId": "CASE-ATTEMPT-PRE-COMMAND-START",
+    "stage": "pre-command-start",
+    "actualStatus": 403,
+    "initialReceiptPresent": false,
+    "originalKey": "2a3bae8b-a0e6-444e-b3de-fe3398fac699",
+    "requestBodySha256": "c1c6484fa8da9f5014fd08e6b04e01ac0368c65b8d652577daf49e31e85e5a91",
+    "originalActorId": "t-f7a0674d-asha-a",
+    "originalOrganisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+    "browserPostRequests": [
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "2a3bae8b-a0e6-444e-b3de-fe3398fac699",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_farida\",\"command\":{\"type\":\"startVisit\",\"personId\":\"p_farida\"}}"
+      },
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "2a3bae8b-a0e6-444e-b3de-fe3398fac699",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_farida\",\"command\":{\"type\":\"startVisit\",\"personId\":\"p_farida\"}}"
+      }
+    ],
+    "recoveryReadExecuted": true,
+    "originalReceiptUnchanged": true
+  },
+  {
+    "caseId": "CASE-ATTEMPT-POST-SAVE-CONTEXT",
+    "stage": "post-save-context",
+    "actualStatus": 403,
+    "initialReceiptPresent": true,
+    "originalKey": "bac621e7-60f9-46ff-96c9-b86414066858",
+    "requestBodySha256": "fbf567798f3050fc3a2a3f323213c7fabd3fea117ac8659ebbcd396444aa0883",
+    "originalActorId": "t-f7a0674d-asha-a",
+    "originalOrganisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+    "browserPostRequests": [
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "bac621e7-60f9-46ff-96c9-b86414066858",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":2,\"facts\":{\"date\":\"2026-10-12T16:40\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"51.2\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T16:40\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"}}}}}"
+      },
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "bac621e7-60f9-46ff-96c9-b86414066858",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":2,\"facts\":{\"date\":\"2026-10-12T16:40\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"51.2\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T16:40\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"}}}}}"
+      }
+    ],
+    "recoveryReadExecuted": true,
+    "originalReceiptUnchanged": true
+  },
+  {
+    "caseId": "CASE-ATTEMPT-COMMITTED-LOST-ACK-COMPARE",
+    "stage": "committed-lost-ack-compare",
+    "actualStatus": 403,
+    "initialReceiptPresent": true,
+    "originalKey": "1436859f-95f2-45d4-8cab-f9005c0a3482",
+    "requestBodySha256": "e06c94a4b5d5315d381b4a5d62f308c17d5257216d739b404317e6729e3a7acc",
+    "originalActorId": "t-f7a0674d-asha-a",
+    "originalOrganisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+    "browserPostRequests": [
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "1436859f-95f2-45d4-8cab-f9005c0a3482",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":3,\"facts\":{\"date\":\"2026-10-12T16:40\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"51.7\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T16:40\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"}}}}}"
+      },
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "1436859f-95f2-45d4-8cab-f9005c0a3482",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":3,\"facts\":{\"date\":\"2026-10-12T16:40\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"51.7\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T16:40\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"}}}}}"
+      }
+    ],
+    "recoveryReadExecuted": true,
+    "originalReceiptUnchanged": true
+  },
+  {
+    "caseId": "CASE-ATTEMPT-DIFFERENT-ACTOR",
+    "originalKey": "89ccf5bd-9ee6-44c6-9f6c-80dd66e159eb",
+    "originalActorId": "t-f7a0674d-asha-a",
+    "differentActorId": "t-f7a0674d-asha-b",
+    "originalRequestSha256": "36cc3aed1819be872c0150aa996a0438212376dc70ff9eb7ead0099da1f47eed",
+    "browserPostRequests": [
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "89ccf5bd-9ee6-44c6-9f6c-80dd66e159eb",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":4,\"facts\":{\"date\":\"2026-10-12T16:40\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"52.3\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T16:40\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"}}}}}"
+      },
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "89ccf5bd-9ee6-44c6-9f6c-80dd66e159eb",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":4,\"facts\":{\"date\":\"2026-10-12T16:40\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"52.3\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T16:40\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"}}}}}"
+      },
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "89ccf5bd-9ee6-44c6-9f6c-80dd66e159eb",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":4,\"facts\":{\"date\":\"2026-10-12T16:40\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"52.3\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T16:40\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"}}}}}"
+      }
+    ],
+    "wrongActorRecoveryGetStatus": 200,
+    "trustedIdentityRaceApplied": true,
+    "raceAdapter": "Actual frozen request forwarded through native client to same Worker under changed trusted identity after legitimate reassignment; actual response fulfilled into browser.",
+    "actualForwardedResponse": {
+      "status": 403,
+      "body": {
+        "error": "The signed-in account changed. Recover the original attempt with the original account."
+      },
+      "originalKey": "89ccf5bd-9ee6-44c6-9f6c-80dd66e159eb",
+      "expectedActor": "t-f7a0674d-asha-a",
+      "actualTrustedActor": "t-f7a0674d-asha-b",
+      "requestBodySha256": "36cc3aed1819be872c0150aa996a0438212376dc70ff9eb7ead0099da1f47eed"
+    },
+    "raceGetStatus": 200,
+    "racePostStatus": 403,
+    "wrongActorReceiptPresent": false,
+    "originalActorReceiptPresent": true
+  },
+  {
+    "caseId": "CASE-ATTEMPT-COMPETING-SAVEVISIT",
+    "type": "saveVisit",
+    "originalKey": "a60dda92-57c4-49ed-8d10-63906553b5ae",
+    "originalBodySha256": "1e7141552409a5bdba8ef9fc03a91e5dc0e13dbbf29f903ce2152e6676e39e96",
+    "originalVersion": 5,
+    "competingVersion": 6,
+    "originalCorrectionValue": "53.4",
+    "originalProgrammeChoice": "Yes",
+    "actualRetryStatus": 409,
+    "actualRetryProof": {
+      "outcome": "not-applied-stale-version",
+      "key": "a60dda92-57c4-49ed-8d10-63906553b5ae",
+      "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+      "personId": "p_meena",
+      "visitId": "90335d16-ae02-4b04-8131-49c8af660de7",
+      "expectedVersion": 5,
+      "currentVersion": 6
+    },
+    "competitorReceiptUnchanged": true,
+    "originalReceiptAbsent": true,
+    "browserPostRequests": [
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "a60dda92-57c4-49ed-8d10-63906553b5ae",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":5,\"facts\":{\"date\":\"2026-10-12T16:40\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"53.4\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T16:40\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"}}}}}"
+      },
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "a60dda92-57c4-49ed-8d10-63906553b5ae",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":5,\"facts\":{\"date\":\"2026-10-12T16:40\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"53.4\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T16:40\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T16:40\"}}}}}"
+      }
+    ]
+  },
+  {
+    "caseId": "CASE-ATTEMPT-COMPETING-SAVEPROGRAMMEANSWERS",
+    "type": "saveProgrammeAnswers",
+    "originalKey": "26c8752a-4047-4503-8f9a-f27dcfde8257",
+    "originalBodySha256": "5bf54865351d9794193c3c9a67edaab5bfa1cf0dac37c4bfc8bc18e7fd990f83",
+    "originalVersion": 6,
+    "competingVersion": 7,
+    "originalCorrectionValue": null,
+    "originalProgrammeChoice": "Yes",
+    "actualRetryStatus": 409,
+    "actualRetryProof": {
+      "outcome": "not-applied-stale-version",
+      "key": "26c8752a-4047-4503-8f9a-f27dcfde8257",
+      "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+      "personId": "p_meena",
+      "visitId": "90335d16-ae02-4b04-8131-49c8af660de7",
+      "expectedVersion": 6,
+      "currentVersion": 7
+    },
+    "competitorReceiptUnchanged": true,
+    "originalReceiptAbsent": true,
+    "browserPostRequests": [
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "26c8752a-4047-4503-8f9a-f27dcfde8257",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveProgrammeAnswers\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":6,\"answers\":{\"maternal_contact\":\"Yes\"},\"absence\":{}}}"
+      },
+      {
+        "method": "POST",
+        "url": "http://127.0.0.1:9481/api/routine-visit",
+        "key": "26c8752a-4047-4503-8f9a-f27dcfde8257",
+        "organisationId": "org_17fa0a8f4ae8f1f3659bc3859d34ebb6",
+        "expectedActor": "t-f7a0674d-asha-a",
+        "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveProgrammeAnswers\",\"visitId\":\"90335d16-ae02-4b04-8131-49c8af660de7\",\"version\":6,\"answers\":{\"maternal_contact\":\"Yes\"},\"absence\":{}}}"
+      }
+    ]
+  },
+  {
+    "caseId": "CASE-ATTEMPT-SERVER-ACTOR-PRECONDITION",
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "The signed-in account changed. Recover the original attempt with the original account."
+    },
+    "malformedBodyStatus": 403,
+    "wrongActorReceiptPresent": false,
+    "originalActorReceiptPresent": false
+  }
+]

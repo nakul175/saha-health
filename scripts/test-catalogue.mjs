@@ -34,6 +34,7 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+ 'tests/smoke/observation-time-browser.mjs':['tests/reports/observation-time-browser/result.json'],
  'tests/integration/routine-telemetry-retention-http.mjs':['tests/reports/routine-telemetry-retention-result.json'],
  'tests/test-runner-manual-intake-v2-contract.mjs':['tests/reports/runner-manual-intake-v2-result.json'],
  'tests/installed-programme-single-runtime-current.mjs':['tests/reports/installed-programme-single-runtime-current/result.json'],
