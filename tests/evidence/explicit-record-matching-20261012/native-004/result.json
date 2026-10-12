@@ -1,0 +1,651 @@
+{
+  "passed": 44,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Actual separate synthetic twin records share name locality age and permitted TEST contact; no automatic merge",
+    "Actual scoped setup exposes current actor and permitted teams only",
+    "Actual permitted matching yields2separate possible records and original assistance evidence, with no selected identity",
+    "Actual explicit second-record choice opens exactly that original version and actor context",
+    "Matching disclosure contains no contact secret clinical partition provider binding or invented score",
+    "Untrusted account tenant and non-ASHA setup refuse",
+    "Untrusted account tenant and non-ASHA setup refuse",
+    "Untrusted account tenant and non-ASHA setup refuse",
+    "Untrusted account tenant and non-ASHA setup refuse",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 422",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 403",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 403",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 403",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 400",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 422",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 409",
+    "Missing explicitorg and GET search text refuse",
+    "Real Today entry carries current organisation only; no name or inferred person",
+    "Typing demographics does not automatically search select or prepare any person-specific action",
+    "Actual phone demographic input has a visible border and44px height",
+    "Actual twin ambiguity selects neither record and requires explicit choice and affirmation",
+    "A selected radio alone never opens or resolves identity",
+    "Explicit cancellation discards possible-choice state without a selection read",
+    "Actual mobile explicit choice opens exactly the chosen stable record identifier",
+    "Phone selected-record card has no horizontal overflow",
+    "Actual selected phone accessibility scan has zero violations",
+    "All60 stored tables unchanged throughout search cancel and selection except existing audit/metrics; zero registration matchcopy merge visit or receipt",
+    "Genuine original person-version change rejects the old candidate fingerprint",
+    "Stale choice creates no identity merge clinical change or command receipt",
+    "Actual BEFORE search audit membership loss refuses all candidate disclosure",
+    "Actual BEFORE search audit role loss refuses all candidate disclosure",
+    "Actual BEFORE search audit assignment loss refuses all candidate disclosure",
+    "Actual AFTER search audit membership loss refuses all candidate disclosure",
+    "Actual AFTER search audit role loss refuses all candidate disclosure",
+    "Actual AFTER search audit assignment loss refuses all candidate disclosure",
+    "Named purpose removal refuses matching even with existing assignment",
+    "Editing demographics clears old candidates and affirmation before any new search",
+    "Actual audited200 matching reply lost once leaves no choice and no automatic resend",
+    "Explicit access refresh and new search recovers without replaying the lost request",
+    "Actual audit dependency failure withholds matching information rather than claiming empty results",
+    "Actual offline transition clears demographics candidates and selected record controls",
+    "No browser runtime errors or external/provider calls",
+    "Actual application helper newtests and compiled file hashes unchanged throughout owned native execution",
+    "Owned synthetic backend disposed and loopback port free"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/record-matching",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"search\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"}}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"search\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"}}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"select\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"},\"hash\":\"83c466b928488fe06a2f2bbe5ff416980b36dd1f727501b7eb8778e90f52eb3b\",\"personId\":\"efa71eaa-b7af-41f8-826b-8de0cf07ba43\",\"version\":3}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/record-matching",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"search\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"}}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/record-matching",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"search\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"}}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/record-matching",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"search\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"}}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"search\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"}}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/record-matching",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"search\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"}}"
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "races": [
+    {
+      "timing": "BEFORE",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "role",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "assignment",
+      "status": 409
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "role",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "assignment",
+      "status": 409
+    }
+  ],
+  "beforeTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 9,
+      "sha256": "43d11090a58e28d6ac81d295afd1a32236824931bd354eb589b075eec4a5e740"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 103,
+      "sha256": "b9aa7c31b5def11df0df242233971a9f6d03dc80c0cbbb02bd141fb742b78a86"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 8,
+      "sha256": "10f21d062d590431134788ccf07b0f3d42d92448087fc7463dcc3da296a0f987"
+    },
+    "device_match_copies": {
+      "rows": 1,
+      "sha256": "ed799dd17bfc98f4dd287c4476b6f4aefd32ca1fe2a19cdb6abf2992d75c93cf"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 1,
+      "sha256": "5ae2a8e40c2bb688c4684547ec9cc6c1b718886fc4bef37b6ad3668d3aaab9f2"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 3,
+      "sha256": "5b0d9a7026f2c92f8968ba7b1fb7c45497b9f44bb78180d7006067ed2925760b"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 18,
+      "sha256": "7166e7a7cbb03d5295dd26d8960108ab63fadfc87f5a4c3401ecc39dd01fbdc9"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "7354a12716324ce88100876f5347b353ff226af59780dcedad3ebd6dbb5a3fd1"
+    },
+    "legacy_migrations": {
+      "rows": 3,
+      "sha256": "13fc6d0a19aeced49f4243848fee01f570c1dbb37083abbce99cb6ff8d283204"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 10,
+      "sha256": "6a58ffdaad1bc3966b4392801085291f7ef5c0fec06bced18a7e668f567ceaad"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 3,
+      "sha256": "926939cf970943a43e312bdcc1584f658ada3792043093cfcb93ffc0c5aef591"
+    },
+    "outreach": {
+      "rows": 1,
+      "sha256": "9d3480461d6d08739965a3656281eed1d83073e1f8b55f3054e5bfb055ff9206"
+    },
+    "patients": {
+      "rows": 20,
+      "sha256": "ea06e56a0936ddf19c4ddfab35150233287c03f1179f016a1c637132f6580d56"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 24,
+      "sha256": "75f7849e97fb90899d6bf60e91ec115f2265ef95cc802654c54129eb5856987d"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 5,
+      "sha256": "d93f9d41bb9f4d03fe993a77ef2984a47ed5db54d029325bc86fc511ec283e57"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 10,
+      "sha256": "3b531ac7c4d92e723dfc8e1d811695be3c01f13ae7a905d965bc102cb9e39591"
+    },
+    "teams": {
+      "rows": 3,
+      "sha256": "2dd913084d78ead24418dd9a520e6bb5a5c14b547591220023823607ba6043e8"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "afterTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 9,
+      "sha256": "43d11090a58e28d6ac81d295afd1a32236824931bd354eb589b075eec4a5e740"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 108,
+      "sha256": "383c4c869aded6b60d2a925d6d2a2d89610fbe0a06991466d725937a9d98b00c"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 8,
+      "sha256": "10f21d062d590431134788ccf07b0f3d42d92448087fc7463dcc3da296a0f987"
+    },
+    "device_match_copies": {
+      "rows": 1,
+      "sha256": "ed799dd17bfc98f4dd287c4476b6f4aefd32ca1fe2a19cdb6abf2992d75c93cf"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 1,
+      "sha256": "5ae2a8e40c2bb688c4684547ec9cc6c1b718886fc4bef37b6ad3668d3aaab9f2"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 3,
+      "sha256": "5b0d9a7026f2c92f8968ba7b1fb7c45497b9f44bb78180d7006067ed2925760b"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 18,
+      "sha256": "7166e7a7cbb03d5295dd26d8960108ab63fadfc87f5a4c3401ecc39dd01fbdc9"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "7354a12716324ce88100876f5347b353ff226af59780dcedad3ebd6dbb5a3fd1"
+    },
+    "legacy_migrations": {
+      "rows": 3,
+      "sha256": "13fc6d0a19aeced49f4243848fee01f570c1dbb37083abbce99cb6ff8d283204"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 10,
+      "sha256": "6a58ffdaad1bc3966b4392801085291f7ef5c0fec06bced18a7e668f567ceaad"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 3,
+      "sha256": "926939cf970943a43e312bdcc1584f658ada3792043093cfcb93ffc0c5aef591"
+    },
+    "outreach": {
+      "rows": 1,
+      "sha256": "9d3480461d6d08739965a3656281eed1d83073e1f8b55f3054e5bfb055ff9206"
+    },
+    "patients": {
+      "rows": 20,
+      "sha256": "ea06e56a0936ddf19c4ddfab35150233287c03f1179f016a1c637132f6580d56"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 24,
+      "sha256": "75f7849e97fb90899d6bf60e91ec115f2265ef95cc802654c54129eb5856987d"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 6,
+      "sha256": "36a476c5c8c191b188cea632eaf6ec6b7e69b6d1b0fdb0e83327597849de6ae4"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 10,
+      "sha256": "3b531ac7c4d92e723dfc8e1d811695be3c01f13ae7a905d965bc102cb9e39591"
+    },
+    "teams": {
+      "rows": 3,
+      "sha256": "2dd913084d78ead24418dd9a520e6bb5a5c14b547591220023823607ba6043e8"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "disposed": true,
+  "portFree": true,
+  "statePreservedOnFailure": null,
+  "completedAt": "2026-10-12T17:23:37.369Z",
+  "limits": "Bounded assigned-ASHA demographic matching and explicit existing record selection only. No identity merge/verification, issuer search, registration, assistant action or clinical writer. Not fullstory/CWO/physical/privacytiming/matchingperformance/formal/UAT/hosting acceptance.60table equality covers initial pure read/search/cancel/selection before deliberate mutation fixtures."
+}

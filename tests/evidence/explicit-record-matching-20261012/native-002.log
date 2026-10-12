@@ -1,0 +1,57 @@
+{"event":"saha_request","requestId":"39f3c568-90c6-44ec-9273-d3314e37ec4d","route":"workspace","status":200,"durationMs":22}
+{"event":"saha_request","requestId":"ac840aaf-0e1d-4073-9a65-b50cd2af6a02","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"2fc23914-5f03-42ab-b561-af4bc92dd800","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"d2020597-e2ea-4f3e-b362-411a076a4581","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"6924cfa7-4f19-4bf5-ac4b-c5d9438cfc4b","route":"commands","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"a43a96eb-73bc-4651-9c0c-fe23861bb608","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"be5fcb9d-a540-45e4-8568-f36f6ac208fc","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"4686b95d-72d0-48e6-961b-1dcc4c62cab5","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"0906ae93-6bf0-4664-8b23-fff0164eba24","route":"patient-matches","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"d9e8b9fe-ae73-44c5-9906-b8f201b62951","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"44fdb0c5-39d9-4085-9b69-fa565584458f","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"9095ab0e-7772-472c-a2b2-1c31bc63b513","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"d37cdc3a-9909-4be3-babb-7afe2759364c","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"ac602e7c-4717-44b3-a1ad-4db12d1cc378","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"6874e592-36e0-4151-8dc0-ec3ae8792816","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"cb93a657-d183-44bf-a039-0a2a56253764","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"59fed440-8c66-4c32-9814-c408e7951e89","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"39ed8c10-c94d-4cfc-91eb-8bdd74f6c05a","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"9c3836fa-b064-4f46-afd9-633592b56135","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"6318b1f3-97cd-4d87-8c35-f8b6b86b2202","route":"workspace","status":200,"durationMs":3}
+PASS Actual separate synthetic twin records share name locality age and permitted TEST contact; no automatic merge
+PASS Actual scoped setup exposes current actor and permitted teams only
+PASS Actual permitted matching yields2separate possible records and original assistance evidence, with no selected identity
+PASS Actual explicit second-record choice opens exactly that original version and actor context
+PASS Matching disclosure contains no contact secret clinical partition provider binding or invented score
+PASS Untrusted account tenant and non-ASHA setup refuse
+PASS Untrusted account tenant and non-ASHA setup refuse
+PASS Untrusted account tenant and non-ASHA setup refuse
+PASS Untrusted account tenant and non-ASHA setup refuse
+PASS Actual wrong operation actor team origin address malformed input and unseen choice refuse 422
+PASS Actual wrong operation actor team origin address malformed input and unseen choice refuse 403
+{"passed":11,"failed":1,"skipped":0,"disposed":true}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+[TypeError: fetch failed] {
+  [cause]: SocketError: other side closed
+      at Socket.onHttpSocketEnd (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/undici@7.24.8/node_modules/undici/lib/dispatcher/client-h1.js:896:22)
+      at Socket.emit (node:events:526:24)
+      at endReadableNT (node:internal/streams/readable:1764:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'UND_ERR_SOCKET',
+    socket: {
+      localAddress: '127.0.0.1',
+      localPort: 50820,
+      remoteAddress: undefined,
+      remotePort: undefined,
+      remoteFamily: undefined,
+      timeout: undefined,
+      bytesWritten: 14837,
+      bytesRead: 99870
+    }
+  }
+}
+
+Node.js v24.21.0

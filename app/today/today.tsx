@@ -128,6 +128,8 @@ export default function Today() {
           <button onClick={() => void load()}>Back to Today</button>
           <a href={'/routine-visit?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
             encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review routine visit</a>
+          <a href={'/record-matching?organisationId=' + encodeURIComponent(
+            view.kind === 'record' ? view.organisationId : '')}>Find an existing record</a>
         </>
       ) : (
         <>

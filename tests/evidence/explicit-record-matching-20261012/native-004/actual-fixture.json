@@ -1,0 +1,140 @@
+{
+  "org": "org_f7037a84a67039459f88d7deb8cd0b00",
+  "actor": "t-1c997982-asha",
+  "first": "efa71eaa-b7af-41f8-826b-8de0cf07ba43",
+  "second": "0d196287-282c-4657-96c9-6f5c46898fc0",
+  "query": {
+    "name": "Synthetic Same Twin",
+    "age": 25,
+    "sex": "Female",
+    "village": "Synthetic matching locality",
+    "teamId": "default"
+  },
+  "found": {
+    "organisationId": "org_f7037a84a67039459f88d7deb8cd0b00",
+    "actorId": "t-1c997982-asha",
+    "hash": "83c466b928488fe06a2f2bbe5ff416980b36dd1f727501b7eb8778e90f52eb3b",
+    "candidates": [
+      {
+        "id": "0d196287-282c-4657-96c9-6f5c46898fc0",
+        "name": "Synthetic Same Twin",
+        "age": 25,
+        "sex": "Female",
+        "village": "Synthetic matching locality",
+        "version": 3,
+        "match": "Same normalised name"
+      },
+      {
+        "id": "efa71eaa-b7af-41f8-826b-8de0cf07ba43",
+        "name": "Synthetic Same Twin",
+        "age": 25,
+        "sex": "Female",
+        "village": "Synthetic matching locality",
+        "version": 3,
+        "match": "Same normalised name"
+      }
+    ],
+    "overflow": false,
+    "scope": "Only records permitted to your current account are searched. Candidates are not identity decisions.",
+    "selected": null
+  },
+  "selected": {
+    "organisationId": "org_f7037a84a67039459f88d7deb8cd0b00",
+    "actorId": "t-1c997982-asha",
+    "hash": "83c466b928488fe06a2f2bbe5ff416980b36dd1f727501b7eb8778e90f52eb3b",
+    "candidates": [
+      {
+        "id": "0d196287-282c-4657-96c9-6f5c46898fc0",
+        "name": "Synthetic Same Twin",
+        "age": 25,
+        "sex": "Female",
+        "village": "Synthetic matching locality",
+        "version": 3,
+        "match": "Same normalised name"
+      },
+      {
+        "id": "efa71eaa-b7af-41f8-826b-8de0cf07ba43",
+        "name": "Synthetic Same Twin",
+        "age": 25,
+        "sex": "Female",
+        "village": "Synthetic matching locality",
+        "version": 3,
+        "match": "Same normalised name"
+      }
+    ],
+    "overflow": false,
+    "scope": "Only records permitted to your current account are searched. Candidates are not identity decisions.",
+    "selected": {
+      "id": "0d196287-282c-4657-96c9-6f5c46898fc0",
+      "name": "Synthetic Same Twin",
+      "age": 25,
+      "sex": "Female",
+      "village": "Synthetic matching locality",
+      "version": 3,
+      "identityState": "local"
+    }
+  },
+  "observed": {
+    "status": 200,
+    "body": {
+      "organisationId": "org_f7037a84a67039459f88d7deb8cd0b00",
+      "actorId": "t-1c997982-asha",
+      "hash": "a171b739f50e702c68f500bcb9b61565e371ac94c1f0bc9797e3afb77fdf90e6",
+      "candidates": [
+        {
+          "id": "0d196287-282c-4657-96c9-6f5c46898fc0",
+          "name": "Synthetic Same Twin",
+          "age": 25,
+          "sex": "Female",
+          "village": "Synthetic matching locality",
+          "version": 7,
+          "match": "Same normalised name"
+        },
+        {
+          "id": "efa71eaa-b7af-41f8-826b-8de0cf07ba43",
+          "name": "Synthetic Same Twin",
+          "age": 25,
+          "sex": "Female",
+          "village": "Synthetic matching locality",
+          "version": 4,
+          "match": "Same normalised name"
+        }
+      ],
+      "overflow": false,
+      "scope": "Only records permitted to your current account are searched. Candidates are not identity decisions.",
+      "selected": null
+    }
+  },
+  "races": [
+    {
+      "timing": "BEFORE",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "role",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "assignment",
+      "status": 409
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "role",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "assignment",
+      "status": 409
+    }
+  ]
+}
