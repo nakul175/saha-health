@@ -19,3 +19,6 @@ Affected requirement: `BR-UX-09`. Source and focused checks:
 * `tests/ui/plan-review.spec.mjs`
 
 Preserve all original cases,389 regression records/minima, confirmed records, audit, receipts and historical manifests. New test minima are registered only from actual native runs. Existing data/API identity/scoping contracts remain authoritative. No real patient, new database/provider, paid service, clinical policy or hosted access.
+
+
+Root metadata diagnostic: the first isolated checker mirror omitted the newly untracked current manifest, so its initial positive check failed and executed no negative controls. A premature root copy descriptor saying8 controls is preserved as an explicitly corrected author error. Final isolated execution genuinely rejects8 tamper variants and has2 untampered passes; evidence is in `tests/evidence/action-review-final-integrity-20261012/`. Current API qualification actually records64 authorization +32 smoke/one inherited media-ID skip on101 method handlers. Static UI listing finds29 original +6 new=35; listing emits35 skipped/zeroexecuted and is not six executedcases or originalUI qualification. Complete exact-head CI must execute35.

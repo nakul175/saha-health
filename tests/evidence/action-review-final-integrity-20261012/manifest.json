@@ -1,0 +1,65 @@
+{
+  "files": {
+    "integrity-outside-archive.log": {
+      "sha256": "e8f278d98c3c60dc3660269b185fad58143dbef25b1d319a5c94b6956f73e3b7",
+      "bytes": 252
+    },
+    "integrity-original-manifest-tamper.log": {
+      "sha256": "5b0df6f4a408707282ebd6a3dcb717667ed3fda950dbe796236fe30fb9c33fd3",
+      "bytes": 49
+    },
+    "integrity-positive-after.log": {
+      "sha256": "343e1f8a6897dd084fe1f20e66f607d0470c8ba0bac1dd60efb6f27f21ff9c43",
+      "bytes": 893
+    },
+    "integrity-positive-before.log": {
+      "sha256": "343e1f8a6897dd084fe1f20e66f607d0470c8ba0bac1dd60efb6f27f21ff9c43",
+      "bytes": 893
+    },
+    "integrity-current-evidence-tamper.log": {
+      "sha256": "e67e9c89ab84d5e0b52d5caec27a52aa105caf8cf8f8a3257f79f990fb0559e7",
+      "bytes": 491
+    },
+    "integrity-wrong-source-path.log": {
+      "sha256": "67bb2e2e39d7cb0d3f8d784b0a21c9708e32c890d6da1c9f9703b46c986c99cc",
+      "bytes": 51
+    },
+    "integrity-wrong-current-pin.log": {
+      "sha256": "9a8f66376764ab16f7e1e5da6f8eaecb9f2bca37db2018c37d1c612b483fb3fb",
+      "bytes": 81
+    },
+    "integrity-current-source-tamper.log": {
+      "sha256": "51e07dfc29686ca6ac4f85b395918f4f491b895bf3c79844fccf39c84c3a4d85",
+      "bytes": 147
+    },
+    "integrity-historical-source-tamper.log": {
+      "sha256": "b293a3c7e1280444c81a5ec172d96c4ded5e3273d2fdb4d66d74598fa1e73123",
+      "bytes": 291
+    },
+    "METADATA-INTEGRITY-CONTROLS.json": {
+      "sha256": "fc2e9b3652d43f5beeb8ae6a3b210f90da45087033d00fcd6086b3afb6080f6e",
+      "bytes": 3976
+    },
+    "integrity-archive-symlink-escape.log": {
+      "sha256": "af6b37a0dd83a685fe7eb0cf45237e888ac5bc0611eaeeda8ae01af1ceff14a2",
+      "bytes": 271
+    },
+    "ROOT-FIRST-INTEGRITY-CONTROL-DISPOSITION.json": {
+      "sha256": "6f18de952e000a480dbc647850a790399076ec178d79570b77ccf7229a4037d7",
+      "bytes": 517
+    },
+    "ui-result.json": {
+      "sha256": "c370ad249e158839c2f337006e6d11d5893a90543f58d4f9cb3177d9eacc4d12",
+      "bytes": 8228
+    },
+    "tests/evidence/action-review-root-integrity-20261012/manifest.json": {
+      "sha256": "bc6ab641d4bff6bb950316c5398df2f2cae4e94eeb6b73df3d71a99b9252b131",
+      "bytes": 484
+    }
+  },
+  "actualCheckerControls": 8,
+  "actualCleanControls": 2,
+  "previousRootCIControls": 4,
+  "disposition": "The preserved first root-integrity folder records a failed private-mirror setup with zero actualnegativecontrols, despite a prematurelywritten8control descriptor. Current real8refusals/2clean results are in this finalfolder; originalmistake retained explicitly, not treated aspassed firstexecution. UIlistreport35skips is staticdiscovery, not applicationcaseexecution.",
+  "limits": "Root author metadata only; separate final review/fullCI required. Originalsource9/389guards/26minimum/ninegoldens unchanged; no deployment/whole-story acceptance."
+}
