@@ -1,0 +1,104 @@
+{
+  "passed": 48,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Actualopaqueowner/org/existingmemberselectornot coerced",
+    "Contextno patient/token/invitationdata",
+    "Actualownercontext all60tables readonly exceptauditmetrics",
+    "Actual anonymous ownercontextrefused/zero60tablebootstrap",
+    "Actual nonowner ownercontextrefused/zero60tablebootstrap",
+    "Actual wrongorg ownercontextrefused/zero60tablebootstrap",
+    "Actual foreignowner ownercontextrefused/zero60tablebootstrap",
+    "Actual changedactor ownercontextrefused/zero60tablebootstrap",
+    "Actual unknown ownercontextrefused/zero60tablebootstrap",
+    "Unknowntrustedsubject0accountcreation",
+    "Originalpartialdiff classifiesexactexistingrole update/leaver suspension",
+    "Actualpreview storeszero membership/clinical/receipt/invitation changes",
+    "Actual unmappedrole unsupportedregistryinput refused no role/clinical/receipt/invite mutation",
+    "Actual complete unsupportedregistryinput refused no role/clinical/receipt/invite mutation",
+    "Actual provision unsupportedregistryinput refused no role/clinical/receipt/invite mutation",
+    "Actual self unsupportedregistryinput refused no role/clinical/receipt/invite mutation",
+    "Actual unknownteam unsupportedregistryinput refused no role/clinical/receipt/invite mutation",
+    "Actual wrongwriter unsupportedregistryinput refused no role/clinical/receipt/invite mutation",
+    "ExplicitoriginalrosterApply actualexistingroles/leaver status",
+    "Actualrosterapply preservesconfirmedclinical/history/no patientvisit/submission/invitationcreation",
+    "Exactlyone originalcommandreceipt/oldreceiptsbytepreserved",
+    "Exactoriginalrow/hash/body/keyrecovery no duplicate mutation despite suspension",
+    "Differentbody samekey refuseshashbinding",
+    "Originalcurrentaccess rechecks actualsuspendedlocalmembership, no upstreamsessionclaim",
+    "OriginalASHAToday refusesnewclinicianrole, no token/sessiontermination claim",
+    "Actualmemberversionchanged afterpreview refusesno clinical/receipt/invite mutation",
+    "Actualpostaudit ownownerflag revocation withholdsmetadata evenunchangedversion",
+    "Actualmobile no defaultmember/privilegedrole/status inference",
+    "Actualexplicitcancelclearsreview no staff/clinical/receipt mutation",
+    "Originalpreview andexplicitconfirmation/reason required beforeapply",
+    "Actual390phoneAXEzero",
+    "Actual390 nooverflow/touch44",
+    "Actualcommitted200responseloss one localstaffupdate/receipt/no clinical/invite/provisioning",
+    "Manualoriginalowner currentauthority exactbody/keyrecovery zero duplicate/newkey",
+    "Actualoffline clearsprotectedstaffdetails",
+    "Actualpagehide clearsprotectedstaffdetails",
+    "ActualambiguousorgURL refusesmetadata",
+    "Originaladminrole no longerhasASHApatientaccess; no JWTterminationfaked",
+    "Actualoriginalfutureassignment ownercontextexactdeadline/all60readonly",
+    "Actualknownfutureassignment refusesoriginaldispatch/no scheduler clinicalstafforreceiptmutation",
+    "Actualfutureassignmentdeadline clearsprotectedownerroster",
+    "Actualdueread refusesno originalbootstrap/scheduler/assignment/history/receipt writes",
+    "Actualheldassignment readrefuseswithoutmutating queue",
+    "Actualcorruptassignment contextunavailable neverguessednopendingwork",
+    "Actualauditunavailable withholdsownerstaffmetadata/no clinicalreceiptwrite",
+    "Actualbrowser0pageerrors/0providers",
+    "App/lib/tests/compiledsource unchangedduringnative",
+    "Ownedsyntheticworker disposed/portfree"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "body": null,
+      "key": null
+    },
+    {
+      "method": "POST",
+      "body": "{\"kind\":\"preview\",\"rows\":[{\"accountCode\":\"6BEC2BF1C0B7081637B73539\",\"name\":\"Synthetic worker institution member\",\"role\":\"admin\",\"teams\":[],\"status\":\"active\"}]}",
+      "key": null
+    },
+    {
+      "method": "POST",
+      "body": "{\"kind\":\"preview\",\"rows\":[{\"accountCode\":\"6BEC2BF1C0B7081637B73539\",\"name\":\"Synthetic worker institution member\",\"role\":\"admin\",\"teams\":[],\"status\":\"active\"}]}",
+      "key": null
+    },
+    {
+      "method": "POST",
+      "body": "{\"kind\":\"apply\",\"rows\":[{\"accountCode\":\"6BEC2BF1C0B7081637B73539\",\"name\":\"Synthetic worker institution member\",\"role\":\"admin\",\"teams\":[],\"status\":\"active\"}],\"previewHash\":\"85d17e43eec4d86ce2a71edf9e3c5a7c860a832af8cd6a665eaba927a82071b8\",\"reason\":\"Synthetic human reviewed original institution rolechange\"}",
+      "key": "d7ff85e7-2437-4682-adb4-b82e713e7fd4"
+    },
+    {
+      "method": "GET",
+      "body": null,
+      "key": null
+    },
+    {
+      "method": "POST",
+      "body": "{\"kind\":\"apply\",\"rows\":[{\"accountCode\":\"6BEC2BF1C0B7081637B73539\",\"name\":\"Synthetic worker institution member\",\"role\":\"admin\",\"teams\":[],\"status\":\"active\"}],\"previewHash\":\"85d17e43eec4d86ce2a71edf9e3c5a7c860a832af8cd6a665eaba927a82071b8\",\"reason\":\"Synthetic human reviewed original institution rolechange\"}",
+      "key": "d7ff85e7-2437-4682-adb4-b82e713e7fd4"
+    },
+    {
+      "method": "GET",
+      "body": null,
+      "key": null
+    },
+    {
+      "method": "GET",
+      "body": null,
+      "key": null
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "disposed": true,
+  "portFree": true,
+  "statePreservedOnFailure": null,
+  "completedAt": "2026-10-12T21:08:19.525Z",
+  "limits": "Manualexistingmemberpartialroster originalpreview/apply only; originalrights/sessionprovider/approvedfedwindow notcreated. Noinvites/credentials/provider/patientDB/clinicalpolicy/writerchanges. Originalstatusrequest rechecks are not upstreamsessiontermination. NativeassetsFirst usesrealbuiltassets/API; genuinecommitted200aborted only,no response substitution. Fullformal/physical/domain/CI/hosting unqualified."
+}

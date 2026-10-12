@@ -1,0 +1,199 @@
+{
+  "generatedAt": "2026-10-12T21:07:08.606Z",
+  "startedAt": "2026-10-12T21:07:05.325Z",
+  "command": "node scripts/test.mjs unit --fast --guard --only unit/roster-contract --only unit/workforce-import-contract --only unit/access-membership-contract --only unit/access-scope-contract --only unit/caseload-schedule-contract --report ../../outputs/saha-next50-20261012/institution-roster-review/originals001.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 5,
+      "passed": 152,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3122,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 5,
+    "passed": 152,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 3281
+  },
+  "suites": [
+    {
+      "id": "unit/access-membership-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/access-membership-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 997,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/access-membership-contract-result.json"
+      ],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/unit__access-membership-contract.log"
+    },
+    {
+      "id": "unit/access-scope-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/access-scope-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 224,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/access-scope-contract-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__access-scope-contract.log"
+    },
+    {
+      "id": "unit/caseload-schedule-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-caseload-schedule-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 623,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__caseload-schedule-contract.log"
+    },
+    {
+      "id": "unit/roster-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-roster-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 615,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__roster-contract.log"
+    },
+    {
+      "id": "unit/workforce-import-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-workforce-import-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 663,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__workforce-import-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 5,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/verification-programme-root-integration/fixtures/caseload-schedule-contract/caseload-schedule-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/roster-contract/roster-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/workforce-import-contract/workforce-import-contract-result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/access-membership-contract-result.json",
+      "tests/access-scope-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 638,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

@@ -1,0 +1,70 @@
+.institution-roster {
+  max-width: 46rem;
+  margin: auto;
+  padding: 1rem;
+  color: #173139;
+  background: #fff;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.institution-roster h1 {
+  font-size: 1.7rem;
+}
+.institution-roster section,
+.institution-roster form {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #a0b3bb;
+  border-radius: 0.5rem;
+}
+.institution-roster label {
+  display: block;
+  margin: 0.7rem 0;
+}
+.institution-roster select,
+.institution-roster textarea {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid #52717d;
+  background: #fff;
+  color: #173139;
+  border-radius: 0.3rem;
+}
+.institution-roster textarea {
+  min-height: 85px;
+}
+.institution-roster button {
+  min-height: 44px;
+  margin: 0.4rem 0.4rem 0.4rem 0;
+  padding: 0.5rem;
+  border: 1px solid #486b77;
+  border-radius: 0.3rem;
+  background: #edf5f5;
+  color: #173139;
+}
+.institution-roster button:disabled {
+  background: #e8eded;
+  color: #52666d;
+}
+.institution-roster .tick {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  min-height: 44px;
+}
+.institution-roster input[type='checkbox'] {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.institution-roster fieldset {
+  border: 1px solid #a0b3bb;
+  padding: 0.6rem;
+  margin: 0.8rem 0;
+}
+.institution-roster :focus-visible {
+  outline: 3px solid #216a82;
+  outline-offset: 3px;
+}
