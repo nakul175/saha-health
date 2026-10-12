@@ -19,10 +19,10 @@ try {
     minDate: '2026-10-12', maxDate: '2027-01-10', members: [
       { personId: 'p1', items: [{ refs: [{ kind: 'follow-up', id: 'f1' }], owner: 'Assigned worker', attention: 'overdue', daysOverdue: 2 }] },
       { personId: 'p2', name: 'OTHER PERSON SECRET', items: [] }], visits: [
-      { id: 's1', date: '2026-10-14', window: 'morning', state: 'planned', canReschedule: true, replacesVisitId: null,
+      { id: 's1', date: '2026-10-14', window: 'morning', state: 'planned', canReschedule: true, outsideScopeCovered: 0, replacesVisitId: null,
         covers: [{ personId: 'p1', version: 5, items: [{ kind: 'follow-up', id: 'f1', title: 'Existing follow-up', due: '2026-10-10', open: true, lateByDays: 4 }] },
           { personId: 'p2', version: 9, items: [{ kind: 'home-visit', id: 'p2', title: 'OTHER PRIVATE TITLE', due: 'Today', open: true, lateByDays: 0 }] }] },
-      { id: 's2', date: '2026-10-13', window: 'evening', state: 'cancelled', canReschedule: false, replacesVisitId: null,
+      { id: 's2', date: '2026-10-13', window: 'evening', state: 'cancelled', canReschedule: false, outsideScopeCovered: 0, replacesVisitId: null,
         covers: [{ personId: 'p1', version: 5, items: [] }] }] } });
   await report.check('Exact selectors are accepted without granting authority', () => assert.deepEqual(select(new URLSearchParams('personId=p1&organisationId=o1')), { personId: 'p1', organisationId: 'o1' }));
   for (const [name, query] of [['missing organisation', 'personId=p1'], ['duplicate person', 'personId=p1&personId=p2&organisationId=o1'],
@@ -54,6 +54,22 @@ try {
     assert.deepEqual(rescheduleAccepted({ result: { visitId: 'new', replacesVisitId: 's1' } }, 's1'), { visitId: 'new', replacesVisitId: 's1' });
     assert.throws(() => rescheduleAccepted({ result: { visitId: 'new', replacesVisitId: 'other' } }, 's1'));
     assert.throws(() => rescheduleAccepted({ result: null }, 's1'));
+  });
+  await report.check('Visible cover count is not inferred to be the total when other covers are outside scope', () => {
+    const f = fixture(); f.visitPlan.visits[0].outsideScopeCovered = 1; f.visitPlan.visits[0].canReschedule = false;
+    const s = project(f, 'p1').slots[0]; assert.equal(s.personVersions.length, 2); assert.equal(s.hasOutsideScope, true);
+    assert.equal(s.canReschedule, false); assert.doesNotMatch(JSON.stringify(s), /SECRET|PRIVATE TITLE/); assert.ok(!('outsideScopeCovered' in s));
+  });
+  await report.check('One visible covered person can still be a partially visible shared visit', () => {
+    const f = fixture(); f.visitPlan.visits[0].covers = f.visitPlan.visits[0].covers.slice(0, 1); f.visitPlan.visits[0].outsideScopeCovered = 2;
+    const s = project(f, 'p1').slots[0]; assert.equal(s.personVersions.length, 1); assert.equal(s.hasOutsideScope, true);
+  });
+  await report.check('An all-visible slot has no outside-scope limitation', () => assert.equal(project(fixture(), 'p1').slots[0].hasOutsideScope, false));
+  await report.check('Missing outside-scope metadata is unavailable, not assumed to be zero', () => {
+    const f = fixture(); delete f.visitPlan.visits[0].outsideScopeCovered; assert.throws(() => project(f, 'p1'));
+  });
+  await report.check('Invalid outside-scope metadata cannot fabricate a sharing claim', () => {
+    for (const count of [-1, 0.5, '1']) { const f = fixture(); f.visitPlan.visits[0].outsideScopeCovered = count; assert.throws(() => project(f, 'p1')); }
   });
 } finally { rmSync(dir, { recursive: true, force: true }); }
 await report.finish();

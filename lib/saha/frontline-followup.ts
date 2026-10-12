@@ -9,7 +9,7 @@ const line = z.object({ refs: z.array(z.object({ kind: id, id })), owner: z.stri
   attention: z.string(), daysOverdue: z.number().int().nonnegative() });
 const cover = z.object({ personId: id, version: z.number().int().positive(), items: z.array(item) });
 const slot = z.object({ id, date, window: z.enum(VISIT_WINDOWS), state: z.enum(['planned', 'cancelled']),
-  canReschedule: z.boolean(), covers: z.array(cover).min(1), replacesVisitId: id.nullable() });
+  canReschedule: z.boolean(), covers: z.array(cover).min(1), outsideScopeCovered: z.number().int().nonnegative(), replacesVisitId: id.nullable() });
 const response = z.object({ household: z.object({ id, version: z.number().int().positive() }).nullable(),
   visitPlan: z.object({ householdVersion: z.number().int().positive(), minDate: date, maxDate: date,
     members: z.array(z.object({ personId: id, items: z.array(line) })), visits: z.array(slot) }).optional() });
@@ -17,7 +17,7 @@ const response = z.object({ household: z.object({ id, version: z.number().int().
 export type FollowupSelector = { personId: string; organisationId: string };
 export type FrontlineSlot = { id: string; date: string; window: typeof VISIT_WINDOWS[number]; canReschedule: boolean;
   items: (z.infer<typeof item> & { owner: string | null; daysOverdue: number })[];
-  personVersions: { personId: string; version: number }[]; replacesVisitId: string | null };
+  personVersions: { personId: string; version: number }[]; hasOutsideScope: boolean; replacesVisitId: string | null };
 export type FrontlinePlan = { kind: 'no-household' } | { kind: 'plans'; householdId: string; householdVersion: number;
   minDate: string; maxDate: string; slots: FrontlineSlot[] };
 
@@ -61,7 +61,7 @@ export function frontlinePlan(value: unknown, personId: string): FrontlinePlan {
         const current = currentItems.find(line => line.refs.some(ref => ref.kind === item.kind && ref.id === item.id));
         return { ...item, owner: current?.owner ?? null, daysOverdue: current?.attention === 'overdue' ? current.daysOverdue : 0 };
       }), personVersions: visit.covers.map(member => ({ personId: member.personId, version: member.version })),
-      replacesVisitId: visit.replacesVisitId }];
+      hasOutsideScope: visit.outsideScopeCovered > 0, replacesVisitId: visit.replacesVisitId }];
   });
   return { kind: 'plans', householdId: parsed.household.id, householdVersion: plan.householdVersion,
     minDate: plan.minDate, maxDate: plan.maxDate, slots };

@@ -103,7 +103,8 @@ export default function Followups() {
       {view.plan.kind === 'no-household' ? <p>This record is not linked to a household. Household visit plans are not available.</p> :
         !view.plan.slots.length ? <p>No planned household visits for this record.</p> : <ol>{view.plan.slots.map(slot => <li key={slot.id}>
           <h3>{slot.date} · {label(slot.window)}</h3>
-          {slot.personVersions.length > 1 && <p>This shared visit time covers {slot.personVersions.length} people.</p>}
+          {(slot.personVersions.length > 1 || slot.hasOutsideScope) && <p>This shared visit shows {slot.personVersions.length} {slot.personVersions.length === 1 ? 'person' : 'people'} within your access. Only this record’s work is shown.</p>}
+          {slot.hasOutsideScope && <p>Other covered people are outside your access. Their details are not shown, and changing this shared visit time is unavailable.</p>}
           <ul>{slot.items.map(item => <li key={item.kind + ':' + item.id}><strong>{item.title}</strong>
             <p>Due: {item.due ?? 'Not set'} · {item.open ? 'Open' : 'Closed'}{item.daysOverdue > 0 ? ` · Currently ${item.daysOverdue} days overdue` : ''}
               {item.lateByDays > 0 ? ` · Due ${item.lateByDays} days before this visit` : ''}{item.owner ? ` · Owner: ${item.owner}` : ''}</p></li>)}</ul>

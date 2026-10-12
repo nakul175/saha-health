@@ -170,3 +170,50 @@ test('a lost committed reply stays uncertain until a read confirms the linked re
   await lab.scan(page, 'Frontline uncertain committed change reconciled by read');
   await test.info().attach('actual-lost-reply-state.json', { body: JSON.stringify({ before, committed, observations }), contentType: 'application/json' });
 });
+
+test('partially visible shared visits label only visible people and never expose hidden work or offer a change', async ({ lab }) => {
+  const t = await setup(lab);
+  let state = await lab.workspace(t.owner, t.org);
+  const visible = state.people.find(p => p.name === 'Rajesh Kumar'), hidden = state.people.find(p => p.name === 'Sunita Bai');
+  expect(visible).toBeTruthy(); expect(hidden).toBeTruthy();
+  for (const person of [visible, hidden]) {
+    const current = await plan(lab, t, t.owner);
+    await lab.command(t.owner, { type: 'householdAddMember', householdId: t.householdId, version: current.householdVersion,
+      personId: person.id, personVersion: person.version, relationship: 'other' }, t.org);
+  }
+  state = await lab.workspace(t.owner, t.org);
+  await lab.command(t.owner, { type: 'assignPatient', personId: visible.id, version: state.people.find(p => p.id === visible.id).version,
+    teamId: 'default', assignedTo: t.ashaId, reason: 'Synthetic partially visible household fixture' }, t.org);
+  const own = await plan(lab, t, t.owner);
+  const made = await lab.command(t.owner, { type: 'householdVisitSchedule', householdId: t.householdId, version: own.householdVersion,
+    date: day(2), window: 'morning', covers: [t.meenaId, visible.id, hidden.id].map(personId => ({ personId, items: [{ kind: 'home-visit', id: personId }] })) }, t.org);
+  const beforeTwo = stored(t.org), twoPlan = await plan(lab, t), two = twoPlan.visits.find(s => s.id === made.result.visitId);
+  expect(two.covers).toHaveLength(2); expect(two.outsideScopeCovered).toBe(1); expect(two.canReschedule).toBe(false);
+  expect(JSON.stringify(twoPlan)).not.toContain(hidden.id); expect(JSON.stringify(twoPlan)).not.toContain(hidden.name);
+  const page = await open(lab, t), posts = [];
+  page.on('request', r => { if (r.method() === 'POST' && new URL(r.url()).pathname === '/api/commands') posts.push(r.postDataJSON()); });
+  const shared = page.getByRole('heading', { name: day(2) + ' · Morning', exact: true }).locator('..');
+  await expect(shared.getByText('This shared visit shows 2 people within your access. Only this record’s work is shown.', { exact: true })).toBeVisible();
+  const limitation = 'Other covered people are outside your access. Their details are not shown, and changing this shared visit time is unavailable.';
+  await expect(shared.getByText(limitation, { exact: true })).toBeVisible();
+  await expect(shared.getByRole('button', { name: 'Change visit time' })).toHaveCount(0);
+  await expect(page.getByText(visible.name, { exact: true })).toHaveCount(0); await expect(page.getByText(hidden.name, { exact: true })).toHaveCount(0);
+  expect(posts).toHaveLength(0); const afterTwo = stored(t.org); expect(afterTwo).toEqual(beforeTwo);
+  await lab.scan(page, 'Frontline shared visit · two visible people, others outside scope');
+  state = await lab.workspace(t.owner, t.org);
+  await lab.command(t.owner, { type: 'assignPatient', personId: visible.id, version: state.people.find(p => p.id === visible.id).version,
+    teamId: 'default', assignedTo: t.ownerUserId, reason: 'Synthetic narrowed covered-person scope' }, t.org);
+  const beforeOne = stored(t.org);
+  await page.getByRole('button', { name: 'Refresh current plan' }).click();
+  await expect(shared.getByText('This shared visit shows 1 person within your access. Only this record’s work is shown.', { exact: true })).toBeVisible();
+  await expect(shared.getByText(limitation, { exact: true })).toBeVisible();
+  await expect(shared.getByRole('button', { name: 'Change visit time' })).toHaveCount(0);
+  const onePlan = await plan(lab, t), one = onePlan.visits.find(s => s.id === made.result.visitId);
+  expect(one.covers).toHaveLength(1); expect(one.outsideScopeCovered).toBe(2); expect(one.canReschedule).toBe(false);
+  expect(JSON.stringify(onePlan)).not.toContain(hidden.id); expect(JSON.stringify(onePlan)).not.toContain(visible.id);
+  await expect(page.getByText(visible.name, { exact: true })).toHaveCount(0); await expect(page.getByText(hidden.name, { exact: true })).toHaveCount(0);
+  expect(posts).toHaveLength(0); const afterOne = stored(t.org); expect(afterOne).toEqual(beforeOne);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await lab.scan(page, 'Frontline shared visit · one visible person, others outside scope');
+  await test.info().attach('actual-partial-shared-scope-state.json', { body: JSON.stringify({ two, one, beforeTwo, afterTwo, beforeOne, afterOne, posts }), contentType: 'application/json' });
+});
