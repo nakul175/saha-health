@@ -1,0 +1,87 @@
+{
+  "passed": 28,
+  "failed": 1,
+  "skipped": 0,
+  "checks": [
+    "Actual trusted opaque current-owner organisation index selects nothing",
+    "Actual original local target owner expiry and opt-in binding predicates are displayed truthfully",
+    "Actual original reporting delegation remains limited without granting patient access",
+    "All60table readphase unchanged except original auditmetrics, including unrelated bindings clinical records and receipts",
+    "Actual anonymous refusal contains no authority names",
+    "Actual administrator refusal contains no authority names",
+    "Actual nonownerclinician refusal contains no authority names",
+    "Actual foreignmember refusal contains no authority names",
+    "Actual wrongorg refusal contains no authority names",
+    "Actual changedactor refusal contains no authority names",
+    "Actual invalidpartial refusal contains no authority names",
+    "Actual duplicatedversion refusal contains no authority names",
+    "Actual staleversion refusal contains no authority names",
+    "Actual foreignrecord refusal contains no authority names",
+    "Actual unknown trusted subject403 creates zero account/org/patient/service records or credentials",
+    "New route has no credential/provisioning/revocation/binding POST",
+    "Actual original expired service metadata distinct without modifying another connector",
+    "Actual original revoked service metadata distinct without modifying another connector",
+    "Actual original unbound service metadata distinct without modifying another connector",
+    "Actual malformed stored service expiry unavailable rather than valid",
+    "Actual unknown secret-shaped stored fields withheld by narrow metadata projection",
+    "Actual ended delegation retained as evidence with no inferred current access",
+    "Actual no-longer-qualified delegate cannot be displayed in force",
+    "Actual post-audit owner context change refuses protected metadata",
+    "Actual post-audit operations context change refuses protected metadata",
+    "Actual post-audit delegate context change refuses protected metadata",
+    "Actual post-audit team context change refuses protected metadata",
+    "Actual audit failure withholds authority index"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/workspace"
+    },
+    {
+      "method": "GET",
+      "path": "/api/alerts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/delegations"
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention"
+    },
+    {
+      "method": "GET",
+      "path": "/api/notification-channel"
+    },
+    {
+      "method": "GET",
+      "path": "/api/service-authority-review"
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "races": [
+    {
+      "label": "owner",
+      "status": 403
+    },
+    {
+      "label": "operations",
+      "status": 409
+    },
+    {
+      "label": "delegate",
+      "status": 409
+    },
+    {
+      "label": "team",
+      "status": 409
+    }
+  ],
+  "failure": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Existing recorded authority', { exact: true }) to be visible\u001b[22m\n\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-service-authority-review-20261012/tests/smoke/service-authority-review-browser.mjs:18:337",
+  "disposed": true,
+  "portFree": true,
+  "statePreservedOnFailure": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-service-authority-7dd51527-fa08-4ff3-81ce-19b6a67a45e5",
+  "completedAt": "2026-10-12T19:40:24.122Z",
+  "limits": "Owner read-only recorded local service/delegation metadata, no credential issuance/provider/use audit/rotation/dispatch.60table equality per actualreadphase, originalfixture commands/deliberateSQL context injections separate. No realdomain/human/clinical/physical/formal/fullstory/currentheadCI/hosting acceptance."
+}

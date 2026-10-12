@@ -1,0 +1,16 @@
+{
+  "passed": 0,
+  "failed": 1,
+  "skipped": 0,
+  "checks": [],
+  "requests": [],
+  "errors": [],
+  "external": [],
+  "races": [],
+  "failure": "Error: Migrating the fresh local database failed: Error: listen EPERM: operation not permitted 127.0.0.1\n    at Server.setupListenHandle [as _listen2] (node:net:2306:21)\n    at listenInCluster (node:net:2437:12)\n    at node:net:2666:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {\n  code: 'EPERM',\n  errno: -1,\n  syscall: 'listen',\n  address: '127.0.0.1'\n}\n\n    at migrateOnce (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-service-authority-review-20261012/tests/lib/migrate.mjs:23:11)\n    at freshDatabase (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-service-authority-review-20261012/tests/lib/worker.mjs:18:3)\n    at startMiniflare (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-service-authority-review-20261012/tests/lib/miniflare.mjs:36:14)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-service-authority-review-20261012/tests/smoke/service-authority-review-browser.mjs:3:18\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\n    at async node:internal/modules/esm/loader:647:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)",
+  "disposed": false,
+  "portFree": false,
+  "statePreservedOnFailure": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-service-authority-05d44d8f-bd18-4369-a962-19b057479879",
+  "completedAt": "2026-10-12T19:37:52.936Z",
+  "limits": "Owner read-only recorded local service/delegation metadata, no credential issuance/provider/use audit/rotation/dispatch.60table equality per actualreadphase, originalfixture commands/deliberateSQL context injections separate. No realdomain/human/clinical/physical/formal/fullstory/currentheadCI/hosting acceptance."
+}

@@ -1,0 +1,191 @@
+{
+  "suite": "Read-only existing service and delegation authority",
+  "layer": "unit",
+  "passed": 35,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T19:44:49.115Z",
+  "completedAt": "2026-10-12T19:44:49.910Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Original local metadata predicates only; no credential issuance/real provider auth/use/domain/formal acceptance."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "Initial index makes no selection or credential guess",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "Existing target owner binding and original predicate retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Opaque owner actor IDs preserve original strings",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Strict response rejects actor coercion",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Secret extra fields never appear in projection",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unbound target is explicit without enabling connection",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Expired original record is invalid exactly at expiry",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Revoked record remains historical with expiry and revocation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Accountable owner inactive refuses original local eligibility",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Accountable admin still matches original local owner predicate",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Inactive original target cannot be called locally eligible",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrong target kind remains unavailable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original expiry is earliest required refresh",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original reporting delegation scope explicit, not patient access",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Lost original grantor authority not in force",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Suspended delegate not in force",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original ended delegation remains evidence",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Revoked delegation remains evidence",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Future original delegation start is refresh boundary not authority",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown authority ID cannot select a convenient neighbour",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Stale operations version refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed stored expiry never becomes valid",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Duplicate authority references refuse response",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Reply selected outside index refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Full original service100 bound unchanged",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No clinical/private/provider configuration fields in reply",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Read projection never changes original grants or operations",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid authority query refuses type=service&id=identity",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid authority query refuses type=service&id=identity&version=2&version=3",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid authority query refuses type=service&id=identity&version=02",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid authority query refuses type=service&id=identity&version=-1",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid authority query refuses type=unknown&id=identity&version=2",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid authority query refuses personId=patient",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Exact explicit selection preserves zero operations version",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "New reader uses direct emptywindow without bootstrap or scheduled actions",
+      "ok": true,
+      "ms": 0
+    }
+  ]
+}
