@@ -1,0 +1,87 @@
+{
+  "passed": 44,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Actual opaque owner and worker subjects retain exact metadata identity",
+    "Actual owner roster excludes clinical records and account/invitation secrets",
+    "Unbootstrapped current account gets honest empty owner setup",
+    "New setup read creates no account or organisation",
+    "Owner setup returns only existing organisation ids/names",
+    "Anonymous setup refuses before disclosure",
+    "Nonowner or foreign account refuses roster worker",
+    "Nonowner or foreign account refuses roster observer",
+    "Nonowner or foreign account refuses roster stranger",
+    "Owner authority cannot cross an unrelated organisation",
+    "Query widening and empty organisation refuse",
+    "Unsupported altered stale or foreign suspension refuses {\"type\":\"updateMember\",\"status\":\"active\",\"role\":\"asha\",\"header\":[],\"path\":\"/api/workforce-status\"}",
+    "Unsupported altered stale or foreign suspension refuses {\"type\":\"createInvite\",\"status\":\"suspended\",\"role\":\"asha\",\"header\":[],\"path\":\"/api/workforce-status\"}",
+    "Unsupported altered stale or foreign suspension refuses {\"type\":\"updateMember\",\"status\":\"suspended\",\"role\":\"asha\",\"header\":[\"Origin\"],\"path\":\"/api/workforce-status\"}",
+    "Unsupported altered stale or foreign suspension refuses {\"type\":\"updateMember\",\"status\":\"suspended\",\"role\":\"asha\",\"header\":[\"x-saha-operation-actor\"],\"path\":\"/api/workforce-status\"}",
+    "Unsupported altered stale or foreign suspension refuses {\"type\":\"updateMember\",\"status\":\"suspended\",\"role\":\"asha\",\"header\":[],\"path\":\"/api/workforce-status?all=1\"}",
+    "Unsupported altered stale or foreign suspension refuses {\"type\":\"updateMember\",\"status\":\"suspended\",\"role\":\"clinician\",\"header\":[],\"path\":\"/api/workforce-status\"}",
+    "Unsupported altered stale or foreign suspension refuses {\"type\":\"updateMember\",\"status\":\"suspended\",\"role\":\"asha\",\"header\":[],\"path\":\"/api/workforce-status\"}",
+    "Unsupported altered stale or foreign suspension refuses {\"type\":\"updateMember\",\"status\":\"suspended\",\"role\":\"asha\",\"header\":[],\"path\":\"/api/workforce-status\"}",
+    "Unsupported altered stale or foreign suspension refuses {\"type\":\"updateMember\",\"status\":\"suspended\",\"role\":\"asha\",\"header\":[],\"path\":\"/api/workforce-status\"}",
+    "Recovery with no committed receipt performs no replacement operation",
+    "Original self-suspension protection remains explicit",
+    "All protected sixty-table read/refusal data remains unchanged except original audit/metrics",
+    "Actual mobile suspension requires reason and affirmation",
+    "Cancelling review sends no membership operation",
+    "Actual subsequent online access refuses inside the unchanged five-minute limit",
+    "Previously prepared local assistance operation refuses after actual suspension",
+    "Exactly one target suspension advances original membership version and preserves all other access fields",
+    "Actual suspension changes only original organisation/membership/audit/receipt/metrics rows",
+    "All previous command receipts remain byte unchanged",
+    "Exact committed receipt recovery does not duplicate suspension or receipts",
+    "Original key with changed input refuses",
+    "Actual committed response loss stays uncertain and clears membership roster",
+    "Explicit uncertain response recovery preserves original body/key and performs no duplicate changes",
+    "Actual POST prerequisite owner revocation refuses without target or receipt mutation",
+    "Actual audited roster refuses owner-revoked without disclosure",
+    "Actual audited roster refuses target-changed without disclosure",
+    "Actual audited roster refuses audit-unavailable without disclosure",
+    "Actual phone view has forty-four-pixel actions and no horizontal overflow",
+    "Actual membership phone accessibility scan has zero violations",
+    "Actual offline transition clears protected roster and suspension actions",
+    "Actual browser has no uncaught errors or external/provider requests",
+    "All owned source/build bytes unchanged during native execution",
+    "Owned synthetic runtime disposed and loopback port free"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "body": "{\"type\":\"updateMember\",\"userId\":\"worker/53aa9976\",\"version\":1,\"role\":\"asha\",\"teamIds\":[\"default\"],\"isOwner\":false,\"status\":\"suspended\",\"reason\":\"Synthetic explicit mobile suspension\"}",
+      "key": "0abd5fca-9d7a-44c7-92ef-fe9e3ad705f8"
+    },
+    {
+      "method": "POST",
+      "body": "{\"type\":\"updateMember\",\"userId\":\"t-53aa9976-observer\",\"version\":1,\"role\":\"supervisor\",\"teamIds\":[\"default\"],\"isOwner\":false,\"status\":\"suspended\",\"reason\":\"Synthetic genuinely lost suspension response\"}",
+      "key": "9b22a709-1258-472e-b0d9-630f100aaf39"
+    },
+    {
+      "method": "POST",
+      "body": "{\"type\":\"updateMember\",\"userId\":\"t-53aa9976-observer\",\"version\":1,\"role\":\"supervisor\",\"teamIds\":[\"default\"],\"isOwner\":false,\"status\":\"suspended\",\"reason\":\"Synthetic genuinely lost suspension response\"}",
+      "key": "9b22a709-1258-472e-b0d9-630f100aaf39",
+      "recovery": "receipt-only"
+    },
+    {
+      "method": "GET",
+      "body": null
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "disposed": true,
+  "free": true,
+  "completedAt": "2026-10-12T18:27:34.969Z",
+  "limits": "Actual synthetic owner suspension and next online request/prepared local-command refusal only. No independent institutional verification, provider job, disconnected device residual-window qualification, real patient/recipient, formal/physical or hosting acceptance."
+}
