@@ -1,0 +1,633 @@
+{
+  "passed": 47,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Actual default no-rule read preserves old time and received-today distinction; no invented freshness cutoff",
+    "Actual configured QA24h predicate marks48h-old original time past-age even received today",
+    "Actual current reported pressure retains original source and configured-context distinction",
+    "Actual trusted actor org person and exact existing visit bind the response",
+    "Actual Today link binds only selected existingperson and currentorg",
+    "Opening actual mobile index creates/selects no visit and displays no implicit measurements",
+    "Actual phone visit selector is visible and at least44px",
+    "Actual mobile old weight displays original value units time and past configured age",
+    "Actual missing measure is not a negative or current finding",
+    "Actual phone originalfact view has no horizontal overflow",
+    "Actual originalfact phone accessibility scan has zero violations",
+    "Actual60tables unchanged during Today/index/select/read exceptauditmetrics; no POST copy model provider visit or receipt",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 401",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 403",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 403",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 403",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 400",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 400",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 400",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 400",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 403",
+    "Actual anonymous role tenant actor selector or otherexistingvisit refusal 409",
+    "Explicit organisation is required for originalfact disclosure",
+    "New fact view has no writer POST or automatic reuse surface",
+    "Actual stored missing age is unknown and readonly across60tables",
+    "Actual stored other programme is not-applicable and readonly across60tables",
+    "Actual stored impossible date remains unknown/read-only rather than currentfallback",
+    "Actual stored explicit missing time remains unknown/read-only rather than currentfallback",
+    "Actual stored explicit missing source remains unknown/read-only rather than currentfallback",
+    "Synthetic rule and dependency have actual existingstored IDs",
+    "Actual read-audit assignedowner change refuses protected originalfacts",
+    "Actual read-audit membershiprole change refuses protected originalfacts",
+    "Actual read-audit sourceversion change refuses protected originalfacts",
+    "Actual read-audit rulecontext change refuses protected originalfacts",
+    "Actual read-audit personcontext change refuses protected originalfacts",
+    "Actual read-audit visitversion change refuses protected originalfacts",
+    "Actual finalcurrentnamedpurpose loss refuses originalfact disclosure",
+    "Actual stale selectedvisit version refuses ratherthan opening another visit",
+    "Actual audited200 readreply lostonce clears protectedfacts with no resend",
+    "Explicit read-only refresh and selection recover without replaying lostread or writing",
+    "Actual auditfailure withholds recordindex and facts instead of claiming empty normal",
+    "Actual offline transition clears all protectedfacts/index",
+    "Actual pagehide invalidates protectedfacts without automatic recovery",
+    "Actual malformed repeated personURL never selects a record",
+    "All browserAPIrequests read-only GET; zero browsererrors or external/provider calls",
+    "Actual application/helper/tests/compiled filehashes unchanged throughout ownednativeexecution",
+    "Owned syntheticbackend disposed andloopbackportfree"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/today"
+    },
+    {
+      "method": "GET",
+      "path": "/api/today"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    },
+    {
+      "method": "GET",
+      "path": "/api/fact-freshness"
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "races": [
+    {
+      "name": "assignedowner",
+      "status": 404
+    },
+    {
+      "name": "membershiprole",
+      "status": 403
+    },
+    {
+      "name": "sourceversion",
+      "status": 409
+    },
+    {
+      "name": "rulecontext",
+      "status": 409
+    },
+    {
+      "name": "personcontext",
+      "status": 409
+    },
+    {
+      "name": "visitversion",
+      "status": 409
+    }
+  ],
+  "beforeTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 12,
+      "sha256": "cd81262929c19426a4626fd68df2a5b69854ca18b733afbdae6dc83323e03926"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 143,
+      "sha256": "15b5fed0b494af24904c54bfab838bca63fc93307b2a32d7971d4e882590f711"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 18,
+      "sha256": "7848ec6e980e42e535381b0cb5eaecf0e7bffa4e8fe4e453e5dde397c42a8ba3"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 4,
+      "sha256": "427b45ef3a3b1b8dd228a53bd7312e0d6eee3c1137d5cb7e038c46939eb98c19"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 24,
+      "sha256": "4f709e426a5ed9757006a6fa2a25f2095c88779cf52c6d6169074d2014f364ff"
+    },
+    "invitations": {
+      "rows": 2,
+      "sha256": "99478d412e31126ee74e869c42909e4b018a97a2beb724330ddcb2da217bdbe8"
+    },
+    "legacy_migrations": {
+      "rows": 4,
+      "sha256": "07ebd12a678f54a5665eabb727e429baed3d6879829a0773e07c155a29e8ac3e"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 14,
+      "sha256": "d63b9168585d87f52be2f69ce10194c98ded7f75dd48471284ae5dba9e3113c4"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 4,
+      "sha256": "47f8c112d7dc71468a5fb3c63e57f65caf234dc1764004a4c51044b255069c5f"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 25,
+      "sha256": "d18343cd8ab3c7fa598e9c19b483a690907c77fe1075fccd3fe61c0d8c63d5c2"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 31,
+      "sha256": "9e38b595301c2712013005ef4e4237db84eb0023005b58f5aab4080b50be44bb"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 6,
+      "sha256": "b53d000748e8185309d16c79de1c536e0a24ec6714824fd8af8a8aba2d6c2f98"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 14,
+      "sha256": "9992d818fb58840228deb1ad7c8e125531d3f8cc247a0114e5c4818b6078a259"
+    },
+    "teams": {
+      "rows": 4,
+      "sha256": "3fe730b44472d52c16405441656759977ddd629773de1a85f8c14b105916bf8b"
+    },
+    "visits": {
+      "rows": 1,
+      "sha256": "1cee88695c0a97216f5e8038448ee864b357eed85bc21cd5007e10196506a9f4"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "afterTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 12,
+      "sha256": "cd81262929c19426a4626fd68df2a5b69854ca18b733afbdae6dc83323e03926"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 147,
+      "sha256": "bb2af40742c6ee3d696ffacb674d64f8dea6777b28f1ac83bd1fa082c34acb9b"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 18,
+      "sha256": "7848ec6e980e42e535381b0cb5eaecf0e7bffa4e8fe4e453e5dde397c42a8ba3"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 4,
+      "sha256": "427b45ef3a3b1b8dd228a53bd7312e0d6eee3c1137d5cb7e038c46939eb98c19"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 24,
+      "sha256": "4f709e426a5ed9757006a6fa2a25f2095c88779cf52c6d6169074d2014f364ff"
+    },
+    "invitations": {
+      "rows": 2,
+      "sha256": "99478d412e31126ee74e869c42909e4b018a97a2beb724330ddcb2da217bdbe8"
+    },
+    "legacy_migrations": {
+      "rows": 4,
+      "sha256": "07ebd12a678f54a5665eabb727e429baed3d6879829a0773e07c155a29e8ac3e"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 14,
+      "sha256": "d63b9168585d87f52be2f69ce10194c98ded7f75dd48471284ae5dba9e3113c4"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 4,
+      "sha256": "47f8c112d7dc71468a5fb3c63e57f65caf234dc1764004a4c51044b255069c5f"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 25,
+      "sha256": "d18343cd8ab3c7fa598e9c19b483a690907c77fe1075fccd3fe61c0d8c63d5c2"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 31,
+      "sha256": "9e38b595301c2712013005ef4e4237db84eb0023005b58f5aab4080b50be44bb"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 7,
+      "sha256": "652e6bcfe967eaa9838b5cf05e91bba1304325251f701d5a533427e74336fc55"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 14,
+      "sha256": "9992d818fb58840228deb1ad7c8e125531d3f8cc247a0114e5c4818b6078a259"
+    },
+    "teams": {
+      "rows": 4,
+      "sha256": "3fe730b44472d52c16405441656759977ddd629773de1a85f8c14b105916bf8b"
+    },
+    "visits": {
+      "rows": 1,
+      "sha256": "1cee88695c0a97216f5e8038448ee864b357eed85bc21cd5007e10196506a9f4"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "disposed": true,
+  "portFree": true,
+  "statePreservedOnFailure": null,
+  "completedAt": "2026-10-12T18:09:16.051Z",
+  "limits": "Assigned synthetic ASHA bounded read-only originalfact/freshness context, existing configured QA24hour rule only. Synthetic governance account rehearsal is not real independent human/domain/clinical approval. No reuse/copy/writer/model/clinicalexecution/provider.60table equality covers read-only phases; deliberatefixture mutations separate. Not fullstory/CWO/allconceptcutoffs/modelexecution/physical/formal/UAT/hosting."
+}

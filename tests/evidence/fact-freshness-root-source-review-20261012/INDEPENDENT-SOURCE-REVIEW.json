@@ -1,0 +1,46 @@
+{
+  "reviewer": "/root/next50_programme",
+  "author": "/root/next50_identity",
+  "at": "2026-10-12T18:21:10.224482+00:00",
+  "head": "45ff6afa7956841f94790ad320ed22baea55e369",
+  "verdict": "HELD P2 valid authoritative opaque actor rejected by response identifier regex",
+  "actualOriginalPure": {
+    "passed": 48,
+    "failed": 0
+  },
+  "actualAdditiveReproduction": {
+    "original48Passed": true,
+    "added3ExpectedSuccessFailed": true,
+    "actors": [
+      "worker@example.invalid",
+      "auth0|synthetic-worker",
+      "opaque/worker"
+    ],
+    "onlyFailurePath": "actorId regex"
+  },
+  "finding": {
+    "file": "lib/saha/fact-freshness.ts",
+    "line": 17,
+    "impact": "Existing identity provider accepts opaque trustedsubject strings; activeassignedASHA canreceive unavailableerror solelybecause newreader narrows actorId to patientref alphabet/120chars. Clinicaldata stillwithheld; noauthorizationbypass. FrozenC1 currentvalidtrustedaccount regression.",
+    "proposedBoundedCorrection": "Separate opaque actor string schema from patient/org/visit reference alphabet, using existingidentity acceptedsubject semantics. Keep exactidentity/org/person/visitbindings/referenceguards; retain48+add3 and actualopaque-authority nativecontrol; author/rootfreeze+peerreview required."
+  },
+  "otherInspection": {
+    "sourcePinsVerified": 10,
+    "artifactsVerified": 66,
+    "compiledArchiveSourceBuildVerified": 725,
+    "compiledFilesVerified": 291,
+    "nativeAuthor48And123OldReviewedNotIndependentlyRerun": true,
+    "currentRuleAndOriginalAgeBoundary": true,
+    "observedVsReceivedSeparation": true,
+    "noWriterProviderNewPolicy": true,
+    "opaqueIdentityCurrentOnlyFinding": true,
+    "phoneScreenshotViewed": "native006/freshness-phone.png readable390layout/explicitmissingobservations/rulelimits; current screenshot no invisiblecontrols",
+    "qualificationLimits": "Configured24hour/18..60 QAfixture notgenuineclinical/domainapproval; writer/reuse/model/physical/fullstory/formal/live acceptanceopen. Snapshotnotnochangeafterread guarantee."
+  },
+  "reviewerPrepFailures": [
+    "OwnPythonquoting SyntaxError beforecodefile/reproexecution",
+    "Externaldiagnostic TypeScriptmodule resolution failed beforetests; correctedexplicitmoduleURI; rawfirstlogretained"
+  ],
+  "sourceWrites": 0,
+  "rootOwnsCorrectionAndMetadata": true
+}

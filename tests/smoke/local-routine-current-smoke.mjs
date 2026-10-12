@@ -40,6 +40,7 @@ const need = (res, status, what) => assert.equal(res.status, status, `${what}: e
 const SIGN_IN = /sign in/i;
 // Query strings the GET routes need so that the owner (and an anonymous caller) reach the handler rather than a missing-parameter answer.
 const recipes = (visitId, org) => ({
+  '/api/fact-freshness': '?personId=p_meena',
   '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/routine-visit': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
   '/api/inbound-conflicts': '?personId=p_meena',
@@ -240,7 +241,7 @@ try {
     const bad = [];
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
-      if (route === '/api/today' || route === '/api/routine-visit') {
+      if (route === '/api/today' || route === '/api/routine-visit' || route === '/api/fact-freshness') {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
         continue;
@@ -302,6 +303,7 @@ try {
       assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal has no protected content');
     }
   });
+  await r.check('Freshness index retains current actor org person and no automatic visit selection',async()=>{const res=await c.get(asha,'/api/fact-freshness?personId=p_meena',org);need(res,200,'freshness index');assert.equal(res.json.actorId,asha.id);assert.equal(res.json.organisationId,org);assert.equal(res.json.person.id,'p_meena');assert.equal(res.json.selected,null);assert.ok(Array.isArray(res.json.visits));});
   for (const row of sweep) if (row.skipped) r.skip(`GET ${row.route}`, row.skipped);
   for (const route of gets.filter(x => x in unsuppliable)) r.skip(`GET ${route}`, unsuppliable[route]);
   await r.check('the Worker logged no 5xx response and no unhandled workspace error during the run', async () => {

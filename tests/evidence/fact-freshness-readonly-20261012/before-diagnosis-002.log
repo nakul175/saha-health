@@ -1,0 +1,13 @@
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012/.freshness-before-ZqE5WG/core.js:14
+export function fail(status, message) { throw new AppError(status, message); }
+                                              ^
+
+AppError: This patient is not assigned to this worker.
+    at fail (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012/.freshness-before-ZqE5WG/core.js:14:47)
+    at person (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012/.freshness-before-ZqE5WG/core.js:90:5)
+    at protocolPreview (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012/.freshness-before-ZqE5WG/governance.js:148:15)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/fact-freshness/before-diagnosis.mjs:10:74 {
+  status: 403
+}
+
+Node.js v24.21.0

@@ -1,0 +1,9 @@
+{
+  "frozenAt": "2026-10-12T18:05:53.435345+00:00",
+  "actualFailure": "unit-001 40 passed / 1 failed: explicit null per-measurement at fell back to valid visit time",
+  "scope": "New read helper only: explicitly present malformed per-measurement provenance refuses current classification and displays unavailable original time/source; absent optional at remains original visit fallback. Original core/writer/protocol unchanged. Add malformed null-source/entry tests and retain original41 checks.",
+  "before": {
+    "lib/saha/fact-freshness.ts": "10a6bb975f1d277aeed41d733d926afd9c1e0deb132f25244ad77d41da24e78e",
+    "tests/fact-freshness-contract.mjs": "3143b3ef4ca3608f4bc7e83f8816d94db448f9a4598d76c7eb4e3f869cce2409"
+  }
+}

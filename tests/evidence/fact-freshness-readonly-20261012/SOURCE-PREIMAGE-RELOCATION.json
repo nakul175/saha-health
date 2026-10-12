@@ -1,0 +1,18 @@
+{
+  "frozenAt": "2026-10-12T18:22:52.451388+00:00",
+  "actualFailure": "types004 emits TS2307/TS7006 for shipped historical .ts snapshots relativeimports; these are earlier source preimages, not current compilation units.",
+  "correction": "Only author-owned historical .ts preimage names -> .ts.txt, bytes unchanged. Preserve exact old manifest separately and version a new current owned manifest. No tsconfig/compiler/test/criteria exemption. Original45ff commit retained.",
+  "relocation": [
+    {
+      "from": "null-provenance-correction/fact-freshness.ts",
+      "to": "null-provenance-correction/fact-freshness.ts.txt",
+      "sha256": "10a6bb975f1d277aeed41d733d926afd9c1e0deb132f25244ad77d41da24e78e"
+    },
+    {
+      "from": "missing-display-clarification/fact-freshness.ts",
+      "to": "missing-display-clarification/fact-freshness.ts.txt",
+      "sha256": "f99b4cf7c37dd4a575cbb5424e49cd207405eed6fc0cff23973426d0b2acefba"
+    }
+  ],
+  "oldManifestSha256": "acb50b554249e6df4f7715c55356731fad58922687d82e815f8eb33c2a9dcb47"
+}

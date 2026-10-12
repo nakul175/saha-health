@@ -1,0 +1,91 @@
+{
+  "sealedAt": "2026-10-12T18:13:53.131070+00:00",
+  "sourceHead": "45ff6afa7956841f94790ad320ed22baea55e369",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "branch": "feat/next50-fact-freshness-20261012",
+  "checkout": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012",
+  "clean": true,
+  "canonicalStory": "SAHA023/APL46/BR-DATA04",
+  "canonicalTask": "APL206/ENG-BR-DATA04/FR-DATA04",
+  "sourcePaths": {
+    "app/api/fact-freshness/route.ts": "62dc602b6a168545d52d6d8a1c2a70b13602ec25a0e59f554b5eeb394296056c",
+    "app/fact-freshness/page.tsx": "9bbf4e1c31e0f286c5488fe8a5ac835bed23c3603f4d1827e7d7bf2192b17358",
+    "app/fact-freshness/fact-freshness.tsx": "23152d490382341f4097a001c2c90c0d1d3675b0d6b69699b21090f644527585",
+    "app/fact-freshness/fact-freshness.css": "1a7cd24dbe2613f788db345311488aa54f0cd24e8cafb1b781f02cf667709d47",
+    "app/today/today.tsx": "8979bc82843c3cb409b9944980b29c46734c1d1b269323f49b9470bda5fbed89",
+    "lib/saha/fact-freshness.ts": "9aff822f484ca9064f1d6c46250b73b8c1c8646c018f4633c9dee53ebccf6ab8",
+    "lib/saha/fact-freshness-server.ts": "ccad02819b0967c6159b77df3741aba398efa6be946505fd5c28fe322f855748",
+    "lib/saha/fact-freshness-purpose.ts": "bfe3d82d4e4529ed4141aeb9fbd28cc1d23f04462ea3d0d64502c61eae96e9d5",
+    "tests/fact-freshness-contract.mjs": "2023b85f50d70e9a318aecc4671c33d4b86bfcf34ea2aa7f7fc8b822eea680d2",
+    "tests/smoke/fact-freshness-browser.mjs": "ab1b26d61ad0d1bd14219151348d3e52d0fd742f41c096e83bde5f80ca0a52fd"
+  },
+  "evidenceManifest": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012/tests/evidence/fact-freshness-readonly-20261012/manifest.json",
+    "sha256": "acb50b554249e6df4f7715c55356731fad58922687d82e815f8eb33c2a9dcb47",
+    "files": 66,
+    "allBytesVerified": true
+  },
+  "currentCompiledSourceArchive": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/fact-freshness/qualification006-app-lib-test-compiled.zip",
+    "sha256": "c9745e5208bc336c309a9a0f0efcc81a9880de997cd093b973292e3ab5542adb",
+    "sizeBytes": 2966025,
+    "files": 725,
+    "compiledFiles": 291,
+    "nativeCustodyEqual": true,
+    "limits": "Final actual app/lib/test/compiled bytes archived after same native006725-file readback. No full installed-dependency/process custody or earlier failed compiled archive claimed."
+  },
+  "actual": {
+    "unit48": {
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0,
+      "receipt": "unit-003.log"
+    },
+    "native48": {
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0,
+      "receipt": "native006/result.json",
+      "browserAPIRequests": 15,
+      "allBrowserAPIMethodsGET": true,
+      "originalStoredTables": 60,
+      "auditMetricsOnlyReadPhaseDelta": true,
+      "custody": 725,
+      "compiledFiles": 291,
+      "ownedRuntimeDisposed": true,
+      "ownedLoopbackPortFree": true,
+      "phoneAXEViolations": 0,
+      "authorVisuallyInspectedActualPhone": true
+    },
+    "originalGuarded4": {
+      "passed": 123,
+      "failed": 0,
+      "skipped": 0,
+      "actualGuardEvaluated": 4,
+      "receipt": "original-guards.json",
+      "limits": "Same exact original provenance/reuse/governance/readguard modules at current source. Final additive missing-view qualifier did not modify original modules."
+    },
+    "freshBuild002": true,
+    "typecheck003": true,
+    "lint003": true,
+    "original389ObjectsExact": true,
+    "catalogueCheck001": true,
+    "sourceDiffWhitespaceCheck": true,
+    "wholeDiffWhitespaceCheck": "Raw build logs retain trailing spaces and cause --check findings; no normalized evidence or all-diff pass claim."
+  },
+  "preservedFailures": [
+    "before-diagnosis wrongrelativeimport and missingassignment fixture prerequisites",
+    "unit001 explicit-nulltime40/1",
+    "native001 restrictedloopbackEPERM",
+    "native002/003 inheritedruleindex2/1, realprojectionshowsqualifiedexact24hrule",
+    "native0050/1 startupport21841collision unknownlisteneruntouched"
+  ],
+  "limits": [
+    "Bounded read-only sourcecandidate, not whole-story or formal acceptance.",
+    "No installeddependency/fullsourceprocesscustody claim; actual app/lib/tests/compiled pins and archive only.",
+    "Synthetic governance accounts enact preexisting24h QA configuration only, not genuine clinical/domain/human independent review.",
+    "No reuse/autofill/copy/remeasurement/model/provider/clinicalwriter/DBschema/policythreshold/newvisit.",
+    "No sharedCI/minima/publicationmetadata/tracker edited, no push/PR/merge/hosting.",
+    "All original criteria/goldens/minima389 unchanged. Genuine independent source review, root metadata/CI and actual delivery gates remain pending."
+  ]
+}

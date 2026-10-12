@@ -1,0 +1,21 @@
+*** Fatal uncaught kj::Exception: kj/async-io-unix.c++:945: failed: ::bind(sockfd, &addr.generic, addrlen): Address already in use; toString() = 127.0.0.1:21841
+stack: 10545c95f 10545c743 102a763e3 102a76bf3 102a77637 102a78837 1029efeeb 10548812f 105488457 105486ccf 105486a8f 1029dc8f3 18aa1beef
+{"passed":0,"failed":1,"skipped":0,"disposed":false}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+MiniflareCoreError [ERR_ADDRESS_IN_USE]: Address already in use (127.0.0.1:21841). Please check that you are not already running a server on this address or specify a different port with --port.
+    at StartupLogBuffer.handleStartupFailure (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:69747:13)
+    at Runtime.updateConfig (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:69831:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async #assembleAndUpdateConfig (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:89169:30)
+    at async Mutex.runWith (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:58160:48)
+    at async #waitForReady (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:89290:5)
+    at async startMiniflare (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012/tests/lib/miniflare.mjs:51:3)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012/tests/smoke/fact-freshness-browser.mjs:6:9 {
+  code: 'ERR_ADDRESS_IN_USE',
+  cause: undefined
+}
+
+Node.js v24.21.0

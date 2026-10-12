@@ -1,0 +1,53 @@
+{"event":"saha_request","requestId":"1429f70d-0f7e-4c6a-b463-b66cbe38b468","route":"workspace","status":200,"durationMs":23}
+{"event":"saha_request","requestId":"3e131dd6-5b06-4d0d-8d1a-93145b3c3c52","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"41247ade-045e-407f-a481-45f52039eadc","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"659655ff-e430-47c4-912b-60e2a03e9105","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"e74d80ba-a330-47dd-8808-394fb9be660a","route":"commands","status":200,"durationMs":24}
+{"event":"saha_request","requestId":"d5567911-6f99-45f8-a8ff-2e5be8385235","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"084a1306-07b7-431f-ad05-932c5faba6f6","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"1d258d0a-99e0-4e65-ac78-75447b24daa8","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"a06eb2ac-cea2-4ef5-b757-d2796d530dac","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"8402947c-f20f-45ca-9902-cbb30b219385","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"d57d65c4-f121-4b70-a037-43cdf4098047","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"4cce7c19-1807-4c2b-8382-7c49f29ed85f","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"1cf147a2-5235-4244-871c-3eb0cb17ce61","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"c84b42ae-bd1f-4225-8bdb-614e7244657a","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"86daff70-707c-4213-8dec-7c7bf618bd3b","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"85af8b40-2c82-4028-842f-a2cc6e18f71f","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"d72fb465-1e0d-43bc-abc4-b579f9ae37a0","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"b5d4c9f4-7c5a-479f-b2bd-0f5aba31a564","route":"workspace","status":200,"durationMs":4}
+PASS Actual default no-rule read preserves old time and received-today distinction; no invented freshness cutoff
+{"event":"saha_request","requestId":"787d4475-7b85-4ff0-ae31-9ca35d713f22","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"e676dfe6-f7fb-4915-a8ea-9e4cabe7e86f","route":"governance","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"3e7b4bdc-e391-4439-866b-4faa970fe402","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"bdbcf5ff-a5f0-4dfe-b3cf-cea642a78a9c","route":"governance","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"bde62fc4-5dd8-47d8-80ae-e2ac0bb3a9aa","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"0e5aad7e-0588-49de-bd19-ad3e7fbfc9ca","route":"commands","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"0935f330-46b5-48b7-9181-fa380341fc47","route":"governance","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"da8b3d4d-f713-497d-a812-c1ca4acf4b55","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"56311c3b-2bb2-4879-9997-978d31acfae0","route":"governance","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"7abef335-bf49-4308-8450-ccede6fe7e3d","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"ddb2d13f-d888-40a4-b544-681612008177","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"76a033e9-e366-4633-97c8-768196fa50ad","route":"governance","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"0f656ff2-50f1-42b3-ad29-71339e1399ae","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"302046f3-e853-483f-a43c-6dd122bb1d03","route":"governance","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"86361bea-09c7-43f0-bd9f-f34e78f8b6e9","route":"commands","status":200,"durationMs":9}
+PASS Actual configured QA24h predicate marks48h-old original time past-age even received today
+{"passed":2,"failed":1,"skipped":0,"disposed":true}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Actual current reported pressure retains original source and configured-context distinction
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012/tests/smoke/fact-freshness-browser.mjs:2:275)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-fact-freshness-20261012/tests/smoke/fact-freshness-browser.mjs:24:292
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

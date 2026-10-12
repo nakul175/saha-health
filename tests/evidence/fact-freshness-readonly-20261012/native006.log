@@ -1,0 +1,86 @@
+{"event":"saha_request","requestId":"ebc64a18-c204-482e-a901-116134eaf89c","route":"workspace","status":200,"durationMs":20}
+{"event":"saha_request","requestId":"9405558a-3e80-4263-98e5-97b7d9204c00","route":"workspace","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"089c7e0e-2c11-4f61-82f1-defe5520c2b4","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"b159aab7-e78a-417e-a31a-1de33879a38f","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"79ed0684-8364-4465-af4e-e32387960904","route":"commands","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"087b3f9f-4469-403e-afec-c45e2437d39d","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"bc7a3d24-ed96-440d-ae20-d391311a1b78","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"ada1faf0-7941-4a6f-a0f7-a0ddb799d3b9","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"e2b3da6a-d89b-4112-9dc8-af0cc78567fa","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"6cac9db2-7a6d-4a2b-a4d2-c4eb1747714f","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"e6e1729b-f1f3-41d1-9bcd-aef8e49f04cd","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"1979018c-223b-4c2b-aaa6-118581bef8c3","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"fa29aeb8-f35b-4884-b8a7-635f992a0c85","route":"workspace","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"3302281f-24cd-4be5-bda6-84ac986572a6","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"7f590efd-586c-428b-bc2b-91ff7f3d9132","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"4cb2617c-5f8b-407c-b5e9-16ff453d2d09","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"bee30d68-65a3-4153-9fcb-6c651ac4ab23","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"24220570-82f2-4f8e-bd34-958b86232ba0","route":"workspace","status":200,"durationMs":4}
+PASS Actual default no-rule read preserves old time and received-today distinction; no invented freshness cutoff
+{"event":"saha_request","requestId":"27a9b58a-f8bf-4979-b79c-5bf2dbf4f603","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"82bad9c9-cc4b-46b5-a296-459d854f2f05","route":"governance","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"6dc27ca4-1c35-40f2-a0d3-488fbd169a07","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"b22acd63-cbf9-4594-a5b9-f669b28e05b1","route":"governance","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"c94d711e-8780-4c0e-b6c9-04393cfe5e1d","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"39487385-cf0c-417b-a66a-713703fc682c","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"1818f0bc-d13e-4786-a59b-7b5d61064b3a","route":"governance","status":200,"durationMs":1}
+{"event":"saha_request","requestId":"203a0dc3-94c2-4a8f-a37f-a72ff2cf41e5","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"247641af-a717-4a6a-aa36-e5c714867f0f","route":"governance","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"c2ec361c-e175-4ab0-bd94-d153c067d018","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"57c7c38b-0e8c-4177-b4ec-d4b761c0ecf7","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"4562de6d-8147-420a-b11a-ecfcfcdbd784","route":"governance","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"11e81c37-2a48-4251-b83f-b5199e1977ed","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"312ce81f-44d9-40fc-8a9d-43410ff0f42c","route":"governance","status":200,"durationMs":1}
+{"event":"saha_request","requestId":"1fe027a0-06fe-4538-a248-a7db73a6c697","route":"commands","status":200,"durationMs":8}
+PASS Actual configured QA24h predicate marks48h-old original time past-age even received today
+PASS Actual current reported pressure retains original source and configured-context distinction
+PASS Actual trusted actor org person and exact existing visit bind the response
+{"event":"saha_request","requestId":"dfd5d0b3-b36e-4310-ab61-097c4273c52f","route":"patients","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"c88ae46e-5ec8-484d-b2d2-5d73bf0ee9ae","route":"patients","status":200,"durationMs":3}
+PASS Actual Today link binds only selected existingperson and currentorg
+PASS Opening actual mobile index creates/selects no visit and displays no implicit measurements
+PASS Actual phone visit selector is visible and at least44px
+PASS Actual mobile old weight displays original value units time and past configured age
+PASS Actual missing measure is not a negative or current finding
+PASS Actual blank mobile measure explicitly denies inherited source/time as an observation or normalfinding
+PASS Actual phone originalfact view has no horizontal overflow
+PASS Actual originalfact phone accessibility scan has zero violations
+PASS Actual60tables unchanged during Today/index/select/read exceptauditmetrics; no POST copy model provider visit or receipt
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 401
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 403
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 403
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 403
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 400
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 400
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 400
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 400
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 403
+PASS Actual anonymous role tenant actor selector or otherexistingvisit refusal 409
+PASS Explicit organisation is required for originalfact disclosure
+PASS New fact view has no writer POST or automatic reuse surface
+PASS Actual stored missing age is unknown and readonly across60tables
+PASS Actual stored other programme is not-applicable and readonly across60tables
+PASS Actual stored impossible date remains unknown/read-only rather than currentfallback
+PASS Actual stored explicit missing time remains unknown/read-only rather than currentfallback
+PASS Actual stored explicit missing source remains unknown/read-only rather than currentfallback
+PASS Synthetic rule and dependency have actual existingstored IDs
+PASS Actual read-audit assignedowner change refuses protected originalfacts
+PASS Actual read-audit membershiprole change refuses protected originalfacts
+PASS Actual read-audit sourceversion change refuses protected originalfacts
+PASS Actual read-audit rulecontext change refuses protected originalfacts
+PASS Actual read-audit personcontext change refuses protected originalfacts
+PASS Actual read-audit visitversion change refuses protected originalfacts
+{"event":"saha_request","requestId":"2b310999-68b0-41fd-9cb3-4bc2c08a3325","route":"commands","status":200,"durationMs":14}
+PASS Actual finalcurrentnamedpurpose loss refuses originalfact disclosure
+PASS Actual stale selectedvisit version refuses ratherthan opening another visit
+PASS Actual audited200 readreply lostonce clears protectedfacts with no resend
+PASS Explicit read-only refresh and selection recover without replaying lostread or writing
+Access audit not recorded Error
+PASS Actual auditfailure withholds recordindex and facts instead of claiming empty normal
+PASS Actual offline transition clears all protectedfacts/index
+PASS Actual pagehide invalidates protectedfacts without automatic recovery
+PASS Actual malformed repeated personURL never selects a record
+PASS All browserAPIrequests read-only GET; zero browsererrors or external/provider calls
+PASS Actual application/helper/tests/compiled filehashes unchanged throughout ownednativeexecution
+PASS Owned syntheticbackend disposed andloopbackportfree
+{"passed":48,"failed":0,"skipped":0,"disposed":true}
