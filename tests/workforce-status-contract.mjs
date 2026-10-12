@@ -9,12 +9,12 @@ try {
   writeFileSync(join(dir, 'workforce-status.mjs'), ts.transpileModule(readFileSync('lib/saha/workforce-status.ts', 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
   }).outputText);
-  const module = await import(pathToFileURL(join(dir, 'workforce-status.mjs')));
+  const subject = await import(pathToFileURL(join(dir, 'workforce-status.mjs')));
   const context = () => ({ actorId: 'owner', organisation: { id: 'org', name: 'Synthetic organisation' }, members: [
     { userId: 'owner', name: 'Owner', role: 'clinician', status: 'active', isOwner: true, version: 3, teamIds: ['default'] },
     { userId: 'worker', name: 'Worker', role: 'asha', status: 'active', isOwner: false, version: 7, teamIds: ['default', 'second'] },
   ] });
-  const prepare = (value = context(), id = 'worker', reason = 'Synthetic suspension reason', key = 'original-reference') => module.prepareSuspension(value, id, reason, key);
+  const prepare = (value = context(), id = 'worker', reason = 'Synthetic suspension reason', key = 'original-reference') => subject.prepareSuspension(value, id, reason, key);
   check('Explicit original actor org target version and all access fields are retained', () => assert.deepEqual(prepare(), {
     key: 'original-reference', actorId: 'owner', organisationId: 'org', command: { type: 'updateMember', userId: 'worker', version: 7,
       role: 'asha', teamIds: ['default', 'second'], isOwner: false, status: 'suspended', reason: 'Synthetic suspension reason' },
@@ -40,26 +40,26 @@ try {
   });
   for (const reason of ['', 'tiny', 'x'.repeat(1001)]) check('Invalid original reason refuses length ' + reason.length, () => assert.throws(() => prepare(context(), 'worker', reason)));
   for (const key of ['short', 'bad/key', 'x'.repeat(101)]) check('Invalid original operation reference refuses ' + key.length, () => assert.throws(() => prepare(context(), 'worker', 'Valid reason', key)));
-  check('Unchanged current target authorises only its exact preserved metadata', () => assert.equal(module.unchangedSuspensionTarget(context().members[1], prepare().command), true));
+  check('Unchanged current target authorises only its exact preserved metadata', () => assert.equal(subject.unchangedSuspensionTarget(context().members[1], prepare().command), true));
   check('Team order alone does not invent a changed access scope', () => {
-    const target = context().members[1]; target.teamIds.reverse(); assert.equal(module.unchangedSuspensionTarget(target, prepare().command), true);
+    const target = context().members[1]; target.teamIds.reverse(); assert.equal(subject.unchangedSuspensionTarget(target, prepare().command), true);
   });
   for (const [name, change] of [['version', target => target.version++], ['role', target => target.role = 'clinician'],
     ['owner', target => target.isOwner = true], ['teams', target => target.teamIds = ['default']], ['status', target => target.status = 'suspended']])
-    check('Changed target does not authorise a new write ' + name, () => { const target = context().members[1]; change(target); assert.equal(module.unchangedSuspensionTarget(target, prepare().command), false); });
+    check('Changed target does not authorise a new write ' + name, () => { const target = context().members[1]; change(target); assert.equal(subject.unchangedSuspensionTarget(target, prepare().command), false); });
   check('Committed suspension readback matches same actor org target advanced version', () => {
-    const value = context(); value.members[1].status = 'suspended'; value.members[1].version++; assert.equal(module.recordedSuspensionMatches(prepare(), value), true);
+    const value = context(); value.members[1].status = 'suspended'; value.members[1].version++; assert.equal(subject.recordedSuspensionMatches(prepare(), value), true);
   });
   check('A later reinstatement is current status, never overwritten or falsely called suspended', () => {
-    const value = context(); value.members[1].version += 2; assert.equal(module.recordedSuspensionMatches(prepare(), value), true); assert.equal(value.members[1].status, 'active');
+    const value = context(); value.members[1].version += 2; assert.equal(subject.recordedSuspensionMatches(prepare(), value), true); assert.equal(value.members[1].status, 'active');
   });
   for (const [name, change] of [['actor', value => value.actorId = 'other'], ['org', value => value.organisation.id = 'other'],
     ['missing-target', value => value.members.pop()], ['unchanged-version', () => {}]])
-    check('Wrong or incomplete readback never confirms ' + name, () => { const value = context(); if (name !== 'unchanged-version') value.members[1].version++; change(value); assert.equal(module.recordedSuspensionMatches(prepare(), value), false); });
-  for (const status of ['active', 'removed']) check('New endpoint cannot activate or remove ' + status, () => assert.equal(module.suspensionCommand.safeParse({ ...prepare().command, status }).success, false));
-  check('Original suspension command rejects extra operation fields', () => assert.equal(module.suspensionCommand.safeParse({ ...prepare().command, clinicalPolicy: 'invented' }).success, false));
-  check('Owner setup may be empty without creating or inventing an organisation', () => assert.deepEqual(module.ownerOrganisations.parse({ actorId: 'new', organisations: [] }), { actorId: 'new', organisations: [] }));
-  check('Owner setup rejects duplicate organisation references', () => assert.equal(module.ownerOrganisations.safeParse({ actorId: 'owner', organisations: [{ id: 'org', name: 'First' }, { id: 'org', name: 'Second' }] }).success, false));
+    check('Wrong or incomplete readback never confirms ' + name, () => { const value = context(); if (name !== 'unchanged-version') value.members[1].version++; change(value); assert.equal(subject.recordedSuspensionMatches(prepare(), value), false); });
+  for (const status of ['active', 'removed']) check('New endpoint cannot activate or remove ' + status, () => assert.equal(subject.suspensionCommand.safeParse({ ...prepare().command, status }).success, false));
+  check('Original suspension command rejects extra operation fields', () => assert.equal(subject.suspensionCommand.safeParse({ ...prepare().command, clinicalPolicy: 'invented' }).success, false));
+  check('Owner setup may be empty without creating or inventing an organisation', () => assert.deepEqual(subject.ownerOrganisations.parse({ actorId: 'new', organisations: [] }), { actorId: 'new', organisations: [] }));
+  check('Owner setup rejects duplicate organisation references', () => assert.equal(subject.ownerOrganisations.safeParse({ actorId: 'owner', organisations: [{ id: 'org', name: 'First' }, { id: 'org', name: 'Second' }] }).success, false));
   const result = { passed: checks.length, failed: 0, skipped: 0, checks, completedAt: new Date().toISOString(),
     limits: 'Pure metadata and intent refusal checks; actual server authority, write/recovery, online revocation and custody require separate synthetic native tests. No institutional, clinical, formal or hosting acceptance.' };
   writeFileSync('tests/reports/workforce-status-contract-result.json', JSON.stringify(result, null, 2) + '\n'); console.log(JSON.stringify(result));

@@ -1858,3 +1858,6 @@ Scope/evidence boundary: [Explicit existing-owner suspension with original comma
 
 
 12October actual publishedworkforce return-navigation defect independently reproduced on e873. Only new Backtoworkspace NextLink replaced with identical full-document anchor; no framework/policy/originalwriter change. Freshbuild/types/actualtargetedlint and47native (old44 preserved +3 actualvisibleentry/return/tablecustody) pass, zero browsererrors, nonempty9GET navigation requests/60tables onlyauditmetrics. Genuine separate source/evidence review passed; original389/unit48 unchanged, observednative minimum tightened44to47. Failed e873/invalidlintshim/evidencefilename setup receipts retained. Newexacthead fullCI/finalmetadata review, wholeworkforce/physical/formal/domain/hosting stillpending.
+
+
+12October2026: Full PR223/f836 CI caught forbidden unithelper namespace variable `module`; original full local lint confirmed1393>1392. Renaming only that local variable leaves compilerOptions.module and all48 original assertions intact. Actual48 unit rerun and sequential full lint1392 pass without changing the original baseline. One exact historical unit source preimage is preserved, all application/native-test bytes and earlier actual47 evidence unchanged; no new native/build/CI/hosting pass inferred.

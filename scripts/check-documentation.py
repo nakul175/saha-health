@@ -219,6 +219,17 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
             archive=(ROOT/binding['archivedSource']).resolve()
             require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical authorization-matrix preimage')
             path=archive
+        # Exact historical workforce-unit source, before the additive unithelper localidentifier rename.
+        # This preserves original source bytes only; current execution/minima/reports remain in place.
+        if str(manifest_path.relative_to(ROOT))=='tests/evidence/workforce-status-root-author-20261012/manifest.json' and report=='tests/workforce-status-contract.mjs' and path.is_file() and digest(path)!=expected:
+            binding=read_json('docs/verification/evidence-source-snapshot-workforce-unit-helper-20261012.json')
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound historical workforce-unit manifest')
+            require(binding['sourcePath']==report and binding['originalSourceSha256']==expected,'Unbound historical workforce-unit source pin')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current workforce unithelper is not independently pinned by the current baseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical workforce-unit preimage')
+            path=archive
         # One bound historical test-source preimage: current test bytes remain checked by the current baseline.
         # This never substitutes for a test report, expected image, assertion count or current execution.
         if str(manifest_path.relative_to(ROOT))=='tests/evidence/guided-home/manifest.json' and report=='tests/ui/app-first-phone.spec.mjs' and path.is_file() and digest(path)!=expected:

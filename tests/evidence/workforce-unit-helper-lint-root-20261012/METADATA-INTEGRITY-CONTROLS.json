@@ -1,0 +1,65 @@
+{
+  "observedAt": "2026-10-12T20:07:58.228604+00:00",
+  "checkerSourceSha256": "696a4ac0c8a15bddecada5d89e035de866458504d01805281de093f5a12805c2",
+  "tests": [
+    {
+      "case": "historical-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical workforce-unit preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-workforce-unit-helper-integrity-control-20261012/docs/verification/evidence-source-snapshots/workforce-unit-module-bfe626665052.mjs.txt"
+    },
+    {
+      "case": "original-manifest-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical workforce author manifest\nUnbound historical workforce-unit manifest\nUnbound historical workforce author manifest"
+    },
+    {
+      "case": "current-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed baseline file: tests/workforce-status-contract.mjs\nCurrent workforce unithelper is not independently pinned by the current baseline\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-workforce-unit-helper-integrity-control-20261012/tests/workforce-status-contract.mjs"
+    },
+    {
+      "case": "current-evidence-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-workforce-unit-helper-integrity-control-20261012/tests/evidence/workforce-unit-helper-lint-root-20261012/actual-current-unit48-result.json\nChanged evidence size: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-workforce-unit-helper-integrity-control-20261012/tests/evidence/workforce-unit-helper-lint-root-20261012/actual-current-unit48-result.json"
+    },
+    {
+      "case": "wrong-current-pin",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Current workforce unithelper is not independently pinned by the current baseline"
+    },
+    {
+      "case": "wrong-source-path",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical workforce-unit source pin"
+    },
+    {
+      "case": "outside-archive",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical workforce-unit preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-workforce-unit-helper-integrity-control-20261012/tests/nfr/authorisation-matrix-current.mjs"
+    },
+    {
+      "case": "archive-symlink-escape",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical workforce-unit preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-workforce-20261012/docs/verification/evidence-source-snapshots/workforce-unit-module-bfe626665052.mjs.txt"
+    }
+  ],
+  "untamperedBeforePass": true,
+  "untamperedAfterPass": true,
+  "originalCandidateAnchorsUnmodified": true,
+  "anchors": {
+    "docs/verification/evidence-source-snapshots/workforce-unit-module-bfe626665052.mjs.txt": "bfe6266650523ba1485a05196985d9851aa8b7f5dbf9de0d97cbe753330dec4e",
+    "tests/workforce-status-contract.mjs": "88b36fdc60af65a848c589567c2d1d88ad9f52e48c191f82b81937923a95c546",
+    "tests/evidence/workforce-status-root-author-20261012/manifest.json": "fe860f5f50411653a77beb2c2fc5d2910195fa565a9255ef82bbc062ccc667a1",
+    "tests/evidence/workforce-unit-helper-lint-root-20261012/actual-current-unit48-result.json": "e1f72c8e0db4c43252d3d33d71c485e699586c5ed21a6720f667b125b2e68f7a",
+    "docs/verification/evidence-source-snapshot-workforce-unit-helper-20261012.json": "eb139d72794ff8d09f1cf1cb8d6eae9e508024cbbd01eeccb2bc0086e6ecf91c"
+  },
+  "limits": "Author synthetic full-checker controls in an isolated hardlinked mirror. Mutated anchors copied to separate private inodes first; original source/evidence/criteria untouched. Tests do not run the app or prove formal acceptance. Trust anchors remain versioned review inputs, not a guarantee against coordinated authorized checker/config rewrites."
+}
