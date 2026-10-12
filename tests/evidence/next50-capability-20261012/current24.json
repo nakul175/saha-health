@@ -1,0 +1,33 @@
+{
+  "suite": "Capability explicit age boundary contract",
+  "passed": 24,
+  "failed": 0,
+  "checks": [
+    "Explicit in-range age 18 retains declared eligibility",
+    "Explicit in-range age 32 retains declared eligibility",
+    "Explicit in-range age 60 retains declared eligibility",
+    "Explicit outside-range age 17 remains refused",
+    "Explicit outside-range age 61 remains refused",
+    "Unknown/non-numeric age refused: unknown",
+    "Unknown/non-numeric age refused: NaN",
+    "Unknown/non-numeric age refused: positive infinity",
+    "Unknown/non-numeric age refused: negative infinity",
+    "Unknown/non-numeric age refused: numeric text",
+    "Unknown/non-numeric age refused: text",
+    "Unknown/non-numeric age refused: null",
+    "Unknown/non-numeric age refused: object",
+    "Unknown age is refused even when all numeric ages fit",
+    "Actual preparation refuses unknown without run/audit/state mutation",
+    "Actual preparation refuses NaN without run/audit/state mutation",
+    "Actual preparation refuses positive infinity without run/audit/state mutation",
+    "Actual preparation refuses negative infinity without run/audit/state mutation",
+    "Actual preparation refuses numeric text without run/audit/state mutation",
+    "Actual preparation refuses text without run/audit/state mutation",
+    "Actual preparation refuses null without run/audit/state mutation",
+    "Actual preparation refuses object without run/audit/state mutation",
+    "Valid known age still prepares one bounded pending request",
+    "Source fixture and capability manifest are unchanged"
+  ],
+  "completedAt": "2026-10-12T10:00:20.471Z",
+  "limits": "Actual current capability gate/preparation functions on synthetic in-memory fixtures; no external invocation, HTTP/hosting, clinical approval or full-story acceptance."
+}

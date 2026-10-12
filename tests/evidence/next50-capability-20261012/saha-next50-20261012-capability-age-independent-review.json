@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "reviewedAtUtc": "2026-10-12T10:03:02.663397+00:00",
+  "reviewer": "Independent programme agent /root/next50_programme, not capability author",
+  "scope": "SAHA053/APL76,ENG-BR-AI-02/APL236 bounded declared age validation",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "frozenContractSHA256": "8c3eaa5a148e2939b7019dcf2d64093e65c8039a8a7d03c5555d9bb8e48d9d5e",
+  "sourcePins": {
+    "lib/saha/governance.ts": "df40cbecc881148012385f4ed4ac70e40c6d6fb1a6d4726799fead01fce740a5",
+    "tests/capability-age-boundary-contract.mjs": "b5b8488dbc9b4909f1e1f8717b927be4d9a4bca019a1fef1954635730846a780"
+  },
+  "findings": [],
+  "verdict": "PASS bounded source/negative-state comparison; draft publication only after native metadata/baseline integration, no whole-story/CI/clinical/provider approval",
+  "productionAssessment": "Adds typeof-number and finite guard to existing declared age-range predicate only. Model/version/evidence/team/role/language/task/device/settings, budget/consent gates and existing local manual-review exception remain. No range/default/provider invented.",
+  "independentRuntime": {
+    "passed": 24,
+    "failed": 0,
+    "report": "capability-age-independent-runtime.json",
+    "sha256": "b074740f8c3c4ac643a5dc210211115003bc7c3247f71ccfaae318b8aa148dd5",
+    "negativeStateCoverage": "All8 malformed/unknown values rejected by actual agentApply with complete in-memory state deep-equal before/after; valid32 prepares one pending request with callCount0.",
+    "fixtureQualification": "Explicit synthetic governance/evaluation/member records; not real review identities or clinical approval."
+  },
+  "originalEvidenceReviewed": {
+    "governance": 27,
+    "agent": 25,
+    "minimisation": 38,
+    "total": 90,
+    "guard": "passed",
+    "untouchedBeforeResult": "8pass5fail retained"
+  },
+  "limits": [
+    "Actual current functions and complete declared in-memory state only; no native SQL/HTTP/provider invocation/staging evidence.",
+    "No wholeBR-AI-02/story acceptance, independent human/domain approval, physical/clinical/evaluation/UAT or full finalCI.",
+    "No source/dependency/compiled archive custody claim.",
+    "Final root-added metadata/new24min not yet independently reviewed at this snapshot."
+  ]
+}

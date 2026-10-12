@@ -1,0 +1,39 @@
+{
+  "suite": "Capability explicit age boundary contract",
+  "passed": 8,
+  "failed": 5,
+  "checks": [
+    "Explicit in-range age 18 retains declared eligibility",
+    "Explicit in-range age 32 retains declared eligibility",
+    "Explicit in-range age 60 retains declared eligibility",
+    "Explicit outside-range age 17 remains refused",
+    "Explicit outside-range age 61 remains refused",
+    "Unknown/non-numeric age refused: positive infinity",
+    "Unknown/non-numeric age refused: negative infinity",
+    "Unknown/non-numeric age refused: null"
+  ],
+  "failures": [
+    {
+      "name": "unknown",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception."
+    },
+    {
+      "name": "NaN",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception."
+    },
+    {
+      "name": "numeric text",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception."
+    },
+    {
+      "name": "text",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception."
+    },
+    {
+      "name": "object",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected exception."
+    }
+  ],
+  "completedAt": "2026-10-12T09:54:32.241Z",
+  "limits": "Actual current capability gate/preparation functions on synthetic in-memory fixtures; no external invocation, HTTP/hosting, clinical approval or full-story acceptance."
+}
