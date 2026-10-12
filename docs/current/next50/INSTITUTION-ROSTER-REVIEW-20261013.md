@@ -1,0 +1,19 @@
+# Review existing institution roster differences
+
+13 October 2026 · development-only candidate from main `22a271033eaa57e124a235fc615744928f1ac106`.
+
+A current organisation owner explicitly selects an existing eligible local member, supported local role, recorded teams and active or left status. The original partial `rosterDiff` previews exact differences; the unchanged `rosterApply` applies only the reviewed hash and reason. Unlisted members remain unchanged. No invitations, provisioning, owner/self/provider/fixture changes or reactivation are offered. Left suspends local membership while preserving the recorded role and teams. Local online request checks are distinct from upstream token or session termination.
+
+The direct original identity and empty-window `readState`, active owner scope, access audit and final current organisation/member/team/operations/invitation/transfer graph protect metadata. Known future transfer intervals prevent writer dispatch; due/held/corrupt intervals withhold disclosure until existing authoritative processing. No new patient data, provider, clinical policy, database or scheduler is introduced.
+
+The original `fb7` actual preview403 left staff names, account references, roles and teams visible after supported owner withdrawal. That failure and screenshot are retained. Corrected `98e2b2dc` invokes the existing protected clear/reset on unsuccessful preview; current real owner403 and audit503 clear all staff/form fields. Explicit restored-authority refresh requires fresh selection. Exact original key/body uncertain apply recovery remains unchanged and adds no duplicate receipt or membership mutation. Separate original-source review and different-agent incremental repair review are retained; final composed metadata review and exact-head CI remain pending.
+
+Actual source qualification:35 pure, 55 fresh built synthetic D1/mobile checks including all 49 original checks plus 6 refusal/recovery checks, and 152 original assertions under 5 guards. Build/types/packaged types/affected lint and catalogue pass. Ten source pins, 33 repair artifacts,723 source/build pins and 289 archived compiled files are retained. Those counts are engineering evidence, not formal story acceptance. Current publication checks are reported separately in VALIDATION.
+
+Canonical:SAHA019/APL42, taskAPL202/ENG-BR-ID10; BR-ID-10. Full federation/provider/group mapping/approved registry feed and synchronisation window, incompatible session termination and controlled emergency administration remain open. Formal acceptance stays 0/364 cases and 0/176 requirements. No CI/merge/hosting/deployment or human/domain approval is implied.
+
+Open the dedicated candidate `/institution-roster-review?organisationId=<existing organisation>` from the visible existing owner controls. The launcher source is inspected; whole legacy owner portal activation is not claimed. Synthetic/training only.
+
+Current publication preparation: original runner registers35unit and55native, only2additions. Currentauthorization64, current-routine API smoke32with1existing media skip, UATtooling63 and152original guarded assertions pass. Documentation/source integrity controls are captured separately; current-headCI and independent composed metadata review remain pending. All original389guard objects,176 source requirements/364 cases/formalstatus and frozen federation/session criteria remain unchanged.
+
+Integrity guard evidence retains an actual private false pass before repair: author `artifactFiles` maps were ignored. The checker now validates every nonempty typed map, exact report bytes and bound historical source preimages. Ten full-checker refusal controls and before/after positives, plus 5 inline CI controls, pass. No old report, assertion, minimum, criterion or manifest was rewritten. Root review of this checker change and current-headCI remain required.
