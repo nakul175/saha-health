@@ -240,7 +240,6 @@ jobs:
     env:
       SAHA_BROWSER_PACKAGE: '@playwright/test'
       SAHA_MISSING13_CANDIDATE: ${{ github.event.pull_request.head.sha || github.sha }}
-      SAHA_LEGACY_WORK: ${{ runner.temp }}/saha-original-missing13-legacy
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -253,6 +252,7 @@ jobs:
           node scripts/test.mjs --check-catalogue
       - name: Capture exact source before installation
         run: |
+          printf 'SAHA_LEGACY_WORK=%s/saha-original-missing13-legacy\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
           mkdir -p tests/reports/original-missing13-custody
           git fetch --no-tags origin "$SAHA_MISSING13_CANDIDATE"
           test "$(git rev-parse 'HEAD^{tree}')" = "$(git rev-parse "$SAHA_MISSING13_CANDIDATE^{tree}")"
