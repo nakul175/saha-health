@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "sealedAtUTC": "2026-10-12T06:01:07.928244+00:00",
+  "agent": "routine_independent_qa",
+  "role": "Workflow author and execution evidence tester; no independent final source/image/story approval",
+  "verdict": "PASS \u2014 actual bounded observational capture and evidence readback; normal screenshot comparison/A9 remains HELD",
+  "sourceHead": "b2c488977c94c1447eb341fed29c9183b46673f3",
+  "sourceTree": "3a9f51294da6a156d74bece277f9eb13da5e1a5e",
+  "runId": 38209763055,
+  "jobId": 114681082357,
+  "artifactId": 11728897644,
+  "actualWorkflowJob": "completed/success",
+  "artifact": {
+    "path": "outputs/saha-staging-resume-20261012/current-b2-role-snapshot-capture/artifact-11728897644.zip",
+    "sha256": "1654bc644f4bfde3f3f0be013c4a9e9dcc06aa13458902eead4673e822aab6ed",
+    "bytes": 9246844
+  },
+  "artifactDigestMatchesActualGitHubMetadata": true,
+  "safeZIPMembers": 44,
+  "actualCounts": {
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "axeScreens": 3,
+    "violations": 0,
+    "unexpectedOrAllowedProblems": 0
+  },
+  "caseOutcomes": [
+    {
+      "file": "roles-safe-cohort-positive.spec.mjs",
+      "title": "supervisor sees the destination-uncertain alert for six distinct authorised demo contributors",
+      "status": "expected",
+      "durationMs": 7958,
+      "actualAttempts": 1
+    },
+    {
+      "file": "roles.spec.mjs",
+      "title": "supervisor sees Operations and alerts and no administration menus; an ASHA menu is care work only",
+      "status": "expected",
+      "durationMs": 6486,
+      "actualAttempts": 1
+    }
+  ],
+  "phaseExits": {
+    "runnerExit": 0,
+    "loggerExit": 0
+  },
+  "authorImageObservation": "Clean Alerts heading, No alerts from current data and complete unchanged no-message/paging/acknowledgement notice; no count1 disclosure or clipping. Author observation only; separate root/R visual adjudication pending.",
+  "actualNewPNG": {
+    "path": "outputs/saha-staging-resume-20261012/current-b2-role-snapshot-capture/artifact-11728897644/_temp/saha-role-snapshot-capture/operations-withheld.png",
+    "sha256": "4103acf84bbff6f84a121caf41e288f181fb083b8ac63be2bd1340598df6ed1e",
+    "bytes": 17044,
+    "width": 968,
+    "height": 192,
+    "actualScreenshotBytesEqual": true
+  },
+  "sourceCustody": {
+    "capturedTracked": 16921,
+    "actualPublishedGitBlobsCompared": 16921,
+    "byteExactInitialPublishedGitBlobs": 16920,
+    "knownCRLFCheckout": [
+      {
+        "path": "android/gradlew.bat",
+        "publishedGitSHA256": "2209f919a22528af59a2af2ad97e8d056cca18e39f7d87aa3fd549a73b180150",
+        "publishedGitBytes": 2872,
+        "captured": {
+          "kind": "file",
+          "bytes": 2966,
+          "sha256": "57931b17dd228e5c24dac90e815d0bf82477e831a4618dfab4136f5446b42a9f"
+        },
+        "CRLFCheckoutMatches": true
+      }
+    ],
+    "onlyPostInstallerChange": {
+      "pnpm-workspace.yaml": {
+        "before": {
+          "kind": "file",
+          "bytes": 794,
+          "sha256": "ad05806302c6d8c8a20bcb09c93240e38d7d4e9464255f40a460b77be757f26c"
+        },
+        "after": {
+          "kind": "file",
+          "bytes": 738,
+          "sha256": "ec304575bb9e9a50e098827d8bad56d285b234f8507644d03acdf0c4c3918e94"
+        }
+      }
+    },
+    "workspaceTwoFallbacksCorroboration": "ec304575bb9e9a50e098827d8bad56d285b234f8507644d03acdf0c4c3918e94",
+    "all389BaselineObjectsAndMinimum26Unchanged": true,
+    "originalEightGoldensAndRetainedBytesUnchanged": true,
+    "caseSupportConfigPackageLockDecisionArchivedBytesMatchRecordedSourcePins": true,
+    "newPNGAbsentBefore": true,
+    "onlyAllowedNewPNGAppears": true,
+    "newExpectedPNGEqualsActualScreenshotBytes": true
+  },
+  "actualUIAndAPI": {
+    "positive6": "Actual HTTP200/current protected report six contributors plus high destination-uncertain alert; real browser row/title/count6/action assertion passed; full scoped clinical/submission before-after equality assertions passed.",
+    "smallCohort": "Actual browser Operations HTTP200 contains privacywithheldtrue/min5, nullclinicalcounters and emptyderivedalerts; approved corrected test retains menu, individual exception queue, axe and ASHA403/supervisor200 checks.",
+    "rawCapturedOperationsResponses": [
+      {
+        "case": "positive6",
+        "URL": "http://127.0.0.1:8821/api/operations?days=30",
+        "status": 200,
+        "rawResponse": {
+          "path": "outputs/saha-staging-resume-20261012/current-b2-role-snapshot-capture/trace-response-readback/positive6-actual-operations.json",
+          "sha256": "c77d2f43e7f6b240fa527306e0e882ca706a525a33371743fccd30a9fa44f57c",
+          "bytes": 4487
+        },
+        "privacy": {
+          "withheld": false,
+          "reason": "Protected live aggregate projection; distinct active-worker count is withheld.",
+          "minimumCell": 5,
+          "activeWorkers": "Withheld: distinct actor contributions are not certified by the patient aggregation profile."
+        },
+        "unresolvedSubmissions": 6,
+        "alerts": [
+          {
+            "id": "destination-uncertain",
+            "severity": "high",
+            "title": "Programme submissions not yet confirmed by the destination",
+            "count": 6,
+            "owner": "operations",
+            "action": "Check each one: look up the receipt of any uncertain submission before a resend; queued and retryable ones may be retried with their original key.",
+            "tab": "overview",
+            "acknowledged": null
+          }
+        ]
+      },
+      {
+        "case": "suppressed-role",
+        "URL": "http://127.0.0.1:8821/api/operations?days=30",
+        "status": 200,
+        "rawResponse": {
+          "path": "outputs/saha-staging-resume-20261012/current-b2-role-snapshot-capture/trace-response-readback/suppressed-role-actual-operations.json",
+          "sha256": "4261fe18271539587977daffacec5515d7590700b1b3879957eae28d81142427",
+          "bytes": 4170
+        },
+        "privacy": {
+          "withheld": true,
+          "reason": "Withheld to protect a group or contributing group smaller than five.",
+          "minimumCell": 5,
+          "activeWorkers": "Withheld: distinct actor contributions are not certified by the patient aggregation profile."
+        },
+        "unresolvedSubmissions": null,
+        "alerts": []
+      }
+    ],
+    "unexpectedOrAllowedBrowserErrors": 0,
+    "axeScans": 3,
+    "axeViolations": 0,
+    "noResponseSubstitution": true,
+    "sourceProductionPolicyChanged": false,
+    "syntheticD1RawStateRetained": [
+      "saha-health/saha-health/.wrangler/saha-ui-state/v3/cache/miniflare-CacheObject/metadata.sqlite",
+      "saha-health/saha-health/.wrangler/saha-ui-state/v3/cache/miniflare-CacheObject/metadata.sqlite-shm",
+      "saha-health/saha-health/.wrangler/saha-ui-state/v3/cache/miniflare-CacheObject/metadata.sqlite-wal",
+      "saha-health/saha-health/.wrangler/saha-ui-state/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+      "saha-health/saha-health/.wrangler/saha-ui-state/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite-shm",
+      "saha-health/saha-health/.wrangler/saha-ui-state/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite-wal",
+      "saha-health/saha-health/.wrangler/saha-ui-state/v3/d1/miniflare-D1DatabaseObject/metadata.sqlite",
+      "saha-health/saha-health/.wrangler/saha-ui-state/v3/d1/miniflare-D1DatabaseObject/metadata.sqlite-shm",
+      "saha-health/saha-health/.wrangler/saha-ui-state/v3/d1/miniflare-D1DatabaseObject/metadata.sqlite-wal"
+    ]
+  },
+  "toolchain": {
+    "node": "v22.23.3",
+    "pnpm": "11.25.0",
+    "playwright": "1.56.1",
+    "binaries": {
+      "chromium": {
+        "path": "/home/runner/.cache/ms-playwright/chromium-1194/chrome-linux/chrome",
+        "sha256": "85918a9937192b78da8edb51c38a7af4920ac6bd9ba19939ecb0bb724d5a1a95"
+      },
+      "headlessShell": {
+        "path": "/home/runner/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell",
+        "sha256": "6c82af1bb96955970f0ff50884bcbd75f200222414dc136076ada667bf4628d1"
+      }
+    },
+    "platform": "linux",
+    "runnerOS": "Linux"
+  },
+  "cleanupLimit": "Unchanged global setup returns awaited Worker.stop; actual CLI runner0 after teardown and successful GitHub post-job cleanup. No explicit PID/group/port-free receipt is present; no stronger proof inferred.",
+  "buildLimit": "Canonical build log retained; no compiled manifest/binary archive in this observational workflow. No raw compiler binary equality claim.",
+  "limitations": [
+    "This receipt is author/tester readback, not independent approval of its own workflow or source. Root and separate reviewer must genuinely adjudicate the image/source/evidence.",
+    "--update-snapshots capture observes expected data; it proves no normal pixel comparison and does not satisfy min26/fullUI/A9.",
+    "No new expectedPNG was committed by this reviewer. Publication with temporaryworkflow removal and allseven normal final-head jobs without snapshot updates remains required.",
+    "Only two desktop cases ran; no real phone, capacity, clinical/domain or formal176/364acceptance.",
+    "No deployedcommit/livejourney/mainmerge or hosting access claimed.",
+    "Inherited originalrole/rawpixel/workflow failures remain archived; approved correction and newrelatedimage do not rewrite historical evidence.",
+    "Canonical build log and source/toolchain prove this capture input; compiled binary/source custody beyond recorded fields is not inferred."
+  ],
+  "supportingReadback": {
+    "path": "outputs/saha-staging-resume-20261012/current-b2-role-snapshot-capture/AUTHOR-CAPTURE-RAW-SOURCE-CUSTODY-READBACK.json",
+    "sha256": "f91fe21e2d4e8102fc748e86cb3f9ac40f0577345bf0a5c8d7b7049ca337a211",
+    "bytes": 7409
+  },
+  "ZIPMemberReadback": {
+    "path": "outputs/saha-staging-resume-20261012/current-b2-role-snapshot-capture/ZIP-MEMBER-SAFE-EXTRACTION-READBACK.json",
+    "sha256": "0deee6fe8d881c1abbf2a187851ff64ab633b6c3e381ef37da5546bd7961f6c0",
+    "bytes": 9552
+  }
+}
