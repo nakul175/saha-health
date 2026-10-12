@@ -86,7 +86,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 - **Catalogue:** Functional, fixture FX-ID-01, catalogue owner "QA with Deployment administrator and identity steward".
 - **Run as:** Organisation owner / programme lead. Basis: invitations, role changes and suspension are owner actions (platform.ts manage()).
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-ID-01: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Candidate existing-owner workforce suspension (/workforce-status; no activation or institutional verification; deployment pending), Organisation & team. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -104,7 +104,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 
 <details><summary>What the build does today (assessment, current state of BR-ID-01)</summary>
 
-Account-bound invitations, role/team changes, suspension and immediate online access checks. Slice 1b adds removal that requires the caseload to be transferred first, keeps history and needs a new invitation to return. Slice 1d adds roster-based bulk invitation, update and suspension. Slice 10d adds workforce import from a CSV file: an owner uploads a roster (name, account code, role, team, status, optional external staff id) for a dry run that lists invitations to create, memberships to update or suspend, rows rejected with reasons and conflicts under a plan hash, downloads a rejection report and applies exactly the previewed plan (refused if anything changed since), on the slice 1d rules, in batches of at most 100 rows with an audit record.
+Account-bound invitations, role/team changes, suspension and immediate online access checks. Slice 1b adds removal that requires the caseload to be transferred first, keeps history and needs a new invitation to return. Slice 1d adds roster-based bulk invitation, update and suspension. Slice 10d adds workforce import from a CSV file: an owner uploads a roster (name, account code, role, team, status, optional external staff id) for a dry run that lists invitations to create, memberships to update or suspend, rows rejected with reasons and conflicts under a plan hash, downloads a rejection report and applies exactly the previewed plan (refused if anything changed since), on the slice 1d rules, in batches of at most 100 rows with an audit record. Bounded12October2026 increment: Explicit existing-owner suspension with original command and receipt recovery; see docs/current/next50/WORKFORCE-STATUS-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.
 
 </details>
 
