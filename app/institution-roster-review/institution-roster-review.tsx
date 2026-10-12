@@ -190,11 +190,12 @@ export default function InstitutionRosterReview() {
       }
     } catch (e) {
       if (!controller.signal.aborted) {
+        const message = e instanceof Error ? e.message : 'Roster outcome unavailable.';
         if (key) {
           setUncertain(true);
           setContext(null);
-        } else setPreview(null);
-        setNotice(e instanceof Error ? e.message : 'Roster outcome unavailable.');
+          setNotice(message);
+        } else clear(message);
       }
     } finally {
       if (g === generation.current) setBusy(false);
