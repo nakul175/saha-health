@@ -245,3 +245,6 @@ The owner-private Sites demonstration now has eight independent speech/OCR workf
 
 
 12October development: existing-owner suspension root520b source and actual48/44/49 checks separately reviewed. Metadata/additive CI controls being qualified, full workforce lifecycle/formal/hosting open. Original389/criteria remain unchanged.
+
+
+12October actual publishedworkforce return-navigation defect independently reproduced on e873. Only new Backtoworkspace NextLink replaced with identical full-document anchor; no framework/policy/originalwriter change. Freshbuild/types/actualtargetedlint and47native (old44 preserved +3 actualvisibleentry/return/tablecustody) pass, zero browsererrors, nonempty9GET navigation requests/60tables onlyauditmetrics. Genuine separate source/evidence review passed; original389/unit48 unchanged, observednative minimum tightened44to47. Failed e873/invalidlintshim/evidencefilename setup receipts retained. Newexacthead fullCI/finalmetadata review, wholeworkforce/physical/formal/domain/hosting stillpending.

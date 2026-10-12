@@ -302,11 +302,11 @@ jobs:
                                'Canonical runner restores tracked test evidence: these restored files are not current-run evidence.',
                                'Installer and generated fixture data differences require explicit applicability review.']}
           (out / (phase + '.json')).write_text(json.dumps(record, indent=2) + '\n')
-          additional = {"unit/workforce-status-contract":{"layer":"unit","file":"tests/workforce-status-contract.mjs","minPassed":48},"smoke/workforce-status-browser":{"layer":"smoke","file":"tests/smoke/workforce-status-browser.mjs","minPassed":44}}
+          additional = {"unit/workforce-status-contract":{"layer":"unit","file":"tests/workforce-status-contract.mjs","minPassed":48},"smoke/workforce-status-browser":{"layer":"smoke","file":"tests/smoke/workforce-status-browser.mjs","minPassed":47}}
           original_suites = {k:v for k,v in baseline['suites'].items() if k not in additional}
           assert len(original_suites) == 389, 'Original389 must remain'
           assert hashlib.sha256(json.dumps(original_suites,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 objects/minima changed'
-          assert len(baseline['suites']) == 391 and all(baseline['suites'].get(k)==v for k,v in additional.items()), 'Only observed48 logic and44 native suspension guards added'
+          assert len(baseline['suites']) == 391 and all(baseline['suites'].get(k)==v for k,v in additional.items()), 'Only observed48 logic and47 native suspension guards added'
           if phase == 'final':
               before = json.loads((out / 'before-install.json').read_text())
               assert before['baseline'] == baseline, 'Original baseline changed'

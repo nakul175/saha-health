@@ -86,6 +86,17 @@ try {
   check(Object.keys(beforeRead).length === 60 && sameRows(beforeRead, afterRead), 'All protected sixty-table read/refusal data remains unchanged except original audit/metrics');
   browser = await chromium.launch({ headless: true }); const context = await browser.newContext({ viewport: { width: 390, height: 844 }, extraHTTPHeaders: owner.headers });
   await context.route('**/*', route => { if (!route.request().url().startsWith(worker.base + '/')) { external.push(route.request().url()); return route.abort(); } return route.continue(); });
+  // Additive actual visible owner entry/return qualification after the e873 return-link failure.
+  const navBefore = await tableRows(), navContext = await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:owner.headers}), navPage = await navContext.newPage(), navRequests = [];
+  await navContext.route('**/*', route => { if (!route.request().url().startsWith(worker.base + '/')) { external.push(route.request().url()); return route.abort(); } return route.continue(); });
+  navPage.on('pageerror', error => errors.push(String(error))); navPage.on('request', request => { if(new URL(request.url()).pathname.startsWith('/api/')) navRequests.push({method:request.method(),path:new URL(request.url()).pathname}); });
+  await navPage.goto(worker.base+'/'); await navPage.getByRole('button',{name:'Organisation & team',exact:true}).first().click(); await navPage.getByRole('heading',{level:1,name:'Organisation & team',exact:true}).waitFor();
+  const entry = navPage.getByRole('link',{name:'Review online membership suspension',exact:true}); check(await entry.getAttribute('href')==='/workforce-status','Actual visible owner organisation entry has the exact workforce route');
+  await entry.click(); await navPage.getByRole('heading',{level:1,name:'Review membership suspension',exact:true}).waitFor(); await navPage.getByRole('button',{name:'Review '+first.organisation.name,exact:true}).click(); await navPage.getByRole('region',{name:'Current membership roster',exact:true}).waitFor();
+  await navPage.evaluate(()=>window.__ownedReturnNavigationToken='only-this-document'); await navPage.getByRole('link',{name:'Back to workspace',exact:true}).click(); await navPage.waitForURL(worker.base+'/',{timeout:10000}); await navPage.getByRole('button',{name:'Organisation & team',exact:true}).first().waitFor();
+  check(await navPage.evaluate(()=>window.__ownedReturnNavigationToken??null)===null,'Actual Back to workspace reaches the original workspace through a fresh document without router errors');
+  const navAfter=await tableRows(); check(navRequests.every(x=>x.method==='GET')&&sameRows(navBefore,navAfter),'Actual owner entry and return navigation writes no protected table or command');
+  writeFileSync(join(folder,'actual-entry-return-navigation.json'),JSON.stringify({requests:navRequests,before:navBefore,after:navAfter,fullDocumentReturn:true},null,2)); await navContext.close();
   page = await context.newPage(); page.on('pageerror', error => errors.push(String(error)));
   page.on('request', request => { if (new URL(request.url()).pathname === '/api/workforce-status') requests.push({ method: request.method(), body: request.postData(), key: request.headers()['idempotency-key'], recovery: request.headers()['x-saha-recovery'] }); });
   await page.goto(worker.base + '/workforce-status'); await page.getByRole('button', { name: 'Review ' + first.organisation.name, exact: true }).click();

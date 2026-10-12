@@ -3,12 +3,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ownerOrganisations, workforceContext, prepareSuspension, recordedSuspensionMatches,
   type WorkforceContext, type SuspensionAttempt } from '@/lib/saha/workforce-status';
 import { ROLE_LABEL } from '@/lib/saha/types';
-import Link from 'next/link';
 import './workforce-status.css';
 
 type View = { kind: 'loading' | 'error'; message: string } |
   { kind: 'organisations'; actorId: string; organisations: { id: string; name: string }[] } |
   { kind: 'roster'; value: WorkforceContext };
+const workspaceHref = '/';
 export default function WorkforceStatus() {
   const [view, setView] = useState<View>({ kind: 'loading', message: 'Loading existing owner organisations…' });
   const [target, setTarget] = useState(''), [reason, setReason] = useState(''), [affirmed, setAffirmed] = useState(false);
@@ -104,6 +104,6 @@ export default function WorkforceStatus() {
         <button onClick={() => { setTarget(''); setReason(''); setAffirmed(false); }}>Cancel suspension review</button></fieldset>}
       <button disabled={busy} onClick={() => void load(view.value.organisation.id)}>Refresh current membership</button></section>}
     {(view.kind === 'loading' || view.kind === 'error') && <p role="status">{view.message}</p>}
-    <button disabled={busy || view.kind === 'loading'} onClick={() => void load()}>Refresh existing owner organisations</button><Link href="/">Back to workspace</Link>
+    <button disabled={busy || view.kind === 'loading'} onClick={() => void load()}>Refresh existing owner organisations</button><a href={workspaceHref}>Back to workspace</a>
   </main>;
 }
