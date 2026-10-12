@@ -1,0 +1,65 @@
+{
+  "observedAt": "2026-10-12T19:59:21.965157+00:00",
+  "checkerSourceSha256": "5ca40e584d3ee09775fdeaa1c2dbd4c13365e88af0d1f5609f583d599b063303",
+  "tests": [
+    {
+      "case": "historical-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical conflict-test preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-conflict-commit-observer-integrity-control-20261012/docs/verification/evidence-source-snapshots/conflict-commit-observer-ca4ac97af0f5.mjs\nChanged evidence size: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-conflict-commit-observer-integrity-control-20261012/docs/verification/evidence-source-snapshots/conflict-commit-observer-ca4ac97af0f5.mjs"
+    },
+    {
+      "case": "original-manifest-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical conflict-test manifest"
+    },
+    {
+      "case": "current-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed baseline file: tests/ui/routine-conflict.spec.mjs\nCurrent conflict test is not independently pinned by the current baseline\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-conflict-commit-observer-integrity-control-20261012/tests/ui/routine-conflict.spec.mjs\nChanged evidence size: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-conflict-commit-observer-integrity-control-20261012/tests/ui/routine-conflict.spec.mjs"
+    },
+    {
+      "case": "current-evidence-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-conflict-commit-observer-integrity-control-20261012/tests/evidence/conflict-commit-observer-root-20261012/actual-full39-ui-result.json\nChanged evidence size: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-conflict-commit-observer-integrity-control-20261012/tests/evidence/conflict-commit-observer-root-20261012/actual-full39-ui-result.json"
+    },
+    {
+      "case": "wrong-current-pin",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Current conflict test is not independently pinned by the current baseline"
+    },
+    {
+      "case": "wrong-source-path",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical conflict-test source pin"
+    },
+    {
+      "case": "outside-archive",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical conflict-test preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-conflict-commit-observer-integrity-control-20261012/tests/nfr/authorisation-matrix-current.mjs\nChanged evidence size: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-conflict-commit-observer-integrity-control-20261012/tests/nfr/authorisation-matrix-current.mjs"
+    },
+    {
+      "case": "archive-symlink-escape",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical conflict-test preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-conflict-commit-observer-20261012/docs/verification/evidence-source-snapshots/conflict-commit-observer-ca4ac97af0f5.mjs"
+    }
+  ],
+  "untamperedBeforePass": true,
+  "untamperedAfterPass": true,
+  "originalCandidateAnchorsUnmodified": true,
+  "anchors": {
+    "docs/verification/evidence-source-snapshots/conflict-commit-observer-ca4ac97af0f5.mjs": "ca4ac97af0f568e2b5c58ffff059c6dc89ee6b55554def90d3a00ab680271259",
+    "tests/ui/routine-conflict.spec.mjs": "e1f9c4c76e34180cb0a1bf09ba42f6c7d57b717779b40156c066167b6cd89535",
+    "tests/evidence/concurrent-author-selected-20261012/manifest.json": "a69bca666a7743359851619a2833f33f8a19cc6a0afdbb4a222b78fba24c53b6",
+    "tests/evidence/conflict-commit-observer-root-20261012/actual-full39-ui-result.json": "0d0f02a76c3a2051df18c1e1137b48317acdb57266c0662944233027cccef596",
+    "docs/verification/evidence-source-snapshot-conflict-commit-observer-20261012.json": "c947cf7e69ee6b8fba38ecc19537b0121023fc5303aa741ec7cb1bf5933653ea"
+  },
+  "limits": "Author synthetic full-checker controls in an isolated hardlinked mirror. Mutated anchors copied to separate private inodes first; original source/evidence/criteria untouched. Tests do not run the app or prove formal acceptance. Trust anchors remain versioned review inputs, not a guarantee against coordinated authorized checker/config rewrites."
+}

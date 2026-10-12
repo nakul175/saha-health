@@ -245,3 +245,6 @@ The owner-private Sites demonstration now has eight independent speech/OCR workf
 
 
 12October development: explicit routine grouped comparison rootmetadata from genuinely separately reviewed9a8 source. New52pure/10mobile/586+75original guarded checks retained. Original389 unchanged, two additive36/16 units; ten actual mobile cases remain in original full Playwright aggregate/min26/ninegoldens. No extra browser wrapper/report-copy qualification, whole two-device/formal/domain/hosting acceptance open.
+
+
+12October2026: PR224 commit-observer test repair preserves production and all database assertions. Actualtarget1 passes; originalfull39 remains38/1 because unchanged2973pixel/3% screenshot exceeds2%. No full localUI/CI/formal/hosting claim. Details: docs/current/next50/CONCURRENT-COMMIT-OBSERVER-20261012.md.

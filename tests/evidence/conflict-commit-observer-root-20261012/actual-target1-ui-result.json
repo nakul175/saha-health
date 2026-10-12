@@ -1,0 +1,49 @@
+{
+  "suite": "UI journeys, screenshot regression and accessibility (Playwright, Chromium)",
+  "layer": "ui",
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T19:45:33.986Z",
+  "completedAt": "2026-10-12T19:45:36.770Z",
+  "durationMs": 2784,
+  "environment": "local built Worker, local D1, synthetic data, headless Chromium (Playwright 1.56.1), axe-core 4.13.0",
+  "limits": [
+    "Desktop 1280x720 and phone 390x844 viewports in Chromium only; no Firefox or WebKit, no real phone, no screen reader.",
+    "Screenshot baselines were rendered on one machine; fonts on another host (for example GitHub ubuntu runners) can differ. Regenerate with --update-snapshots.",
+    "Axe finds a subset of accessibility failures; the Hindi text is a draft translation and no Devanagari font is installed on the machine that made the baselines, so no Hindi screenshot is compared."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "desktop · routine-conflict.spec.mjs › two current clients preserve both edits on409 and commit only explicit reviewed grouped choices",
+      "ok": true,
+      "ms": 2200
+    }
+  ],
+  "flaky": [],
+  "projects": [
+    "desktop",
+    "phone"
+  ],
+  "workers": 1,
+  "retries": 0,
+  "screenshotBaselines": 9,
+  "accessibility": {
+    "screensScanned": 1,
+    "violationsFound": 0,
+    "blocking": 0,
+    "violations": []
+  },
+  "browserMessagesAllowed": [
+    {
+      "test": "desktop · routine-conflict.spec.mjs › two current clients preserve both edits on409 and commit only explicit reviewed grouped choices",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+      "url": "http://127.0.0.1:21881/api/routine-visit",
+      "allowedBecause": "Deliberate old-version save refuses atomically before comparison."
+    }
+  ],
+  "playwrightStatus": "passed"
+}
