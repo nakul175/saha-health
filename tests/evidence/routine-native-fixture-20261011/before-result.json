@@ -1,0 +1,6046 @@
+{
+  "passed": 216,
+  "failed": 1,
+  "checks": [
+    "A1 open creates no draft",
+    "A5 one-person projection only",
+    "A5 refusal anonymous personId=p_meena tenant org_b59843221730ec961e9fe0e9fde30394",
+    "A5 refusal owner personId=p_meena tenant org_b59843221730ec961e9fe0e9fde30394",
+    "A5 refusal other personId=p_meena tenant org_b59843221730ec961e9fe0e9fde30394",
+    "A5 refusal asha personId=p_sunita tenant org_b59843221730ec961e9fe0e9fde30394",
+    "A5 refusal asha personId=p_meena tenant org_1912adc75cf6108ba778b3fb15f462c2",
+    "A5 refusal asha personId=p_meena&personId=p_farida tenant org_b59843221730ec961e9fe0e9fde30394",
+    "A4 start replay does not duplicate",
+    "A4 explicit start resolves existing draft",
+    "A1 exact compatible three-programme fixture pinned",
+    "A3 ambiguous value refused without mutation",
+    "A3 wrong start person refused",
+    "A3 wrong-person visit save refused",
+    "A5 arbitrary command refused",
+    "A2 canonical and entered unit preserved",
+    "A2 trusted author and observation time",
+    "A4 saved operation replay retains exact revision",
+    "A4 same key changed content refused",
+    "A3 stale version changes nothing",
+    "A3 wrong checked person changes nothing",
+    "A5 Today routine link retains the selected organisation",
+    "A5 selected organisation retained after active organisation changes with same person ID",
+    "A2 real Today to exact existing person",
+    "A1 shared weight captured once across three packs",
+    "A4 original POST aborted before commit leaves authoritative version unchanged",
+    "A4 read comparison/replacement cannot discard unresolved attempt or enable a fresh write",
+    "A6 unresolved original attempt keeps the editor frozen",
+    "A4 uncommitted uncertain attempt reconciles exact original key and payload",
+    "A4 before-commit reconciliation writes once to the exact selected organisation/person",
+    "A6 failed transport retains correction",
+    "A6 uncertain save permits read-only comparison without replacing input",
+    "A4 lost committed acknowledgement uses original exact key",
+    "A2 UI correction actually read back as server draft with explicit canonical unit",
+    "A4 committed lost-ack replay increments version only once",
+    "A1 distinct maternal question retained",
+    "A6 unsaved programme answer survives observation save/readback",
+    "A1 distinct hypertension question retained",
+    "A8 no horizontal overflow 360",
+    "A8 primary touch target 360",
+    "A8 no horizontal overflow 390",
+    "A8 primary touch target 390",
+    "A8 200% text no horizontal overflow",
+    "A8 keyboard primary control focus",
+    "A8 real keyboard stage navigation retains typed correction",
+    "A8 keyboard-only edit/review/save actually read back on exact record",
+    "A8 all-stage no horizontal overflow 360x640 text100 time",
+    "A8 visible controls labelled 360x640 text100 time",
+    "A8 all visible control targets at least44px 360x640 text100 time []",
+    "A8 all-stage no horizontal overflow 360x640 text100 fact:bloodPressure",
+    "A8 visible controls labelled 360x640 text100 fact:bloodPressure",
+    "A8 all visible control targets at least44px 360x640 text100 fact:bloodPressure []",
+    "A8 all-stage no horizontal overflow 360x640 text100 fact:weight",
+    "A8 visible controls labelled 360x640 text100 fact:weight",
+    "A8 all visible control targets at least44px 360x640 text100 fact:weight []",
+    "A8 all-stage no horizontal overflow 360x640 text100 fact:temperature",
+    "A8 visible controls labelled 360x640 text100 fact:temperature",
+    "A8 all visible control targets at least44px 360x640 text100 fact:temperature []",
+    "A8 all-stage no horizontal overflow 360x640 text100 fact:weeks",
+    "A8 visible controls labelled 360x640 text100 fact:weeks",
+    "A8 all visible control targets at least44px 360x640 text100 fact:weeks []",
+    "A8 all-stage no horizontal overflow 360x640 text100 fact:coughDays",
+    "A8 visible controls labelled 360x640 text100 fact:coughDays",
+    "A8 all visible control targets at least44px 360x640 text100 fact:coughDays []",
+    "A8 all-stage no horizontal overflow 360x640 text100 notes",
+    "A8 visible controls labelled 360x640 text100 notes",
+    "A8 all visible control targets at least44px 360x640 text100 notes []",
+    "A8 all-stage no horizontal overflow 360x640 text100 review",
+    "A8 visible controls labelled 360x640 text100 review",
+    "A8 all visible control targets at least44px 360x640 text100 review []",
+    "A8 all-stage no horizontal overflow 360x640 text100 programme:maternal_contact",
+    "A8 visible controls labelled 360x640 text100 programme:maternal_contact",
+    "A8 all visible control targets at least44px 360x640 text100 programme:maternal_contact []",
+    "A8 all-stage no horizontal overflow 360x640 text100 programme:medication_access",
+    "A8 visible controls labelled 360x640 text100 programme:medication_access",
+    "A8 all visible control targets at least44px 360x640 text100 programme:medication_access []",
+    "A8 all-stage no horizontal overflow 360x640 text100 programme:cough",
+    "A8 visible controls labelled 360x640 text100 programme:cough",
+    "A8 all visible control targets at least44px 360x640 text100 programme:cough []",
+    "A8 all-stage no horizontal overflow 360x640 text100 programme:testing",
+    "A8 visible controls labelled 360x640 text100 programme:testing",
+    "A8 all visible control targets at least44px 360x640 text100 programme:testing []",
+    "A8 all-stage no horizontal overflow 360x640 text100 programme-save",
+    "A8 visible controls labelled 360x640 text100 programme-save",
+    "A8 all visible control targets at least44px 360x640 text100 programme-save []",
+    "A8 all-stage no horizontal overflow 360x640 text100 comparison",
+    "A8 visible controls labelled 360x640 text100 comparison",
+    "A8 all visible control targets at least44px 360x640 text100 comparison []",
+    "A8 computed root font doubles at200percent text 360",
+    "A8 all-stage no horizontal overflow 360x640 text200 time",
+    "A8 visible controls labelled 360x640 text200 time",
+    "A8 all visible control targets at least44px 360x640 text200 time []",
+    "A8 all-stage no horizontal overflow 360x640 text200 fact:bloodPressure",
+    "A8 visible controls labelled 360x640 text200 fact:bloodPressure",
+    "A8 all visible control targets at least44px 360x640 text200 fact:bloodPressure []",
+    "A8 all-stage no horizontal overflow 360x640 text200 fact:weight",
+    "A8 visible controls labelled 360x640 text200 fact:weight",
+    "A8 all visible control targets at least44px 360x640 text200 fact:weight []",
+    "A8 all-stage no horizontal overflow 360x640 text200 fact:temperature",
+    "A8 visible controls labelled 360x640 text200 fact:temperature",
+    "A8 all visible control targets at least44px 360x640 text200 fact:temperature []",
+    "A8 all-stage no horizontal overflow 360x640 text200 fact:weeks",
+    "A8 visible controls labelled 360x640 text200 fact:weeks",
+    "A8 all visible control targets at least44px 360x640 text200 fact:weeks []",
+    "A8 all-stage no horizontal overflow 360x640 text200 fact:coughDays",
+    "A8 visible controls labelled 360x640 text200 fact:coughDays",
+    "A8 all visible control targets at least44px 360x640 text200 fact:coughDays []",
+    "A8 all-stage no horizontal overflow 360x640 text200 notes",
+    "A8 visible controls labelled 360x640 text200 notes",
+    "A8 all visible control targets at least44px 360x640 text200 notes []",
+    "A8 all-stage no horizontal overflow 360x640 text200 review",
+    "A8 visible controls labelled 360x640 text200 review",
+    "A8 all visible control targets at least44px 360x640 text200 review []",
+    "A8 all-stage no horizontal overflow 360x640 text200 programme:maternal_contact",
+    "A8 visible controls labelled 360x640 text200 programme:maternal_contact",
+    "A8 all visible control targets at least44px 360x640 text200 programme:maternal_contact []",
+    "A8 all-stage no horizontal overflow 360x640 text200 programme:medication_access",
+    "A8 visible controls labelled 360x640 text200 programme:medication_access",
+    "A8 all visible control targets at least44px 360x640 text200 programme:medication_access []",
+    "A8 all-stage no horizontal overflow 360x640 text200 programme:cough",
+    "A8 visible controls labelled 360x640 text200 programme:cough",
+    "A8 all visible control targets at least44px 360x640 text200 programme:cough []",
+    "A8 all-stage no horizontal overflow 360x640 text200 programme:testing",
+    "A8 visible controls labelled 360x640 text200 programme:testing",
+    "A8 all visible control targets at least44px 360x640 text200 programme:testing []",
+    "A8 all-stage no horizontal overflow 360x640 text200 programme-save",
+    "A8 visible controls labelled 360x640 text200 programme-save",
+    "A8 all visible control targets at least44px 360x640 text200 programme-save []",
+    "A8 all-stage no horizontal overflow 360x640 text200 comparison",
+    "A8 visible controls labelled 360x640 text200 comparison",
+    "A8 all visible control targets at least44px 360x640 text200 comparison []",
+    "A8 all-stage no horizontal overflow 390x844 text100 time",
+    "A8 visible controls labelled 390x844 text100 time",
+    "A8 all visible control targets at least44px 390x844 text100 time []",
+    "A8 all-stage no horizontal overflow 390x844 text100 fact:bloodPressure",
+    "A8 visible controls labelled 390x844 text100 fact:bloodPressure",
+    "A8 all visible control targets at least44px 390x844 text100 fact:bloodPressure []",
+    "A8 all-stage no horizontal overflow 390x844 text100 fact:weight",
+    "A8 visible controls labelled 390x844 text100 fact:weight",
+    "A8 all visible control targets at least44px 390x844 text100 fact:weight []",
+    "A8 all-stage no horizontal overflow 390x844 text100 fact:temperature",
+    "A8 visible controls labelled 390x844 text100 fact:temperature",
+    "A8 all visible control targets at least44px 390x844 text100 fact:temperature []",
+    "A8 all-stage no horizontal overflow 390x844 text100 fact:weeks",
+    "A8 visible controls labelled 390x844 text100 fact:weeks",
+    "A8 all visible control targets at least44px 390x844 text100 fact:weeks []",
+    "A8 all-stage no horizontal overflow 390x844 text100 fact:coughDays",
+    "A8 visible controls labelled 390x844 text100 fact:coughDays",
+    "A8 all visible control targets at least44px 390x844 text100 fact:coughDays []",
+    "A8 all-stage no horizontal overflow 390x844 text100 notes",
+    "A8 visible controls labelled 390x844 text100 notes",
+    "A8 all visible control targets at least44px 390x844 text100 notes []",
+    "A8 all-stage no horizontal overflow 390x844 text100 review",
+    "A8 visible controls labelled 390x844 text100 review",
+    "A8 all visible control targets at least44px 390x844 text100 review []",
+    "A8 all-stage no horizontal overflow 390x844 text100 programme:maternal_contact",
+    "A8 visible controls labelled 390x844 text100 programme:maternal_contact",
+    "A8 all visible control targets at least44px 390x844 text100 programme:maternal_contact []",
+    "A8 all-stage no horizontal overflow 390x844 text100 programme:medication_access",
+    "A8 visible controls labelled 390x844 text100 programme:medication_access",
+    "A8 all visible control targets at least44px 390x844 text100 programme:medication_access []",
+    "A8 all-stage no horizontal overflow 390x844 text100 programme:cough",
+    "A8 visible controls labelled 390x844 text100 programme:cough",
+    "A8 all visible control targets at least44px 390x844 text100 programme:cough []",
+    "A8 all-stage no horizontal overflow 390x844 text100 programme:testing",
+    "A8 visible controls labelled 390x844 text100 programme:testing",
+    "A8 all visible control targets at least44px 390x844 text100 programme:testing []",
+    "A8 all-stage no horizontal overflow 390x844 text100 programme-save",
+    "A8 visible controls labelled 390x844 text100 programme-save",
+    "A8 all visible control targets at least44px 390x844 text100 programme-save []",
+    "A8 all-stage no horizontal overflow 390x844 text100 comparison",
+    "A8 visible controls labelled 390x844 text100 comparison",
+    "A8 all visible control targets at least44px 390x844 text100 comparison []",
+    "A8 computed root font doubles at200percent text 390",
+    "A8 all-stage no horizontal overflow 390x844 text200 time",
+    "A8 visible controls labelled 390x844 text200 time",
+    "A8 all visible control targets at least44px 390x844 text200 time []",
+    "A8 all-stage no horizontal overflow 390x844 text200 fact:bloodPressure",
+    "A8 visible controls labelled 390x844 text200 fact:bloodPressure",
+    "A8 all visible control targets at least44px 390x844 text200 fact:bloodPressure []",
+    "A8 all-stage no horizontal overflow 390x844 text200 fact:weight",
+    "A8 visible controls labelled 390x844 text200 fact:weight",
+    "A8 all visible control targets at least44px 390x844 text200 fact:weight []",
+    "A8 all-stage no horizontal overflow 390x844 text200 fact:temperature",
+    "A8 visible controls labelled 390x844 text200 fact:temperature",
+    "A8 all visible control targets at least44px 390x844 text200 fact:temperature []",
+    "A8 all-stage no horizontal overflow 390x844 text200 fact:weeks",
+    "A8 visible controls labelled 390x844 text200 fact:weeks",
+    "A8 all visible control targets at least44px 390x844 text200 fact:weeks []",
+    "A8 all-stage no horizontal overflow 390x844 text200 fact:coughDays",
+    "A8 visible controls labelled 390x844 text200 fact:coughDays",
+    "A8 all visible control targets at least44px 390x844 text200 fact:coughDays []",
+    "A8 all-stage no horizontal overflow 390x844 text200 notes",
+    "A8 visible controls labelled 390x844 text200 notes",
+    "A8 all visible control targets at least44px 390x844 text200 notes []",
+    "A8 all-stage no horizontal overflow 390x844 text200 review",
+    "A8 visible controls labelled 390x844 text200 review",
+    "A8 all visible control targets at least44px 390x844 text200 review []",
+    "A8 all-stage no horizontal overflow 390x844 text200 programme:maternal_contact",
+    "A8 visible controls labelled 390x844 text200 programme:maternal_contact",
+    "A8 all visible control targets at least44px 390x844 text200 programme:maternal_contact []",
+    "A8 all-stage no horizontal overflow 390x844 text200 programme:medication_access",
+    "A8 visible controls labelled 390x844 text200 programme:medication_access",
+    "A8 all visible control targets at least44px 390x844 text200 programme:medication_access []",
+    "A8 all-stage no horizontal overflow 390x844 text200 programme:cough",
+    "A8 visible controls labelled 390x844 text200 programme:cough",
+    "A8 all visible control targets at least44px 390x844 text200 programme:cough []",
+    "A8 all-stage no horizontal overflow 390x844 text200 programme:testing",
+    "A8 visible controls labelled 390x844 text200 programme:testing",
+    "A8 all visible control targets at least44px 390x844 text200 programme:testing []",
+    "A8 all-stage no horizontal overflow 390x844 text200 programme-save",
+    "A8 visible controls labelled 390x844 text200 programme-save",
+    "A8 all visible control targets at least44px 390x844 text200 programme-save []",
+    "A8 all-stage no horizontal overflow 390x844 text200 comparison",
+    "A8 visible controls labelled 390x844 text200 comparison",
+    "A8 all visible control targets at least44px 390x844 text200 comparison []"
+  ],
+  "error": "Error: page.evaluate: Target page, context or browser has been closed",
+  "timings": {
+    "server": [
+      {
+        "type": "startVisit",
+        "status": 200,
+        "ms": 175.41592300000048
+      },
+      {
+        "type": "startVisit",
+        "status": 200,
+        "ms": 141.82813700000042
+      },
+      {
+        "type": "startVisit",
+        "status": 200,
+        "ms": 128.18438500000047
+      },
+      {
+        "type": "saveVisit",
+        "status": 422,
+        "ms": 43.75813600000038
+      },
+      {
+        "type": "startVisit",
+        "status": 409,
+        "ms": 42.465126000000055
+      },
+      {
+        "type": "saveVisit",
+        "status": 404,
+        "ms": 25.03373499999998
+      },
+      {
+        "type": "toggleIntegration",
+        "status": 422,
+        "ms": 8.42812799999956
+      },
+      {
+        "type": "saveVisit",
+        "status": 200,
+        "ms": 143.8055970000005
+      },
+      {
+        "type": "saveVisit",
+        "status": 200,
+        "ms": 119.55557899999985
+      },
+      {
+        "type": "saveVisit",
+        "status": 409,
+        "ms": 87.27745099999993
+      },
+      {
+        "type": "saveVisit",
+        "status": 409,
+        "ms": 115.70485999999983
+      },
+      {
+        "type": "confirmVisit",
+        "status": 409,
+        "ms": 105.55960400000004
+      }
+    ],
+    "local": []
+  },
+  "layoutObservations": [
+    {
+      "label": "360x640 text100 time",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Visit observation time (UTC)",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "time"
+      ]
+    },
+    {
+      "label": "360x640 text100 fact:bloodPressure",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 191.890625,
+          "height": 70.796875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 122.546875,
+          "height": 70.796875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 70.796875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 70.796875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Systolic blood pressure (mmHg)",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Diastolic blood pressure (mmHg)",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: bloodPressureMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 328,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): bloodPressure",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:bloodPressure",
+        "fact:bloodPressure",
+        "fact:bloodPressure"
+      ]
+    },
+    {
+      "label": "360x640 text100 fact:weight",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 188.703125,
+          "height": 65.640625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 119.359375,
+          "height": 65.640625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 65.640625,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 65.640625,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Weight (kg)",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: weightMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 328,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): weight",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:weight",
+        "fact:weight"
+      ]
+    },
+    {
+      "label": "360x640 text100 fact:temperature",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 182.359375,
+          "height": 55.484375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 113.015625,
+          "height": 55.484375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 55.484375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 55.484375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Temperature (°C)",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: temperatureMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 328,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): temperature",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:temperature"
+      ]
+    },
+    {
+      "label": "360x640 text100 fact:weeks",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 182.359375,
+          "height": 55.484375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 113.015625,
+          "height": 55.484375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 55.484375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 55.484375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Gestational age (weeks)",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: weeksMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 328,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): weeks",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:weeks",
+        "fact:weeks"
+      ]
+    },
+    {
+      "label": "360x640 text100 fact:coughDays",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 177.046875,
+          "height": 46.9375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 107.703125,
+          "height": 46.9375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 46.9375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 46.9375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Cough duration (days)",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: coughDaysMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 328,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): coughDays",
+          "width": 328,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:coughDays"
+      ]
+    },
+    {
+      "label": "360x640 text100 notes",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 173.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 104.546875,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "TEXTAREA",
+          "role": null,
+          "name": "Visit notesSynthetic D03 actual keyboard-only correction",
+          "width": 328,
+          "height": 69.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "notes"
+      ]
+    },
+    {
+      "label": "360x640 text100 review",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 172.015625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 102.671875,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save observations as server draft",
+          "width": 262.71875,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "I checked Meena Devi · p_meena for this visit.",
+          "width": 328,
+          "height": 60.78125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Confirm checked visit",
+          "width": 176.421875,
+          "height": 48.375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "review"
+      ]
+    },
+    {
+      "label": "360x640 text100 programme:maternal_contact",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.953125,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 101.609375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Was a care appointment discussed?",
+          "width": 50.484375,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:maternal_contact"
+      ]
+    },
+    {
+      "label": "360x640 text100 programme:medication_access",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.390625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 101.046875,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Reported access to prescribed medicines",
+          "width": 123.09375,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Reported access to prescribed medicines",
+          "width": 197.828125,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:medication_access"
+      ]
+    },
+    {
+      "label": "360x640 text100 programme:cough",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.390625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 101.046875,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Does the person report a cough?",
+          "width": 123.09375,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Does the person report a cough?",
+          "width": 197.828125,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:cough"
+      ]
+    },
+    {
+      "label": "360x640 text100 programme:testing",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.234375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 100.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Is a testing follow-up already arranged?",
+          "width": 123.09375,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Is a testing follow-up already arranged?",
+          "width": 197.828125,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:testing"
+      ]
+    },
+    {
+      "label": "360x640 text100 programme-save",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.234375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 100.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save programme evidence",
+          "width": 280,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme-save",
+        "programme-save"
+      ]
+    },
+    {
+      "label": "360x640 text100 comparison",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.234375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 100.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 145,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 302,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save observations as server draft",
+          "width": 262.71875,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "I checked Meena Devi · p_meena for this visit.",
+          "width": 328,
+          "height": 60.78125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Confirm checked visit",
+          "width": 176.421875,
+          "height": 48.375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 328,
+          "height": 72.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "review"
+      ]
+    },
+    {
+      "label": "360x640 text200 time",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.984375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 101.640625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Visit observation time (UTC)",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "time"
+      ]
+    },
+    {
+      "label": "360x640 text200 fact:bloodPressure",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 174.171875,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 104.828125,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Systolic blood pressure (mmHg)",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Diastolic blood pressure (mmHg)",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: bloodPressureMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 296,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): bloodPressure",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:bloodPressure",
+        "fact:bloodPressure",
+        "fact:bloodPressure"
+      ]
+    },
+    {
+      "label": "360x640 text200 fact:weight",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 180.484375,
+          "height": 52.46875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 111.140625,
+          "height": 52.46875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 52.46875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 52.46875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Weight (kg)",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: weightMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 296,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): weight",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:weight",
+        "fact:weight"
+      ]
+    },
+    {
+      "label": "360x640 text200 fact:temperature",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 185.828125,
+          "height": 61.03125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 116.484375,
+          "height": 61.03125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 61.03125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 61.03125,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Temperature (°C)",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: temperatureMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 296,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): temperature",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:temperature"
+      ]
+    },
+    {
+      "label": "360x640 text200 fact:weeks",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 185.828125,
+          "height": 61.03125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 116.484375,
+          "height": 61.03125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 61.03125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 61.03125,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Gestational age (weeks)",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: weeksMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 296,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): weeks",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:weeks",
+        "fact:weeks"
+      ]
+    },
+    {
+      "label": "360x640 text200 fact:coughDays",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 189.015625,
+          "height": 66.140625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 119.671875,
+          "height": 66.140625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 66.140625,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 66.140625,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Cough duration (days)",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: coughDaysMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 296,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): coughDays",
+          "width": 296,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:coughDays"
+      ]
+    },
+    {
+      "label": "360x640 text200 notes",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 190.859375,
+          "height": 69.140625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 121.515625,
+          "height": 69.140625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 69.140625,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 69.140625,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "TEXTAREA",
+          "role": null,
+          "name": "Visit notesSynthetic D03 actual keyboard-only correction",
+          "width": 296,
+          "height": 88.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "notes"
+      ]
+    },
+    {
+      "label": "360x640 text200 review",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 191.953125,
+          "height": 70.875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 122.609375,
+          "height": 70.875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 70.875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 70.875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save observations as server draft",
+          "width": 285.125,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "I checked Meena Devi · p_meena for this visit.",
+          "width": 296,
+          "height": 73.59375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Confirm checked visit",
+          "width": 198.828125,
+          "height": 70.78125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "review"
+      ]
+    },
+    {
+      "label": "360x640 text200 programme:maternal_contact",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.484375,
+          "height": 71.734375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.140625,
+          "height": 71.734375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 71.734375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 71.734375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Was a care appointment discussed?",
+          "width": 78.78125,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:maternal_contact"
+      ]
+    },
+    {
+      "label": "360x640 text200 programme:medication_access",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Reported access to prescribed medicines",
+          "width": 145.5,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Reported access to prescribed medicines",
+          "width": 220.234375,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:medication_access"
+      ]
+    },
+    {
+      "label": "360x640 text200 programme:cough",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Does the person report a cough?",
+          "width": 145.5,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Does the person report a cough?",
+          "width": 220.234375,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:cough"
+      ]
+    },
+    {
+      "label": "360x640 text200 programme:testing",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Is a testing follow-up already arranged?",
+          "width": 145.5,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Is a testing follow-up already arranged?",
+          "width": 220.234375,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:testing"
+      ]
+    },
+    {
+      "label": "360x640 text200 programme-save",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save programme evidence",
+          "width": 248,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme-save",
+        "programme-save"
+      ]
+    },
+    {
+      "label": "360x640 text200 comparison",
+      "viewport": {
+        "width": 360,
+        "height": 640
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 360,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 129,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 129,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 270,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 270,
+          "height": 126.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save observations as server draft",
+          "width": 285.125,
+          "height": 70.78125,
+          "disabled": true
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "I checked Meena Devi · p_meena for this visit.",
+          "width": 296,
+          "height": 73.59375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Confirm checked visit",
+          "width": 198.828125,
+          "height": 70.78125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 296,
+          "height": 94.78125,
+          "disabled": true
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "review"
+      ]
+    },
+    {
+      "label": "390x844 text100 time",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 188.734375,
+          "height": 65.6875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 119.390625,
+          "height": 65.6875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 65.6875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 65.6875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Visit observation time (UTC)",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": true
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "time"
+      ]
+    },
+    {
+      "label": "390x844 text100 fact:bloodPressure",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 182.390625,
+          "height": 55.515625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 113.046875,
+          "height": 55.515625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 55.515625,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 55.515625,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Systolic blood pressure (mmHg)",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Diastolic blood pressure (mmHg)",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: bloodPressureMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 358,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): bloodPressure",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:bloodPressure",
+        "fact:bloodPressure",
+        "fact:bloodPressure"
+      ]
+    },
+    {
+      "label": "390x844 text100 fact:weight",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 177.046875,
+          "height": 46.953125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 107.703125,
+          "height": 46.953125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 46.953125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 46.953125,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Weight (kg)",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: weightMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 358,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): weight",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:weight",
+        "fact:weight"
+      ]
+    },
+    {
+      "label": "390x844 text100 fact:temperature",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 173.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 104.546875,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Temperature (°C)",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: temperatureMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 358,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): temperature",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:temperature"
+      ]
+    },
+    {
+      "label": "390x844 text100 fact:weeks",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 173.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 104.546875,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Gestational age (weeks)",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: weeksMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 358,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): weeks",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:weeks",
+        "fact:weeks"
+      ]
+    },
+    {
+      "label": "390x844 text100 fact:coughDays",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 172.015625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 102.671875,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Cough duration (days)",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: coughDaysMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 358,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): coughDays",
+          "width": 358,
+          "height": 45.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:coughDays"
+      ]
+    },
+    {
+      "label": "390x844 text100 notes",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.953125,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 101.609375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "TEXTAREA",
+          "role": null,
+          "name": "Visit notesSynthetic D03 actual keyboard-only correction",
+          "width": 358,
+          "height": 69.1875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "notes"
+      ]
+    },
+    {
+      "label": "390x844 text100 review",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.390625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 101.046875,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save observations as server draft",
+          "width": 262.71875,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "I checked Meena Devi · p_meena for this visit.",
+          "width": 358,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Confirm checked visit",
+          "width": 176.421875,
+          "height": 48.375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "review"
+      ]
+    },
+    {
+      "label": "390x844 text100 programme:maternal_contact",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.234375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 100.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Was a care appointment discussed?",
+          "width": 50.484375,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:maternal_contact"
+      ]
+    },
+    {
+      "label": "390x844 text100 programme:medication_access",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.234375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 100.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Reported access to prescribed medicines",
+          "width": 123.09375,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Reported access to prescribed medicines",
+          "width": 197.828125,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:medication_access"
+      ]
+    },
+    {
+      "label": "390x844 text100 programme:cough",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.234375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 100.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Does the person report a cough?",
+          "width": 123.09375,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Does the person report a cough?",
+          "width": 197.828125,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:cough"
+      ]
+    },
+    {
+      "label": "390x844 text100 programme:testing",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.234375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 100.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Is a testing follow-up already arranged?",
+          "width": 123.09375,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Is a testing follow-up already arranged?",
+          "width": 197.828125,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:testing"
+      ]
+    },
+    {
+      "label": "390x844 text100 programme-save",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.234375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 100.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save programme evidence",
+          "width": 310,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme-save",
+        "programme-save"
+      ]
+    },
+    {
+      "label": "390x844 text100 comparison",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "16px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 170.234375,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 100.890625,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 160,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 332,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 141.890625,
+          "height": 44.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save observations as server draft",
+          "width": 262.71875,
+          "height": 48.375,
+          "disabled": true
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "I checked Meena Devi · p_meena for this visit.",
+          "width": 358,
+          "height": 44,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Confirm checked visit",
+          "width": 176.421875,
+          "height": 48.375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 229.8125,
+          "height": 48.375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 330.328125,
+          "height": 48.375,
+          "disabled": true
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 124.59375,
+          "height": 48.375,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "review"
+      ]
+    },
+    {
+      "label": "390x844 text200 time",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 180.484375,
+          "height": 52.453125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 111.140625,
+          "height": 52.453125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 52.453125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 52.453125,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Visit observation time (UTC)",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "time"
+      ]
+    },
+    {
+      "label": "390x844 text200 fact:bloodPressure",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 185.828125,
+          "height": 61.015625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 116.484375,
+          "height": 61.015625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 61.015625,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 61.015625,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Systolic blood pressure (mmHg)",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Diastolic blood pressure (mmHg)",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: bloodPressureMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 326,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): bloodPressure",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:bloodPressure",
+        "fact:bloodPressure",
+        "fact:bloodPressure"
+      ]
+    },
+    {
+      "label": "390x844 text200 fact:weight",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 188.984375,
+          "height": 66.125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 119.640625,
+          "height": 66.125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 66.125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 66.125,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Weight (kg)",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: weightMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 326,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): weight",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:weight",
+        "fact:weight"
+      ]
+    },
+    {
+      "label": "390x844 text200 fact:temperature",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 190.859375,
+          "height": 69.140625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 121.515625,
+          "height": 69.140625,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 69.140625,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 69.140625,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Temperature (°C)",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: temperatureMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 326,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): temperature",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:temperature"
+      ]
+    },
+    {
+      "label": "390x844 text200 fact:weeks",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 191.953125,
+          "height": 70.875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 122.609375,
+          "height": 70.875,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 70.875,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 70.875,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Gestational age (weeks)",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: weeksMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 326,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): weeks",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:weeks",
+        "fact:weeks"
+      ]
+    },
+    {
+      "label": "390x844 text200 fact:coughDays",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.484375,
+          "height": 71.734375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.140625,
+          "height": 71.734375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 71.734375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 71.734375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Cough duration (days)",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Source or missing reason: coughDaysMeasured during visitReported by person / carerNot askedDeclinedUnknownNot applicable",
+          "width": 326,
+          "height": 59.375,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "Observation time (UTC): coughDays",
+          "width": 326,
+          "height": 64.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "fact:coughDays"
+      ]
+    },
+    {
+      "label": "390x844 text200 notes",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "TEXTAREA",
+          "role": null,
+          "name": "Visit notesSynthetic D03 actual keyboard-only correction",
+          "width": 326,
+          "height": 88.375,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "notes"
+      ]
+    },
+    {
+      "label": "390x844 text200 review",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save observations as server draft",
+          "width": 285.125,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "I checked Meena Devi · p_meena for this visit.",
+          "width": 326,
+          "height": 73.59375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Confirm checked visit",
+          "width": 198.828125,
+          "height": 70.78125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "review"
+      ]
+    },
+    {
+      "label": "390x844 text200 programme:maternal_contact",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Was a care appointment discussed?",
+          "width": 78.78125,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:maternal_contact"
+      ]
+    },
+    {
+      "label": "390x844 text200 programme:medication_access",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Reported access to prescribed medicines",
+          "width": 145.5,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Reported access to prescribed medicines",
+          "width": 220.234375,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:medication_access"
+      ]
+    },
+    {
+      "label": "390x844 text200 programme:cough",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Does the person report a cough?",
+          "width": 145.5,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Does the person report a cough?",
+          "width": 220.234375,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:cough"
+      ]
+    },
+    {
+      "label": "390x844 text200 programme:testing",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Is a testing follow-up already arranged?",
+          "width": 145.5,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": "combobox",
+          "name": "Absence reason: Is a testing follow-up already arranged?",
+          "width": 220.234375,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme:testing"
+      ]
+    },
+    {
+      "label": "390x844 text200 programme-save",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save programme evidence",
+          "width": 278,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "programme-save",
+        "programme-save"
+      ]
+    },
+    {
+      "label": "390x844 text200 comparison",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rootFontSize": "32px",
+      "pageWidth": 390,
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Listen to instructions",
+          "width": 192.640625,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Stop audio",
+          "width": 123.296875,
+          "height": 72,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Back",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Next",
+          "width": 144,
+          "height": 72,
+          "disabled": false
+        },
+        {
+          "tag": "SELECT",
+          "role": null,
+          "name": "Go to observation or save",
+          "width": 300,
+          "height": 44,
+          "disabled": false
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Open device drafts",
+          "width": 281.8125,
+          "height": 86.78125,
+          "disabled": false
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Save observations as server draft",
+          "width": 285.125,
+          "height": 70.78125,
+          "disabled": true
+        },
+        {
+          "tag": "INPUT",
+          "role": null,
+          "name": "I checked Meena Devi · p_meena for this visit.",
+          "width": 326,
+          "height": 73.59375,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Confirm checked visit",
+          "width": 198.828125,
+          "height": 70.78125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Compare latest saved record",
+          "width": 252.21875,
+          "height": 70.78125,
+          "disabled": true
+        },
+        {
+          "tag": "BUTTON",
+          "role": null,
+          "name": "Replace unsaved entries with saved record",
+          "width": 326,
+          "height": 94.78125,
+          "disabled": true
+        },
+        {
+          "tag": "A",
+          "role": null,
+          "name": "Back to Today",
+          "width": 147,
+          "height": 70.78125,
+          "disabled": false
+        }
+      ],
+      "visibleStages": [
+        "review"
+      ]
+    }
+  ]
+}

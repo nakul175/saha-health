@@ -1,0 +1,54 @@
+{
+  "sourceMapping": [
+    {
+      "donor": "routine-owned-containment.mjs",
+      "target": "tests/lib/routine-retention/containment.mjs",
+      "donorSHA256": "513b9413f364e8cc993c5c558ce45c6d62b0590a4e185385a42ce563c770e2b8",
+      "targetSHA256": "513b9413f364e8cc993c5c558ce45c6d62b0590a4e185385a42ce563c770e2b8",
+      "byteExact": true
+    },
+    {
+      "donor": "routine-owned-native-runtime.mjs",
+      "target": "tests/lib/routine-retention/native-runtime.mjs",
+      "donorSHA256": "d68ed2b352e9d6e6937c7e34d7ad61bb84aabcc06ef15b366656aad64007ff84",
+      "targetSHA256": "ed7338f06316bdfa25b8ffb77516fe8bd4e545e8e685c7e402cb5c05dca55d4d",
+      "byteExact": false
+    },
+    {
+      "donor": "routine-transport.mjs",
+      "target": "tests/lib/routine-retention/transport.mjs",
+      "donorSHA256": "0cd15ecaffcdf86809257e7d557012fff00dcd92fabc8732dfd4ae03afc794c3",
+      "targetSHA256": "0cd15ecaffcdf86809257e7d557012fff00dcd92fabc8732dfd4ae03afc794c3",
+      "byteExact": true
+    },
+    {
+      "donor": "routine-telemetry-retention-native.mjs",
+      "target": "tests/lib/routine-retention/native-driver.mjs",
+      "donorSHA256": "3b25e8b6a174c021955b7c93d9b0dcd2bece5cdef49919b4c48161803039fad1",
+      "targetSHA256": "86f161682b7fe7cd6891d82cfd97afdb2308258e4eecabd8d4dc7fae4c91524c",
+      "byteExact": false
+    },
+    {
+      "donor": "routine-retention-runner.mjs",
+      "target": "scripts/routine-retention-runner.mjs",
+      "donorSHA256": "d5ab72ac3201561aff550ea4606042b48c2645779b5ba5bd8412154977faac2e",
+      "targetSHA256": "4ceb12f840e6aecd2efe29de1ece00da6568a59a2d3833a273ea90f7c683bec6",
+      "byteExact": false
+    }
+  ],
+  "explicitInputs": [
+    "tests/lib/routine-retention/containment.mjs",
+    "tests/lib/routine-retention/native-runtime.mjs",
+    "tests/lib/routine-retention/transport.mjs",
+    "tests/lib/routine-retention/native-driver.mjs",
+    "scripts/routine-retention-runner.mjs",
+    "tests/integration/routine-telemetry-retention-http.mjs"
+  ],
+  "normalCICustody": "Actual current Git HEAD/tree/all tracked input hashes, portable execution profile, installed framework/native packages, canonical build receipts and native disposal; no historical freeze or approval inferred from observed hashes.",
+  "originalNineOracleBlockMustRemainByteExact": true,
+  "nativeExecutedAfterTransformation": 0,
+  "additionalChanges": [
+    "Remove path-mapping-only unused dirname/fileURLToPath declarations.",
+    "Keep CLI shape and original cancellation; thin wrapper uses registered bounded outer command, preserves prior canonical result, publishes only after current qualified receipt."
+  ]
+}

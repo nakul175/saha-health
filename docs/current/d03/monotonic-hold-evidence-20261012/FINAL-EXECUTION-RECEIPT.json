@@ -1,0 +1,116 @@
+{
+  "startedAtUtc": "2026-10-12T08:13:43.208249+00:00",
+  "source": "a7242964bc53e5baee674e0fb5a97175c7d660a2",
+  "tree": "4ac4a2efcda5013ed719aab74d88acb518106a34",
+  "port": 21441,
+  "installer": false,
+  "sourceEdited": true,
+  "monotonicHoldRepairExistingFixture": "tests/ui/confirm-correct-hindi.spec.mjs",
+  "mode": "candidate",
+  "originalGuardID": "ui/playwright.config",
+  "originalMinimum": 26,
+  "fullGuardRun": false,
+  "selectedCaseOnly": false,
+  "selectedTwoCasesOnly": true,
+  "canonicalBuildFresh": true,
+  "nativeCasesForecasted": false,
+  "diagnosticFixtureSHA256Before": "af5bbfb0c3ada7b9c7beb41f8cbd5dae80c80a28ca8becdcc2984216ef471998",
+  "command": [
+    "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-currenta724-monotonic-hold-20261012/node_modules/@playwright/test/cli.js",
+    "test",
+    "tests/ui/confirm-correct-hindi.spec.mjs",
+    "--grep",
+    "Hindi workspace screens pass axe at desktop and phone widths|visible Hindi phone Action-plan Refresh retains contrast when the scoped read completes",
+    "--config",
+    "tests/ui/playwright.config.mjs",
+    "--project",
+    "desktop",
+    "--reporter=list,json,./tests/ui/support/reporter.mjs"
+  ],
+  "environmentStates": {
+    "CI": "true",
+    "SAHA_UI_PORT": "21441",
+    "SAHA_UI_BASE": "unset",
+    "providers": "off",
+    "synthetic": true
+  },
+  "sourceFilesBefore": 16944,
+  "dependencyRegularFilesBefore": 52299,
+  "browserExistingOnly": true,
+  "canonicalBuildCommand": [
+    "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "/Users/athena/.local/node/v24.21.0/lib/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "build"
+  ],
+  "buildPid": 4327,
+  "buildPgid": 4327,
+  "buildExitCode": 0,
+  "pid": 4404,
+  "pgid": 4404,
+  "cleanup": {
+    "atUtc": "2026-10-12T08:14:29.805118+00:00",
+    "groups": [
+      4327,
+      4404,
+      4428
+    ],
+    "knownPids": [
+      4327,
+      4345,
+      4404,
+      4407,
+      4408,
+      4411,
+      4419,
+      4420,
+      4423,
+      4424,
+      4425,
+      4426,
+      4428,
+      4429,
+      4430,
+      4433,
+      4449,
+      4471
+    ],
+    "remainingOwnedProcesses": [],
+    "portFree": true,
+    "statePreserved": true
+  },
+  "custody": {
+    "allTrackedSourceMapsEqual": true,
+    "dependencyFileMapsEqual": true,
+    "browserExecutableMapsEqual": true,
+    "trackedStatusAfter": " M tests/ui/confirm-correct-hindi.spec.mjs\n",
+    "profileAfter": {
+      "present": false,
+      "sha256": null,
+      "effectiveProfile": "portable"
+    },
+    "allFreshCompiledFilesIncludingHiddenViteManifestsUnchanged": true,
+    "diagnosticFixtureSHA256After": "af5bbfb0c3ada7b9c7beb41f8cbd5dae80c80a28ca8becdcc2984216ef471998",
+    "diagnosticFixtureUnchanged": true,
+    "facadeLinksUnchanged": true
+  },
+  "ownedFacadeAfter": {
+    ".vite": {
+      "exists": true,
+      "symlink": false,
+      "files": 0
+    },
+    ".vite-temp": {
+      "exists": true,
+      "symlink": false,
+      "files": 0
+    }
+  },
+  "finishedAtUtc": "2026-10-12T08:14:38.194203+00:00",
+  "runnerExitCode": 0,
+  "executionFailure": null,
+  "cleanupFailure": null,
+  "newRuntimePassClaim": false,
+  "independentAdjudicationPending": true
+}

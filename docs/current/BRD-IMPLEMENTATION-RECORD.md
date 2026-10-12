@@ -1,3 +1,7 @@
+# D03 requirement evidence boundary — 10 October 2026
+
+D02 is delivered on synthetic staging with its declared gate10/10 and restored clinician role; formal UAT0/364 and whole-product acceptance remain unchanged. D03/#176 is the only active story on clean main7668 base. See [frozen scope](d03/SPECIFICATION.md). Separate connected routine presentation delegates four existing commands, bound to one assigned person. Actual local build/types and42 initial real-backend/browser checks pass; final expanded evidence, affected checks, CI, separate review and live hosted smoke remain pending. Existing encrypted local-storage component timing is separately measured; this screen does not acknowledge a durable local save. Original SAHA-004/006/020/021/024/049 and parent BRD/NFR assessments are not promoted to formal acceptance. Old PRs173/184/187 and legacy/history preserved.
+
 # BRD implementation record
 
 The business baseline remains the original **Health AI Orchestration Platform BRD v1.1**, SHA-256 `8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8`. This edition changes the implementation handover, not the approved meaning or priority of any business requirement.

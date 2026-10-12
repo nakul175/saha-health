@@ -1,7 +1,7 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-06",
-  "node": "v24.19.0",
+  "updatedAt": "2026-10-11",
+  "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
       "layer": "integration",
@@ -653,6 +653,21 @@
       "file": "tests/reporting-completeness-repaired-http.mjs",
       "minPassed": 97
     },
+    "integration/routine-attempt-browser": {
+      "layer": "integration",
+      "file": "tests/integration/routine-attempt-browser.mjs",
+      "minPassed": 97
+    },
+    "integration/routine-authority-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-authority-http.mjs",
+      "minPassed": 245
+    },
+    "integration/routine-organisation-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-organisation-http.mjs",
+      "minPassed": 52
+    },
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-privacy-registration-current.mjs",
@@ -838,6 +853,16 @@
       "file": "tests/reminder-optout-refresh-browser.mjs",
       "minPassed": 13
     },
+    "smoke/routine-visit-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/routine-visit-browser.mjs",
+      "minPassed": 244
+    },
+    "smoke/today-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/today-browser.mjs",
+      "minPassed": 58
+    },
     "uat/check-uat-register": {
       "layer": "uat",
       "file": "tests/uat/check-uat-register.mjs",
@@ -877,6 +902,16 @@
       "layer": "unit",
       "file": "tests/root-verification-current-access-audit-contract.mjs",
       "minPassed": 35
+    },
+    "unit/access-audit-excess-metadata-contract": {
+      "layer": "unit",
+      "file": "tests/access-audit-excess-metadata-contract.mjs",
+      "minPassed": 13
+    },
+    "unit/access-membership-contract": {
+      "layer": "unit",
+      "file": "tests/access-membership-contract.mjs",
+      "minPassed": 30
     },
     "unit/access-scope-contract": {
       "layer": "unit",
@@ -983,6 +1018,11 @@
       "file": "tests/atomic-abha-review-contract.mjs",
       "minPassed": 14
     },
+    "unit/audit-access-contention-contract": {
+      "layer": "unit",
+      "file": "tests/audit-access-contention-contract.mjs",
+      "minPassed": 12
+    },
     "unit/audit-chain-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-audit-chain-contract.mjs",
@@ -1007,6 +1047,16 @@
       "layer": "unit",
       "file": "tests/availability-contract.mjs",
       "minPassed": 20
+    },
+    "unit/bundle-audit-coverage-contract": {
+      "layer": "unit",
+      "file": "tests/bundle-audit-coverage-contract.mjs",
+      "minPassed": 21
+    },
+    "unit/bundle-provenance-contract": {
+      "layer": "unit",
+      "file": "tests/bundle-provenance-contract.mjs",
+      "minPassed": 50
     },
     "unit/capability-lifecycle-contract": {
       "layer": "unit",
@@ -1483,6 +1533,11 @@
       "file": "tests/root-verification-current-operations-contract.mjs",
       "minPassed": 24
     },
+    "unit/operations-pre-alert-recovery-contract": {
+      "layer": "unit",
+      "file": "tests/operations-pre-alert-recovery-contract.mjs",
+      "minPassed": 60
+    },
     "unit/outreach-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-outreach-contract.mjs",
@@ -1663,10 +1718,20 @@
       "file": "tests/root-verification-current-replay-soak-contract.mjs",
       "minPassed": 8
     },
+    "unit/report-edition-recovery-contract": {
+      "layer": "unit",
+      "file": "tests/report-edition-recovery-contract.mjs",
+      "minPassed": 47
+    },
     "unit/report-export-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-report-export-contract.mjs",
       "minPassed": 7
+    },
+    "unit/report-source-refusal-contract": {
+      "layer": "unit",
+      "file": "tests/report-source-refusal-contract.mjs",
+      "minPassed": 11
     },
     "unit/reporting-completeness-contract": {
       "layer": "unit",
@@ -1703,6 +1768,11 @@
       "file": "tests/root-verification-current-roster-contract.mjs",
       "minPassed": 13
     },
+    "unit/routine-read-guard-contract": {
+      "layer": "unit",
+      "file": "tests/routine-read-guard-contract.mjs",
+      "minPassed": 34
+    },
     "unit/safe-logs-contract": {
       "layer": "unit",
       "file": "tests/safe-logs-contract.mjs",
@@ -1717,6 +1787,11 @@
       "layer": "unit",
       "file": "tests/root-verification-current-scoped-read-contract.mjs",
       "minPassed": 27
+    },
+    "unit/security-audit-response-contract": {
+      "layer": "unit",
+      "file": "tests/security-audit-response-contract.mjs",
+      "minPassed": 499
     },
     "unit/send-gate-contract": {
       "layer": "unit",
@@ -1868,10 +1943,10 @@
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
     },
-    "smoke/today-browser": {
-      "layer": "smoke",
-      "file": "tests/smoke/today-browser.mjs",
-      "minPassed": 58
+    "integration/routine-telemetry-retention-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-telemetry-retention-http.mjs",
+      "minPassed": 64
     }
   },
   "log": [
@@ -1916,6 +1991,18 @@
       "added": [
         "smoke/today-browser"
       ]
+    },
+    {
+      "date": "2026-10-11",
+      "reason": "D03 original routine semantics retained; complete built synthetic browser run244/0 independently reviewed. No other minimum lowered, removed or quarantined.",
+      "raised": {
+        "smoke/routine-visit-browser": [
+          51,
+          244
+        ]
+      },
+      "lowered": {},
+      "removed": []
     }
   ]
 }

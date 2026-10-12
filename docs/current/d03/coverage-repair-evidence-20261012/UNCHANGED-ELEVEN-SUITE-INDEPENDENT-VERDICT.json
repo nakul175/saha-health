@@ -1,0 +1,1072 @@
+{
+  "kind": "genuine independent finite composite local selection/log/guard/source custody review",
+  "observedAt": "2026-10-11T21:09:34.940302+00:00",
+  "reviewer": "/root/saha_backlog_quality",
+  "verdict": "ELEVEN_LOCAL_SUITE_PASSES_SUPPORTED_ORIGINAL28_ASSERTION_FAILURE_HELD",
+  "publishedHead": "5302f76f353363f95df936251334db5c100a55a4",
+  "actualCompositeAsOfRootPostSourceTimestamp": "2026-10-11T21:01:53.299672+00:00",
+  "selectedOriginalSuites": 12,
+  "actualPassingSuites": 11,
+  "actualPassingCheckCalls": 1052,
+  "reportedFailedAndSkippedAmongPassingSuites": 0,
+  "remainingFailedOriginalMin": 28,
+  "countsNotStoriesOrFormalCases": true,
+  "rows": [
+    {
+      "id": "integration/alert-capture-ledger-http",
+      "actual": {
+        "id": "integration/alert-capture-ledger-http",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/alert-capture-ledger-http.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 262,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 5374,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": null,
+        "log": "tests/reports/logs/integration__alert-capture-ledger-http.log"
+      },
+      "minimum": 262,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-01-integration__alert-capture-ledger-http",
+      "execution": {
+        "startedAtUtc": "2026-10-11T20:57:03.747817+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/alert-capture-ledger-http",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-01-integration__alert-capture-ledger-http/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 94395,
+        "ownedPGID": 94395,
+        "finishedAtUtc": "2026-10-11T20:57:09.784324+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "1a8ce7920c9709d6f5ec8bc003ed9d97711e37ae3b06e00bbd1cdb7dbb57ffd8",
+        "gitStatusAfter": ""
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-01-integration__alert-capture-ledger-http/summary.json",
+          "bytes": 2977,
+          "sha256": "e560e19151e47b70fd6b3e31d4c0b451f50c40dec228d514b8e90e298ad9418e"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-01-integration__alert-capture-ledger-http/EXECUTION.json",
+          "bytes": 914,
+          "sha256": "c56bb8805b76ade76856fa2c54c88310ae3f60f3ef3a734157f7f7bf2ad3e2d7"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-01-integration__alert-capture-ledger-http/runner-reports/logs/integration__alert-capture-ledger-http.log",
+          "bytes": 44709,
+          "sha256": "b3cc4249e29c6b9652ce9fb73f2010edee42970ef93163e5ae0b39d41f2fc210"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-01-integration__alert-capture-ledger-http/console.log",
+          "bytes": 552,
+          "sha256": "1a8ce7920c9709d6f5ec8bc003ed9d97711e37ae3b06e00bbd1cdb7dbb57ffd8"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 262,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/combined-reviewed-alert-recipient-hold-http",
+      "actual": {
+        "id": "integration/combined-reviewed-alert-recipient-hold-http",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/combined-reviewed-alert-recipient-hold-http.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 39,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 1061,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": null,
+        "log": "tests/reports/logs/integration__combined-reviewed-alert-recipient-hold-http.log"
+      },
+      "minimum": 39,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-02-integration__combined-reviewed-alert-recipient-hold-http",
+      "execution": {
+        "startedAtUtc": "2026-10-11T21:00:16.701076+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-alert-recipient-hold-http",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-02-integration__combined-reviewed-alert-recipient-hold-http/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 96286,
+        "ownedPGID": 96286,
+        "finishedAtUtc": "2026-10-11T21:00:18.724931+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "a99748d6fe3711cd76576a0462f7602996881d3f683a6921c1fa89d003ed3db4",
+        "gitStatusAfter": "?? .owned-legacy-fixture-builds/\n"
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-02-integration__combined-reviewed-alert-recipient-hold-http/summary.json",
+          "bytes": 3207,
+          "sha256": "2f1227224ee89b81c730abdfd77c68ae1f7e43688e52cf0c050ea89163418b2c"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-02-integration__combined-reviewed-alert-recipient-hold-http/EXECUTION.json",
+          "bytes": 1010,
+          "sha256": "756c972f93572a43f741631c67b395a90066bf74377af2e88ba8b4dc29d804d8"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-02-integration__combined-reviewed-alert-recipient-hold-http/runner-reports/logs/integration__combined-reviewed-alert-recipient-hold-http.log",
+          "bytes": 1489,
+          "sha256": "258c42f3caec78bedffaf8483039f23021b68e1d00706b90834134adac105566"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-02-integration__combined-reviewed-alert-recipient-hold-http/console.log",
+          "bytes": 680,
+          "sha256": "a99748d6fe3711cd76576a0462f7602996881d3f683a6921c1fa89d003ed3db4"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 39,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/combined-reviewed-alert-recipient-current-http",
+      "actual": {
+        "id": "integration/combined-reviewed-alert-recipient-current-http",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/combined-reviewed-alert-recipient-current-http.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 145,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 1885,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": null,
+        "log": "tests/reports/logs/integration__combined-reviewed-alert-recipient-current-http.log"
+      },
+      "minimum": 145,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-03-integration__combined-reviewed-alert-recipient-current-http",
+      "execution": {
+        "startedAtUtc": "2026-10-11T21:00:18.809039+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-alert-recipient-current-http",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-03-integration__combined-reviewed-alert-recipient-current-http/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 96351,
+        "ownedPGID": 96351,
+        "finishedAtUtc": "2026-10-11T21:00:21.841449+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "c70e21f4c5facb34e70026a5e7dedc3c5d40137bd8310dba4b5a3ff5356c92e3",
+        "gitStatusAfter": "?? .owned-legacy-fixture-builds/\n"
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-03-integration__combined-reviewed-alert-recipient-current-http/summary.json",
+          "bytes": 3227,
+          "sha256": "988b597df2d84078ee08b77ef030b3add1eeed38fb744c7c827133783f8bb614"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-03-integration__combined-reviewed-alert-recipient-current-http/EXECUTION.json",
+          "bytes": 1016,
+          "sha256": "a83c2941de05299cc02660cbdd9dc4f10291e30c212c3c1043c09ab90774e859"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-03-integration__combined-reviewed-alert-recipient-current-http/runner-reports/logs/integration__combined-reviewed-alert-recipient-current-http.log",
+          "bytes": 16626,
+          "sha256": "a9f5d965dbc995bda9782a7e95451cff17add7ec271569995454b51249e9a5dc"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-03-integration__combined-reviewed-alert-recipient-current-http/console.log",
+          "bytes": 687,
+          "sha256": "c70e21f4c5facb34e70026a5e7dedc3c5d40137bd8310dba4b5a3ff5356c92e3"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 145,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/combined-reviewed-alert-recipient-current-scheduled",
+      "actual": {
+        "id": "integration/combined-reviewed-alert-recipient-current-scheduled",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/combined-reviewed-alert-recipient-current-scheduled.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 559,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": null,
+        "log": "tests/reports/logs/integration__combined-reviewed-alert-recipient-current-scheduled.log"
+      },
+      "minimum": 16,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-04-integration__combined-reviewed-alert-recipient-current-scheduled",
+      "execution": {
+        "startedAtUtc": "2026-10-11T21:00:21.922797+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-alert-recipient-current-scheduled",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-04-integration__combined-reviewed-alert-recipient-current-scheduled/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 96419,
+        "ownedPGID": 96419,
+        "finishedAtUtc": "2026-10-11T21:00:22.944019+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "345595c9d03d9eb1d67aeefd8bc6ddf34b60834e3bf36e738e7ff7ef3c574aaf",
+        "gitStatusAfter": "?? .owned-legacy-fixture-builds/\n"
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-04-integration__combined-reviewed-alert-recipient-current-scheduled/summary.json",
+          "bytes": 3256,
+          "sha256": "947400e7e9aff6eb5a318dd9e24269a48ba45d810e28079f07326250b4dc2b2d"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-04-integration__combined-reviewed-alert-recipient-current-scheduled/EXECUTION.json",
+          "bytes": 1026,
+          "sha256": "1bbc0cfa75e187ac60f8516aa67e8155808dec59a6d308ff893fc3714845718b"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-04-integration__combined-reviewed-alert-recipient-current-scheduled/runner-reports/logs/integration__combined-reviewed-alert-recipient-current-scheduled.log",
+          "bytes": 371,
+          "sha256": "a337c29be48027dd8df23c25f2f207c1b727c3b9f3b8e34e57f5ed4c9d43e3ca"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-04-integration__combined-reviewed-alert-recipient-current-scheduled/console.log",
+          "bytes": 701,
+          "sha256": "345595c9d03d9eb1d67aeefd8bc6ddf34b60834e3bf36e738e7ff7ef3c574aaf"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 16,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/combined-reviewed-alert-export-cold-independent-http",
+      "actual": {
+        "id": "integration/combined-reviewed-alert-export-cold-independent-http",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/combined-reviewed-alert-export-cold-independent-http.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 72,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 545,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": null,
+        "log": "tests/reports/logs/integration__combined-reviewed-alert-export-cold-independent-http.log"
+      },
+      "minimum": 72,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-05-integration__combined-reviewed-alert-export-cold-independent-http",
+      "execution": {
+        "startedAtUtc": "2026-10-11T21:00:23.003483+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-alert-export-cold-independent-http",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-05-integration__combined-reviewed-alert-export-cold-independent-http/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 96477,
+        "ownedPGID": 96477,
+        "finishedAtUtc": "2026-10-11T21:00:24.024430+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "2566ae2406225cf6e76745becaa5e3148cec3f5a27c523087e67defae5b1ae42",
+        "gitStatusAfter": "?? .owned-legacy-fixture-builds/\n"
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-05-integration__combined-reviewed-alert-export-cold-independent-http/summary.json",
+          "bytes": 3516,
+          "sha256": "41d78e62ce0ab06a420b8995647c25e4d29ee0263fc097dc0cd09912a1400f9d"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-05-integration__combined-reviewed-alert-export-cold-independent-http/EXECUTION.json",
+          "bytes": 1028,
+          "sha256": "2318bc5ca2693f0451d124f47ffbe3df3bf3f1920e9e89ef4422d4a855d41de7"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-05-integration__combined-reviewed-alert-export-cold-independent-http/runner-reports/logs/integration__combined-reviewed-alert-export-cold-independent-http.log",
+          "bytes": 951,
+          "sha256": "68922d6b81308310ed2df18e3c55bd422cc12ade8dc5acfac4a773ea6470ec91"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-05-integration__combined-reviewed-alert-export-cold-independent-http/console.log",
+          "bytes": 703,
+          "sha256": "2566ae2406225cf6e76745becaa5e3148cec3f5a27c523087e67defae5b1ae42"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 72,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/combined-reviewed-guided-audio-independent-component",
+      "actual": {
+        "id": "integration/combined-reviewed-guided-audio-independent-component",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/combined-reviewed-guided-audio-independent-component.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 19,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 965,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": null,
+        "log": "tests/reports/logs/integration__combined-reviewed-guided-audio-independent-component.log"
+      },
+      "minimum": 19,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-06-integration__combined-reviewed-guided-audio-independent-component",
+      "execution": {
+        "startedAtUtc": "2026-10-11T21:00:24.095784+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-guided-audio-independent-component",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-06-integration__combined-reviewed-guided-audio-independent-component/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 96534,
+        "ownedPGID": 96534,
+        "finishedAtUtc": "2026-10-11T21:00:26.109416+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "7c5ce67e2d470f0926399bfb7409b08527e7d7bd13dc5d517f8b3e882daff694",
+        "gitStatusAfter": "?? .owned-legacy-fixture-builds/\n"
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-06-integration__combined-reviewed-guided-audio-independent-component/summary.json",
+          "bytes": 3133,
+          "sha256": "8090bafc5af5cca588d58e876df3a4ca098c82d1fbca17f3130a458a5c36b7fb"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-06-integration__combined-reviewed-guided-audio-independent-component/EXECUTION.json",
+          "bytes": 1028,
+          "sha256": "d8e8fa7eb95e61b26c950ac308a074d62390ee340a451a6ecb72fd2e6843aecb"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-06-integration__combined-reviewed-guided-audio-independent-component/runner-reports/logs/integration__combined-reviewed-guided-audio-independent-component.log",
+          "bytes": 14,
+          "sha256": "12bf208a0a2f9f2788ee061aea05ceae920061bbb64adfab7b47bc7963350a8f"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-06-integration__combined-reviewed-guided-audio-independent-component/console.log",
+          "bytes": 610,
+          "sha256": "7c5ce67e2d470f0926399bfb7409b08527e7d7bd13dc5d517f8b3e882daff694"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 19,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/combined-reviewed-programme-transition-audit-cold-extended-primary",
+      "actual": {
+        "id": "integration/combined-reviewed-programme-transition-audit-cold-extended-primary",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/combined-reviewed-programme-transition-audit-cold-extended-primary.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 253,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 5256,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": null,
+        "log": "tests/reports/logs/integration__combined-reviewed-programme-transition-audit-cold-extended-primary.log"
+      },
+      "minimum": 253,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-07-integration__combined-reviewed-programme-transition-audit-cold-extended-primary",
+      "execution": {
+        "startedAtUtc": "2026-10-11T20:57:17.322130+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-programme-transition-audit-cold-extended-primary",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-07-integration__combined-reviewed-programme-transition-audit-cold-extended-primary/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 94789,
+        "ownedPGID": 94789,
+        "finishedAtUtc": "2026-10-11T20:57:23.378311+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "4832f3f6be5762aa565c1ad3721a94ca846bd0ec28ea25f23edea497ddca7cde",
+        "gitStatusAfter": ""
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-07-integration__combined-reviewed-programme-transition-audit-cold-extended-primary/summary.json",
+          "bytes": 4483,
+          "sha256": "78090cbd7c283b3c0be274bed2b74df86896fcbc63fd77dcf368d8266a140884"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-07-integration__combined-reviewed-programme-transition-audit-cold-extended-primary/EXECUTION.json",
+          "bytes": 996,
+          "sha256": "8cf233afe87f1f56704e920fbcebe0a6548ce475a29e75ae48f5499bd965c343"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-07-integration__combined-reviewed-programme-transition-audit-cold-extended-primary/runner-reports/logs/integration__combined-reviewed-programme-transition-audit-cold-extended-primary.log",
+          "bytes": 24380,
+          "sha256": "f6d88073da8a0572d7dcdb0e0462e2a2fcd323e79d0e6f7506e5f6a6c9b96670"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-07-integration__combined-reviewed-programme-transition-audit-cold-extended-primary/console.log",
+          "bytes": 727,
+          "sha256": "4832f3f6be5762aa565c1ad3721a94ca846bd0ec28ea25f23edea497ddca7cde"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 253,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/combined-reviewed-programme-transition-audit-cold-independent-http",
+      "actual": {
+        "id": "integration/combined-reviewed-programme-transition-audit-cold-independent-http",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/combined-reviewed-programme-transition-audit-cold-independent-http.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 132,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 1646,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": null,
+        "log": "tests/reports/logs/integration__combined-reviewed-programme-transition-audit-cold-independent-http.log"
+      },
+      "minimum": 132,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-08-integration__combined-reviewed-programme-transition-audit-cold-independent-http",
+      "execution": {
+        "startedAtUtc": "2026-10-11T20:57:23.458310+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-programme-transition-audit-cold-independent-http",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-08-integration__combined-reviewed-programme-transition-audit-cold-independent-http/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 94883,
+        "ownedPGID": 94883,
+        "finishedAtUtc": "2026-10-11T20:57:25.479805+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "36ca456ea1c156233619250fb8c57ac2204457628cd3ba7c4eef529e8ec7569e",
+        "gitStatusAfter": ""
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-08-integration__combined-reviewed-programme-transition-audit-cold-independent-http/summary.json",
+          "bytes": 3182,
+          "sha256": "0625c983cf8badad2b0b0bf47fe2982e03e41bafa707d53777d9c12cb150c931"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-08-integration__combined-reviewed-programme-transition-audit-cold-independent-http/EXECUTION.json",
+          "bytes": 996,
+          "sha256": "ffc659af4aa95afa1ea449bbdbc39ff425b89118afe2fe60f38c9c5630d53b3f"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-08-integration__combined-reviewed-programme-transition-audit-cold-independent-http/runner-reports/logs/integration__combined-reviewed-programme-transition-audit-cold-independent-http.log",
+          "bytes": 14720,
+          "sha256": "55d9f60858a5030e0afa0558ccb6e4b840b0ce15843dc4afa9762c0a6ec7542d"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-08-integration__combined-reviewed-programme-transition-audit-cold-independent-http/console.log",
+          "bytes": 634,
+          "sha256": "36ca456ea1c156233619250fb8c57ac2204457628cd3ba7c4eef529e8ec7569e"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 132,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+      "actual": {
+        "id": "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/combined-reviewed-simplicity-independent-guided-instructions-browser.mjs",
+        "tier": "pr",
+        "status": "failed",
+        "passed": null,
+        "failed": null,
+        "skipped": null,
+        "durationMs": 1704,
+        "exitCode": 1,
+        "countSource": "none",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": "exit code 1",
+        "log": "tests/reports/logs/integration__combined-reviewed-simplicity-independent-guided-instructions-browser.log"
+      },
+      "minimum": 28,
+      "guard": {
+        "ok": false,
+        "findings": [
+          {
+            "id": "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+            "kind": "uncounted",
+            "message": "Suite integration/combined-reviewed-simplicity-independent-guided-instructions-browser reported no assertion count; baseline needs at least 28.",
+            "excused": false
+          }
+        ],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-09-integration__combined-reviewed-simplicity-independent-guided-instructions-browser",
+      "execution": {
+        "startedAtUtc": "2026-10-11T21:00:26.192661+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-09-integration__combined-reviewed-simplicity-independent-guided-instructions-browser/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 96591,
+        "ownedPGID": 96591,
+        "finishedAtUtc": "2026-10-11T21:00:28.220819+00:00",
+        "exit": 1,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "13428b7eab98ad8770ebb13fc21c3d306383844da123ee5b1ef7bd1cd8c1ce31",
+        "gitStatusAfter": "?? .owned-legacy-fixture-builds/\n?? tests/evidence/alert-transition-guidance-root-integration/simplicity-independent-guided-instructions-browser/repeat/audio-phone-qualified/failure.txt\n"
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-09-integration__combined-reviewed-simplicity-independent-guided-instructions-browser/summary.json",
+          "bytes": 3568,
+          "sha256": "dd36dd592d8c4c4c5c676314df1733f1809516623064f4205040a127bf6b5cc1"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-09-integration__combined-reviewed-simplicity-independent-guided-instructions-browser/EXECUTION.json",
+          "bytes": 1214,
+          "sha256": "435bc20a349715447971efae791005417b00f29f878a1395fcab47229043a38b"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-09-integration__combined-reviewed-simplicity-independent-guided-instructions-browser/runner-reports/logs/integration__combined-reviewed-simplicity-independent-guided-instructions-browser.log",
+          "bytes": 739,
+          "sha256": "102dc101c1baf37a5030d5180b977be70979d135604a76064e2e916e9814208c"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-09-integration__combined-reviewed-simplicity-independent-guided-instructions-browser/console.log",
+          "bytes": 1790,
+          "sha256": "13428b7eab98ad8770ebb13fc21c3d306383844da123ee5b1ef7bd1cd8c1ce31"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": null,
+      "sourcePinEqualPublishedForPassingFile": false
+    },
+    {
+      "id": "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser",
+      "actual": {
+        "id": "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/current-guided-simplicity-capabilities-browser.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 25,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 3133,
+        "exitCode": 0,
+        "countSource": "result-file",
+        "resultFiles": [
+          "tests/reports/current-guided-simplicity-capabilities-result.json"
+        ],
+        "requirementsCited": 1,
+        "reason": null,
+        "log": "tests/reports/logs/integration__combined-reviewed-simplicity-independent-guided-simplicity-browser.log"
+      },
+      "minimum": 21,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-10-integration__combined-reviewed-simplicity-independent-guided-simplicity-browser",
+      "execution": {
+        "startedAtUtc": "2026-10-11T21:00:28.282798+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-10-integration__combined-reviewed-simplicity-independent-guided-simplicity-browser/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 96660,
+        "ownedPGID": 96660,
+        "finishedAtUtc": "2026-10-11T21:00:32.327470+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "c186491f879c4941d8bbeb6098829ade663bca787a89e0ea98240eb87a55ef2a",
+        "gitStatusAfter": "?? .owned-legacy-fixture-builds/\n?? tests/evidence/alert-transition-guidance-root-integration/simplicity-independent-guided-instructions-browser/repeat/audio-phone-qualified/failure.txt\n"
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-10-integration__combined-reviewed-simplicity-independent-guided-simplicity-browser/summary.json",
+          "bytes": 3272,
+          "sha256": "f20e71a283fcc63a63f1054056d1722a0516bd3bb4667f06f0dd7fed1cc69221"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-10-integration__combined-reviewed-simplicity-independent-guided-simplicity-browser/EXECUTION.json",
+          "bytes": 1210,
+          "sha256": "aaea44bb5991439fde1f34cfcb83ba5f87d44c4b766487bfa053e91187c5d957"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-10-integration__combined-reviewed-simplicity-independent-guided-simplicity-browser/runner-reports/logs/integration__combined-reviewed-simplicity-independent-guided-simplicity-browser.log",
+          "bytes": 37,
+          "sha256": "a4f60903757fa26d0fa9cb702d12df61ae8bbe5be2aeb7f9b9088c7ec7ecfc24"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-10-integration__combined-reviewed-simplicity-independent-guided-simplicity-browser/console.log",
+          "bytes": 633,
+          "sha256": "c186491f879c4941d8bbeb6098829ade663bca787a89e0ea98240eb87a55ef2a"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/suite-10-integration__combined-reviewed-simplicity-independent-guided-simplicity-browser/runner-reports/current-guided-simplicity-capabilities-result.json",
+          "bytes": 2606,
+          "sha256": "6e523fd111de9f736f71ce7b28db0ead6d287a7b7a707eaf92f3407757f01beb"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 25,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/combined-reviewed-transition-parity-cold-independent-http",
+      "actual": {
+        "id": "integration/combined-reviewed-transition-parity-cold-independent-http",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/combined-reviewed-transition-parity-cold-independent-http.mjs",
+        "tier": "pr",
+        "status": "passed",
+        "passed": 81,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 1486,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 0,
+        "reason": null,
+        "log": "tests/reports/logs/integration__combined-reviewed-transition-parity-cold-independent-http.log"
+      },
+      "minimum": 81,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-11-integration__combined-reviewed-transition-parity-cold-independent-http",
+      "execution": {
+        "startedAtUtc": "2026-10-11T20:57:27.722153+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/combined-reviewed-transition-parity-cold-independent-http",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-11-integration__combined-reviewed-transition-parity-cold-independent-http/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 95042,
+        "ownedPGID": 95042,
+        "finishedAtUtc": "2026-10-11T20:57:29.746339+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "c89008b314f0eb01bf31341e16f32d4825e1d160f1c0aa30d66b1185038c49a0",
+        "gitStatusAfter": ""
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-11-integration__combined-reviewed-transition-parity-cold-independent-http/summary.json",
+          "bytes": 3546,
+          "sha256": "2f41ad278510849fdba8ae08397d8513b65940e7991fe309326f373141ad4978"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-11-integration__combined-reviewed-transition-parity-cold-independent-http/EXECUTION.json",
+          "bytes": 978,
+          "sha256": "67e65f5ae403b151bf4d15617f635ec491432df5fb50c62cceb9b741d7843c5c"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-11-integration__combined-reviewed-transition-parity-cold-independent-http/runner-reports/logs/integration__combined-reviewed-transition-parity-cold-independent-http.log",
+          "bytes": 9034,
+          "sha256": "6a9a964b87707d42dc5eda827f16da6fb75a4680f2360788c330dec2ca47ae96"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-11-integration__combined-reviewed-transition-parity-cold-independent-http/console.log",
+          "bytes": 708,
+          "sha256": "c89008b314f0eb01bf31341e16f32d4825e1d160f1c0aa30d66b1185038c49a0"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 81,
+      "sourcePinEqualPublishedForPassingFile": true
+    },
+    {
+      "id": "integration/scheduled-local-check",
+      "actual": {
+        "id": "integration/scheduled-local-check",
+        "layer": "integration",
+        "kind": "suite",
+        "file": "tests/scheduled-local-check.mjs",
+        "tier": "extended",
+        "status": "passed",
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 47332,
+        "exitCode": 0,
+        "countSource": "stdout",
+        "resultFiles": [],
+        "requirementsCited": 3,
+        "reason": null,
+        "log": "tests/reports/logs/integration__scheduled-local-check.log"
+      },
+      "minimum": 8,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "selectedAttemptDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-12-integration__scheduled-local-check",
+      "execution": {
+        "startedAtUtc": "2026-10-11T20:57:29.822423+00:00",
+        "command": [
+          "node",
+          "scripts/test.mjs",
+          "integration",
+          "--only",
+          "integration/scheduled-local-check",
+          "--fast",
+          "--guard",
+          "--report",
+          "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-12-integration__scheduled-local-check/summary.json"
+        ],
+        "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+        "head": "5302f76f353363f95df936251334db5c100a55a4",
+        "ownedPid": 95109,
+        "ownedPGID": 95109,
+        "finishedAtUtc": "2026-10-11T20:58:18.160262+00:00",
+        "exit": 0,
+        "stoppedAtHumanDeadline": false,
+        "consoleSHA256": "4d697ca33eaf2770ba79817c2eb1905b4f278ac7715e38af5f582538c4454185",
+        "gitStatusAfter": ""
+      },
+      "pins": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-12-integration__scheduled-local-check/summary.json",
+          "bytes": 3025,
+          "sha256": "e60b282be5f510628d55dac0f7f3f1282587b806d8f99ce3ce989b8d5558edd7"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-12-integration__scheduled-local-check/EXECUTION.json",
+          "bytes": 906,
+          "sha256": "7792712a491961894392e0885cda1ceeb44aad8b25f90cdbdbd6640de119a52d"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-12-integration__scheduled-local-check/runner-reports/logs/integration__scheduled-local-check.log",
+          "bytes": 764,
+          "sha256": "78b98f5bd4c1bcd014eaa9d81ed6a667ce19221fd0ee55327f2becc914bbe9c9"
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/suite-12-integration__scheduled-local-check/console.log",
+          "bytes": 640,
+          "sha256": "4d697ca33eaf2770ba79817c2eb1905b4f278ac7715e38af5f582538c4454185"
+        }
+      ],
+      "matchingFreshFinalStdoutCount": 8,
+      "sourcePinEqualPublishedForPassingFile": true
+    }
+  ],
+  "sourceAndBaseline": {
+    "allOriginal12BaselineRowsPreserved": true,
+    "elevenPassingFilesEqualPublished530AndBeforeBuildHash": true,
+    "originalFailedDriverPreimage": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/playback-fixture-repair-001/original-driver.mjs",
+      "bytes": 9240,
+      "sha256": "7485507538bf03dfc4a85eaf3917901651edae88e3ae4387083358b90b63c1aa"
+    },
+    "currentFailedDriverSeparatePendingFixtureCandidate": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/playback-fixture-repair-001/candidate-driver.mjs",
+      "bytes": 9696,
+      "sha256": "91ca9dde06b3380061a952c6a7309c1f5e8a8816c979c335e00dc54d4a819acc"
+    },
+    "capabilityScope": "Actual25>=original21 guard; current-result file25 agrees fresh stdout25. Declared8 additional compatibility assertions and native conditional observation remain separate from physical voice acceptance. Original baseline21 not relaxed."
+  },
+  "builder": {
+    "actual": {
+      "startedAtUtc": "2026-10-11T20:58:50.181920+00:00",
+      "command": [
+        "node",
+        "scripts/build-legacy-alert-fixtures.mjs"
+      ],
+      "cwd": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-current530-complete-selection-20261011",
+      "head": "5302f76f353363f95df936251334db5c100a55a4",
+      "ownedPid": 95631,
+      "ownedPGID": 95631,
+      "finishedAtUtc": "2026-10-11T21:00:16.685482+00:00",
+      "exit": 0,
+      "stoppedAtHumanDeadline": false,
+      "consoleSHA256": "0ba1bfb9b27c786b78ac7d9867dccf8cd6695dc4d76351478d765f49bab9b3f8"
+    },
+    "sourceObservation": [
+      {
+        "kind": "alertDisclosureBefore",
+        "sourceCommit": "75c0f3e5372b9eb08eab0717966b4638163294bc",
+        "treeObservedNow": "c85f6c78dddc1c2fbd6ee2497bad19c97eae1d16",
+        "originalDriver": "tests/alert-disclosure-before.mjs",
+        "driverSha256": "648e53bfe770cbb293405c0d27543f0e5290af60a43df5bbc0e1a991e581fcce",
+        "originalExpectedCount": 29,
+        "currentPhaseCount": null,
+        "forwardMigrations": [
+          "0031_installed_pack_work.sql",
+          "0032_installed_pack_transition.sql"
+        ]
+      },
+      {
+        "kind": "alertExportCold",
+        "sourceCommit": "8eedc606ef015bd2cf5a8bddb3ed9e50249b5a30",
+        "treeObservedNow": "f536f97c46693a92914956993ba3d7f4a9a9a714",
+        "originalDriver": "tests/alert-export-cold-http.mjs",
+        "driverSha256": "1187d1d14a0b12e9d35ef3dc97c3495db15a688a2fddf087dd4fc20c4a61722e",
+        "originalExpectedCount": 17,
+        "currentPhaseCount": 285,
+        "forwardMigrations": [
+          "0032_installed_pack_transition.sql"
+        ]
+      }
+    ],
+    "pins": [
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/legacy-fixture-attempt-001/EXECUTION.json",
+        "bytes": 559,
+        "sha256": "46909c31bf7eccfec4e7d5a72eb80b1fd18c3681469407773875c00c367407c7"
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/legacy-fixture-attempt-001/console.log",
+        "bytes": 443,
+        "sha256": "0ba1bfb9b27c786b78ac7d9867dccf8cd6695dc4d76351478d765f49bab9b3f8"
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/qualification-attempt-002/legacy-fixture-attempt-001/observed-manifest.json",
+        "bytes": 2793,
+        "sha256": "f7dfffdbecde0586235ae2343998e08ede3e6b1063600bebe06186466a2e9a51"
+      }
+    ],
+    "oldFailurePreserved": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/legacy-fixture-attempt-001/EXECUTION.json",
+      "bytes": 559,
+      "sha256": "25b05fddcd7907bc5921d4b2af4fda8f4d76866cc87fa90233190f6f5ef80b27"
+    },
+    "scope": "Original builder recreated29/17 old synthetic history then current285 preparatory export on this build. These setup counts not added to selected1052. Normal frozen pnpm installation can access registry. Instance-specific hashes retained; reviewer did not rerun/requery all historical D1 rows."
+  },
+  "currentScheduledDependency": {
+    "currentHttpThenImmediatelyScheduledFromRetainedMetadata": true,
+    "freshDefaultPair": ".wrangler currentobserved proof/state plus rebuilt beforepair; no restored historical tracked proof counted"
+  },
+  "postSource": {
+    "rootHistoricalPostReceipt": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/ACTUAL-TWO-ATTEMPTS-AND-POST-SOURCE.json",
+      "bytes": 5175,
+      "sha256": "8d2603b1e147a3fafc4aeeac6bed1c5a93f999bf67d4f82cb5401486ccd21f56"
+    },
+    "rootHistorical16897ReportedChanged": [],
+    "independentActualCurrentRead": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/independent-second-attempt-review/ACTUAL-CURRENT-TRACKED-CUSTODY-READBACK.json",
+      "bytes": 1264,
+      "sha256": "fdbbc14740c99308682ee4e4964902a5e00283f47eb41babc7f43a35ca16e54e"
+    },
+    "read16897": true,
+    "unchanged16896": true,
+    "soleExpectedFixtureDelta": {
+      "path": "tests/combined-reviewed-simplicity-independent-guided-instructions-browser.mjs",
+      "savedBeforeSha256": "7485507538bf03dfc4a85eaf3917901651edae88e3ae4387083358b90b63c1aa",
+      "observedCurrentSha256": "91ca9dde06b3380061a952c6a7309c1f5e8a8816c979c335e00dc54d4a819acc",
+      "currentBytes": 9696
+    },
+    "gitCleanClaim": false,
+    "explanation": "Root historical comparison precedes fixture insertion. Independent full current read follows it, so all-unchanged is not claimed now. Owned untracked evidence/legacy dirs remain; final process/port/state cleanup pending."
+  },
+  "limits": [
+    "Fresh selected child stdout/current-result counts and original guards supported. Cumulative copied reports include other/stale logs; only each selected metadata log counted.",
+    "Tracked custom raw evidence restored by canonical cleanup may be historical; no current DB/screenshot proof inferred from restored artifacts.",
+    "Original28 still failed in this historical composite. Later reviewed fixture execution/source successor qualification is separate.",
+    "Other Playwright failures/physical/provider/formal acceptance remain separate. No component19/capability25 substitution for28.",
+    "No A9/storyDone/formal364/merge/hosting or clinical approval."
+  ],
+  "reviewerExecutions": 0,
+  "reviewerSourceEdits": 0
+}

@@ -1,0 +1,7 @@
+# Original backend NFR current-source qualification
+
+The complete ff31efeab8c68009b467a675f0c2d2f26fa02284 engineering run38137184201 passed:208 units10910/0/0, original147workflow suites7691/0/0 and final9smoke/security/UAT suites497/0/1. The one inherited local-smoke media skip remains explicit; no full physical/clinical/formal acceptance is inferred. Dedicatednative permission63/calendar97/installed-phone121/device-privacy64, runtime-log12/original-load15 and actual400slots pass; originalfailed receipts remain.
+
+The original five-NFR selection also contains backend performance94 and no-inspector memory4, which need fresh current-source evidence. This change adds a separate built-candidate CI job executing those unchanged originals under the same94/4minima, same30samples/200synthetic-person setup, read1500ms/command2500ms budgets and original3rounds×1000loads/concurrency4 memory workload. No inspector attaches to the memory process. Existingidentity/authorization/load and full208/147/9 gates remain. No threshold, duration, sample, test source, baseline or application is changed; failures will hold the gate.
+
+Actualnew98checks are pending, not passed. Local2e18 same-application fixed1000/path measured run stays exclusive and immutable:normalthree screenscomplete, slowprofile unfinished. Current-source/build applicability must be assessed explicitly; independentfinalreview and observedauthorizedstaging remain separate. Nextstory helduntil frozen10criteria pass;formalUAT0/364 unchanged.

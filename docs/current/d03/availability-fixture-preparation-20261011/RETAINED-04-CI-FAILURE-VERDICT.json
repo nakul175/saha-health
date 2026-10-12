@@ -1,0 +1,97 @@
+{
+  "reviewedAtUtc": "2026-10-11T18:24:32.248104+00:00",
+  "reviewerAgent": "/root/routine_final_review",
+  "verdict": "BLOCK_FULL_FINAL_CI_AND_A9",
+  "publishedHead": "04f00953347ff2733ba6a83235c06688d9b2f0f5",
+  "workflow": 38161601843,
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "name": "checks",
+      "conclusion": "success"
+    },
+    {
+      "name": "regressions",
+      "conclusion": "failure"
+    },
+    {
+      "name": "original-backend-nfr",
+      "conclusion": "success"
+    },
+    {
+      "name": "native-authorization-control",
+      "conclusion": "success"
+    },
+    {
+      "name": "bounded-report-load",
+      "conclusion": "success"
+    }
+  ],
+  "confirmedFailure": {
+    "job": 114535497011,
+    "step": "App-first workflow and scope regressions",
+    "suite": "ui/availability",
+    "source": "tests/ui/availability.mjs",
+    "line": 28,
+    "column": 476,
+    "actualException": "locator.waitFor: Timeout30000ms waiting for Enable synthetic checks",
+    "exactPhase": "Owner disable after Operations Refresh following API maintenance enable/disable writes, waiting for original disabled-state enable button",
+    "reportedPassed": null,
+    "reportedFailed": null,
+    "reportedSkipped": null,
+    "guardOriginalMinimum": 11,
+    "guardKind": "uncounted",
+    "quarantineExcused": false,
+    "summaryTotals": {
+      "suites": 147,
+      "passed": 7680,
+      "failed": 0,
+      "skipped": 0,
+      "failedSuites": 1,
+      "durationMs": 1396644
+    },
+    "earlierEightGroups": "Reached ninth original check per sequential source control flow; no independently retained partial8-count report. This is an inference from exact failure position, not a reported suite passcount."
+  },
+  "diagnosis": {
+    "confirmedSourceFlow": [
+      "tests/ui/availability.mjs:27 performs actual out-of-band opsMaintenance enable and disable commands",
+      "tests/ui/availability.mjs:28 clicks Operations Refresh then immediately fills Availability reason/clicks Disable and waits for Enable",
+      "app/operations-panel.tsx:28 refresh clears value, fetches operations report and replaces rendered version/context",
+      "app/operations-panel.tsx:34 save attaches rendered ops.version to actual command",
+      "app/availability-panel.tsx:11 form saves then clears reason and refreshes report"
+    ],
+    "hypothesis": "Unsynchronized test refresh can leave rendered operations version or reason/control state stale during one disable attempt. Actual command HTTP status and DOM outcome were not captured in uploaded availability failure evidence; no definitive runtime root cause is asserted.",
+    "runtimeRepairRequired": null
+  },
+  "minimalProposedRepairPlan": [
+    "Add observational capture of the actual final refresh/report/disable-command request and response, HTTP status/request correlation and current displayed reason/report version; retain failure screenshot/partial checks; no response substitution or retries",
+    "After original out-of-band maintenance writes, synchronize one UI Refresh with successful current-version operations read and final Availability form load before one original disable command",
+    "Preserve original11 scenario groups, enabledfalse/windowclosed/immutableone-sample/authorization/pageerror oracles and11minimum; never accept wrong status, raise timeout, quarantine or classify skipped",
+    "If synchronized real command still fails, inspect exact response and retained state to decide narrowly whether app repair is required; root decides source/NFR interval supersession before production change",
+    "Publish any exact reviewed source successor under original CI; current failed run stays retained, not auto-rerun as a transient pass"
+  ],
+  "retainedEvidence": {
+    "failedSuiteLog": {
+      "file": "ci-artifacts/engineering-regression-evidence/tests/reports/logs/ui__availability.log",
+      "sha256": "c1969a502212244318f67c9ba8b82427f896d77c14837d6a9ed9095fb884418b"
+    },
+    "rawJobLogSHA256": "576d6eb3302ca39d7d9a7a122556a56c170104a098eeee8e14b6dd8445fb76c4",
+    "summarySHA256": "fd0a09d51d7b7333bb2f886c292cd8783d70b3320ee51e5c9a027612196fdea8",
+    "wholeCIResultSHA256": "787f0bf6ecf49515581698543254348105853564580ba7718f9880ec8f21217c",
+    "watchLogSHA256": "02bf525de9d51e81201bc3684729992ed76dd467cfbd9de0eb6f0a45992f8e21",
+    "regressionArtifactExpectedArchiveDigest": "sha256:fc1492d2f63e927dfdd4292d195563ef1591dbd4343ef74ea2964430b91fc2dd",
+    "initialAvailabilityPartialBrowserResultUploaded": false
+  },
+  "stillValidScopedReview": "bd99bc8ef6422aa77c1f5abce7622092975cee204a21c4781bae8fdb5b3804c9 covers actual source/config/native/supply-chain/unit readback of passedchecks, and never granted wholeCIpass.",
+  "holds": [
+    "Whole finalCI/A9",
+    "Original complete1000/pathNFR stillrunning unchanged04; no source/dist edits/probes during review",
+    "Qualified merge, exact observedhosting and syntheticlivejourney/A10",
+    "Human/domain/physical/formal acceptance not claimed"
+  ],
+  "agentActions": "Read-only actualGitHublogs/artifacts/static source inspection; no rerun/source edits/build/browser/backend/policy/CI relaxation.",
+  "reviewerLineCorrection": {
+    "priorSHA256": "2eb3d7fae6b28ffd5a4ca8d8e083157c3f0632ffe1f81059f0c45394d834136a",
+    "reason": "Verified one-based source citations: refresh28/save34. Original failure/oracles/verdict unchanged."
+  }
+}

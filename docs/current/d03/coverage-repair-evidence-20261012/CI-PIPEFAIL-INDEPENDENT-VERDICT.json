@@ -1,0 +1,36 @@
+{
+  "schema": "independent-missing13-ci-single-line-pipefail-successor/1",
+  "reviewer": "/root/routine_independent_qa",
+  "authorOfDelta": "/root",
+  "observedAtUtc": "2026-10-12T04:36:32.659913+00:00",
+  "verdict": "SOURCE_PASS_FOR_EXACT_ONE_LINE_FAILURE_PROPAGATION_CORRECTION__NO_CI_EXECUTION_APPROVAL_OR_RELEASE_PASS",
+  "candidateSha256": "33574a30e685369b826fc93261fca8505689e2d4fb371fe022ffeae635d3c539",
+  "previousCandidateSha256": "ea0cab7a4a7ef379773a080dc260e4a6f5561a0b08debdab467f0e82c93454a7",
+  "singleAddedLine": "set -o pipefail",
+  "removingOnlySingleLineRecoversPreviouslyReviewedWholeWorkflowByteExact": true,
+  "oldSixWorkflowPrefixUnchanged": true,
+  "lightweightControls": [
+    {
+      "name": "prior-bootstrap-no-explicit-pipefail",
+      "producerExitInjected": 1,
+      "teeExitObserved": 0,
+      "shellExit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "successor-bootstrap-explicit-pipefail",
+      "producerExitInjected": 1,
+      "teeExitObserved": 0,
+      "shellExit": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "workflowInstallerBackendBrowserNetworkExecuted": false,
+  "original389MinimaOraclesGoldensUnchanged": true,
+  "priorReviewLimitCorrection": "f187 source review was incomplete for bootstrap pipeline propagation: it noted phase failures as fatal but did not verify explicit pipefail for the original producer. Under bash -e alone, producer exit1 can be masked by tee exit0. That prior receipt remains historical; this observed correction plus exact successor supersedes its bootstrap failure-semantics claim. Other prior static syntax/selection/source preservation findings remain applicable.",
+  "failureSemantics": "GitHub runner -e plus explicit pipefail terminates this bootstrap step on producer or logger failure, so legacy outcome becomes failure and dependent phases cannot qualify. Existing always-artifact upload preserves available bootstrap output.",
+  "a9": false,
+  "mergeEligible": false
+}

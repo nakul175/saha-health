@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-10T19:21:21.054664+00:00",
+  "recordedLocalDate": "11 October 2026 IST",
+  "story": "D03/#176 frozen revision1; only active feature story",
+  "checkpointParentCommit": "0009fc506437bed597fd1d7d0bf7df532a66612c",
+  "branch": "feat/d03-qualification-2026-10-11",
+  "draftPullRequest": "https://github.com/nakul175/saha-health/pull/192",
+  "publicationBoundary": "The actual next pushed commit/tree is separately recorded after publication; this receipt cannot certify its own containing Git commit or hosted CI.",
+  "priorReceiptsSha256": {
+    "docs/current/d03/EVIDENCE.json": "5871eb470ed0baa1e9cecf94dc6502fa5d4e1324b37f7f27539b9552318ba0c0",
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json": "93aeea04d3a918a764abf733614820040947d57db890e674d82422755f8b3ae5",
+    "docs/current/d03/EVIDENCE-20261011-UAT-MAP.json": "b744b8f725494358c127339a879dccbf7066d1f4f56f9241fb42043dae673b83"
+  },
+  "sourceSha256": {
+    "lib/saha/audit-chain.ts": "45faa44559373a52ad5ee2418878522105eca5b9b28384ef36a24f85684749ee",
+    "lib/saha/store.ts": "f0d7abc0b2baa8a1ba4c508a1390a425a945e5d32f09212e7770e3c47d011903",
+    "lib/saha/routine-read-guard.ts": "ace88a65caf6ff18fbd79f8f4d2135c690ea856778c2514f2f3a66b7456f81f9",
+    "lib/saha/routine-visit-server.ts": "1c949a1a4a9e325e6a9488a20686af53bbeea8447792b29fe7ca18e94a8aa382",
+    "lib/saha/today-server.ts": "e7cd44cd64febb49b53e93359d4a63360bbb13d29680b4fbf6a21a3dc7aff10d",
+    "app/routine-visit/routine-visit.tsx": "02fd56320974f1197de7d25d98bbc19b3bf93e72b7af0ed6ad573e3c45ad69f9",
+    "app/programmes.tsx": "2ba8f3b9fe2f05ce971ab449d93bdc4d48ab13600a13f07f61c680b10a328de0",
+    "tests/audit-access-contention-contract.mjs": "b80ea6dfe194d80721c4690e169fac3a4d82a11bc84c7ede6fede5ca39e1984b",
+    "tests/routine-read-guard-contract.mjs": "febcaaf568f3f1ef21f6a3c8648b8c2a7d610c6b964e7a6ce7315b19fa1235c5",
+    "tests/integration/routine-authority-http.mjs": "5db17fd0e8460448dddae9f09b28809523bebf9f41cc1a795fc6bf554bdbfe76",
+    "tests/integration/routine-organisation-http.mjs": "02d63f9ff84813165a757f1d2612b3dd90f5682f29db0c7e7743a68ba8c5c378",
+    "tests/integration/routine-attempt-browser.mjs": "a397daf9620b75ffa99636fb969dcc21d6099ea426ed46a269dfad2989ba5c47",
+    "tests/smoke/routine-visit-browser.mjs": "fbae0c7f7519b44758a5abc0f58b7f30262b40bdb7955e9357015a863e2274cf",
+    "tests/smoke/today-browser.mjs": "b9a990e0051e175558951a0462554e901af1cfe6849558da41567381deba45d2",
+    "scripts/test-catalogue.mjs": "97d318cd20f3cb39fd6e4e230c9d0ff7d8aaaf89278333811c300cf0c9f54670",
+    "tests/regression-baseline.json": "0225f625cbd7008925d007690192139eb10849e82ce6034541e6a61b9cc93a2a",
+    ".github/workflows/ci.yml": "555a8ca1e131dddd4e993c31f15553e5af85b1c3ddb7b908a47d92a71a518329",
+    "docs/current/d03/SPECIFICATION.md": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df"
+  },
+  "externalEvidenceRoot": "outputs/saha-health-overnight-20261011/",
+  "externalEvidenceSha256": {
+    "qualification/final-combined/FINAL-COMBINED-RESULT.json": "61d50bf5519268623e2c1f2b78cdf3ffbef7d0298e4fc62788ae1193d65354ef",
+    "qualification/final-combined/ARTIFACT-MANIFEST.json": "b672b794722679e0f9adee1ee0209e406888cac1e0b6b96e2b7e9ec8cb5cf1fa",
+    "qualification/final-combined/SOURCE-SNAPSHOT.json": "3a4d040acfafb13081d07e10f07d4ac612847861f130a7ff46a3e3896dc0217f",
+    "qualification/final-root-browser-summary.json": "9dc86d08dcacb85dd3fd0be2c3230d67f0426799bcb0de8eea6562acfd51fde3",
+    "qualification/final-root-browser.log": "7469562ba687380bb10454df0dbdab012fc01ed811144697422f880d5f2d4d45",
+    "qualification/final-root-browser-artifacts/RUN-RECEIPT.json": "5a0be72c2ed545c529b53cf4c894ca698f570ec75e134f7a98caf7a8d0fdbbde",
+    "qualification/attempt-final-registration-summary.json": "baaa78ca41bfeb671f8dd3798ad8f3d7345ba4f8364af3d398891adcd09e1fac",
+    "qualification/attempt-final-registration.log": "8af9ae65025d310a879407581562e889befbe46eabf67de90ea0fd60e5c11b62",
+    "qualification/attempt-recovery-legacy-programme-summary.json": "12b3750a327f8fab50c6c5d86edcd9acb00763171ea80d15fdd91ed40caf6f63",
+    "qualification/attempt-recovery-legacy-programme.log": "b0170a22a6f399e1d516f8ef3a461e168a2cf462641644240490c3cc80856836",
+    "qualification/attempt-recovery-snapshot-deps-build.log": "e84bb88ea43ab95219b814a1b9f7e0263ce75980645a8590773857bc65e665db",
+    "qualification/attempt-recovery-snapshot-deps-types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "qualification/attempt-recovery-snapshot-deps-lint-ratchet.log": "db43f8945c2e7fbe07dd1733d24f8dbb18f65ba6185fab1f3c8d6474805c8f7e",
+    "qualification/final-authority-uat-summary.json": "e048c370874d44a9169dcc6195cbc27b9140b8851278c306e0e7b31359c4b37b",
+    "qualification/final-authority-uat.log": "952c001052fc0dbe633b7003036a59e9031d239ac5d20da32855161e2249aef0",
+    "qualification/final-authority-uat-generated-summary.json": "ea5eb511a612a14e7050bf09bc2cfbcf1269e2d99cf250c5d56a3bc6da3adb70",
+    "qualification/final-authority-uat-generated.log": "f1facbf3d89e6b8dc997f53940e0b444d34594f5ece9976b84bbacaa36568300",
+    "qa/current-authority/SAME-DRIVER-RED-GREEN-RECEIPT.json": "2df287df9cb91ee7fb6e25d344566ea6ded7658477d1938c306bff93b9523e3d",
+    "qa/organisation-pinning/SAME-DRIVER-ORGANISATION-RED-GREEN-RECEIPT.json": "a1676b81d29afb63cb26a0c7ff13529c9e66720349f0a55de93dba5969245039",
+    "qa/attempt-recovery/SAME-DRIVER-BROWSER-RED-GREEN-RECEIPT.json": "96939a9465433531f58554f226d929a7fa7ff4c584b07a17939a40022841ceb5",
+    "qa/attempt-recovery/STRICT-AFTER-BROWSER-PASS-RECEIPT.json": "26ea216ea386020d1886d622f33151b4cea6fcb2f6a686c5952c8bb334e7ba8b",
+    "review/D03-FINAL-SOURCE-DRIVER-EVIDENCE-DISPOSITION.json": "b8b7ec48747334365208edccc4c81a0a14d674b6447101a883fadbd3fba24a8c",
+    "review/actor-race-adapter-independent-review.json": "0e840bd2fc1412fd436a2bb899939b4083e31743640982cc8c5238e8fb28bde1",
+    "review/routine-read-guard-contract-independent-review.json": "e5417a654c80c06c1f076fa8fbfa7f662b467034a40d1ea6744755aa1a275971",
+    "review/routine-organisation-independent-source-evidence-review.json": "9be29b526364033715863f9cc45ac445f6aa3ce1cb1e5b2d39dc36a2693b39c2",
+    "review/audit-liveness-independent-source-evidence-review.json": "420e4650645677126f38ed1b5fda20fa7d32f004b6c641bad50fd3a96658e159"
+  },
+  "localResults": {
+    "finalCombinedUnit": {
+      "suites": 203,
+      "passed": 10748,
+      "failed": 0,
+      "skipped": 0,
+      "guardedSuites": 203,
+      "frozenSourceFiles": 16658,
+      "buildFiles": 278
+    },
+    "finalCombinedApiRestore": {
+      "apiPassed": 5020,
+      "restorePassed": 21,
+      "failed": 0,
+      "guardedSuites": 2
+    },
+    "finalParentNativeBrowser": {
+      "suites": 5,
+      "passed": 696,
+      "failed": 0,
+      "guardedSuites": 5,
+      "components": {
+        "authority": 245,
+        "organisation": 52,
+        "actorRecovery": 97,
+        "originalRoutine": 244,
+        "originalToday": 58
+      }
+    },
+    "sharedProgrammeFinal": {
+      "passed": 83,
+      "failed": 0,
+      "guardedSuites": 2
+    },
+    "uatConsistencyAfterGeneration": {
+      "passed": 63,
+      "failed": 0,
+      "guardedSuites": 3,
+      "beforeGenerationPassed": 61,
+      "beforeGenerationFailed": 2,
+      "formalRegisterChanged": false
+    },
+    "build": {
+      "exitCode": 0,
+      "files": 278
+    },
+    "types": {
+      "exitCode": 0
+    },
+    "lintRatchet": {
+      "exitCode": 0,
+      "existingErrors": 1392,
+      "existingWarnings": 618,
+      "baselineIncreased": false
+    }
+  },
+  "causalBeforeAfter": {
+    "authorityNative": {
+      "beforePassed": 183,
+      "beforeFailed": 62,
+      "afterPassed": 245,
+      "afterFailed": 0
+    },
+    "organisationNative": {
+      "beforePassed": 43,
+      "beforeFailed": 9,
+      "afterPassed": 52,
+      "afterFailed": 0
+    },
+    "actorRecoveryBrowser": {
+      "beforePassed": 40,
+      "beforeFailed": 57,
+      "afterPassed": 97,
+      "afterFailed": 0,
+      "cases": 6,
+      "exactFinalDriverSha256": "a397daf9620b75ffa99636fb969dcc21d6099ea426ed46a269dfad2989ba5c47"
+    }
+  },
+  "preservation": {
+    "formalUatRegisterSha256": "506f5a24b71252f0ce6e498f7cabbbe7fe9d3d7e37dc1f887adada7c1a2a9fc1",
+    "formalUatExecuted": 0,
+    "formalUatCases": 364,
+    "formalBrdAccepted": 0,
+    "formalBrdCriteria": 176,
+    "specificationSha256": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df",
+    "priorFailedAndInterruptedRunsRetained": true,
+    "oldBaselineEntriesUnchanged": 375,
+    "additiveMinima": [
+      12,
+      34,
+      245,
+      52,
+      97
+    ],
+    "quarantineUnchanged": true,
+    "originalMigrationsAndHistoricalDraftsUnchanged": true
+  },
+  "limits": [
+    "All runtime fixtures are synthetic local Worker/native D1/SQLite/Chromium.",
+    "The combined unit/API copy pins its own source/build; later fixture/docs/baseline revisions are excluded from its selected execution. Its runtime and executed unit drivers match this candidate; it is not whole-tree final Git-head CI.",
+    "Final browser principal interposition uses a genuine native B request after A GET and fulfills its actual response into the browser; hosted cookie/provider reauthentication remains unqualified.",
+    "Warm field-vault component p95 <=500ms excludes physical reference device/network, key derivation, pre-timer cloning, connected-screen durability and disconnected restart. Full applicable NFR remains pending.",
+    "The ACCESS collision repair and final Routine/Today guard do not certify global captured-member helpers or all material-read security.",
+    "Mounted-page input recovery is private memory, not durable local save; D04 has not started.",
+    "A9 final-head CI/complete applicable NFR/final publication review and A10 sponsor-authorised merge/exact-host live qualification remain pending.",
+    "No main merge, deploy, paid CI/provider/cloud action, external message or formal acceptance is claimed."
+  ]
+}

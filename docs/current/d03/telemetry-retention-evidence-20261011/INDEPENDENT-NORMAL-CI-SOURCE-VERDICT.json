@@ -1,0 +1,58 @@
+{
+  "reviewedAtUtc": "2026-10-11T17:38:29.559582+00:00",
+  "reviewer": "/root/routine_final_review",
+  "author": "/root",
+  "scope": "Independent source-only normal CI mapping review; no builds/runtime/tests rerun",
+  "sourceFreezeSHA256": "612a8296b057ad3a09b91d6b1b808b8f6b232a36f597d93731afd1185d4c287a",
+  "actualSourcePinsVerified": {
+    "tests/lib/routine-retention/containment.mjs": "513b9413f364e8cc993c5c558ce45c6d62b0590a4e185385a42ce563c770e2b8",
+    "tests/lib/routine-retention/native-runtime.mjs": "ed7338f06316bdfa25b8ffb77516fe8bd4e545e8e685c7e402cb5c05dca55d4d",
+    "tests/lib/routine-retention/transport.mjs": "0cd15ecaffcdf86809257e7d557012fff00dcd92fabc8732dfd4ae03afc794c3",
+    "tests/lib/routine-retention/native-driver.mjs": "86f161682b7fe7cd6891d82cfd97afdb2308258e4eecabd8d4dc7fae4c91524c",
+    "scripts/routine-retention-runner.mjs": "4ceb12f840e6aecd2efe29de1ece00da6568a59a2d3833a273ea90f7c683bec6",
+    "tests/integration/routine-telemetry-retention-http.mjs": "422777144c67c6e11fe0c0be2b1886316e9728504e5b6476e620b0f36ffed316",
+    "scripts/test-catalogue.mjs": "ae7486871cdc65aa536d0e6fff42a079118584321d9b148a352f2fd75ba9a861",
+    "tests/regression-baseline.json": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0",
+    ".github/workflows/ci.yml": "9c2dc9b4eede0e4dfe4aa573da45ef19b54ce7ce20bb4ef3889915026cdcf85f",
+    "lib/saha/monitoring.ts": "237294a926ef05427cd5568da42c523441e2aab96d0343a659ea8107dc1e4fa6"
+  },
+  "verdict": "PASS_SOURCE_MAPPING_AND_FINITE_WRAPPER_CUSTODY_ONLY",
+  "findings": [],
+  "closedFinding": {
+    "priority": "P2",
+    "originalSourceFreeze": "740e24830baa3c23e0dbe7e3d042c0fb728729309a5a0ceb887a1ff5e503fbbb",
+    "originalWrapperSHA256": "1b953bb11d61ff30e757852fd7e28a7d2758d1e4b5ab874889ce4595d91627f5",
+    "issue": "Original outer owned command record was persisted only after success assertions. Failed commands lost their outer ownership record.",
+    "repair": "onSpawn now records owned handle immediately to unique adjacent file; complete returned outer command is persisted adjacent before success assertions; failure record retains actual command/handle/cancellation. Unique adjacent file works even if child attempt directory never exists.",
+    "repairPatchSHA256": "42031346312fd1c581a653687304cbc66fd51eb6d56e15d2d754f9c515412dfd",
+    "actualFaultInjectionRun": false
+  },
+  "verified": {
+    "all10FrozenPinsActual": true,
+    "genericContainmentExact": true,
+    "monotonicCorrelationTransportExact": true,
+    "nativeRuntimeOnlyImportPathChange": true,
+    "originalNineOracleBytes": 4226,
+    "originalNineOracleSHA256": "904439b4ab0a50f1bc7a6a06b33ac072dd491beeedd659a6b8404ed1e5d4367e",
+    "originalNineOracleExactSubstring": true,
+    "original388GuardObjectsUnchanged": true,
+    "newOnlyGuardMinimum": 64,
+    "minimumEvidence": "Actual independent-reviewed nine-case V5 attempt002 produced64 named report.check groups; mapped-source execution still0.",
+    "originalCIExactRemovingOnlyAppendedSuite": true,
+    "originalCatalogueExactRemovingOnlyTwoOwnLines": true,
+    "bothOuterAndDriverExplicitCaptureSixShippedFiles": true,
+    "runtimeMonitoring237294Unchanged": true,
+    "actualHeadTreeInputsProfileBuildCompilerPackageCustodyPreserved": true,
+    "historicalUnpublishedFreezeAndGuardSnapshotPrerequisitesRemovedExplicitly": true
+  },
+  "deltaSHA256": "b6826e88bc53d10d48bfaaedea1fdcaf4454e4d5e0e7ee47ab19c029ef39ce6f",
+  "nativeExecutionAfterMapping": 0,
+  "releaseApproved": false,
+  "limitations": [
+    "Mapped wrapper source has no native execution evidence yet; fresh standard regression/wholeCI required.",
+    "Local built fixture applicability is bounded to declared nine telemetry cases; no capacity/NFR/hosting/full-story/formal approval.",
+    "Source hashes/build receipts provide observed custody, not a cryptographic approval authority.",
+    "The retained failure-record repair was source reviewed; this review did not inject a new runtime failure.",
+    "Initial old-freeze snapshot attempt stopped when wrapper changed under old740e pin; this V2 verdict verifies frozen successor instead."
+  ]
+}

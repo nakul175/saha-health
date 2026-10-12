@@ -47,6 +47,8 @@ jobs:
         run: |
           npx playwright install --with-deps chromium
           node scripts/test.mjs smoke --only smoke/today-browser --fast --guard
+      - name: D03 routine capture and current-authority regression
+        run: node scripts/test.mjs integration smoke --only integration/routine-authority-http,integration/routine-organisation-http,integration/routine-attempt-browser,smoke/routine-visit-browser,integration/routine-telemetry-retention-http --fast --guard
       - name: Supply-chain gate (SBOM and audit)
         run: node scripts/security-gate.mjs
       # Slice 11g (test review M7, H1): every suite runs through scripts/test.mjs. It builds the HTTP suite's local D1 in one
@@ -67,6 +69,7 @@ jobs:
             tests/reports/
             dist/sbom.cdx.json
             dist/security-gate.json
+            dist/bundle-provenance-evidence.json
 
   # Split from `checks` on 6 October 2026: the browser regressions plus smoke selection no longer fit the 30-minute hosted limit
   # together with the unit and API layers. The selections, guards and baseline are unchanged; both jobs must pass.
@@ -93,7 +96,7 @@ jobs:
       # Slices 11b and 11f: local smoke and the hosted smoke's self-test; the authorisation matrix over every GET route and role,
       # and identity hardening under Cloudflare Access; the UAT register check and the drift checks of the generated documents.
       - name: Smoke, security suites and UAT checks
-        run: node scripts/test.mjs smoke nfr uat --only smoke/local-smoke,smoke/hosted-smoke,nfr/authorisation-matrix,nfr/identity-hardening,uat/check-uat-register,uat/generate-uat-pack,uat/coverage-map --fast --guard
+        run: node scripts/test.mjs smoke nfr uat --only smoke/routine-visit-browser,smoke/today-browser,smoke/local-smoke,smoke/hosted-smoke,nfr/authorisation-matrix,nfr/identity-hardening,uat/check-uat-register,uat/generate-uat-pack,uat/coverage-map --fast --guard
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -103,3 +106,398 @@ jobs:
             tests/reports/
             dist/sbom.cdx.json
             dist/security-gate.json
+            dist/bundle-provenance-evidence.json
+
+  # Actual unchanged synthetic load guard on an isolated hosted runner; does not deploy or use secrets.
+  bounded-report-load:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Documentation and catalogue integrity
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/test.mjs --check-catalogue
+      - name: Install pinned dependencies
+        run: npm run install:ci
+      - name: Build actual candidate Worker
+        run: npm run build
+      - name: Bounded pre-alert recovery contract
+        run: node scripts/test.mjs unit --only unit/operations-pre-alert-recovery-contract --fast --guard
+      - name: Actual native runtime log observation control
+        run: node tests/native-runtime-log-probe-v2.mjs
+      - name: Original400-slot load and unchanged13-check guard
+        env:
+          SAHA_TEST_PORT: '8832'
+          SAHA_NFR_TRACE_DIR: tests/reports/report-load-current-candidate
+        run: node scripts/test.mjs nfr --only nfr/load-burst --fast --guard --report tests/reports/report-load-current-candidate-summary.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bounded-report-load-evidence
+          path: tests/reports/
+
+  # Native security fixture executes independently even when another regression fails; no retries or deployment.
+  native-authorization-control:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Documentation and test catalogue
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/test.mjs --check-catalogue
+      - name: Install pinned dependencies
+        run: npm run install:ci
+      - name: Build real current Worker
+        run: npm run build
+      - name: Original authorization matrix and unchanged minimum
+        run: node scripts/test.mjs nfr --only nfr/authorisation-matrix --fast --guard --report tests/reports/native-authorization-current-summary.json
+      - name: Original reporting calendar timing control
+        run: node scripts/test.mjs integration --only integration/reporting-completeness-repaired-http --fast --guard --report tests/reports/reporting-calendar-current-summary.json
+      - name: Install Chromium for original native phone controls
+        run: node_modules/.bin/playwright install --with-deps chromium
+      - name: Original installed-programme phone and device privacy controls
+        run: node scripts/test.mjs integration --only integration/installed-programme-execution-browser,integration/device-work-browser --fast --guard --report tests/reports/native-programme-device-current-summary.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-authorization-current-evidence
+          path: tests/reports/
+
+  original-backend-nfr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify current source and original catalogue
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/test.mjs --check-catalogue
+      - name: Install pinned dependencies
+        run: npm run install:ci
+      - name: Build actual candidate Worker
+        run: npm run build
+      - name: Original backend performance and no-inspector memory controls
+        run: node scripts/test.mjs nfr --only nfr/performance-budgets,nfr/memory-growth --fast --guard --report tests/reports/original-backend-nfr-current-summary.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-backend-nfr-current-evidence
+          path: tests/reports/
+
+  # Additive diagnostic lane; the complete existing jobs and original eleven-group guard stay mandatory.
+  availability-fixture-diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Original documentation and requirements
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+          node scripts/test.mjs --check-catalogue
+      - name: Original pinned install
+        run: npm run install:ci
+      - name: Canonical build
+        run: npm run build
+      - name: Chromium
+        run: node_modules/.bin/playwright install --with-deps chromium
+      - name: Original eleven availability groups
+        env:
+          SAHA_BROWSER_PACKAGE: '@playwright/test'
+        run: node scripts/test.mjs ui --only ui/availability --fast --guard
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: availability-fixture-diagnostic-evidence
+          path: |
+            tests/reports/availability-fixture/
+            tests/reports/summary.json
+            tests/reports/results/ui__availability.json
+            tests/reports/logs/ui__availability.log
+            tests/evidence/availability/
+          if-no-files-found: error
+
+
+  # Additive coverage of thirteen preserved original suites previously omitted from explicit CI.
+  # Test failures remain failures, including existing privacy/count and screenshot-oracle conflicts.
+  original-missing-coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      SAHA_BROWSER_PACKAGE: '@playwright/test'
+      SAHA_MISSING13_CANDIDATE: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Original documentation, requirements and catalogue
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+          node scripts/test.mjs --check-catalogue
+      - name: Capture exact source before installation
+        run: |
+          printf 'SAHA_LEGACY_WORK=%s/saha-original-missing13-legacy\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+          mkdir -p tests/reports/original-missing13-custody
+          git fetch --no-tags origin "$SAHA_MISSING13_CANDIDATE"
+          test "$(git rev-parse 'HEAD^{tree}')" = "$(git rev-parse "$SAHA_MISSING13_CANDIDATE^{tree}")"
+          cat > tests/reports/original-missing13-custody/capture.py <<'PY'
+          import datetime, hashlib, json, os, pathlib, subprocess, sys
+          root = pathlib.Path.cwd()
+          out = root / 'tests/reports/original-missing13-custody'
+          out.mkdir(parents=True, exist_ok=True)
+          phase = sys.argv[1]
+          assert phase in ('before-install', 'built-current', 'final')
+          def git(*args):
+              p = subprocess.run(['git', *args], check=True, capture_output=True, timeout=20)
+              assert len(p.stdout) <= 16 * 1024 * 1024, 'Git metadata exceeds explicit 16 MiB budget'
+              return p.stdout
+          def pin(path):
+              if path.is_symlink():
+                  target = os.readlink(path)
+                  return {'kind': 'symlink', 'target': target, 'sha256': hashlib.sha256(os.fsencode(target)).hexdigest()}
+              data = path.read_bytes()
+              return {'kind': 'file', 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()}
+          names = [os.fsdecode(p) for p in git('ls-files', '-z').split(b'\0') if p]
+          inputs = {}
+          for name in names:
+              p = pathlib.PurePosixPath(name)
+              assert not p.is_absolute() and '..' not in p.parts
+              inputs[name] = pin(root / name)
+          dist = {}
+          if (root / 'dist').exists():
+              for p in sorted((root / 'dist').rglob('*')):
+                  if p.is_file() or p.is_symlink():
+                      dist[p.relative_to(root).as_posix()] = pin(p)
+          receipts = {}
+          for p in sorted((root / '.sites-runtime/bundle-provenance').glob('*.json')):
+              data = p.read_bytes()
+              receipts[p.name] = {'sha256': hashlib.sha256(data).hexdigest(), 'receipt': json.loads(data)}
+          baseline = json.loads((root / 'tests/regression-baseline.json').read_text())
+          record = {'schema': 1, 'phase': phase, 'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    'head': git('rev-parse', 'HEAD').decode().strip(), 'tree': git('rev-parse', 'HEAD^{tree}').decode().strip(),
+                    'expectedCandidate': os.environ.get('SAHA_MISSING13_CANDIDATE'), 'inputs': inputs, 'dist': dist,
+                    'compilerReceipts': receipts, 'baseline': baseline, 'gitStatus': git('status', '--porcelain=v1', '-z').decode(),
+                    'limits': ['Dist hashes are observations; compiled bytes are not archived by this job.',
+                               'Canonical runner restores tracked test evidence: these restored files are not current-run evidence.',
+                               'Installer and generated fixture data differences require explicit applicability review.']}
+          (out / (phase + '.json')).write_text(json.dumps(record, indent=2) + '\n')
+          assert len(baseline['suites']) == 389, 'Original 389 guarded records must remain'
+          if phase == 'final':
+              before = json.loads((out / 'before-install.json').read_text())
+              assert before['baseline'] == baseline, 'Original baseline changed'
+              changes = {name: {'before': before['inputs'].get(name), 'after': inputs.get(name)}
+                         for name in sorted(set(before['inputs']) | set(inputs)) if before['inputs'].get(name) != inputs.get(name)}
+              (out / 'actual-input-differences.json').write_text(json.dumps(changes, indent=2) + '\n')
+              def protected(name):
+                  return (name.startswith(('app/', 'lib/', 'drizzle/', 'requirements/', 'scripts/')) or
+                          (name.startswith('tests/') and not name.startswith(('tests/evidence/', 'tests/reports/')) and
+                           not (name.count('/') == 1 and name.endswith('-result.json'))) or
+                          name in ('package.json', 'pnpm-lock.yaml', 'vite.config.ts', '.github/workflows/ci.yml'))
+              assert not [name for name in changes if protected(name)], 'Protected runtime/test/oracle inputs changed'
+          print(json.dumps({'phase': phase, 'inputs': len(inputs), 'dist': len(dist), 'baselineRecords': len(baseline['suites'])}))
+          PY
+          python3 tests/reports/original-missing13-custody/capture.py before-install
+      - name: Original pinned installation
+        run: |
+          npm run install:ci
+      - name: Canonical current build
+        run: |
+          npm run build
+      - name: Official project-pinned Chromium and legacy toolchain
+        run: |
+          node_modules/.bin/playwright install --with-deps chromium
+          corepack enable pnpm
+          test "$(pnpm --version)" = '11.25.0'
+          node --input-type=module <<'JS'
+          import {appendFileSync, readFileSync, writeFileSync} from 'node:fs';
+          import {createHash} from 'node:crypto';
+          import {execFileSync} from 'node:child_process';
+          import {chromium} from '@playwright/test';
+          const packageVersion = JSON.parse(readFileSync('node_modules/@playwright/test/package.json', 'utf8')).version;
+          if (packageVersion !== '1.56.1') throw new Error('Original pinned Playwright version changed');
+          const executable = chromium.executablePath();
+          const version = execFileSync(executable, ['--version'], {encoding: 'utf8', timeout: 20000}).trim();
+          appendFileSync(process.env.GITHUB_ENV, `SAHA_CHROMIUM=${executable}\n`);
+          writeFileSync('tests/reports/original-missing13-custody/browser-toolchain.json', JSON.stringify({
+            node: process.version, pnpm: execFileSync('pnpm', ['--version'], {encoding: 'utf8', timeout: 20000}).trim(),
+            packageVersion, directBrowser: {executable, version, sha256: createHash('sha256').update(readFileSync(executable)).digest('hex')},
+            limits: ['Original Playwright configuration uses its own pinned default headless engine; this direct-browser path is for legacy/component fixtures.',
+                     'Browser package/version observations do not establish Linux golden provenance or waive any pixel threshold.']
+          }, null, 2) + '\n');
+          JS
+          python3 tests/reports/original-missing13-custody/capture.py built-current
+      - name: Authentic original synthetic legacy fixture producer
+        id: legacy
+        run: |
+          mkdir -p tests/reports/original-missing13-fixture-producer
+          for source in 75c0f3e5372b9eb08eab0717966b4638163294bc 8eedc606ef015bd2cf5a8bddb3ed9e50249b5a30; do
+            git fetch --no-tags origin "$source"
+            git cat-file -e "$source^{commit}"
+          done
+          test "$(git rev-parse '75c0f3e5372b9eb08eab0717966b4638163294bc^{tree}')" = 'c85f6c78dddc1c2fbd6ee2497bad19c97eae1d16'
+          test "$(git rev-parse '8eedc606ef015bd2cf5a8bddb3ed9e50249b5a30^{tree}')" = 'f536f97c46693a92914956993ba3d7f4a9a9a714'
+          set -o pipefail
+          node scripts/build-legacy-alert-fixtures.mjs 2>&1 | tee tests/reports/original-missing13-fixture-producer/bootstrap.log
+          cp tests/evidence/alert-transition-guidance-root-integration/legacy-fixtures/manifest.json tests/reports/original-missing13-fixture-producer/manifest.json
+          for fixture in alert-disclosure-before-state-combined-review alert-disclosure-before-evidence-combined-review alert-export-cold-state-combined-review alert-export-cold-evidence-combined-review; do
+            test -d ".wrangler/$fixture"
+            cp -a ".wrangler/$fixture" "tests/reports/original-missing13-fixture-producer/$fixture"
+          done
+          python3 - <<'PY'
+          import hashlib, json, pathlib
+          base = pathlib.Path('tests/reports/original-missing13-fixture-producer')
+          pins = {}
+          for p in sorted(base.rglob('*')):
+              if p.is_file():
+                  data = p.read_bytes()
+                  pins[p.relative_to(base).as_posix()] = {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()}
+          (base / 'captured-input-hashes.json').write_text(json.dumps({'syntheticOnly': True, 'files': pins,
+              'limits': ['These are authentic pre-test producer inputs, not current execution proofs of later test suites.',
+                         'Original runner-restored tracked observed files are not archived as current test evidence.']}, indent=2) + '\n')
+          PY
+      - name: Ten original integration suites
+        id: remaining10
+        if: ${{ !cancelled() && steps.legacy.outcome == 'success' }}
+        run: |
+          set +e
+          node scripts/test.mjs integration --only integration/alert-capture-ledger-http,integration/combined-reviewed-alert-export-cold-independent-http,integration/combined-reviewed-alert-recipient-hold-http,integration/combined-reviewed-guided-audio-independent-component,integration/combined-reviewed-programme-transition-audit-cold-extended-primary,integration/combined-reviewed-programme-transition-audit-cold-independent-http,integration/combined-reviewed-simplicity-independent-guided-instructions-browser,integration/combined-reviewed-simplicity-independent-guided-simplicity-browser,integration/combined-reviewed-transition-parity-cold-independent-http,integration/scheduled-local-check --fast --guard --report tests/reports/original-missing13-remaining10-summary.json 2>&1 | tee tests/reports/original-missing13-remaining10.stdout.log
+          statuses=("${PIPESTATUS[@]}")
+          set -e
+          python3 - 'remaining10' "${statuses[0]}" "${statuses[1]}" <<'PY'
+          import datetime, json, pathlib, sys
+          phase, runner, logger = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+          p = pathlib.Path('tests/reports/original-missing13-custody') / (phase + '-exit.json')
+          p.write_text(json.dumps({'phase': phase, 'runnerExit': runner, 'loggerExit': logger,
+                                  'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat()}, indent=2) + '\n')
+          PY
+          test "${statuses[1]}" -eq 0
+          exit "${statuses[0]}"
+      - name: Original current-recipient HTTP producer
+        id: recipienthttp
+        if: ${{ !cancelled() && steps.legacy.outcome == 'success' }}
+        run: |
+          set +e
+          node scripts/test.mjs integration --only integration/combined-reviewed-alert-recipient-current-http --fast --guard --report tests/reports/original-missing13-recipient-http-summary.json 2>&1 | tee tests/reports/original-missing13-recipientHTTP.stdout.log
+          statuses=("${PIPESTATUS[@]}")
+          set -e
+          python3 - 'recipientHTTP' "${statuses[0]}" "${statuses[1]}" <<'PY'
+          import datetime, json, pathlib, sys
+          phase, runner, logger = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+          p = pathlib.Path('tests/reports/original-missing13-custody') / (phase + '-exit.json')
+          p.write_text(json.dumps({'phase': phase, 'runnerExit': runner, 'loggerExit': logger,
+                                  'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat()}, indent=2) + '\n')
+          PY
+          test "${statuses[1]}" -eq 0
+          exit "${statuses[0]}"
+      - name: Original matching current-recipient scheduled test
+        id: recipientscheduled
+        if: ${{ !cancelled() && steps.legacy.outcome == 'success' }}
+        run: |
+          set +e
+          node scripts/test.mjs integration --only integration/combined-reviewed-alert-recipient-current-scheduled --fast --guard --report tests/reports/original-missing13-recipient-scheduled-summary.json 2>&1 | tee tests/reports/original-missing13-recipientScheduled.stdout.log
+          statuses=("${PIPESTATUS[@]}")
+          set -e
+          python3 - 'recipientScheduled' "${statuses[0]}" "${statuses[1]}" <<'PY'
+          import datetime, json, pathlib, sys
+          phase, runner, logger = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+          p = pathlib.Path('tests/reports/original-missing13-custody') / (phase + '-exit.json')
+          p.write_text(json.dumps({'phase': phase, 'runnerExit': runner, 'loggerExit': logger,
+                                  'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat()}, indent=2) + '\n')
+          PY
+          test "${statuses[1]}" -eq 0
+          exit "${statuses[0]}"
+      - name: Actual original Playwright suite
+        id: realplaywright
+        if: ${{ !cancelled() && steps.legacy.outcome == 'success' }}
+        run: |
+          set +e
+          node scripts/test.mjs ui --only ui/playwright.config --guard --fast --report tests/reports/original-missing13-playwright-summary.json 2>&1 | tee tests/reports/original-missing13-realPlaywright.stdout.log
+          statuses=("${PIPESTATUS[@]}")
+          set -e
+          python3 - 'realPlaywright' "${statuses[0]}" "${statuses[1]}" <<'PY'
+          import datetime, json, pathlib, sys
+          phase, runner, logger = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+          p = pathlib.Path('tests/reports/original-missing13-custody') / (phase + '-exit.json')
+          p.write_text(json.dumps({'phase': phase, 'runnerExit': runner, 'loggerExit': logger,
+                                  'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat()}, indent=2) + '\n')
+          PY
+          test "${statuses[1]}" -eq 0
+          exit "${statuses[0]}"
+      - name: Verify actual thirteen-suite coverage and unchanged source
+        if: ${{ !cancelled() && steps.legacy.outcome == 'success' }}
+        run: |
+          python3 tests/reports/original-missing13-custody/capture.py final
+          python3 - <<'PY'
+          import json, pathlib
+          base = pathlib.Path('tests/reports/original-missing13-custody')
+          contracts = [{'phase': 'remaining10', 'summary': 'tests/reports/original-missing13-remaining10-summary.json', 'ids': ['integration/alert-capture-ledger-http', 'integration/combined-reviewed-alert-export-cold-independent-http', 'integration/combined-reviewed-alert-recipient-hold-http', 'integration/combined-reviewed-guided-audio-independent-component', 'integration/combined-reviewed-programme-transition-audit-cold-extended-primary', 'integration/combined-reviewed-programme-transition-audit-cold-independent-http', 'integration/combined-reviewed-simplicity-independent-guided-instructions-browser', 'integration/combined-reviewed-simplicity-independent-guided-simplicity-browser', 'integration/combined-reviewed-transition-parity-cold-independent-http', 'integration/scheduled-local-check']}, {'phase': 'recipientHTTP', 'summary': 'tests/reports/original-missing13-recipient-http-summary.json', 'ids': ['integration/combined-reviewed-alert-recipient-current-http']}, {'phase': 'recipientScheduled', 'summary': 'tests/reports/original-missing13-recipient-scheduled-summary.json', 'ids': ['integration/combined-reviewed-alert-recipient-current-scheduled']}, {'phase': 'realPlaywright', 'summary': 'tests/reports/original-missing13-playwright-summary.json', 'ids': ['ui/playwright.config']}]
+          baseline = json.loads(pathlib.Path('tests/regression-baseline.json').read_text())['suites']
+          seen, findings, phases = [], [], []
+          for contract in contracts:
+              record = {'phase': contract['phase'], 'expectedIds': contract['ids']}
+              try:
+                  status = json.loads((base / (contract['phase'] + '-exit.json')).read_text())
+                  summary = json.loads(pathlib.Path(contract['summary']).read_text())
+                  suites = [r for r in summary['suites'] if r.get('kind') == 'suite']
+                  ids = [r['id'] for r in suites]
+                  record.update({'exit': status, 'summary': contract['summary'], 'ids': ids, 'guard': summary['guard']})
+                  seen.extend(ids)
+                  if sorted(ids) != sorted(contract['ids']) or len(ids) != len(set(ids)):
+                      findings.append(contract['phase'] + ': exact original selection not executed')
+                  if status['runnerExit'] != 0 or status['loggerExit'] != 0:
+                      findings.append(contract['phase'] + ': actual phase or logger failed')
+                  guard = summary['guard']
+                  if not guard['ok'] or guard['evaluated'] != len(contract['ids']) or any(f.get('excused') for f in guard['findings']):
+                      findings.append(contract['phase'] + ': original regression guard did not qualify all selected suites')
+                  for suite in suites:
+                      minimum = baseline[suite['id']]['minPassed']
+                      if (suite['status'] != 'passed' or not isinstance(suite['passed'], int) or suite['passed'] < minimum or
+                          suite.get('failed') not in (None, 0) or suite.get('skipped', 0) != 0):
+                          findings.append(suite['id'] + ': actual status/count does not satisfy original minimum with no skips')
+              except Exception as error:
+                  record['failure'] = type(error).__name__ + ': ' + str(error)
+                  findings.append(contract['phase'] + ': missing or invalid actual evidence')
+              phases.append(record)
+          expected = [i for c in contracts for i in c['ids']]
+          if len(seen) != 13 or len(set(seen)) != 13 or sorted(seen) != sorted(expected):
+              findings.append('Exact thirteen unique original suite outcomes are unavailable')
+          report = {'schema': 1, 'expectedIds': expected, 'minimumSum': sum(baseline[i]['minPassed'] for i in expected),
+                    'actualIds': seen, 'phases': phases, 'findings': findings, 'passed': not findings,
+                    'limits': ['Counts derive from the original runner/guard, not restored historical observed files.',
+                               'Known privacy/count conflict and screenshot failures remain failures; no policy/oracle waiver.',
+                               'This CI coverage evidence is not formal UAT, physical-device or hosting acceptance.']}
+          (base / 'coverage-verification.json').write_text(json.dumps(report, indent=2) + '\n')
+          print(json.dumps({'suiteOutcomes': len(seen), 'minimumSum': report['minimumSum'], 'findings': findings}))
+          raise SystemExit(0 if not findings else 1)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-missing-coverage-evidence
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            tests/reports/original-missing13-*
+            tests/reports/results/
+            tests/reports/logs/
+            tests/reports/ui-playwright-result.json
+            tests/reports/ui-result.json
+            test-results/ui/
+            ${{ runner.temp }}/saha-original-missing13-legacy/legacy-75c0/.fixture-logs/
+            ${{ runner.temp }}/saha-original-missing13-legacy/legacy-8eed/.fixture-logs/

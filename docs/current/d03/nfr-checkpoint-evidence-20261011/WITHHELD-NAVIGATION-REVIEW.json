@@ -1,0 +1,43 @@
+{
+  "createdAt": "2026-10-11T01:23:34.225932+00:00",
+  "kind": "Read-only actual original control failure review; reviewer executed no runtime",
+  "status": "Minimal NextLink candidate NOT qualified; n10 timing prerequisite failed",
+  "candidateTodaySha256": "89a5917ed6e9f166166a2803a36d39782aeeb3cba8a096f5286168d74aad2b8a",
+  "candidateCopyReceiptSha256": "3b0830539be8eeae76ca71dd462fb32e81e885b4a7c87c02936bf18a8078c2e1",
+  "copiedInputVerification": {
+    "recordsVerified": 16992,
+    "changed": []
+  },
+  "actualOriginalRoutineControl": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/original-routine244/result.json",
+    "sha256": "8aa72c39c0d6c7667a83d46899d2a43e4fa5bd47f44d625c8cb067999addbeea",
+    "passed": 22,
+    "failed": 1,
+    "timingSampleCount": 0,
+    "failure": "Actual selected Today link click after active organisation switch produced no observed Routine GET within30000ms. This is a failing original functional regression, not a p95 sample."
+  },
+  "actualTodayControl": {
+    "logPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/original-today58.log",
+    "sha256": "019c6fcd57afc7287b294363ae2bd2d959522d7483b6bdfd6e51e39098321ef9",
+    "passed": 58,
+    "failed": 0
+  },
+  "failurePoint": {
+    "script": "tests/smoke/routine-visit-browser.mjs",
+    "line": 58,
+    "precedingCheck": "Today routine link retains the selected organisation",
+    "context": "After a real switchOrganisation command to secondOrg, the unchanged control waits for selectedorg Routine GET triggered by real link click."
+  },
+  "sourceFacts": [
+    "Today and Routine page wrappers already declare force-dynamic. Candidate only imports Link and replaces Today anchor with prefetchfalse Link; exact encoded person/organisation query is preserved.",
+    "Installed Vinext Link prevents default primary navigation and uses app runtime navigateClientSide/RSC when registered; app-only no-runtime fallback nativeassign exists, and Pages fallback can update history. None of these branches is actual failure cause until browser flags/request/RSC/console evidence is observed.",
+    "Routine component mounts then validates window.location.search and performs the current authorised no-store GET. Screenshot/no observed GET indicates failure before completing that client mount/read path; it does not prove a selector validation or authorization defect."
+  ],
+  "disposition": [
+    "Hold n10 timing until actual client transition is diagnosed and original required functional controls pass on the exact candidate. Do not weaken query binding or original244 minima/timeouts.",
+    "Original b492 fixed1000 Routine breach and current400-slot load red remain separate unchanged gates.",
+    "Source-only candidate approval described potential semantics, not proof of this actual runtime path. This failed result supersedes any implication of runtime readiness."
+  ],
+  "pending": "Author has root authorization for one newstate bounded failure diagnostic with actual URL/runtime flags/RSC response/console/pageerror/requestfailed; no successful substitution or measurement run yet.",
+  "noWorkerBrowserSourceEditsByReviewer": true
+}

@@ -1,0 +1,2533 @@
+{
+  "recordedAtUtc": "2026-10-10T18:34:01.592974+00:00",
+  "story": 176,
+  "activeFeature": "D03",
+  "frozenSpecRevision": 1,
+  "deadlineUtc": "2026-10-11T02:30:00Z",
+  "deadlineIST": "2026-10-11T08:00:00+05:30",
+  "baseMain": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "preservedCandidateCommit": "c3d36c88ab034a4d78e8c83f3a0ae29d7aab33f0",
+  "draftPR": "https://github.com/nakul175/saha-health/pull/192",
+  "state": "RECOVERY REPAIRS LOCALLY QUALIFIED; FULL UNIT/CI/A10 DELIVERY INCOMPLETE",
+  "sourceSha256": {
+    "app/routine-visit/page.tsx": "3f715c35694267a2896dcc9ed560550cf32d19e469a8ace09e1b9927c07623d8",
+    "app/routine-visit/routine-visit.tsx": "b6ce6e58334960aa8cd0a460b756503ae5e64c2e738ff82a8f461035636b1d7e",
+    "app/routine-visit/routine-visit.css": "793dc91a5a80742b71dd8ae84debad007ec26434eb88ba1f90d0900aa4ef79d6",
+    "app/api/routine-visit/route.ts": "48a0ac955ffd39ce0f22a6a472bca25ae2a7edcbceffab71a910e76ea0f203f0",
+    "lib/saha/routine-visit.ts": "6763f01d61325bf758757b20a4b57034fc46da60efd575b2f2a8744c9e1503a6",
+    "lib/saha/routine-visit-server.ts": "daf4de71ae8b53f027e7a2e24afb7c5184c7c09267a42f406fe2f8b1623be0e7",
+    "lib/saha/today-server.ts": "649322249f89a5b56f78dd724137a77ea43c3bb1fa338c49d0319372af646f2e",
+    "app/today/today.tsx": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87",
+    "tests/smoke/routine-visit-browser.mjs": "fbae0c7f7519b44758a5abc0f58b7f30262b40bdb7955e9357015a863e2274cf",
+    "tests/smoke/today-browser.mjs": "b9a990e0051e175558951a0462554e901af1cfe6849558da41567381deba45d2",
+    "scripts/test-catalogue.mjs": "4d3fa0d4149ca5f5ad9204bed44160966e379cf1fcfb65c77328404a8d7f31f8",
+    "tests/regression-baseline.json": "a9b4eed57208de069b35549478805296feb248ee7ece9fa3ea59b560a1ad12f1",
+    "docs/current/d03/SPECIFICATION.md": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df",
+    "lib/saha/core.ts": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+    "lib/saha/programme-commands.ts": "5f5eaad82ee58d09bd1e1388cd70741d2364e1034d0d4b9c9412cbba533ea1e1",
+    "lib/saha/server.ts": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+    "lib/saha/store.ts": "a16ec292082b8f73eabb89a01c6e4558dda71620803a1d8aaa58db653b4ff630",
+    "lib/saha/audit-chain.ts": "946855e033e3cfb8c45d6eaaaa56a57bbb4a3453b8e085f0ecbd5bee054f09be",
+    "lib/saha/access-audit.ts": "baab508e35efb3c94b44864d9b77a4b6af5370dcb15e2b14adfd4fc355e5549d",
+    "lib/saha/identity.ts": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+    "public/field/vault.js": "67c5135c4d758e1138fc710e73ecaec6ca43a092e2e43ce6c16b1ee65f587210",
+    "package.json": "2764291274d0c219caf71c39c983fa6f60eb57a85da3e371939fb63956babd2d",
+    "pnpm-lock.yaml": "0041e61a9783811cc34c5261f815bbe6ca7337348e62c9f7f17b43880c5fae71"
+  },
+  "existingEvidenceImmutable": "docs/current/d03/EVIDENCE.json retained unchanged; older source manifests retained",
+  "routineBrowser": {
+    "passed": 244,
+    "failed": 0,
+    "driverSha256": "fbae0c7f7519b44758a5abc0f58b7f30262b40bdb7955e9357015a863e2274cf",
+    "guardRaised": [
+      51,
+      244
+    ],
+    "qaReceipt": "qa/FINAL-BROWSER-QA-RECEIPT.json",
+    "receiptSha256": "1308746e6575d577dc11b3e92c53e272525581b6f36965da581f385973e3ecb0",
+    "limits": "Built local synthetic Worker/D1; all recorded source and277buildpins stable. No exact-host or physical-device qualification."
+  },
+  "currentStatic": {
+    "build": "passed, actual third-repair-build.log",
+    "types": "passed",
+    "focusedLint": "passed",
+    "lintRatchet": {
+      "errors": 1392,
+      "warnings": 618,
+      "increased": false
+    }
+  },
+  "fullUnit": {
+    "state": "FAILED",
+    "selectedSuites": 201,
+    "completedPositiveAssertions": 10699,
+    "failedSuite": "unit/audit-contention-contract",
+    "reason": "1of120 audited reads refused; original assertion aborted before suite count; guard/exit failed",
+    "summary": "qualification/unit-summary.json",
+    "summarySha256": "c27a886518be9e3504222b08e448d0f3c8610e20e64fc4f7450d8e7d9e1c4226",
+    "notClearedByFocusedGreenRepeats": true
+  },
+  "auditAdverse": {
+    "state": "FAILED unchanged zero-refusal oracle",
+    "readers": 24,
+    "bursts": 5,
+    "attemptedReads": 120,
+    "refused": 32,
+    "recorded": 88,
+    "chain": "intact",
+    "scope": "Separate preserved diagnostic copy forces only valid zero-backoff endpoint. Does not reconstruct original random schedule or qualify a repair.",
+    "proposedRepairApplied": false
+  },
+  "independentReview": {
+    "receipt": "review/d03-final-seven-file-evidence-review.json",
+    "sha256": "51d95e4692f55e9984f3e058c060be825cc396507a2b7a70a19f3c776b5a08a6",
+    "scope": "Source/test/evidence review; no human, external or whole-release approval"
+  },
+  "sourceImport": {
+    "files": 37,
+    "receipt": "source-import/receipt.json",
+    "sha256": "4e39226d75e655dc9d8cad428bc4f7f09c3f1acca82f95de01d5873ef738f2a9",
+    "originalCheckoutChanged": false
+  },
+  "localArtifactRoot": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011",
+  "artifacts": [
+    {
+      "path": "source-import/existing-d03-staged.patch",
+      "sha256": "ec65792107b9f054d6d1cd5feda5f472b1dc5f153b1755e23293af73bf8ecd83",
+      "bytes": 54546
+    },
+    {
+      "path": "source-import/existing-d03-unstaged.patch",
+      "sha256": "79521277b5f58d3c620e075340a69e1bf0f9f1447d5ba4d5e82e010f98ce93fc",
+      "bytes": 468872
+    },
+    {
+      "path": "source-import/existing-d03-working-tree.patch",
+      "sha256": "c8da0e707451c5ed57cb88dc13972343abf7a0d44a81414750901786b65d736d",
+      "bytes": 514180
+    },
+    {
+      "path": "source-import/receipt.json",
+      "sha256": "4e39226d75e655dc9d8cad428bc4f7f09c3f1acca82f95de01d5873ef738f2a9",
+      "bytes": 6456
+    },
+    {
+      "path": "d01/D01-BASELINE-IMPACT.md",
+      "sha256": "b87181e6caf9f226b0d666329a140f84a3deaa0a5a685c924841ecea05d31ba0",
+      "bytes": 10350
+    },
+    {
+      "path": "d01/D01-RESULT.json",
+      "sha256": "b895b263d07132af9c67377a89ee8eb20426b65a1af0089cab62b2666324fd51",
+      "bytes": 17438
+    },
+    {
+      "path": "d01/candidate-build/output.log",
+      "sha256": "b0b492b7be6eca3cc50e6270e764cf6f37ba7d71bd3f9a897fdb6bd7f80b0105",
+      "bytes": 5022
+    },
+    {
+      "path": "d01/candidate-build/receipt.json",
+      "sha256": "59b3a5af708a3593f07a0669973c29f729073df9458eb79d5112c7275f7334c8",
+      "bytes": 469
+    },
+    {
+      "path": "d01/candidate-local-authorized/output.log",
+      "sha256": "95da06457d6c96fea541995ce8900a8441798d56dc36c958c700029adf96454f",
+      "bytes": 750
+    },
+    {
+      "path": "d01/candidate-local-authorized/receipt.json",
+      "sha256": "7c36a9bcaf867eb78a830643af059ddb05a02620445d8500d2223816664445cc",
+      "bytes": 947
+    },
+    {
+      "path": "d01/candidate-local-authorized/summary.json",
+      "sha256": "223134cfab25e662720d4e1895aa3e1b3483f0b4ac6e57fa07a18d790d7482d4",
+      "bytes": 3767
+    },
+    {
+      "path": "d01/candidate-local-authorized/tests-reports/catalogue.json",
+      "sha256": "b6513f3acb35555966229224a7f64e4431195717bfc73ebfbb4acb824815d36b",
+      "bytes": 475539
+    },
+    {
+      "path": "d01/candidate-local-authorized/tests-reports/logs/integration__composite-measures-http.log",
+      "sha256": "1789f54114f34d67675486b22f0a0e5bcfd0ebdd6bc6528f6cf2775c7c034a81",
+      "bytes": 15900
+    },
+    {
+      "path": "d01/candidate-local-authorized/tests-reports/logs/integration__reminder-optout-http.log",
+      "sha256": "8b68b271cf7dda67f19d9627ed9d901889c257c6342ebc258fa2af09daae4de4",
+      "bytes": 265
+    },
+    {
+      "path": "d01/candidate-local-authorized/tests-reports/results/integration__composite-measures-http.json",
+      "sha256": "230382fc4d8ba2c30926a850bd1240a96e2b58726f18089dcc7e834582e34cfe",
+      "bytes": 1556
+    },
+    {
+      "path": "d01/candidate-local-authorized/tests-reports/summary-integration+smoke-only.json",
+      "sha256": "223134cfab25e662720d4e1895aa3e1b3483f0b4ac6e57fa07a18d790d7482d4",
+      "bytes": 3767
+    },
+    {
+      "path": "d01/candidate-local-authorized/tests-reports/summary.json",
+      "sha256": "223134cfab25e662720d4e1895aa3e1b3483f0b4ac6e57fa07a18d790d7482d4",
+      "bytes": 3767
+    },
+    {
+      "path": "d01/github-regression-log-excerpts.json",
+      "sha256": "c170338b9bf963e2cb78abc0b019f79673b63f91af234b79cda74ebc59910f77",
+      "bytes": 9070
+    },
+    {
+      "path": "d01/github-source-snapshots.json",
+      "sha256": "901eff20b2eb8023fd01055ced302425c9e33a8f2c6b694be894c474544547bb",
+      "bytes": 50430
+    },
+    {
+      "path": "d01/main-build/output.log",
+      "sha256": "f88c7aa2534a2768c4139be24d2b18054a2fcbba374579731428c063ceee705f",
+      "bytes": 4942
+    },
+    {
+      "path": "d01/main-build/receipt.json",
+      "sha256": "c3c56fa2914f3b2768605b6e242e9574d04f661f089b863526239405b38e676f",
+      "bytes": 454
+    },
+    {
+      "path": "d01/main-first/output.log",
+      "sha256": "82e333cba7d34c6ad0893712a41f0331174c0d8d73dae639cf29be607481945c",
+      "bytes": 4902
+    },
+    {
+      "path": "d01/main-first/receipt.json",
+      "sha256": "c1000085ffd20037bf03ac43ac840ef6c3711406ae2e870be80acc9ae2dd6e2a",
+      "bytes": 916
+    },
+    {
+      "path": "d01/main-first/summary.json",
+      "sha256": "ffa5056a24cc20965503b0de1def6e9fbcea8f80858b328fa7bbb0cc985daa33",
+      "bytes": 4008
+    },
+    {
+      "path": "d01/main-first/tests-reports/catalogue.json",
+      "sha256": "18b7d9e8a4da7f67ffdd2cd675c22830ca76d2756cce6fe7bce01d8fa72efff9",
+      "bytes": 475182
+    },
+    {
+      "path": "d01/main-first/tests-reports/logs/integration__composite-measures-http.log",
+      "sha256": "7065d0619257fc3a48cbe0a7bc828acff8a60e4af6ff61404b4fe400b6e8cafa",
+      "bytes": 1539
+    },
+    {
+      "path": "d01/main-first/tests-reports/logs/integration__reminder-optout-http.log",
+      "sha256": "4b2e2fcd6cdbbc5919e8fd54e8f6d9f25130743aa85c6df5322e14dded902760",
+      "bytes": 1514
+    },
+    {
+      "path": "d01/main-first/tests-reports/summary-integration+smoke-only.json",
+      "sha256": "ffa5056a24cc20965503b0de1def6e9fbcea8f80858b328fa7bbb0cc985daa33",
+      "bytes": 4008
+    },
+    {
+      "path": "d01/main-first/tests-reports/summary.json",
+      "sha256": "ffa5056a24cc20965503b0de1def6e9fbcea8f80858b328fa7bbb0cc985daa33",
+      "bytes": 4008
+    },
+    {
+      "path": "d01/main-local-authorized/output.log",
+      "sha256": "9d853ab5af7ebeb09fc1d92c6439679eb6edc3edc877c18b63a31aafbd14cc52",
+      "bytes": 750
+    },
+    {
+      "path": "d01/main-local-authorized/receipt.json",
+      "sha256": "31ea3ed764dec5dcc5c567123fd3e491b015c9fcfeb7294f144068c50091183f",
+      "bytes": 927
+    },
+    {
+      "path": "d01/main-local-authorized/summary.json",
+      "sha256": "43f5607e44740f1550a027be435df80b595bff5d1ca74319b21d66347632ae67",
+      "bytes": 3761
+    },
+    {
+      "path": "d01/main-local-authorized/tests-reports/catalogue.json",
+      "sha256": "b38b89f8957cc304b1a6df3a29cda20deadbd044ea57f36281e73fa7841c95f9",
+      "bytes": 475182
+    },
+    {
+      "path": "d01/main-local-authorized/tests-reports/logs/integration__composite-measures-http.log",
+      "sha256": "c83365c0bb79df25628bb4e3ed4186185ad6fa01f30608fec8f9bbb97391468c",
+      "bytes": 15901
+    },
+    {
+      "path": "d01/main-local-authorized/tests-reports/logs/integration__reminder-optout-http.log",
+      "sha256": "8b68b271cf7dda67f19d9627ed9d901889c257c6342ebc258fa2af09daae4de4",
+      "bytes": 265
+    },
+    {
+      "path": "d01/main-local-authorized/tests-reports/results/integration__composite-measures-http.json",
+      "sha256": "31161a011ba606a871d28b6d19cdd4ee7c8297fa6d46b83d30badaa73df5aa72",
+      "bytes": 1556
+    },
+    {
+      "path": "d01/main-local-authorized/tests-reports/summary-integration+smoke-only.json",
+      "sha256": "43f5607e44740f1550a027be435df80b595bff5d1ca74319b21d66347632ae67",
+      "bytes": 3761
+    },
+    {
+      "path": "d01/main-local-authorized/tests-reports/summary.json",
+      "sha256": "43f5607e44740f1550a027be435df80b595bff5d1ca74319b21d66347632ae67",
+      "bytes": 3761
+    },
+    {
+      "path": "d01/original-build/output.log",
+      "sha256": "7d74ed3b0aaf6b29393b090a6b1596f0c64775a63c3608a24a83dcf82c5e8c13",
+      "bytes": 4862
+    },
+    {
+      "path": "d01/original-build/receipt.json",
+      "sha256": "ec65d5250119535f6c85a91aea06b3b9d5f7f64c9c4f346b28cfa3c4f6f36296",
+      "bytes": 463
+    },
+    {
+      "path": "d01/original-local-authorized/output.log",
+      "sha256": "a818b4b1d4683da8ec90f4e4ad3de9196f2feb64f4fe63efa1817042de40ed8f",
+      "bytes": 750
+    },
+    {
+      "path": "d01/original-local-authorized/receipt.json",
+      "sha256": "4e5e3ff6ad003d28f2fcc42c97879c6ffa3c8b770c430ccfdad113c56594a521",
+      "bytes": 949
+    },
+    {
+      "path": "d01/original-local-authorized/summary.json",
+      "sha256": "4722760e7af19d72a6d679ee6920fb4b864fd6ff7ddb58998f5c6bc757a2751e",
+      "bytes": 3765
+    },
+    {
+      "path": "d01/original-local-authorized/tests-reports/catalogue.json",
+      "sha256": "11b1b4acf7cda44976a9974da66a116df534d11715e7607e5e6a2150cc650a01",
+      "bytes": 474893
+    },
+    {
+      "path": "d01/original-local-authorized/tests-reports/logs/integration__composite-measures-http.log",
+      "sha256": "bc80b1eef1abb3565abb1f20327ffb111fe4b6a3542d5ce667007d164d58aa32",
+      "bytes": 15900
+    },
+    {
+      "path": "d01/original-local-authorized/tests-reports/logs/integration__reminder-optout-http.log",
+      "sha256": "8b68b271cf7dda67f19d9627ed9d901889c257c6342ebc258fa2af09daae4de4",
+      "bytes": 265
+    },
+    {
+      "path": "d01/original-local-authorized/tests-reports/results/integration__composite-measures-http.json",
+      "sha256": "1da96c81f5203549444053e678a849a568fa7ef1f08b09ddc09d81f1f9592c45",
+      "bytes": 1556
+    },
+    {
+      "path": "d01/original-local-authorized/tests-reports/summary-integration+smoke-only.json",
+      "sha256": "4722760e7af19d72a6d679ee6920fb4b864fd6ff7ddb58998f5c6bc757a2751e",
+      "bytes": 3765
+    },
+    {
+      "path": "d01/original-local-authorized/tests-reports/summary.json",
+      "sha256": "4722760e7af19d72a6d679ee6920fb4b864fd6ff7ddb58998f5c6bc757a2751e",
+      "bytes": 3765
+    },
+    {
+      "path": "d01/source-comparison.json",
+      "sha256": "8f2491da2f8b7daea00c2ce29767e1dbd430903bf549ab98d39556d8400fedf0",
+      "bytes": 36784
+    },
+    {
+      "path": "review/D03-FINAL-SEVEN-FILE-EVIDENCE-REVIEW.md",
+      "sha256": "577b5bc283c3b04adb2d8d59931dda18e50a4e2d87f551662a35b51e346abecd",
+      "bytes": 3300
+    },
+    {
+      "path": "review/D03-FIRST-REPAIR-REVIEW.md",
+      "sha256": "9b51556b308a09c549551b224bad8b6f6d3f5186d0e538136c6cf495c791eb8f",
+      "bytes": 2601
+    },
+    {
+      "path": "review/D03-IMPLEMENTED-CONFLICT-PROOF-REVIEW.md",
+      "sha256": "fe40d8be538a770a2dc46c61d3d8849ece75347865758adb07922b8dbd078709",
+      "bytes": 2834
+    },
+    {
+      "path": "review/D03-SERVER-AUTHORITY-RECOVERY-REVIEW.md",
+      "sha256": "0e5be58df0a48a644bf2dad3adfa1adfe827e4ab065fffb6efa95e8f7720a57a",
+      "bytes": 4672
+    },
+    {
+      "path": "review/d03-conflict-disposition-design-review.json",
+      "sha256": "c5297cda98e225bc4415d42c7b1ef15ad737b1a5955b68d186cdad99fa1ddee4",
+      "bytes": 6061
+    },
+    {
+      "path": "review/d03-final-seven-file-evidence-review.json",
+      "sha256": "51d95e4692f55e9984f3e058c060be825cc396507a2b7a70a19f3c776b5a08a6",
+      "bytes": 7164
+    },
+    {
+      "path": "review/d03-first-repair-review.json",
+      "sha256": "be48342c314555c4d6167225ba96fa66f2fda6faaf1622967d89a56798f2abcd",
+      "bytes": 6402
+    },
+    {
+      "path": "review/d03-implemented-conflict-proof-review.json",
+      "sha256": "c0f4371f3ec6c813de7d7ea8f31a66fe75f92d917c15c6cf41b02ba340f3dddb",
+      "bytes": 6876
+    },
+    {
+      "path": "review/d03-server-authority-recovery-review.json",
+      "sha256": "45e8b54bd1897d247fb0fdc5a40801d5b8943f4ef2e81dbf104879f6380f78fb",
+      "bytes": 11581
+    },
+    {
+      "path": "qa/A8-A9-READONLY-REVIEW.md",
+      "sha256": "c817afe66b10e52321b1ca12aa5ad41b156ccf6f41ee8bbb42041602a460b8ad",
+      "bytes": 8208
+    },
+    {
+      "path": "qa/BROWSER-QA-HANDOFF.md",
+      "sha256": "d647e12d08a8d60c9e4646cbe449929ea894ee756284860856e2d856ea5fd633",
+      "bytes": 5891
+    },
+    {
+      "path": "qa/FINAL-BROWSER-QA-RECEIPT.json",
+      "sha256": "1308746e6575d577dc11b3e92c53e272525581b6f36965da581f385973e3ecb0",
+      "bytes": 3937
+    },
+    {
+      "path": "qa/after-css/layout-observations.json",
+      "sha256": "6077a99679c62bd6a1a464915e82ae4e426b0b1a6f0f28e4f4809573241542f5",
+      "bytes": 127496
+    },
+    {
+      "path": "qa/after-css/phone-review.png",
+      "sha256": "2f9445305187c8a492a390432c6e525aa59311d18715f969ecdb4a04328af740",
+      "bytes": 162859
+    },
+    {
+      "path": "qa/after-css/result.json",
+      "sha256": "133b94f99d58ee29ac054685887e87d9a288ec543ebe433186653c0c6440c7c1",
+      "bytes": 178338
+    },
+    {
+      "path": "qa/after-css-run-pins.json",
+      "sha256": "4a4e53dda9e37a223f0cb30266ceae1e84c135daf50af1623702c498d8f7f778",
+      "bytes": 44185
+    },
+    {
+      "path": "qa/after-css.log",
+      "sha256": "74ab41868ce553085b411fb51b62975bc5f352d2c43770ed84be364cc586305c",
+      "bytes": 17238
+    },
+    {
+      "path": "qa/after-first/failure.json",
+      "sha256": "01675cd19afa2ff70c177d30c1b36e11837db204ab431134752e8e8b7042f33f",
+      "bytes": 4027
+    },
+    {
+      "path": "qa/after-first/failure.png",
+      "sha256": "e68b631cf18ae7e04b8ec547c26ee82f4106de3a592a1f8b8ca4d9cdf6a7b785",
+      "bytes": 210020
+    },
+    {
+      "path": "qa/after-first/phone-review.png",
+      "sha256": "8bcda7ace89cd9c076771bb0eee402740b2e128dcdd79a450a0eb6bee6aa98e6",
+      "bytes": 160877
+    },
+    {
+      "path": "qa/after-first/result.json",
+      "sha256": "01675cd19afa2ff70c177d30c1b36e11837db204ab431134752e8e8b7042f33f",
+      "bytes": 4027
+    },
+    {
+      "path": "qa/after-first.log",
+      "sha256": "8ad2a70cb5a54ce9bec67c93afccf4bcdd2e05c6f577b32d2ee32d4a672a8fd0",
+      "bytes": 3042
+    },
+    {
+      "path": "qa/after-keyboard/failure.json",
+      "sha256": "f5f0ddc15d5c8f139c59febdc84f74479adb74d5c821e974d4e9f05f95fdecaa",
+      "bytes": 4050
+    },
+    {
+      "path": "qa/after-keyboard/failure.png",
+      "sha256": "81a8ca234b6ecc6839135df41462b8d088541a3d46f7fd328936e7b6fdd6e4a1",
+      "bytes": 210580
+    },
+    {
+      "path": "qa/after-keyboard/phone-review.png",
+      "sha256": "b22d50dd78cb10ca02dca6bf7e5beab20973e549243b3dadc6b98079d20484ee",
+      "bytes": 161496
+    },
+    {
+      "path": "qa/after-keyboard/result.json",
+      "sha256": "f5f0ddc15d5c8f139c59febdc84f74479adb74d5c821e974d4e9f05f95fdecaa",
+      "bytes": 4050
+    },
+    {
+      "path": "qa/after-keyboard.log",
+      "sha256": "18602c7a631ae56be36b833faf1f9f45730d35a559935bb02d35da2590149516",
+      "bytes": 3042
+    },
+    {
+      "path": "qa/after-proof/failure.json",
+      "sha256": "8f7d296ae20e4c1f474a3e1c74ab7bc602fdbd9158fc44643c2a54d2a549c509",
+      "bytes": 6410
+    },
+    {
+      "path": "qa/after-proof/failure.png",
+      "sha256": "8afd6cc2db7130040d3a8a77c46067b8ac3024b563a082c9c128584c705340a2",
+      "bytes": 101248
+    },
+    {
+      "path": "qa/after-proof/layout-observations.json",
+      "sha256": "5379bf8d106a325a0d04a679f5902a9e446228adafd78ce9c61a324a799a36b4",
+      "bytes": 1770
+    },
+    {
+      "path": "qa/after-proof/phone-review.png",
+      "sha256": "37682afe81bd98b60de309300c81d134e8e95cf76a30ae0296871bd94b4c9c9e",
+      "bytes": 160865
+    },
+    {
+      "path": "qa/after-proof/result.json",
+      "sha256": "8f7d296ae20e4c1f474a3e1c74ab7bc602fdbd9158fc44643c2a54d2a549c509",
+      "bytes": 6410
+    },
+    {
+      "path": "qa/after-proof-run-pins.json",
+      "sha256": "d547d6f8fbd7aefb834c5d62cbedfbb0da49d41106b67245806075a97a012cb5",
+      "bytes": 44193
+    },
+    {
+      "path": "qa/after-proof.log",
+      "sha256": "999058292b7dd33f6e2995d0113ef8d394e8c199f1b486367de87ac1dc2dafd7",
+      "bytes": 3733
+    },
+    {
+      "path": "qa/before-copy-receipt.json",
+      "sha256": "d2bcb3a2ffd8fad28146883215e6153423a48413843e3c927ac2bb4164190f1f",
+      "bytes": 43827
+    },
+    {
+      "path": "qa/before-organisation/failure.json",
+      "sha256": "bdf7eb8c496d0e88c168ae7fa027d286e1f38bae0f2565bc4d0e91a1150da84b",
+      "bytes": 523
+    },
+    {
+      "path": "qa/before-organisation/result.json",
+      "sha256": "bdf7eb8c496d0e88c168ae7fa027d286e1f38bae0f2565bc4d0e91a1150da84b",
+      "bytes": 523
+    },
+    {
+      "path": "qa/before-organisation-retry/failure.json",
+      "sha256": "5d5685009ba530d75e396e7115b84d6f9321446bfed627b12b84fa358cf20626",
+      "bytes": 2670
+    },
+    {
+      "path": "qa/before-organisation-retry/failure.png",
+      "sha256": "0628a1a7f237526e2913753ffbd5b7c46ae6aff3c3dae3393c6efbf68374c29d",
+      "bytes": 39969
+    },
+    {
+      "path": "qa/before-organisation-retry/result.json",
+      "sha256": "5d5685009ba530d75e396e7115b84d6f9321446bfed627b12b84fa358cf20626",
+      "bytes": 2670
+    },
+    {
+      "path": "qa/before-organisation-retry.log",
+      "sha256": "d7b4e63014634de4846628dd65052ed17a92e2c3d8b6409bb6e98ea23c8aa271",
+      "bytes": 1871
+    },
+    {
+      "path": "qa/before-organisation.log",
+      "sha256": "be532d7bc6b236b500d8ad876230a1ab49871cecfae98430c01098a8fcaa985c",
+      "bytes": 1596
+    },
+    {
+      "path": "qa/before-source-c3d36c88.tar",
+      "sha256": "f8f10f40a389f2ba1b5f95c992f5f80bca8482d0dd92ce3fa41337ed62048fe0",
+      "bytes": 227164160
+    },
+    {
+      "path": "qa/before-stale/failure.json",
+      "sha256": "73ecd2cb86afd8b934ccd858a60a0b6bef4e19c31ee5b1eee2ba2c9aa1439fb1",
+      "bytes": 4427
+    },
+    {
+      "path": "qa/before-stale/failure.png",
+      "sha256": "0da1f3d538ab106165443439523a10e9497d6d3f5428b7a84d0afc60e3eb1904",
+      "bytes": 231660
+    },
+    {
+      "path": "qa/before-stale/phone-review.png",
+      "sha256": "91434449b981ab318752c2cf4bec4e544a4662dd7afb7358dcba5c4e978495f6",
+      "bytes": 161627
+    },
+    {
+      "path": "qa/before-stale/result.json",
+      "sha256": "73ecd2cb86afd8b934ccd858a60a0b6bef4e19c31ee5b1eee2ba2c9aa1439fb1",
+      "bytes": 4427
+    },
+    {
+      "path": "qa/before-stale-copy-receipt.json",
+      "sha256": "897d3375e8743f872a2b1a2542fa29aa5db7c28afbad08cbeed760c1a38d35ba",
+      "bytes": 44089
+    },
+    {
+      "path": "qa/before-stale.log",
+      "sha256": "150a2a7f9b699ebb29d0f96748f60426db18f91f1aa802d26adfa29cc86e6bbb",
+      "bytes": 3469
+    },
+    {
+      "path": "qa/before-uncertainty/failure.json",
+      "sha256": "0f76e2cbc4ae6045e2576533080593727ba605d32d81b0075f29968a37589170",
+      "bytes": 2950
+    },
+    {
+      "path": "qa/before-uncertainty/failure.png",
+      "sha256": "8bb6d2319aadc7b175011425e8ff272b722b6d1f722cfe5a720569de6af1388c",
+      "bytes": 162606
+    },
+    {
+      "path": "qa/before-uncertainty/result.json",
+      "sha256": "0f76e2cbc4ae6045e2576533080593727ba605d32d81b0075f29968a37589170",
+      "bytes": 2950
+    },
+    {
+      "path": "qa/before-uncertainty.log",
+      "sha256": "3f684728746e9dc645935cbfa48631e87030c09f2f34a9800c4d0766275b2b1d",
+      "bytes": 2146
+    },
+    {
+      "path": "qa/browser-qualification-plan.json",
+      "sha256": "3e7b97078d24dbda96af9b2668753c24de1b0a2be7ad24b56b2c4d177b46cd0f",
+      "bytes": 2325
+    },
+    {
+      "path": "qa/readonly-review-receipt.json",
+      "sha256": "ad681e333b26d25593007ef6a5583cefa4e235b3317030b8b0f0f950fece2b85",
+      "bytes": 1790
+    },
+    {
+      "path": "qa/retained-pre-final-runs.json",
+      "sha256": "6ef94512e2f8fd3de0c334b33de54a7189700f736a74e41adf708288ca957fe2",
+      "bytes": 3697
+    },
+    {
+      "path": "qualification/audit-contention/ARTIFACT-MANIFEST.json",
+      "sha256": "cd873b8d94a1e4f4d5f962bd9ea999af560662907b1565e56dc924dbf1cf5475",
+      "bytes": 65521
+    },
+    {
+      "path": "qualification/audit-contention/AUDIT-CONTENTION-DIAGNOSIS.md",
+      "sha256": "2cdd7b6e3426c05f3decfb400a6831ce7d24883bf63cbaf8b667ed983600e97d",
+      "bytes": 7082
+    },
+    {
+      "path": "qualification/audit-contention/AUDIT-CONTENTION-RESULT.json",
+      "sha256": "3a71a6f57bfd2d475a48604a95d9addfaf8567d6479c3ee98b7f05a8fb8ba379",
+      "bytes": 4186
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/ADVERSE-ENDPOINT-DIAGNOSIS.md",
+      "sha256": "1f6a347b074068feacbe6f17c1dce89bdba64be2941e4e9392575253a27a09d5",
+      "bytes": 5105
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/ADVERSE-RESULT.json",
+      "sha256": "fd15564ffb418fff84144ebfece0dd8384ab197f03cff69f7b5e2e09af05a576",
+      "bytes": 2852
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/after-preservation.json",
+      "sha256": "04e226f3739125ebe68e0bd3f2df5d1d4b6107c8175eff0071faa194d3e5abbd",
+      "bytes": 74497
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/backoff-endpoint-preload.mjs",
+      "sha256": "0293f822ffd4a2f61914bc905fabd2222d5618e4c36bd32fdd039663b12f654a",
+      "bytes": 787
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/before-source-pins.json",
+      "sha256": "e4606fedb7b63c2b6471d093b8be8e36fc411c17a81c1f3fb62d34f91c52f0f9",
+      "bytes": 66528
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0000_handy_blockbuster.sql",
+      "sha256": "2236e64f6447dbe48fbb36e4d3a7244dd03cf39cdb7123ab5c6e83f573defce6",
+      "bytes": 162
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0001_tearful_victor_mancha.sql",
+      "sha256": "139f64838d42486d5a2c0563eca6ad65d9a64db71733fb81155d345189f76ee0",
+      "bytes": 8129
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0002_petite_marten_broadcloak.sql",
+      "sha256": "f6af8de70b458aede86cfd9e60339fdcc2f5cfc3844b21281994f52718502f55",
+      "bytes": 586
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0003_sparkling_red_wolf.sql",
+      "sha256": "2822e27e9b56cca50e9e3ced7195618825a36f0ecf51507d35b75ceff349811d",
+      "bytes": 183
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0004_freezing_scarlet_witch.sql",
+      "sha256": "12002e1afdce4461b293e33b62bb59e867c674350168dfa2e40f8e5848217c04",
+      "bytes": 399
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0005_breezy_killraven.sql",
+      "sha256": "dee0b347e61d9e4105476fc22b28f496c28cbb15b86d8958f6736db5417ca03b",
+      "bytes": 188
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0006_patient_concurrency.sql",
+      "sha256": "aec549f8f38528a2ff556a76e1e3590abadaee7f3fac3c22ebba982e1d068cc3",
+      "bytes": 163
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0007_households.sql",
+      "sha256": "9e7969af8750530819f3184a36f3fa4e65cbcad9afae16dad3febd6f76f8fb55",
+      "bytes": 379
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0008_caseload_transfers.sql",
+      "sha256": "79505896f6998e68976fce2039ed019dcc64f42be3d42a4bfd026d8b4dccf114",
+      "bytes": 455
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0009_identity_cases.sql",
+      "sha256": "2a9bee76aaf7a4e4cebf17a8f919bf516d9f94cfdf6fd1fd775e8ff5fcc0fbab",
+      "bytes": 594
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0010_rights_requests.sql",
+      "sha256": "146897ace5fafcd8a06d6c0c9ca8a587e2c690e7b0f0b7fd868e7cee93dd2b4c",
+      "bytes": 584
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0011_retention.sql",
+      "sha256": "2a95cd06b7fd881a823ff8ddff3971ca3c43108305afdc548de04e0c11ca74cf",
+      "bytes": 187
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0012_media.sql",
+      "sha256": "cae1e5b2f698314d9efa7e69560347d4fae4d8247ef6ea20050dd328880abc12",
+      "bytes": 606
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0013_audit_chain.sql",
+      "sha256": "f24a3d74d373b1629b6120459372558c407224585c1568b33af01662c3ade402",
+      "bytes": 282
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0014_alert_delivery.sql",
+      "sha256": "7c54e02a59ef40099b3054c48a7ff0a29161008f2c6ed9c8e65546b172c24eb9",
+      "bytes": 1515
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0015_notification_channel.sql",
+      "sha256": "b4a69051fe3c469a424b062fb0b81a86e1c28eaa7301d8d410981a3b7f0ce792",
+      "bytes": 1011
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0016_scheduled_cursor.sql",
+      "sha256": "6d9a557b92fc0c330923bf050cc5f1e5ee67969f9f9f09295dc611e4472a4528",
+      "bytes": 126
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0017_audit_time_indexes.sql",
+      "sha256": "5f422573b8bb220d31b748121d393cbc34168a4ff3e02170f5399df471f40305",
+      "bytes": 186
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0018_abha_review_reservations.sql",
+      "sha256": "e6fbb3528dffc83ebc6ce8d8c842e8530ea71a85f5ab049a3d68b2c37a69be15",
+      "bytes": 524
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0019_availability_samples.sql",
+      "sha256": "93f9914cf9b01341c8f26315463ae9a31bb8c836751025d4ab25094d8e4591d3",
+      "bytes": 974
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0020_device_work.sql",
+      "sha256": "f12c07f8698406fa354735b7d1393f648dc29b6150da51fdd8b0ebf67bf746c1",
+      "bytes": 1116
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0021_work_burden.sql",
+      "sha256": "29901d522ebe932c75780d8d7c9588e034737a056e772729e82148c05734a223",
+      "bytes": 2250
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0022_registration_device_work.sql",
+      "sha256": "cbfe4dc10988e175c61cddd6ca7fbf0f974c2dc474ad16df23150eeba2c999ac",
+      "bytes": 1226
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0023_offline_opens.sql",
+      "sha256": "d202d2b2ce30d50fc95f757bab4a5cc45e2a51c811bcc2db94d3da8476eb20a1",
+      "bytes": 1678
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0024_registration_wire_receipts.sql",
+      "sha256": "17a610fa08bf46f06a056b8c69d90db0accbc69ae9bc935e4e8d76b47e67206a",
+      "bytes": 798
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0025_clinical_source_documents.sql",
+      "sha256": "979c344af89901879c39c377b4af335187ec8181bbc616f138730f8f55ce7dec",
+      "bytes": 740
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0026_work_burden_sessions.sql",
+      "sha256": "18449d9ba061f220a81da8ae49465683149c1195f89ef299fc242baa4b741ffe",
+      "bytes": 1886
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0027_indicator_figures.sql",
+      "sha256": "272ed0cdabacc87f91dd1ee48ca13e992a49e808e38dfb450ae5892fd41baaef",
+      "bytes": 2677
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0028_indicator_figure_disclosures.sql",
+      "sha256": "bbd7962a8a836e7c43eefceb41f6797814af75908217047b9f689a7edbf247f8",
+      "bytes": 760
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0029_object_media.sql",
+      "sha256": "dc6d79a38a3fa6b0d15f2843deda013c65f9e64bb8b445614a9667607d3f8a09",
+      "bytes": 2072
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0030_reporting_completeness.sql",
+      "sha256": "b5bb2ac7f8a19e7a78318105117dad9e07c923fb118260ee569f7798ed8a47d4",
+      "bytes": 2973
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0031_installed_pack_work.sql",
+      "sha256": "17c9cefabde9885d6ab292bcc06ec376eb8f999a5919a33ed923806e4282b676",
+      "bytes": 502
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/0032_installed_pack_transition.sql",
+      "sha256": "5a0a8999355222ffe4867ac30ef6a138d365c9f119cd707b999288de17536995",
+      "bytes": 335
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0000_snapshot.json",
+      "sha256": "ce4764e65de8c626f0fae936faddd0ac93671246f43fdd0af368284c5793c05c",
+      "bytes": 1269
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0001_snapshot.json",
+      "sha256": "4674eb6cf4d1b0d4ec356a2953a07341ecbc1d0f1902bdcd7840bcb4a0f1a1bd",
+      "bytes": 36882
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0002_snapshot.json",
+      "sha256": "862343157adacf82004c4ac1d89eb0f63a362674779422985cb1085989f7548e",
+      "bytes": 39980
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0003_snapshot.json",
+      "sha256": "835fb30a8ee69e4a12cb00ab8a174a6990d12f2c2d3d01b248cb586fba45f537",
+      "bytes": 40911
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0004_snapshot.json",
+      "sha256": "9ce46a597dfc30a0a1217f954d6942d3debdefd2cd05992424a6202df74d8053",
+      "bytes": 42813
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0005_snapshot.json",
+      "sha256": "45172e9a187eb9e7830568d24446fa4b45112042336ec80b57f7ffc31f07ed39",
+      "bytes": 43769
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0006_snapshot.json",
+      "sha256": "59f4bbc28f9f2ae5b6d4f26efed4127161d62f379d7ea0d5506e5c3f5724d9c6",
+      "bytes": 44189
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0007_snapshot.json",
+      "sha256": "5c6c66aa7b2c0530f7ce34b0d4cab274be72f7e858ff6a84f904d5d0fadc89bb",
+      "bytes": 46045
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0008_snapshot.json",
+      "sha256": "5b6743d72f817ef9056a3137c171b95d27cc99075e5d2d45022da41bc3a82c5e",
+      "bytes": 48331
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0009_snapshot.json",
+      "sha256": "189e067cc936c3d2fb4a62b2ead8a578226cedbf16928f03a1e0c9ac00aa45bc",
+      "bytes": 50989
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0010_snapshot.json",
+      "sha256": "349b52a69c145ece1aa8fe7389e47cb890b5503ac9982ec3ab828463eafc92dc",
+      "bytes": 53641
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0011_snapshot.json",
+      "sha256": "29a181f32892084a1395651295b335053764c85018aaca1c9cfb10072efa7a9e",
+      "bytes": 54592
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0012_snapshot.json",
+      "sha256": "62bedfa2bb9326818aa2d1d796eafb15680d9cfa61762f88cf02252270e987f9",
+      "bytes": 57668
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0013_snapshot.json",
+      "sha256": "9cf47f742b4842d23c92f20f08e6b28b23e63927b193d84f6ea5292caaf61ef0",
+      "bytes": 58374
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0014_snapshot.json",
+      "sha256": "9dffdfbbf300950cc29ca2f34312f4f31d6234b04acd5ee2b627e7b479dec04c",
+      "bytes": 66116
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0015_snapshot.json",
+      "sha256": "8e1a4f15b606fedd63f48b7e57bd5a4cdbdf0e19c45ba3802caafd2d630ef21a",
+      "bytes": 71531
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0016_snapshot.json",
+      "sha256": "f986915c73f0683dcbbad4577c56c065a65d9e5cee8c4a9b6464820e01009d6c",
+      "bytes": 72298
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/0017_snapshot.json",
+      "sha256": "0facad2e166b51cbac49bfd2fffc969b0904911ca23ea7781a7c36c209662bd1",
+      "bytes": 72726
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/drizzle/meta/_journal.json",
+      "sha256": "f1c8fed537762c58f6d71adb871776e27d16dac641d71b98f20ca0f9115ded9c",
+      "bytes": 2661
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/abdm-server.ts",
+      "sha256": "a28a55f89906c298f18a2283f6b3585e16027f8c4377a980e936fadb39bd2dda",
+      "bytes": 1316
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/abdm-transfer.ts",
+      "sha256": "10a37d2f9afb5b3199aaefb13263cacdcd0a86792e04c0cda610823e2426a2b0",
+      "bytes": 9935
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/abdm.ts",
+      "sha256": "40ceea8967f6e65ba975788cb05bcebc73727d4854cff44b0b56d394dbc69423",
+      "bytes": 18584
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/abha-review-reservation.ts",
+      "sha256": "5ba683da005d33ef19a774cdb7694fab8e7d32f0af15c426b2910fd11f3ca978",
+      "bytes": 2844
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/access-audit.ts",
+      "sha256": "baab508e35efb3c94b44864d9b77a4b6af5370dcb15e2b14adfd4fc355e5549d",
+      "bytes": 11526
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/access.ts",
+      "sha256": "26f5fdc7fe7bedd29de9f07773e7d2e4d1ba1249503c8a27773f007219c32789",
+      "bytes": 6285
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/action-plan-server.ts",
+      "sha256": "3c31303b43aa1d088b26eb4ca7ac28c3574e935c15784b9b8f9f52d35a9bff6f",
+      "bytes": 874
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/action-plan.ts",
+      "sha256": "a091659e4f0a8b45704a9463258b22176bf61360ce5d78b85ff7d7b0d69df272",
+      "bytes": 27161
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/adapter-operations.ts",
+      "sha256": "7b167b3bc3b06a937677317e69376fb87b3a63985ceb04ffaf565240a88ded1e",
+      "bytes": 8247
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/agent-execution.ts",
+      "sha256": "d2122392e5f468f31058d08805e0a0f671019b28f14b6316dc86a9337345837c",
+      "bytes": 5166
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/agent-minimisation.ts",
+      "sha256": "87d919adb16a6220cd6f4e1497b58be0f803a7fea8673d335e13926d507f0117",
+      "bytes": 8196
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/agent-provider.ts",
+      "sha256": "9a3552a349c77182dfbd54d962c3a90f0d6ae04bad918aa62cbe8137e12afd53",
+      "bytes": 7683
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/agent.ts",
+      "sha256": "553aa94c125518ebac4da2551c967eb2030fcfb0546dc65acfac3591df97c060",
+      "bytes": 26795
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/aggregate-alert-disclosure.ts",
+      "sha256": "0b607767a8db618e4e5945099a340dc7837c53663a49e60c6e3f4793a686104a",
+      "bytes": 6272
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/aggregate-delivery.ts",
+      "sha256": "9b43be10d67e2fda886b20574eaffe8de46960ba5d753266992f147137ba0bde",
+      "bytes": 22560
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/aggregate-execution.ts",
+      "sha256": "ed8d751de447433e3be0a98b582287f391fd07c8214d5bdd0cccb8dd70845e94",
+      "bytes": 21347
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/aggregate-reports-server.ts",
+      "sha256": "cb44fc3924c632f15480d3371d61f652c45ad3edce90648b620797c9ef75e2be",
+      "bytes": 2302
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/ai-budget.ts",
+      "sha256": "d515eb10b91124548ef3c36e7b35a563c414ecb8f128a9cbca6c2a3db51d05de",
+      "bytes": 6283
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/ai-invoice.ts",
+      "sha256": "5b273bc14457f84ed3872b50fb201c18e7d385b1a1eae3cee0767588a70a6c43",
+      "bytes": 15264
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/alert-delivery-server.ts",
+      "sha256": "5003a483bc28a5aa9a43bdd94902b7216c036ede62177a8187628421f015d737",
+      "bytes": 22027
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/alert-delivery.ts",
+      "sha256": "005e44db227a93caab9cdf2bd2d3f0f4fc1e55dfd5061e33886be73cd975ed68",
+      "bytes": 9230
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/alerts.ts",
+      "sha256": "7c5f4e68954d8d121efd055b0e544d2f0a6025dcbb97f2f87174f78c006fcf3e",
+      "bytes": 10492
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/anaemia/contract.ts",
+      "sha256": "4a992eee3406aafbc036022eb4035bedd8376b46e045dcef9d2e7c4432969a7e",
+      "bytes": 5927
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/anaemia-image.ts",
+      "sha256": "6527e342002d9c6667b4bc091fe2e92cbad923daf2879209f590f32fe1543fe1",
+      "bytes": 1878
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/anaemia-server.ts",
+      "sha256": "3fddef15e013408462a559c66d9b2f82e7e39c6aec6503a5f9833517a34c7ce4",
+      "bytes": 13547
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/anaemia.ts",
+      "sha256": "97a769b7e32cddc59fa09b17634f5266a8293fe52b09b75a81588f3b4f2be29a",
+      "bytes": 10187
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/audit-chain-server.ts",
+      "sha256": "49d2a6e08c54079e69877fde50a3ed4433f2abb41f652951c5ff8d40e850f3de",
+      "bytes": 12038
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/audit-chain.ts",
+      "sha256": "946855e033e3cfb8c45d6eaaaa56a57bbb4a3453b8e085f0ecbd5bee054f09be",
+      "bytes": 22343
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/availability-server.ts",
+      "sha256": "4037a27cb8e890b4b190a34e3b516f7a5e9c1c03c15a83530e15d33af7557a91",
+      "bytes": 2266
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/availability-types.ts",
+      "sha256": "cb552cd85cf2eeeefe818949aab1c9c735a9ed2a246daac15b92b1e89e1e5db3",
+      "bytes": 534
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/availability.ts",
+      "sha256": "ee62f40445118aed3e1dc8c6d6be745c4588e11794f4f8a67682084d0fe7fccc",
+      "bytes": 7635
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/capability-lifecycle.ts",
+      "sha256": "030aa55273909ec0a49a2e5fcc3eeeb8651523571ae786b0a042b57f31e43ec5",
+      "bytes": 6972
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/caseload-schedule.ts",
+      "sha256": "68e8864cb5b35cda05544c823285984bc2acff059f8be5c9a63ef5d666d06a53",
+      "bytes": 2876
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/caseload-server.ts",
+      "sha256": "454b32aeac59f14ac162144bb2ce49afa5db05f1de938464e9ad3682b2151017",
+      "bytes": 835
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/caseload.ts",
+      "sha256": "844e87ef2e719d70d9212e17171d9ff415361d35dd497b20ad4db5b597f6ee45",
+      "bytes": 25516
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/clinical-source-fetch.ts",
+      "sha256": "2e2198e5a6a633a527e083834ede5535dff57f7b387e1cf55566d83053d22439",
+      "bytes": 4054
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/clinical-source-server.ts",
+      "sha256": "0c706258c2e7c1ef073b5e54932ff981d53d81df0ec1983513051bfa05808e2d",
+      "bytes": 7070
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/clinical-source.ts",
+      "sha256": "6b0b35d9e9366d24e592bb4c8fc88b7dbfaad5c84672f81077ea37661fe45a41",
+      "bytes": 4423
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/consent.ts",
+      "sha256": "77ab29ed73991b8a0bf52522a1d18f63797b558a4d93b123ef66c0e61f573568",
+      "bytes": 13767
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/contact-import.ts",
+      "sha256": "7a9a3f38ef086e3ea5bd3c242c17b2aad7d2181d7c37ab46e726843ec80dad58",
+      "bytes": 7859
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/continuity-server.ts",
+      "sha256": "491691f761054a3f93824e234df584147bf58af5cddbc5705b02956cd69f08dc",
+      "bytes": 2704
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/continuity.ts",
+      "sha256": "3ea139bed181b9b2c5b30bdcdfda618f9bd8721c7137ca346066c00336065aad",
+      "bytes": 9697
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/core.ts",
+      "sha256": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+      "bytes": 26118
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/correction-tasks.ts",
+      "sha256": "6bcf25b69b8b690987206e1b4fd2864798a36d7e39c967ae0ce47bec6875bc84",
+      "bytes": 23317
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/cross-site.ts",
+      "sha256": "4d2edf55c4fad17b0b596b09a8cdf80ad91636de7c06e498d27ddfcdbb57346e",
+      "bytes": 3703
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/crosswalk-correction.ts",
+      "sha256": "4cff2ed1f76bea1637df4a7d7f1a67423edddefb5f8c54fb7f3b8777e682c4a2",
+      "bytes": 22099
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/crosswalk-server.ts",
+      "sha256": "11073499356da8a59983062bd4dc08aead59a8026fcf7d401b186c527461f7e2",
+      "bytes": 2594
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/crosswalk.ts",
+      "sha256": "d4dd9807b4eebdfb744b5255f029c22f22b8bbd6ee531b38f4dce3b5ed7a869c",
+      "bytes": 10074
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/data-exit-server.ts",
+      "sha256": "36eafde156edbce93084f5008cee2215bbd752d1cdb8ddb94875211a7b2c26c1",
+      "bytes": 5978
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/data-exit.ts",
+      "sha256": "6839e650eb1697c5eb7388f6b8ca8c656b244ea01deb0aac75de02fb56eaad67",
+      "bytes": 49130
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/delegation-server.ts",
+      "sha256": "5dddfd62677af85f5ae881f3d5a72ffe3fe73b9dafd57bacacf2fad6c53f96a8",
+      "bytes": 542
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/delegation.ts",
+      "sha256": "b8ee3242881a95877aecd0dbb00bb8a89f8d5c682c7a154a95d4792bf6ee11e7",
+      "bytes": 11617
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/delta.ts",
+      "sha256": "94dfba1168341b7e66821a6758a43145e9aa1167651a84691f7f309f06bf715a",
+      "bytes": 1989
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/demonstration.ts",
+      "sha256": "75ec21f618ad8466d80d9d68edd39cf71b5ccb22e6c5ff9cec75260302f8a0e1",
+      "bytes": 14775
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/destination-enrolment-adapter.ts",
+      "sha256": "d3069c1b8b3459f6fe64c88e0e1b0fa1c039e09e0ea133c011be481066c8d21b",
+      "bytes": 6710
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/destination-enrolment-execution.ts",
+      "sha256": "cd32daf0fcf4e5b4d5f4764e9691c673331a181b5dade81c50efbbd7a6e1eeae",
+      "bytes": 12463
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/destination-enrolment.ts",
+      "sha256": "68f474a0a60751699fcc99a576c4f41a83c827a8780f739b8ca39fafe3bd9a6b",
+      "bytes": 10344
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/device-work.ts",
+      "sha256": "48c470ef4e4caf339d916803715161a65221f799d5838381f727af983c9a7a9a",
+      "bytes": 13059
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/drift.ts",
+      "sha256": "8946fc1a5a8094ee63e6b4f864fb3df92de471a6b9f3dbab16ce1d30e51e2115",
+      "bytes": 5362
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/ehr-execution.ts",
+      "sha256": "199f070a940b4857ffe58c9ab3e7ff08e009bd1c686ce0f77bb589e5071b3217",
+      "bytes": 20200
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/ehr-probe.ts",
+      "sha256": "b4967d344eafed982635a3f908ba781af2b1db371596ad61ca29f074e758f89b",
+      "bytes": 2287
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/ehr-provider.ts",
+      "sha256": "17b4a0e68dc1c684e825e25e75d05ab1830e04218a377e45bb95b9513a3026d5",
+      "bytes": 6913
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/ehr.ts",
+      "sha256": "9ca2fbd897412617454099ef4e2d4840a7e1949b273121d9b9f631bd0f80a546",
+      "bytes": 22103
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/environment-server.ts",
+      "sha256": "e8f9db14872cc5f7a6ec618647d0c2d665460397d77668a781cbb6e970bca60a",
+      "bytes": 591
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/environment.ts",
+      "sha256": "14becce152a3e21f552087cbf7a67fea843aaed6635134e87b09f3e23df11bd0",
+      "bytes": 14070
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/evaluation-execution.ts",
+      "sha256": "1fc2cc4adb7ea801c4a8b6e239d2bc7a13ab1133b194465051f2c4d290a536e1",
+      "bytes": 4996
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/evaluation.ts",
+      "sha256": "ff4cb03442c912438bdf44cdecd135f3b409d9fb4d005bc98a6a0fa8fc401d2d",
+      "bytes": 8692
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/exceptional-server.ts",
+      "sha256": "ee1b6c96eaee6c4c69fe9e82aea88041c3d3fd0b2622bec35937eb1ef64e014f",
+      "bytes": 512
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/exceptional.ts",
+      "sha256": "b4d5a6be7f8322bf7ea94e9b491fa3cb98b789a83abfa480ee844d1c75baf091",
+      "bytes": 9825
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/exceptions-server.ts",
+      "sha256": "f091ad7380f1d9496e529b92d6b5b7030e3ee85333f4f69e554eaaf9219a70c0",
+      "bytes": 435
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/exceptions.ts",
+      "sha256": "c9fd018e2fed6e888324466797eac40a7f2356267c0ed70729752c4e3f73af9b",
+      "bytes": 15215
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/expansion.ts",
+      "sha256": "8e8dbd28934537b19710f51289e3f199c50e4d6a6cc4215e6b06c607d9a161a7",
+      "bytes": 7265
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/export-audit.ts",
+      "sha256": "a2856064615b27a5856b3253de79ff6ae50c5783cdaf4c7383416105a30b97d3",
+      "bytes": 3433
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/facility-scope-server.ts",
+      "sha256": "5b95ae2716d568e83d22d2be91a18e51f48a233f367eda38d07a35ecfa178ba4",
+      "bytes": 677
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/facility-scope.ts",
+      "sha256": "c86e12531afefecd667bff1f85b1f49142094b93902e969e3a06e9f5678c7775",
+      "bytes": 11317
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/fact-provenance.ts",
+      "sha256": "6d4bc63c8ecc72a80530e611d1a1051e1a11495ed1cc6129c4c138aeb198c3cb",
+      "bytes": 25041
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/fact-reuse.ts",
+      "sha256": "acd8601ff63a940733c84b528bb6214d5d35085f73d813a7429273aba58e6ee1",
+      "bytes": 5160
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/fact-verification.ts",
+      "sha256": "17819500d5d8b1e3c730d32d0e4d3acc6eefb8c143cb867d8946997fae62de17",
+      "bytes": 10902
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/fhir-document.ts",
+      "sha256": "ab9689e349c4d279728c873cda7703f8f5ca12e7889bdceaf2feb3f8d1b50db7",
+      "bytes": 23705
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/fhir-validate.ts",
+      "sha256": "bc0e01e2b746de68c5e0e582b69ef137d5335e620853c0964d6d76f6bc8483fe",
+      "bytes": 2158
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/fhir.ts",
+      "sha256": "a048376116d54efa79289449c3fe1672b667e8b7ae8092df5b8eca542b050532",
+      "bytes": 2683
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/field-registration.ts",
+      "sha256": "297a088437287123d3897a27903367d362336b54b0d2cef634aceac02eae218e",
+      "bytes": 6132
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/field.ts",
+      "sha256": "480ff293ac504f1ac5b740106bdb4583c7f2092d4184f4141660bab5dd8b97ec",
+      "bytes": 10677
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/fixture-migration-server.ts",
+      "sha256": "43dd206cf5db133e53007aa6722783034ba8f011a5923a85d9c49167ea4f03aa",
+      "bytes": 655
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/fixture-migration.ts",
+      "sha256": "af407e021f8104bf769f29ea1342dee4badc550ec6a75507863a77d84118904c",
+      "bytes": 6508
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/frontline/catalog.json",
+      "sha256": "dcd1bcdc12296a822193889fa099cfe349ece4c1be45c001081f5c31e4b31719",
+      "bytes": 10046
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/frontline/rules.mjs",
+      "sha256": "fd35e07be4a445e374ec85d86685775e211450ed2f7dffc1781c3705647c53c7",
+      "bytes": 6426
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/frontline-capture.ts",
+      "sha256": "46530d6ea1593ae24f9932887bea99c2bf979ed0b6cc74bb30439bcd07ea352a",
+      "bytes": 6066
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/frontline-server.ts",
+      "sha256": "16d34265447beb1c3da622af9f126b36430541b58c12399dc19e02cee42bbd42",
+      "bytes": 11670
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/frontline.ts",
+      "sha256": "4559f989eeb78be42476c9b6fecac4a9880ed56b85593a901099008871037030",
+      "bytes": 9860
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/governance-server.ts",
+      "sha256": "66fd6962edb134b06bee2c7f87c961a96c07eb9e62968f58268926c8c9a7ba01",
+      "bytes": 5259
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/governance.ts",
+      "sha256": "79c25780802491bb9d266af34a325e5d381d70ff4776e5a9f0125359060cd3a9",
+      "bytes": 27443
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/household-constants.ts",
+      "sha256": "ed0b4ca49a7ea7ad0977a4b22c0715a8ecc640e0c49e2beee6d667b53a172285",
+      "bytes": 444
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/household-server.ts",
+      "sha256": "3c7ec6737848d572736152d871b4b5bec6013a0bb05ca7c79fbfe77c9699705f",
+      "bytes": 2844
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/household-visit-constants.ts",
+      "sha256": "0a28dc3151af7abb5f6e5caea17e4612f9eb7b995ecb54e0eeac3ee14daab479",
+      "bytes": 880
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/household-visit-work.ts",
+      "sha256": "1a978412a40256b443c2e7ede1bc0c7f3a77ef86d6201ba306e9f280e6f28d08",
+      "bytes": 8934
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/household-visit.ts",
+      "sha256": "8979fb3e420c42dbaf71758d813e1c50f54ad0feb47cb96e9b932a5c34bec7ba",
+      "bytes": 19348
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/household.ts",
+      "sha256": "2ab4496ad643d028b443d26309ebcd5054b328a8cd5898994089f5492dce09e9",
+      "bytes": 13395
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/identifier-search-server.ts",
+      "sha256": "28cb48846a7b397c8288cc95d645022eb18dde86b1d670b0a6494b303bf8fed4",
+      "bytes": 5333
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/identifier-search.ts",
+      "sha256": "38639626b83b951a7e9d54dbdf5b99337d84d1f5d1e70fa37630b52787c3e94f",
+      "bytes": 5442
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/identity.ts",
+      "sha256": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+      "bytes": 9047
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/import-rejections.ts",
+      "sha256": "830a0ef0b703e8e01144cdd321838274e506792fe1ffb1e68c86ff774ce9670f",
+      "bytes": 2800
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/imported-evidence-server.ts",
+      "sha256": "2e65ca6bd241753e20f462e3939b3e84259b326ba20862a30777f73ed3baf823",
+      "bytes": 10881
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/imported-evidence.ts",
+      "sha256": "04b297ffba48e80dea244d42eed14a6c4581bd96405936f0aa1e82d3b7e9ec42",
+      "bytes": 11709
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/imported-visits.ts",
+      "sha256": "42835b5ae697b45eec173dba7b7eab752b56cd391fdaf3678d5a70cc749adc96",
+      "bytes": 3149
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/inbound-conflicts-server.ts",
+      "sha256": "5d2cfe5e98aa88e05f9d1c60fb585729ca02b0302743d10dd9d90861cad44f48",
+      "bytes": 4552
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/inbound-conflicts.ts",
+      "sha256": "062162d534b2b0608d54fc4b2a6105b7e41b7edbed677813aa2a3633998f831e",
+      "bytes": 14276
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/incentives-server.ts",
+      "sha256": "f6536216afa12bba324ddb3f6bd6c7aa7758fe518ace33e87cac2fbbbeb25cef",
+      "bytes": 1601
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/incentives-view.ts",
+      "sha256": "c3706cfb4329a4168e2230f36a1d9fb575e72bc14ea17ec55c3c51847bb87c3a",
+      "bytes": 9750
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/incentives.ts",
+      "sha256": "64bb11da5380a09caa3efb4f2531e26c7112f7301d377ba0aa2a6b7cf5ae13c1",
+      "bytes": 26359
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicator-differencing.ts",
+      "sha256": "58fb93179cd581c351fcc916c4148f0e663b6395847d057369a0500c21db5f0c",
+      "bytes": 19510
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicator-figure-differencing.ts",
+      "sha256": "fcfc7f2da6d585fa20835c87da4c7dc6d6cfdcd9e590871c8a4cef6990f309a6",
+      "bytes": 1830
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicator-figure-impact.ts",
+      "sha256": "607d1d0a7263a584c93cd785524f9b185549972d1f8a06a26d5064f925fe307c",
+      "bytes": 2821
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicator-figure-material.ts",
+      "sha256": "423cfceeaf230647ee38a41bbf07697acd963d9254f6d1952c11300f1a8affce",
+      "bytes": 6039
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicator-figures-server.ts",
+      "sha256": "28f3bf2204bdc66bfd8815d37fd45d14c0653a9ed4173b6d7b0a463563916321",
+      "bytes": 24092
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicator-freshness.ts",
+      "sha256": "72242f2382f5b4bcf32af92685c7d77a95fcd0ef4913d84dde8592ae9307c114",
+      "bytes": 9448
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicator-ledger.ts",
+      "sha256": "a32a03c58bd74167417b40b0428e71c9f314e2f35204c0d2eacedad8f8148eb8",
+      "bytes": 9051
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicator-registry.ts",
+      "sha256": "170ede89a4fa69771cefdc362f3bdf69cba32a46976f2a56eed444a7ecc365cb",
+      "bytes": 9005
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicators-server.ts",
+      "sha256": "d1917f3ec9844621c6697f0493f63ff72d3bbb78f5eb7dbf04a4e7137b4ac565",
+      "bytes": 20211
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/indicators.ts",
+      "sha256": "073240c736dda5e0b6defc8acb8948cbeb3c436ec94fbaf5ed68d8e6183ebfbe",
+      "bytes": 35090
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/installed-pack-transition-server.ts",
+      "sha256": "407261399ef73a19052f1ac69a633bba97c0ed001dfd754c400a36351790924c",
+      "bytes": 7965
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/installed-pack-transition.ts",
+      "sha256": "d0d5196bb1e0ea0cdb1a4f8ae90e67dd4a2237ce94c6d15989845f91d0615c6e",
+      "bytes": 14693
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/installed-pack-work-server.ts",
+      "sha256": "9f2cedb0695806d8dfdd3424c61e96773575e5caa102420a6c7bd13190983e84",
+      "bytes": 8058
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/installed-pack-work.ts",
+      "sha256": "1bbe2085218625ff6c7fe3a619c9481698da27f83cd695ce67a7a09adbeb656c",
+      "bytes": 15790
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/installed-transition-authority.ts",
+      "sha256": "5b2faac1e33eea0f135f060077d2180c148c103606e38f17214aaeda20a33856",
+      "bytes": 5401
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/media-server.ts",
+      "sha256": "1acd30010883701b7e86d771f9581ae9205076ebcebad65b84da941b85f75512",
+      "bytes": 14656
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/media-storage.ts",
+      "sha256": "61171d1ce545ca35df5c92749684d89e414cb38d258f7c70fc8d128e91ce7c76",
+      "bytes": 4811
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/media.ts",
+      "sha256": "f5b7a79329377473eb9c6824d19ece6a9ac6ae76b811dd4a24d6a28e1796badd",
+      "bytes": 5247
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/merge-server.ts",
+      "sha256": "96ae0cbbd61cbe2b5026e9c84c9e2213bd801db09093cbac9bfdfdb9e4f00fdf",
+      "bytes": 999
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/merge.ts",
+      "sha256": "a2fb2c4fe5f608ba734f94a772ffacc665dcf18e909fa1525eec6f90998bf558",
+      "bytes": 16083
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/messages.ts",
+      "sha256": "707a535319b30b13812a9f2a9fac43ef4034af9efbd54deda6c3e0eda9ef6058",
+      "bytes": 70037
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/mis-callback.ts",
+      "sha256": "01ce360534b2003c583381ff885c551ca274bc8bb74dcd552200d37421bdaaa2",
+      "bytes": 2696
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/mis-execution.ts",
+      "sha256": "baf89eddd9df9a02d07487875921e91ada73861a1464fc5cb350071f6ca22723",
+      "bytes": 12222
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/mis.ts",
+      "sha256": "4fe3e6222f7a277de95aa15ab61acf2ebd395d180ee5eee5108f8dbaba47c6f6",
+      "bytes": 40229
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/monitoring.ts",
+      "sha256": "5ef114ac5c2849674ad04c44667efcd1d46a981af4e190a0c62794d85141a3af",
+      "bytes": 3431
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/navigation.ts",
+      "sha256": "79da16b91178644b2bb89a02a4282e770ff2726d64740d9f402bab2c51be6237",
+      "bytes": 1710
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/notification-channel-server.ts",
+      "sha256": "c657a7031c5955e22ffd0a9cdb88aaeb0e69ebf983972cf8b51d0874cf36b289",
+      "bytes": 16074
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/notification-channel.ts",
+      "sha256": "0061bd16013f58403e64fa79d5dc0df7aee56017767311f10eb792e615ebb39f",
+      "bytes": 23058
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/notification-sources.ts",
+      "sha256": "f003f6f9e12521f3e88e820226fc1ac956caaf7dba240e3aa32cb3e24869a555",
+      "bytes": 4946
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/offline-opens.ts",
+      "sha256": "2bfe93e8944fa94271243c34d1e3aa7bd80da36c25879e34f299c749a7e706bd",
+      "bytes": 10552
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/operational-disclosure.ts",
+      "sha256": "05b391e7d731d79325e50097656339d7cfd725038ce6f0c0646da715a2e40ff2",
+      "bytes": 7719
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/operations-server.ts",
+      "sha256": "ec6fe8281e69ad38991cfebff897e4ae2c65607446c9126c5019e70af26167d9",
+      "bytes": 11381
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/operations.ts",
+      "sha256": "5ab819fd1bfc7eb9453832309ce49921a8567dacd4058f4e060015855646b46c",
+      "bytes": 18158
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/outreach-server.ts",
+      "sha256": "55f0bdae5390043b3213c0f600f4be9ccfcc673dce472b4a72bbe1aa4e1e8700",
+      "bytes": 4197
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/outreach.ts",
+      "sha256": "53a0a1567f4ce0e4f2c2b7ac8966a566cb8ba6eee38361b47a0283a22ab310e8",
+      "bytes": 23427
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/pack-installation-server.ts",
+      "sha256": "b7975acac324545347f1f8518e78079ef55de1be34aaf5b8edf6a52f4efc3a94",
+      "bytes": 3460
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/pack-installation.ts",
+      "sha256": "403b520c286c50cfbdcd57c6cb334308fb07bdffc0c62aa2521d2173fe095c69",
+      "bytes": 26525
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/partition.ts",
+      "sha256": "b96f00919b22781ede58080979e123a577c5b86d14acf963d12baad59ea80715",
+      "bytes": 4522
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/patient-directory-server.ts",
+      "sha256": "736f0e6d37b0cf46db1c29b0c67b78a45a8e5e9f3b16f38df5ddf78541f38253",
+      "bytes": 3757
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/patient-directory.ts",
+      "sha256": "c5e6b589f7ff962a2bdfd1b18a358b8de4712a02d4947848c5b0d927e130fc52",
+      "bytes": 7327
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/patient-import-server.ts",
+      "sha256": "65bd66ff7ae1af88a4cf7a1c63164ae195aa1927032de34c389b1c40be19c21c",
+      "bytes": 1397
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/patient-import.ts",
+      "sha256": "d503b2db2bf4621edd17feb1518ef0afcf863cf215bd210b1e79b7183ac49777",
+      "bytes": 11631
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/photo.ts",
+      "sha256": "7b5cc520a6dca2a087e39fd6638616e5c63183be570b5cea3fb2b55f33db83eb",
+      "bytes": 1733
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/pilot-server.ts",
+      "sha256": "dc137b0c3ddd5e075b8c4554bcdd37b058f0c12a3a803befc0b269fdd03e6560",
+      "bytes": 4389
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/pilot.ts",
+      "sha256": "45ea78dfce6dc89b5889526c8668cf7e7c24dd4ffbecde77dfb8be344b9e6351",
+      "bytes": 17277
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/platform.ts",
+      "sha256": "079c93aa8219fd01ddccb119e55f2e7b8ce3eb4ce72a98212540e026857f6f40",
+      "bytes": 19707
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/programme-commands.ts",
+      "sha256": "5f5eaad82ee58d09bd1e1388cd70741d2364e1034d0d4b9c9412cbba533ea1e1",
+      "bytes": 6689
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/programme-completion.ts",
+      "sha256": "6c93eea0e60dfd612d33ee3263038aa0c3d8505ad0e673953453eac15588cc17",
+      "bytes": 563
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/programme-migration-server.ts",
+      "sha256": "77ea7597f7b74240b63ef8f07fcdcae04636be22f38288639ac28a4f6abc8f3e",
+      "bytes": 2251
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/programme-migration.ts",
+      "sha256": "d036c5d4aba94f674ab608537bfc21662456f5ffcae780a965ae8eadc3758e2a",
+      "bytes": 10356
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/programmes.ts",
+      "sha256": "b85097af98872e7187bdbe58efd88b67709928d2ae41360f7b03fc7c95487077",
+      "bytes": 12350
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/provider-sandbox-server.ts",
+      "sha256": "7f0518064cfa047e3cd69dc381915a67bb832695f2ce7b7839917c12a4aacbbb",
+      "bytes": 3614
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/provider-sandbox.ts",
+      "sha256": "aa1f4c6416935de6cb14da8fae32cb904e693a6ed2c38f803da6fb574737707e",
+      "bytes": 12724
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/purpose-scope-server.ts",
+      "sha256": "5165efe89dae4394054dec4e057ef792aa94dd9d6f56b33c5195cad1bc67ebf1",
+      "bytes": 1853
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/purpose-scope.ts",
+      "sha256": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+      "bytes": 11334
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/read-audit.ts",
+      "sha256": "c92858bb4fd67332b48c3dddea73fa678f439f8182a0cf26064f2c1a0f8583c0",
+      "bytes": 9530
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/reason-codes.ts",
+      "sha256": "f2a33d2005dc5c9c917e4da6516d2a8b9957efcc0f0fe5c4b76e9553352cdf2f",
+      "bytes": 7654
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/reassignment-server.ts",
+      "sha256": "359b758919882e846d16a06a18f355207a2d86b6867649f5d5cad350c4815877",
+      "bytes": 558
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/reassignment.ts",
+      "sha256": "fb9a21b0a23091fbe589ec7175fd787ac348599166c959f3d5914069961b4a06",
+      "bytes": 14906
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/reconciliation-server.ts",
+      "sha256": "29d36601ab4e18cbc5820d4e8b9e1bb0ee57f5d3d77c33ac6cd451a72c21180e",
+      "bytes": 2601
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/reconciliation.ts",
+      "sha256": "6fa2aff4761d3c94202fec89d116acb218e9c8773d4b12968d522c712fb5f925",
+      "bytes": 9537
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/record-import-server.ts",
+      "sha256": "632414ddd444146e7389170f5df40f6f8cd9f3a381b1c8c2a52788853a6a3306",
+      "bytes": 4724
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/record-import.ts",
+      "sha256": "5f7491a921be80c32dee6555faf7b907b8af4dbc25cf3cecb3243f6a05c9ff27",
+      "bytes": 17052
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/record-opened-server.ts",
+      "sha256": "39882738ed9d7107371e1ab0dac4439cc6cefb2a0e9e5e8f367d8954b36c52e8",
+      "bytes": 2325
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/referral-consolidation.ts",
+      "sha256": "a28b19928fe6351465216d6151f86bc6b6db3a9616f93849ee621bc312295eea",
+      "bytes": 9545
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/referral-needs.ts",
+      "sha256": "69945022f17ce8e442afd54b145a3c7cd463c711fe42d7b9b306b0fe8bc6baca",
+      "bytes": 2022
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/referral-request-queue-server.ts",
+      "sha256": "aa5ad4dbcde1567975508bdf8540bd784c60584bd01f538b68bb1e5fed940476",
+      "bytes": 467
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/referral-request-queue.ts",
+      "sha256": "d77bf7e7aecc0617493e17a131dacd2017675780266d41c34f6053749b8372cf",
+      "bytes": 4086
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/referral-request.ts",
+      "sha256": "3378eb0ee3af4464170b8ca8d07d841d4fba5b071c7e36f61948488e53ff1f00",
+      "bytes": 3667
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/referral-rules.ts",
+      "sha256": "83bab3e0239be1bd0bbaae0a02824e27a836cadd1925707dfb406b146a3557b7",
+      "bytes": 3522
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/referrals-server.ts",
+      "sha256": "2f1ba19e7bb85c5e3cb2b04387fb0b12ab752087dc5b65fca8fffdf64b491fcc",
+      "bytes": 605
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/referrals.ts",
+      "sha256": "e9bf9970307c69e3367ba573da7aa46ef8d515bee45bf37c2b835056936a29bd",
+      "bytes": 7293
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/registration-device-work.ts",
+      "sha256": "99a350cf01380e1a9b33c5b0dbd61842894c893d35d85fc1fe43a5a947407bdc",
+      "bytes": 12828
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/reminder-optout-server.ts",
+      "sha256": "63f1f2fe059be34ffdac49dba9f4147b92c5dc03a7f47e2a2d8e31750c645242",
+      "bytes": 3523
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/reminder-optout.ts",
+      "sha256": "82819b759378ae05976b6372a48f69a39ccc2bf71f9d4b9e63843bb219698062",
+      "bytes": 5214
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/report-export.ts",
+      "sha256": "48edf0dd512afd95efc0c3ce96505166bebbc61ceaa543220ff5153ce9b452ae",
+      "bytes": 4311
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/reporting-completeness-server.ts",
+      "sha256": "044e7a50d1a5eb1f73ce96527511880c646fdcc8581118186db9b4d4f60c6611",
+      "bytes": 20512
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/reporting-completeness.ts",
+      "sha256": "0af88864ddb0503e894d3c52107976114c3c3696ebb42ed55341b6fc77ece9cc",
+      "bytes": 13291
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/request-body.ts",
+      "sha256": "fffdff36748975b2a1f5662301c09ef2239106e9a9cf928a832043985fe94136",
+      "bytes": 1575
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/request-discard.ts",
+      "sha256": "3097f0ed516cc583d0ecbe72b49d0f94a9f84007bbe60311239cbb70750a110a",
+      "bytes": 531
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/retention-server.ts",
+      "sha256": "197006df2ddbe228d7bbd9ec76829e49990df1f5143b4db7ac798424057c399e",
+      "bytes": 910
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/retention.ts",
+      "sha256": "af20d66d31e72bb366226fa73bf6f2fad6b5f2f5eb156674daa516eaf0020d2f",
+      "bytes": 7960
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/rights-server.ts",
+      "sha256": "f62cffed5c89ada9e8b8e50e8e7a16f83b7c89a0d36a296b21d42a05a3d02276",
+      "bytes": 779
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/rights.ts",
+      "sha256": "37a5904e5b7e21f050c90ea1d9bf4fa355e2b60fecfdcc38e3cc6bdf50cbf83a",
+      "bytes": 12439
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/roster-server.ts",
+      "sha256": "60f3aeecbff7fea3aad9eceed4057a42d6e27dceeec6b02d228e559e8191ff2b",
+      "bytes": 1044
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/roster.ts",
+      "sha256": "07b9c7e4289962fd1441f0091c6367cd895316d9928dc28e98a1b4e6b2980d0c",
+      "bytes": 7791
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/routine-visit-server.ts",
+      "sha256": "081a364a79e07078d721fa6100eb58b190d7fd077f85c4c5c0cf126eb154dbc6",
+      "bytes": 4392
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/routine-visit.ts",
+      "sha256": "859273d6e32fe775a39b23dae4baf4927043bdd4f195021c2fe613ced680d8cb",
+      "bytes": 1102
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/scheduled-job.ts",
+      "sha256": "e13af3baefb70a420f2c38aedbde75977878637b95c4b6a20aa549899bcefdce",
+      "bytes": 18910
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/scheduled-review.ts",
+      "sha256": "64e18cd6fd863cd16af4f30ace714ed82674dd4ae4cdd8e3a2f03fdb0574ebe9",
+      "bytes": 6766
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/seed.ts",
+      "sha256": "f3bb560923d5ff02e2f802a794439cc6b8b11e50ea88fc5c0710b95e347d23ff",
+      "bytes": 2756
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/send-gate.ts",
+      "sha256": "414d187b6d306b85d0a421a70fbdca2cdbdfb335edacf24aabc4f24a1d7ccb45",
+      "bytes": 12444
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/server.ts",
+      "sha256": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+      "bytes": 45366
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/service-dispatch.ts",
+      "sha256": "e5b56fbc33c47c66d63c1cef3ec59dba28f8b0f027839b5b30a873ca5b9bca75",
+      "bytes": 5519
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/service-identity.ts",
+      "sha256": "ecbf622863be899c0145ca80ee2d9ad416ffdbab7481698b0c3d34a75568e46b",
+      "bytes": 8685
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/shadow.ts",
+      "sha256": "bc3b7eee3775ed4e517d5208b0dfdaefcad98bfa17c05b204969d38c30271a52",
+      "bytes": 18878
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/speech.ts",
+      "sha256": "ad60e1b6a2a8a8e3f3f8f33785f9258365fb68d4fb5509eb4abcbd6f74829df1",
+      "bytes": 9257
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/store.ts",
+      "sha256": "a16ec292082b8f73eabb89a01c6e4558dda71620803a1d8aaa58db653b4ff630",
+      "bytes": 50590
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/task-limits.ts",
+      "sha256": "fcf090ac29297d66a8f95ba7bc4d953878ec513f1e636d16fbe5e7e7b45d1beb",
+      "bytes": 3969
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/team-pack-adoption.ts",
+      "sha256": "2e58eb482f5e4dd00ab131731aa577adc6f9d84b61fa641e09ba1fcbafc5a1fe",
+      "bytes": 1247
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/today-server.ts",
+      "sha256": "649322249f89a5b56f78dd724137a77ea43c3bb1fa338c49d0319372af646f2e",
+      "bytes": 2347
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/today.ts",
+      "sha256": "c13651c7d7cb8c1a8a335886b4086a73f98daca7328ec2d1eb642b38adae4ee7",
+      "bytes": 507
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/trace-server.ts",
+      "sha256": "d5e48acf089b6be8b141d485fc2d2acb24bea25af7d66c2f77205c1213284168",
+      "bytes": 2996
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/trace.ts",
+      "sha256": "ba42a46f718ab0f6ccfa8f0a1222ca31051f297b82f95f6305ca72936a1937b3",
+      "bytes": 14950
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/types.ts",
+      "sha256": "b97339c20f869d87838302bfc995b002ed062f0d558bfc5633b41d2abbce5832",
+      "bytes": 23837
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/verification-disputes.ts",
+      "sha256": "14a854bd01dad5431920c7d0e211207b8e925e05aac20d272223f813ef0d50c8",
+      "bytes": 4337
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/visit-import.ts",
+      "sha256": "056fa9b311910acc0e31891a48916b84d3d7871403907359e34dc7dda90d8888",
+      "bytes": 18640
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/visit-signoff.ts",
+      "sha256": "9f12dcc36ded410310d62819f9f8082d9c0f7ddb64ddf91a4229180e08ebe0ef",
+      "bytes": 22217
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/work-burden-attribution-server.ts",
+      "sha256": "d7ccbd9e98fa34417db42695614146124695adb56efe4c23ed53ad9b4f0e0182",
+      "bytes": 18747
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/work-burden-ledger-store.ts",
+      "sha256": "ff828252979a27016e38640fbf52c07b91940f42a45cb8c39c92a21ed2062330",
+      "bytes": 3434
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/work-burden-server.ts",
+      "sha256": "72e91c1d98b7e0c5b24c86ce69ca9c3e919d55d87c9608eebfd796e3e684043c",
+      "bytes": 9286
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/work-burden-types.ts",
+      "sha256": "3b3c994eea624179a78e492849edec5d83b63ad2298b63c31fd135c0c2d6ec15",
+      "bytes": 697
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/work-support-server.ts",
+      "sha256": "fc176b27cd70da6c79323b4e4a5303bd9eb0c13a822bf1d992bc47df6d3cce82",
+      "bytes": 9395
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/worker-activity-server.ts",
+      "sha256": "751b40e6ada5a23cada8cf7441fd544152136cc0a4c33715b08af20794aa0bd5",
+      "bytes": 1326
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/worker-activity.ts",
+      "sha256": "b27bf00faccadcd3d4df50f27f30245da0a7b6ef73f59bfd455a4db3e8ac7cff",
+      "bytes": 7152
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/workforce-import-server.ts",
+      "sha256": "24ceaee56342d294664d7a485f5a2dc0562845f63dad5b32ceb8a32d597f46d1",
+      "bytes": 1567
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/workforce-import.ts",
+      "sha256": "a155ae121252144aa62c628a0df5b262e832c2b6dc8d887e1944b7f67426c9f3",
+      "bytes": 16400
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/worklist-views.ts",
+      "sha256": "ce8226232d8a7560650414ed2ea27d6abefcd982a5351f4af2c0b4f1d3e95f37",
+      "bytes": 3941
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/worklists-server.ts",
+      "sha256": "0801e80fc22d179725b9afad172d539f51f2201587cc417b3adddd1ad3e969e3",
+      "bytes": 1803
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/saha/worklists.ts",
+      "sha256": "fe33ecf6318e33ffb74920a80fb243d5fe9cfd8c5f77dc10b336686e4bd6eb4b",
+      "bytes": 11605
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/lib/utils.ts",
+      "sha256": "53f3d3d070f0a9082934da25b875f9499855c2b0693868dd28be8c23d8730f68",
+      "bytes": 177
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/execution/tests/audit-contention-contract.mjs",
+      "sha256": "d42afc7ccf56b34dfdea191bc815a7a48189680cbf9a2d33d7a03d062f865e94",
+      "bytes": 8461
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/observation.json",
+      "sha256": "9cb311b57aa66e0a91e258049f25d6a1ab1605e8c641b93c92c3efc6b9402a82",
+      "bytes": 753
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/original-driver.mjs",
+      "sha256": "469bc3a1d7eae410859166f4ebca7db326f2136df02af36f2b277bad0a24c8bc",
+      "bytes": 7488
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/output.log",
+      "sha256": "43b16bd3ca97418f74e50bdd16358d0793b80830f7fabe23aca7cb34d01cbd48",
+      "bytes": 2583
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/receipt.json",
+      "sha256": "576a24557af622cbf5e2db45cf7d29cfecae758be97cb9c7bdc3e73545ecbb8a",
+      "bytes": 991
+    },
+    {
+      "path": "qualification/audit-contention/adverse-endpoint-zero/sampling.json",
+      "sha256": "03ec9dc75588ca90397f83a6ee51a2d2d0430de245435c6e5cc13bd6a6d70e4b",
+      "bytes": 200
+    },
+    {
+      "path": "qualification/audit-contention/history/AUDIT-CONTENTION-RESULT-before-adverse.json",
+      "sha256": "7651b827c6bcefeeabecd041f84c699864d23d88c0e6c7e58f300b529c67bdee",
+      "bytes": 3801
+    },
+    {
+      "path": "qualification/audit-contention/original-root-failure/unit-run.log",
+      "sha256": "a23b13e1ae8a9aa67d279b7e0789ef5492fe9f710d014673b2b5a961e24c666f",
+      "bytes": 13624
+    },
+    {
+      "path": "qualification/audit-contention/original-root-failure/unit-summary.json",
+      "sha256": "c27a886518be9e3504222b08e448d0f3c8610e20e64fc4f7450d8e7d9e1c4226",
+      "bytes": 122025
+    },
+    {
+      "path": "qualification/audit-contention/original-root-failure/unit__audit-contention-contract.log",
+      "sha256": "e1db01e6088416221fdd3f85064aedec490f9fe4caf53ad713c1284df39ce4b2",
+      "bytes": 824
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/output.log",
+      "sha256": "c5010f2e5262e832446095fa83151cc17cd1a6cadbabfe9e70981c9d00be8dbd",
+      "bytes": 507
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/receipt.json",
+      "sha256": "d137fb552e470b464024f44c5f7452e32753781642514d3174be2490e0bfe288",
+      "bytes": 1117
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/summary.json",
+      "sha256": "31eef6b53623ed0b21d3fffffd6e1d053ec9bdafa059e244a141559ab6a3fde7",
+      "bytes": 3015
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/catalogue.json",
+      "sha256": "ca9ed3c364eeefad4f27a064649dc9a006480377589e4a184bf5fac0d065e772",
+      "bytes": 475539
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/logs/integration__run-api-smoke.log",
+      "sha256": "985161c8bcef77a396c76c10ec1be33b9e1b74a24000c865d1426e7862a531e5",
+      "bytes": 8647
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/logs/resilience__recovery-drill.log",
+      "sha256": "224692c173ad2a588a490d2573d0f9e7e4dc1475241f233487911be193dad4f2",
+      "bytes": 1100
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/logs/smoke__today-browser.log",
+      "sha256": "019c6fcd57afc7287b294363ae2bd2d959522d7483b6bdfd6e51e39098321ef9",
+      "bytes": 25
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/logs/unit__audit-contention-contract.log",
+      "sha256": "546af635f72c8c0ebb5b946203776590e09af7b238b401684c56b73ef4d16102",
+      "bytes": 66
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/results/integration__run-api-smoke.json",
+      "sha256": "fbf931a489f9b5e569ec1357aa4a6841a74daaa99570b75974099be7784134e8",
+      "bytes": 8645
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/results/resilience__recovery-drill.json",
+      "sha256": "224692c173ad2a588a490d2573d0f9e7e4dc1475241f233487911be193dad4f2",
+      "bytes": 1100
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/results/unit__audit-contention-contract.json",
+      "sha256": "cc4130a74b1b0b1a245bc9f7e75e18e58d2cfd8ebdbcee9a9446ed7a6cf186f9",
+      "bytes": 156
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/summary-integration+resilience-only.json",
+      "sha256": "e2d80bac8f6274cb48143525babdc3037fe42e521191592075d1290c89ba08c0",
+      "bytes": 3878
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/summary-smoke-only.json",
+      "sha256": "3fc9d9a463b2c99f314534dfdeefdd525e70660f24ad5096ab5990a1f7bbc26a",
+      "bytes": 2836
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/summary-unit-only.json",
+      "sha256": "31eef6b53623ed0b21d3fffffd6e1d053ec9bdafa059e244a141559ab6a3fde7",
+      "bytes": 3015
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/summary.json",
+      "sha256": "31eef6b53623ed0b21d3fffffd6e1d053ec9bdafa059e244a141559ab6a3fde7",
+      "bytes": 3015
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/today/result.json",
+      "sha256": "efbd96bbef50c4a8f58d59125ccf2e5fd47bb534993156a72adf34694373d80a",
+      "bytes": 2517
+    },
+    {
+      "path": "qualification/audit-contention/same-runtime-reproduction-2/tests-reports/today/today.png",
+      "sha256": "6c8820aa284b7d9816262acd209124d3e356e8aa4d34f45c47e1ee239d6ce45e",
+      "bytes": 55517
+    },
+    {
+      "path": "qualification/audit-contention/source-pins.json",
+      "sha256": "c99ededaa2f28c1f2ea6812027432fbab626e447c7b44c9f4cbed7c98cab020f",
+      "bytes": 42302
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/output.log",
+      "sha256": "d901fc433aa19f7ae18adefec666aa49c0885e54aceb0467ab806df0525b84d4",
+      "bytes": 507
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/receipt.json",
+      "sha256": "aeb2b073f8df9c583df0a879c78b08df3df00b5f59064d5a306a0ee23499951a",
+      "bytes": 898
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/summary.json",
+      "sha256": "552ebb84a833aeb26ca16d6ae759247ae0bf06c3547bd16bab9fd473ae9afe05",
+      "bytes": 3012
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/catalogue.json",
+      "sha256": "d65d351e0719b993d4e78bb0914d96c45cad544ced0922e8ea2398ce81dae786",
+      "bytes": 475539
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/logs/integration__run-api-smoke.log",
+      "sha256": "985161c8bcef77a396c76c10ec1be33b9e1b74a24000c865d1426e7862a531e5",
+      "bytes": 8647
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/logs/resilience__recovery-drill.log",
+      "sha256": "224692c173ad2a588a490d2573d0f9e7e4dc1475241f233487911be193dad4f2",
+      "bytes": 1100
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/logs/smoke__today-browser.log",
+      "sha256": "019c6fcd57afc7287b294363ae2bd2d959522d7483b6bdfd6e51e39098321ef9",
+      "bytes": 25
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/logs/unit__audit-contention-contract.log",
+      "sha256": "91dd107081c49fa8d4e34a3ebc5cf298d93d2d16a535165e0b18ba4f316ce5c1",
+      "bytes": 66
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/results/integration__run-api-smoke.json",
+      "sha256": "fbf931a489f9b5e569ec1357aa4a6841a74daaa99570b75974099be7784134e8",
+      "bytes": 8645
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/results/resilience__recovery-drill.json",
+      "sha256": "224692c173ad2a588a490d2573d0f9e7e4dc1475241f233487911be193dad4f2",
+      "bytes": 1100
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/results/unit__audit-contention-contract.json",
+      "sha256": "2d819df85df8efeea39aa5b5b21f2f73730c2d12b909f2245a6dc2f59937bb0f",
+      "bytes": 156
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/summary-integration+resilience-only.json",
+      "sha256": "e2d80bac8f6274cb48143525babdc3037fe42e521191592075d1290c89ba08c0",
+      "bytes": 3878
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/summary-smoke-only.json",
+      "sha256": "3fc9d9a463b2c99f314534dfdeefdd525e70660f24ad5096ab5990a1f7bbc26a",
+      "bytes": 2836
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/summary-unit-only.json",
+      "sha256": "552ebb84a833aeb26ca16d6ae759247ae0bf06c3547bd16bab9fd473ae9afe05",
+      "bytes": 3012
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/summary.json",
+      "sha256": "552ebb84a833aeb26ca16d6ae759247ae0bf06c3547bd16bab9fd473ae9afe05",
+      "bytes": 3012
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/today/result.json",
+      "sha256": "efbd96bbef50c4a8f58d59125ccf2e5fd47bb534993156a72adf34694373d80a",
+      "bytes": 2517
+    },
+    {
+      "path": "qualification/audit-contention/unchanged-reproduction-1/tests-reports/today/today.png",
+      "sha256": "6c8820aa284b7d9816262acd209124d3e356e8aa4d34f45c47e1ee239d6ce45e",
+      "bytes": 55517
+    },
+    {
+      "path": "qualification/current-focused-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "qualification/current-lint-ratchet.log",
+      "sha256": "db43f8945c2e7fbe07dd1733d24f8dbb18f65ba6185fab1f3c8d6474805c8f7e",
+      "bytes": 248
+    },
+    {
+      "path": "qualification/current-routine-guard-summary.json",
+      "sha256": "f14ed14fc0177a43c81dcdb4ae9d9ea5f455c011c9f9230ea79cfeaec6a5b69f",
+      "bytes": 2854
+    },
+    {
+      "path": "qualification/current-routine-guard.log",
+      "sha256": "9962099775671017bbee5f5fd1b5893f29b3010f930d193e5163d6f40621b638",
+      "bytes": 496
+    },
+    {
+      "path": "qualification/current-types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "qualification/existing-checks/ARTIFACT-MANIFEST.json",
+      "sha256": "fc12076d7909ce5db1502187f203e47f4fa6e708c4d4f4b47c22f25660d35b09",
+      "bytes": 5956
+    },
+    {
+      "path": "qualification/existing-checks/EXISTING-CHECKS-RESULT.json",
+      "sha256": "1147e55f9d6c2985f8431fde0b144949ceebce761162cfeff72f9594873feb96",
+      "bytes": 6786
+    },
+    {
+      "path": "qualification/existing-checks/README.md",
+      "sha256": "02aa964bfa1311019772cdc7ddb7828a472460694cc622cc68234c399108f7a2",
+      "bytes": 3209
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/output.log",
+      "sha256": "1253d02443eca96c52446af0dd896e556379ee187fa4c2c96889f68c01c88f91",
+      "bytes": 826
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/receipt.json",
+      "sha256": "afe86a3dc3758dc52ce4c5cb24717056767ab52a2bf5dcec88e6a29463e0e923",
+      "bytes": 1622
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/summary.json",
+      "sha256": "e2d80bac8f6274cb48143525babdc3037fe42e521191592075d1290c89ba08c0",
+      "bytes": 3878
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/catalogue.json",
+      "sha256": "481fd0a96397164445f099620b293154a037d3b370677ff433076ad61b337c13",
+      "bytes": 475539
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/logs/integration__run-api-smoke.log",
+      "sha256": "985161c8bcef77a396c76c10ec1be33b9e1b74a24000c865d1426e7862a531e5",
+      "bytes": 8647
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/logs/resilience__recovery-drill.log",
+      "sha256": "224692c173ad2a588a490d2573d0f9e7e4dc1475241f233487911be193dad4f2",
+      "bytes": 1100
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/logs/smoke__today-browser.log",
+      "sha256": "019c6fcd57afc7287b294363ae2bd2d959522d7483b6bdfd6e51e39098321ef9",
+      "bytes": 25
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/results/integration__run-api-smoke.json",
+      "sha256": "fbf931a489f9b5e569ec1357aa4a6841a74daaa99570b75974099be7784134e8",
+      "bytes": 8645
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/results/resilience__recovery-drill.json",
+      "sha256": "224692c173ad2a588a490d2573d0f9e7e4dc1475241f233487911be193dad4f2",
+      "bytes": 1100
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/summary-integration+resilience-only.json",
+      "sha256": "e2d80bac8f6274cb48143525babdc3037fe42e521191592075d1290c89ba08c0",
+      "bytes": 3878
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/summary-smoke-only.json",
+      "sha256": "3fc9d9a463b2c99f314534dfdeefdd525e70660f24ad5096ab5990a1f7bbc26a",
+      "bytes": 2836
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/summary.json",
+      "sha256": "e2d80bac8f6274cb48143525babdc3037fe42e521191592075d1290c89ba08c0",
+      "bytes": 3878
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/today/result.json",
+      "sha256": "efbd96bbef50c4a8f58d59125ccf2e5fd47bb534993156a72adf34694373d80a",
+      "bytes": 2517
+    },
+    {
+      "path": "qualification/existing-checks/api-recovery/tests-reports/today/today.png",
+      "sha256": "6c8820aa284b7d9816262acd209124d3e356e8aa4d34f45c47e1ee239d6ce45e",
+      "bytes": 55517
+    },
+    {
+      "path": "qualification/existing-checks/build/output.log",
+      "sha256": "7b5a3564e9cab36a17977c962fb95320c338d26df849e31545669de9d544aa91",
+      "bytes": 5022
+    },
+    {
+      "path": "qualification/existing-checks/build/receipt.json",
+      "sha256": "7e3da6f716d0174665bf41a309e982cb6694a29d2e1bb3015abcfda5383c0b00",
+      "bytes": 32777
+    },
+    {
+      "path": "qualification/existing-checks/frozen-root-source.patch",
+      "sha256": "70b765064b185c81531f8aef13d500e6884f59581ea2aa0d9f9cef1274bf074c",
+      "bytes": 35570
+    },
+    {
+      "path": "qualification/existing-checks/frozen-source/app/routine-visit/routine-visit.tsx",
+      "sha256": "5d33b321bbd026b3a49725471a11dc78b8097433ce302129fe30aace32ac7bac",
+      "bytes": 14831
+    },
+    {
+      "path": "qualification/existing-checks/frozen-source/app/today/today.tsx",
+      "sha256": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87",
+      "bytes": 6239
+    },
+    {
+      "path": "qualification/existing-checks/frozen-source/lib/saha/today-server.ts",
+      "sha256": "649322249f89a5b56f78dd724137a77ea43c3bb1fa338c49d0319372af646f2e",
+      "bytes": 2347
+    },
+    {
+      "path": "qualification/existing-checks/frozen-source/tests/smoke/routine-visit-browser.mjs",
+      "sha256": "d9caba225da8814182689ab0ea9e6af5c62ff6c234c34ae39351608e7f1fbd4d",
+      "bytes": 29478
+    },
+    {
+      "path": "qualification/existing-checks/source-snapshot.json",
+      "sha256": "2daee30376d3927ba9fc6af3c38bd0a97c114d43efb07e8f2294c643b0dd2a1a",
+      "bytes": 8149
+    },
+    {
+      "path": "qualification/existing-checks/today/output.log",
+      "sha256": "86d048928c55c92cce3ae8b4597fbad8cf35f747b7146f9bf30114071e60e892",
+      "bytes": 479
+    },
+    {
+      "path": "qualification/existing-checks/today/receipt.json",
+      "sha256": "9b7ad74328f1bc379271d3a697be4802e8cc01bb3d3aea87e2b4639d9b770581",
+      "bytes": 945
+    },
+    {
+      "path": "qualification/existing-checks/today/summary.json",
+      "sha256": "3fc9d9a463b2c99f314534dfdeefdd525e70660f24ad5096ab5990a1f7bbc26a",
+      "bytes": 2836
+    },
+    {
+      "path": "qualification/existing-checks/today/tests-reports/catalogue.json",
+      "sha256": "f5b789568c179e984a4dac5a0fa004392f146011a1cea0d11b5836041a8ef0fd",
+      "bytes": 475539
+    },
+    {
+      "path": "qualification/existing-checks/today/tests-reports/logs/smoke__today-browser.log",
+      "sha256": "019c6fcd57afc7287b294363ae2bd2d959522d7483b6bdfd6e51e39098321ef9",
+      "bytes": 25
+    },
+    {
+      "path": "qualification/existing-checks/today/tests-reports/summary-smoke-only.json",
+      "sha256": "3fc9d9a463b2c99f314534dfdeefdd525e70660f24ad5096ab5990a1f7bbc26a",
+      "bytes": 2836
+    },
+    {
+      "path": "qualification/existing-checks/today/tests-reports/summary.json",
+      "sha256": "3fc9d9a463b2c99f314534dfdeefdd525e70660f24ad5096ab5990a1f7bbc26a",
+      "bytes": 2836
+    },
+    {
+      "path": "qualification/existing-checks/today/tests-reports/today/result.json",
+      "sha256": "efbd96bbef50c4a8f58d59125ccf2e5fd47bb534993156a72adf34694373d80a",
+      "bytes": 2517
+    },
+    {
+      "path": "qualification/existing-checks/today/tests-reports/today/today.png",
+      "sha256": "6c8820aa284b7d9816262acd209124d3e356e8aa4d34f45c47e1ee239d6ce45e",
+      "bytes": 55517
+    },
+    {
+      "path": "qualification/second-repair-build.log",
+      "sha256": "6e7f86f6e9383a805ea3b5b5b00719024d20fce502943b2e48c1ab6a9064ec72",
+      "bytes": 4939
+    },
+    {
+      "path": "qualification/third-repair-build.log",
+      "sha256": "4e370599f6762ab01c3a980fcd3f6e427529edb843e66a5a8ac462a747bf6bb2",
+      "bytes": 4939
+    },
+    {
+      "path": "qualification/unit-run.log",
+      "sha256": "a23b13e1ae8a9aa67d279b7e0789ef5492fe9f710d014673b2b5a961e24c666f",
+      "bytes": 13624
+    },
+    {
+      "path": "qualification/unit-summary.json",
+      "sha256": "c27a886518be9e3504222b08e448d0f3c8610e20e64fc4f7450d8e7d9e1c4226",
+      "bytes": 122025
+    }
+  ],
+  "pending": [
+    "Audited-read starvation repair and one full unit gate",
+    "Complete applicable reference-device/network NFR",
+    "Actual final-head CI/required protections and full publication review",
+    "Sponsor merge authority; paid actions require financial authority",
+    "Qualified isolated merge/exact hosted SHA/authorized live routine smoke"
+  ],
+  "formalUatAccepted": 0,
+  "formalUatTotal": 364,
+  "formalBrdAccepted": 0,
+  "formalBrdTotal": 176,
+  "nextFeatureD04": "HELD until original A1-A10 pass",
+  "publicationNote": "File pins bind this record. Final pushed Git head is recorded in a separate append-only publication receipt, not guessed here."
+}

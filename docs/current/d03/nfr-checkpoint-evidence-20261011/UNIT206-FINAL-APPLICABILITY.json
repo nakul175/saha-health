@@ -1,0 +1,157 @@
+{
+  "generatedAtUtc": "2026-10-11T01:32:42.212043+00:00",
+  "scope": "One unchanged canonical206 local-unit run in owned copy, followed by source-only applicability comparison with current parent worktree. The old native policy13 unit was actually executed and passed; this run was not Worker-free. No new runtime, full-head hosted CI, NFR, reference-device, live staging, release or owner acceptance claim.",
+  "actualResult": {
+    "startedAtUtc": "2026-10-11T01:28:09.814968+00:00",
+    "finishedAtUtc": "2026-10-11T01:31:21.183797+00:00",
+    "durationMs": 191368,
+    "exitCode": 0,
+    "suitesObserved": 206,
+    "passed": 10802,
+    "failed": 0,
+    "skipped": 0,
+    "guard": {
+      "ok": true,
+      "findings": [],
+      "warnings": [],
+      "evaluated": 206,
+      "newSuites": []
+    },
+    "failedSuites": []
+  },
+  "resultReferences": {
+    "summary": {
+      "file": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/summary.json",
+      "sha256": "b777fa5fc817c3d6f4cd3f410e61d076060402943f9f6e8ad2739bccf3ddb806"
+    },
+    "rawResultReceipt": {
+      "file": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/ACTUAL-UNIT206-RECEIPT.json",
+      "sha256": "62ea84182b426db7b303326ecf2ff3f7d184f8f18eca5d61179be7e33a15c07e"
+    },
+    "rawCanonicalLog": {
+      "file": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/canonical-unit206.log",
+      "sha256": "447000e680a156c4a31d3a392e6cefdb095d6d3fac56bc4017bdfe445ea9c96f"
+    },
+    "sourceInputPins": {
+      "file": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/SOURCE-INPUT-PINS.json",
+      "sha256": "f8accdc8fa979a155afe5d7ca7c6aee064097cde40a967892f12e839d27ce47b"
+    },
+    "compactCurrentSourceApplicability": {
+      "file": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/CURRENT-ROOT-SOURCE-SCOPE-COMPACT.json",
+      "sha256": "568e1425d85cb4fd9ebab896d1a4c754571702ddfc238e6aaa7f4071a23dd7ff"
+    },
+    "fullCurrentSourceApplicability": {
+      "file": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/CURRENT-ROOT-SOURCE-SCOPE-COMPARISON.json",
+      "sha256": "db2a764dde185799035a4c8751eca25c92031a0ce43f16ae88d71f6b0cbaad41"
+    },
+    "importAndBaselinePreservation": {
+      "file": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/IMPORT-AND-BASELINE-RECEIPT.json",
+      "sha256": "b3562fe61399d98fa3b3b21609d3a1ac1af728b0b22bd328473254bc0a1a0543"
+    }
+  },
+  "currentParentApplicability": {
+    "checkedAtUtc": "2026-10-11T01:32:04.929915+00:00",
+    "parentHeadAtComparison": "791782c754bb2de4804a2c75cf8566be3abbfee4",
+    "unitIdFileMappingsExact": true,
+    "unitSuiteCount": 206,
+    "catalogueSupportMappingExact": true,
+    "sourceFilesCompared": 1573,
+    "mismatches": [],
+    "sourceScope": "All unit drivers, all catalogue support scripts, all scripts, app/lib/migrations, relevant runtime/configuration files and other test-source extensions. Current parent original Today UI bdbc, namespace access229, storea460 and current metadata13 fixture305 all match owned inputs.",
+    "requiredSourcePins": {
+      "lib/saha/access-audit.ts": {
+        "rootSha256": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a",
+        "ownedSha256": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a"
+      },
+      "lib/saha/store.ts": {
+        "rootSha256": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+        "ownedSha256": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb"
+      },
+      "lib/saha/today-server.ts": {
+        "rootSha256": "e7cd44cd64febb49b53e93359d4a63360bbb13d29680b4fbf6a21a3dc7aff10d",
+        "ownedSha256": "e7cd44cd64febb49b53e93359d4a63360bbb13d29680b4fbf6a21a3dc7aff10d"
+      },
+      "app/today/today.tsx": {
+        "rootSha256": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87",
+        "ownedSha256": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87"
+      },
+      "app/api/today/route.ts": {
+        "rootSha256": "abd801efb6b600239cc3b5bc5064bb295a19315264c33def4b8850502274ca80",
+        "ownedSha256": "abd801efb6b600239cc3b5bc5064bb295a19315264c33def4b8850502274ca80"
+      },
+      "tests/access-audit-excess-metadata-contract.mjs": {
+        "rootSha256": "305e7802b78f25154b1e92005b20b0bebaa0cdcc7efde85e8aafae55c2060d6b",
+        "ownedSha256": "305e7802b78f25154b1e92005b20b0bebaa0cdcc7efde85e8aafae55c2060d6b"
+      },
+      "tests/regression-baseline.json": {
+        "rootSha256": "c94336830a425e07fe88c047d35edbb9e80b7a620e8d46fb6d6f063387611414",
+        "ownedSha256": "c94336830a425e07fe88c047d35edbb9e80b7a620e8d46fb6d6f063387611414"
+      },
+      "scripts/test.mjs": {
+        "rootSha256": "d79bac1aa300f167dc9381dd420bfcaea01e5389745e8f1f0690be57d2d4e042",
+        "ownedSha256": "d79bac1aa300f167dc9381dd420bfcaea01e5389745e8f1f0690be57d2d4e042"
+      },
+      "scripts/test-catalogue.mjs": {
+        "rootSha256": "d1f3bacb4233bd341bc0926b4467eae5698b26da1fca78585db67de677fb6212",
+        "ownedSha256": "d1f3bacb4233bd341bc0926b4467eae5698b26da1fca78585db67de677fb6212"
+      }
+    },
+    "excludedDocumentationEvidenceChanges": {
+      "changedFrozenInputCount": 18,
+      "extraCurrentParentFilesCount": 63,
+      "exactPathAndHashListsInCompactReceipt": true,
+      "disposition": "These documentation, assessment, derived coverage/catalogue and evidence/source-baseline files were not included in the applicability claim. This unit run used its pinned older doc/evidence inputs, so parent current docs/requirements/UAT checks remain separately qualified by root."
+    }
+  },
+  "baselinePreservation": {
+    "originalRows": 382,
+    "currentRows": 383,
+    "originalRowRawTextExact": true,
+    "originalRowValuesExact": true,
+    "originalHistoryLogExact": true,
+    "allOriginalMinimaUnchanged": true,
+    "originalNfrAuthorisationMinimum": 59,
+    "originalNfrLoadMinimum": 13,
+    "soleNewUnitEntry": {
+      "id": "unit/report-source-refusal-contract",
+      "layer": "unit",
+      "file": "tests/report-source-refusal-contract.mjs",
+      "minPassed": 11
+    },
+    "currentBaselineSha256": "c94336830a425e07fe88c047d35edbb9e80b7a620e8d46fb6d6f063387611414",
+    "beforeReference": {
+      "file": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/BASELINE-BEFORE-382.json",
+      "sha256": "c5a067e76a457ae405812b711cbae8843380bb790bc4ebc3f20e22d9a384eb6e"
+    },
+    "afterReference": {
+      "file": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/BASELINE-AFTER-383.json",
+      "sha256": "c94336830a425e07fe88c047d35edbb9e80b7a620e8d46fb6d6f063387611414"
+    },
+    "canonicallyGeneratedAtActualUtcDate": "2026-10-11"
+  },
+  "ownedCleanup": {
+    "inputFileCount": 16670,
+    "inputBytesExactAfterRestoration": true,
+    "buildFileCount": 278,
+    "buildBytesExactAfter": true,
+    "generatedInputsArchivedThenRestored": 115,
+    "remainingUnexpectedSourceChanges": {},
+    "portConnectEx": {
+      "21451": 61,
+      "21452": 61,
+      "19550": 61
+    },
+    "ownedProcessMatches": [],
+    "processInventoryExitCode": 0,
+    "noOtherProcessesKilled": true
+  },
+  "preservedOpenResults": {
+    "oldOriginalUnitRed201": "Retained; passing later qualified source does not rewrite the original assertion failure.",
+    "originalNfrFive": "198/2 retained, original driver bytes/minima/targets unchanged.",
+    "currentNfr": "Auth63/0; load12/3 with360completed/400slots after one exact report-source409 retry exhaustion. Retained red; retry budget and production guard not relaxed.",
+    "realUiFull1000": "Routine connected p95 approximately3132ms exceeds original3000ms; full1000 evidence retained.",
+    "withdrawnNextLinkCandidate": "Not imported or qualified. Current original Today UI matches source input.",
+    "formalApproval": "0/364 formal register remains unchanged; A9/A10 and physical Android/R1 NFR remain pending."
+  },
+  "copySafeBoundary": "Compact summary/receipts/source/artifact manifests can be copied into docs; raw per-suite logs/results and generated historical input outputs remain local. Synthetic fixture measurements do not constitute natural-person approval."
+}

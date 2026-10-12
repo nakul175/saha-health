@@ -1,0 +1,112 @@
+{
+  "recordedAtUtc": "2026-10-11T01:31:02.092881+00:00",
+  "kind": "Root affected checks for new reviewed NFR fixtures/documentation; not hosted CI or story delivery",
+  "parentHead": "791782c754bb2de4804a2c75cf8566be3abbfee4",
+  "buildExitCode": 0,
+  "typecheckExitCode": 0,
+  "lint": {
+    "exitCode": 0,
+    "errors": 1392,
+    "warnings": 618,
+    "originalRatchetUnchanged": true,
+    "initialReferenceDriverWarnings": 621,
+    "disposition": "Initial lint retained; exact reference-only driver bytes stored with .mjs.txt suffix, no executable/runtime lint input and no baseline raised."
+  },
+  "documentation": {
+    "status": "passed",
+    "scope": "Documentation integrity against the current baseline (application-d03-nfr-fixture-checkpoint-2026-10-11-sha256.json); not product execution or formal acceptance",
+    "baselineSourceFiles": 1803,
+    "originalFiles": 91,
+    "originalArchiveEntries": 89,
+    "unchangedOfficeFiles": 12,
+    "requirements": 176,
+    "preservedTestCases": 364,
+    "historicalProductAssertions": 1284,
+    "sliceEvidenceAssertions": 844773,
+    "currentRelativeLinks": 923,
+    "generatedFiles": 38,
+    "wordReferences": 10,
+    "workbookSheets": 13,
+    "workbookFormulas": 380,
+    "formalAccepted": 0,
+    "testCases": 364,
+    "formalCatalogueCasesRun": 0,
+    "httpRoutes": 99,
+    "commandDiscriminators": 253,
+    "applicationTables": 60,
+    "sqlColumns": 475,
+    "designScreens": 22,
+    "currentNavigationEntries": 14,
+    "historicalAssertions": 1284,
+    "migrationFiles": 33,
+    "prototypeScriptPreserved": true
+  },
+  "requirementsCheckExitCode": 0,
+  "catalogueCheckExitCode": 0,
+  "uatInitial": {
+    "passed": 62,
+    "failed": 1,
+    "guard": false,
+    "disposition": "Generated COVERAGE stale after additive test catalogue; original report retained. Normal generator repaired docs, no assertion/minimum change."
+  },
+  "uatAfterNormalGeneration": {
+    "passed": 63,
+    "failed": 0,
+    "skipped": 0,
+    "guardEvaluated": 3,
+    "guard": true
+  },
+  "unit206": "Pending actual isolated complete run; separate receipt required",
+  "applicationRuntimeUnchanged": true,
+  "allHistoricalSourceManifestsRetained": true,
+  "logs": {
+    "BUILD.log": {
+      "bytes": 5022,
+      "sha256": "614a9be097643d20e3fa7b7a5ac08ea50be998249f47dde97d0f018d1f868aef"
+    },
+    "TYPES.log": {
+      "bytes": 63,
+      "sha256": "c35f2424235ba232f059514b72746d95f8a42286c454677ef748954aed7c5f36"
+    },
+    "LINT.log": {
+      "bytes": 333,
+      "sha256": "e94be5155d501bee794f3eb74a0aa42bfef308e8634007e6834622e236e422aa"
+    },
+    "LINT-REFERENCE-ARTIFACTS.log": {
+      "bytes": 333,
+      "sha256": "7dca4a33e244e4c0433627d4f9fcde6bff1b502905f6bc09f5710e61f792a05c"
+    },
+    "DOCUMENTATION.log": {
+      "bytes": 898,
+      "sha256": "e8fc7eb480a36ff860eaba1d035407882bdfc6bc3682b6e5fce80812c0fd55f2"
+    },
+    "REQUIREMENTS-CHECK.log": {
+      "bytes": 104,
+      "sha256": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c"
+    },
+    "CATALOGUE.log": {
+      "bytes": 1225,
+      "sha256": "9f560e8cd8e61b545049b4c330e6f7c8a2c5985e712e8e9d0b54706e293cd3e1"
+    },
+    "UAT-SUMMARY.json": {
+      "bytes": 4045,
+      "sha256": "72c03deaac48826850f371ff784ddeec8edac9c21fca80544689a79770784587"
+    },
+    "UAT-REGENERATED-SUMMARY.json": {
+      "bytes": 3848,
+      "sha256": "9ecb1289bff53f6c0281011b0c9914b7bd2db24b4e3d8962c9226f421f823367"
+    },
+    "UAT.log": {
+      "bytes": 1278,
+      "sha256": "d7cbacdf41b104158d9a5086feb444f221d296782f82101d86f680aee597df04"
+    },
+    "UAT-REGENERATED.log": {
+      "bytes": 606,
+      "sha256": "a3dc3354f72208188babe514d861bd126699de121082efa0514816e620c7791d"
+    },
+    "COVERAGE-GENERATE.log": {
+      "bytes": 255,
+      "sha256": "5e75695352d6f40a078c6c6655d8420d94f266e7538a6aaff54bb37d31b96e09"
+    }
+  }
+}

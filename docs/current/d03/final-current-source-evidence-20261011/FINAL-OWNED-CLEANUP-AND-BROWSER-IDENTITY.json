@@ -1,0 +1,73 @@
+{
+  "observedAtUtc": "2026-10-11T19:50:34.984117+00:00",
+  "execSession88301Exit": 0,
+  "measurementFinishedAtUtc": "2026-10-11T19:47:01.079Z",
+  "ownedProcessGroups": [
+    13635,
+    13917
+  ],
+  "processReadExit": 0,
+  "remainingOwnedProcesses": [],
+  "ports": {
+    "21293": {
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    "21292": {
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "ownedProcessesAndPortsObservedDisposed": true,
+  "postRunPreviouslyObservedLoadedBrowserImage": {
+    "path": "/Users/athena/Library/Caches/ms-playwright/chromium_headless_shell-1194/chrome-mac/headless_shell",
+    "before": {
+      "inode": 39382804,
+      "device": 16777233,
+      "size": 146794928,
+      "mtimeNs": 1791014027323486385,
+      "ctimeNs": 1791014027342190691
+    },
+    "after": {
+      "inode": 39382804,
+      "device": 16777233,
+      "size": 146794928,
+      "mtimeNs": 1791014027323486385,
+      "ctimeNs": 1791014027342190691
+    },
+    "stableDuringMetadataRead": true,
+    "sha256": "a9752d8852a3972a07e4cddf63fa37019606336de0201631147519c732fa3040",
+    "versionExit": 0,
+    "version": "Chromium 141.0.7390.37",
+    "stderr": "",
+    "midRunReceipt": "outputs/saha-eight-hour-20261011/retention-final-nfr/preparation/OBSERVED-BROWSER-LOADED-IMAGE.json",
+    "midRunReceiptContent": {
+      "observedAtUtc": "2026-10-11T19:42:47.413917+00:00",
+      "browserPid": 13917,
+      "observedExecutable": "/Users/athena/Library/Caches/ms-playwright/chromium_headless_shell-1194/chrome-mac/headless_shell",
+      "filesystemStat": {
+        "inode": 39382804,
+        "device": 16777233,
+        "bytes": 146794928,
+        "mtimeNs": 1791014027323486385,
+        "ctimeNs": 1791014027342190691
+      },
+      "loadedExactExecutableEntries": [
+        {
+          "descriptor": "txt",
+          "deviceHex": "0x1000011",
+          "inode": "39382804",
+          "path": "/Users/athena/Library/Caches/ms-playwright/chromium_headless_shell-1194/chrome-mac/headless_shell"
+        }
+      ],
+      "lsofExit": 0,
+      "loadedInodeEqualsCurrentFile": true,
+      "scope": "Read-only mid-run loaded-image identity; no version command/new browser/control/benchmark or source mutation. Post-run exact executable version may be recorded separately."
+    },
+    "scope": "Post-run metadata of mid-run observed loaded image; no fabricated driver browser.version or start-to-finish all-binary attestation"
+  },
+  "noProcessKill": true,
+  "unrelatedProcessesNotTouched": true
+}

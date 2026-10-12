@@ -1,0 +1,1566 @@
+{
+  "schema": "independent-final-current-source-regression-evidence-v1",
+  "recordedAt": "2026-10-11T19:20:33.558690+00:00",
+  "reviewerAgent": "/root/routine_independent_qa",
+  "verdict": "PASS_SCOPED_FINAL_CURRENT_SOURCE_CI_AND_ORIGINAL_GUARDS__A9_FULL_NFR_AND_A10_HELD",
+  "head": "914175509d52e3fd33ac3b6b1c3dcc46c02f399d",
+  "tree": "87ebe673b0f475186576c6343cc77a88168816ba",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "CI": {
+    "run": 38165380186,
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "regressions",
+        "databaseId": 114546750031,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "original-backend-nfr",
+        "databaseId": 114546750102,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "availability-fixture-diagnostic",
+        "databaseId": 114546750127,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "checks",
+        "databaseId": 114546750159,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "bounded-report-load",
+        "databaseId": 114546750161,
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "native-authorization-control",
+        "databaseId": 114546750173,
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "snapshot": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/ACTUAL-WHOLE-CI-SNAPSHOT-007.json",
+    "snapshotSHA256": "85eaa9055946553aa11ed0a75ff5b98e24b82577c9d9aa1dd7c99362c319a962",
+    "rawRegressionLog": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/ACTUAL-REGRESSIONS-JOB-114546750031.log",
+    "rawRegressionLogSHA256": "a8756ac4f48310d9395fb82211f7bc32b4479bb6c2ef3f48d341560afac70a37"
+  },
+  "artifact": {
+    "id": 11712832500,
+    "name": "engineering-regression-evidence",
+    "zipSHA256": "152f051b9fc751f5f566b3eacaee5c6336dca3200305c66a87f18c0c102ec831",
+    "bytes": 1464757,
+    "safeFileMembers": 292,
+    "memberHashes": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/ACTUAL-REGRESSION-MEMBER-HASHES.json"
+  },
+  "actualSummaries": {
+    "summary-integration+smoke+ui-only.json": {
+      "totals": {
+        "suites": 147,
+        "passed": 7691,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 1560048
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 147,
+        "newSuites": []
+      },
+      "perSuite": [
+        {
+          "id": "integration/app-offline-scope-browser",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/asha-guided-capture-browser",
+          "status": "passed",
+          "passed": 48,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/asha-guided-capture-conditional",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/asha-guided-capture-legacy-range",
+          "status": "passed",
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/asha-guided-capture-uncertainty",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/auxiliary-read-http",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/clinical-source-browser",
+          "status": "passed",
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/clinical-source-dependency-http",
+          "status": "passed",
+          "passed": 31,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/clinical-source-http",
+          "status": "passed",
+          "passed": 28,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/clinical-source-identity-http",
+          "status": "passed",
+          "passed": 7,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/clinical-source-retrieval-browser",
+          "status": "passed",
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/clinical-source-retrieval-http",
+          "status": "passed",
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/command-authority-http",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/composite-authority-repair-http",
+          "status": "passed",
+          "passed": 86,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/composite-measures-browser",
+          "status": "passed",
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/composite-measures-http",
+          "status": "passed",
+          "passed": 133,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/contact-import-independent-review",
+          "status": "passed",
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/delta-read-audit-http",
+          "status": "passed",
+          "passed": 26,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/figure-impact-browser",
+          "status": "passed",
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/figure-impact-http",
+          "status": "passed",
+          "passed": 101,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/figure-impact-independent-extra-http",
+          "status": "passed",
+          "passed": 111,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/guided-home-browser",
+          "status": "passed",
+          "passed": 33,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/guided-programme-reset-original-probe",
+          "status": "passed",
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/guided-programme-reset-variants",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/guided-registration-browser",
+          "status": "passed",
+          "passed": 45,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/guided-registration-overflow-browser",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/guided-registration-root-independent-browser",
+          "status": "passed",
+          "passed": 53,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/guided-repair-independent-probe",
+          "status": "passed",
+          "passed": 53,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/household-completion-authority-review",
+          "status": "passed",
+          "passed": 118,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/household-completion-http",
+          "status": "passed",
+          "passed": 105,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/household-completion-independent-http",
+          "status": "passed",
+          "passed": 105,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/household-reschedule-http",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/household-reschedule-independent-http",
+          "status": "passed",
+          "passed": 26,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/import-unit-parity-browser",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/imported-evidence-browser",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/imported-evidence-http",
+          "status": "passed",
+          "passed": 40,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/imported-evidence-independent-browser",
+          "status": "passed",
+          "passed": 6,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/imported-evidence-independent-http",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/imported-media-independent-probe",
+          "status": "passed",
+          "passed": 84,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-conflicts-browser",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-conflicts-http",
+          "status": "passed",
+          "passed": 48,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-conflicts-independent-authority",
+          "status": "passed",
+          "passed": 49,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-conflicts-independent-handoff",
+          "status": "passed",
+          "passed": 50,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-conflicts-pressure-repair",
+          "status": "passed",
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-conflicts-transport-http",
+          "status": "passed",
+          "passed": 325,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-retrieval-after-browser",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-retrieval-after-http",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-retrieval-browser",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-retrieval-http",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-retrieval-original-race-after",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-retrieval-service-independent-http",
+          "status": "passed",
+          "passed": 38,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/inbound-retrieval-service-repair-http",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/indicator-figures-browser",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/indicator-figures-edition-http",
+          "status": "passed",
+          "passed": 54,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/indicator-figures-http",
+          "status": "passed",
+          "passed": 72,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/indicator-figures-review-authority",
+          "status": "passed",
+          "passed": 84,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/indicator-figures-review-submission",
+          "status": "passed",
+          "passed": 26,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/indicator-figures-submission-http",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/indicator-figures-submission-independent",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/indicator-governance-browser",
+          "status": "passed",
+          "passed": 20,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/indicator-governance-clock-http",
+          "status": "passed",
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/indicator-governance-http",
+          "status": "passed",
+          "passed": 61,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/indicator-governance-independent-http",
+          "status": "passed",
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/installed-programme-execution-extra-http",
+          "status": "passed",
+          "passed": 154,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/installed-programme-execution-http",
+          "status": "passed",
+          "passed": 111,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/installed-programme-execution-browser",
+          "status": "passed",
+          "passed": 121,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/completeness-cold-extra-authority-http",
+          "status": "passed",
+          "passed": 89,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/completeness-cold-extra-browser",
+          "status": "passed",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/composite-authority-independent-extra-http",
+          "status": "passed",
+          "passed": 95,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/contact-import-http",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/household-completion-browser",
+          "status": "passed",
+          "passed": 39,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/report-portability-after-http",
+          "status": "passed",
+          "passed": 87,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/report-portability-http",
+          "status": "passed",
+          "passed": 79,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/mapping-lifecycle-review-browser",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/app-offline-browser",
+          "status": "passed",
+          "passed": 22,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/offline-opens-browser",
+          "status": "passed",
+          "passed": 49,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/offline-programme-browser",
+          "status": "passed",
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/device-work-purge-failure-browser",
+          "status": "passed",
+          "passed": 49,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/range-protocol-browser",
+          "status": "passed",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/app-offline-review-browser",
+          "status": "passed",
+          "passed": 22,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/touch-units-browser",
+          "status": "passed",
+          "passed": 20,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/mapping-conformance-browser",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/mapping-conformance-http",
+          "status": "passed",
+          "passed": 91,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/mapping-conformance-independent-http",
+          "status": "passed",
+          "passed": 108,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/mapping-lifecycle-browser",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/mapping-lifecycle-http",
+          "status": "passed",
+          "passed": 53,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/mapping-lifecycle-review-http",
+          "status": "passed",
+          "passed": 73,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/device-work-browser",
+          "status": "passed",
+          "passed": 64,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/object-media-browser",
+          "status": "passed",
+          "passed": 16,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/object-media-budget-http",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/object-media-http",
+          "status": "passed",
+          "passed": 65,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/object-media-independent-extra-http",
+          "status": "passed",
+          "passed": 26,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/object-media-independent-storage-boundary",
+          "status": "passed",
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/object-media-legacy-regression",
+          "status": "passed",
+          "passed": 88,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/object-media-migration",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/object-media-native-boundary",
+          "status": "passed",
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/offline-guided-author-browser",
+          "status": "passed",
+          "passed": 36,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/offline-open-account-binding-browser",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/offline-open-unsent-pruning-browser",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/offline-opens-auth-first-http",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/offline-opens-http",
+          "status": "passed",
+          "passed": 39,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/offline-opens-transport-http",
+          "status": "passed",
+          "passed": 170,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/offline-sync-hash-device-browser",
+          "status": "passed",
+          "passed": 64,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/offline-sync-hash-cold-extra-browser",
+          "status": "passed",
+          "passed": 55,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/offline-sync-hash-repair-browser",
+          "status": "passed",
+          "passed": 51,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/operational-privacy-browser",
+          "status": "passed",
+          "passed": 51,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/operational-privacy-adverse-http",
+          "status": "passed",
+          "passed": 245,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/operational-privacy-extra-http",
+          "status": "passed",
+          "passed": 478,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/operational-privacy-http",
+          "status": "passed",
+          "passed": 79,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/programme-raw-key-http",
+          "status": "passed",
+          "passed": 115,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/programme-raw-key-original-probe",
+          "status": "passed",
+          "passed": 65,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/range-first-tap-browser",
+          "status": "passed",
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/raw-key-independent-authority-http",
+          "status": "passed",
+          "passed": 161,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/reconciliation-http",
+          "status": "passed",
+          "passed": 16,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/registration-device-browser",
+          "status": "passed",
+          "passed": 32,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/registration-wire-receipt-http",
+          "status": "passed",
+          "passed": 46,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/reminder-optout-http",
+          "status": "passed",
+          "passed": 55,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/reporting-completeness-repaired-http",
+          "status": "passed",
+          "passed": 97,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/reporting-completeness-repaired-account-browser",
+          "status": "passed",
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/reporting-completeness-repaired-browser",
+          "status": "passed",
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/service-identity-management",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/sync-receipt-cold-scope-browser",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/verification-send-browser",
+          "status": "passed",
+          "passed": 127,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/verification-send-http",
+          "status": "passed",
+          "passed": 118,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/verification-send-extra-http",
+          "status": "passed",
+          "passed": 181,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/verification-send-uncertainty-browser",
+          "status": "passed",
+          "passed": 131,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/verification-send-legacy-http",
+          "status": "passed",
+          "passed": 173,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-account-transition-review-browser",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-auth-first-http",
+          "status": "passed",
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-browser",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-continuation-adversarial-review",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-continuation-phone-review",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-field-browser",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-field-continuation-http",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-field-hooks-browser",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-field-http",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-field-identity-review",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-http",
+          "status": "passed",
+          "passed": 32,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-ledger-browser",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-ledger-http",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/work-burden-transport-http",
+          "status": "passed",
+          "passed": 325,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "integration/work-support-visibility-http",
+          "status": "passed",
+          "passed": 23,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "integration/workspace-metadata-smoke",
+          "status": "passed",
+          "passed": 20,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "smoke/reconciliation-ui",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "smoke/reminder-optout-refresh-browser",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "smoke/app-back-browser",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "ui/availability",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        }
+      ],
+      "restoredHistoricalTrackedEvidenceCount": 180,
+      "sha256": "d9965d7e184f9499b03173113deb62968c84feaf6fd0b01b9daa9af7d140c2ad"
+    },
+    "summary-smoke+nfr+uat-only.json": {
+      "totals": {
+        "suites": 9,
+        "passed": 497,
+        "failed": 0,
+        "skipped": 1,
+        "failedSuites": 0,
+        "durationMs": 87729
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 9,
+        "newSuites": []
+      },
+      "perSuite": [
+        {
+          "id": "smoke/hosted-smoke",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "smoke/local-smoke",
+          "status": "passed",
+          "passed": 32,
+          "failed": 0,
+          "skipped": 1,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "smoke/routine-visit-browser",
+          "status": "passed",
+          "passed": 244,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "smoke/today-browser",
+          "status": "passed",
+          "passed": 58,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "stdout"
+        },
+        {
+          "id": "nfr/authorisation-matrix",
+          "status": "passed",
+          "passed": 63,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "nfr/identity-hardening",
+          "status": "passed",
+          "passed": 29,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "uat/check-uat-register",
+          "status": "passed",
+          "passed": 44,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "uat/coverage-map",
+          "status": "passed",
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        },
+        {
+          "id": "uat/generate-uat-pack",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0,
+          "countSource": "result-file"
+        }
+      ],
+      "restoredHistoricalTrackedEvidenceCount": 0,
+      "sha256": "367a711375aceae2d23cbbe6a8eb44058c8c1425d6e43e80362c7cda95b7c384"
+    }
+  },
+  "explicitNeverPassedSkip": {
+    "actualFile": "tests/reports/d03/local-routine-current-smoke-result.json",
+    "count": 1,
+    "check": {
+      "label": "GET /api/media/[id]",
+      "ok": null,
+      "skipped": "needs the id of an uploaded media file; this run uploads none"
+    },
+    "scopeAssessment": "Inherited original broad local smoke has no uploaded-media fixture. This is not a routine-story acceptance assertion and is preserved as skipped, never silently converted to pass or claimed executed. The original guard minimum remains satisfied. Media feature/formal acceptance remains unqualified."
+  },
+  "formalUATRegister": {
+    "register": "docs/testing/uat/uat-results.csv",
+    "rows": 158,
+    "scriptedCases": 158,
+    "catalogueCases": 364,
+    "empty": 158,
+    "Pass": 0,
+    "Fail": 0,
+    "Blocked": 0,
+    "NotRun": 0,
+    "formallyExecuted": 0
+  },
+  "hostedSelfTestLimitations": [
+    "The edge is a stand-in written for this test, not Cloudflare. It shows the checks react correctly to good and bad sites; it does not show how the real Access behaves (the real redirect shape, kid parameter, service-token handling).",
+    "TLS and plain-HTTP checks are skipped here (local stand-ins speak http).",
+    "The service token 200 branch is exercised with a canned answer, not the real app: the real app refuses a service token (no email claim)."
+  ],
+  "newAvailabilityFixtureWithinWholeRegression": {
+    "actualGroups": 11,
+    "finalJournalEventCount": 14,
+    "overflow": false,
+    "actualDisablePostCount": 1,
+    "renderedSubmittedVersion": 3,
+    "actualDisableStatus": 200,
+    "refreshAndAvailabilityStatuses": [
+      200,
+      200
+    ],
+    "reasonHashCorrelationVerified": true,
+    "journalSHA256": "26851ba88f8fb4fbdcdeb759228a0267354d5b34ac86b67fee740d67767ab622"
+  },
+  "completeSourceAssessment": {
+    "file": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/INDEPENDENT-COMPLETE286-SOURCE-ASSESSMENT.json",
+    "sha256": "ab8e863d97d7063cf1369599784151b1d0f9df4d15b43d0c3c26a826e43fc31a"
+  },
+  "scope": [
+    "147 App-first suites7691passed/0failed/0skipped; all147guards satisfied",
+    "9 downstream suites497passed/0failed/1explicit inherited media-smoke skip; all9originalguards satisfied",
+    "Former exactPR207 offline-unsent13/reminder55 failures do not recur on this actual current primary run; their own oldbase receipts remain failed history",
+    "UAT tooling63 assertions validates structure only; formal0/364",
+    "CI completed; final immutable04 full NFR must still finish with raw1000/path+cold/degraded+before/after source/build custody+cleanup reviewed separately",
+    "A10 qualified merge, observed hosting SHA and live synthetic journey still held; hosted selftest is not staging evidence"
+  ],
+  "runtimeOrSourceEditsByReviewer": false,
+  "criteriaOrMinimumChangesByReviewer": false
+}

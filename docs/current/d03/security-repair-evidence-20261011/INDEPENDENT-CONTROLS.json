@@ -1,0 +1,115 @@
+{
+  "scope": "Independent small adversarial controls on copied mutable-author source. The compiler plugin writes genuine fixture receipts, fake registry output is explicit, no registry/backend/product build. Not final qualification.",
+  "sourceHashes": {
+    ".github/workflows/ci.yml": "7c43c3cbe617b4aa8649e15b467641b094a487bd39e081a7a569a04ed117df19",
+    "package.json": "8f76a902a6b143cede61435c0b2d8887e38aa4004a35570a9e01de171b239415",
+    "pnpm-lock.yaml": "ff3031cfe106098da32d4ee69199ea94c0d673a0a3df445ee486fc9bd454afaf",
+    "pnpm-workspace.yaml": "ad05806302c6d8c8a20bcb09c93240e38d7d4e9464255f40a460b77be757f26c",
+    "vite.config.ts": "364a1f98c90bb6abbe8cfdb26195a131c0a7d543c05a309c06867cd00e8f414c",
+    "build/bundle-provenance.mjs": "56415251625d6393fb4c087ff249bdb8f7a5f102addb766957dd5fbef7c5c186",
+    "scripts/security-gate.mjs": "d30f04d62af5809b8495e99a85751470478b3219926fa43f8c9bb16a7d468771",
+    "scripts/lib/bundle-provenance.mjs": "a8e8a934e68318366a801f84f7e120acbc95c0d4ca4f3beb456eb3b0c449df7d",
+    "scripts/lib/bundle-audit-coverage.mjs": "e63122a86e2bec1dad8766af0f740f23a3cf590fea14b7510ebbafde5fc5ee8b",
+    "scripts/lib/security-audit-response.mjs": "8e8274e1b3de29e6116ff45beccdc0b4260d13d31fc44b0da74a2c41e6211edd",
+    "tests/bundle-provenance-contract.mjs": "c1f917a3db1833b82004ad72d0fb7390ab59cf25e52ff612c7050566dd73fb76",
+    "tests/bundle-audit-coverage-contract.mjs": "1747f943927a94eccf3c602a996594d7409c2e19ea28a4024f6fedfe3ea4e3de",
+    "tests/security-audit-response-contract.mjs": "9bdf0127b6adadfe908995a8a706e13c6c336c3f199b7fee593fff837e5558d7",
+    "tests/fixtures/security-audit-error-response.json": "1cf39c12597e369266d82ea7fd9caac58ad95be4d2ff4c51fa76359466424061",
+    "tests/fixtures/security-audit-supported-pnpm.json": "346bdc2515be342cc66507b32fa52b7a06a4717aba21b24054e682d8fff55989",
+    "tests/regression-baseline.json": "47846e677554424ead2b122906d2c6727aa9ca9620bd4277656968a153ebd0d9"
+  },
+  "observations": [
+    {
+      "case": "valid actual compiler receipt plus controlled high shipped advisory blocks",
+      "exit": 1,
+      "stdout": "{\"passed\":false,\"productionComponents\":2,\"counts\":{\"info\":0,\"low\":0,\"moderate\":0,\"high\":1,\"critical\":0},\"blocking\":1,\"accepted\":0}\n",
+      "stderr": "",
+      "passed": false,
+      "blocking": 1,
+      "reportedPackages": [
+        {
+          "name": "react-server-dom-webpack",
+          "version": "19.2.6"
+        }
+      ]
+    },
+    {
+      "case": "nonzero audit error JSON refuses",
+      "exit": 3,
+      "stdout": "",
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "passed": false,
+      "blocking": 0
+    },
+    {
+      "case": "package omission retaining original trusted compiler receipt refuses",
+      "exit": 3,
+      "stdout": "",
+      "stderr": "Built bundle provenance unavailable; failing closed.\n",
+      "passed": false,
+      "blocking": 0
+    },
+    {
+      "case": "prototype-derived bootstrap",
+      "refused": true,
+      "error": "Built bundle provenance unavailable or inconsistent."
+    },
+    {
+      "case": "remote unrecorded dependency asset",
+      "refused": true,
+      "error": "Built bundle provenance unavailable or inconsistent."
+    },
+    {
+      "case": "extra sidecar execution",
+      "refused": true,
+      "error": "Unexpected non-whitespace character after JSON at position 2 (line 1 column 3)"
+    },
+    {
+      "case": "stale built version borrows patched lock audit",
+      "refused": true,
+      "error": "Built dependency versions are not covered by the audited lock graph."
+    },
+    {
+      "case": "legitimate compiler-written concurrent rebuild during audit must invalidate earlier applicability",
+      "exit": 3,
+      "stdout": "",
+      "stderr": "Build changed during dependency audit; failing closed.\n",
+      "passed": false,
+      "blocking": 0,
+      "initialPackages": [
+        {
+          "name": "react",
+          "version": "19.2.8"
+        }
+      ],
+      "actualFinalPackages": [
+        {
+          "name": "react-server-dom-webpack",
+          "version": "19.2.6"
+        }
+      ],
+      "initialManifest": [
+        {
+          "file": "server/saha-bundle-provenance.json",
+          "sha256": "bf8df88870125cc1c6e7417f79b04c39ddf0114ae813ff09f75aa75da9b06a1f",
+          "compilerReceipt": {
+            "file": ".sites-runtime/bundle-provenance/2f467bff0495c42b99868f359a582ca327e6c7fd77a36f81b912e6f103bf921f.json",
+            "sha256": "cc87c667ecc786b5ede40914978d0c37de7b420c572dd7b97dd129e5cd9dbc00"
+          }
+        }
+      ],
+      "actualFinalManifest": [
+        {
+          "file": "server/saha-bundle-provenance.json",
+          "sha256": "a322f04c19e4748cee956593d54236f1a68dc22b7cb35cc6c3fc0687af33fcb1",
+          "compilerReceipt": {
+            "file": ".sites-runtime/bundle-provenance/2f467bff0495c42b99868f359a582ca327e6c7fd77a36f81b912e6f103bf921f.json",
+            "sha256": "6e42045c22b142ea978e2a34a13904c3142958a81b52da0d544b301c3b102b53"
+          }
+        }
+      ],
+      "finalReaderAccepts": true,
+      "requirementPassed": true
+    }
+  ]
+}

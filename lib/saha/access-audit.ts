@@ -4,6 +4,7 @@ import { ACCESS_AUDIT } from './audit-chain';
 import { exceptionalGrant, normallyAllowed } from './access';
 import { heldBy } from './delegation';
 import { persist, type Actor } from './store';
+import * as store from './store';
 import type { Audit, Member, OrgState, Person } from './types';
 export { ACCESS_ACTION_NAMES } from './types';
 // Slice 6t: material reads and external requests are recorded in the organisation's audit hash chain
@@ -93,8 +94,22 @@ async function write(db: D1Database, s: OrgState, actor: Actor, m: Member, list:
   const before = shell(s), after = shell(s), authority = authorityClause(authoritySource, m, now);
   const events: Audit[] = list.map(a => ({ id: uuid(), at: now, actor: actor.displayName, actorId: actor.userId, role: m.role, action: a.action, subject: a.subject, detail: a.detail + authority, personId: a.personId ?? null }));
   after.workspace.audit = events;
-  try { await persist(db, before, after, actor, { type: ACCESS_AUDIT }, 'access_' + events[0].id, '', null); }
-  catch (e) { console.error('Access audit not recorded', e instanceof AppError ? e.status : e instanceof Error ? e.name : 'unknown'); fail(503, ACCESS_REFUSED); }
+  try {
+    if (actor.userId !== m.userId || m.status !== 'active') throw new store.AccessMembershipRefused();
+    if (!Number.isSafeInteger(m.version) || m.version < 1 || typeof m.isOwner !== 'boolean')
+      throw new Error('Invalid initiating access membership.');
+    await persist(db, before, after, actor, { type: ACCESS_AUDIT, accessMembership: {
+      userId: m.userId, version: m.version, role: m.role, isOwner: m.isOwner,
+    } }, 'access_' + events[0].id, '', null);
+    // An append may have committed before authority is revoked. Keep its immutable
+    // evidence, but refuse disclosure unless the same membership is still current.
+    // This is a membership checkpoint only; callers retain their patient/purpose guards.
+    const current = await db.prepare('SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?')
+      .bind(s.organisation.id, actor.userId).first<{role: string;status: string;version: number;is_owner: number}>();
+    if (!current || current.status !== 'active' || current.version !== m.version || current.role !== m.role || current.is_owner !== (m.isOwner ? 1 : 0))
+      throw new store.AccessMembershipRefused();
+  }
+  catch (e) { if (typeof store.AccessMembershipRefused === 'function' && e instanceof store.AccessMembershipRefused) throw e; console.error('Access audit not recorded', e instanceof AppError ? e.status : e instanceof Error ? e.name : 'unknown'); fail(503, ACCESS_REFUSED); }
   return events;
 }
 // Slice 6w (fifth review, finding 7): a paging client names up to 50 opened patients (x-saha-patient-window) and

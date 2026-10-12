@@ -1,0 +1,151 @@
+{
+  "createdAt": "2026-10-11T01:18:06.211948+00:00",
+  "status": "ACTUAL PARTIAL PASS; LOAD LIVENESS/REGRESSION GATE STILL RED",
+  "sourceProposalPatchSha256": "094c697795b0b264659490d3691c99b63684fcb5b42133c29296393fdce68b45",
+  "sourceProposalReceiptSha256": "8b7140d2d8797e6241a54d6fa005dd855c6089e00cf699fe46c6162759deccb9",
+  "independentSourceReviewSha256": "fa4fe778cd39d911bdb62a9781188b1c36649f88c7cd0e5dc4f686c089c6cc52",
+  "actualClassifier": {
+    "passed": 11,
+    "failed": 0,
+    "exitCode": 0
+  },
+  "actualNativeCausalControl": {
+    "passed": 10,
+    "failed": 0,
+    "exitCode": 0,
+    "actualBuiltHttp": true,
+    "actualNativeD1": true,
+    "statuses": [
+      200,
+      409,
+      200
+    ],
+    "noDataRefusal": true,
+    "ownedTriggerDropped": true,
+    "membershipVisitReceiptAuditHistoryControlsPassed": true
+  },
+  "canonicalRecords": [
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix-current-fixture.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9330,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    },
+    {
+      "id": "nfr/load-burst",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/load-burst-current-fixture.mjs",
+      "tier": "extended",
+      "status": "failed",
+      "passed": 12,
+      "failed": 3,
+      "skipped": 0,
+      "durationMs": 5967,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/load-burst-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/nfr__load-burst.log"
+    }
+  ],
+  "originalMinimaUnchanged": {
+    "nfr/authorisation-matrix": 59,
+    "nfr/load-burst": 13
+  },
+  "loadActual": {
+    "logicalSlotsStarted": 361,
+    "logicalSlotsCompleted": 360,
+    "requiredLogicalSlots": 400,
+    "slotStarts": [
+      11,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "slotCompletions": [
+      10,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "slotFailures": [
+      {
+        "client": 0,
+        "role": "owner",
+        "slot": 10,
+        "error": "Error: client 0 (owner) read /api/operations: 409 {\"error\":\"Reporting authority or source changed while the report was released. Refresh before viewing it.\"}"
+      }
+    ],
+    "httpAttempts": 489,
+    "reportCounters": {
+      "refusedResponses": 23,
+      "retryRequests": 22,
+      "exhaustedSlots": 1
+    },
+    "reportRetryExhaustions": [
+      {
+        "client": 0,
+        "role": "owner",
+        "slot": 10,
+        "path": "/api/operations",
+        "additionalAttempts": 4,
+        "status": 409,
+        "body": "{\"error\":\"Reporting authority or source changed while the report was released. Refresh before viewing it.\"}"
+      }
+    ],
+    "allAttemptLogicalReadLatency": {
+      "observedSlots": 273,
+      "completed": 272,
+      "failed": 1,
+      "p50Ms": 36.407499999999345,
+      "p95Ms": 107.45224999999982,
+      "maximumMs": 862.8325,
+      "basis": "All attempted logical read slots, including every retry, backoff, failed transport/response, body parse and synchronous evidence instrumentation; additional diagnostic, not a replacement reference-device/R1 target."
+    },
+    "transportFailures": []
+  },
+  "finalScope": {
+    "sourceExactAfter": true,
+    "sourceCount": 16670,
+    "distExactAfter": true,
+    "distCount": 278,
+    "ownedPortsFree": true,
+    "ownedProcessMatches": [],
+    "noSuiteRerun": true,
+    "noBudgetRaised": true,
+    "original198and2CheckpointSha256": "5a1d1b58eca36f3bcda575506f095f587990e2fa525c3d8ddccf608ed6e20d39",
+    "noAcceptanceGranted": true,
+    "noFinalGitHeadCIClaim": true
+  },
+  "remaining": [
+    "Bounded report refresh policy exhausted under original eight-way workload; required400 logical slots did not complete, and current load gate12<min13 remains red.",
+    "Source diagnosis/native causal control does not reconstruct missing private original load basis or qualify reporting liveness.",
+    "Full physical reference-device/R1/production/CI/formalA9 remain pending; original fullUI Routine3s numerical breach remains separate red."
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "recordedAtUtc": "2026-10-12T06:22:30.303660+00:00",
+  "predecessor": "91b4551e6660d238d73bc7737f89f4de2ae44eee",
+  "actualFailedRun": 38211718250,
+  "actualFailedJob": 114687145830,
+  "failure": "Original uat/coverage-map:8passed/1failed; committed generated COVERAGE.md omits new six-contributor role fixture. Failure retained outsideGit; no waiver.",
+  "generator": "tests/uat/coverage-map.mjs",
+  "generatorSHA256": "72f0255e0fe15b383c6cec55da6558eb94a240ab4f6029ba628e42d65a565ff9",
+  "generatedFile": "docs/testing/COVERAGE.md",
+  "generatedSHA256": "b197e690645ff94fce96767cafd9c47c1f1fbc6e1d94b2c2645cc1374005836e",
+  "inventory": {
+    "onDisk": 1093,
+    "unmapped": 757,
+    "UIFiles": 21,
+    "newFile": "tests/ui/roles-safe-cohort-positive.spec.mjs"
+  },
+  "actualLocalChecks": {
+    "register": 44,
+    "coverage": 9,
+    "pack": 10,
+    "failed": 0,
+    "skipped": 0
+  },
+  "formalBRDAcceptance": "0/176",
+  "formalUATExecuted": "0/364",
+  "requirementsAssessmentsEvidenceMapCatalogueUnchanged": true,
+  "sourceTestsOraclesRuntimeUnchanged": true,
+  "newHeadNormalCI": "PENDING",
+  "A9Qualified": false,
+  "merged": false,
+  "observedHosting": false,
+  "limits": [
+    "Generated file inventory is not acceptance or execution count.",
+    "Exact successor requires its own actual normal CI and independent review.",
+    "Root first local regeneration attempt lacked TypeScript; owned ignored symlink to existing pinned5.9.3 package enabled unchanged generator; no dependency declaration or lock change."
+  ]
+}

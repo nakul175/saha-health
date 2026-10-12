@@ -1,0 +1,18 @@
+{
+  "parent": "e939670e444883408ae4fec995aa537948dafecb",
+  "scope": "Test launcher changes only; all original15 assertions/8x50slots/no-unhandled5xx budget/min13 exact after declared launcher/path/limitdescription changes. Actualnative Worker stdout/stderr and structured console captured; originallog-error assertion preserved. No command retry or application change. ActualnativeHTTP/capturecontrol pending.",
+  "beforeRun": 38133795676,
+  "before": "400/400slots but14/1; actual POST same-key race503 wrapper says Worker restarted mid-request, no-store absent. Realfailure retained, notaccepted merely because minimum13passes.",
+  "sourceSha256": {
+    "tests/nfr/load-burst-current-fixture.mjs": "3734ea65ac1e2231792fde5d2d8f6a89a5ac03428bd363519b3e61fe35bc90d3",
+    "tests/nfr/load-burst-native-fixture.mjs": "438a1988ccf14ad9a0c88595d27470f7cf8251dd3c59687e6be26e524ada5345",
+    "tests/native-runtime-log-probe.mjs": "914ebcfe94870407bf820e8d45c6537958b9acb9cc7bba269d9ce977ad97679a",
+    "tests/lib/native-observed-runtime.mjs": "4a220880052d9ea4c28e5526932908a568b3e0e4680b987b53718e68213afe2d"
+  },
+  "sha256": {
+    "tests/evidence/native-load-runtime-20261011/before-load14-failure.json": "07fbbdb03a042cce89eea904c863da9b6235b538296763422cb9cc88d43734ee"
+  },
+  "control": "New actual inline workerd HTTP+raw/structured console probe, expected12 checks, not yetexecuted; original loadlog oracle remains; no fake emptyoutput",
+  "preservation": "Shared original tests/lib/miniflare.mjs remains byte-exact e939. New observed runtime adapter holds logcapture; old evidence/test helpers are not rewritten, checker criteria unchanged.",
+  "extraGuard": "Actual application saha_request transcript required before unchanged original unexpected-log oracle; raw streams concatenate original bytes without chunk-tag insertion. All15 original checks retained, extra capture safeguard."
+}

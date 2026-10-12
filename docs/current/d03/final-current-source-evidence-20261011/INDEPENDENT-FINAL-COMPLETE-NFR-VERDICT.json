@@ -1,0 +1,239 @@
+{
+  "reviewerAgent": "/root/routine_final_review",
+  "authorAgent": "/root/routine_independent_qa",
+  "reviewedAtUtc": "2026-10-11T19:54:55.709708+00:00",
+  "independence": "Separate from NFR author, authorized by human parallel request and root assignment; actual retained files/raw math/cryptography/source were inspected without rerunning the application.",
+  "verdict": "PASS_COMPLETE_IMMUTABLE04_LOCAL_SYNTHETIC_SURROGATE_NFR_EVIDENCE",
+  "sourceCommit": "04f00953347ff2733ba6a83235c06688d9b2f0f5",
+  "sourceTree": "eb9241108581463277963c88afe380806f450e26",
+  "driverSHA256": "d7d59dbb2fe2221c22c7d2d49ca0e2b978cc6b8033abd467ae35508dcdd374e7",
+  "observerSHA256": "a72fc6254fd12ae84f23b1fabf9ae3ab6cf462dd344234c9d0e8ac5656c3b20a",
+  "actualExecSession88301Exit": 0,
+  "measurementFinishedAtUtc": "2026-10-11T19:47:01.079Z",
+  "actualToolCompletionObservedAtRoot": "2026-10-11T19:49Z",
+  "supportingReceipts": [
+    {
+      "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/nfr-source-independent-review/INDEPENDENT-NFR-SOURCE-CUSTODY-VERDICT.json",
+      "sha256": "763a5681907c92665bd689c947d69311ec800eb771e24f9346f4c7dc67105eb6"
+    },
+    {
+      "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/nfr-final-independent-review/INDEPENDENT-NFR-RAW-MATH-CUSTODY-READBACK.json",
+      "sha256": "2e4b549007457c7be7cac97dff1a52adb4f6dbc7bcb4c381f59eb8c4beaf7c1b"
+    },
+    {
+      "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/nfr-final-independent-review/INDEPENDENT-RETAINED-CIPHERTEXT-READBACK.json",
+      "sha256": "6c1762f90242c30e280a4f6c6721e478c4bbcc6c711efa15bfdd1eda055820c9"
+    },
+    {
+      "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/preparation/FINAL-OWNED-CLEANUP-AND-BROWSER-IDENTITY.json",
+      "sha256": "1dbad4505f29440d362a8cc0714e055c9a5b55c569f7ba9abb998e973ce2a4b0"
+    },
+    {
+      "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/preparation/OBSERVED-BROWSER-LOADED-IMAGE.json",
+      "sha256": "0c9d322b811a7c2ae9e180782376f75244dd5b209792466300b248f73b3915e0"
+    }
+  ],
+  "exactResults": {
+    "records": 12000,
+    "primary": 10000,
+    "additionalComposite": 2000,
+    "cohorts": 12,
+    "uniqueAttemptIdsPerLane": "Each exact0..999 once",
+    "completedScreensPerLane": 1000,
+    "terminalErrors": 0,
+    "unexplainedSetupErrors": 0,
+    "pageErrors": 0,
+    "noReplacementObservations": true,
+    "actualControls": 33,
+    "originalTargetsUnchanged": true,
+    "allP95MathRecomputed": true,
+    "sourceAndCompiledInputFilesUnchanged": 3138,
+    "compiledDistFilesRehashed": 281,
+    "signatureAndAuthenticatedRetainedVaultRecordsIndependentlyVerified": 5,
+    "durableCachedPresentationIdsUnique": 2000,
+    "realNativeCohortFlushes": 5,
+    "outsideTimingRestarts": "Every200/400/600/800 in each profile,8 total",
+    "degradedRealAbortRecords": 31,
+    "eachAbortRequestNumber": "97\u00d71 through97\u00d731, actualGETconnectiondestroy/no substituted response",
+    "currentIdentityScopeBodyDomGrantInvariantRecords": "4,000 device trustedcommit/readback records plus6,000 connected exactbody/usableDOM records",
+    "predicateDispositions": []
+  },
+  "numericalSummary": [
+    {
+      "profile": "warm-desktop-offline-browser",
+      "path": "autosave",
+      "attempts": 1000,
+      "p95Ms": 38.7998046875,
+      "maxMs": 41.2998046875,
+      "targetMs": 500,
+      "retainedCeilingExceedances": []
+    },
+    {
+      "profile": "warm-desktop-offline-browser",
+      "path": "explicit-save",
+      "attempts": 1000,
+      "p95Ms": 50.39990234375,
+      "maxMs": 50.900146484375,
+      "targetMs": 500,
+      "retainedCeilingExceedances": []
+    },
+    {
+      "profile": "warm-desktop-offline-browser",
+      "path": "cached-patient",
+      "attempts": 1000,
+      "p95Ms": 50.60009765625,
+      "maxMs": 67.5,
+      "targetMs": 2000,
+      "retainedCeilingExceedances": []
+    },
+    {
+      "profile": "warm-desktop-offline-browser",
+      "path": "cached-today",
+      "attempts": 1000,
+      "p95Ms": 50.699951171875,
+      "maxMs": 66.599853515625,
+      "targetMs": 2000,
+      "retainedCeilingExceedances": []
+    },
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-today-list",
+      "attempts": 1000,
+      "p95Ms": 701.2246250000317,
+      "maxMs": 2342.276499999978,
+      "targetMs": 3000,
+      "retainedCeilingExceedances": []
+    },
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-today-detail",
+      "attempts": 1000,
+      "p95Ms": 384.57695799996145,
+      "maxMs": 415.0398330000462,
+      "targetMs": 3000,
+      "retainedCeilingExceedances": []
+    },
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-routine-entry",
+      "attempts": 1000,
+      "p95Ms": 751.7073749999981,
+      "maxMs": 2050.4621669999906,
+      "targetMs": 3000,
+      "retainedCeilingExceedances": []
+    },
+    {
+      "profile": "degraded-number-desktop-surrogate",
+      "path": "connected-today-list",
+      "attempts": 1000,
+      "p95Ms": 1769.015625,
+      "maxMs": 7722.258458999917,
+      "targetMs": 3000,
+      "retainedCeilingExceedances": [
+        {
+          "sample": 0,
+          "outcome": "measured",
+          "elapsedMs": 7722.258458999917
+        }
+      ]
+    },
+    {
+      "profile": "degraded-number-desktop-surrogate",
+      "path": "connected-today-detail",
+      "attempts": 1000,
+      "p95Ms": 901.1802080003545,
+      "maxMs": 934.5772500000894,
+      "targetMs": 3000,
+      "retainedCeilingExceedances": []
+    },
+    {
+      "profile": "degraded-number-desktop-surrogate",
+      "path": "connected-routine-entry",
+      "attempts": 1000,
+      "p95Ms": 1850.6439580000006,
+      "maxMs": 5598.624874999747,
+      "targetMs": 3000,
+      "retainedCeilingExceedances": [
+        {
+          "sample": 0,
+          "outcome": "measured",
+          "elapsedMs": 5598.624874999747
+        }
+      ]
+    },
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-whole-journey",
+      "attempts": 1000,
+      "p95Ms": 1834.580333000049,
+      "maxMs": 4774.824916000012,
+      "targetMs": null,
+      "retainedCeilingExceedances": []
+    },
+    {
+      "profile": "degraded-number-desktop-surrogate",
+      "path": "connected-whole-journey",
+      "attempts": 1000,
+      "p95Ms": 4517.230542000383,
+      "maxMs": 14203.732666000258,
+      "targetMs": null,
+      "retainedCeilingExceedances": []
+    }
+  ],
+  "strictlyRetainedObservations": [
+    "Degraded sample0 list7,722.258ms and routine5,598.625ms exceed individual3s. They remain in fixed1000 raw cohorts/distributions; original requirement is connected p95, not every screen. Cached every-entry2s rule passes without any exceedance.",
+    "Both full profiles have0 public disk/service-worker cache hits and0 API cache hits. Source enabled native cache and proxy was transparent; do not claim this full run demonstrated public warm disk-cache benefit. Prior small cache diagnostic remains separate.",
+    "31 actual degraded connection aborts exist despite0 terminal/networkFailed-event records. Native browser GET recovery did not replace timed cohort IDs; do not claim transport faults were absent.",
+    "5 real encrypted postflush snapshots, not preflush ciphertext, decrypt/authenticate and match exact current actor/org/person/visit/packet hash/ECDSA/current grant/final synthetic notes and empty queue. Beforequeue arrays/IDs and all2002 accepted native reportIDs reconcile from original raw diagnostics; no clinical plaintext or passphrase retained in review.",
+    "Selected server clinical draft facts/version remain unchanged through executed source-bound checks and routine reads. This NFR does not assert whole clinical/audit/receipt-ledger equality; separate nine-case retention custody owns its wider proof."
+  ],
+  "runtimeCleanup": {
+    "recordedAtUtc": "2026-10-11T19:50:34.984117+00:00",
+    "ownedGroups": [
+      13635,
+      13917
+    ],
+    "remainingOwnedProcesses": [],
+    "Worker21293AndProxy21292Free": true,
+    "noProcessKill": true,
+    "browserLoadedImage": "Midrun actual PID13917/headless_shell1194 loadedinode39382804/device16777233 matches postrun unchanged stat and SHA",
+    "postrunImageSHA256": "a9752d8852a3972a07e4cddf63fa37019606336de0201631147519c732fa3040",
+    "postrunVersion": "Chromium141.0.7390.37",
+    "reviewerCurrentImageHashAndStatMatch": true,
+    "scope": "Loaded image and postrun metadata, not fabricated driver browser.version, start-to-finish all-library identity, physical device or general binary attestation."
+  },
+  "candidateApplicability": {
+    "currentCandidate": "914175509d52e3fd33ac3b6b1c3dcc46c02f399d",
+    "unchanged568ProductionInputs": "Independently verified in prior source receipt and separately reviewed by QA final4e63012e; current test/CI/docs successor is distinct.",
+    "currentCandidateCompiledBytesClaim": false,
+    "allCandidateCIApprovalClaim": false,
+    "scope": "This review qualifies actual source04 retained local-surrogate run; final914 composed source/build/CI applicability and approval are a separate genuine review chain."
+  },
+  "remainingLimits": [
+    "Desktop390x844/CDP300ms1Mbps +800ms256Kbps and declared97th abort are surrogate controls, not calibrated physicalAndroid/assistive technology/power-loss or R1capacity100users/100000people/50rps30min.",
+    "CachedToday is existing prepared device queue, not all assigned records. No offline routine feature/new clinical policy was created by measurement.",
+    "Browser own-origin proxy only monitors browser forwarding. No foreign request was observed, but this is not a global server outbound monitor or provider qualification.",
+    "Full original timed readback/signature predicates actually execute; not every encrypted commit ciphertext or full response body is archived. The five retained postflush ciphertexts were independently verified without remeasuring.",
+    "Nodev24.19 externaldriver/native and canonical build childv24.21 are explicitly recorded supported runtime identities. Do not collapse them into one invented executable version.",
+    "No human/domain/GitHub approval, formalUAT0/364, mainmerge, actualhosting/livejourney or50stories claim. Original failures, interrupted earlierNFR/source-review method errors remain retained.",
+    "No application test/backend/build/browser/network/probe/port/state/source/dist/dependency change or rerun performed by reviewer; offlinecryptographic verification adds0acceptance cases."
+  ],
+  "findings": [],
+  "formalAcceptanceClaim": false,
+  "physicalR1Claim": false,
+  "humanOrGitHubApproval": false,
+  "mergeClaim": false,
+  "hostingClaim": false,
+  "newDeliveredStories": 0,
+  "reviewVerificationScripts": [
+    {
+      "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/nfr-final-independent-review/verify-retained-nfr.py",
+      "sha256": "037a3c5492a46bdf4152b346e49021778f70f0c551324103363a1b1b51d73905"
+    },
+    {
+      "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/nfr-final-independent-review/verify-retained-ciphertext.mjs",
+      "sha256": "be827c41bd1a17937d2bbd24ba8fd801c578f2f9dcaf264f8e5c16d75192e43a"
+    }
+  ],
+  "retainedReviewerMethodErrors": "Original source selectionbef deadline corrected to actuald7; transient acceptedIds/afterQueue schema and postflush-snapshot assumptions corrected against exact retained original schemas/source. Old verifier preimages retained; no evidence/oracle normalization."
+}

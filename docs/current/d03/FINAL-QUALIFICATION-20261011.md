@@ -1,0 +1,79 @@
+# Monotonic test hold repaired locally; final gate pending — 12 October 2026
+
+[Actual failure and bounded repair](MONOTONIC-HOLD-REPAIR-20261012.json): publisheda724 has one flaky added browser case because its first outbound hold was248.823ms below the unchanged250ms minimum; retrypassed. Original minimum guard passed; overallrunner and thirteen-suite qualification correctly refused the flaky result. All46 positive-attempt accessibility scans had0 violations. The successor changes only the fixture wait, preserving all assertions/application/originalcriteria. Eight virtual timing controls pass; fresh local build0 and2 selected browser cases passfirstattempt/9AXE0, actualhold250.570ms, read/clinical/source/dependency/compiled/cleanup evidence retained. Genuine independent actual-result reviewe87d7320 passes within declared source/compiled/read/sampling/recorded-cleanup limits. All584 current b321 application/compiler inputs equal the previous candidate, retaining conditional prior performance applicability; this is not584 equality to04 or new NFR execution. Assembled-source review and complete fresh successor CI remain pending. No new performance observations/physical/formal acceptance; story8/10, no merge/observedstaging. Earlier dated evidence below remains unchanged.
+
+# Refresh contrast repair verified locally; final source gate pending — 12 October 2026
+
+[Actual scoped repair and before/after evidence](REFRESH-CONTRAST-REPAIR-20261012.json): one Action-plan Refresh transition change plus a separate visible-phone regression; original Hindi file prefix/389 guards/min26/nine goldens/2%/spec preserved. Old code fails only the strengthened contrast assertion in both configured attempts (minimum2.88); repaired code passes2 selected cases firstattempt/9AXE0 (690 enabled visible frames,minimum12.78). Genuine independent before/after review7ec71fd4 verifies read/clinical/source/dependency/build/cleanup evidence. This is local selected-case qualification, not fullUI/A9. Current predecessorab has6/7 engineeringjobs success and one30minute browserdependency-install cancellation; logs remain. Independent changed-input performance applicability reviewd3b863b4 now passes only for unchanged measured routes:583/584 source inputs equal, actual281 compiled archives accounted for, all12 CSS files byte equal. The original12000 observations remain actual04 local surrogate results; no candidate measurements, physical/formal acceptance or whole584 equality is claimed. New exact-head complete normal CI/finalreview remain pending. Story8/10; no merge/observedstaging. Earlier source/date/scope evidence below is preserved.
+
+# Approved role capture observed; final normal CI pending — 12 October 2026
+
+[Actual capture and qualification boundary](ROLE-PRIVACY-ALIGNMENT-20261012.md): sourceb2 two real desktop cases pass2/0/0 with3 axe scans/0 violations. New related4103PNG copied unchanged; temporary active capture workflow removed, all8 old goldens/original389/min26/global2% preserved. Capture is observational, not A9/comparison or hosting. Independent exact-image/capture review a2a24e80 passes; final-source review and complete normal no-update CI remain required. Story8/10, no new merge/observed staging; existing hosting browser-security availability unconfirmed. Earlier dated evidence below is preserved.
+
+# Human-approved role privacy alignment; qualification pending — 12 October 2026
+
+See [the exact decision and capture/qualification sequence](ROLE-PRIVACY-ALIGNMENT-20261012.md). Current predecessor982 has6/7 engineering jobs pass and one original rolecount1 failure; its scoped independent330-path source review passes but release stays held. The human now approves only that obsolete expectation/related image alignment to unchanged minimum-five privacy. Original source/eight goldens/389 guards/min26/global2%/frozen spec remain preserved; a six-contributor positive UI case retains alert coverage. New related image capture and final normal no-update CI/review are still required. Story8/10, no new main merge/observed staging; hosting browser-security availability unconfirmed. Earlier dated evidence below is unchanged.
+
+# Current routine visit: test coverage repair, delivery held — 12 October 2026
+
+Start with [the original coverage repair and actual evidence](ORIGINAL-COVERAGE-REPAIR-20261012.md). Current story8/10: affected-test/final-head CI and qualified merge/exact observed hosting/live remain held. Audio fixture actually passes28 original checks; selected phone fixture passes1 case. An additive CI job covers the13 previously omitted original suite IDs; its new-head result is pending. Original role/privacy-oracle decision and screenshot/platform verification remain open. No new deployed story is recorded. This header supersedes earlier status headings; their original dated evidence below is retained.
+
+# Current routine source qualified; live gate held — 11 October 2026,20:05UTC
+
+Start with the [current source qualification and actual evidence](CURRENT-SOURCE-QUALIFICATION-20261011.md). Application/test9141755 has all six engineering jobs38165380186 plus documentation38165380194 SUCCESS, complete286-path separate source review, genuine completed12,000-observation original NFR and current-source applicability/retention reviews. Exact914 satisfies local A9:9/10; the API,UI and local qualification outputs support three bounded technical tasks. Original targets/minima/spec and failed receipts remain. Current availability actually executes original11/0/0; earlier0/11 preparation headings are dated history, not current execution.
+
+This documentation-only successor requires its own current-head CI and incremental review before qualified isolated merge. A10 still requires that merge, exact observed hosted commit and authorized live synthetic journey. No new merge/deployed story is recorded. Formal BRD0/176,UAT0/364 and clinical/physical/capacity acceptance remain separate; one inherited media-ID smoke stays unexecuted. Hosting and dashboard browser readback remain blocked by unavailable admin security verification; no bypass. No next feature before all ten criteria pass. The50-story target ends22:49:55UTC. Earlier sections below preserve their own dates,sources,failed results and limits.
+
+# Current routine retention authorization hold — 11 October 2026
+
+[Minimal server repair and source evidence](TELEMETRY-RETENTION-QUALIFICATION-20261011.md) supersedes earlier applicability below. The minimal membership predicate passes a fresh canonical build and all nine native routine scenarios,64 named groups/0failed/0skipped, with independently verified clinical/receipt/audit/metric/source/build custody and owned cleanup. Published a8fd has all five engineering jobs and documentation green on its predecessor source. The normal CI fixture now genuinely rebuilds and passes9scenarios/64groups/0failed/0skipped; type checking, the existing lint baseline and13safe-logs unit checks pass. Exact successor CI, original full NFR, merge and observed hosting/live remain pending. Working frozen gate8/10; original ten criteria and388 guard objects unchanged, one new observed minimum64 is additive. No new Done, merge or hosted story. Earlier records below retain their own source/date/scope.
+
+# Current security qualification hold — 11 October 2026
+
+[Composed security repair and actual evidence](SECURITY-QUALIFICATION-20261011.md) supersedes earlier release applicability below. Separate review confirmed two P1 false passes despite predecessor71b green CI. New compiler custody/version coverage, strict audit handling and compatibleReact19.2.8 patch pass570 focused assertions and the real registry audit with0blocking findings; complete changed-source CI/NFR/final review remain pending. Frozen story8/10; no new merge/hosting/whole-story Done. Original criteria,385 regression records, failed runs and dated history remain unchanged. Explicit parallel coding window ends22:49:55UTC.
+
+# Routine review/save — final synthetic qualification
+
+11 October 2026. Candidate application/test source: `918ed1dd76a70bd4949e14cd41af3f81109fd5f0`; base main: `7668a03d97c1ae62174f09e65ccd5a5717120be6`; isolated [PR202](https://github.com/nakul175/saha-health/pull/202). Frozen [specification revision1](SPECIFICATION.md) is unchanged. This is a bounded synthetic capability linked to native product stories; it does not complete the parent canonical story, formal BRD, clinical or physical acceptance.
+
+## Independent decision
+
+The sponsor explicitly authorized parallel agents. The actual separate collaboration reviewer and separate QA agent independently inspected current source, fixture intent, original minima and raw evidence. [Code review](final-qualification-evidence-20261011/INDEPENDENT-CODE-REVIEW-918ED.json) and [QA verdict](final-qualification-evidence-20261011/INDEPENDENT-QA-918ED.json) both pass for the declared synthetic scope, with no blocking product/test-evidence findings. They are agent verdicts, not human/domain approval or deployment evidence. The nonblocking obsolete handover pointer is corrected by the new top router; dated historical bytes remain below.
+
+A1–A8 remain supported within the bounded engineering scope. A9 passes at918ed based on these separate verdicts and actual current CI. A10 is unexecuted/held: qualified isolated merge, exact observed hosted commit and authorized live synthetic review/save/readback/refusal. No new merge or deployed story is claimed. A documentation-only successor must obtain its own required CI and incremental review; this record does not grant a changed source automatic approval.
+
+## Actual CI and preserved minima
+
+All five [engineering38139057522](https://github.com/nakul175/saha-health/actions/runs/38139057522) jobs and [documentation38139057538](https://github.com/nakul175/saha-health/actions/runs/38139057538) completed successfully. Actual CI checkout7bb0c794 has candidate918ed's exact source treef7c44b77; this is a synthetic merge checkout, not an actual main merge.
+
+| Selection | Actual result |
+| --- | --- |
+| Unit |208 suites,10910 passed/0 failed/0 skipped|
+| Workflow |147 suites,7691 passed/0 failed/0 skipped|
+| Final smoke/security/UAT tooling |9 suites,497 passed/0 failed/1 inherited media-ID skip|
+| Focused routine / Today |638 /58 passed,0failed|
+| HTTP + encrypted restore |5041passed,0failed|
+| Native controls |permission63/calendar97/installed-phone121/device-privacy64/runtime12/handler60/load15 pass;400/400 logical slots|
+| Original backend NFR |performance94/memory4 pass under unchanged workloads/minima; final22.27KB/load below original150 ceiling; plateau/no-leak not proved|
+
+All385 actual records at `tests/regression-baseline.json#/suites` are byte-equivalent between2e18 and918ed; all374 original main records remain unchanged. Earlier384 references are historical counting errors, not evidence of a changed/removed minimum. The inherited media case needs an uploaded media ID; this fixture uploads none. It remains skipped and is not counted as passed. All667 retained CI artifact checksums were independently verified; checksums are not signatures.
+
+## Completed local surrogate speed control
+
+Immutable measured source2e18fcc140f9eff9f6eec66e1c769acd98ce0fb5 completed10000 primary fixed attempts plus2000 composite observations, exactly1000 samples0–999 per cohort. No terminal error, missing interval or replacement sample. All33 authority/clinical-unchanged/custody/cleanup checks pass; source3070/dist278 pins unchanged, owned runtime disposed and port observed free. The31 injected degraded GET connection aborts and recovery timings, cold tails and previous failures remain retained.
+
+| Path | Normal p95ms | Slow p95ms | Original per-path ceilingms |
+| --- | --- | --- | --- |
+| Today list |701.07|1768.05|3000|
+| Person record |384.34|901.03|3000|
+| Routine entry |764.03|1865.37|3000|
+
+Actual local autosave27.60ms/explicit-save49.60ms versus500ms; cached person50.40ms/Today50.10ms versus2000ms, with no cached entry above2s. Composite slow journey p954517.43ms has no invented3000ms threshold. Cold maxima exceed some p95 budgets and remain visible; a percentile budget is not an every-request claim.
+
+The571 actual runtime/build inputs are byte-identical measured2e18→918ed. Final918ed local build succeeds. The raw278-file compiled manifests are not byte equal: framework-generated build UUID, prerender/preview/revalidation/RSC-compatibility identities and consequent content-hash filenames/references differ. Independent QA paired all278 logical files and accounted only for these documented generated identities/references; no remaining behavioral byte differences. This supports explicit local-surrogate applicability, not a standalone physical/current-host measurement.
+
+## Delivery limits and next action
+
+Existing DigitalOcean staging follows main by its documented timer; Cloudflare remains frozen. Current console access was denied before access because admin browser-security verification was unavailable, and browser inventory reported an app-server failure. No alternate-browser/SSH/API/CLI/headless bypass is authorized by this evidence. Retry only after the issue is resolved. The old7668 hosting receipt is historical; fresh hosted SHA and live story journey remain unknown.
+
+Original3132/3000 speed failure,360/400 load failure, runner/fixture/observer failures and discarded candidates remain preserved. Physical Android/referenceR1, capacity/soak/memory plateau, clinician/government acceptance, formalBRD0/176 and UAT0/364 remain pending. Qualified merge and observed deployment are separate events. The sponsor's new50-story/eight-hour target ends22:49:55UTC; actual delivered counts must come from complete native story gates, never from tasks or assertions.

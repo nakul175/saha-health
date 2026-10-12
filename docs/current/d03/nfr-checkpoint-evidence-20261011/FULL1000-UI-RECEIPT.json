@@ -1,0 +1,5424 @@
+{
+  "kind": "completed-fixed1000-local-real-ui-nfr02-control-with-preserved-numerical-red",
+  "verifiedAt": "2026-10-11T01:15:29.371865+00:00",
+  "actualFinishedAt": "2026-10-10T22:25:56.631Z",
+  "actualExitCode": 1,
+  "driverSha256": "b4922ff8d1cd4b942215fdf636e029ad57c7cdb4130ec6d1363351bf0cfb56b9",
+  "observerSha256": "a72fc6254fd12ae84f23b1fabf9ae3ab6cf462dd344234c9d0e8ac5656c3b20a",
+  "samplesTotal": 8000,
+  "eachPathExactUniqueSamples0Through999": true,
+  "actionErrors": 0,
+  "currentClinicalVersionAndFactsRetained": true,
+  "allOriginalSourceFilesRehashedUnchanged": true,
+  "inputSourceCount": 2928,
+  "inputDistCount": 278,
+  "freshCommitAckExactSignatureGrantReadbackSamples": 4000,
+  "originalCeilingsUnchangedMs": {
+    "warmSaveP95": 500,
+    "cachedEveryEntry": 2000,
+    "connectedCoreP95": 3000
+  },
+  "summaries": [
+    {
+      "profile": "warm-desktop-offline-browser",
+      "path": "autosave",
+      "plannedFixedAttempts": 1000,
+      "attemptsRecorded": 1000,
+      "completedScreens": 1000,
+      "errors": 0,
+      "declaredExpectedTransportErrors": 0,
+      "unexplainedErrors": 0,
+      "timeouts": 0,
+      "notEntered": 0,
+      "missingAttemptRecords": 0,
+      "missingObservedIntervals": 0,
+      "successfulSamplesAtLeast1000": true,
+      "allAttemptObservedStopDistribution": {
+        "n": 1000,
+        "median": 27.39990234375,
+        "p95": 28.699951171875,
+        "p99": 29.300048828125,
+        "max": 29.89990234375
+      },
+      "successCompletionDistribution": {
+        "n": 1000,
+        "median": 27.39990234375,
+        "p95": 28.699951171875,
+        "p99": 29.300048828125,
+        "max": 29.89990234375
+      },
+      "allAttemptDistributionMeaning": "Stop/failure intervals include actual failed attempts; failed-fast is not a completed-screen timing.",
+      "originalNumericalCeilingMs": 500,
+      "observedCompletionP95WithinNumericalCeiling": true,
+      "observedAllAttemptStopP95WithinNumericalCeiling": true,
+      "cachedCompletedEntriesOver2s": null,
+      "observedCeilingExceedances": [],
+      "formalPhysicalR1Acceptance": false
+    },
+    {
+      "profile": "warm-desktop-offline-browser",
+      "path": "explicit-save",
+      "plannedFixedAttempts": 1000,
+      "attemptsRecorded": 1000,
+      "completedScreens": 1000,
+      "errors": 0,
+      "declaredExpectedTransportErrors": 0,
+      "unexplainedErrors": 0,
+      "timeouts": 0,
+      "notEntered": 0,
+      "missingAttemptRecords": 0,
+      "missingObservedIntervals": 0,
+      "successfulSamplesAtLeast1000": true,
+      "allAttemptObservedStopDistribution": {
+        "n": 1000,
+        "median": 48.89990234375,
+        "p95": 50.300048828125,
+        "p99": 50.800048828125,
+        "max": 67
+      },
+      "successCompletionDistribution": {
+        "n": 1000,
+        "median": 48.89990234375,
+        "p95": 50.300048828125,
+        "p99": 50.800048828125,
+        "max": 67
+      },
+      "allAttemptDistributionMeaning": "Stop/failure intervals include actual failed attempts; failed-fast is not a completed-screen timing.",
+      "originalNumericalCeilingMs": 500,
+      "observedCompletionP95WithinNumericalCeiling": true,
+      "observedAllAttemptStopP95WithinNumericalCeiling": true,
+      "cachedCompletedEntriesOver2s": null,
+      "observedCeilingExceedances": [],
+      "formalPhysicalR1Acceptance": false
+    },
+    {
+      "profile": "warm-desktop-offline-browser",
+      "path": "cached-patient",
+      "plannedFixedAttempts": 1000,
+      "attemptsRecorded": 1000,
+      "completedScreens": 1000,
+      "errors": 0,
+      "declaredExpectedTransportErrors": 0,
+      "unexplainedErrors": 0,
+      "timeouts": 0,
+      "notEntered": 0,
+      "missingAttemptRecords": 0,
+      "missingObservedIntervals": 0,
+      "successfulSamplesAtLeast1000": true,
+      "allAttemptObservedStopDistribution": {
+        "n": 1000,
+        "median": 65.300048828125,
+        "p95": 65.900146484375,
+        "p99": 66.7998046875,
+        "max": 67.39990234375
+      },
+      "successCompletionDistribution": {
+        "n": 1000,
+        "median": 65.300048828125,
+        "p95": 65.900146484375,
+        "p99": 66.7998046875,
+        "max": 67.39990234375
+      },
+      "allAttemptDistributionMeaning": "Stop/failure intervals include actual failed attempts; failed-fast is not a completed-screen timing.",
+      "originalNumericalCeilingMs": 2000,
+      "observedCompletionP95WithinNumericalCeiling": true,
+      "observedAllAttemptStopP95WithinNumericalCeiling": true,
+      "cachedCompletedEntriesOver2s": 0,
+      "observedCeilingExceedances": [],
+      "formalPhysicalR1Acceptance": false
+    },
+    {
+      "profile": "warm-desktop-offline-browser",
+      "path": "cached-today",
+      "plannedFixedAttempts": 1000,
+      "attemptsRecorded": 1000,
+      "completedScreens": 1000,
+      "errors": 0,
+      "declaredExpectedTransportErrors": 0,
+      "unexplainedErrors": 0,
+      "timeouts": 0,
+      "notEntered": 0,
+      "missingAttemptRecords": 0,
+      "missingObservedIntervals": 0,
+      "successfulSamplesAtLeast1000": true,
+      "allAttemptObservedStopDistribution": {
+        "n": 1000,
+        "median": 49.099853515625,
+        "p95": 49.89990234375,
+        "p99": 50.800048828125,
+        "max": 66.2001953125
+      },
+      "successCompletionDistribution": {
+        "n": 1000,
+        "median": 49.099853515625,
+        "p95": 49.89990234375,
+        "p99": 50.800048828125,
+        "max": 66.2001953125
+      },
+      "allAttemptDistributionMeaning": "Stop/failure intervals include actual failed attempts; failed-fast is not a completed-screen timing.",
+      "originalNumericalCeilingMs": 2000,
+      "observedCompletionP95WithinNumericalCeiling": true,
+      "observedAllAttemptStopP95WithinNumericalCeiling": true,
+      "cachedCompletedEntriesOver2s": 0,
+      "observedCeilingExceedances": [],
+      "formalPhysicalR1Acceptance": false
+    },
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-today-list",
+      "plannedFixedAttempts": 1000,
+      "attemptsRecorded": 1000,
+      "completedScreens": 1000,
+      "errors": 0,
+      "declaredExpectedTransportErrors": 0,
+      "unexplainedErrors": 0,
+      "timeouts": 0,
+      "notEntered": 0,
+      "missingAttemptRecords": 0,
+      "missingObservedIntervals": 0,
+      "successfulSamplesAtLeast1000": true,
+      "allAttemptObservedStopDistribution": {
+        "n": 1000,
+        "median": 2333.3974160002545,
+        "p95": 2350.504834000021,
+        "p99": 2351.4502909999574,
+        "max": 2399.5775000001304
+      },
+      "successCompletionDistribution": {
+        "n": 1000,
+        "median": 2333.3974160002545,
+        "p95": 2350.504834000021,
+        "p99": 2351.4502909999574,
+        "max": 2399.5775000001304
+      },
+      "allAttemptDistributionMeaning": "Stop/failure intervals include actual failed attempts; failed-fast is not a completed-screen timing.",
+      "originalNumericalCeilingMs": 3000,
+      "observedCompletionP95WithinNumericalCeiling": true,
+      "observedAllAttemptStopP95WithinNumericalCeiling": true,
+      "cachedCompletedEntriesOver2s": null,
+      "observedCeilingExceedances": [],
+      "formalPhysicalR1Acceptance": false
+    },
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-today-detail",
+      "plannedFixedAttempts": 1000,
+      "attemptsRecorded": 1000,
+      "completedScreens": 1000,
+      "errors": 0,
+      "declaredExpectedTransportErrors": 0,
+      "unexplainedErrors": 0,
+      "timeouts": 0,
+      "notEntered": 0,
+      "missingAttemptRecords": 0,
+      "missingObservedIntervals": 0,
+      "successfulSamplesAtLeast1000": true,
+      "allAttemptObservedStopDistribution": {
+        "n": 1000,
+        "median": 383.89300000004005,
+        "p95": 400.79824999999255,
+        "p99": 401.74012500047684,
+        "max": 402.5878340001218
+      },
+      "successCompletionDistribution": {
+        "n": 1000,
+        "median": 383.89300000004005,
+        "p95": 400.79824999999255,
+        "p99": 401.74012500047684,
+        "max": 402.5878340001218
+      },
+      "allAttemptDistributionMeaning": "Stop/failure intervals include actual failed attempts; failed-fast is not a completed-screen timing.",
+      "originalNumericalCeilingMs": 3000,
+      "observedCompletionP95WithinNumericalCeiling": true,
+      "observedAllAttemptStopP95WithinNumericalCeiling": true,
+      "cachedCompletedEntriesOver2s": null,
+      "observedCeilingExceedances": [],
+      "formalPhysicalR1Acceptance": false
+    },
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-routine-entry",
+      "plannedFixedAttempts": 1000,
+      "attemptsRecorded": 1000,
+      "completedScreens": 1000,
+      "errors": 0,
+      "declaredExpectedTransportErrors": 0,
+      "unexplainedErrors": 0,
+      "timeouts": 0,
+      "notEntered": 0,
+      "missingAttemptRecords": 0,
+      "missingObservedIntervals": 0,
+      "successfulSamplesAtLeast1000": true,
+      "allAttemptObservedStopDistribution": {
+        "n": 1000,
+        "median": 3115.336915999884,
+        "p95": 3132.308874999988,
+        "p99": 3133.557417000644,
+        "max": 3150.966916000005
+      },
+      "successCompletionDistribution": {
+        "n": 1000,
+        "median": 3115.336915999884,
+        "p95": 3132.308874999988,
+        "p99": 3133.557417000644,
+        "max": 3150.966916000005
+      },
+      "allAttemptDistributionMeaning": "Stop/failure intervals include actual failed attempts; failed-fast is not a completed-screen timing.",
+      "originalNumericalCeilingMs": 3000,
+      "observedCompletionP95WithinNumericalCeiling": false,
+      "observedAllAttemptStopP95WithinNumericalCeiling": false,
+      "cachedCompletedEntriesOver2s": null,
+      "observedCeilingExceedances": [
+        {
+          "sample": 0,
+          "outcome": "measured",
+          "elapsedMs": 3132.015458000009
+        },
+        {
+          "sample": 1,
+          "outcome": "measured",
+          "elapsedMs": 3131.1838330000173
+        },
+        {
+          "sample": 2,
+          "outcome": "measured",
+          "elapsedMs": 3114.702916999988
+        },
+        {
+          "sample": 3,
+          "outcome": "measured",
+          "elapsedMs": 3131.492333000002
+        },
+        {
+          "sample": 4,
+          "outcome": "measured",
+          "elapsedMs": 3115.2497500000172
+        },
+        {
+          "sample": 5,
+          "outcome": "measured",
+          "elapsedMs": 3131.469584000006
+        },
+        {
+          "sample": 6,
+          "outcome": "measured",
+          "elapsedMs": 3112.887250000029
+        },
+        {
+          "sample": 7,
+          "outcome": "measured",
+          "elapsedMs": 3115.3073330000043
+        },
+        {
+          "sample": 8,
+          "outcome": "measured",
+          "elapsedMs": 3116.313374999969
+        },
+        {
+          "sample": 9,
+          "outcome": "measured",
+          "elapsedMs": 3116.4001249999856
+        },
+        {
+          "sample": 10,
+          "outcome": "measured",
+          "elapsedMs": 3131.260917000007
+        },
+        {
+          "sample": 11,
+          "outcome": "measured",
+          "elapsedMs": 3115.3601659999695
+        },
+        {
+          "sample": 12,
+          "outcome": "measured",
+          "elapsedMs": 3130.503792000003
+        },
+        {
+          "sample": 13,
+          "outcome": "measured",
+          "elapsedMs": 3131.5911659999983
+        },
+        {
+          "sample": 14,
+          "outcome": "measured",
+          "elapsedMs": 3129.7270000000135
+        },
+        {
+          "sample": 15,
+          "outcome": "measured",
+          "elapsedMs": 3132.132291999995
+        },
+        {
+          "sample": 16,
+          "outcome": "measured",
+          "elapsedMs": 3130.161916000012
+        },
+        {
+          "sample": 17,
+          "outcome": "measured",
+          "elapsedMs": 3114.9919999999693
+        },
+        {
+          "sample": 18,
+          "outcome": "measured",
+          "elapsedMs": 3115.9836249999935
+        },
+        {
+          "sample": 19,
+          "outcome": "measured",
+          "elapsedMs": 3098.2636659999844
+        },
+        {
+          "sample": 20,
+          "outcome": "measured",
+          "elapsedMs": 3115.286791999999
+        },
+        {
+          "sample": 21,
+          "outcome": "measured",
+          "elapsedMs": 3115.313792000001
+        },
+        {
+          "sample": 22,
+          "outcome": "measured",
+          "elapsedMs": 3131.7733339999686
+        },
+        {
+          "sample": 23,
+          "outcome": "measured",
+          "elapsedMs": 3131.643167000031
+        },
+        {
+          "sample": 24,
+          "outcome": "measured",
+          "elapsedMs": 3115.0230420000153
+        },
+        {
+          "sample": 25,
+          "outcome": "measured",
+          "elapsedMs": 3132.308874999988
+        },
+        {
+          "sample": 26,
+          "outcome": "measured",
+          "elapsedMs": 3115.0146670000395
+        },
+        {
+          "sample": 27,
+          "outcome": "measured",
+          "elapsedMs": 3132.3722499999567
+        },
+        {
+          "sample": 28,
+          "outcome": "measured",
+          "elapsedMs": 3115.863791999989
+        },
+        {
+          "sample": 29,
+          "outcome": "measured",
+          "elapsedMs": 3134.383792000008
+        },
+        {
+          "sample": 30,
+          "outcome": "measured",
+          "elapsedMs": 3116.349084000045
+        },
+        {
+          "sample": 31,
+          "outcome": "measured",
+          "elapsedMs": 3116.294874999963
+        },
+        {
+          "sample": 32,
+          "outcome": "measured",
+          "elapsedMs": 3115.0274999999674
+        },
+        {
+          "sample": 33,
+          "outcome": "measured",
+          "elapsedMs": 3097.6748329999973
+        },
+        {
+          "sample": 34,
+          "outcome": "measured",
+          "elapsedMs": 3114.8517909999937
+        },
+        {
+          "sample": 35,
+          "outcome": "measured",
+          "elapsedMs": 3115.8782919999794
+        },
+        {
+          "sample": 36,
+          "outcome": "measured",
+          "elapsedMs": 3130.9981249999837
+        },
+        {
+          "sample": 37,
+          "outcome": "measured",
+          "elapsedMs": 3115.0247499999823
+        },
+        {
+          "sample": 38,
+          "outcome": "measured",
+          "elapsedMs": 3114.7823749999516
+        },
+        {
+          "sample": 39,
+          "outcome": "measured",
+          "elapsedMs": 3098.170374999987
+        },
+        {
+          "sample": 40,
+          "outcome": "measured",
+          "elapsedMs": 3115.4127079999307
+        },
+        {
+          "sample": 41,
+          "outcome": "measured",
+          "elapsedMs": 3116.639249999891
+        },
+        {
+          "sample": 42,
+          "outcome": "measured",
+          "elapsedMs": 3114.9040420000674
+        },
+        {
+          "sample": 43,
+          "outcome": "measured",
+          "elapsedMs": 3131.6179589999374
+        },
+        {
+          "sample": 44,
+          "outcome": "measured",
+          "elapsedMs": 3115.076417000033
+        },
+        {
+          "sample": 45,
+          "outcome": "measured",
+          "elapsedMs": 3115.291792000062
+        },
+        {
+          "sample": 46,
+          "outcome": "measured",
+          "elapsedMs": 3116.256666000001
+        },
+        {
+          "sample": 47,
+          "outcome": "measured",
+          "elapsedMs": 3114.936624999973
+        },
+        {
+          "sample": 48,
+          "outcome": "measured",
+          "elapsedMs": 3113.7920840000734
+        },
+        {
+          "sample": 49,
+          "outcome": "measured",
+          "elapsedMs": 3114.7202919999836
+        },
+        {
+          "sample": 50,
+          "outcome": "measured",
+          "elapsedMs": 3131.6380000000354
+        },
+        {
+          "sample": 51,
+          "outcome": "measured",
+          "elapsedMs": 3114.8380419999594
+        },
+        {
+          "sample": 52,
+          "outcome": "measured",
+          "elapsedMs": 3115.6545419999165
+        },
+        {
+          "sample": 53,
+          "outcome": "measured",
+          "elapsedMs": 3115.617666999926
+        },
+        {
+          "sample": 54,
+          "outcome": "measured",
+          "elapsedMs": 3131.486166000017
+        },
+        {
+          "sample": 55,
+          "outcome": "measured",
+          "elapsedMs": 3115.121334000025
+        },
+        {
+          "sample": 56,
+          "outcome": "measured",
+          "elapsedMs": 3114.4724590000696
+        },
+        {
+          "sample": 57,
+          "outcome": "measured",
+          "elapsedMs": 3131.8878330000443
+        },
+        {
+          "sample": 58,
+          "outcome": "measured",
+          "elapsedMs": 3115.436917000101
+        },
+        {
+          "sample": 59,
+          "outcome": "measured",
+          "elapsedMs": 3115.01554199995
+        },
+        {
+          "sample": 60,
+          "outcome": "measured",
+          "elapsedMs": 3131.7777500000084
+        },
+        {
+          "sample": 61,
+          "outcome": "measured",
+          "elapsedMs": 3116.5054170000367
+        },
+        {
+          "sample": 62,
+          "outcome": "measured",
+          "elapsedMs": 3115.1503750000848
+        },
+        {
+          "sample": 63,
+          "outcome": "measured",
+          "elapsedMs": 3115.1951660000486
+        },
+        {
+          "sample": 64,
+          "outcome": "measured",
+          "elapsedMs": 3131.1158750000177
+        },
+        {
+          "sample": 65,
+          "outcome": "measured",
+          "elapsedMs": 3115.001500000013
+        },
+        {
+          "sample": 66,
+          "outcome": "measured",
+          "elapsedMs": 3116.5559580000117
+        },
+        {
+          "sample": 67,
+          "outcome": "measured",
+          "elapsedMs": 3114.9514590000035
+        },
+        {
+          "sample": 68,
+          "outcome": "measured",
+          "elapsedMs": 3131.5110420000274
+        },
+        {
+          "sample": 69,
+          "outcome": "measured",
+          "elapsedMs": 3115.2973340000026
+        },
+        {
+          "sample": 70,
+          "outcome": "measured",
+          "elapsedMs": 3116.5983329999726
+        },
+        {
+          "sample": 71,
+          "outcome": "measured",
+          "elapsedMs": 3117.1937919999473
+        },
+        {
+          "sample": 72,
+          "outcome": "measured",
+          "elapsedMs": 3131.3382080000592
+        },
+        {
+          "sample": 73,
+          "outcome": "measured",
+          "elapsedMs": 3116.9552089999197
+        },
+        {
+          "sample": 74,
+          "outcome": "measured",
+          "elapsedMs": 3115.1493750000373
+        },
+        {
+          "sample": 75,
+          "outcome": "measured",
+          "elapsedMs": 3099.615749999997
+        },
+        {
+          "sample": 76,
+          "outcome": "measured",
+          "elapsedMs": 3133.036375000025
+        },
+        {
+          "sample": 77,
+          "outcome": "measured",
+          "elapsedMs": 3116.1561249999795
+        },
+        {
+          "sample": 78,
+          "outcome": "measured",
+          "elapsedMs": 3115.83816699998
+        },
+        {
+          "sample": 79,
+          "outcome": "measured",
+          "elapsedMs": 3114.6052500000224
+        },
+        {
+          "sample": 80,
+          "outcome": "measured",
+          "elapsedMs": 3114.8492919999408
+        },
+        {
+          "sample": 81,
+          "outcome": "measured",
+          "elapsedMs": 3131.3704579999903
+        },
+        {
+          "sample": 82,
+          "outcome": "measured",
+          "elapsedMs": 3114.9958750000224
+        },
+        {
+          "sample": 83,
+          "outcome": "measured",
+          "elapsedMs": 3098.430249999976
+        },
+        {
+          "sample": 84,
+          "outcome": "measured",
+          "elapsedMs": 3115.1404590000166
+        },
+        {
+          "sample": 85,
+          "outcome": "measured",
+          "elapsedMs": 3115.586041999981
+        },
+        {
+          "sample": 86,
+          "outcome": "measured",
+          "elapsedMs": 3115.1399589999346
+        },
+        {
+          "sample": 87,
+          "outcome": "measured",
+          "elapsedMs": 3132.000584000023
+        },
+        {
+          "sample": 88,
+          "outcome": "measured",
+          "elapsedMs": 3131.633166000014
+        },
+        {
+          "sample": 89,
+          "outcome": "measured",
+          "elapsedMs": 3114.495375000057
+        },
+        {
+          "sample": 90,
+          "outcome": "measured",
+          "elapsedMs": 3114.87425000011
+        },
+        {
+          "sample": 91,
+          "outcome": "measured",
+          "elapsedMs": 3131.635750000016
+        },
+        {
+          "sample": 92,
+          "outcome": "measured",
+          "elapsedMs": 3130.150041999994
+        },
+        {
+          "sample": 93,
+          "outcome": "measured",
+          "elapsedMs": 3115.2531660000095
+        },
+        {
+          "sample": 94,
+          "outcome": "measured",
+          "elapsedMs": 3114.50237500004
+        },
+        {
+          "sample": 95,
+          "outcome": "measured",
+          "elapsedMs": 3133.1165829999372
+        },
+        {
+          "sample": 96,
+          "outcome": "measured",
+          "elapsedMs": 3131.4821249999804
+        },
+        {
+          "sample": 97,
+          "outcome": "measured",
+          "elapsedMs": 3114.3153750000056
+        },
+        {
+          "sample": 98,
+          "outcome": "measured",
+          "elapsedMs": 3115.0367079999996
+        },
+        {
+          "sample": 99,
+          "outcome": "measured",
+          "elapsedMs": 3116.226874999935
+        },
+        {
+          "sample": 100,
+          "outcome": "measured",
+          "elapsedMs": 3116.398082999978
+        },
+        {
+          "sample": 101,
+          "outcome": "measured",
+          "elapsedMs": 3114.8460409999825
+        },
+        {
+          "sample": 102,
+          "outcome": "measured",
+          "elapsedMs": 3114.1247919999296
+        },
+        {
+          "sample": 103,
+          "outcome": "measured",
+          "elapsedMs": 3114.81395900005
+        },
+        {
+          "sample": 104,
+          "outcome": "measured",
+          "elapsedMs": 3114.9877910000505
+        },
+        {
+          "sample": 105,
+          "outcome": "measured",
+          "elapsedMs": 3116.56012499996
+        },
+        {
+          "sample": 106,
+          "outcome": "measured",
+          "elapsedMs": 3115.2412080001086
+        },
+        {
+          "sample": 107,
+          "outcome": "measured",
+          "elapsedMs": 3131.8728339999216
+        },
+        {
+          "sample": 108,
+          "outcome": "measured",
+          "elapsedMs": 3131.942792000016
+        },
+        {
+          "sample": 109,
+          "outcome": "measured",
+          "elapsedMs": 3115.383374999976
+        },
+        {
+          "sample": 110,
+          "outcome": "measured",
+          "elapsedMs": 3115.312666999991
+        },
+        {
+          "sample": 111,
+          "outcome": "measured",
+          "elapsedMs": 3115.4112079999177
+        },
+        {
+          "sample": 112,
+          "outcome": "measured",
+          "elapsedMs": 3115.095250000013
+        },
+        {
+          "sample": 113,
+          "outcome": "measured",
+          "elapsedMs": 3115.332374999998
+        },
+        {
+          "sample": 114,
+          "outcome": "measured",
+          "elapsedMs": 3114.887457999983
+        },
+        {
+          "sample": 115,
+          "outcome": "measured",
+          "elapsedMs": 3113.1052079999354
+        },
+        {
+          "sample": 116,
+          "outcome": "measured",
+          "elapsedMs": 3116.8023329999996
+        },
+        {
+          "sample": 117,
+          "outcome": "measured",
+          "elapsedMs": 3129.3537910000887
+        },
+        {
+          "sample": 118,
+          "outcome": "measured",
+          "elapsedMs": 3116.797416999936
+        },
+        {
+          "sample": 119,
+          "outcome": "measured",
+          "elapsedMs": 3133.787207999965
+        },
+        {
+          "sample": 120,
+          "outcome": "measured",
+          "elapsedMs": 3098.8353329999372
+        },
+        {
+          "sample": 121,
+          "outcome": "measured",
+          "elapsedMs": 3131.725625000079
+        },
+        {
+          "sample": 122,
+          "outcome": "measured",
+          "elapsedMs": 3132.9093750000466
+        },
+        {
+          "sample": 123,
+          "outcome": "measured",
+          "elapsedMs": 3113.886000000057
+        },
+        {
+          "sample": 124,
+          "outcome": "measured",
+          "elapsedMs": 3131.9839999999385
+        },
+        {
+          "sample": 125,
+          "outcome": "measured",
+          "elapsedMs": 3131.154916999978
+        },
+        {
+          "sample": 126,
+          "outcome": "measured",
+          "elapsedMs": 3115.094875000068
+        },
+        {
+          "sample": 127,
+          "outcome": "measured",
+          "elapsedMs": 3115.201166999992
+        },
+        {
+          "sample": 128,
+          "outcome": "measured",
+          "elapsedMs": 3098.482042000047
+        },
+        {
+          "sample": 129,
+          "outcome": "measured",
+          "elapsedMs": 3132.0827920001466
+        },
+        {
+          "sample": 130,
+          "outcome": "measured",
+          "elapsedMs": 3132.358125000028
+        },
+        {
+          "sample": 131,
+          "outcome": "measured",
+          "elapsedMs": 3131.97195799998
+        },
+        {
+          "sample": 132,
+          "outcome": "measured",
+          "elapsedMs": 3115.1908330000006
+        },
+        {
+          "sample": 133,
+          "outcome": "measured",
+          "elapsedMs": 3115.2585839999374
+        },
+        {
+          "sample": 134,
+          "outcome": "measured",
+          "elapsedMs": 3098.334125000052
+        },
+        {
+          "sample": 135,
+          "outcome": "measured",
+          "elapsedMs": 3131.5293749999255
+        },
+        {
+          "sample": 136,
+          "outcome": "measured",
+          "elapsedMs": 3130.508167000022
+        },
+        {
+          "sample": 137,
+          "outcome": "measured",
+          "elapsedMs": 3131.655042000115
+        },
+        {
+          "sample": 138,
+          "outcome": "measured",
+          "elapsedMs": 3115.1688750002068
+        },
+        {
+          "sample": 139,
+          "outcome": "measured",
+          "elapsedMs": 3116.4083339998033
+        },
+        {
+          "sample": 140,
+          "outcome": "measured",
+          "elapsedMs": 3113.683500000043
+        },
+        {
+          "sample": 141,
+          "outcome": "measured",
+          "elapsedMs": 3115.8867079999764
+        },
+        {
+          "sample": 142,
+          "outcome": "measured",
+          "elapsedMs": 3132.2075840001926
+        },
+        {
+          "sample": 143,
+          "outcome": "measured",
+          "elapsedMs": 3114.6992500000633
+        },
+        {
+          "sample": 144,
+          "outcome": "measured",
+          "elapsedMs": 3114.42679100018
+        },
+        {
+          "sample": 145,
+          "outcome": "measured",
+          "elapsedMs": 3131.812208000105
+        },
+        {
+          "sample": 146,
+          "outcome": "measured",
+          "elapsedMs": 3132.4902500000317
+        },
+        {
+          "sample": 147,
+          "outcome": "measured",
+          "elapsedMs": 3115.336915999884
+        },
+        {
+          "sample": 148,
+          "outcome": "measured",
+          "elapsedMs": 3115.030084000202
+        },
+        {
+          "sample": 149,
+          "outcome": "measured",
+          "elapsedMs": 3115.1658750001807
+        },
+        {
+          "sample": 150,
+          "outcome": "measured",
+          "elapsedMs": 3114.9277089999523
+        },
+        {
+          "sample": 151,
+          "outcome": "measured",
+          "elapsedMs": 3131.8220410000067
+        },
+        {
+          "sample": 152,
+          "outcome": "measured",
+          "elapsedMs": 3115.360624999972
+        },
+        {
+          "sample": 153,
+          "outcome": "measured",
+          "elapsedMs": 3131.9219160000794
+        },
+        {
+          "sample": 154,
+          "outcome": "measured",
+          "elapsedMs": 3115.3205409999937
+        },
+        {
+          "sample": 155,
+          "outcome": "measured",
+          "elapsedMs": 3114.842750000069
+        },
+        {
+          "sample": 156,
+          "outcome": "measured",
+          "elapsedMs": 3114.999749999959
+        },
+        {
+          "sample": 157,
+          "outcome": "measured",
+          "elapsedMs": 3131.802625000011
+        },
+        {
+          "sample": 158,
+          "outcome": "measured",
+          "elapsedMs": 3130.555083000101
+        },
+        {
+          "sample": 159,
+          "outcome": "measured",
+          "elapsedMs": 3114.924083000049
+        },
+        {
+          "sample": 160,
+          "outcome": "measured",
+          "elapsedMs": 3114.574790999992
+        },
+        {
+          "sample": 161,
+          "outcome": "measured",
+          "elapsedMs": 3115.9499580000993
+        },
+        {
+          "sample": 162,
+          "outcome": "measured",
+          "elapsedMs": 3131.6404579998925
+        },
+        {
+          "sample": 163,
+          "outcome": "measured",
+          "elapsedMs": 3114.917667000089
+        },
+        {
+          "sample": 164,
+          "outcome": "measured",
+          "elapsedMs": 3130.4068749998696
+        },
+        {
+          "sample": 165,
+          "outcome": "measured",
+          "elapsedMs": 3115.0519579998218
+        },
+        {
+          "sample": 166,
+          "outcome": "measured",
+          "elapsedMs": 3116.38816699991
+        },
+        {
+          "sample": 167,
+          "outcome": "measured",
+          "elapsedMs": 3131.929332999978
+        },
+        {
+          "sample": 168,
+          "outcome": "measured",
+          "elapsedMs": 3116.209791000001
+        },
+        {
+          "sample": 169,
+          "outcome": "measured",
+          "elapsedMs": 3114.627792000072
+        },
+        {
+          "sample": 170,
+          "outcome": "measured",
+          "elapsedMs": 3114.852208000142
+        },
+        {
+          "sample": 171,
+          "outcome": "measured",
+          "elapsedMs": 3115.0824159998447
+        },
+        {
+          "sample": 172,
+          "outcome": "measured",
+          "elapsedMs": 3115.0444579999894
+        },
+        {
+          "sample": 173,
+          "outcome": "measured",
+          "elapsedMs": 3132.1045830000658
+        },
+        {
+          "sample": 174,
+          "outcome": "measured",
+          "elapsedMs": 3115.1427919999696
+        },
+        {
+          "sample": 175,
+          "outcome": "measured",
+          "elapsedMs": 3081.7625420000404
+        },
+        {
+          "sample": 176,
+          "outcome": "measured",
+          "elapsedMs": 3131.8282919998746
+        },
+        {
+          "sample": 177,
+          "outcome": "measured",
+          "elapsedMs": 3115.044833000051
+        },
+        {
+          "sample": 178,
+          "outcome": "measured",
+          "elapsedMs": 3115.054999999935
+        },
+        {
+          "sample": 179,
+          "outcome": "measured",
+          "elapsedMs": 3098.642332999967
+        },
+        {
+          "sample": 180,
+          "outcome": "measured",
+          "elapsedMs": 3114.9077910000924
+        },
+        {
+          "sample": 181,
+          "outcome": "measured",
+          "elapsedMs": 3115.1440000000875
+        },
+        {
+          "sample": 182,
+          "outcome": "measured",
+          "elapsedMs": 3116.820459000068
+        },
+        {
+          "sample": 183,
+          "outcome": "measured",
+          "elapsedMs": 3116.855166999856
+        },
+        {
+          "sample": 184,
+          "outcome": "measured",
+          "elapsedMs": 3114.042374999961
+        },
+        {
+          "sample": 185,
+          "outcome": "measured",
+          "elapsedMs": 3113.4386250001844
+        },
+        {
+          "sample": 186,
+          "outcome": "measured",
+          "elapsedMs": 3130.3643749998882
+        },
+        {
+          "sample": 187,
+          "outcome": "measured",
+          "elapsedMs": 3115.7314579999074
+        },
+        {
+          "sample": 188,
+          "outcome": "measured",
+          "elapsedMs": 3115.125665999949
+        },
+        {
+          "sample": 189,
+          "outcome": "measured",
+          "elapsedMs": 3113.593792000087
+        },
+        {
+          "sample": 190,
+          "outcome": "measured",
+          "elapsedMs": 3115.1335410000756
+        },
+        {
+          "sample": 191,
+          "outcome": "measured",
+          "elapsedMs": 3131.9043750001583
+        },
+        {
+          "sample": 192,
+          "outcome": "measured",
+          "elapsedMs": 3115.251292000059
+        },
+        {
+          "sample": 193,
+          "outcome": "measured",
+          "elapsedMs": 3115.06341599999
+        },
+        {
+          "sample": 194,
+          "outcome": "measured",
+          "elapsedMs": 3115.104374999879
+        },
+        {
+          "sample": 195,
+          "outcome": "measured",
+          "elapsedMs": 3115.1067080001812
+        },
+        {
+          "sample": 196,
+          "outcome": "measured",
+          "elapsedMs": 3115.845958000049
+        },
+        {
+          "sample": 197,
+          "outcome": "measured",
+          "elapsedMs": 3115.2152090000454
+        },
+        {
+          "sample": 198,
+          "outcome": "measured",
+          "elapsedMs": 3114.911208000034
+        },
+        {
+          "sample": 199,
+          "outcome": "measured",
+          "elapsedMs": 3131.6283330000006
+        },
+        {
+          "sample": 200,
+          "outcome": "measured",
+          "elapsedMs": 3116.2045420000795
+        },
+        {
+          "sample": 201,
+          "outcome": "measured",
+          "elapsedMs": 3115.521083000116
+        },
+        {
+          "sample": 202,
+          "outcome": "measured",
+          "elapsedMs": 3113.2449590000324
+        },
+        {
+          "sample": 203,
+          "outcome": "measured",
+          "elapsedMs": 3116.8600839998107
+        },
+        {
+          "sample": 204,
+          "outcome": "measured",
+          "elapsedMs": 3129.745084000053
+        },
+        {
+          "sample": 205,
+          "outcome": "measured",
+          "elapsedMs": 3116.9291659998707
+        },
+        {
+          "sample": 206,
+          "outcome": "measured",
+          "elapsedMs": 3115.512624999974
+        },
+        {
+          "sample": 207,
+          "outcome": "measured",
+          "elapsedMs": 3114.9052910001483
+        },
+        {
+          "sample": 208,
+          "outcome": "measured",
+          "elapsedMs": 3116.898041999899
+        },
+        {
+          "sample": 209,
+          "outcome": "measured",
+          "elapsedMs": 3132.487625000067
+        },
+        {
+          "sample": 210,
+          "outcome": "measured",
+          "elapsedMs": 3132.1904999997932
+        },
+        {
+          "sample": 211,
+          "outcome": "measured",
+          "elapsedMs": 3114.671209000051
+        },
+        {
+          "sample": 212,
+          "outcome": "measured",
+          "elapsedMs": 3115.179625000106
+        },
+        {
+          "sample": 213,
+          "outcome": "measured",
+          "elapsedMs": 3115.5658750000875
+        },
+        {
+          "sample": 214,
+          "outcome": "measured",
+          "elapsedMs": 3115.1365839999635
+        },
+        {
+          "sample": 215,
+          "outcome": "measured",
+          "elapsedMs": 3115.1402500001714
+        },
+        {
+          "sample": 216,
+          "outcome": "measured",
+          "elapsedMs": 3115.0710830001626
+        },
+        {
+          "sample": 217,
+          "outcome": "measured",
+          "elapsedMs": 3132.013709000079
+        },
+        {
+          "sample": 218,
+          "outcome": "measured",
+          "elapsedMs": 3115.0500000000466
+        },
+        {
+          "sample": 219,
+          "outcome": "measured",
+          "elapsedMs": 3114.983374999836
+        },
+        {
+          "sample": 220,
+          "outcome": "measured",
+          "elapsedMs": 3115.1992079999764
+        },
+        {
+          "sample": 221,
+          "outcome": "measured",
+          "elapsedMs": 3131.775499999989
+        },
+        {
+          "sample": 222,
+          "outcome": "measured",
+          "elapsedMs": 3115.0653750000056
+        },
+        {
+          "sample": 223,
+          "outcome": "measured",
+          "elapsedMs": 3116.6125839999877
+        },
+        {
+          "sample": 224,
+          "outcome": "measured",
+          "elapsedMs": 3114.9875000000466
+        },
+        {
+          "sample": 225,
+          "outcome": "measured",
+          "elapsedMs": 3150.966916000005
+        },
+        {
+          "sample": 226,
+          "outcome": "measured",
+          "elapsedMs": 3117.5064170002006
+        },
+        {
+          "sample": 227,
+          "outcome": "measured",
+          "elapsedMs": 3113.9026249998715
+        },
+        {
+          "sample": 228,
+          "outcome": "measured",
+          "elapsedMs": 3114.0970830000006
+        },
+        {
+          "sample": 229,
+          "outcome": "measured",
+          "elapsedMs": 3115.6903750000056
+        },
+        {
+          "sample": 230,
+          "outcome": "measured",
+          "elapsedMs": 3115.5362499998882
+        },
+        {
+          "sample": 231,
+          "outcome": "measured",
+          "elapsedMs": 3131.2631660001352
+        },
+        {
+          "sample": 232,
+          "outcome": "measured",
+          "elapsedMs": 3116.807707999833
+        },
+        {
+          "sample": 233,
+          "outcome": "measured",
+          "elapsedMs": 3130.8229999998584
+        },
+        {
+          "sample": 234,
+          "outcome": "measured",
+          "elapsedMs": 3116.859124999959
+        },
+        {
+          "sample": 235,
+          "outcome": "measured",
+          "elapsedMs": 3129.78920800006
+        },
+        {
+          "sample": 236,
+          "outcome": "measured",
+          "elapsedMs": 3114.983917000005
+        },
+        {
+          "sample": 237,
+          "outcome": "measured",
+          "elapsedMs": 3131.6523750000633
+        },
+        {
+          "sample": 238,
+          "outcome": "measured",
+          "elapsedMs": 3115.1150420000777
+        },
+        {
+          "sample": 239,
+          "outcome": "measured",
+          "elapsedMs": 3131.728208000073
+        },
+        {
+          "sample": 240,
+          "outcome": "measured",
+          "elapsedMs": 3098.5064169999678
+        },
+        {
+          "sample": 241,
+          "outcome": "measured",
+          "elapsedMs": 3115.1109170001
+        },
+        {
+          "sample": 242,
+          "outcome": "measured",
+          "elapsedMs": 3114.9454999999143
+        },
+        {
+          "sample": 243,
+          "outcome": "measured",
+          "elapsedMs": 3131.917582999915
+        },
+        {
+          "sample": 244,
+          "outcome": "measured",
+          "elapsedMs": 3115.3952079999726
+        },
+        {
+          "sample": 245,
+          "outcome": "measured",
+          "elapsedMs": 3115.0269169998355
+        },
+        {
+          "sample": 246,
+          "outcome": "measured",
+          "elapsedMs": 3131.2562919999473
+        },
+        {
+          "sample": 247,
+          "outcome": "measured",
+          "elapsedMs": 3131.4142499999143
+        },
+        {
+          "sample": 248,
+          "outcome": "measured",
+          "elapsedMs": 3134.1790000000037
+        },
+        {
+          "sample": 249,
+          "outcome": "measured",
+          "elapsedMs": 3115.6246670000255
+        },
+        {
+          "sample": 250,
+          "outcome": "measured",
+          "elapsedMs": 3116.712749999948
+        },
+        {
+          "sample": 251,
+          "outcome": "measured",
+          "elapsedMs": 3131.8741249998566
+        },
+        {
+          "sample": 252,
+          "outcome": "measured",
+          "elapsedMs": 3116.105166999856
+        },
+        {
+          "sample": 253,
+          "outcome": "measured",
+          "elapsedMs": 3114.4937080000527
+        },
+        {
+          "sample": 254,
+          "outcome": "measured",
+          "elapsedMs": 3129.8012920001056
+        },
+        {
+          "sample": 255,
+          "outcome": "measured",
+          "elapsedMs": 3131.583166999975
+        },
+        {
+          "sample": 256,
+          "outcome": "measured",
+          "elapsedMs": 3131.8537079999223
+        },
+        {
+          "sample": 257,
+          "outcome": "measured",
+          "elapsedMs": 3115.3183750000317
+        },
+        {
+          "sample": 258,
+          "outcome": "measured",
+          "elapsedMs": 3115.1370419999585
+        },
+        {
+          "sample": 259,
+          "outcome": "measured",
+          "elapsedMs": 3115.2575840000063
+        },
+        {
+          "sample": 260,
+          "outcome": "measured",
+          "elapsedMs": 3115.1977500000503
+        },
+        {
+          "sample": 261,
+          "outcome": "measured",
+          "elapsedMs": 3115.2472089999355
+        },
+        {
+          "sample": 262,
+          "outcome": "measured",
+          "elapsedMs": 3131.734291000059
+        },
+        {
+          "sample": 263,
+          "outcome": "measured",
+          "elapsedMs": 3115.2515410000924
+        },
+        {
+          "sample": 264,
+          "outcome": "measured",
+          "elapsedMs": 3116.586249999935
+        },
+        {
+          "sample": 265,
+          "outcome": "measured",
+          "elapsedMs": 3132.0849580001086
+        },
+        {
+          "sample": 266,
+          "outcome": "measured",
+          "elapsedMs": 3114.9203339999076
+        },
+        {
+          "sample": 267,
+          "outcome": "measured",
+          "elapsedMs": 3131.606417000061
+        },
+        {
+          "sample": 268,
+          "outcome": "measured",
+          "elapsedMs": 3114.781500000041
+        },
+        {
+          "sample": 269,
+          "outcome": "measured",
+          "elapsedMs": 3131.5740000000224
+        },
+        {
+          "sample": 270,
+          "outcome": "measured",
+          "elapsedMs": 3115.4971249999944
+        },
+        {
+          "sample": 271,
+          "outcome": "measured",
+          "elapsedMs": 3116.8205420000013
+        },
+        {
+          "sample": 272,
+          "outcome": "measured",
+          "elapsedMs": 3112.576166999992
+        },
+        {
+          "sample": 273,
+          "outcome": "measured",
+          "elapsedMs": 3114.72825000016
+        },
+        {
+          "sample": 274,
+          "outcome": "measured",
+          "elapsedMs": 3115.078125
+        },
+        {
+          "sample": 275,
+          "outcome": "measured",
+          "elapsedMs": 3131.0623339999
+        },
+        {
+          "sample": 276,
+          "outcome": "measured",
+          "elapsedMs": 3112.9344169998076
+        },
+        {
+          "sample": 277,
+          "outcome": "measured",
+          "elapsedMs": 3115.2350419999566
+        },
+        {
+          "sample": 278,
+          "outcome": "measured",
+          "elapsedMs": 3114.85216699983
+        },
+        {
+          "sample": 279,
+          "outcome": "measured",
+          "elapsedMs": 3115.050667000003
+        },
+        {
+          "sample": 280,
+          "outcome": "measured",
+          "elapsedMs": 3131.8500830000266
+        },
+        {
+          "sample": 281,
+          "outcome": "measured",
+          "elapsedMs": 3115.061500000069
+        },
+        {
+          "sample": 282,
+          "outcome": "measured",
+          "elapsedMs": 3131.9600829998963
+        },
+        {
+          "sample": 283,
+          "outcome": "measured",
+          "elapsedMs": 3114.5807080001105
+        },
+        {
+          "sample": 284,
+          "outcome": "measured",
+          "elapsedMs": 3114.5422920000274
+        },
+        {
+          "sample": 285,
+          "outcome": "measured",
+          "elapsedMs": 3132.143833000213
+        },
+        {
+          "sample": 286,
+          "outcome": "measured",
+          "elapsedMs": 3132.097458000062
+        },
+        {
+          "sample": 287,
+          "outcome": "measured",
+          "elapsedMs": 3114.9761250000447
+        },
+        {
+          "sample": 288,
+          "outcome": "measured",
+          "elapsedMs": 3114.8996659999248
+        },
+        {
+          "sample": 289,
+          "outcome": "measured",
+          "elapsedMs": 3131.5072919998784
+        },
+        {
+          "sample": 290,
+          "outcome": "measured",
+          "elapsedMs": 3115.5378750001546
+        },
+        {
+          "sample": 291,
+          "outcome": "measured",
+          "elapsedMs": 3129.7044999999925
+        },
+        {
+          "sample": 292,
+          "outcome": "measured",
+          "elapsedMs": 3114.995499999961
+        },
+        {
+          "sample": 293,
+          "outcome": "measured",
+          "elapsedMs": 3116.482583000092
+        },
+        {
+          "sample": 294,
+          "outcome": "measured",
+          "elapsedMs": 3131.517416999908
+        },
+        {
+          "sample": 295,
+          "outcome": "measured",
+          "elapsedMs": 3116.2814169998746
+        },
+        {
+          "sample": 296,
+          "outcome": "measured",
+          "elapsedMs": 3131.087375000119
+        },
+        {
+          "sample": 297,
+          "outcome": "measured",
+          "elapsedMs": 3132.8892080001533
+        },
+        {
+          "sample": 298,
+          "outcome": "measured",
+          "elapsedMs": 3115.4131670000497
+        },
+        {
+          "sample": 299,
+          "outcome": "measured",
+          "elapsedMs": 3115.0351249999367
+        },
+        {
+          "sample": 300,
+          "outcome": "measured",
+          "elapsedMs": 3132.7591250000987
+        },
+        {
+          "sample": 301,
+          "outcome": "measured",
+          "elapsedMs": 3114.251042000018
+        },
+        {
+          "sample": 302,
+          "outcome": "measured",
+          "elapsedMs": 3114.965499999933
+        },
+        {
+          "sample": 303,
+          "outcome": "measured",
+          "elapsedMs": 3115.072416000068
+        },
+        {
+          "sample": 304,
+          "outcome": "measured",
+          "elapsedMs": 3115.017666999949
+        },
+        {
+          "sample": 305,
+          "outcome": "measured",
+          "elapsedMs": 3132.3234159999993
+        },
+        {
+          "sample": 306,
+          "outcome": "measured",
+          "elapsedMs": 3114.908500000136
+        },
+        {
+          "sample": 307,
+          "outcome": "measured",
+          "elapsedMs": 3115.146541000111
+        },
+        {
+          "sample": 308,
+          "outcome": "measured",
+          "elapsedMs": 3114.911208000034
+        },
+        {
+          "sample": 309,
+          "outcome": "measured",
+          "elapsedMs": 3131.7932500001043
+        },
+        {
+          "sample": 310,
+          "outcome": "measured",
+          "elapsedMs": 3098.469500000123
+        },
+        {
+          "sample": 311,
+          "outcome": "measured",
+          "elapsedMs": 3114.9525000001304
+        },
+        {
+          "sample": 312,
+          "outcome": "measured",
+          "elapsedMs": 3099.9648750000633
+        },
+        {
+          "sample": 313,
+          "outcome": "measured",
+          "elapsedMs": 3114.986208999995
+        },
+        {
+          "sample": 314,
+          "outcome": "measured",
+          "elapsedMs": 3130.872665999923
+        },
+        {
+          "sample": 315,
+          "outcome": "measured",
+          "elapsedMs": 3130.3439170001075
+        },
+        {
+          "sample": 316,
+          "outcome": "measured",
+          "elapsedMs": 3114.061999999918
+        },
+        {
+          "sample": 317,
+          "outcome": "measured",
+          "elapsedMs": 3131.817916000262
+        },
+        {
+          "sample": 318,
+          "outcome": "measured",
+          "elapsedMs": 3114.7555829999037
+        },
+        {
+          "sample": 319,
+          "outcome": "measured",
+          "elapsedMs": 3132.2059169998392
+        },
+        {
+          "sample": 320,
+          "outcome": "measured",
+          "elapsedMs": 3129.8879579999484
+        },
+        {
+          "sample": 321,
+          "outcome": "measured",
+          "elapsedMs": 3115.119541999884
+        },
+        {
+          "sample": 322,
+          "outcome": "measured",
+          "elapsedMs": 3114.945708000101
+        },
+        {
+          "sample": 323,
+          "outcome": "measured",
+          "elapsedMs": 3115.214957999997
+        },
+        {
+          "sample": 324,
+          "outcome": "measured",
+          "elapsedMs": 3115.064792000223
+        },
+        {
+          "sample": 325,
+          "outcome": "measured",
+          "elapsedMs": 3115.175582999829
+        },
+        {
+          "sample": 326,
+          "outcome": "measured",
+          "elapsedMs": 3131.72670800006
+        },
+        {
+          "sample": 327,
+          "outcome": "measured",
+          "elapsedMs": 3114.688291999977
+        },
+        {
+          "sample": 328,
+          "outcome": "measured",
+          "elapsedMs": 3131.7719580000266
+        },
+        {
+          "sample": 329,
+          "outcome": "measured",
+          "elapsedMs": 3114.9572499999776
+        },
+        {
+          "sample": 330,
+          "outcome": "measured",
+          "elapsedMs": 3131.869207999669
+        },
+        {
+          "sample": 331,
+          "outcome": "measured",
+          "elapsedMs": 3115.199332999997
+        },
+        {
+          "sample": 332,
+          "outcome": "measured",
+          "elapsedMs": 3132.1165000000037
+        },
+        {
+          "sample": 333,
+          "outcome": "measured",
+          "elapsedMs": 3098.246499999892
+        },
+        {
+          "sample": 334,
+          "outcome": "measured",
+          "elapsedMs": 3115.3398749995977
+        },
+        {
+          "sample": 335,
+          "outcome": "measured",
+          "elapsedMs": 3131.486459000036
+        },
+        {
+          "sample": 336,
+          "outcome": "measured",
+          "elapsedMs": 3112.9604580001906
+        },
+        {
+          "sample": 337,
+          "outcome": "measured",
+          "elapsedMs": 3114.46875
+        },
+        {
+          "sample": 338,
+          "outcome": "measured",
+          "elapsedMs": 3130.4316249997355
+        },
+        {
+          "sample": 339,
+          "outcome": "measured",
+          "elapsedMs": 3116.8728330000304
+        },
+        {
+          "sample": 340,
+          "outcome": "measured",
+          "elapsedMs": 3114.72795900004
+        },
+        {
+          "sample": 341,
+          "outcome": "measured",
+          "elapsedMs": 3113.640583000146
+        },
+        {
+          "sample": 342,
+          "outcome": "measured",
+          "elapsedMs": 3115.991583000403
+        },
+        {
+          "sample": 343,
+          "outcome": "measured",
+          "elapsedMs": 3131.150334000122
+        },
+        {
+          "sample": 344,
+          "outcome": "measured",
+          "elapsedMs": 3115.1006249999627
+        },
+        {
+          "sample": 345,
+          "outcome": "measured",
+          "elapsedMs": 3131.7565419999883
+        },
+        {
+          "sample": 346,
+          "outcome": "measured",
+          "elapsedMs": 3115.0469160000794
+        },
+        {
+          "sample": 347,
+          "outcome": "measured",
+          "elapsedMs": 3114.9486250001937
+        },
+        {
+          "sample": 348,
+          "outcome": "measured",
+          "elapsedMs": 3131.318708000239
+        },
+        {
+          "sample": 349,
+          "outcome": "measured",
+          "elapsedMs": 3098.219415999949
+        },
+        {
+          "sample": 350,
+          "outcome": "measured",
+          "elapsedMs": 3115.148833000101
+        },
+        {
+          "sample": 351,
+          "outcome": "measured",
+          "elapsedMs": 3132.2373329997063
+        },
+        {
+          "sample": 352,
+          "outcome": "measured",
+          "elapsedMs": 3115.1537089999765
+        },
+        {
+          "sample": 353,
+          "outcome": "measured",
+          "elapsedMs": 3115.055083000101
+        },
+        {
+          "sample": 354,
+          "outcome": "measured",
+          "elapsedMs": 3131.783874999732
+        },
+        {
+          "sample": 355,
+          "outcome": "measured",
+          "elapsedMs": 3115.158249999862
+        },
+        {
+          "sample": 356,
+          "outcome": "measured",
+          "elapsedMs": 3115.3641249998473
+        },
+        {
+          "sample": 357,
+          "outcome": "measured",
+          "elapsedMs": 3131.4500409998
+        },
+        {
+          "sample": 358,
+          "outcome": "measured",
+          "elapsedMs": 3129.61491700029
+        },
+        {
+          "sample": 359,
+          "outcome": "measured",
+          "elapsedMs": 3115.198916000314
+        },
+        {
+          "sample": 360,
+          "outcome": "measured",
+          "elapsedMs": 3115.905665999744
+        },
+        {
+          "sample": 361,
+          "outcome": "measured",
+          "elapsedMs": 3131.531791999936
+        },
+        {
+          "sample": 362,
+          "outcome": "measured",
+          "elapsedMs": 3133.334709000308
+        },
+        {
+          "sample": 363,
+          "outcome": "measured",
+          "elapsedMs": 3113.620292000007
+        },
+        {
+          "sample": 364,
+          "outcome": "measured",
+          "elapsedMs": 3129.8385840002447
+        },
+        {
+          "sample": 365,
+          "outcome": "measured",
+          "elapsedMs": 3114.0842920001596
+        },
+        {
+          "sample": 366,
+          "outcome": "measured",
+          "elapsedMs": 3115.1534580001608
+        },
+        {
+          "sample": 367,
+          "outcome": "measured",
+          "elapsedMs": 3115.4978330000304
+        },
+        {
+          "sample": 368,
+          "outcome": "measured",
+          "elapsedMs": 3114.6266250000335
+        },
+        {
+          "sample": 369,
+          "outcome": "measured",
+          "elapsedMs": 3132.0347090000287
+        },
+        {
+          "sample": 370,
+          "outcome": "measured",
+          "elapsedMs": 3114.9682089998387
+        },
+        {
+          "sample": 371,
+          "outcome": "measured",
+          "elapsedMs": 3114.9333329997025
+        },
+        {
+          "sample": 372,
+          "outcome": "measured",
+          "elapsedMs": 3115.4859170001
+        },
+        {
+          "sample": 373,
+          "outcome": "measured",
+          "elapsedMs": 3131.8386249998584
+        },
+        {
+          "sample": 374,
+          "outcome": "measured",
+          "elapsedMs": 3114.943500000052
+        },
+        {
+          "sample": 375,
+          "outcome": "measured",
+          "elapsedMs": 3116.33762500016
+        },
+        {
+          "sample": 376,
+          "outcome": "measured",
+          "elapsedMs": 3115.1221250002272
+        },
+        {
+          "sample": 377,
+          "outcome": "measured",
+          "elapsedMs": 3115.186292000115
+        },
+        {
+          "sample": 378,
+          "outcome": "measured",
+          "elapsedMs": 3117.0694579998963
+        },
+        {
+          "sample": 379,
+          "outcome": "measured",
+          "elapsedMs": 3115.2493329998106
+        },
+        {
+          "sample": 380,
+          "outcome": "measured",
+          "elapsedMs": 3114.8942500003614
+        },
+        {
+          "sample": 381,
+          "outcome": "measured",
+          "elapsedMs": 3112.8198339999653
+        },
+        {
+          "sample": 382,
+          "outcome": "measured",
+          "elapsedMs": 3115.689083999954
+        },
+        {
+          "sample": 383,
+          "outcome": "measured",
+          "elapsedMs": 3131.264374999795
+        },
+        {
+          "sample": 384,
+          "outcome": "measured",
+          "elapsedMs": 3148.450875000097
+        },
+        {
+          "sample": 385,
+          "outcome": "measured",
+          "elapsedMs": 3115.1705000000075
+        },
+        {
+          "sample": 386,
+          "outcome": "measured",
+          "elapsedMs": 3132.2750420002267
+        },
+        {
+          "sample": 387,
+          "outcome": "measured",
+          "elapsedMs": 3116.578666999936
+        },
+        {
+          "sample": 388,
+          "outcome": "measured",
+          "elapsedMs": 3114.7862499998882
+        },
+        {
+          "sample": 389,
+          "outcome": "measured",
+          "elapsedMs": 3115.0304579995573
+        },
+        {
+          "sample": 390,
+          "outcome": "measured",
+          "elapsedMs": 3115.1442080000415
+        },
+        {
+          "sample": 391,
+          "outcome": "measured",
+          "elapsedMs": 3115.653584000189
+        },
+        {
+          "sample": 392,
+          "outcome": "measured",
+          "elapsedMs": 3115.4794580000453
+        },
+        {
+          "sample": 393,
+          "outcome": "measured",
+          "elapsedMs": 3131.8665840001777
+        },
+        {
+          "sample": 394,
+          "outcome": "measured",
+          "elapsedMs": 3115.77329199994
+        },
+        {
+          "sample": 395,
+          "outcome": "measured",
+          "elapsedMs": 3131.9789999998175
+        },
+        {
+          "sample": 396,
+          "outcome": "measured",
+          "elapsedMs": 3131.8353749997914
+        },
+        {
+          "sample": 397,
+          "outcome": "measured",
+          "elapsedMs": 3131.5862500001676
+        },
+        {
+          "sample": 398,
+          "outcome": "measured",
+          "elapsedMs": 3131.8529579997994
+        },
+        {
+          "sample": 399,
+          "outcome": "measured",
+          "elapsedMs": 3115.034250000026
+        },
+        {
+          "sample": 400,
+          "outcome": "measured",
+          "elapsedMs": 3114.866625000257
+        },
+        {
+          "sample": 401,
+          "outcome": "measured",
+          "elapsedMs": 3114.669582999777
+        },
+        {
+          "sample": 402,
+          "outcome": "measured",
+          "elapsedMs": 3131.8962920000777
+        },
+        {
+          "sample": 403,
+          "outcome": "measured",
+          "elapsedMs": 3131.7440420002677
+        },
+        {
+          "sample": 404,
+          "outcome": "measured",
+          "elapsedMs": 3131.5802500001155
+        },
+        {
+          "sample": 405,
+          "outcome": "measured",
+          "elapsedMs": 3131.5475000003353
+        },
+        {
+          "sample": 406,
+          "outcome": "measured",
+          "elapsedMs": 3115.0879160002805
+        },
+        {
+          "sample": 407,
+          "outcome": "measured",
+          "elapsedMs": 3115.0451659997925
+        },
+        {
+          "sample": 408,
+          "outcome": "measured",
+          "elapsedMs": 3132.035458999686
+        },
+        {
+          "sample": 409,
+          "outcome": "measured",
+          "elapsedMs": 3115.1288749999367
+        },
+        {
+          "sample": 410,
+          "outcome": "measured",
+          "elapsedMs": 3115.252165999729
+        },
+        {
+          "sample": 411,
+          "outcome": "measured",
+          "elapsedMs": 3115.1512090000324
+        },
+        {
+          "sample": 412,
+          "outcome": "measured",
+          "elapsedMs": 3114.9987919996493
+        },
+        {
+          "sample": 413,
+          "outcome": "measured",
+          "elapsedMs": 3115.1349579999223
+        },
+        {
+          "sample": 414,
+          "outcome": "measured",
+          "elapsedMs": 3115.3756250003353
+        },
+        {
+          "sample": 415,
+          "outcome": "measured",
+          "elapsedMs": 3115.0671250000596
+        },
+        {
+          "sample": 416,
+          "outcome": "measured",
+          "elapsedMs": 3131.5484170001
+        },
+        {
+          "sample": 417,
+          "outcome": "measured",
+          "elapsedMs": 3115.1564160003327
+        },
+        {
+          "sample": 418,
+          "outcome": "measured",
+          "elapsedMs": 3114.8362500001676
+        },
+        {
+          "sample": 419,
+          "outcome": "measured",
+          "elapsedMs": 3115.200459000189
+        },
+        {
+          "sample": 420,
+          "outcome": "measured",
+          "elapsedMs": 3115.8582920003682
+        },
+        {
+          "sample": 421,
+          "outcome": "measured",
+          "elapsedMs": 3131.3005840000696
+        },
+        {
+          "sample": 422,
+          "outcome": "measured",
+          "elapsedMs": 3114.618791999761
+        },
+        {
+          "sample": 423,
+          "outcome": "measured",
+          "elapsedMs": 3114.944666999858
+        },
+        {
+          "sample": 424,
+          "outcome": "measured",
+          "elapsedMs": 3115.115290999878
+        },
+        {
+          "sample": 425,
+          "outcome": "measured",
+          "elapsedMs": 3114.6808750000782
+        },
+        {
+          "sample": 426,
+          "outcome": "measured",
+          "elapsedMs": 3113.2634999998845
+        },
+        {
+          "sample": 427,
+          "outcome": "measured",
+          "elapsedMs": 3131.7116249999963
+        },
+        {
+          "sample": 428,
+          "outcome": "measured",
+          "elapsedMs": 3115.250334000215
+        },
+        {
+          "sample": 429,
+          "outcome": "measured",
+          "elapsedMs": 3132.246749999933
+        },
+        {
+          "sample": 430,
+          "outcome": "measured",
+          "elapsedMs": 3115.5145000000484
+        },
+        {
+          "sample": 431,
+          "outcome": "measured",
+          "elapsedMs": 3115.1239589997567
+        },
+        {
+          "sample": 432,
+          "outcome": "measured",
+          "elapsedMs": 3129.334875000175
+        },
+        {
+          "sample": 433,
+          "outcome": "measured",
+          "elapsedMs": 3115.36149999965
+        },
+        {
+          "sample": 434,
+          "outcome": "measured",
+          "elapsedMs": 3115.2040830003098
+        },
+        {
+          "sample": 435,
+          "outcome": "measured",
+          "elapsedMs": 3115.3020419999957
+        },
+        {
+          "sample": 436,
+          "outcome": "measured",
+          "elapsedMs": 3115.758458000142
+        },
+        {
+          "sample": 437,
+          "outcome": "measured",
+          "elapsedMs": 3116.6100840000436
+        },
+        {
+          "sample": 438,
+          "outcome": "measured",
+          "elapsedMs": 3114.9974160003476
+        },
+        {
+          "sample": 439,
+          "outcome": "measured",
+          "elapsedMs": 3131.800459000282
+        },
+        {
+          "sample": 440,
+          "outcome": "measured",
+          "elapsedMs": 3114.663458999712
+        },
+        {
+          "sample": 441,
+          "outcome": "measured",
+          "elapsedMs": 3114.989833000116
+        },
+        {
+          "sample": 442,
+          "outcome": "measured",
+          "elapsedMs": 3114.9115830003284
+        },
+        {
+          "sample": 443,
+          "outcome": "measured",
+          "elapsedMs": 3114.78125
+        },
+        {
+          "sample": 444,
+          "outcome": "measured",
+          "elapsedMs": 3131.278249999974
+        },
+        {
+          "sample": 445,
+          "outcome": "measured",
+          "elapsedMs": 3114.8764169998467
+        },
+        {
+          "sample": 446,
+          "outcome": "measured",
+          "elapsedMs": 3116.6757500004023
+        },
+        {
+          "sample": 447,
+          "outcome": "measured",
+          "elapsedMs": 3116.409957999829
+        },
+        {
+          "sample": 448,
+          "outcome": "measured",
+          "elapsedMs": 3115.9146250002086
+        },
+        {
+          "sample": 449,
+          "outcome": "measured",
+          "elapsedMs": 3133.120542000048
+        },
+        {
+          "sample": 450,
+          "outcome": "measured",
+          "elapsedMs": 3115.3890829999
+        },
+        {
+          "sample": 451,
+          "outcome": "measured",
+          "elapsedMs": 3130.5690419999883
+        },
+        {
+          "sample": 452,
+          "outcome": "measured",
+          "elapsedMs": 3114.9862500000745
+        },
+        {
+          "sample": 453,
+          "outcome": "measured",
+          "elapsedMs": 3114.708959000185
+        },
+        {
+          "sample": 454,
+          "outcome": "measured",
+          "elapsedMs": 3114.8386249998584
+        },
+        {
+          "sample": 455,
+          "outcome": "measured",
+          "elapsedMs": 3114.9013749998994
+        },
+        {
+          "sample": 456,
+          "outcome": "measured",
+          "elapsedMs": 3114.9883340001106
+        },
+        {
+          "sample": 457,
+          "outcome": "measured",
+          "elapsedMs": 3130.960041999817
+        },
+        {
+          "sample": 458,
+          "outcome": "measured",
+          "elapsedMs": 3115.279499999713
+        },
+        {
+          "sample": 459,
+          "outcome": "measured",
+          "elapsedMs": 3115.046833000146
+        },
+        {
+          "sample": 460,
+          "outcome": "measured",
+          "elapsedMs": 3098.3305840003304
+        },
+        {
+          "sample": 461,
+          "outcome": "measured",
+          "elapsedMs": 3131.131790999789
+        },
+        {
+          "sample": 462,
+          "outcome": "measured",
+          "elapsedMs": 3098.3358749998733
+        },
+        {
+          "sample": 463,
+          "outcome": "measured",
+          "elapsedMs": 3114.98037499981
+        },
+        {
+          "sample": 464,
+          "outcome": "measured",
+          "elapsedMs": 3115.243249999825
+        },
+        {
+          "sample": 465,
+          "outcome": "measured",
+          "elapsedMs": 3114.6173749999143
+        },
+        {
+          "sample": 466,
+          "outcome": "measured",
+          "elapsedMs": 3115.0789160002023
+        },
+        {
+          "sample": 467,
+          "outcome": "measured",
+          "elapsedMs": 3115.545624999795
+        },
+        {
+          "sample": 468,
+          "outcome": "measured",
+          "elapsedMs": 3114.1655839998275
+        },
+        {
+          "sample": 469,
+          "outcome": "measured",
+          "elapsedMs": 3131.803625000175
+        },
+        {
+          "sample": 470,
+          "outcome": "measured",
+          "elapsedMs": 3115.378166999668
+        },
+        {
+          "sample": 471,
+          "outcome": "measured",
+          "elapsedMs": 3131.8324169996195
+        },
+        {
+          "sample": 472,
+          "outcome": "measured",
+          "elapsedMs": 3132.0553749999963
+        },
+        {
+          "sample": 473,
+          "outcome": "measured",
+          "elapsedMs": 3133.371499999892
+        },
+        {
+          "sample": 474,
+          "outcome": "measured",
+          "elapsedMs": 3115.069458999671
+        },
+        {
+          "sample": 475,
+          "outcome": "measured",
+          "elapsedMs": 3114.9537499998696
+        },
+        {
+          "sample": 476,
+          "outcome": "measured",
+          "elapsedMs": 3131.6521250000224
+        },
+        {
+          "sample": 477,
+          "outcome": "measured",
+          "elapsedMs": 3098.4738750001416
+        },
+        {
+          "sample": 478,
+          "outcome": "measured",
+          "elapsedMs": 3115.1337079997174
+        },
+        {
+          "sample": 479,
+          "outcome": "measured",
+          "elapsedMs": 3115.0934170000255
+        },
+        {
+          "sample": 480,
+          "outcome": "measured",
+          "elapsedMs": 3114.9698749999516
+        },
+        {
+          "sample": 481,
+          "outcome": "measured",
+          "elapsedMs": 3114.802917000372
+        },
+        {
+          "sample": 482,
+          "outcome": "measured",
+          "elapsedMs": 3114.5463339998387
+        },
+        {
+          "sample": 483,
+          "outcome": "measured",
+          "elapsedMs": 3132.566708000377
+        },
+        {
+          "sample": 484,
+          "outcome": "measured",
+          "elapsedMs": 3114.985875000246
+        },
+        {
+          "sample": 485,
+          "outcome": "measured",
+          "elapsedMs": 3115.131000000052
+        },
+        {
+          "sample": 486,
+          "outcome": "measured",
+          "elapsedMs": 3132.567124999594
+        },
+        {
+          "sample": 487,
+          "outcome": "measured",
+          "elapsedMs": 3131.5507080000825
+        },
+        {
+          "sample": 488,
+          "outcome": "measured",
+          "elapsedMs": 3114.9146659998223
+        },
+        {
+          "sample": 489,
+          "outcome": "measured",
+          "elapsedMs": 3097.9933750000782
+        },
+        {
+          "sample": 490,
+          "outcome": "measured",
+          "elapsedMs": 3131.634124999866
+        },
+        {
+          "sample": 491,
+          "outcome": "measured",
+          "elapsedMs": 3130.6756249996834
+        },
+        {
+          "sample": 492,
+          "outcome": "measured",
+          "elapsedMs": 3115.621542000212
+        },
+        {
+          "sample": 493,
+          "outcome": "measured",
+          "elapsedMs": 3116.0439579999074
+        },
+        {
+          "sample": 494,
+          "outcome": "measured",
+          "elapsedMs": 3131.305791999679
+        },
+        {
+          "sample": 495,
+          "outcome": "measured",
+          "elapsedMs": 3115.2076249998063
+        },
+        {
+          "sample": 496,
+          "outcome": "measured",
+          "elapsedMs": 3115.132916999981
+        },
+        {
+          "sample": 497,
+          "outcome": "measured",
+          "elapsedMs": 3115.200750000309
+        },
+        {
+          "sample": 498,
+          "outcome": "measured",
+          "elapsedMs": 3130.372750000097
+        },
+        {
+          "sample": 499,
+          "outcome": "measured",
+          "elapsedMs": 3132.138082999736
+        },
+        {
+          "sample": 500,
+          "outcome": "measured",
+          "elapsedMs": 3131.7160829999484
+        },
+        {
+          "sample": 501,
+          "outcome": "measured",
+          "elapsedMs": 3115.2392920004204
+        },
+        {
+          "sample": 502,
+          "outcome": "measured",
+          "elapsedMs": 3114.9601659998298
+        },
+        {
+          "sample": 503,
+          "outcome": "measured",
+          "elapsedMs": 3132.1022499999963
+        },
+        {
+          "sample": 504,
+          "outcome": "measured",
+          "elapsedMs": 3114.990333000198
+        },
+        {
+          "sample": 505,
+          "outcome": "measured",
+          "elapsedMs": 3131.771875000093
+        },
+        {
+          "sample": 506,
+          "outcome": "measured",
+          "elapsedMs": 3115.0247920001857
+        },
+        {
+          "sample": 507,
+          "outcome": "measured",
+          "elapsedMs": 3131.9402089999057
+        },
+        {
+          "sample": 508,
+          "outcome": "measured",
+          "elapsedMs": 3131.914874999784
+        },
+        {
+          "sample": 509,
+          "outcome": "measured",
+          "elapsedMs": 3131.91083299974
+        },
+        {
+          "sample": 510,
+          "outcome": "measured",
+          "elapsedMs": 3115.0024589998648
+        },
+        {
+          "sample": 511,
+          "outcome": "measured",
+          "elapsedMs": 3113.429332999978
+        },
+        {
+          "sample": 512,
+          "outcome": "measured",
+          "elapsedMs": 3115.3394169998355
+        },
+        {
+          "sample": 513,
+          "outcome": "measured",
+          "elapsedMs": 3116.7669999999925
+        },
+        {
+          "sample": 514,
+          "outcome": "measured",
+          "elapsedMs": 3114.802625000011
+        },
+        {
+          "sample": 515,
+          "outcome": "measured",
+          "elapsedMs": 3114.9272080003284
+        },
+        {
+          "sample": 516,
+          "outcome": "measured",
+          "elapsedMs": 3131.5479999999516
+        },
+        {
+          "sample": 517,
+          "outcome": "measured",
+          "elapsedMs": 3130.9160830001347
+        },
+        {
+          "sample": 518,
+          "outcome": "measured",
+          "elapsedMs": 3114.961291000247
+        },
+        {
+          "sample": 519,
+          "outcome": "measured",
+          "elapsedMs": 3115.1047910000198
+        },
+        {
+          "sample": 520,
+          "outcome": "measured",
+          "elapsedMs": 3115.239749999717
+        },
+        {
+          "sample": 521,
+          "outcome": "measured",
+          "elapsedMs": 3115.273917000275
+        },
+        {
+          "sample": 522,
+          "outcome": "measured",
+          "elapsedMs": 3115.3918749997392
+        },
+        {
+          "sample": 523,
+          "outcome": "measured",
+          "elapsedMs": 3098.024999999907
+        },
+        {
+          "sample": 524,
+          "outcome": "measured",
+          "elapsedMs": 3132.948708999902
+        },
+        {
+          "sample": 525,
+          "outcome": "measured",
+          "elapsedMs": 3115.36183300009
+        },
+        {
+          "sample": 526,
+          "outcome": "measured",
+          "elapsedMs": 3115.1206660000607
+        },
+        {
+          "sample": 527,
+          "outcome": "measured",
+          "elapsedMs": 3115.0742500000633
+        },
+        {
+          "sample": 528,
+          "outcome": "measured",
+          "elapsedMs": 3131.736625000369
+        },
+        {
+          "sample": 529,
+          "outcome": "measured",
+          "elapsedMs": 3115.178040999919
+        },
+        {
+          "sample": 530,
+          "outcome": "measured",
+          "elapsedMs": 3099.628291999921
+        },
+        {
+          "sample": 531,
+          "outcome": "measured",
+          "elapsedMs": 3114.673582999967
+        },
+        {
+          "sample": 532,
+          "outcome": "measured",
+          "elapsedMs": 3116.546083000023
+        },
+        {
+          "sample": 533,
+          "outcome": "measured",
+          "elapsedMs": 3114.909957999829
+        },
+        {
+          "sample": 534,
+          "outcome": "measured",
+          "elapsedMs": 3113.86887500016
+        },
+        {
+          "sample": 535,
+          "outcome": "measured",
+          "elapsedMs": 3113.365791999735
+        },
+        {
+          "sample": 536,
+          "outcome": "measured",
+          "elapsedMs": 3114.880916999653
+        },
+        {
+          "sample": 537,
+          "outcome": "measured",
+          "elapsedMs": 3115.739209000021
+        },
+        {
+          "sample": 538,
+          "outcome": "measured",
+          "elapsedMs": 3132.8174999998882
+        },
+        {
+          "sample": 539,
+          "outcome": "measured",
+          "elapsedMs": 3132.010874999687
+        },
+        {
+          "sample": 540,
+          "outcome": "measured",
+          "elapsedMs": 3115.0633330000564
+        },
+        {
+          "sample": 541,
+          "outcome": "measured",
+          "elapsedMs": 3115.6560410000384
+        },
+        {
+          "sample": 542,
+          "outcome": "measured",
+          "elapsedMs": 3132.150291999802
+        },
+        {
+          "sample": 543,
+          "outcome": "measured",
+          "elapsedMs": 3114.907542000059
+        },
+        {
+          "sample": 544,
+          "outcome": "measured",
+          "elapsedMs": 3115.1123329997063
+        },
+        {
+          "sample": 545,
+          "outcome": "measured",
+          "elapsedMs": 3131.600000000093
+        },
+        {
+          "sample": 546,
+          "outcome": "measured",
+          "elapsedMs": 3115.001000000164
+        },
+        {
+          "sample": 547,
+          "outcome": "measured",
+          "elapsedMs": 3098.351542000193
+        },
+        {
+          "sample": 548,
+          "outcome": "measured",
+          "elapsedMs": 3115.187249999959
+        },
+        {
+          "sample": 549,
+          "outcome": "measured",
+          "elapsedMs": 3131.6863329997286
+        },
+        {
+          "sample": 550,
+          "outcome": "measured",
+          "elapsedMs": 3115.119291999843
+        },
+        {
+          "sample": 551,
+          "outcome": "measured",
+          "elapsedMs": 3115.757416000124
+        },
+        {
+          "sample": 552,
+          "outcome": "measured",
+          "elapsedMs": 3115.6317499997094
+        },
+        {
+          "sample": 553,
+          "outcome": "measured",
+          "elapsedMs": 3131.157084000297
+        },
+        {
+          "sample": 554,
+          "outcome": "measured",
+          "elapsedMs": 3115.8323749997653
+        },
+        {
+          "sample": 555,
+          "outcome": "measured",
+          "elapsedMs": 3113.115333999973
+        },
+        {
+          "sample": 556,
+          "outcome": "measured",
+          "elapsedMs": 3114.7154160002246
+        },
+        {
+          "sample": 557,
+          "outcome": "measured",
+          "elapsedMs": 3130.0221669999883
+        },
+        {
+          "sample": 558,
+          "outcome": "measured",
+          "elapsedMs": 3113.3732090000995
+        },
+        {
+          "sample": 559,
+          "outcome": "measured",
+          "elapsedMs": 3132.6597909997217
+        },
+        {
+          "sample": 560,
+          "outcome": "measured",
+          "elapsedMs": 3114.951166000217
+        },
+        {
+          "sample": 561,
+          "outcome": "measured",
+          "elapsedMs": 3132.5346249998547
+        },
+        {
+          "sample": 562,
+          "outcome": "measured",
+          "elapsedMs": 3115.9721249998547
+        },
+        {
+          "sample": 563,
+          "outcome": "measured",
+          "elapsedMs": 3115.5699170003645
+        },
+        {
+          "sample": 564,
+          "outcome": "measured",
+          "elapsedMs": 3115.3645829996094
+        },
+        {
+          "sample": 565,
+          "outcome": "measured",
+          "elapsedMs": 3116.027083000168
+        },
+        {
+          "sample": 566,
+          "outcome": "measured",
+          "elapsedMs": 3115.117749999743
+        },
+        {
+          "sample": 567,
+          "outcome": "measured",
+          "elapsedMs": 3115.1884580003098
+        },
+        {
+          "sample": 568,
+          "outcome": "measured",
+          "elapsedMs": 3131.891625000164
+        },
+        {
+          "sample": 569,
+          "outcome": "measured",
+          "elapsedMs": 3098.4639169997536
+        },
+        {
+          "sample": 570,
+          "outcome": "measured",
+          "elapsedMs": 3114.9584579998627
+        },
+        {
+          "sample": 571,
+          "outcome": "measured",
+          "elapsedMs": 3115.011959000025
+        },
+        {
+          "sample": 572,
+          "outcome": "measured",
+          "elapsedMs": 3115.1691670003347
+        },
+        {
+          "sample": 573,
+          "outcome": "measured",
+          "elapsedMs": 3115.541666999925
+        },
+        {
+          "sample": 574,
+          "outcome": "measured",
+          "elapsedMs": 3114.158499999903
+        },
+        {
+          "sample": 575,
+          "outcome": "measured",
+          "elapsedMs": 3115.1019579996355
+        },
+        {
+          "sample": 576,
+          "outcome": "measured",
+          "elapsedMs": 3133.3810829999857
+        },
+        {
+          "sample": 577,
+          "outcome": "measured",
+          "elapsedMs": 3130.77975000022
+        },
+        {
+          "sample": 578,
+          "outcome": "measured",
+          "elapsedMs": 3115.666166000068
+        },
+        {
+          "sample": 579,
+          "outcome": "measured",
+          "elapsedMs": 3133.080167000182
+        },
+        {
+          "sample": 580,
+          "outcome": "measured",
+          "elapsedMs": 3114.7910830001347
+        },
+        {
+          "sample": 581,
+          "outcome": "measured",
+          "elapsedMs": 3131.985875000246
+        },
+        {
+          "sample": 582,
+          "outcome": "measured",
+          "elapsedMs": 3133.0414999998175
+        },
+        {
+          "sample": 583,
+          "outcome": "measured",
+          "elapsedMs": 3113.513625000138
+        },
+        {
+          "sample": 584,
+          "outcome": "measured",
+          "elapsedMs": 3131.753000000026
+        },
+        {
+          "sample": 585,
+          "outcome": "measured",
+          "elapsedMs": 3115.5275000003166
+        },
+        {
+          "sample": 586,
+          "outcome": "measured",
+          "elapsedMs": 3115.0258749998175
+        },
+        {
+          "sample": 587,
+          "outcome": "measured",
+          "elapsedMs": 3115.0430839997716
+        },
+        {
+          "sample": 588,
+          "outcome": "measured",
+          "elapsedMs": 3115.2047079997137
+        },
+        {
+          "sample": 589,
+          "outcome": "measured",
+          "elapsedMs": 3114.9973749998026
+        },
+        {
+          "sample": 590,
+          "outcome": "measured",
+          "elapsedMs": 3114.973624999635
+        },
+        {
+          "sample": 591,
+          "outcome": "measured",
+          "elapsedMs": 3131.77208300028
+        },
+        {
+          "sample": 592,
+          "outcome": "measured",
+          "elapsedMs": 3116.6788329998963
+        },
+        {
+          "sample": 593,
+          "outcome": "measured",
+          "elapsedMs": 3115.3815419999883
+        },
+        {
+          "sample": 594,
+          "outcome": "measured",
+          "elapsedMs": 3115.174040999729
+        },
+        {
+          "sample": 595,
+          "outcome": "measured",
+          "elapsedMs": 3115.1803749999963
+        },
+        {
+          "sample": 596,
+          "outcome": "measured",
+          "elapsedMs": 3114.9673329996876
+        },
+        {
+          "sample": 597,
+          "outcome": "measured",
+          "elapsedMs": 3131.933292000089
+        },
+        {
+          "sample": 598,
+          "outcome": "measured",
+          "elapsedMs": 3131.795832999982
+        },
+        {
+          "sample": 599,
+          "outcome": "measured",
+          "elapsedMs": 3114.6576249999925
+        },
+        {
+          "sample": 600,
+          "outcome": "measured",
+          "elapsedMs": 3114.2240419997834
+        },
+        {
+          "sample": 601,
+          "outcome": "measured",
+          "elapsedMs": 3132.9614590001293
+        },
+        {
+          "sample": 602,
+          "outcome": "measured",
+          "elapsedMs": 3113.867583000101
+        },
+        {
+          "sample": 603,
+          "outcome": "measured",
+          "elapsedMs": 3117.3675409997813
+        },
+        {
+          "sample": 604,
+          "outcome": "measured",
+          "elapsedMs": 3131.9835000000894
+        },
+        {
+          "sample": 605,
+          "outcome": "measured",
+          "elapsedMs": 3130.140541999601
+        },
+        {
+          "sample": 606,
+          "outcome": "measured",
+          "elapsedMs": 3115.3036670000292
+        },
+        {
+          "sample": 607,
+          "outcome": "measured",
+          "elapsedMs": 3132.1925409999676
+        },
+        {
+          "sample": 608,
+          "outcome": "measured",
+          "elapsedMs": 3115.0237500001676
+        },
+        {
+          "sample": 609,
+          "outcome": "measured",
+          "elapsedMs": 3115.001083999872
+        },
+        {
+          "sample": 610,
+          "outcome": "measured",
+          "elapsedMs": 3131.1288749999367
+        },
+        {
+          "sample": 611,
+          "outcome": "measured",
+          "elapsedMs": 3114.8915830003098
+        },
+        {
+          "sample": 612,
+          "outcome": "measured",
+          "elapsedMs": 3115.0852500000037
+        },
+        {
+          "sample": 613,
+          "outcome": "measured",
+          "elapsedMs": 3115.0005830000155
+        },
+        {
+          "sample": 614,
+          "outcome": "measured",
+          "elapsedMs": 3115.4367909999564
+        },
+        {
+          "sample": 615,
+          "outcome": "measured",
+          "elapsedMs": 3115.297082999721
+        },
+        {
+          "sample": 616,
+          "outcome": "measured",
+          "elapsedMs": 3115.0042909998447
+        },
+        {
+          "sample": 617,
+          "outcome": "measured",
+          "elapsedMs": 3098.465041999705
+        },
+        {
+          "sample": 618,
+          "outcome": "measured",
+          "elapsedMs": 3131.6330840000883
+        },
+        {
+          "sample": 619,
+          "outcome": "measured",
+          "elapsedMs": 3099.178249999881
+        },
+        {
+          "sample": 620,
+          "outcome": "measured",
+          "elapsedMs": 3129.7220830000006
+        },
+        {
+          "sample": 621,
+          "outcome": "measured",
+          "elapsedMs": 3114.869541000109
+        },
+        {
+          "sample": 622,
+          "outcome": "measured",
+          "elapsedMs": 3114.2221249998547
+        },
+        {
+          "sample": 623,
+          "outcome": "measured",
+          "elapsedMs": 3115.3137080003507
+        },
+        {
+          "sample": 624,
+          "outcome": "measured",
+          "elapsedMs": 3131.989624999929
+        },
+        {
+          "sample": 625,
+          "outcome": "measured",
+          "elapsedMs": 3113.7446670001373
+        },
+        {
+          "sample": 626,
+          "outcome": "measured",
+          "elapsedMs": 3115.995541000273
+        },
+        {
+          "sample": 627,
+          "outcome": "measured",
+          "elapsedMs": 3115.815084000118
+        },
+        {
+          "sample": 628,
+          "outcome": "measured",
+          "elapsedMs": 3131.12099999981
+        },
+        {
+          "sample": 629,
+          "outcome": "measured",
+          "elapsedMs": 3130.885582999792
+        },
+        {
+          "sample": 630,
+          "outcome": "measured",
+          "elapsedMs": 3115.2532079997472
+        },
+        {
+          "sample": 631,
+          "outcome": "measured",
+          "elapsedMs": 3114.9941249997355
+        },
+        {
+          "sample": 632,
+          "outcome": "measured",
+          "elapsedMs": 3114.97487499984
+        },
+        {
+          "sample": 633,
+          "outcome": "measured",
+          "elapsedMs": 3115.56399999978
+        },
+        {
+          "sample": 634,
+          "outcome": "measured",
+          "elapsedMs": 3115.046374999918
+        },
+        {
+          "sample": 635,
+          "outcome": "measured",
+          "elapsedMs": 3131.8178750001825
+        },
+        {
+          "sample": 636,
+          "outcome": "measured",
+          "elapsedMs": 3115.103374999948
+        },
+        {
+          "sample": 637,
+          "outcome": "measured",
+          "elapsedMs": 3115.310750000179
+        },
+        {
+          "sample": 638,
+          "outcome": "measured",
+          "elapsedMs": 3115.163208999671
+        },
+        {
+          "sample": 639,
+          "outcome": "measured",
+          "elapsedMs": 3115.1494169998914
+        },
+        {
+          "sample": 640,
+          "outcome": "measured",
+          "elapsedMs": 3115.1248749997467
+        },
+        {
+          "sample": 641,
+          "outcome": "measured",
+          "elapsedMs": 3114.8922080001794
+        },
+        {
+          "sample": 642,
+          "outcome": "measured",
+          "elapsedMs": 3131.7702500000596
+        },
+        {
+          "sample": 643,
+          "outcome": "measured",
+          "elapsedMs": 3114.7372079999186
+        },
+        {
+          "sample": 644,
+          "outcome": "measured",
+          "elapsedMs": 3115.676833000034
+        },
+        {
+          "sample": 645,
+          "outcome": "measured",
+          "elapsedMs": 3116.0020409999415
+        },
+        {
+          "sample": 646,
+          "outcome": "measured",
+          "elapsedMs": 3116.0038749999367
+        },
+        {
+          "sample": 647,
+          "outcome": "measured",
+          "elapsedMs": 3115.565166999586
+        },
+        {
+          "sample": 648,
+          "outcome": "measured",
+          "elapsedMs": 3132.0170420003124
+        },
+        {
+          "sample": 649,
+          "outcome": "measured",
+          "elapsedMs": 3130.853124999907
+        },
+        {
+          "sample": 650,
+          "outcome": "measured",
+          "elapsedMs": 3115.212249999866
+        },
+        {
+          "sample": 651,
+          "outcome": "measured",
+          "elapsedMs": 3131.6155829997733
+        },
+        {
+          "sample": 652,
+          "outcome": "measured",
+          "elapsedMs": 3131.9507919996977
+        },
+        {
+          "sample": 653,
+          "outcome": "measured",
+          "elapsedMs": 3115.2441670000553
+        },
+        {
+          "sample": 654,
+          "outcome": "measured",
+          "elapsedMs": 3115.2570409998298
+        },
+        {
+          "sample": 655,
+          "outcome": "measured",
+          "elapsedMs": 3114.766917000059
+        },
+        {
+          "sample": 656,
+          "outcome": "measured",
+          "elapsedMs": 3131.7771250000224
+        },
+        {
+          "sample": 657,
+          "outcome": "measured",
+          "elapsedMs": 3115.1732499999925
+        },
+        {
+          "sample": 658,
+          "outcome": "measured",
+          "elapsedMs": 3115.020874999929
+        },
+        {
+          "sample": 659,
+          "outcome": "measured",
+          "elapsedMs": 3115.135166999884
+        },
+        {
+          "sample": 660,
+          "outcome": "measured",
+          "elapsedMs": 3131.6394169996493
+        },
+        {
+          "sample": 661,
+          "outcome": "measured",
+          "elapsedMs": 3115.101166999899
+        },
+        {
+          "sample": 662,
+          "outcome": "measured",
+          "elapsedMs": 3114.794125000015
+        },
+        {
+          "sample": 663,
+          "outcome": "measured",
+          "elapsedMs": 3114.954125000164
+        },
+        {
+          "sample": 664,
+          "outcome": "measured",
+          "elapsedMs": 3132.3814170002006
+        },
+        {
+          "sample": 665,
+          "outcome": "measured",
+          "elapsedMs": 3131.862625000067
+        },
+        {
+          "sample": 666,
+          "outcome": "measured",
+          "elapsedMs": 3115.291916999966
+        },
+        {
+          "sample": 667,
+          "outcome": "measured",
+          "elapsedMs": 3115.1511669997126
+        },
+        {
+          "sample": 668,
+          "outcome": "measured",
+          "elapsedMs": 3116.923834000714
+        },
+        {
+          "sample": 669,
+          "outcome": "measured",
+          "elapsedMs": 3132.330416000448
+        },
+        {
+          "sample": 670,
+          "outcome": "measured",
+          "elapsedMs": 3115.5146670006216
+        },
+        {
+          "sample": 671,
+          "outcome": "measured",
+          "elapsedMs": 3132.643167000264
+        },
+        {
+          "sample": 672,
+          "outcome": "measured",
+          "elapsedMs": 3131.9363749995828
+        },
+        {
+          "sample": 673,
+          "outcome": "measured",
+          "elapsedMs": 3131.5265420004725
+        },
+        {
+          "sample": 674,
+          "outcome": "measured",
+          "elapsedMs": 3098.445958999917
+        },
+        {
+          "sample": 675,
+          "outcome": "measured",
+          "elapsedMs": 3115.377332999371
+        },
+        {
+          "sample": 676,
+          "outcome": "measured",
+          "elapsedMs": 3115.420167000033
+        },
+        {
+          "sample": 677,
+          "outcome": "measured",
+          "elapsedMs": 3115.3237910000607
+        },
+        {
+          "sample": 678,
+          "outcome": "measured",
+          "elapsedMs": 3131.767332999967
+        },
+        {
+          "sample": 679,
+          "outcome": "measured",
+          "elapsedMs": 3115.1394579997286
+        },
+        {
+          "sample": 680,
+          "outcome": "measured",
+          "elapsedMs": 3115.7072080001235
+        },
+        {
+          "sample": 681,
+          "outcome": "measured",
+          "elapsedMs": 3132.112666999921
+        },
+        {
+          "sample": 682,
+          "outcome": "measured",
+          "elapsedMs": 3131.8107909997925
+        },
+        {
+          "sample": 683,
+          "outcome": "measured",
+          "elapsedMs": 3114.9714590003714
+        },
+        {
+          "sample": 684,
+          "outcome": "measured",
+          "elapsedMs": 3116.173582999967
+        },
+        {
+          "sample": 685,
+          "outcome": "measured",
+          "elapsedMs": 3098.2393750008196
+        },
+        {
+          "sample": 686,
+          "outcome": "measured",
+          "elapsedMs": 3133.8100410001352
+        },
+        {
+          "sample": 687,
+          "outcome": "measured",
+          "elapsedMs": 3131.6077090008184
+        },
+        {
+          "sample": 688,
+          "outcome": "measured",
+          "elapsedMs": 3115.836249999702
+        },
+        {
+          "sample": 689,
+          "outcome": "measured",
+          "elapsedMs": 3130.6892090002075
+        },
+        {
+          "sample": 690,
+          "outcome": "measured",
+          "elapsedMs": 3115.0674999998882
+        },
+        {
+          "sample": 691,
+          "outcome": "measured",
+          "elapsedMs": 3131.817874999717
+        },
+        {
+          "sample": 692,
+          "outcome": "measured",
+          "elapsedMs": 3114.12095799949
+        },
+        {
+          "sample": 693,
+          "outcome": "measured",
+          "elapsedMs": 3115.171458000317
+        },
+        {
+          "sample": 694,
+          "outcome": "measured",
+          "elapsedMs": 3115.0131250005215
+        },
+        {
+          "sample": 695,
+          "outcome": "measured",
+          "elapsedMs": 3131.3791249999776
+        },
+        {
+          "sample": 696,
+          "outcome": "measured",
+          "elapsedMs": 3131.723584000021
+        },
+        {
+          "sample": 697,
+          "outcome": "measured",
+          "elapsedMs": 3115.19820899982
+        },
+        {
+          "sample": 698,
+          "outcome": "measured",
+          "elapsedMs": 3114.00395799987
+        },
+        {
+          "sample": 699,
+          "outcome": "measured",
+          "elapsedMs": 3115.16145899985
+        },
+        {
+          "sample": 700,
+          "outcome": "measured",
+          "elapsedMs": 3115.1241669999436
+        },
+        {
+          "sample": 701,
+          "outcome": "measured",
+          "elapsedMs": 3115.1264169998467
+        },
+        {
+          "sample": 702,
+          "outcome": "measured",
+          "elapsedMs": 3115.2304999995977
+        },
+        {
+          "sample": 703,
+          "outcome": "measured",
+          "elapsedMs": 3131.6431249994785
+        },
+        {
+          "sample": 704,
+          "outcome": "measured",
+          "elapsedMs": 3115.0636670002714
+        },
+        {
+          "sample": 705,
+          "outcome": "measured",
+          "elapsedMs": 3131.802499999292
+        },
+        {
+          "sample": 706,
+          "outcome": "measured",
+          "elapsedMs": 3115.0142500000075
+        },
+        {
+          "sample": 707,
+          "outcome": "measured",
+          "elapsedMs": 3131.7880000006407
+        },
+        {
+          "sample": 708,
+          "outcome": "measured",
+          "elapsedMs": 3115.2753340005875
+        },
+        {
+          "sample": 709,
+          "outcome": "measured",
+          "elapsedMs": 3114.6623340006918
+        },
+        {
+          "sample": 710,
+          "outcome": "measured",
+          "elapsedMs": 3115.0798750007525
+        },
+        {
+          "sample": 711,
+          "outcome": "measured",
+          "elapsedMs": 3130.4863330004737
+        },
+        {
+          "sample": 712,
+          "outcome": "measured",
+          "elapsedMs": 3113.822084000334
+        },
+        {
+          "sample": 713,
+          "outcome": "measured",
+          "elapsedMs": 3132.9636669997126
+        },
+        {
+          "sample": 714,
+          "outcome": "measured",
+          "elapsedMs": 3116.1247500004247
+        },
+        {
+          "sample": 715,
+          "outcome": "measured",
+          "elapsedMs": 3115.732374999672
+        },
+        {
+          "sample": 716,
+          "outcome": "measured",
+          "elapsedMs": 3113.213999999687
+        },
+        {
+          "sample": 717,
+          "outcome": "measured",
+          "elapsedMs": 3115.570582999848
+        },
+        {
+          "sample": 718,
+          "outcome": "measured",
+          "elapsedMs": 3115.4000420002267
+        },
+        {
+          "sample": 719,
+          "outcome": "measured",
+          "elapsedMs": 3098.116957999766
+        },
+        {
+          "sample": 720,
+          "outcome": "measured",
+          "elapsedMs": 3131.7922910004854
+        },
+        {
+          "sample": 721,
+          "outcome": "measured",
+          "elapsedMs": 3114.97125000041
+        },
+        {
+          "sample": 722,
+          "outcome": "measured",
+          "elapsedMs": 3131.7975000003353
+        },
+        {
+          "sample": 723,
+          "outcome": "measured",
+          "elapsedMs": 3131.982584000565
+        },
+        {
+          "sample": 724,
+          "outcome": "measured",
+          "elapsedMs": 3114.477958999574
+        },
+        {
+          "sample": 725,
+          "outcome": "measured",
+          "elapsedMs": 3131.9390420001
+        },
+        {
+          "sample": 726,
+          "outcome": "measured",
+          "elapsedMs": 3115.1005000006407
+        },
+        {
+          "sample": 727,
+          "outcome": "measured",
+          "elapsedMs": 3132.02729200013
+        },
+        {
+          "sample": 728,
+          "outcome": "measured",
+          "elapsedMs": 3115.0753330001608
+        },
+        {
+          "sample": 729,
+          "outcome": "measured",
+          "elapsedMs": 3131.624499999918
+        },
+        {
+          "sample": 730,
+          "outcome": "measured",
+          "elapsedMs": 3117.4237500000745
+        },
+        {
+          "sample": 731,
+          "outcome": "measured",
+          "elapsedMs": 3115.600540999323
+        },
+        {
+          "sample": 732,
+          "outcome": "measured",
+          "elapsedMs": 3117.137875000015
+        },
+        {
+          "sample": 733,
+          "outcome": "measured",
+          "elapsedMs": 3133.557417000644
+        },
+        {
+          "sample": 734,
+          "outcome": "measured",
+          "elapsedMs": 3116.7588750002906
+        },
+        {
+          "sample": 735,
+          "outcome": "measured",
+          "elapsedMs": 3116.566666999832
+        },
+        {
+          "sample": 736,
+          "outcome": "measured",
+          "elapsedMs": 3112.844540999271
+        },
+        {
+          "sample": 737,
+          "outcome": "measured",
+          "elapsedMs": 3131.6256670001894
+        },
+        {
+          "sample": 738,
+          "outcome": "measured",
+          "elapsedMs": 3116.4827920002863
+        },
+        {
+          "sample": 739,
+          "outcome": "measured",
+          "elapsedMs": 3113.262374999933
+        },
+        {
+          "sample": 740,
+          "outcome": "measured",
+          "elapsedMs": 3131.7544590001926
+        },
+        {
+          "sample": 741,
+          "outcome": "measured",
+          "elapsedMs": 3115.24758400023
+        },
+        {
+          "sample": 742,
+          "outcome": "measured",
+          "elapsedMs": 3115.1151669993997
+        },
+        {
+          "sample": 743,
+          "outcome": "measured",
+          "elapsedMs": 3115.03579099942
+        },
+        {
+          "sample": 744,
+          "outcome": "measured",
+          "elapsedMs": 3131.5060839997604
+        },
+        {
+          "sample": 745,
+          "outcome": "measured",
+          "elapsedMs": 3115.011374999769
+        },
+        {
+          "sample": 746,
+          "outcome": "measured",
+          "elapsedMs": 3131.322750000283
+        },
+        {
+          "sample": 747,
+          "outcome": "measured",
+          "elapsedMs": 3115.347458000295
+        },
+        {
+          "sample": 748,
+          "outcome": "measured",
+          "elapsedMs": 3098.3896250007674
+        },
+        {
+          "sample": 749,
+          "outcome": "measured",
+          "elapsedMs": 3114.812041999772
+        },
+        {
+          "sample": 750,
+          "outcome": "measured",
+          "elapsedMs": 3113.2853330001235
+        },
+        {
+          "sample": 751,
+          "outcome": "measured",
+          "elapsedMs": 3133.1680840002373
+        },
+        {
+          "sample": 752,
+          "outcome": "measured",
+          "elapsedMs": 3114.9764999998733
+        },
+        {
+          "sample": 753,
+          "outcome": "measured",
+          "elapsedMs": 3131.50858299993
+        },
+        {
+          "sample": 754,
+          "outcome": "measured",
+          "elapsedMs": 3115.9560839999467
+        },
+        {
+          "sample": 755,
+          "outcome": "measured",
+          "elapsedMs": 3131.419332999736
+        },
+        {
+          "sample": 756,
+          "outcome": "measured",
+          "elapsedMs": 3115.1934159994125
+        },
+        {
+          "sample": 757,
+          "outcome": "measured",
+          "elapsedMs": 3131.318750000559
+        },
+        {
+          "sample": 758,
+          "outcome": "measured",
+          "elapsedMs": 3131.4517919998616
+        },
+        {
+          "sample": 759,
+          "outcome": "measured",
+          "elapsedMs": 3115.9710839996114
+        },
+        {
+          "sample": 760,
+          "outcome": "measured",
+          "elapsedMs": 3131.2907919995487
+        },
+        {
+          "sample": 761,
+          "outcome": "measured",
+          "elapsedMs": 3114.2502499995753
+        },
+        {
+          "sample": 762,
+          "outcome": "measured",
+          "elapsedMs": 3114.919166999869
+        },
+        {
+          "sample": 763,
+          "outcome": "measured",
+          "elapsedMs": 3115.175791000016
+        },
+        {
+          "sample": 764,
+          "outcome": "measured",
+          "elapsedMs": 3098.4301249999553
+        },
+        {
+          "sample": 765,
+          "outcome": "measured",
+          "elapsedMs": 3114.8954159999266
+        },
+        {
+          "sample": 766,
+          "outcome": "measured",
+          "elapsedMs": 3132.227874999866
+        },
+        {
+          "sample": 767,
+          "outcome": "measured",
+          "elapsedMs": 3115.1962919998914
+        },
+        {
+          "sample": 768,
+          "outcome": "measured",
+          "elapsedMs": 3115.1666670003906
+        },
+        {
+          "sample": 769,
+          "outcome": "measured",
+          "elapsedMs": 3131.7246670005843
+        },
+        {
+          "sample": 770,
+          "outcome": "measured",
+          "elapsedMs": 3132.0810420000926
+        },
+        {
+          "sample": 771,
+          "outcome": "measured",
+          "elapsedMs": 3131.732540999539
+        },
+        {
+          "sample": 772,
+          "outcome": "measured",
+          "elapsedMs": 3132.659124999307
+        },
+        {
+          "sample": 773,
+          "outcome": "measured",
+          "elapsedMs": 3131.7153329998255
+        },
+        {
+          "sample": 774,
+          "outcome": "measured",
+          "elapsedMs": 3112.9269580002874
+        },
+        {
+          "sample": 775,
+          "outcome": "measured",
+          "elapsedMs": 3116.9596669999883
+        },
+        {
+          "sample": 776,
+          "outcome": "measured",
+          "elapsedMs": 3115.1446249997243
+        },
+        {
+          "sample": 777,
+          "outcome": "measured",
+          "elapsedMs": 3115.8110000006855
+        },
+        {
+          "sample": 778,
+          "outcome": "measured",
+          "elapsedMs": 3133.0153749994934
+        },
+        {
+          "sample": 779,
+          "outcome": "measured",
+          "elapsedMs": 3116.217290999368
+        },
+        {
+          "sample": 780,
+          "outcome": "measured",
+          "elapsedMs": 3132.0657090004534
+        },
+        {
+          "sample": 781,
+          "outcome": "measured",
+          "elapsedMs": 3114.658916999586
+        },
+        {
+          "sample": 782,
+          "outcome": "measured",
+          "elapsedMs": 3115.0743340002373
+        },
+        {
+          "sample": 783,
+          "outcome": "measured",
+          "elapsedMs": 3115.016667000018
+        },
+        {
+          "sample": 784,
+          "outcome": "measured",
+          "elapsedMs": 3115.154000000097
+        },
+        {
+          "sample": 785,
+          "outcome": "measured",
+          "elapsedMs": 3114.9774159993976
+        },
+        {
+          "sample": 786,
+          "outcome": "measured",
+          "elapsedMs": 3115.113459000364
+        },
+        {
+          "sample": 787,
+          "outcome": "measured",
+          "elapsedMs": 3115.0774579998106
+        },
+        {
+          "sample": 788,
+          "outcome": "measured",
+          "elapsedMs": 3098.351792000234
+        },
+        {
+          "sample": 789,
+          "outcome": "measured",
+          "elapsedMs": 3115.2282080007717
+        },
+        {
+          "sample": 790,
+          "outcome": "measured",
+          "elapsedMs": 3115.3607499999925
+        },
+        {
+          "sample": 791,
+          "outcome": "measured",
+          "elapsedMs": 3131.1963750002906
+        },
+        {
+          "sample": 792,
+          "outcome": "measured",
+          "elapsedMs": 3131.6234590001404
+        },
+        {
+          "sample": 793,
+          "outcome": "measured",
+          "elapsedMs": 3115.0841670008376
+        },
+        {
+          "sample": 794,
+          "outcome": "measured",
+          "elapsedMs": 3133.810499999672
+        },
+        {
+          "sample": 795,
+          "outcome": "measured",
+          "elapsedMs": 3114.993041000329
+        },
+        {
+          "sample": 796,
+          "outcome": "measured",
+          "elapsedMs": 3131.6638340000063
+        },
+        {
+          "sample": 797,
+          "outcome": "measured",
+          "elapsedMs": 3115.3761250004172
+        },
+        {
+          "sample": 798,
+          "outcome": "measured",
+          "elapsedMs": 3131.299583000131
+        },
+        {
+          "sample": 799,
+          "outcome": "measured",
+          "elapsedMs": 3116.165916999802
+        },
+        {
+          "sample": 800,
+          "outcome": "measured",
+          "elapsedMs": 3131.5896660005674
+        },
+        {
+          "sample": 801,
+          "outcome": "measured",
+          "elapsedMs": 3114.908916000277
+        },
+        {
+          "sample": 802,
+          "outcome": "measured",
+          "elapsedMs": 3132.8602499999106
+        },
+        {
+          "sample": 803,
+          "outcome": "measured",
+          "elapsedMs": 3115.47983400058
+        },
+        {
+          "sample": 804,
+          "outcome": "measured",
+          "elapsedMs": 3115.1102499999106
+        },
+        {
+          "sample": 805,
+          "outcome": "measured",
+          "elapsedMs": 3130.2302500000224
+        },
+        {
+          "sample": 806,
+          "outcome": "measured",
+          "elapsedMs": 3115.3115419996902
+        },
+        {
+          "sample": 807,
+          "outcome": "measured",
+          "elapsedMs": 3131.7846670001745
+        },
+        {
+          "sample": 808,
+          "outcome": "measured",
+          "elapsedMs": 3131.805499999784
+        },
+        {
+          "sample": 809,
+          "outcome": "measured",
+          "elapsedMs": 3114.9027500003576
+        },
+        {
+          "sample": 810,
+          "outcome": "measured",
+          "elapsedMs": 3132.0756250005215
+        },
+        {
+          "sample": 811,
+          "outcome": "measured",
+          "elapsedMs": 3115.8844579998404
+        },
+        {
+          "sample": 812,
+          "outcome": "measured",
+          "elapsedMs": 3115.018374999985
+        },
+        {
+          "sample": 813,
+          "outcome": "measured",
+          "elapsedMs": 3132.1181669998914
+        },
+        {
+          "sample": 814,
+          "outcome": "measured",
+          "elapsedMs": 3098.406750000082
+        },
+        {
+          "sample": 815,
+          "outcome": "measured",
+          "elapsedMs": 3131.7922080000862
+        },
+        {
+          "sample": 816,
+          "outcome": "measured",
+          "elapsedMs": 3113.990375000052
+        },
+        {
+          "sample": 817,
+          "outcome": "measured",
+          "elapsedMs": 3098.7416669996455
+        },
+        {
+          "sample": 818,
+          "outcome": "measured",
+          "elapsedMs": 3114.960625000298
+        },
+        {
+          "sample": 819,
+          "outcome": "measured",
+          "elapsedMs": 3115.353374999948
+        },
+        {
+          "sample": 820,
+          "outcome": "measured",
+          "elapsedMs": 3115.0995829999447
+        },
+        {
+          "sample": 821,
+          "outcome": "measured",
+          "elapsedMs": 3114.9421250000596
+        },
+        {
+          "sample": 822,
+          "outcome": "measured",
+          "elapsedMs": 3114.3041669996455
+        },
+        {
+          "sample": 823,
+          "outcome": "measured",
+          "elapsedMs": 3115.5872080000117
+        },
+        {
+          "sample": 824,
+          "outcome": "measured",
+          "elapsedMs": 3132.025709000416
+        },
+        {
+          "sample": 825,
+          "outcome": "measured",
+          "elapsedMs": 3115.091459000483
+        },
+        {
+          "sample": 826,
+          "outcome": "measured",
+          "elapsedMs": 3130.393167000264
+        },
+        {
+          "sample": 827,
+          "outcome": "measured",
+          "elapsedMs": 3115.0905839996412
+        },
+        {
+          "sample": 828,
+          "outcome": "measured",
+          "elapsedMs": 3115.1270409999415
+        },
+        {
+          "sample": 829,
+          "outcome": "measured",
+          "elapsedMs": 3131.8713750001043
+        },
+        {
+          "sample": 830,
+          "outcome": "measured",
+          "elapsedMs": 3114.9915420003235
+        },
+        {
+          "sample": 831,
+          "outcome": "measured",
+          "elapsedMs": 3115.3919169995934
+        },
+        {
+          "sample": 832,
+          "outcome": "measured",
+          "elapsedMs": 3131.4856670005247
+        },
+        {
+          "sample": 833,
+          "outcome": "measured",
+          "elapsedMs": 3115.798375000246
+        },
+        {
+          "sample": 834,
+          "outcome": "measured",
+          "elapsedMs": 3115.1047080000862
+        },
+        {
+          "sample": 835,
+          "outcome": "measured",
+          "elapsedMs": 3114.5573340002447
+        },
+        {
+          "sample": 836,
+          "outcome": "measured",
+          "elapsedMs": 3131.698374999687
+        },
+        {
+          "sample": 837,
+          "outcome": "measured",
+          "elapsedMs": 3114.173624999821
+        },
+        {
+          "sample": 838,
+          "outcome": "measured",
+          "elapsedMs": 3116.4108330002055
+        },
+        {
+          "sample": 839,
+          "outcome": "measured",
+          "elapsedMs": 3115.126290999353
+        },
+        {
+          "sample": 840,
+          "outcome": "measured",
+          "elapsedMs": 3112.8433750001714
+        },
+        {
+          "sample": 841,
+          "outcome": "measured",
+          "elapsedMs": 3129.660000000149
+        },
+        {
+          "sample": 842,
+          "outcome": "measured",
+          "elapsedMs": 3113.035000000149
+        },
+        {
+          "sample": 843,
+          "outcome": "measured",
+          "elapsedMs": 3115.1796250008047
+        },
+        {
+          "sample": 844,
+          "outcome": "measured",
+          "elapsedMs": 3131.5795830003917
+        },
+        {
+          "sample": 845,
+          "outcome": "measured",
+          "elapsedMs": 3114.828208000399
+        },
+        {
+          "sample": 846,
+          "outcome": "measured",
+          "elapsedMs": 3115.8109590001404
+        },
+        {
+          "sample": 847,
+          "outcome": "measured",
+          "elapsedMs": 3116.562292000279
+        },
+        {
+          "sample": 848,
+          "outcome": "measured",
+          "elapsedMs": 3115.5966250002384
+        },
+        {
+          "sample": 849,
+          "outcome": "measured",
+          "elapsedMs": 3130.0385000007227
+        },
+        {
+          "sample": 850,
+          "outcome": "measured",
+          "elapsedMs": 3114.9462500000373
+        },
+        {
+          "sample": 851,
+          "outcome": "measured",
+          "elapsedMs": 3115.0452920002863
+        },
+        {
+          "sample": 852,
+          "outcome": "measured",
+          "elapsedMs": 3099.697750000283
+        },
+        {
+          "sample": 853,
+          "outcome": "measured",
+          "elapsedMs": 3098.707875000313
+        },
+        {
+          "sample": 854,
+          "outcome": "measured",
+          "elapsedMs": 3114.998374999501
+        },
+        {
+          "sample": 855,
+          "outcome": "measured",
+          "elapsedMs": 3131.5831249998882
+        },
+        {
+          "sample": 856,
+          "outcome": "measured",
+          "elapsedMs": 3114.9139170004055
+        },
+        {
+          "sample": 857,
+          "outcome": "measured",
+          "elapsedMs": 3115.611999999732
+        },
+        {
+          "sample": 858,
+          "outcome": "measured",
+          "elapsedMs": 3115.3175839995965
+        },
+        {
+          "sample": 859,
+          "outcome": "measured",
+          "elapsedMs": 3098.4340000003576
+        },
+        {
+          "sample": 860,
+          "outcome": "measured",
+          "elapsedMs": 3131.9207920003682
+        },
+        {
+          "sample": 861,
+          "outcome": "measured",
+          "elapsedMs": 3114.210249999538
+        },
+        {
+          "sample": 862,
+          "outcome": "measured",
+          "elapsedMs": 3114.9091250002384
+        },
+        {
+          "sample": 863,
+          "outcome": "measured",
+          "elapsedMs": 3117.0384170003235
+        },
+        {
+          "sample": 864,
+          "outcome": "measured",
+          "elapsedMs": 3131.9986250000075
+        },
+        {
+          "sample": 865,
+          "outcome": "measured",
+          "elapsedMs": 3116.8244590004906
+        },
+        {
+          "sample": 866,
+          "outcome": "measured",
+          "elapsedMs": 3115.1506249997765
+        },
+        {
+          "sample": 867,
+          "outcome": "measured",
+          "elapsedMs": 3132.562417000532
+        },
+        {
+          "sample": 868,
+          "outcome": "measured",
+          "elapsedMs": 3114.968832999468
+        },
+        {
+          "sample": 869,
+          "outcome": "measured",
+          "elapsedMs": 3131.798500000499
+        },
+        {
+          "sample": 870,
+          "outcome": "measured",
+          "elapsedMs": 3132.0825840001926
+        },
+        {
+          "sample": 871,
+          "outcome": "measured",
+          "elapsedMs": 3115.7929159998894
+        },
+        {
+          "sample": 872,
+          "outcome": "measured",
+          "elapsedMs": 3115.0186249995604
+        },
+        {
+          "sample": 873,
+          "outcome": "measured",
+          "elapsedMs": 3114.8197500007227
+        },
+        {
+          "sample": 874,
+          "outcome": "measured",
+          "elapsedMs": 3115.059957999736
+        },
+        {
+          "sample": 875,
+          "outcome": "measured",
+          "elapsedMs": 3114.992041999474
+        },
+        {
+          "sample": 876,
+          "outcome": "measured",
+          "elapsedMs": 3115.2107090000063
+        },
+        {
+          "sample": 877,
+          "outcome": "measured",
+          "elapsedMs": 3115.6087079998106
+        },
+        {
+          "sample": 878,
+          "outcome": "measured",
+          "elapsedMs": 3116.14429199975
+        },
+        {
+          "sample": 879,
+          "outcome": "measured",
+          "elapsedMs": 3116.0712500000373
+        },
+        {
+          "sample": 880,
+          "outcome": "measured",
+          "elapsedMs": 3131.591207999736
+        },
+        {
+          "sample": 881,
+          "outcome": "measured",
+          "elapsedMs": 3115.1279589999467
+        },
+        {
+          "sample": 882,
+          "outcome": "measured",
+          "elapsedMs": 3115.449958000332
+        },
+        {
+          "sample": 883,
+          "outcome": "measured",
+          "elapsedMs": 3132.493875000626
+        },
+        {
+          "sample": 884,
+          "outcome": "measured",
+          "elapsedMs": 3131.2097089998424
+        },
+        {
+          "sample": 885,
+          "outcome": "measured",
+          "elapsedMs": 3116.1553750000894
+        },
+        {
+          "sample": 886,
+          "outcome": "measured",
+          "elapsedMs": 3130.24083300028
+        },
+        {
+          "sample": 887,
+          "outcome": "measured",
+          "elapsedMs": 3129.8689580000937
+        },
+        {
+          "sample": 888,
+          "outcome": "measured",
+          "elapsedMs": 3130.8360000001267
+        },
+        {
+          "sample": 889,
+          "outcome": "measured",
+          "elapsedMs": 3115.0711670005694
+        },
+        {
+          "sample": 890,
+          "outcome": "measured",
+          "elapsedMs": 3131.5860410006717
+        },
+        {
+          "sample": 891,
+          "outcome": "measured",
+          "elapsedMs": 3114.0771669996902
+        },
+        {
+          "sample": 892,
+          "outcome": "measured",
+          "elapsedMs": 3131.7587090004236
+        },
+        {
+          "sample": 893,
+          "outcome": "measured",
+          "elapsedMs": 3114.4276660000905
+        },
+        {
+          "sample": 894,
+          "outcome": "measured",
+          "elapsedMs": 3115.5734999999404
+        },
+        {
+          "sample": 895,
+          "outcome": "measured",
+          "elapsedMs": 3131.8149579996243
+        },
+        {
+          "sample": 896,
+          "outcome": "measured",
+          "elapsedMs": 3115.1360410004854
+        },
+        {
+          "sample": 897,
+          "outcome": "measured",
+          "elapsedMs": 3114.972500000149
+        },
+        {
+          "sample": 898,
+          "outcome": "measured",
+          "elapsedMs": 3131.80054199975
+        },
+        {
+          "sample": 899,
+          "outcome": "measured",
+          "elapsedMs": 3115.1143749998882
+        },
+        {
+          "sample": 900,
+          "outcome": "measured",
+          "elapsedMs": 3116.1923750005662
+        },
+        {
+          "sample": 901,
+          "outcome": "measured",
+          "elapsedMs": 3131.9717089999467
+        },
+        {
+          "sample": 902,
+          "outcome": "measured",
+          "elapsedMs": 3114.9749579997733
+        },
+        {
+          "sample": 903,
+          "outcome": "measured",
+          "elapsedMs": 3131.751124999486
+        },
+        {
+          "sample": 904,
+          "outcome": "measured",
+          "elapsedMs": 3131.984375
+        },
+        {
+          "sample": 905,
+          "outcome": "measured",
+          "elapsedMs": 3116.097334000282
+        },
+        {
+          "sample": 906,
+          "outcome": "measured",
+          "elapsedMs": 3115.8817910002545
+        },
+        {
+          "sample": 907,
+          "outcome": "measured",
+          "elapsedMs": 3117.396625000052
+        },
+        {
+          "sample": 908,
+          "outcome": "measured",
+          "elapsedMs": 3115.051709000021
+        },
+        {
+          "sample": 909,
+          "outcome": "measured",
+          "elapsedMs": 3115.7114169998094
+        },
+        {
+          "sample": 910,
+          "outcome": "measured",
+          "elapsedMs": 3131.7717089997604
+        },
+        {
+          "sample": 911,
+          "outcome": "measured",
+          "elapsedMs": 3115.2871659994125
+        },
+        {
+          "sample": 912,
+          "outcome": "measured",
+          "elapsedMs": 3130.4692909996957
+        },
+        {
+          "sample": 913,
+          "outcome": "measured",
+          "elapsedMs": 3115.0262079993263
+        },
+        {
+          "sample": 914,
+          "outcome": "measured",
+          "elapsedMs": 3115.004416000098
+        },
+        {
+          "sample": 915,
+          "outcome": "measured",
+          "elapsedMs": 3115.3737909998745
+        },
+        {
+          "sample": 916,
+          "outcome": "measured",
+          "elapsedMs": 3115.178833999671
+        },
+        {
+          "sample": 917,
+          "outcome": "measured",
+          "elapsedMs": 3115.280625000596
+        },
+        {
+          "sample": 918,
+          "outcome": "measured",
+          "elapsedMs": 3115.6638340000063
+        },
+        {
+          "sample": 919,
+          "outcome": "measured",
+          "elapsedMs": 3115.118541000411
+        },
+        {
+          "sample": 920,
+          "outcome": "measured",
+          "elapsedMs": 3116.378750000149
+        },
+        {
+          "sample": 921,
+          "outcome": "measured",
+          "elapsedMs": 3115.4086250001565
+        },
+        {
+          "sample": 922,
+          "outcome": "measured",
+          "elapsedMs": 3115.106625000015
+        },
+        {
+          "sample": 923,
+          "outcome": "measured",
+          "elapsedMs": 3131.8193329991773
+        },
+        {
+          "sample": 924,
+          "outcome": "measured",
+          "elapsedMs": 3114.949958000332
+        },
+        {
+          "sample": 925,
+          "outcome": "measured",
+          "elapsedMs": 3114.9522080002353
+        },
+        {
+          "sample": 926,
+          "outcome": "measured",
+          "elapsedMs": 3132.3043749993667
+        },
+        {
+          "sample": 927,
+          "outcome": "measured",
+          "elapsedMs": 3113.9261659998447
+        },
+        {
+          "sample": 928,
+          "outcome": "measured",
+          "elapsedMs": 3133.298458999954
+        },
+        {
+          "sample": 929,
+          "outcome": "measured",
+          "elapsedMs": 3116.6918339999393
+        },
+        {
+          "sample": 930,
+          "outcome": "measured",
+          "elapsedMs": 3133.7280419999734
+        },
+        {
+          "sample": 931,
+          "outcome": "measured",
+          "elapsedMs": 3116.3105830000713
+        },
+        {
+          "sample": 932,
+          "outcome": "measured",
+          "elapsedMs": 3132.6677919998765
+        },
+        {
+          "sample": 933,
+          "outcome": "measured",
+          "elapsedMs": 3114.8927920004353
+        },
+        {
+          "sample": 934,
+          "outcome": "measured",
+          "elapsedMs": 3115.978958000429
+        },
+        {
+          "sample": 935,
+          "outcome": "measured",
+          "elapsedMs": 3115.0144579997286
+        },
+        {
+          "sample": 936,
+          "outcome": "measured",
+          "elapsedMs": 3131.451958999969
+        },
+        {
+          "sample": 937,
+          "outcome": "measured",
+          "elapsedMs": 3113.2530410001054
+        },
+        {
+          "sample": 938,
+          "outcome": "measured",
+          "elapsedMs": 3115.087499999441
+        },
+        {
+          "sample": 939,
+          "outcome": "measured",
+          "elapsedMs": 3098.4107090001926
+        },
+        {
+          "sample": 940,
+          "outcome": "measured",
+          "elapsedMs": 3115.0547500001267
+        },
+        {
+          "sample": 941,
+          "outcome": "measured",
+          "elapsedMs": 3115.089541999623
+        },
+        {
+          "sample": 942,
+          "outcome": "measured",
+          "elapsedMs": 3131.703666999936
+        },
+        {
+          "sample": 943,
+          "outcome": "measured",
+          "elapsedMs": 3114.968584000133
+        },
+        {
+          "sample": 944,
+          "outcome": "measured",
+          "elapsedMs": 3115.05237499997
+        },
+        {
+          "sample": 945,
+          "outcome": "measured",
+          "elapsedMs": 3115.0127499997616
+        },
+        {
+          "sample": 946,
+          "outcome": "measured",
+          "elapsedMs": 3132.45920799952
+        },
+        {
+          "sample": 947,
+          "outcome": "measured",
+          "elapsedMs": 3115.114791999571
+        },
+        {
+          "sample": 948,
+          "outcome": "measured",
+          "elapsedMs": 3134.2173750000075
+        },
+        {
+          "sample": 949,
+          "outcome": "measured",
+          "elapsedMs": 3114.040874999948
+        },
+        {
+          "sample": 950,
+          "outcome": "measured",
+          "elapsedMs": 3132.0562089998275
+        },
+        {
+          "sample": 951,
+          "outcome": "measured",
+          "elapsedMs": 3115.1165829999372
+        },
+        {
+          "sample": 952,
+          "outcome": "measured",
+          "elapsedMs": 3115.436458999291
+        },
+        {
+          "sample": 953,
+          "outcome": "measured",
+          "elapsedMs": 3115.8550840001553
+        },
+        {
+          "sample": 954,
+          "outcome": "measured",
+          "elapsedMs": 3132.262916999869
+        },
+        {
+          "sample": 955,
+          "outcome": "measured",
+          "elapsedMs": 3114.7086250009015
+        },
+        {
+          "sample": 956,
+          "outcome": "measured",
+          "elapsedMs": 3130.4662920003757
+        },
+        {
+          "sample": 957,
+          "outcome": "measured",
+          "elapsedMs": 3115.142249999568
+        },
+        {
+          "sample": 958,
+          "outcome": "measured",
+          "elapsedMs": 3115.25608299952
+        },
+        {
+          "sample": 959,
+          "outcome": "measured",
+          "elapsedMs": 3115.2276250002906
+        },
+        {
+          "sample": 960,
+          "outcome": "measured",
+          "elapsedMs": 3115.228582999669
+        },
+        {
+          "sample": 961,
+          "outcome": "measured",
+          "elapsedMs": 3132.0470420001075
+        },
+        {
+          "sample": 962,
+          "outcome": "measured",
+          "elapsedMs": 3098.3638340001926
+        },
+        {
+          "sample": 963,
+          "outcome": "measured",
+          "elapsedMs": 3131.995041999966
+        },
+        {
+          "sample": 964,
+          "outcome": "measured",
+          "elapsedMs": 3114.9640830000862
+        },
+        {
+          "sample": 965,
+          "outcome": "measured",
+          "elapsedMs": 3114.891332999803
+        },
+        {
+          "sample": 966,
+          "outcome": "measured",
+          "elapsedMs": 3115.2285420000553
+        },
+        {
+          "sample": 967,
+          "outcome": "measured",
+          "elapsedMs": 3115.1963330004364
+        },
+        {
+          "sample": 968,
+          "outcome": "measured",
+          "elapsedMs": 3114.930541000329
+        },
+        {
+          "sample": 969,
+          "outcome": "measured",
+          "elapsedMs": 3131.5554590001702
+        },
+        {
+          "sample": 970,
+          "outcome": "measured",
+          "elapsedMs": 3114.983540999703
+        },
+        {
+          "sample": 971,
+          "outcome": "measured",
+          "elapsedMs": 3114.536500000395
+        },
+        {
+          "sample": 972,
+          "outcome": "measured",
+          "elapsedMs": 3114.7156670000404
+        },
+        {
+          "sample": 973,
+          "outcome": "measured",
+          "elapsedMs": 3115.309332999401
+        },
+        {
+          "sample": 974,
+          "outcome": "measured",
+          "elapsedMs": 3132.1622090004385
+        },
+        {
+          "sample": 975,
+          "outcome": "measured",
+          "elapsedMs": 3133.143916000612
+        },
+        {
+          "sample": 976,
+          "outcome": "measured",
+          "elapsedMs": 3115.1332910005003
+        },
+        {
+          "sample": 977,
+          "outcome": "measured",
+          "elapsedMs": 3132.811457999982
+        },
+        {
+          "sample": 978,
+          "outcome": "measured",
+          "elapsedMs": 3114.4287499999627
+        },
+        {
+          "sample": 979,
+          "outcome": "measured",
+          "elapsedMs": 3133.663916999474
+        },
+        {
+          "sample": 980,
+          "outcome": "measured",
+          "elapsedMs": 3115.064749999903
+        },
+        {
+          "sample": 981,
+          "outcome": "measured",
+          "elapsedMs": 3132.2902499996126
+        },
+        {
+          "sample": 982,
+          "outcome": "measured",
+          "elapsedMs": 3115.051833999343
+        },
+        {
+          "sample": 983,
+          "outcome": "measured",
+          "elapsedMs": 3115.019333999604
+        },
+        {
+          "sample": 984,
+          "outcome": "measured",
+          "elapsedMs": 3115.245833000168
+        },
+        {
+          "sample": 985,
+          "outcome": "measured",
+          "elapsedMs": 3098.9199170004576
+        },
+        {
+          "sample": 986,
+          "outcome": "measured",
+          "elapsedMs": 3114.939207999967
+        },
+        {
+          "sample": 987,
+          "outcome": "measured",
+          "elapsedMs": 3131.8897500000894
+        },
+        {
+          "sample": 988,
+          "outcome": "measured",
+          "elapsedMs": 3115.607791999355
+        },
+        {
+          "sample": 989,
+          "outcome": "measured",
+          "elapsedMs": 3132.0714170001447
+        },
+        {
+          "sample": 990,
+          "outcome": "measured",
+          "elapsedMs": 3131.5711670005694
+        },
+        {
+          "sample": 991,
+          "outcome": "measured",
+          "elapsedMs": 3115.140332999639
+        },
+        {
+          "sample": 992,
+          "outcome": "measured",
+          "elapsedMs": 3130.1003750003874
+        },
+        {
+          "sample": 993,
+          "outcome": "measured",
+          "elapsedMs": 3115.0100830001757
+        },
+        {
+          "sample": 994,
+          "outcome": "measured",
+          "elapsedMs": 3131.7621250003576
+        },
+        {
+          "sample": 995,
+          "outcome": "measured",
+          "elapsedMs": 3116.299000000581
+        },
+        {
+          "sample": 996,
+          "outcome": "measured",
+          "elapsedMs": 3133.179709000513
+        },
+        {
+          "sample": 997,
+          "outcome": "measured",
+          "elapsedMs": 3114.6986250001937
+        },
+        {
+          "sample": 998,
+          "outcome": "measured",
+          "elapsedMs": 3116.957333999686
+        },
+        {
+          "sample": 999,
+          "outcome": "measured",
+          "elapsedMs": 3132.21470799949
+        }
+      ],
+      "formalPhysicalR1Acceptance": false
+    },
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-whole-journey",
+      "plannedFixedAttempts": 1000,
+      "attemptsRecorded": 1000,
+      "completedScreens": 1000,
+      "errors": 0,
+      "declaredExpectedTransportErrors": 0,
+      "unexplainedErrors": 0,
+      "timeouts": 0,
+      "notEntered": 0,
+      "missingAttemptRecords": 0,
+      "missingObservedIntervals": 0,
+      "successfulSamplesAtLeast1000": true,
+      "allAttemptObservedStopDistribution": {
+        "n": 1000,
+        "median": 5849.8177090003155,
+        "p95": 5882.834208999993,
+        "p99": 5883.441833999939,
+        "max": 5899.726749999914
+      },
+      "successCompletionDistribution": {
+        "n": 1000,
+        "median": 5849.8177090003155,
+        "p95": 5882.834208999993,
+        "p99": 5883.441833999939,
+        "max": 5899.726749999914
+      },
+      "allAttemptDistributionMeaning": "Stop/failure intervals include actual failed attempts; failed-fast is not a completed-screen timing.",
+      "originalNumericalCeilingMs": null,
+      "observedCompletionP95WithinNumericalCeiling": null,
+      "observedAllAttemptStopP95WithinNumericalCeiling": null,
+      "cachedCompletedEntriesOver2s": null,
+      "observedCeilingExceedances": [],
+      "formalPhysicalR1Acceptance": false
+    }
+  ],
+  "targetFindings": [
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-routine-entry",
+      "kind": "original500ms-or3s-completion-p95-numerical-exceedance",
+      "actual": 3132.308874999988,
+      "ceiling": 3000
+    },
+    {
+      "profile": "reference-number-desktop-surrogate",
+      "path": "connected-routine-entry",
+      "kind": "engineering-observed-stop-p95-exceeds-numerical-ceiling",
+      "actual": 3132.308874999988,
+      "ceiling": 3000,
+      "note": "Failure stop distribution is not labelled completed-screen performance; no failed attempt was filtered away."
+    }
+  ],
+  "numericalDisposition": "FAIL:1000/1000 Routine entry samples exceeded3s; actualp953132.309ms. Other sixcorepaths meet observed numerical ceilings in this local surrogate. No formal orphysical/R1pass.",
+  "nativeAccessEvidenceCohorts": {
+    "cohorts": 5,
+    "acceptedCounts": [
+      402,
+      400,
+      400,
+      400,
+      400
+    ],
+    "allExactIdsAcknowledged": true,
+    "allQueuesDurablyZero": true,
+    "originalQueueLimit2000Preserved": true
+  },
+  "allAuthorityClinicalPrivacySourceChecksPassed": true,
+  "disposal": {
+    "resultOwnedPortFree": true,
+    "current01_14UTCListener20740Absent": true,
+    "currentOwnedDriverWorkerProcessMatches": [],
+    "timingLaneReleasedToRootAndBaseline": true
+  },
+  "sourceOrOriginalOraclesChanged": false,
+  "sameD1RestartsAfter200JourneysOutsideIntervals": true,
+  "publicDiskAndServiceWorkerCacheHits": 0,
+  "apiDiskAndServiceWorkerCacheHits": 0,
+  "memoryCacheSeparatelyInstrumented": false,
+  "limits": [
+    "Real existing Device visits UI and native local synthetic Worker/D1 only. No D04 runtime or encrypted Routine save was built.",
+    "Desktop Chromium at390x844 is browser emulation; it does not certify supported Android3GB RAM/4 cores/storage or physical power-loss durability.",
+    "CDP latency/throughput values are declared browser network surrogates, not a calibrated physical300ms/800ms round-trip network.",
+    "Degraded loss is declared deterministic abortion of every97th actual /api/ request; no successful response bodies are substituted.",
+    "Warm local intervals begin at real trusted input/click before application clone/queue, include commit/ack/usable DOM and instrumentation overhead; exact readback is separately verified outside the endpoint.",
+    "PBKDF2 derives once during actual unlock; the observer derives a readback key once outside intervals. No claim that cold unlock/setup is within500ms.",
+    "Cached Today is the existing prepared device queue, not all assigned tasks; every Patient/Today presentation appends real encrypted access evidence.",
+    "Connected intervals include real no-store JSON body validation and exact person/visit usable DOM plus browser automation overhead; no header-only endpoint.",
+    "After origin interception is installed, CDP restores native HTTP cache for public assets; actual cache diagnostics are retained and no-store API cache hits are refused.",
+    "Sequential single-browser samples do not satisfy R1 capacity:100 concurrent users/100000 people/50requests-per-second/30minutes.",
+    "All actual timed failures/timeouts contribute observed durations and error findings; successful-only percentiles are separate. No extra successful samples replace failed fixed1000 attempts.",
+    "Zero unexplained errors is the declared conservative local-control budget, not an invented formal BRD approval. Injected degraded errors stay in distributions and numerical ceiling comparisons.",
+    "Physical/clinical/assistive-technology/formal UAT, final-head hosted CI, main merge and live deployment remain pending.",
+    "Warm preparation fixture invokes actual server-issued signed packet API and existing seal/write; it does not qualify the prepare UI gesture.",
+    "responseReceived encodedDataLength is not completed transfer bytes; loadingFinished/resourceTiming not recorded in originalcontrol.",
+    "Degraded1000 repeat remains NOTRUN; no complete A9 claim."
+  ],
+  "formalPhysicalR1Acceptance": false,
+  "formalBRDAcceptance": false,
+  "currentGitHeadCIClaim": false,
+  "mergeLiveProviderSpendActions": false,
+  "pins": [
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/RESULT.json",
+      "bytes": 138208,
+      "sha256": "bf66539cfbd111ef653e0c1c4c0e307f4408f030309b1b70366030fd105e437f"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/INPUT-PINS.json",
+      "bytes": 576893,
+      "sha256": "70ceff85871d69c1153674b396070a4c74ad828768cfc340d9787d9221682394"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/FINAL-SOURCE-PINS.json",
+      "bytes": 494660,
+      "sha256": "35b71797801bcce025604c4e9ae00ed710819c180747c15a1d2d5907dfeb0ad8"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/raw-samples.jsonl",
+      "bytes": 6302406,
+      "sha256": "858eca9e57ede030bfe68f94890f63b02f5f5c40f7362ddf8ecbab3542660ce9"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/REAL-COHORT-FLUSHES.json",
+      "bytes": 310899,
+      "sha256": "349bce8d6ed01fd81dc9e9326454dcf45ff337f36e4ada45343a9d88d0648b40"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/EXACT-SYNTHETIC-FIXTURE.json",
+      "bytes": 13946,
+      "sha256": "1dda2d3c8462ff1c4c9344b53ae71fa2cc2cf22aec20fa421e51fe58433f0e1c"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/ACTUAL-WORKER-OUTPUT.json",
+      "bytes": 2701753,
+      "sha256": "599c24ccfc6eefaf5bb3cae73e713cc075cf65b43fb8012b708fee291d80e2eb"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/ACTUAL-CACHE-DIAGNOSTICS-reference-number-desktop-surrogate.json",
+      "bytes": 255,
+      "sha256": "50c7653d814004566d26630fe4faddf9cd49d1c2cb18673ba3d13606146acf61"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/DIAGNOSTIC-003-COMPATIBILITY-RECEIPT.json",
+      "bytes": 5948,
+      "sha256": "2cdfba3f5d7eedc512002f6be19ecdc2090984ce41601eb0f5ea56e81b34ace8"
+    }
+  ]
+}

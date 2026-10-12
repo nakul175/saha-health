@@ -1,0 +1,249 @@
+{
+  "schema": "independent-current-native-and-load-evidence-v1",
+  "recordedAt": "2026-10-11T19:17:34.211271+00:00",
+  "reviewerAgent": "/root/routine_independent_qa",
+  "verdict": "PASS_SCOPED_CURRENT_NATIVE_AUTHORIZATION_AND_ORIGINAL400_SLOT_LOAD__FINAL_REGRESSION_NFR_AND_HOSTING_HELD",
+  "head": "914175509d52e3fd33ac3b6b1c3dcc46c02f399d",
+  "run": 38165380186,
+  "completedJobs": {
+    "bounded-report-load": 114546750161,
+    "native-authorization-control": 114546750173
+  },
+  "summaries": {
+    "summary-unit-only.json": {
+      "totals": {
+        "suites": 1,
+        "passed": 60,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 1282
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "perSuite": [
+        {
+          "id": "unit/operations-pre-alert-recovery-contract",
+          "passed": 60,
+          "failed": 0,
+          "skipped": 0,
+          "status": "passed"
+        }
+      ]
+    },
+    "report-load-current-candidate-summary.json": {
+      "totals": {
+        "suites": 1,
+        "passed": 15,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 22004
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "perSuite": [
+        {
+          "id": "nfr/load-burst",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "status": "passed"
+        }
+      ]
+    },
+    "native-authorization-current-summary.json": {
+      "totals": {
+        "suites": 1,
+        "passed": 63,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 24536
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "perSuite": [
+        {
+          "id": "nfr/authorisation-matrix",
+          "passed": 63,
+          "failed": 0,
+          "skipped": 0,
+          "status": "passed"
+        }
+      ]
+    },
+    "reporting-calendar-current-summary.json": {
+      "totals": {
+        "suites": 1,
+        "passed": 97,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 20730
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "perSuite": [
+        {
+          "id": "integration/reporting-completeness-repaired-http",
+          "passed": 97,
+          "failed": 0,
+          "skipped": 0,
+          "status": "passed"
+        }
+      ]
+    },
+    "native-programme-device-current-summary.json": {
+      "totals": {
+        "suites": 2,
+        "passed": 185,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 32573
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 2,
+        "newSuites": []
+      },
+      "perSuite": [
+        {
+          "id": "integration/installed-programme-execution-browser",
+          "passed": 121,
+          "failed": 0,
+          "skipped": 0,
+          "status": "passed"
+        },
+        {
+          "id": "integration/device-work-browser",
+          "passed": 64,
+          "failed": 0,
+          "skipped": 0,
+          "status": "passed"
+        }
+      ]
+    }
+  },
+  "loadIndependentRecomputation": {
+    "actualClients": 8,
+    "actualSlotsPerClient": 50,
+    "startedAndCompletedLogicalSlots": 400,
+    "unexpectedSlotFailures": 0,
+    "actualHttpCalls": 554,
+    "statuses": {
+      "200": 451,
+      "409": 103
+    },
+    "terminalTransportErrors": 0,
+    "reportReadRefreshExhaustions": 0,
+    "reportCounters": {
+      "refusedResponses": 0,
+      "retryRequests": 0,
+      "exhaustedSlots": 0
+    },
+    "writeConflictExhaustions": 1,
+    "unacknowledgedRegistrationsProvenAbsent": 2,
+    "finalPeople": 67,
+    "initialPeople": 9,
+    "acknowledgedRegistrations": 58,
+    "confirmedVisitCountBeforeAfter": [
+      2,
+      14
+    ],
+    "originalMin13Actual15NamedChecks": true,
+    "ownedRuntimeStopped": true,
+    "cleanupErrors": [],
+    "historicalRowsDeleted": false
+  },
+  "authorizationBoundaryScope": {
+    "actualRequestCount": 536,
+    "authorizationChecks": 63,
+    "calendarChecks": 97,
+    "installedProgrammePhoneChecks": 121,
+    "devicePrivacyChecks": 64,
+    "installedProgrammeScope": "Bounded synthetic enabled execution author; default-disabled witness preserved",
+    "devicePrivacyScope": "Real phone/Worker/D1+SQLite fault injection/IndexedDB atomic purge: metadata-only diagnostics/instructions, original lease ownership, strict refusal, unknown/accepted sync receipt lookup, immutable replay, D1 rollback, vault/media CAS abort, consent purge, minimal uncertain sync/media tombstones, durable ack, no care resend, confirmed server history and audit chain preservation. Failure repair covers both-surface purge abort, offline reload latch, partial batch persistence and latch quota warning. Prepared-grant copies only; registration cleanup and physical erasure acceptance remain pending."
+  },
+  "archiveCustodyReceipt": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/ACTUAL-CI-ARTIFACT-CUSTODY.json",
+  "evidence": {
+    "artifacts-bounded-load/summary-unit-only.json": {
+      "sha256": "42d16daa9968e411985989a9da79f2e6ed0825f03a8b5b8399dcc47c94aa0d29",
+      "bytes": 2829
+    },
+    "artifacts-bounded-load/report-load-current-candidate-summary.json": {
+      "sha256": "8d81cc30be699163a87271de01d3c3a7de9fc11966bd0a06f95b16739ade4b8b",
+      "bytes": 2799
+    },
+    "artifacts-bounded-load/load-burst-native-v2-result.json": {
+      "sha256": "102fa0cb74a2f24aca083f464f1a6368e213df11af61608ad0edd38babe3ce3c",
+      "bytes": 5857
+    },
+    "artifacts-bounded-load/native-runtime-log-control-v2/result.json": {
+      "sha256": "79a04dfc40b1827c1481601d8a54dd2d2935ea4b9e6af56f571ba214ff140ed2",
+      "bytes": 235
+    },
+    "artifacts-bounded-load/report-load-current-candidate/LOAD-FIXTURE-DISPOSAL.json": {
+      "sha256": "5cffaf65429ea52f7d49c05519c53388c66a7ee7370272136f6ad11e9f20390d",
+      "bytes": 123
+    },
+    "artifacts-native-authorization/native-authorization-current-summary.json": {
+      "sha256": "8aa7dbeaa8aeff2744841d884fa8fcbead00f435ca411e996d5427d1894a3b92",
+      "bytes": 2836
+    },
+    "artifacts-native-authorization/reporting-calendar-current-summary.json": {
+      "sha256": "c90feece3a4365e26e05326221a880510edb2405b64980e0d3b8e993884bbfe6",
+      "bytes": 2919
+    },
+    "artifacts-native-authorization/native-programme-device-current-summary.json": {
+      "sha256": "4df9d983acf1dacc6957269947c22f64d409099c5ecc02bde70a8cbefb6594a6",
+      "bytes": 3586
+    },
+    "artifacts-native-authorization/results/nfr__authorisation-matrix.json": {
+      "sha256": "5dd038da8a2e1bbd985c7a00cc04f56bb5f4ad74189588bc4d70ce890313d396",
+      "bytes": 60121
+    },
+    "artifacts-native-authorization/results/integration__reporting-completeness-repaired-http.json": {
+      "sha256": "eb2bccfab362ffec4521c2820730930957f09d4e4d87b7ce3684b794018056e7",
+      "bytes": 246
+    },
+    "artifacts-native-authorization/results/integration__installed-programme-execution-browser.json": {
+      "sha256": "b271feca9514ef1e254f5c022cd5d3738fd3483c5c1820b8546351b072f660c2",
+      "bytes": 143
+    },
+    "artifacts-native-authorization/results/integration__device-work-browser.json": {
+      "sha256": "7d651e94c862300dff6ce0545276580ad1890a3604194bb5866f2af67efdf459",
+      "bytes": 647
+    }
+  },
+  "limits": [
+    "Counts are executed named assertions, not whole user stories or formal test-case acceptance",
+    "Load has original400 slots and bounded permitted original write-conflict handling; no claim every write succeeded or no retry happened",
+    "Synthetic installed-programme/device fixtures are existing scoped guards, not provider/government/physical-erasure or formal acceptance",
+    "Final whole regression and immutable04 full1000/path NFR remain pending; A9/A10 not promoted",
+    "No source edits, local runtime/build or new test execution performed by reviewer"
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "reviewer": "/root/routine_independent_qa",
+  "reviewAuthority": "Actual separate collaboration agent delegated after the human explicitly requested parallel agents. This agent did not author the reviewed candidate.",
+  "reviewType": "Independent technical QA and evidence assessment for the frozen synthetic user story; not human, clinical, physical-device, formal UAT or regulatory acceptance.",
+  "sourceSHA": "918ed1dd76a70bd4949e14cd41af3f81109fd5f0",
+  "baseSHA": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "pr": "https://github.com/nakul175/saha-health/pull/202",
+  "verdict": "QA_EVIDENCE_PASS_FOR_DECLARED_SYNTHETIC_STORY_SCOPE",
+  "blockingProductOrTestEvidenceDefectsFound": [],
+  "releasePermissionGrantedByThisReport": false,
+  "freshExternalObservation": {
+    "pr": "Open, draft, unmerged; head918ed and base7668 unchanged at independent read.",
+    "engineeringRun": 38139057522,
+    "engineeringJobs": [
+      114468926523,
+      114468926601,
+      114468926665,
+      114468926699,
+      114468926706
+    ],
+    "allFiveJobsAndTheirSubstantiveSteps": "Completed SUCCESS, independently retrieved from GitHub.",
+    "documentationRun": 38139057538,
+    "documentation": "Completed SUCCESS on918ed.",
+    "actualCICheckout": "7bb0c794f2f9d2eeb0d44c8bf6ff6224ec543d9a",
+    "candidateAndSyntheticMergeTree": "f7c44b7741b2acaf30b5a64574b0dc0607754f3a",
+    "scope": "Synthetic PR integration tree, not actual main merge or hosted version. GitHub formal review state is distinct from this actual independent agent review."
+  },
+  "observedTestResults": {
+    "unit": {
+      "suites": 208,
+      "passedAssertions": 10910,
+      "failed": 0,
+      "skipped": 0
+    },
+    "workflowRegression": {
+      "suites": 147,
+      "passedAssertions": 7691,
+      "failed": 0,
+      "skipped": 0
+    },
+    "finalSmokeSecurityUATTooling": {
+      "suites": 9,
+      "passedAssertions": 497,
+      "failed": 0,
+      "skipped": 1
+    },
+    "currentRoutine": {
+      "suites": 4,
+      "passedAssertions": 638,
+      "failed": 0,
+      "skipped": 0,
+      "components": [
+        244,
+        245,
+        52,
+        97
+      ]
+    },
+    "today": {
+      "passedAssertions": 58,
+      "failed": 0
+    },
+    "httpAndRestore": {
+      "passedAssertions": 5041,
+      "failed": 0
+    },
+    "nativeAuthorizationCalendarPhonePrivacy": {
+      "components": [
+        63,
+        97,
+        121,
+        64
+      ],
+      "failed": 0
+    },
+    "boundedLoad": {
+      "contractAssertions": 60,
+      "runtimeObservationControls": 12,
+      "loadAssertions": 15,
+      "logicalSlotsCompleted": 400,
+      "logicalSlotsPlanned": 400,
+      "failed": 0
+    },
+    "originalBackendNFR": {
+      "performanceAssertions": 94,
+      "memoryAssertions": 4,
+      "failed": 0,
+      "guardedSuites": 2
+    },
+    "countingRule": "Counts refer to overlapping native runs/assertions. They are not added as unique test cases, accepted stories or formal UAT results."
+  },
+  "artifactCustody": {
+    "independentlyRecomputedCIChecksums": 667,
+    "mismatches": 0,
+    "folders": [
+      "918ed-full-checks-ci",
+      "918ed-full-regressions-ci",
+      "918ed-native-authorization-ci",
+      "918ed-native-load-ci",
+      "918ed-original-backend-nfr-ci"
+    ],
+    "checksumScope": "Byte integrity only, not digital signatures or approval."
+  },
+  "baselinePreservation": {
+    "file": "tests/regression-baseline.json",
+    "jsonPointer": "/suites",
+    "rootObjectKeys": 5,
+    "originalMainSuiteRecords": 374,
+    "measured2e18SuiteRecords": 385,
+    "current918edSuiteRecords": 385,
+    "originalMainRecordsChangedOrRemoved": 0,
+    "measured2e18AndCurrent918edEntireFileSHA256": "61f190dd53a47b29b53a7ca381174f1cf5ec91ab52c58b383171054a54cf06b4",
+    "actualCurrentLayerCounts": {
+      "integration": 159,
+      "nfr": 5,
+      "resilience": 1,
+      "smoke": 7,
+      "uat": 3,
+      "ui": 2,
+      "unit": 208
+    },
+    "correction": "Earlier summaries describing384 current baseline records are inaccurate.385 is the actual suite mapping count; it does not count metadata."
+  },
+  "fixtureIntentAssessment": [
+    {
+      "fixture": "runner27+1",
+      "assessment": "Acceptable scoped repair. Required manual-only smoke fixture existence remains enforced; automatic smoke still has no dispatchable suites; the genuinely absent directory branch is asserted on the absent UI layer; the new28th group explicitly rejects a missing named manual control. Runner/guard behavior and27 minimum are preserved."
+    },
+    {
+      "fixture": "installed121",
+      "assessment": "Acceptable scoped regression fixture. Original HTTP, D1 fault, audit/receipt, confirmed-record and both phone assertion bodies are retained. One owned builtMiniflare replaces concurrent Wranglers sharing SQLite. Both phone stages observe actual already-confirmed source. No new command retry or oracle change.",
+      "limit": "Does not prove cross-isolate visibility, process restart durability, hosted availability or production concurrency."
+    },
+    {
+      "fixture": "device64",
+      "assessment": "Compared against actual prior active tests/integration-offline-guided-device-browser.mjs. Only launcher/import/assets routing/evidence path changes; its actual64 authority/privacy/purge/SQLite-fault/browser assertions are retained.",
+      "limit": "Built native runtime qualification does not resolve development-watcher or hosted availability. Original failures remain evidence."
+    }
+  ],
+  "immutableLocalUIQualification": {
+    "measuredSHA": "2e18fcc140f9eff9f6eec66e1c769acd98ce0fb5",
+    "folder": "outputs/saha-ten-hour-20261011/2e18-current-full-nfr-readback-005",
+    "finishedAt": "2026-10-11T13:17:30.303Z",
+    "primaryAttempts": 10000,
+    "compositeObservations": 2000,
+    "cohorts": 12,
+    "everyCohortActualSampleIDs": "0 through999 exactly once",
+    "terminalErrors": 0,
+    "actualDegradedGETConnectionAbortsRetained": 31,
+    "medianP95P99IndependentlyRecomputed": "All12 distributions match raw12000 observations.",
+    "localAutosaveP95Ms": 27.60009765625,
+    "localExplicitSaveP95Ms": 49.599853515625,
+    "localSaveOriginalCeilingMs": 500,
+    "cachedPatientP95Ms": 50.39990234375,
+    "cachedTodayP95Ms": 50.10009765625,
+    "everyCachedEntryWithinOriginal2000Ms": true,
+    "referenceConnectedP95Ms": [
+      701.0718749999069,
+      384.3441669999156,
+      764.032750000013
+    ],
+    "degradedConnectedP95Ms": [
+      1768.0494579998776,
+      901.0281670000404,
+      1865.368333000224
+    ],
+    "originalPerScreenP95CeilingMs": 3000,
+    "degradedColdSlowOutliersMs": [
+      7718.592457999941,
+      5598.745958999731
+    ],
+    "compositeDegradedP95Ms": 4517.434375000186,
+    "compositeHasNoInvented3000MsGate": true,
+    "custodyChecksPassed": 33,
+    "actualMeasuredSourcePins": 3070,
+    "actualMeasuredDistPins": 278,
+    "allPinsStillMatchOwnedMeasuredCheckout": true,
+    "clinicalDraftUnchangedAndExactFlushAcknowledgements": true,
+    "ownedRuntimeDisposedAndPortObservedFree": true,
+    "warmScope": "Key derivation/unlock and declared cohort flush/restart setup are excluded and recorded. Real input/clone/queue/commit/ack/render are included; exact durable readback separately verified.",
+    "limit": "Desktop Chromium390x844 and declared CDP network surrogate. Not physical Android, assistive-technology, power-loss durability, R1 capacity, hosting or formal NFR acceptance. Original failed3132ms/interception and failed flush attempts remain preserved."
+  },
+  "currentSourceBuildApplicability": {
+    "actualCurrentRuntimeBuildInputsCompared": 571,
+    "allByteEqualToMeasured2e18": true,
+    "final918edBuildExit": 0,
+    "compiledLogicalFilesIndependentlyPaired": 278,
+    "rawArtifactsByteIdentical": false,
+    "independentComparison": "Exact source-backed filename references, BUILD_ID and generated prerender metadata substitutions leave only four occurrences of three explicitly identified framework-generated identity slots. Whole remaining compiled content is equal.",
+    "slots": [
+      "Server preview bypass ID32hex",
+      "Client/server RSC compatibility identityUUID36",
+      "Server revalidation token64hex"
+    ],
+    "slotAuthority": "Actual pinned vinext compiler serverDefines and server/pages-preview.js, config/next-config.js, server/app-rsc-cache-busting.js and server/isr-cache.js; no arbitrary application literals are waived.",
+    "verdict": "Accept measured2e18 evidence applicability for identical918ed application within the declared local engineering surrogate scope.",
+    "notClaimed": "No claim that918ed itself executed those12000 intervals, that raw compiled artifacts are identical, or that this establishes physical/R1/formal/live acceptance.",
+    "independentAnalysisArtifact": "outputs/saha-ten-hour-20261011/independent-qa-918ed/BUILD-DIFFERENCE-FIRST-PASS.json"
+  },
+  "gateAssessment": [
+    {
+      "id": "A1",
+      "status": "PASS_SYNTHETIC_ENGINEERING",
+      "evidence": "Current244 native browser/HTTP: compatible pinned three-programme shared weight once, distinct and conditional questions retained; open creates no draft."
+    },
+    {
+      "id": "A2",
+      "status": "PASS_SYNTHETIC_ENGINEERING",
+      "evidence": "Current244+97+52: exact person/visit, canonical/entered unit, trusted author/source/time/pack versions and explicit missing/uncertain data/readback."
+    },
+    {
+      "id": "A3",
+      "status": "PASS_SYNTHETIC_ENGINEERING",
+      "evidence": "Current244+245+52: wrong person/version/value/immutable confirmed record/scope revocation refuse before authoritative mutation; already-committed receipt is preserved after later access withdrawal."
+    },
+    {
+      "id": "A4",
+      "status": "PASS_SYNTHETIC_ENGINEERING",
+      "evidence": "Current244+97: real persistence/readback, exact-key before-commit/dropped-ack recovery, one logical visit/revision and separate draft/confirmed/destination states."
+    },
+    {
+      "id": "A5",
+      "status": "PASS_SYNTHETIC_ENGINEERING",
+      "evidence": "Current244+245+52+97 and63native authorization: server identity/org/assignment/purpose, disclosure-free refusals, durable fail-closed audit, current authority after audit."
+    },
+    {
+      "id": "A6",
+      "status": "PASS_SYNTHETIC_ENGINEERING",
+      "evidence": "Current routine and Today controls observe loading/empty/refused/error/offline/conflict/uncertain states, retained input, frozen unresolved attempt and explicit comparison/replacement."
+    },
+    {
+      "id": "A7",
+      "status": "PASS_SYNTHETIC_ENGINEERING",
+      "evidence": "Actual manual flow and four-command allowlist work with providers disabled; no external/model calls or invented values."
+    },
+    {
+      "id": "A8",
+      "status": "PASS_SYNTHETIC_ENGINEERING",
+      "evidence": "56actual layout observations:360x640 and390x844,14stages each at16px/32px; every page width within viewport, every recorded interactive control labelled and at least44px. Keyboard/focus assertions pass.",
+      "limit": "Automated emulated phone evidence; no manual assistive-technology or physical device approval."
+    },
+    {
+      "id": "A9",
+      "status": "QA_COMPONENT_PASS",
+      "evidence": "Current actual build/types/CI/affected native syntheticE2E, preserved original minima and applicable local UI500ms/connected NFR controls qualified independently.",
+      "remainingTransition": "Combine with the separate final code/security reviewer disposition on this exact source. A documentation/source update requires scoped revalidation and current CI before merge."
+    },
+    {
+      "id": "A10",
+      "status": "BLOCKED_NOT_EXECUTED",
+      "evidence": "No qualified main merge, fresh observed hosted commit or authorized live synthetic review/save/readback/refusal journey. Prior browser-admin policy verification unavailable blocker persists; no bypass attempted."
+    }
+  ],
+  "skippedAndResidualScope": [
+    "One inherited uploaded-media-id smoke skip remains SKIPPED, not passed. This routine route adds no media operation; no fabricated waiver or formal UAT promotion.",
+    "Formal UAT0/364 and all176formal BRDacceptances remain unchanged. UAT tooling63 is validation of tooling only.",
+    "Original memory150KB/load engineering ceiling passes;22.27KB/load final observation does not prove plateau/no-leak or Cloudflare/production capacity.",
+    "The fullR1 envelope100users/100000people/50rps30minutes is not executed by these sequential local samples or400slot bounded load.",
+    "Staging access/hosting/live gate remains blocked. Independent QA does not authorize bypass, merge, role changes, real-data use or release.",
+    "HANDOVER latest top is dated historicalPR192/failure/expiredwindow. Reconcile current pointer by prepend preserving historical bytes; this documentation clarity finding is nonblocking to the inspected918ed test evidence."
+  ],
+  "reviewFreshness": "Source918ed only. Changed runtime, criteria, fixture, dependency, configuration or environment invalidates affected findings. Reconcile document-only followup using actual byte applicability and fresh required CI.",
+  "executionDuringThisReview": "Readonly source/artifact/GitHub audit and independent numerical/build-difference analysis. No build/backend/browser rerun, record/role mutation, merge or deploy. One unnecessary expensive own text-diff process was terminated; bounded comparison completed.",
+  "reviewedAt": "2026-10-11T14:58:46.573549+00:00"
+}

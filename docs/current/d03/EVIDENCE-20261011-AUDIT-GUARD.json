@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-10T20:36:09.730835+00:00",
+  "scope": "Integrated local D03 audit membership and native metadata repair; not final-head CI or story delivery",
+  "publishedParent": "c980898efc9e75aee67460a675c4dfbc1ead1158",
+  "mainBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "frozenRevision": 1,
+  "sourcePins": {
+    "lib/saha/access-audit.ts": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a",
+    "lib/saha/store.ts": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+    "tests/access-membership-contract.mjs": "9edbd916897d3b51b41482a67f1600365a6fd876100563418a96679549305191",
+    "tests/access-audit-excess-metadata-contract.mjs": "305e7802b78f25154b1e92005b20b0bebaa0cdcc7efde85e8aafae55c2060d6b",
+    "tests/current-guided-simplicity-capabilities-browser.mjs": "cb7b1a2e55efd9e93c304166c24376ec7dea2a92b334d14f53810f43dd60f717",
+    "tests/smoke/local-routine-current-smoke.mjs": "cb4d00a8e9b06c9459e1d83bb25f23603570f4576f2af8d1f05e9111ca1d9c39",
+    "scripts/test-catalogue.mjs": "66ff645030b8b6fe4f4b326c2dcb55812dbb7949912cb06067de6f66b7ed5a72",
+    "tests/regression-baseline.json": "c5a067e76a457ae405812b711cbae8843380bb790bc4ebc3f20e22d9a384eb6e",
+    "docs/current/d03/SPECIFICATION.md": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df"
+  },
+  "buildExitCode": 0,
+  "typecheckExitCode": 0,
+  "distFiles": 278,
+  "unitRegression": {
+    "suites": 205,
+    "passed": 10791,
+    "failed": 0,
+    "skipped": 0,
+    "guardEvaluated": 205,
+    "quarantined": 0,
+    "original380BaselineRecordsUnchanged": true,
+    "additiveMinima": {
+      "unit/access-membership-contract": 30,
+      "unit/access-audit-excess-metadata-contract": 13
+    },
+    "fixtureSha256": "305e7802b78f25154b1e92005b20b0bebaa0cdcc7efde85e8aafae55c2060d6b",
+    "durationMs": 177340,
+    "scope": "Fresh current305-fixture full205; original8c10 causal pair and preceding8c10 green205 remain unchanged."
+  },
+  "causalExcessContract": {
+    "sameDriverSha256": "8c10682d2ed6375ba3534b68495c5473a380498fb96e7a93ed59c9c0f8607cc5",
+    "before": {
+      "passed": 5,
+      "failed": 8
+    },
+    "after": {
+      "passed": 13,
+      "failed": 0
+    }
+  },
+  "causalNativeHelper": {
+    "sameDriverSha256": "94566df167d5027c8d16d77d0df814181aad25c746f04aa5839e316ac2e6b31f",
+    "before": {
+      "passed": 8,
+      "failed": 3
+    },
+    "after": {
+      "passed": 11,
+      "failed": 0
+    },
+    "unchangedBuiltPolicy": {
+      "passed": 13,
+      "failed": 0
+    },
+    "migrations": 33,
+    "scope": "Source-transpiled helper on actual native D1; built HTTP policy13 is separately recorded. Not hosted identity or complete application qualification."
+  },
+  "currentBrowserContracts": {
+    "routineSmoke": {
+      "passed": 32,
+      "failed": 0,
+      "inheritedSkipped": 1,
+      "stableMinimum": 30
+    },
+    "hindiCapabilities": {
+      "passed": 25,
+      "failed": 0,
+      "stableMinimum": 21
+    },
+    "scope": "Final integrated narrow seven controls753/0/1 inherited media skip guarded7, and canonical166 runtime14529/0/1 guarded166 on identical selected runtime drivers."
+  },
+  "precedingIntegratedFailures": [
+    {
+      "suites": 204,
+      "reportedPassed": 10600,
+      "countedFailed": 0,
+      "failedSuites": 9,
+      "guard": "failed",
+      "disposition": "Five module-link fixture compatibility failures and four local permission failures; original logs and input pins retained."
+    },
+    {
+      "suites": 204,
+      "reportedPassed": 10765,
+      "countedFailed": 0,
+      "failedSuites": 1,
+      "guard": "failed",
+      "disposition": "Actual unchanged policy assertion503 vs200; native metadata side-write excess diagnosed and repaired. Original logs and input pins retained."
+    }
+  ],
+  "externalEvidenceRoot": "outputs/saha-health-overnight-20261011/",
+  "externalEvidenceSha256": {
+    "qualification/shared-membership-integrated/excess-full-205-green/PASS-RECEIPT.json": "85b22e493498e141504fd0741b9caa404c42fcb12d1e0138af362ba420396d08",
+    "qualification/shared-membership-integrated/excess-full-205-green/ARTIFACT-SHA256.json": "138132182cea4b62817967c3b62097ac7cdf00a7f197520bcce68b8b9c18c82a",
+    "review/shared-access-excess-independent/INDEPENDENT-REVIEW.json": "323e18893d6c0b84d80f27354f87f6e63ca94c9f33b81fc6c97586cacafc76e3",
+    "review/shared-access-membership-three-query/excess-count-verification/FINAL-REVIEW.json": "9c9f9a077ea381bf4c9b9d907978606fedb179327229ad80b198086073487ab8",
+    "review/D03-GATE-NFR-SCOPE-MAP-20261011/GATE-MAP.json": "92f3dc1b9e3afff8b5a85df08c3f01f5b6b0d6b2dcb0bb0368c63ccfba0f19cc",
+    "review/shared-access-membership-three-query/excess-count-verification/native-before/RESULT.json": "c94e1cfb3703f3f40372b673a19a5d335b281c86dbb987a94ef32eac329d322c",
+    "review/shared-access-membership-three-query/excess-count-verification/native-after/RESULT.json": "33853cf1f12d4aada83e3f188b0b082e8c1c05d1b2387f35394ff1da94e408d3",
+    "qualification/shared-membership-integrated/current-fixture-full205/PASS-RECEIPT.json": "fe01a4a37497c2f0b4f4596d8474bc94c83331a09bb8d9efa5aa51be4bb2c539",
+    "qualification/shared-membership-integrated/current-fixture-full205/summary.json": "099e8eb6db8d7fd693d8b40726d1569cefc22bad48c784798e6e6203d0a8eb4d",
+    "qualification/shared-membership-integrated/current-fixture-full205/INPUT-PINS.json": "594c631cb1b920b3bb627498b06efc20d1208e2ddab8fdef8468aace8f71f681",
+    "qa/final-excess-runtime/canonical-166-pass/PASS-RECEIPT.json": "af9b8bc797d9fff9afad53984d9bfbe0f2669bf4bf85f25bbdebc09b1f7b1e0a",
+    "qa/final-excess-runtime/canonical-166-pass/canonical-summary.json": "48c8e8296481f255df5c8cefa3061814781b3e1c1f83f97bc28710650fc66afc",
+    "qa/final-excess-runtime/canonical-166-pass/UNIT-ONLY-CLEANUP-CONTEXT.json": "aaea45ee9247380ee626e73c480e48837d3ef8a5aa6f853f6ad418f8f80114ae",
+    "qa/final-excess-runtime/canonical-166-pass/POST-RUN-INPUT-INTEGRITY.json": "77bc3a113fb517db76cfbf115fb93a93e70f84f15eaefd85a965d07771f10afa",
+    "review/shared-access-excess-lint-independent/INDEPENDENT-REVIEW.json": "5138b2d15f7e1ef1ce06d7801f86b6d796c63d8910db3265c1857d857c4499f5",
+    "qualification/shared-membership-integrated/current-fixture-full205/ARTIFACT-SHA256.json": "e78dffc519e03378b6807c8c03daea74d77e49f2cfc4576bacf5f50d8426b8ba",
+    "qa/final-excess-runtime/canonical-166-pass/FINAL-ARTIFACT-MANIFEST.json": "34309cbd43d7a3c481ad619a2a7884a0d06d4bca5cbc1aec71a4c6bb0264f3d9",
+    "qualification/nfr-excess-membership-followup/five-nfr/summary.json": "76bc733c3a5208e77dde11af681d8740c3e8eb49ba9e58383a238f599c080aae",
+    "qualification/nfr-excess-membership-followup/five-nfr/DISPOSAL.json": "6703776b71dd4f7833150b23aa6eb8c61a9984dfa4b5ab78351fcbb0ff517814",
+    "qualification/nfr-excess-membership-followup/five-nfr/POST-RUN-CAPTURE.json": "5f1b2643887313e17d38371c5429c723281a783fe371bf55c24efbf7668e3b70",
+    "qualification/nfr-excess-membership-followup/five-nfr/EXECUTION-EXIT.json": "b90ba13712e08e036540d5e19fdca7ab04cf5d7ad3a92a9d3339698d0218f764",
+    "qualification/nfr-excess-membership-followup/five-nfr/RUN-INPUTS.json": "d23674043808da5a25f65a88497152a1a36d2b579d2dddcba2ea34fea4ee8dd1"
+  },
+  "remaining": [
+    "Original five NFR regressions plus bounded real UI NFR02 timing under original500ms/2s/3s targets; representative R1/physical evidence remains separately pending.",
+    "Final-head CI under applicable financial authority",
+    "Final separate diff/evidence review",
+    "A10 sponsor-authorised isolated merge, observed hosted commit and authorised live synthetic review/save/readback/refusal"
+  ],
+  "limits": [
+    "Membership version/role/status/owner is checked at append and postcheck; caller patient/team/purpose/delegation scope remains separately enforced.",
+    "All13 exact intended audit-row fields are read back only on native excess counts; any deficit refuses. Equal-count compensation by arbitrary BEFORE INSERT trigger is outside this bounded witness. No side-effecting INSERT audit triggers exist in preserved applied production migrations.",
+    "Clinical and SYSTEM token/retry behavior, all33 migrations, confirmed records, revisions, audit history and receipts remain unchanged.",
+    "Physical-device, clinical, partner and formal acceptance stay pending; formal BRD0/176 and UAT0/364 are unchanged.",
+    "No paid CI/provider/cloud action, main merge or live role mutation is authorised by this receipt."
+  ],
+  "testOnlyCleanup": {
+    "previousSha256": "8c10682d2ed6375ba3534b68495c5473a380498fb96e7a93ed59c9c0f8607cc5",
+    "currentSha256": "305e7802b78f25154b1e92005b20b0bebaa0cdcc7efde85e8aafae55c2060d6b",
+    "change": "Only the unreferenced unchangedRefusal helper definition removed; all13 executed checks unchanged. Independent source review/current13 and fresh205 pass.",
+    "lint": "1392 errors/618 warnings unchanged baseline; ratchet exit0."
+  },
+  "runtimeRegression": {
+    "totals": {
+      "suites": 166,
+      "passed": 14529,
+      "failed": 0,
+      "skipped": 1,
+      "failedSuites": 0,
+      "durationMs": 659907
+    },
+    "guardEvaluated": 166,
+    "quarantined": 0,
+    "sourcePinsVerifiedUnchanged": 16667,
+    "buildPinsVerifiedUnchanged": 278,
+    "scope": "Exact c980 baseline plus explicit eight runtime/test/catalogue deltas and two context documentation files, with the shipped-generated legacy fixture manifest declared separately. No executed published-head equality claim.",
+    "unitCleanupBoundary": "Excluded old13 fixture8c10 remains frozen here. Parent test-only305e unused-helper cleanup requires separate fresh205 repeat; no current166 input mutation.",
+    "allSelectedRuntimeDriversEqualParent": true,
+    "localSyntheticOnly": true
+  },
+  "savedGitEvidence": {
+    "directory": "docs/current/d03/audit-guard-evidence-20261011/",
+    "manifestSha256": "e5e6f45d3fc5dba4b1751959874ce5cb5a046aabf08c3a14dd628bfcaeb2d4a1",
+    "exactByteCopies": 13,
+    "rawArchiveScope": "Full raw output archives remain local, not all in Git.",
+    "originalNfrFailedManifestSha256": "1d73822b4923978a25e0d0ba9b0354de012257981b53e5e6d2c1b8eb8fe0493e"
+  },
+  "originalNfr5": {
+    "totals": {
+      "suites": 5,
+      "passed": 198,
+      "failed": 2,
+      "skipped": 0,
+      "failedSuites": 2,
+      "durationMs": 64965
+    },
+    "guard": {
+      "ok": false,
+      "findings": [
+        {
+          "id": "nfr/load-burst",
+          "kind": "dropped",
+          "message": "Suite nfr/load-burst passed 12 assertion(s); baseline is 13 (down 1).",
+          "excused": false
+        }
+      ],
+      "warnings": [],
+      "evaluated": 5,
+      "newSuites": []
+    },
+    "rows": [
+      {
+        "id": "nfr/authorisation-matrix",
+        "passed": 59,
+        "failed": 1,
+        "exitCode": 1
+      },
+      {
+        "id": "nfr/identity-hardening",
+        "passed": 29,
+        "failed": 0,
+        "exitCode": 0
+      },
+      {
+        "id": "nfr/load-burst",
+        "passed": 12,
+        "failed": 1,
+        "exitCode": 1
+      },
+      {
+        "id": "nfr/memory-growth",
+        "passed": 4,
+        "failed": 0,
+        "exitCode": 0
+      },
+      {
+        "id": "nfr/performance-budgets",
+        "passed": 94,
+        "failed": 0,
+        "exitCode": 0
+      }
+    ],
+    "sourceFilesVerifiedUnchanged": 16665,
+    "buildFilesVerifiedUnchanged": 278,
+    "sourceContext": "Runtime229/a460 with excluded old8c10 unit13 fixture; original five NFR sources byte-identical to published main. No final-head claim.",
+    "disposition": "Failed. Missing Routine GET parameter classification and observed concurrent report409 require explicit source/evidence diagnosis and independently reviewed current-fixture correction. No original thresholds/minima or failure records changed.",
+    "workerLaneDisposed": true,
+    "next": "Reviewed UI measurement driver6246/a72 has exclusive diagnostic lane; application UI timing not yet qualified."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "atUtc": "2026-10-12T08:08:54.422881+00:00",
+  "source": "a7242964bc53e5baee674e0fb5a97175c7d660a2",
+  "verdict": "ACTUAL_CI_UI_FAILURE_RETAINED; MONOTONIC_HOLD_SOURCE_REPAIR_WARRANTED",
+  "actualRaw": {
+    "path": "outputs/saha-staging-resume-20261012/currenta724-normal-ci-qa/artifact-11733774481/saha-health/saha-health/tests/reports/ui-playwright-result.json",
+    "sha256": "7f991ca742dc853b9d529f866fa775054f87c64b9ac38c82a04d6a85bcead19c"
+  },
+  "stats": {
+    "startTime": "2026-10-12T07:55:14.672Z",
+    "duration": 301975.73099999997,
+    "expected": 28,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 1
+  },
+  "normalPositiveCasesFirstAttemptPassCount": 23,
+  "expectedNegativeHarnessCount": 5,
+  "soleFlakyTitle": "visible Hindi phone Action-plan Refresh retains contrast when the scoped read completes",
+  "flakyAttempts": [
+    {
+      "retry": 0,
+      "status": "failed",
+      "actualHoldMs": 248.82329000000027,
+      "response200": true,
+      "seedBound": true,
+      "rawAttachmentSHA256": "01231d5bf48eca9f581adfb37dc9c78930fb8fc8b43c547fe59b5bad8f98de13",
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m250\u001b[39m\nReceived:    \u001b[31m248.82329000000027\u001b[39m\n\n  222 |   expect(Object.keys(journal.heldRequests[0].actorHeaderBindings).length, 'actual actor binding cannot pass with an empty identity header map').toBeGreaterThan(0);\n  223 |   expect(Object.values(journal.heldRequests[0].actorHeaderBindings).every(Boolean)).to"
+    },
+    {
+      "retry": 1,
+      "status": "passed",
+      "actualHoldMs": 250.00370199999998,
+      "response200": true,
+      "seedBound": true,
+      "rawAttachmentSHA256": "240f71a301d9f4877c246973f93d956d71a4ab8ca97f5a7a69b1df11b2b2be16",
+      "error": ""
+    }
+  ],
+  "failureCauseInRaw": "Newfixture >=250 hold assertion saw248.823ms; retry250.0037 passed. No comparison/contrast failure reported. Firstattempt stops BEFORE alphaassertion; independentlyrecomputed firstattempt samples are diagnostics only, notoriginalassertionpass.",
+  "guardNote": "Originalminimumguard ok/findings[] but overallUIrunnerexit1 becauseflakycase. Minimumguard success is not fullrunner/CIpass.",
+  "fixtureDesign": "Sameperformance.now clock/start plus exact250deadline; bounded<=8ceil(remaining)/min1ms waits, explicitdeadlinecheck beforeoriginalcontinue. Preserve >=250assertion/request/response/sampler/criteria/minima/app.",
+  "readbackParserCorrection": "Initialerror-fieldsummary indexed passedattempt emptyerrors; corrected metadatareader to optionalempty-list handling. Rawfailure andallsource/criteria unchanged.",
+  "limits": {
+    "exactSuccessorSourceReviewed": false,
+    "schedulerRepairExecuted": false,
+    "otherFinalSevenJobsAllReviewed": false,
+    "newFullCIQualified": false,
+    "A9": false,
+    "A10": false,
+    "reviewerSourceOrRuntimeEdits": false
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "recordedAtUtc": "2026-10-11T14:57:33.754431+00:00",
+  "reviewer": {
+    "actualCollaborationHandle": "/root/routine_final_review",
+    "role": "Independent read-only final code/evidence reviewer",
+    "authority": "Human latest request explicitly authorizes parallel agents; root-issued source-bound lease1",
+    "humanApproval": false,
+    "clinicalApproval": false
+  },
+  "candidate": "918ed1dd76a70bd4949e14cd41af3f81109fd5f0",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "candidateTree": "f7c44b7741b2acaf30b5a64574b0dc0607754f3a",
+  "ciCheckout": "7bb0c794f2f9d2eeb0d44c8bf6ff6224ec543d9a",
+  "ciCheckoutTreeEqualsCandidate": true,
+  "verdict": "PASS engineering code/evidence review for the bounded synthetic routine story, with one nonblocking P2 documentation finding. This is not merge, deployment, human/domain approval or full story acceptance.",
+  "blockingCodeFindings": [],
+  "findings": [
+    {
+      "priority": "P2",
+      "file": "HANDOVER.md",
+      "line": 1,
+      "endLine": 3,
+      "title": "Current handoff routes agents to an obsolete candidate and failed NFR checkpoint",
+      "detail": "The first Current checkpoint still describes PR192, failed load12/3 and Routine p953132ms. Current918ed CI and completed fixed1000/path engineering measurements are now available, but the required start file does not route to them. Later historical rows also carry an elapsed08:00 deadline. Preserve those historical bytes, prepend a dated factual current router with exact candidate/CI/evidence and separate live/formal blockers. A reader should not resurrect obsolete work or misreport failed/current results.",
+      "requiredBeforeFinalHandoff": true,
+      "scope": "Documentation/continuation quality, not a discovered product behavior defect"
+    }
+  ],
+  "inspectedRuntimePaths": [
+    "app/api/routine-visit/route.ts",
+    "app/programmes.tsx",
+    "app/routine-visit/page.tsx",
+    "app/routine-visit/routine-visit.css",
+    "app/routine-visit/routine-visit.tsx",
+    "app/today/today.css",
+    "app/today/today.tsx",
+    "lib/saha/access-audit.ts",
+    "lib/saha/audit-chain.ts",
+    "lib/saha/indicator-figures-server.ts",
+    "lib/saha/operations-server.ts",
+    "lib/saha/routine-read-guard.ts",
+    "lib/saha/routine-visit-server.ts",
+    "lib/saha/routine-visit.ts",
+    "lib/saha/store.ts",
+    "lib/saha/today-server.ts"
+  ],
+  "sourceReviewConclusions": [
+    "Four-command routine adapter delegates to the existing authoritative dispatcher; opening remains read-only; server assignment, organisation and actor identity are pinned and refusal clears protected presentation.",
+    "Access-only persistence appends immutable same-organisation audit rows with exact initiating membership and current readback. Clinical/system token branches remain explicit; unknown non-sequence errors do not gain collision retries.",
+    "Final assigned disclosure guard evaluates a consistent current database snapshot; authority revocation after that snapshot is an explicit limit, not an asserted guarantee.",
+    "Uncertain clinical attempts preserve original actor, organisation, person, body, version and operation key. Retry only after fresh original-account authorization; stale outcome proof requires advanced visit version, globally absent actor/key receipt, final assigned guard and successful audited reads.",
+    "Pre-alert report recomputation is bounded to a private typed error before alert evaluation; post-alert and clinical actions do not acquire this retry. Immutable figure view retry is restricted to the exact no-disclosure authority conflict and freshly checks original actor/org/privacy.",
+    "Programme answer recovery merges only locally changed answers against fresh server baselines, retains conditional eligibility and distinguishes unsaved from persisted state."
+  ],
+  "fixtureScenarioReview": {
+    "runner28": "Accept for stated runner semantics: original27 groups preserved, required named manual-smoke exists, absence of executable smoke remains checked, true missing-directory branch checked on genuinely absent UI, additional explicit missing-manual rejection. Stable minimum27 retained.",
+    "installed121": "Accept single-built-native-runtime synthetic source/work/phone/fault-injection semantics. All assertion bodies and SQL faults survive explicit launcher/path substitutions. Do not claim original second-isolate/restart/hosted execution from this replacement.",
+    "device64": "Accept native built Worker/D1, real browser/IndexedDB/SQLite fault scenarios and64 original assertions. Replacing development watcher is explicit; no added request retry, reduced assertion or hosted availability claim."
+  },
+  "independentlyVerifiedEvidence": {
+    "githubRead": "PR202 head918ed/base7668 open,draft,mergeableclean; actual38139057522 all five jobs completedSUCCESS. GitHub synthetic merge7bb tree equals local candidate tree.",
+    "savedArtifactChecksums": {
+      "checked": 667,
+      "missing": 0,
+      "mismatch": 0,
+      "areSignatures": false
+    },
+    "unit": {
+      "suites": 208,
+      "passed": 10910,
+      "failed": 0,
+      "skipped": 0,
+      "guardEvaluated": 208
+    },
+    "workflow": {
+      "suites": 147,
+      "passed": 7691,
+      "failed": 0,
+      "skipped": 0,
+      "guardEvaluated": 147
+    },
+    "finalControls": {
+      "suites": 9,
+      "passed": 497,
+      "failed": 0,
+      "skipped": 1,
+      "skip": "Inherited media route needs an uploaded media ID; fixture uploads none. Not counted as passed."
+    },
+    "focusedRoutine": {
+      "suites": 4,
+      "passed": 638,
+      "failed": 0
+    },
+    "today": {
+      "passed": 58,
+      "failed": 0
+    },
+    "httpAndRestore": {
+      "passed": 5041,
+      "failed": 0
+    },
+    "nativeControls": {
+      "authorization": 63,
+      "calendar": 97,
+      "installedProgramme": 121,
+      "devicePrivacy": 64,
+      "runtimeLog": 12,
+      "handlerContract": 60,
+      "loadAssertions": 15,
+      "actualCompletedLogicalLoadSlots": 400
+    },
+    "originalBackendNfr": {
+      "performance": 94,
+      "memory": 4,
+      "failed": 0,
+      "plateauProven": false,
+      "lastRssGrowthKBPerLoad": 22.27,
+      "originalMaximumKBPerLoad": 150
+    },
+    "localSurrogateMeasurement": {
+      "source": "2e18fcc140f9eff9f6eec66e1c769acd98ce0fb5",
+      "rawRecords": 12000,
+      "primaryRecords": 10000,
+      "compositeRecords": 2000,
+      "cohorts": 12,
+      "fixedAttemptsPerCohort": 1000,
+      "allOutcomesMeasured": true,
+      "all12P95RecomputedExact": true,
+      "custodyChecks": 33,
+      "allCustodyChecksPass": true,
+      "immutableSourceAndDistInputsChanged": false,
+      "ownedPortFree": true,
+      "outsideLoopbackRequests": 0,
+      "uncaughtBrowserErrors": 0,
+      "coldMaximaAndInjectedFailuresRetained": true
+    },
+    "actual571RuntimeBuildInputsEqualMeasured2e18": true,
+    "compiledBuildApplicability": "Author278-file explicit generated-identity diagnosis inspected; raw manifests are not byte equal. Separate independent QA confirms278 paired files normalize only declared framework compiler identities/references with no remaining behavioral differences. Use its final source-bound QA receipt in conjunction with this review; do not promote exact918ed standalone physical/capacity/hosted measurement."
+  },
+  "failedEvidencePreserved": [
+    "Original Routine p953132/3000 failure and withheld navigation failure",
+    "2e18 completeCI runner14failures and two no-count regression aborts",
+    "51f90 native job missingChromium failure",
+    "Original earlier load360/400 and runtime observer failures",
+    "Initial exactflush readback harness failures, corrected outside-timing await under unchanged60000ms bound"
+  ],
+  "excludedClaims": [
+    "FormalUAT0/364 remains unchanged",
+    "Physical Android/referenceR1, clinician approval, capacity/soak/no-leak and real-patient production acceptance",
+    "Required GitHub human approval if actually configured",
+    "Any main merge or fresh deployed SHA",
+    "Authorized live synthetic routine save/readback/refusal; staging access policy blocker is unresolved"
+  ],
+  "next": "Root may reconcile current handoff and carry out an incremental independent review of the exact doc-only followup. FullA9 still requires final-head CI and source/evidence applicability; A10 needs a qualified isolated merge plus exact observed hosting/live synthetic qualification. No gate waiver."
+}

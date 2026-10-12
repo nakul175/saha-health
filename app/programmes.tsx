@@ -9,6 +9,7 @@ import type { Person, Snapshot, Visit } from '@/lib/saha/types';
 import { useI18n } from './i18n';
 import { CaptureStage, factStep, useGuidedProgramme } from './guided-capture';
 type Command=(c:any,s?:string)=>Promise<any>;
+export type ProgrammeDraft={visitId:string;answers:Record<string,string>;absence:Record<string,string>;baselineAnswers:Record<string,string>;baselineAbsence:Record<string,string>};
 function Choice({value,change,items,label,disabled=false}:{value:string;change:(v:string)=>void;items:{value:string;label:string}[];label:string;disabled?:boolean}){return <Select disabled={disabled} value={value} onValueChange={change}><SelectTrigger aria-label={label}><SelectValue/></SelectTrigger><SelectContent>{items.map(x=><SelectItem value={x.value} key={x.value}>{x.label}</SelectItem>)}</SelectContent></Select>}
 // Slice 4f: pack names come from the organisation's catalogue (compiled and installed) when the snapshot carries it.
 const packName=(data:Snapshot,id:string,version?:number)=>data.programmePacks?.filter(x=>x.id===id&&(version===undefined||x.version===version)).at(-1)?.name??PACKS.find(x=>x.id===id&&(version===undefined||x.version===version))?.name??id;
@@ -26,28 +27,42 @@ export function ProgrammePatient({person:p,data,busy,command}:{person:Person;dat
  {form==='resolve'&&<form className="programme-form" onSubmit={async e=>{e.preventDefault();const f=new FormData(e.currentTarget);if(await command({type:'resolveFollowUp',personId:p.id,version:p.version,taskId:episode,state:(e.nativeEvent as SubmitEvent).submitter?.getAttribute('value')??'completed',resolution:f.get('resolution')},'Follow-up updated'))setForm('')}}><label className="field">Outcome / reason<Input name="resolution" minLength={5} required/></label><Button disabled={busy} value="completed">Mark completed</Button><Button disabled={busy} variant="outline" value="cancelled">Cancel follow-up</Button></form>}
  </section>
 }
-export function ProgrammeQuestions({visit:v,busy,command,onDirty,savedReadChoice,presentationLanguage='en'}:{presentationLanguage?:'en'|'hi';visit:Visit;busy:boolean;command:Command;onDirty:(v:boolean)=>void;savedReadChoice?:{token:number;kind:'load'|'merge'}}){
+export function ProgrammeQuestions({visit:v,busy,command,onDirty,savedReadChoice,onDraftChange,unsavedRecovery,presentationLanguage='en'}:{presentationLanguage?:'en'|'hi';visit:Visit;busy:boolean;command:Command;onDirty:(v:boolean)=>void;savedReadChoice?:{token:number;kind:'load'|'merge'};onDraftChange?:(draft:ProgrammeDraft)=>void;unsavedRecovery?:ProgrammeDraft&{token:number}}){
  const c=v.programmeCapture;const [answers,setAnswers]=useState(c?.answers??{}),[absence,setAbsence]=useState(c?.absence??{});const dirty=JSON.stringify(answers)!==JSON.stringify(c?.answers??{})||JSON.stringify(absence)!==JSON.stringify(c?.absence??{});
- const baseline=useRef({visitId:v.id,answers:c?.answers??{},absence:c?.absence??{},readToken:savedReadChoice?.token??0});
+ const baseline=useRef({visitId:v.id,answers:c?.answers??{},absence:c?.absence??{},readToken:savedReadChoice?.token??0,recoveryToken:0});
  useEffect(()=>{onDirty(dirty);return()=>onDirty(false)},[dirty,onDirty]);
+ useEffect(()=>{onDraftChange?.({visitId:v.id,answers:{...answers},absence:{...absence},baselineAnswers:{...(c?.answers??{})},baselineAbsence:{...(c?.absence??{})}})},[v.id,v.version,answers,absence,onDraftChange,c?.answers,c?.absence]);
  // A deliberate saved-record choice is independent of the clinical revision. Navigation
  // leaves this mounted state alone; merge applies only locally changed question choices.
  useEffect(()=>{
   const previous=baseline.current,token=savedReadChoice?.token??0;
   let nextAnswers={...(c?.answers??{})},nextAbsence={...(c?.absence??{})};
-  if(previous.visitId===v.id&&token!==previous.readToken&&savedReadChoice?.kind==='merge'){
+  const recoveryToken=unsavedRecovery?.token??0;
+  const recovering=unsavedRecovery?.visitId===v.id&&recoveryToken!==previous.recoveryToken;
+  const merging=previous.visitId===v.id&&token!==previous.readToken&&savedReadChoice?.kind==='merge';
+  if(recovering&&unsavedRecovery){
+   // The caller supplies this only after fresh same-account authorisation. Keep
+   // the server capture as the baseline, and restore original choices as unsaved.
+   for(const key of new Set([...Object.keys(unsavedRecovery.baselineAnswers),...Object.keys(unsavedRecovery.baselineAbsence),...Object.keys(unsavedRecovery.answers),...Object.keys(unsavedRecovery.absence)])){
+    if(own(unsavedRecovery.answers,key)===own(unsavedRecovery.baselineAnswers,key)&&own(unsavedRecovery.absence,key)===own(unsavedRecovery.baselineAbsence,key))continue;
+    if(own(unsavedRecovery.answers,key)===undefined)delete nextAnswers[key];else nextAnswers[key]=own(unsavedRecovery.answers,key)!;
+    if(own(unsavedRecovery.absence,key)===undefined)delete nextAbsence[key];else nextAbsence[key]=own(unsavedRecovery.absence,key)!;
+   }
+  }else if(merging){
    for(const key of new Set([...Object.keys(previous.answers),...Object.keys(previous.absence),...Object.keys(answers),...Object.keys(absence)])){
     if(own(answers,key)===own(previous.answers,key)&&own(absence,key)===own(previous.absence,key))continue;
     if(own(answers,key)===undefined)delete nextAnswers[key];else nextAnswers[key]=own(answers,key)!;
     if(own(absence,key)===undefined)delete nextAbsence[key];else nextAbsence[key]=own(absence,key)!;
    }
+  }
+  if(recovering||merging){
    const eligible=questions(c?{...c,answers:nextAnswers,absence:nextAbsence}:undefined),allowed=new Set(eligible.map(q=>q.id));
    nextAnswers=Object.fromEntries(Object.entries(nextAnswers).filter(([key])=>allowed.has(key)));
    nextAbsence=Object.fromEntries(Object.entries(nextAbsence).filter(([key])=>allowed.has(key)&&!nextAnswers[key]&&!eligible.find(q=>q.id===key&&q.fact&&v.facts[q.fact])));
   }
   setAnswers(nextAnswers);setAbsence(nextAbsence);
-  baseline.current={visitId:v.id,answers:c?.answers??{},absence:c?.absence??{},readToken:token};
- },[v.id,v.version,savedReadChoice?.token]);
+  baseline.current={visitId:v.id,answers:c?.answers??{},absence:c?.absence??{},readToken:token,recoveryToken};
+ },[v.id,v.version,savedReadChoice?.token,unsavedRecovery?.token]);
  const hi=presentationLanguage==='hi';const qs=c?.packs.length?questions({...c,answers,absence}):[];useGuidedProgramme([...qs.map(q=>({id:q.fact?factStep(q.fact):'programme:'+q.id,label:q.label+(q.unit?' · '+q.unit:'')})),...(c?.packs.length?[{id:'programme-save',label:hi?'कार्यक्रम की जानकारी सहेजें':'Save programme evidence'}]:[])]);
  if(!c?.packs.length)return null;const edit=v.state==='draft'&&!v.voidedAt&&!v.supersededBy;
  return <section className="programme-questions"><CaptureStage id="programme-save"><h3 lang={presentationLanguage}>{hi?'कार्यक्रम की जानकारी':'Programme evidence'}</h3><p className="muted text-sm">{c.packs.map(x=>x.pack.name+' v'+x.pack.version).join(' · ')}. <span lang={presentationLanguage}>{hi?'इसी भेंट की जानकारी इन कार्यक्रमों में फिर इस्तेमाल होती है। हर छूटा उत्तर अलग रहता है।':'Same-visit facts are reused across these packs; each missing answer remains explicit.'}</span></p></CaptureStage>{qs.map(q=>{const value=q.fact?v.facts[q.fact]:own(answers,q.id);return <CaptureStage key={q.id} id={q.fact?factStep(q.fact):'programme:'+q.id}><div className="programme-question"><div><strong>{q.label}{q.unit?' · '+q.unit:''}</strong><small>{q.programmes.join(' + ')}{q.fact?' · shared capture above':''}</small></div>{q.fact?<span>{value||'Not recorded'}</span>:<Choice disabled={!edit||busy} label={q.label} value={own(answers,q.id)||'unset'} change={value=>{if(!edit||busy)return;const next={...answers};if(value==='unset')delete next[q.id];else next[q.id]=value;const a={...absence};delete a[q.id];const eligible=questions({...c,answers:next,absence:a}).map(x=>x.id);setAnswers(Object.fromEntries(Object.entries(next).filter(([k])=>eligible.includes(k))));setAbsence(Object.fromEntries(Object.entries(a).filter(([k])=>eligible.includes(k))))}} items={[{value:'unset',label:'Not answered'},...(q.options??[]).map(x=>({value:x,label:x}))]}/>} {!value&&<Choice disabled={!edit||busy} label={'Absence reason: '+q.label} value={own(absence,q.id)||'unset'} change={value=>{if(!edit||busy)return;const next={...absence};if(value==='unset')delete next[q.id];else next[q.id]=value;setAbsence(next)}} items={[{value:'unset',label:'Choose absence reason'},...ABSENCE.map(x=>({value:x,label:x}))]}/>}</div></CaptureStage>})}<CaptureStage id="programme-save"><div className="form-actions"><span className="muted text-sm" lang={presentationLanguage}>{unresolved(v).length}{hi?' सहेजी ज़रूरी जानकारियाँ अभी बाकी हैं':' unresolved saved requirements'}{c.savedAt?(hi?' · पिछली जाँच ':' · Last reviewed ')+new Date(c.savedAt).toLocaleString():''}</span>{edit&&<Button disabled={busy||!dirty} onClick={async()=>{const allowed=new Set(qs.map(q=>q.id));await command({type:'saveProgrammeAnswers',visitId:v.id,version:v.version,answers:Object.fromEntries(Object.entries(answers).filter(([k])=>allowed.has(k))),absence:Object.fromEntries(Object.entries(absence).filter(([k])=>allowed.has(k)&&!qs.find(q=>q.id===k&&q.fact&&v.facts[q.fact])))},hi?'कार्यक्रम की जानकारी सहेजी गई':'Programme evidence saved')}}><span lang={presentationLanguage}>{hi?'कार्यक्रम की जानकारी सहेजें':'Save programme evidence'}</span></Button>}</div></CaptureStage></section>

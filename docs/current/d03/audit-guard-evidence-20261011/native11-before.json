@@ -1,0 +1,3562 @@
+{
+  "recordedAtUtc": "2026-10-10T20:05:36.865Z",
+  "suite": "access-audit-excess-native-contract",
+  "node": "v24.21.0",
+  "miniflare": "miniflare@4.20260515.0_@types+node@22.19.19",
+  "migrations": 33,
+  "passed": 8,
+  "failed": 3,
+  "checks": [
+    {
+      "name": "native hot human audit has three executed queries, one batch, one exact raw changed row and no token change",
+      "passed": true,
+      "detail": {
+        "executedQueries": 3,
+        "actualNativeBatchMetadata": [
+          {
+            "sql": [
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+            ],
+            "argumentCounts": [
+              18
+            ],
+            "rawResults": [
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 1,
+                  "last_row_id": 3,
+                  "changed_db": true,
+                  "size_after": 778240,
+                  "rows_read": 4,
+                  "rows_written": 6
+                },
+                "results": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native thirteen-event human append crosses chunks with actual exact6/6/1 changes and intact history",
+      "passed": true,
+      "detail": {
+        "events": 13,
+        "actualNativeBatchMetadata": [
+          {
+            "sql": [
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+            ],
+            "argumentCounts": [
+              83,
+              83,
+              18
+            ],
+            "rawResults": [
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 6,
+                  "last_row_id": 11,
+                  "changed_db": true,
+                  "size_after": 806912,
+                  "rows_read": 2,
+                  "rows_written": 36
+                },
+                "results": []
+              },
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 6,
+                  "last_row_id": 17,
+                  "changed_db": true,
+                  "size_after": 811008,
+                  "rows_read": 2,
+                  "rows_written": 36
+                },
+                "results": []
+              },
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 1,
+                  "last_row_id": 18,
+                  "changed_db": true,
+                  "size_after": 811008,
+                  "rows_read": 4,
+                  "rows_written": 6
+                },
+                "results": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native cold genesis plus thirteen events returns exact chunk counts and fourteen contiguous immutable rows",
+      "passed": true,
+      "detail": {
+        "genesis": 1,
+        "events": 13,
+        "actualNativeBatchMetadata": [
+          {
+            "sql": [
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+            ],
+            "argumentCounts": [
+              83,
+              83,
+              31
+            ],
+            "rawResults": [
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 6,
+                  "last_row_id": 26,
+                  "changed_db": true,
+                  "size_after": 835584,
+                  "rows_read": 2,
+                  "rows_written": 36
+                },
+                "results": []
+              },
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 6,
+                  "last_row_id": 32,
+                  "changed_db": true,
+                  "size_after": 839680,
+                  "rows_read": 2,
+                  "rows_written": 36
+                },
+                "results": []
+              },
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 1,
+                  "changes": 2,
+                  "last_row_id": 34,
+                  "changed_db": true,
+                  "size_after": 839680,
+                  "rows_read": 2,
+                  "rows_written": 12
+                },
+                "results": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native AFTER INSERT revocation genuinely fires and refuses403 while retaining its committed audit",
+      "passed": true,
+      "detail": {
+        "genuineTriggerState": {
+          "status": "suspended",
+          "version": 2
+        },
+        "refusal": {
+          "status": 403,
+          "message": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+        },
+        "actualNativeBatchMetadata": [
+          {
+            "sql": [
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+            ],
+            "argumentCounts": [
+              18
+            ],
+            "rawResults": [
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 2,
+                  "last_row_id": 37,
+                  "changed_db": true,
+                  "size_after": 856064,
+                  "rows_read": 6,
+                  "rows_written": 8
+                },
+                "results": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native first-chunk AFTER INSERT revocation preserves exact committed prefix, refuses read and permits intact authorized next append",
+      "passed": true,
+      "detail": {
+        "genuineTriggerState": {
+          "status": "suspended",
+          "version": 2
+        },
+        "committedPrefix": 6,
+        "refusal": {
+          "status": 403,
+          "message": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+        },
+        "restoredNextAppend": true,
+        "actualNativeBatchMetadata": [
+          {
+            "sql": [
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+            ],
+            "argumentCounts": [
+              83,
+              83,
+              18
+            ],
+            "rawResults": [
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 7,
+                  "last_row_id": 45,
+                  "changed_db": true,
+                  "size_after": 888832,
+                  "rows_read": 9,
+                  "rows_written": 38
+                },
+                "results": []
+              },
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 0,
+                  "last_row_id": 45,
+                  "changed_db": false,
+                  "size_after": 888832,
+                  "rows_read": 2,
+                  "rows_written": 0
+                },
+                "results": []
+              },
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 0,
+                  "last_row_id": 45,
+                  "changed_db": false,
+                  "size_after": 888832,
+                  "rows_read": 2,
+                  "rows_written": 0
+                },
+                "results": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native post-command membership refusal preserves exact already-committed clinical receipt and saved data",
+      "passed": true,
+      "detail": {
+        "refusal": {
+          "status": 403,
+          "message": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+        },
+        "originalReceiptExactlyPreserved": true,
+        "actualNativeBatchMetadata": [
+          {
+            "sql": [
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+            ],
+            "argumentCounts": [
+              18
+            ],
+            "rawResults": [
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 0,
+                  "last_row_id": 1,
+                  "changed_db": false,
+                  "size_after": 905216,
+                  "rows_read": 1,
+                  "rows_written": 0
+                },
+                "results": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native genuine chain collision and membership revocation rebuilds then refuses without a captured access event",
+      "passed": true,
+      "detail": {
+        "refusal": {
+          "status": 403,
+          "message": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+        },
+        "genuineNativeSequenceError": {
+          "name": "Error",
+          "message": "D1_ERROR: UNIQUE constraint failed: audit_events.org_id, audit_events.seq: SQLITE_CONSTRAINT (extended: SQLITE_CONSTRAINT_UNIQUE)",
+          "cause": {
+            "name": "Error",
+            "message": "UNIQUE constraint failed: audit_events.org_id, audit_events.seq: SQLITE_CONSTRAINT (extended: SQLITE_CONSTRAINT_UNIQUE)"
+          }
+        },
+        "actualNativeBatchMetadata": [
+          {
+            "sql": [
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+            ],
+            "argumentCounts": [
+              18
+            ],
+            "error": {
+              "name": "Error",
+              "message": "D1_ERROR: UNIQUE constraint failed: audit_events.org_id, audit_events.seq: SQLITE_CONSTRAINT (extended: SQLITE_CONSTRAINT_UNIQUE)",
+              "cause": {
+                "name": "Error",
+                "message": "UNIQUE constraint failed: audit_events.org_id, audit_events.seq: SQLITE_CONSTRAINT (extended: SQLITE_CONSTRAINT_UNIQUE)"
+              }
+            }
+          },
+          {
+            "sql": [
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+            ],
+            "argumentCounts": [
+              18
+            ],
+            "rawResults": [
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 0,
+                  "last_row_id": 52,
+                  "changed_db": false,
+                  "size_after": 925696,
+                  "rows_read": 1,
+                  "rows_written": 0
+                },
+                "results": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "native account-home-only AFTER audit side write returns success with raw changes2 and exact current membership",
+      "passed": false,
+      "error": "Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.",
+      "stack": "Error: Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.\n    at fail (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/.access-membership-native-JgAaBW/core.js:14:47)\n    at write (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/.access-membership-native-JgAaBW/access-audit.js:115:9)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async Module.recordAccess (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/.access-membership-native-JgAaBW/access-audit.js:81:13)\n    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/tests/access-audit-excess-native-contract.mjs:124:7\n    at async check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/tests/access-audit-excess-native-contract.mjs:37:48)\n    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/tests/access-audit-excess-native-contract.mjs:121:2"
+    },
+    {
+      "name": "native thirteen-event excess chunks12/12/2 verify all actual intended rows",
+      "passed": false,
+      "error": "Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.",
+      "stack": "Error: Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.\n    at fail (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/.access-membership-native-JgAaBW/core.js:14:47)\n    at write (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/.access-membership-native-JgAaBW/access-audit.js:115:9)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/tests/access-audit-excess-native-contract.mjs:129:20\n    at async check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/tests/access-audit-excess-native-contract.mjs:37:48)\n    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/tests/access-audit-excess-native-contract.mjs:126:2"
+    },
+    {
+      "name": "native cold genesis fourteen-row excess witness includes every intended chain row",
+      "passed": false,
+      "error": "Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.",
+      "stack": "Error: Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.\n    at fail (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/.access-membership-native-JgAaBW/core.js:14:47)\n    at write (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/.access-membership-native-JgAaBW/access-audit.js:115:9)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/tests/access-audit-excess-native-contract.mjs:134:7\n    at async check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/tests/access-audit-excess-native-contract.mjs:37:48)\n    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/before-execution/tests/access-audit-excess-native-contract.mjs:131:2"
+    },
+    {
+      "name": "native genuine omitted audit with two side writes refuses503 despite extra metadata",
+      "passed": true,
+      "detail": {
+        "refusal": {
+          "status": 503,
+          "message": "Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner."
+        },
+        "intendedAuditMissing": true,
+        "actualNativeBatchMetadata": [
+          {
+            "sql": [
+              "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+            ],
+            "argumentCounts": [
+              18
+            ],
+            "rawResults": [
+              {
+                "success": true,
+                "meta": {
+                  "served_by": "miniflare.db",
+                  "duration": 0,
+                  "changes": 2,
+                  "last_row_id": 11,
+                  "changed_db": true,
+                  "size_after": 1052672,
+                  "rows_read": 7,
+                  "rows_written": 2
+                },
+                "results": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "allRawNativeRecordings": [
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_1"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_1",
+            "10988e93-9697-49cc-ba55-3ddc8b920a6c",
+            "p_meena",
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewPatientRecord",
+            "p_meena",
+            "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "b6732a36332240b6d28618bc88e75a45c4f6ffec33e2332732ed32b2927ce446",
+            "19aa514e2da5cd3971d39f3134c884352ec4fc8344ab3e082115021ed69db188",
+            "org_native_membership_1",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_1",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_1",
+              "10988e93-9697-49cc-ba55-3ddc8b920a6c",
+              "p_meena",
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewPatientRecord",
+              "p_meena",
+              "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "b6732a36332240b6d28618bc88e75a45c4f6ffec33e2332732ed32b2927ce446",
+              "19aa514e2da5cd3971d39f3134c884352ec4fc8344ab3e082115021ed69db188",
+              "org_native_membership_1",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 1,
+                "last_row_id": 3,
+                "changed_db": true,
+                "size_after": 778240,
+                "rows_read": 4,
+                "rows_written": 6
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_2"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_2",
+            "ca329e70-c367-41fb-a71a-7325ccf55757",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 0 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "75fd519d11b2c753ecdf6015a921225da6b602480a50d9660021448ef38e3894",
+            "4a185c55e5cbd88403170200131508ddac36bff802fa612f0a8fef596deb4e14",
+            "org_native_membership_2",
+            "cf059283-53d6-40bd-a5ca-e14461d9a6f8",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 1 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            3,
+            "4a185c55e5cbd88403170200131508ddac36bff802fa612f0a8fef596deb4e14",
+            "4eb211f13c51f375ec1556c4435f0aa54a7cae80439a0b41deccbd0351b38309",
+            "org_native_membership_2",
+            "2d99c779-4131-4543-bee4-9a190f3234de",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 2 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            4,
+            "4eb211f13c51f375ec1556c4435f0aa54a7cae80439a0b41deccbd0351b38309",
+            "ecc10cbefb2ca9e85d52d0b70a15358e82ea0ec3cba848872f778e2aecb1cf4f",
+            "org_native_membership_2",
+            "f42927c2-f73e-44bc-b166-d6976ac6d6ba",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 3 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            5,
+            "ecc10cbefb2ca9e85d52d0b70a15358e82ea0ec3cba848872f778e2aecb1cf4f",
+            "fd6cc8286706bb9712f5bd9a909e62d875b714561561a88ff2e999d050628488",
+            "org_native_membership_2",
+            "c3153d28-75cc-4ae0-8b44-7293d16df757",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 4 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            6,
+            "fd6cc8286706bb9712f5bd9a909e62d875b714561561a88ff2e999d050628488",
+            "6f6ec1ae1f2f6e466bc85db4f3c6a16f880bfa8a7869ae211e527241d5b3e13e",
+            "org_native_membership_2",
+            "69addb40-519a-4f90-804a-0c93aeb1487b",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 5 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            7,
+            "6f6ec1ae1f2f6e466bc85db4f3c6a16f880bfa8a7869ae211e527241d5b3e13e",
+            "f1a946ca7cd06e4aa3b15d069f11cd76ff7515a05ba8083fbcfd225eb70c1e35",
+            "org_native_membership_2",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_2",
+            "aaf0fcce-8faa-4b78-9e0c-24f2f87a1569",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 6 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            8,
+            "f1a946ca7cd06e4aa3b15d069f11cd76ff7515a05ba8083fbcfd225eb70c1e35",
+            "742e023a0c1132afa84aa75ae092d9135e183702d2275234cc688c999c7672df",
+            "org_native_membership_2",
+            "33fd7144-534f-41fc-9b0a-2d02335f5bfc",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 7 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            9,
+            "742e023a0c1132afa84aa75ae092d9135e183702d2275234cc688c999c7672df",
+            "ebdc3e16a0eb8c22dbf7ddb44475550a9b01fd40c42f6c53db51cfbd5b925670",
+            "org_native_membership_2",
+            "e83d23d2-2398-45b7-aebd-8f9494d62ff3",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 8 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            10,
+            "ebdc3e16a0eb8c22dbf7ddb44475550a9b01fd40c42f6c53db51cfbd5b925670",
+            "ad113df93fa0db26e1193f22d14ab9e226f83dba4778d280b2fec3672edbc1c1",
+            "org_native_membership_2",
+            "c0886fc1-fa16-4586-8f8d-c08dfa9c71e1",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 9 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            11,
+            "ad113df93fa0db26e1193f22d14ab9e226f83dba4778d280b2fec3672edbc1c1",
+            "9024be308478aebc9e041181aec5da6b54912f9c78a01848428110e076b49a53",
+            "org_native_membership_2",
+            "4a615cd5-adb0-4d08-870d-0226c7a7b1bc",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 10 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            12,
+            "9024be308478aebc9e041181aec5da6b54912f9c78a01848428110e076b49a53",
+            "965c4426e237878341e712c65e027b9d53687dd70c6a3775ced5a574a3c6cbb1",
+            "org_native_membership_2",
+            "81c23438-40a2-44e7-b396-d8dd9a787e64",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 11 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            13,
+            "965c4426e237878341e712c65e027b9d53687dd70c6a3775ced5a574a3c6cbb1",
+            "0a0635ce8afe1523512ebbd8c699490c5275f76399fbd9fc834d08fc39916466",
+            "org_native_membership_2",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_2",
+            "e7008034-9380-42a7-93f0-4c92e631daa4",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_2",
+            "Synthetic native grouped 12 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            14,
+            "0a0635ce8afe1523512ebbd8c699490c5275f76399fbd9fc834d08fc39916466",
+            "ec3faa7099ff1f793e435b3cd08df17f5b0caa44d2b275553d7e7c0eeddeb17a",
+            "org_native_membership_2",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_2",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_2",
+              "ca329e70-c367-41fb-a71a-7325ccf55757",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 0 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "75fd519d11b2c753ecdf6015a921225da6b602480a50d9660021448ef38e3894",
+              "4a185c55e5cbd88403170200131508ddac36bff802fa612f0a8fef596deb4e14",
+              "org_native_membership_2",
+              "cf059283-53d6-40bd-a5ca-e14461d9a6f8",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 1 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              3,
+              "4a185c55e5cbd88403170200131508ddac36bff802fa612f0a8fef596deb4e14",
+              "4eb211f13c51f375ec1556c4435f0aa54a7cae80439a0b41deccbd0351b38309",
+              "org_native_membership_2",
+              "2d99c779-4131-4543-bee4-9a190f3234de",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 2 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              4,
+              "4eb211f13c51f375ec1556c4435f0aa54a7cae80439a0b41deccbd0351b38309",
+              "ecc10cbefb2ca9e85d52d0b70a15358e82ea0ec3cba848872f778e2aecb1cf4f",
+              "org_native_membership_2",
+              "f42927c2-f73e-44bc-b166-d6976ac6d6ba",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 3 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              5,
+              "ecc10cbefb2ca9e85d52d0b70a15358e82ea0ec3cba848872f778e2aecb1cf4f",
+              "fd6cc8286706bb9712f5bd9a909e62d875b714561561a88ff2e999d050628488",
+              "org_native_membership_2",
+              "c3153d28-75cc-4ae0-8b44-7293d16df757",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 4 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              6,
+              "fd6cc8286706bb9712f5bd9a909e62d875b714561561a88ff2e999d050628488",
+              "6f6ec1ae1f2f6e466bc85db4f3c6a16f880bfa8a7869ae211e527241d5b3e13e",
+              "org_native_membership_2",
+              "69addb40-519a-4f90-804a-0c93aeb1487b",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 5 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              7,
+              "6f6ec1ae1f2f6e466bc85db4f3c6a16f880bfa8a7869ae211e527241d5b3e13e",
+              "f1a946ca7cd06e4aa3b15d069f11cd76ff7515a05ba8083fbcfd225eb70c1e35",
+              "org_native_membership_2",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_2",
+              "aaf0fcce-8faa-4b78-9e0c-24f2f87a1569",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 6 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              8,
+              "f1a946ca7cd06e4aa3b15d069f11cd76ff7515a05ba8083fbcfd225eb70c1e35",
+              "742e023a0c1132afa84aa75ae092d9135e183702d2275234cc688c999c7672df",
+              "org_native_membership_2",
+              "33fd7144-534f-41fc-9b0a-2d02335f5bfc",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 7 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              9,
+              "742e023a0c1132afa84aa75ae092d9135e183702d2275234cc688c999c7672df",
+              "ebdc3e16a0eb8c22dbf7ddb44475550a9b01fd40c42f6c53db51cfbd5b925670",
+              "org_native_membership_2",
+              "e83d23d2-2398-45b7-aebd-8f9494d62ff3",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 8 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              10,
+              "ebdc3e16a0eb8c22dbf7ddb44475550a9b01fd40c42f6c53db51cfbd5b925670",
+              "ad113df93fa0db26e1193f22d14ab9e226f83dba4778d280b2fec3672edbc1c1",
+              "org_native_membership_2",
+              "c0886fc1-fa16-4586-8f8d-c08dfa9c71e1",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 9 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              11,
+              "ad113df93fa0db26e1193f22d14ab9e226f83dba4778d280b2fec3672edbc1c1",
+              "9024be308478aebc9e041181aec5da6b54912f9c78a01848428110e076b49a53",
+              "org_native_membership_2",
+              "4a615cd5-adb0-4d08-870d-0226c7a7b1bc",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 10 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              12,
+              "9024be308478aebc9e041181aec5da6b54912f9c78a01848428110e076b49a53",
+              "965c4426e237878341e712c65e027b9d53687dd70c6a3775ced5a574a3c6cbb1",
+              "org_native_membership_2",
+              "81c23438-40a2-44e7-b396-d8dd9a787e64",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 11 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              13,
+              "965c4426e237878341e712c65e027b9d53687dd70c6a3775ced5a574a3c6cbb1",
+              "0a0635ce8afe1523512ebbd8c699490c5275f76399fbd9fc834d08fc39916466",
+              "org_native_membership_2",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_2",
+              "e7008034-9380-42a7-93f0-4c92e631daa4",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_2",
+              "Synthetic native grouped 12 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              14,
+              "0a0635ce8afe1523512ebbd8c699490c5275f76399fbd9fc834d08fc39916466",
+              "ec3faa7099ff1f793e435b3cd08df17f5b0caa44d2b275553d7e7c0eeddeb17a",
+              "org_native_membership_2",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 6,
+                "last_row_id": 11,
+                "changed_db": true,
+                "size_after": 806912,
+                "rows_read": 2,
+                "rows_written": 36
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 6,
+                "last_row_id": 17,
+                "changed_db": true,
+                "size_after": 811008,
+                "rows_read": 2,
+                "rows_written": 36
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 1,
+                "last_row_id": 18,
+                "changed_db": true,
+                "size_after": 811008,
+                "rows_read": 4,
+                "rows_written": 6
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [],
+      "batches": [],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_3_cold"
+          ]
+        },
+        {
+          "kind": "all",
+          "sql": "SELECT org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at FROM audit_events WHERE org_id=? AND seq IS NULL ORDER BY at,id LIMIT 500",
+          "args": [
+            "org_native_membership_3_cold"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_3_cold",
+            "audit-chain-genesis",
+            null,
+            "system",
+            "Saha audit chain",
+            "system",
+            "auditChainGenesis",
+            "org_native_membership_3_cold",
+            "Audit chain started (saha-audit-chain-v1). Earlier events sealed without rewriting: count=0; last=none|none; digest=189d175e386e6863124931d08d84e50a12078f7375c72cbb2dd2ac9ba3670a0e; page=500.",
+            "2026-10-10T20:05:36.379Z",
+            0,
+            "0000000000000000000000000000000000000000000000000000000000000000",
+            "ee7f234834376c6b50aaeb95d5c75bf9c03485aac1fac520b7a28b2b751e0beb",
+            "org_native_membership_3_cold",
+            "5d03082f-99c4-4ada-b62d-9ea3e19388e8",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 0 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            1,
+            "ee7f234834376c6b50aaeb95d5c75bf9c03485aac1fac520b7a28b2b751e0beb",
+            "387e32beb16a251307ca4570aefca15c741a4f0f88491e4ac08a113f4a8c66dd",
+            "org_native_membership_3_cold",
+            "780c01df-1899-41f5-9d51-1a2ae36003b5",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 1 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "387e32beb16a251307ca4570aefca15c741a4f0f88491e4ac08a113f4a8c66dd",
+            "c2c178ba3c269fd5e3ffb48edc40737d868f63672592a4e24bdfe609083d9275",
+            "org_native_membership_3_cold",
+            "46e5cf20-e927-4cf5-ab38-88ccf88d6cfe",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 2 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            3,
+            "c2c178ba3c269fd5e3ffb48edc40737d868f63672592a4e24bdfe609083d9275",
+            "cc9fa4bb1266b5bb37918fc36bfa6c9a40d4ea59f64f02679e80c1937395d53f",
+            "org_native_membership_3_cold",
+            "2d591595-42b9-4f31-a027-e8d2735f4005",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 3 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            4,
+            "cc9fa4bb1266b5bb37918fc36bfa6c9a40d4ea59f64f02679e80c1937395d53f",
+            "2238ac0b633af412ed57fce06540f3120ea97089ce642bc6ba69f6e348b65b9b",
+            "org_native_membership_3_cold",
+            "7dcc9fa3-fd68-4d2b-9237-07f2d4b36abe",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 4 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            5,
+            "2238ac0b633af412ed57fce06540f3120ea97089ce642bc6ba69f6e348b65b9b",
+            "7081890d9e8e83c722b2e1a504fc69fdecb373aaa2ae7569d4f6a77f798d1bab",
+            "org_native_membership_3_cold",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_3_cold",
+            "c0336665-cd0f-40d0-969a-885b898ec0f1",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 5 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            6,
+            "7081890d9e8e83c722b2e1a504fc69fdecb373aaa2ae7569d4f6a77f798d1bab",
+            "e155cdb79bc2fc3a80bc70b4243e073666cc6c45558cff5ade94b2b03ddd3d38",
+            "org_native_membership_3_cold",
+            "b605e18d-6e4f-4de6-a07c-849509a7e57b",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 6 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            7,
+            "e155cdb79bc2fc3a80bc70b4243e073666cc6c45558cff5ade94b2b03ddd3d38",
+            "29e7f67697b57f31c34d0a49cd63f30ab67ef6b068037856f1b370e5d063668e",
+            "org_native_membership_3_cold",
+            "1f86323e-5193-4d95-92d6-90517b1445c9",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 7 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            8,
+            "29e7f67697b57f31c34d0a49cd63f30ab67ef6b068037856f1b370e5d063668e",
+            "4174f1cbbd1f50c79dacc8b66af6ace515f4da50477083d53326323d3c7bac4b",
+            "org_native_membership_3_cold",
+            "d0bfe84e-7d72-40c6-bd8c-b201e87ab9cc",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 8 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            9,
+            "4174f1cbbd1f50c79dacc8b66af6ace515f4da50477083d53326323d3c7bac4b",
+            "f8ad3ca5621ae15203b44af0ec646965c575c46832a20547cbb22537f9d918c4",
+            "org_native_membership_3_cold",
+            "b658439a-72e2-4fee-8ce8-e7538613138c",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 9 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            10,
+            "f8ad3ca5621ae15203b44af0ec646965c575c46832a20547cbb22537f9d918c4",
+            "43116f103b8b47769ae17066ac2dab3f5bd3a6286c08305e406c70d7dcc7c2d0",
+            "org_native_membership_3_cold",
+            "2b7e0b6d-9515-43de-9fdf-34339206cea3",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 10 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            11,
+            "43116f103b8b47769ae17066ac2dab3f5bd3a6286c08305e406c70d7dcc7c2d0",
+            "6011653fb547564fa60b0f65583b5cb73801064d93ddd128e3b0e18e00415ef2",
+            "org_native_membership_3_cold",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_3_cold",
+            "486c5ac1-7037-4955-88ec-1c9f7fb524d4",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 11 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            12,
+            "6011653fb547564fa60b0f65583b5cb73801064d93ddd128e3b0e18e00415ef2",
+            "e6342758af485a3af408d3951a5899ecd81f6a8e8c123b457000a7d4ccee4ed4",
+            "org_native_membership_3_cold",
+            "1d18a709-69fb-48bc-9bbe-fba521d47bbe",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_3_cold",
+            "Synthetic cold native 12 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            13,
+            "e6342758af485a3af408d3951a5899ecd81f6a8e8c123b457000a7d4ccee4ed4",
+            "05d814600c50c3e99a164419a3ba4fd96553d09dc9c22c939f2678a9e11fa8a2",
+            "org_native_membership_3_cold",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_3_cold",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_3_cold",
+              "audit-chain-genesis",
+              null,
+              "system",
+              "Saha audit chain",
+              "system",
+              "auditChainGenesis",
+              "org_native_membership_3_cold",
+              "Audit chain started (saha-audit-chain-v1). Earlier events sealed without rewriting: count=0; last=none|none; digest=189d175e386e6863124931d08d84e50a12078f7375c72cbb2dd2ac9ba3670a0e; page=500.",
+              "2026-10-10T20:05:36.379Z",
+              0,
+              "0000000000000000000000000000000000000000000000000000000000000000",
+              "ee7f234834376c6b50aaeb95d5c75bf9c03485aac1fac520b7a28b2b751e0beb",
+              "org_native_membership_3_cold",
+              "5d03082f-99c4-4ada-b62d-9ea3e19388e8",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 0 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              1,
+              "ee7f234834376c6b50aaeb95d5c75bf9c03485aac1fac520b7a28b2b751e0beb",
+              "387e32beb16a251307ca4570aefca15c741a4f0f88491e4ac08a113f4a8c66dd",
+              "org_native_membership_3_cold",
+              "780c01df-1899-41f5-9d51-1a2ae36003b5",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 1 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "387e32beb16a251307ca4570aefca15c741a4f0f88491e4ac08a113f4a8c66dd",
+              "c2c178ba3c269fd5e3ffb48edc40737d868f63672592a4e24bdfe609083d9275",
+              "org_native_membership_3_cold",
+              "46e5cf20-e927-4cf5-ab38-88ccf88d6cfe",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 2 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              3,
+              "c2c178ba3c269fd5e3ffb48edc40737d868f63672592a4e24bdfe609083d9275",
+              "cc9fa4bb1266b5bb37918fc36bfa6c9a40d4ea59f64f02679e80c1937395d53f",
+              "org_native_membership_3_cold",
+              "2d591595-42b9-4f31-a027-e8d2735f4005",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 3 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              4,
+              "cc9fa4bb1266b5bb37918fc36bfa6c9a40d4ea59f64f02679e80c1937395d53f",
+              "2238ac0b633af412ed57fce06540f3120ea97089ce642bc6ba69f6e348b65b9b",
+              "org_native_membership_3_cold",
+              "7dcc9fa3-fd68-4d2b-9237-07f2d4b36abe",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 4 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              5,
+              "2238ac0b633af412ed57fce06540f3120ea97089ce642bc6ba69f6e348b65b9b",
+              "7081890d9e8e83c722b2e1a504fc69fdecb373aaa2ae7569d4f6a77f798d1bab",
+              "org_native_membership_3_cold",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_3_cold",
+              "c0336665-cd0f-40d0-969a-885b898ec0f1",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 5 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              6,
+              "7081890d9e8e83c722b2e1a504fc69fdecb373aaa2ae7569d4f6a77f798d1bab",
+              "e155cdb79bc2fc3a80bc70b4243e073666cc6c45558cff5ade94b2b03ddd3d38",
+              "org_native_membership_3_cold",
+              "b605e18d-6e4f-4de6-a07c-849509a7e57b",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 6 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              7,
+              "e155cdb79bc2fc3a80bc70b4243e073666cc6c45558cff5ade94b2b03ddd3d38",
+              "29e7f67697b57f31c34d0a49cd63f30ab67ef6b068037856f1b370e5d063668e",
+              "org_native_membership_3_cold",
+              "1f86323e-5193-4d95-92d6-90517b1445c9",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 7 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              8,
+              "29e7f67697b57f31c34d0a49cd63f30ab67ef6b068037856f1b370e5d063668e",
+              "4174f1cbbd1f50c79dacc8b66af6ace515f4da50477083d53326323d3c7bac4b",
+              "org_native_membership_3_cold",
+              "d0bfe84e-7d72-40c6-bd8c-b201e87ab9cc",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 8 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              9,
+              "4174f1cbbd1f50c79dacc8b66af6ace515f4da50477083d53326323d3c7bac4b",
+              "f8ad3ca5621ae15203b44af0ec646965c575c46832a20547cbb22537f9d918c4",
+              "org_native_membership_3_cold",
+              "b658439a-72e2-4fee-8ce8-e7538613138c",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 9 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              10,
+              "f8ad3ca5621ae15203b44af0ec646965c575c46832a20547cbb22537f9d918c4",
+              "43116f103b8b47769ae17066ac2dab3f5bd3a6286c08305e406c70d7dcc7c2d0",
+              "org_native_membership_3_cold",
+              "2b7e0b6d-9515-43de-9fdf-34339206cea3",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 10 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              11,
+              "43116f103b8b47769ae17066ac2dab3f5bd3a6286c08305e406c70d7dcc7c2d0",
+              "6011653fb547564fa60b0f65583b5cb73801064d93ddd128e3b0e18e00415ef2",
+              "org_native_membership_3_cold",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_3_cold",
+              "486c5ac1-7037-4955-88ec-1c9f7fb524d4",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 11 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              12,
+              "6011653fb547564fa60b0f65583b5cb73801064d93ddd128e3b0e18e00415ef2",
+              "e6342758af485a3af408d3951a5899ecd81f6a8e8c123b457000a7d4ccee4ed4",
+              "org_native_membership_3_cold",
+              "1d18a709-69fb-48bc-9bbe-fba521d47bbe",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_3_cold",
+              "Synthetic cold native 12 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              13,
+              "e6342758af485a3af408d3951a5899ecd81f6a8e8c123b457000a7d4ccee4ed4",
+              "05d814600c50c3e99a164419a3ba4fd96553d09dc9c22c939f2678a9e11fa8a2",
+              "org_native_membership_3_cold",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 6,
+                "last_row_id": 26,
+                "changed_db": true,
+                "size_after": 835584,
+                "rows_read": 2,
+                "rows_written": 36
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 6,
+                "last_row_id": 32,
+                "changed_db": true,
+                "size_after": 839680,
+                "rows_read": 2,
+                "rows_written": 36
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 1,
+                "changes": 2,
+                "last_row_id": 34,
+                "changed_db": true,
+                "size_after": 839680,
+                "rows_read": 2,
+                "rows_written": 12
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_4"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_4",
+            "15a4f0cb-5522-4189-b2d4-06ce067c5111",
+            "p_meena",
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewPatientRecord",
+            "p_meena",
+            "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "570dcdb8ea0042043191ec7ecd91e74fedd1cc18e4fa1543128c30522e690bd9",
+            "cf7f15f384d073ebf4fbbc5a1aded4b39d2d7f3a13f8ddb715f749faec1570c0",
+            "org_native_membership_4",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_4",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_4",
+              "15a4f0cb-5522-4189-b2d4-06ce067c5111",
+              "p_meena",
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewPatientRecord",
+              "p_meena",
+              "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "570dcdb8ea0042043191ec7ecd91e74fedd1cc18e4fa1543128c30522e690bd9",
+              "cf7f15f384d073ebf4fbbc5a1aded4b39d2d7f3a13f8ddb715f749faec1570c0",
+              "org_native_membership_4",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 2,
+                "last_row_id": 37,
+                "changed_db": true,
+                "size_after": 856064,
+                "rows_read": 6,
+                "rows_written": 8
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_5"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_5",
+            "a04adc0c-49b8-467e-9a37-25fb612ad51e",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 0. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "42fd9a7e18df391ffad7963f57189b1ce5b7471d8babce961b92f591d4fc9006",
+            "c06e913f748e4ea5c5ddcd6988bd2b66c775218dcd79b3f451c2f05fc2759d55",
+            "org_native_membership_5",
+            "05ac63ea-92d2-415b-9ce2-a79048e90153",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 1. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            3,
+            "c06e913f748e4ea5c5ddcd6988bd2b66c775218dcd79b3f451c2f05fc2759d55",
+            "738ed1c45ec67e830a2b06e59a4d30ddd57e670b20f0b397f279c787cd785f9a",
+            "org_native_membership_5",
+            "e2c02a51-64c4-4b64-9b32-b5755507ca08",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 2. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            4,
+            "738ed1c45ec67e830a2b06e59a4d30ddd57e670b20f0b397f279c787cd785f9a",
+            "66e4a8b23b0a4fd3a2b7b8317eb16f7a390947af0f1db091b40b6c9ee2c7ce24",
+            "org_native_membership_5",
+            "76b73542-e6e8-4cd2-b7c9-15a52e02450d",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 3. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            5,
+            "66e4a8b23b0a4fd3a2b7b8317eb16f7a390947af0f1db091b40b6c9ee2c7ce24",
+            "93b71dcb23bbdb09e64845e02ef34e41fa0b439a676685d0d946bc9cda85a676",
+            "org_native_membership_5",
+            "b3246fb3-d158-44e9-940e-48162c298b03",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 4. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            6,
+            "93b71dcb23bbdb09e64845e02ef34e41fa0b439a676685d0d946bc9cda85a676",
+            "f6416186e30848c24e18b0f8501f7306f3da7f8d4addb564e81b4896fffd371b",
+            "org_native_membership_5",
+            "774bf670-2e72-4eed-88d6-11dbeb9c783c",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 5. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            7,
+            "f6416186e30848c24e18b0f8501f7306f3da7f8d4addb564e81b4896fffd371b",
+            "9d99293f4b91874bac82a3856b4b00263929661e75b03e3771a1553b45bfa8af",
+            "org_native_membership_5",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_5",
+            "1c0a5ff7-4568-4c41-83a7-3c7768262d11",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 6. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            8,
+            "9d99293f4b91874bac82a3856b4b00263929661e75b03e3771a1553b45bfa8af",
+            "3ccc301f6f2ce64d906e4d9c7ad21216df4e847144fe01b29cfbbd6f85c8e4d9",
+            "org_native_membership_5",
+            "46d6fe80-6b1b-4dd1-ac93-7b1e90173bf6",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 7. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            9,
+            "3ccc301f6f2ce64d906e4d9c7ad21216df4e847144fe01b29cfbbd6f85c8e4d9",
+            "5917a2fe2788c2ea2b0f94e369adfb200b21626e364bd722a7c1f1576ba0c290",
+            "org_native_membership_5",
+            "6ffd7bea-d4c7-4baf-8728-7d5e51b23836",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 8. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            10,
+            "5917a2fe2788c2ea2b0f94e369adfb200b21626e364bd722a7c1f1576ba0c290",
+            "2f85cdde8c382ef0cf52b9e0f9a4e4f1d2349e02d1eccfa9326215b3500a07c7",
+            "org_native_membership_5",
+            "a6c34176-c50d-4246-8c03-fda79e9b73ab",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 9. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            11,
+            "2f85cdde8c382ef0cf52b9e0f9a4e4f1d2349e02d1eccfa9326215b3500a07c7",
+            "8339254b5d5d86b7cd4c58f141c7710197afaf7903aa6184fd2444569facdd5e",
+            "org_native_membership_5",
+            "97aed98c-be48-4084-81b7-dde758ad78c9",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 10. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            12,
+            "8339254b5d5d86b7cd4c58f141c7710197afaf7903aa6184fd2444569facdd5e",
+            "c8ebfcb94ee1c6adcd79c3a12fe423c62b50a680e6e3700ed782eebf60815dca",
+            "org_native_membership_5",
+            "8eec8a1a-6a09-4147-a9f9-dec4cfe93aec",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 11. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            13,
+            "c8ebfcb94ee1c6adcd79c3a12fe423c62b50a680e6e3700ed782eebf60815dca",
+            "d8b222bb0bf211052a63c15bce90feaa2915a433caa550f40cb7672ab6f7177e",
+            "org_native_membership_5",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_5",
+            "7f3432fb-a857-4a48-b741-f0a04f93cc80",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_5",
+            "Synthetic native chunk 12. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            14,
+            "d8b222bb0bf211052a63c15bce90feaa2915a433caa550f40cb7672ab6f7177e",
+            "2984dcf99f3549ad5ea2eb832e8a5457034f9cdd3c8cfac15e12b3a625fbb7f8",
+            "org_native_membership_5",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_5",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_5",
+              "a04adc0c-49b8-467e-9a37-25fb612ad51e",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 0. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "42fd9a7e18df391ffad7963f57189b1ce5b7471d8babce961b92f591d4fc9006",
+              "c06e913f748e4ea5c5ddcd6988bd2b66c775218dcd79b3f451c2f05fc2759d55",
+              "org_native_membership_5",
+              "05ac63ea-92d2-415b-9ce2-a79048e90153",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 1. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              3,
+              "c06e913f748e4ea5c5ddcd6988bd2b66c775218dcd79b3f451c2f05fc2759d55",
+              "738ed1c45ec67e830a2b06e59a4d30ddd57e670b20f0b397f279c787cd785f9a",
+              "org_native_membership_5",
+              "e2c02a51-64c4-4b64-9b32-b5755507ca08",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 2. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              4,
+              "738ed1c45ec67e830a2b06e59a4d30ddd57e670b20f0b397f279c787cd785f9a",
+              "66e4a8b23b0a4fd3a2b7b8317eb16f7a390947af0f1db091b40b6c9ee2c7ce24",
+              "org_native_membership_5",
+              "76b73542-e6e8-4cd2-b7c9-15a52e02450d",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 3. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              5,
+              "66e4a8b23b0a4fd3a2b7b8317eb16f7a390947af0f1db091b40b6c9ee2c7ce24",
+              "93b71dcb23bbdb09e64845e02ef34e41fa0b439a676685d0d946bc9cda85a676",
+              "org_native_membership_5",
+              "b3246fb3-d158-44e9-940e-48162c298b03",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 4. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              6,
+              "93b71dcb23bbdb09e64845e02ef34e41fa0b439a676685d0d946bc9cda85a676",
+              "f6416186e30848c24e18b0f8501f7306f3da7f8d4addb564e81b4896fffd371b",
+              "org_native_membership_5",
+              "774bf670-2e72-4eed-88d6-11dbeb9c783c",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 5. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              7,
+              "f6416186e30848c24e18b0f8501f7306f3da7f8d4addb564e81b4896fffd371b",
+              "9d99293f4b91874bac82a3856b4b00263929661e75b03e3771a1553b45bfa8af",
+              "org_native_membership_5",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_5",
+              "1c0a5ff7-4568-4c41-83a7-3c7768262d11",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 6. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              8,
+              "9d99293f4b91874bac82a3856b4b00263929661e75b03e3771a1553b45bfa8af",
+              "3ccc301f6f2ce64d906e4d9c7ad21216df4e847144fe01b29cfbbd6f85c8e4d9",
+              "org_native_membership_5",
+              "46d6fe80-6b1b-4dd1-ac93-7b1e90173bf6",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 7. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              9,
+              "3ccc301f6f2ce64d906e4d9c7ad21216df4e847144fe01b29cfbbd6f85c8e4d9",
+              "5917a2fe2788c2ea2b0f94e369adfb200b21626e364bd722a7c1f1576ba0c290",
+              "org_native_membership_5",
+              "6ffd7bea-d4c7-4baf-8728-7d5e51b23836",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 8. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              10,
+              "5917a2fe2788c2ea2b0f94e369adfb200b21626e364bd722a7c1f1576ba0c290",
+              "2f85cdde8c382ef0cf52b9e0f9a4e4f1d2349e02d1eccfa9326215b3500a07c7",
+              "org_native_membership_5",
+              "a6c34176-c50d-4246-8c03-fda79e9b73ab",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 9. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              11,
+              "2f85cdde8c382ef0cf52b9e0f9a4e4f1d2349e02d1eccfa9326215b3500a07c7",
+              "8339254b5d5d86b7cd4c58f141c7710197afaf7903aa6184fd2444569facdd5e",
+              "org_native_membership_5",
+              "97aed98c-be48-4084-81b7-dde758ad78c9",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 10. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              12,
+              "8339254b5d5d86b7cd4c58f141c7710197afaf7903aa6184fd2444569facdd5e",
+              "c8ebfcb94ee1c6adcd79c3a12fe423c62b50a680e6e3700ed782eebf60815dca",
+              "org_native_membership_5",
+              "8eec8a1a-6a09-4147-a9f9-dec4cfe93aec",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 11. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              13,
+              "c8ebfcb94ee1c6adcd79c3a12fe423c62b50a680e6e3700ed782eebf60815dca",
+              "d8b222bb0bf211052a63c15bce90feaa2915a433caa550f40cb7672ab6f7177e",
+              "org_native_membership_5",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_5",
+              "7f3432fb-a857-4a48-b741-f0a04f93cc80",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_5",
+              "Synthetic native chunk 12. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              14,
+              "d8b222bb0bf211052a63c15bce90feaa2915a433caa550f40cb7672ab6f7177e",
+              "2984dcf99f3549ad5ea2eb832e8a5457034f9cdd3c8cfac15e12b3a625fbb7f8",
+              "org_native_membership_5",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 7,
+                "last_row_id": 45,
+                "changed_db": true,
+                "size_after": 888832,
+                "rows_read": 9,
+                "rows_written": 38
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 0,
+                "last_row_id": 45,
+                "changed_db": false,
+                "size_after": 888832,
+                "rows_read": 2,
+                "rows_written": 0
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 0,
+                "last_row_id": 45,
+                "changed_db": false,
+                "size_after": 888832,
+                "rows_read": 2,
+                "rows_written": 0
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_5"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_5",
+            "e610f2c6-122e-4bd8-b510-79dc9374b859",
+            "p_meena",
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewPatientRecord",
+            "p_meena",
+            "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 3; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            8,
+            "9d99293f4b91874bac82a3856b4b00263929661e75b03e3771a1553b45bfa8af",
+            "c82eaa2a1374cabe2f9e4e0a2beb995df47cae2fd97bfe7231ad48d14a33dae7",
+            "org_native_membership_5",
+            "synthetic-native-owner",
+            3,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_5",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_5",
+              "e610f2c6-122e-4bd8-b510-79dc9374b859",
+              "p_meena",
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewPatientRecord",
+              "p_meena",
+              "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 3; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              8,
+              "9d99293f4b91874bac82a3856b4b00263929661e75b03e3771a1553b45bfa8af",
+              "c82eaa2a1374cabe2f9e4e0a2beb995df47cae2fd97bfe7231ad48d14a33dae7",
+              "org_native_membership_5",
+              "synthetic-native-owner",
+              3,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 1,
+                "changes": 1,
+                "last_row_id": 46,
+                "changed_db": true,
+                "size_after": 888832,
+                "rows_read": 4,
+                "rows_written": 6
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_6"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_6",
+            "abaa391d-aa17-4bb2-9457-4042a1733a2c",
+            "p_meena",
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewPatientRecord",
+            "p_meena",
+            "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            3,
+            "53cedeedba1b48de2d3ed7ca6134af7ee1f7088348bcec20bab6f4441a5b97b9",
+            "3f44ec72d8501fd0b1f23f46d2d9e87c98442ede0ddcb9a5b3783464513184d6",
+            "org_native_membership_6",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_6",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_6",
+              "abaa391d-aa17-4bb2-9457-4042a1733a2c",
+              "p_meena",
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewPatientRecord",
+              "p_meena",
+              "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              3,
+              "53cedeedba1b48de2d3ed7ca6134af7ee1f7088348bcec20bab6f4441a5b97b9",
+              "3f44ec72d8501fd0b1f23f46d2d9e87c98442ede0ddcb9a5b3783464513184d6",
+              "org_native_membership_6",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 0,
+                "last_row_id": 1,
+                "changed_db": false,
+                "size_after": 905216,
+                "rows_read": 1,
+                "rows_written": 0
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_7"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_7",
+            "adea6971-8a73-44c6-aa35-4979f2254aca",
+            "p_meena",
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewPatientRecord",
+            "p_meena",
+            "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "8eef9a38da4f290cfa629a8665fab00d2bd15e9042708824592c953b9bede47e",
+            "e34ec55be7ed9b3e9ee3eac9541b212d07c81d692bcecf6d4b097b64bccc1a12",
+            "org_native_membership_7",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_7"
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_7"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_7",
+            "adea6971-8a73-44c6-aa35-4979f2254aca",
+            "p_meena",
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewPatientRecord",
+            "p_meena",
+            "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            3,
+            "3714884feb073d8143e8ebf9512c563108136713ecfb5f0fb2b2d52f9ad2d96f",
+            "3f7cc395d84bcb0667b7ce7684c9741d4385ee55b86838483049eb0638b3deb3",
+            "org_native_membership_7",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_7",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_7",
+              "adea6971-8a73-44c6-aa35-4979f2254aca",
+              "p_meena",
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewPatientRecord",
+              "p_meena",
+              "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "8eef9a38da4f290cfa629a8665fab00d2bd15e9042708824592c953b9bede47e",
+              "e34ec55be7ed9b3e9ee3eac9541b212d07c81d692bcecf6d4b097b64bccc1a12",
+              "org_native_membership_7",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "error": {
+            "name": "Error",
+            "message": "D1_ERROR: UNIQUE constraint failed: audit_events.org_id, audit_events.seq: SQLITE_CONSTRAINT (extended: SQLITE_CONSTRAINT_UNIQUE)",
+            "cause": {
+              "name": "Error",
+              "message": "UNIQUE constraint failed: audit_events.org_id, audit_events.seq: SQLITE_CONSTRAINT (extended: SQLITE_CONSTRAINT_UNIQUE)"
+            }
+          }
+        },
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_7",
+              "adea6971-8a73-44c6-aa35-4979f2254aca",
+              "p_meena",
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewPatientRecord",
+              "p_meena",
+              "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              3,
+              "3714884feb073d8143e8ebf9512c563108136713ecfb5f0fb2b2d52f9ad2d96f",
+              "3f7cc395d84bcb0667b7ce7684c9741d4385ee55b86838483049eb0638b3deb3",
+              "org_native_membership_7",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 0,
+                "last_row_id": 52,
+                "changed_db": false,
+                "size_after": 925696,
+                "rows_read": 1,
+                "rows_written": 0
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": [
+        {
+          "name": "Error",
+          "message": "D1_ERROR: UNIQUE constraint failed: audit_events.org_id, audit_events.seq: SQLITE_CONSTRAINT (extended: SQLITE_CONSTRAINT_UNIQUE)",
+          "cause": {
+            "name": "Error",
+            "message": "UNIQUE constraint failed: audit_events.org_id, audit_events.seq: SQLITE_CONSTRAINT (extended: SQLITE_CONSTRAINT_UNIQUE)"
+          }
+        }
+      ]
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_8"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_8",
+            "255096fa-8943-4a6a-a85b-22e45f948f75",
+            "p_meena",
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewPatientRecord",
+            "p_meena",
+            "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "02a5a320abcec5a5512223c8f332368af9dbf910fb2fccb39f6abef4faa3ecb1",
+            "2e906b69b8b016a1f0cbf30831ce4e8499567dcb059dd888208433cea5350c75",
+            "org_native_membership_8",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_8",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_8",
+              "255096fa-8943-4a6a-a85b-22e45f948f75",
+              "p_meena",
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewPatientRecord",
+              "p_meena",
+              "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "02a5a320abcec5a5512223c8f332368af9dbf910fb2fccb39f6abef4faa3ecb1",
+              "2e906b69b8b016a1f0cbf30831ce4e8499567dcb059dd888208433cea5350c75",
+              "org_native_membership_8",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 2,
+                "last_row_id": 55,
+                "changed_db": true,
+                "size_after": 946176,
+                "rows_read": 6,
+                "rows_written": 7
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_9"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_9",
+            "7ec58de6-90b2-4b8e-9723-e20cac6fa219",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 0 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "017b761ea98bece80f7f29adc0d95962bf03805c85056badd684a03225b6befc",
+            "869c48776290393c40528271d5e2fe092627b76ccf3e93b04389ce1bf1d68fa1",
+            "org_native_membership_9",
+            "eb737f00-9ab0-46ed-ae96-7d5f91f72bb1",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 1 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            3,
+            "869c48776290393c40528271d5e2fe092627b76ccf3e93b04389ce1bf1d68fa1",
+            "d985ff236b7c862dfe9e45c592a7e6d51ce32b41c200fabe70b9c492cdb67b43",
+            "org_native_membership_9",
+            "da1da4bb-ec3d-4922-9d75-5aeca1b38ea5",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 2 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            4,
+            "d985ff236b7c862dfe9e45c592a7e6d51ce32b41c200fabe70b9c492cdb67b43",
+            "c04af5d241540415d7f59b2781b7dff882c89bd3349d93a266d964b817b047fe",
+            "org_native_membership_9",
+            "d3387152-78d3-4a80-a899-417aab56af2d",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 3 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            5,
+            "c04af5d241540415d7f59b2781b7dff882c89bd3349d93a266d964b817b047fe",
+            "6dc929dd9ebe1250aeef345866a68045bcaec40c2c55d449b2678ef025418fd8",
+            "org_native_membership_9",
+            "41bc4620-dfb4-4184-8c00-55ff656791a7",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 4 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            6,
+            "6dc929dd9ebe1250aeef345866a68045bcaec40c2c55d449b2678ef025418fd8",
+            "c2e71878a6e632672bf10aa9253e35a2bb8eba0fa7911c5f3c94419c51f673a6",
+            "org_native_membership_9",
+            "dee1a6bb-b06d-4aa9-a595-f2667504300f",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 5 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            7,
+            "c2e71878a6e632672bf10aa9253e35a2bb8eba0fa7911c5f3c94419c51f673a6",
+            "cebce14c544f9a8305c81a207f4e05b2537ec63425c7d9c06d7a72cea04a3b89",
+            "org_native_membership_9",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_9",
+            "f01cba9c-f4eb-475b-8fd7-15d108d25d10",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 6 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            8,
+            "cebce14c544f9a8305c81a207f4e05b2537ec63425c7d9c06d7a72cea04a3b89",
+            "c1a3e816574239074437ac7df03e2f94f3fb5e675bb6748e73f730610ed38c8d",
+            "org_native_membership_9",
+            "60d5157c-c119-493e-b33e-3ed637a06e5e",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 7 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            9,
+            "c1a3e816574239074437ac7df03e2f94f3fb5e675bb6748e73f730610ed38c8d",
+            "2a65e169031324ee311381fb84d2ea719c1d33bc5a80d6d6a7e20192274756f0",
+            "org_native_membership_9",
+            "0d1b592d-e6a7-4d24-a94b-2b5f70d186e7",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 8 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            10,
+            "2a65e169031324ee311381fb84d2ea719c1d33bc5a80d6d6a7e20192274756f0",
+            "7b4c4d57e7d2958976a27ce0398d5381924c2bcc14bf2caa33284e6e9066297d",
+            "org_native_membership_9",
+            "0f05b5b8-16aa-4a00-a3b3-17c4a1b92a3a",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 9 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            11,
+            "7b4c4d57e7d2958976a27ce0398d5381924c2bcc14bf2caa33284e6e9066297d",
+            "966e942c3c8fcb6b22fefdf9116de74f0f9671bf2c87a1c858a497703a24ed15",
+            "org_native_membership_9",
+            "ab41701a-35ed-48f4-98d7-1948b79cc363",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 10 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            12,
+            "966e942c3c8fcb6b22fefdf9116de74f0f9671bf2c87a1c858a497703a24ed15",
+            "d163dbab610375ad54660e28caf3912e6ca8c09109139cbb956569dbcd57a955",
+            "org_native_membership_9",
+            "92e65455-de02-481c-a505-28decaa6985b",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 11 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            13,
+            "d163dbab610375ad54660e28caf3912e6ca8c09109139cbb956569dbcd57a955",
+            "2b4eecfdec21f0ea3daae3b8a6d3210c66645db44456fda7442999eb227d49dd",
+            "org_native_membership_9",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_9",
+            "33172813-93dc-4d32-a191-dcfe4110da2d",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_9",
+            "Synthetic native extra 12 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            14,
+            "2b4eecfdec21f0ea3daae3b8a6d3210c66645db44456fda7442999eb227d49dd",
+            "acfc748f5fee11892d0c75d73c17dae86a18097639bd86c4f94f5f64eeb8ed2f",
+            "org_native_membership_9",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_9",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_9",
+              "7ec58de6-90b2-4b8e-9723-e20cac6fa219",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 0 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "017b761ea98bece80f7f29adc0d95962bf03805c85056badd684a03225b6befc",
+              "869c48776290393c40528271d5e2fe092627b76ccf3e93b04389ce1bf1d68fa1",
+              "org_native_membership_9",
+              "eb737f00-9ab0-46ed-ae96-7d5f91f72bb1",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 1 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              3,
+              "869c48776290393c40528271d5e2fe092627b76ccf3e93b04389ce1bf1d68fa1",
+              "d985ff236b7c862dfe9e45c592a7e6d51ce32b41c200fabe70b9c492cdb67b43",
+              "org_native_membership_9",
+              "da1da4bb-ec3d-4922-9d75-5aeca1b38ea5",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 2 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              4,
+              "d985ff236b7c862dfe9e45c592a7e6d51ce32b41c200fabe70b9c492cdb67b43",
+              "c04af5d241540415d7f59b2781b7dff882c89bd3349d93a266d964b817b047fe",
+              "org_native_membership_9",
+              "d3387152-78d3-4a80-a899-417aab56af2d",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 3 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              5,
+              "c04af5d241540415d7f59b2781b7dff882c89bd3349d93a266d964b817b047fe",
+              "6dc929dd9ebe1250aeef345866a68045bcaec40c2c55d449b2678ef025418fd8",
+              "org_native_membership_9",
+              "41bc4620-dfb4-4184-8c00-55ff656791a7",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 4 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              6,
+              "6dc929dd9ebe1250aeef345866a68045bcaec40c2c55d449b2678ef025418fd8",
+              "c2e71878a6e632672bf10aa9253e35a2bb8eba0fa7911c5f3c94419c51f673a6",
+              "org_native_membership_9",
+              "dee1a6bb-b06d-4aa9-a595-f2667504300f",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 5 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              7,
+              "c2e71878a6e632672bf10aa9253e35a2bb8eba0fa7911c5f3c94419c51f673a6",
+              "cebce14c544f9a8305c81a207f4e05b2537ec63425c7d9c06d7a72cea04a3b89",
+              "org_native_membership_9",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_9",
+              "f01cba9c-f4eb-475b-8fd7-15d108d25d10",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 6 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              8,
+              "cebce14c544f9a8305c81a207f4e05b2537ec63425c7d9c06d7a72cea04a3b89",
+              "c1a3e816574239074437ac7df03e2f94f3fb5e675bb6748e73f730610ed38c8d",
+              "org_native_membership_9",
+              "60d5157c-c119-493e-b33e-3ed637a06e5e",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 7 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              9,
+              "c1a3e816574239074437ac7df03e2f94f3fb5e675bb6748e73f730610ed38c8d",
+              "2a65e169031324ee311381fb84d2ea719c1d33bc5a80d6d6a7e20192274756f0",
+              "org_native_membership_9",
+              "0d1b592d-e6a7-4d24-a94b-2b5f70d186e7",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 8 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              10,
+              "2a65e169031324ee311381fb84d2ea719c1d33bc5a80d6d6a7e20192274756f0",
+              "7b4c4d57e7d2958976a27ce0398d5381924c2bcc14bf2caa33284e6e9066297d",
+              "org_native_membership_9",
+              "0f05b5b8-16aa-4a00-a3b3-17c4a1b92a3a",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 9 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              11,
+              "7b4c4d57e7d2958976a27ce0398d5381924c2bcc14bf2caa33284e6e9066297d",
+              "966e942c3c8fcb6b22fefdf9116de74f0f9671bf2c87a1c858a497703a24ed15",
+              "org_native_membership_9",
+              "ab41701a-35ed-48f4-98d7-1948b79cc363",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 10 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              12,
+              "966e942c3c8fcb6b22fefdf9116de74f0f9671bf2c87a1c858a497703a24ed15",
+              "d163dbab610375ad54660e28caf3912e6ca8c09109139cbb956569dbcd57a955",
+              "org_native_membership_9",
+              "92e65455-de02-481c-a505-28decaa6985b",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 11 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              13,
+              "d163dbab610375ad54660e28caf3912e6ca8c09109139cbb956569dbcd57a955",
+              "2b4eecfdec21f0ea3daae3b8a6d3210c66645db44456fda7442999eb227d49dd",
+              "org_native_membership_9",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_9",
+              "33172813-93dc-4d32-a191-dcfe4110da2d",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_9",
+              "Synthetic native extra 12 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              14,
+              "2b4eecfdec21f0ea3daae3b8a6d3210c66645db44456fda7442999eb227d49dd",
+              "acfc748f5fee11892d0c75d73c17dae86a18097639bd86c4f94f5f64eeb8ed2f",
+              "org_native_membership_9",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 12,
+                "last_row_id": 63,
+                "changed_db": true,
+                "size_after": 974848,
+                "rows_read": 14,
+                "rows_written": 42
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 1,
+                "changes": 12,
+                "last_row_id": 69,
+                "changed_db": true,
+                "size_after": 974848,
+                "rows_read": 14,
+                "rows_written": 42
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 2,
+                "last_row_id": 70,
+                "changed_db": true,
+                "size_after": 974848,
+                "rows_read": 6,
+                "rows_written": 7
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [],
+      "batches": [],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_10_extra_cold"
+          ]
+        },
+        {
+          "kind": "all",
+          "sql": "SELECT org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at FROM audit_events WHERE org_id=? AND seq IS NULL ORDER BY at,id LIMIT 500",
+          "args": [
+            "org_native_membership_10_extra_cold"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_10_extra_cold",
+            "audit-chain-genesis",
+            null,
+            "system",
+            "Saha audit chain",
+            "system",
+            "auditChainGenesis",
+            "org_native_membership_10_extra_cold",
+            "Audit chain started (saha-audit-chain-v1). Earlier events sealed without rewriting: count=0; last=none|none; digest=bb3cddd6380ff1aa99d4af629e2cf24f73a3ff235f2f54847ed444a65e997930; page=500.",
+            "2026-10-10T20:05:36.801Z",
+            0,
+            "0000000000000000000000000000000000000000000000000000000000000000",
+            "81df736201e4d1002bff2c19bd0822cf2b85a533bfc1cbfadf93637670e333bc",
+            "org_native_membership_10_extra_cold",
+            "01dec06f-a311-4775-9c3f-43866faa1aeb",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 0 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            1,
+            "81df736201e4d1002bff2c19bd0822cf2b85a533bfc1cbfadf93637670e333bc",
+            "191c2df657fb9822e82b0c66d3b9def59d6e5d08dbe886576410a515b7849a45",
+            "org_native_membership_10_extra_cold",
+            "22eddb86-2809-4f5e-9e68-e4e5afc0a18f",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 1 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "191c2df657fb9822e82b0c66d3b9def59d6e5d08dbe886576410a515b7849a45",
+            "c7a328189a9a236503a3bae73b443b46cfc488c6dc867be9961770e41c6b3dae",
+            "org_native_membership_10_extra_cold",
+            "68bb2c59-ae85-4934-b3c0-2d18ee993229",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 2 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            3,
+            "c7a328189a9a236503a3bae73b443b46cfc488c6dc867be9961770e41c6b3dae",
+            "ac9c3a0d2618f7c2c32fc91c24a23f9a36223f871e5a8e4de217c3e3ab2c6038",
+            "org_native_membership_10_extra_cold",
+            "d0c157f3-b1cd-4738-a7d7-3bf0a3d84a07",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 3 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            4,
+            "ac9c3a0d2618f7c2c32fc91c24a23f9a36223f871e5a8e4de217c3e3ab2c6038",
+            "0c2cc1c5bed57744df3951a9331ffaf5243e943b2f5b5e72425bce7e3a4587b9",
+            "org_native_membership_10_extra_cold",
+            "15193d49-d64d-4b73-bb03-e79913d0482e",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 4 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            5,
+            "0c2cc1c5bed57744df3951a9331ffaf5243e943b2f5b5e72425bce7e3a4587b9",
+            "a3ff3b5e61e7ff7e26fe1570d41dd7c6e59b2bfd6e89a1b40587c4b54f4b0b16",
+            "org_native_membership_10_extra_cold",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_10_extra_cold",
+            "7f8cf114-8493-4398-845f-fd5240fd55ed",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 5 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            6,
+            "a3ff3b5e61e7ff7e26fe1570d41dd7c6e59b2bfd6e89a1b40587c4b54f4b0b16",
+            "d8fc258e399ca63844424b1650c6f3cf6de6f9ef269a85e8a1fc368d6020f7d2",
+            "org_native_membership_10_extra_cold",
+            "9ad5bcf2-91bd-4c66-a6e1-45a222765876",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 6 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            7,
+            "d8fc258e399ca63844424b1650c6f3cf6de6f9ef269a85e8a1fc368d6020f7d2",
+            "afbf08d6711a32276c62e961855f34649241fb97f09179b997e715d246205302",
+            "org_native_membership_10_extra_cold",
+            "f389d25b-fb93-4811-8f6f-ba90aa0abc9d",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 7 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            8,
+            "afbf08d6711a32276c62e961855f34649241fb97f09179b997e715d246205302",
+            "9dd6e0b51ba4355fe1d804d60750dfe4eef7ac7b89e254487726c3e3630af46a",
+            "org_native_membership_10_extra_cold",
+            "1747429f-90d8-4199-b62a-51c9a4e651c7",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 8 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            9,
+            "9dd6e0b51ba4355fe1d804d60750dfe4eef7ac7b89e254487726c3e3630af46a",
+            "b4dba5b2500f55c5192ba003fdd2a0599090d2fb85e8d7ecb8f931b3a0e6b28b",
+            "org_native_membership_10_extra_cold",
+            "1e5b7509-d1d3-40a0-a470-c8e97726863d",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 9 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            10,
+            "b4dba5b2500f55c5192ba003fdd2a0599090d2fb85e8d7ecb8f931b3a0e6b28b",
+            "9e836441f6d4eb8044c9dea402b8e22f8d1b97f5958e3d1b935c1dfaf64a780d",
+            "org_native_membership_10_extra_cold",
+            "80c91058-b723-4080-bbcb-28860beab34f",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 10 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            11,
+            "9e836441f6d4eb8044c9dea402b8e22f8d1b97f5958e3d1b935c1dfaf64a780d",
+            "23acd11584f08f6afae5098a1d6469e1740c6c2dbe8f7dff18dae0439f71a909",
+            "org_native_membership_10_extra_cold",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_10_extra_cold",
+            "f1973caf-c31e-45ab-8579-1fdfebf615ae",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 11 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            12,
+            "23acd11584f08f6afae5098a1d6469e1740c6c2dbe8f7dff18dae0439f71a909",
+            "d8d51286e5b18b2b76807c8e7816d5d740f6c1e6ea4940eba6354f73967e495b",
+            "org_native_membership_10_extra_cold",
+            "01c122f8-96a2-44af-8772-1a225a68acff",
+            null,
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewWorkspace",
+            "org_native_membership_10_extra_cold",
+            "Synthetic native cold extra 12 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            13,
+            "d8d51286e5b18b2b76807c8e7816d5d740f6c1e6ea4940eba6354f73967e495b",
+            "cce30f76c818e1ab07d529183ff5835f60dbddcf5a9be8102dadd2b60f1b7e01",
+            "org_native_membership_10_extra_cold",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_10_extra_cold",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_10_extra_cold",
+              "audit-chain-genesis",
+              null,
+              "system",
+              "Saha audit chain",
+              "system",
+              "auditChainGenesis",
+              "org_native_membership_10_extra_cold",
+              "Audit chain started (saha-audit-chain-v1). Earlier events sealed without rewriting: count=0; last=none|none; digest=bb3cddd6380ff1aa99d4af629e2cf24f73a3ff235f2f54847ed444a65e997930; page=500.",
+              "2026-10-10T20:05:36.801Z",
+              0,
+              "0000000000000000000000000000000000000000000000000000000000000000",
+              "81df736201e4d1002bff2c19bd0822cf2b85a533bfc1cbfadf93637670e333bc",
+              "org_native_membership_10_extra_cold",
+              "01dec06f-a311-4775-9c3f-43866faa1aeb",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 0 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              1,
+              "81df736201e4d1002bff2c19bd0822cf2b85a533bfc1cbfadf93637670e333bc",
+              "191c2df657fb9822e82b0c66d3b9def59d6e5d08dbe886576410a515b7849a45",
+              "org_native_membership_10_extra_cold",
+              "22eddb86-2809-4f5e-9e68-e4e5afc0a18f",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 1 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "191c2df657fb9822e82b0c66d3b9def59d6e5d08dbe886576410a515b7849a45",
+              "c7a328189a9a236503a3bae73b443b46cfc488c6dc867be9961770e41c6b3dae",
+              "org_native_membership_10_extra_cold",
+              "68bb2c59-ae85-4934-b3c0-2d18ee993229",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 2 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              3,
+              "c7a328189a9a236503a3bae73b443b46cfc488c6dc867be9961770e41c6b3dae",
+              "ac9c3a0d2618f7c2c32fc91c24a23f9a36223f871e5a8e4de217c3e3ab2c6038",
+              "org_native_membership_10_extra_cold",
+              "d0c157f3-b1cd-4738-a7d7-3bf0a3d84a07",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 3 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              4,
+              "ac9c3a0d2618f7c2c32fc91c24a23f9a36223f871e5a8e4de217c3e3ab2c6038",
+              "0c2cc1c5bed57744df3951a9331ffaf5243e943b2f5b5e72425bce7e3a4587b9",
+              "org_native_membership_10_extra_cold",
+              "15193d49-d64d-4b73-bb03-e79913d0482e",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 4 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              5,
+              "0c2cc1c5bed57744df3951a9331ffaf5243e943b2f5b5e72425bce7e3a4587b9",
+              "a3ff3b5e61e7ff7e26fe1570d41dd7c6e59b2bfd6e89a1b40587c4b54f4b0b16",
+              "org_native_membership_10_extra_cold",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_10_extra_cold",
+              "7f8cf114-8493-4398-845f-fd5240fd55ed",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 5 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              6,
+              "a3ff3b5e61e7ff7e26fe1570d41dd7c6e59b2bfd6e89a1b40587c4b54f4b0b16",
+              "d8fc258e399ca63844424b1650c6f3cf6de6f9ef269a85e8a1fc368d6020f7d2",
+              "org_native_membership_10_extra_cold",
+              "9ad5bcf2-91bd-4c66-a6e1-45a222765876",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 6 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              7,
+              "d8fc258e399ca63844424b1650c6f3cf6de6f9ef269a85e8a1fc368d6020f7d2",
+              "afbf08d6711a32276c62e961855f34649241fb97f09179b997e715d246205302",
+              "org_native_membership_10_extra_cold",
+              "f389d25b-fb93-4811-8f6f-ba90aa0abc9d",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 7 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              8,
+              "afbf08d6711a32276c62e961855f34649241fb97f09179b997e715d246205302",
+              "9dd6e0b51ba4355fe1d804d60750dfe4eef7ac7b89e254487726c3e3630af46a",
+              "org_native_membership_10_extra_cold",
+              "1747429f-90d8-4199-b62a-51c9a4e651c7",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 8 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              9,
+              "9dd6e0b51ba4355fe1d804d60750dfe4eef7ac7b89e254487726c3e3630af46a",
+              "b4dba5b2500f55c5192ba003fdd2a0599090d2fb85e8d7ecb8f931b3a0e6b28b",
+              "org_native_membership_10_extra_cold",
+              "1e5b7509-d1d3-40a0-a470-c8e97726863d",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 9 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              10,
+              "b4dba5b2500f55c5192ba003fdd2a0599090d2fb85e8d7ecb8f931b3a0e6b28b",
+              "9e836441f6d4eb8044c9dea402b8e22f8d1b97f5958e3d1b935c1dfaf64a780d",
+              "org_native_membership_10_extra_cold",
+              "80c91058-b723-4080-bbcb-28860beab34f",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 10 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              11,
+              "9e836441f6d4eb8044c9dea402b8e22f8d1b97f5958e3d1b935c1dfaf64a780d",
+              "23acd11584f08f6afae5098a1d6469e1740c6c2dbe8f7dff18dae0439f71a909",
+              "org_native_membership_10_extra_cold",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ],
+            [
+              "org_native_membership_10_extra_cold",
+              "f1973caf-c31e-45ab-8579-1fdfebf615ae",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 11 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              12,
+              "23acd11584f08f6afae5098a1d6469e1740c6c2dbe8f7dff18dae0439f71a909",
+              "d8d51286e5b18b2b76807c8e7816d5d740f6c1e6ea4940eba6354f73967e495b",
+              "org_native_membership_10_extra_cold",
+              "01c122f8-96a2-44af-8772-1a225a68acff",
+              null,
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewWorkspace",
+              "org_native_membership_10_extra_cold",
+              "Synthetic native cold extra 12 Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              13,
+              "d8d51286e5b18b2b76807c8e7816d5d740f6c1e6ea4940eba6354f73967e495b",
+              "cce30f76c818e1ab07d529183ff5835f60dbddcf5a9be8102dadd2b60f1b7e01",
+              "org_native_membership_10_extra_cold",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 11,
+                "last_row_id": 78,
+                "changed_db": true,
+                "size_after": 1011712,
+                "rows_read": 13,
+                "rows_written": 41
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 1,
+                "changes": 12,
+                "last_row_id": 84,
+                "changed_db": true,
+                "size_after": 1015808,
+                "rows_read": 14,
+                "rows_written": 42
+              },
+              "results": []
+            },
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 4,
+                "last_row_id": 86,
+                "changed_db": true,
+                "size_after": 1015808,
+                "rows_read": 6,
+                "rows_written": 14
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    },
+    {
+      "calls": [
+        {
+          "kind": "first",
+          "sql": "SELECT seq,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1",
+          "args": [
+            "org_native_membership_11"
+          ]
+        },
+        {
+          "kind": "batch",
+          "sql": "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",
+          "args": [
+            "org_native_membership_11",
+            "4ac5ed58-c858-400f-90fa-fed19d54b49f",
+            "p_meena",
+            "synthetic-native-owner",
+            "Synthetic native owner",
+            "clinician",
+            "viewPatientRecord",
+            "p_meena",
+            "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+            "2026-10-10T00:00:00.000Z",
+            2,
+            "013b1080c64212912cc1374bd64d7a65f1a76f434e4df020c56bbcc8c0f54609",
+            "d10fe278c7d17b4195aee9ad2836d11e7f8c71058ef210f8279c6358d8961a5c",
+            "org_native_membership_11",
+            "synthetic-native-owner",
+            1,
+            "clinician",
+            1
+          ]
+        },
+        {
+          "kind": "first",
+          "sql": "SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?",
+          "args": [
+            "org_native_membership_11",
+            "synthetic-native-owner"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "sql": [
+            "INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash) SELECT column1,column2,column3,column4,column5,column6,column7,column8,column9,column10,column11,column12,column13 FROM (VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)) WHERE EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)"
+          ],
+          "arguments": [
+            [
+              "org_native_membership_11",
+              "4ac5ed58-c858-400f-90fa-fed19d54b49f",
+              "p_meena",
+              "synthetic-native-owner",
+              "Synthetic native owner",
+              "clinician",
+              "viewPatientRecord",
+              "p_meena",
+              "Synthetic native private record gate. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.",
+              "2026-10-10T00:00:00.000Z",
+              2,
+              "013b1080c64212912cc1374bd64d7a65f1a76f434e4df020c56bbcc8c0f54609",
+              "d10fe278c7d17b4195aee9ad2836d11e7f8c71058ef210f8279c6358d8961a5c",
+              "org_native_membership_11",
+              "synthetic-native-owner",
+              1,
+              "clinician",
+              1
+            ]
+          ],
+          "rawResults": [
+            {
+              "success": true,
+              "meta": {
+                "served_by": "miniflare.db",
+                "duration": 0,
+                "changes": 2,
+                "last_row_id": 11,
+                "changed_db": true,
+                "size_after": 1052672,
+                "rows_read": 7,
+                "rows_written": 2
+              },
+              "results": []
+            }
+          ]
+        }
+      ],
+      "failures": []
+    }
+  ],
+  "elapsedMs": 1465.4069590000001,
+  "sourceExecution": "Exact source-transpiled helper functions called with actual native Miniflare D1 binding; recording adapter forwards native statements/results unchanged",
+  "scope": "Synthetic native helper/SQL metadata only. No built-bundle HTTP/browser, provider, global patient scope, physical deviceNFR, CI or formal acceptance."
+}

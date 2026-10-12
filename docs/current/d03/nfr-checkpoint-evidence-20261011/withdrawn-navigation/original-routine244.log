@@ -1,0 +1,32 @@
+PASS A1 open creates no draft
+PASS A5 one-person projection only
+PASS A5 refusal anonymous personId=p_meena tenant org_c9d2e605e8f85ceb878a3004679aadc1
+PASS A5 refusal owner personId=p_meena tenant org_c9d2e605e8f85ceb878a3004679aadc1
+PASS A5 refusal other personId=p_meena tenant org_c9d2e605e8f85ceb878a3004679aadc1
+PASS A5 refusal asha personId=p_sunita tenant org_c9d2e605e8f85ceb878a3004679aadc1
+PASS A5 refusal asha personId=p_meena tenant org_a0c6bb21456ee3390fd6bdd600faf722
+PASS A5 refusal asha personId=p_meena&personId=p_farida tenant org_c9d2e605e8f85ceb878a3004679aadc1
+PASS A4 start replay does not duplicate
+PASS A4 explicit start resolves existing draft
+PASS A1 exact compatible three-programme fixture pinned
+PASS A3 ambiguous value refused without mutation
+PASS A3 wrong start person refused
+PASS A3 wrong-person visit save refused
+PASS A5 arbitrary command refused
+PASS A2 canonical and entered unit preserved
+PASS A2 trusted author and observation time
+PASS A4 saved operation replay retains exact revision
+PASS A4 same key changed content refused
+PASS A3 stale version changes nothing
+PASS A3 wrong checked person changes nothing
+PASS A5 Today routine link retains the selected organisation
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.waitForResponse: Timeout 30000ms exceeded while waiting for event "response"
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-d03-navigation-network-diagnostic-20261011/tests/smoke/routine-visit-browser.mjs:58:26 {
+  name: 'TimeoutError'
+}
+
+Node.js v24.21.0

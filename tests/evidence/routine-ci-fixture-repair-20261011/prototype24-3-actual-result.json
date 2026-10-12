@@ -1,0 +1,155 @@
+{
+  "suite": "Test runner, catalogue and regression guard (slice 11a)",
+  "layer": "unit",
+  "passed": 24,
+  "failed": 3,
+  "skipped": 0,
+  "startedAt": "2026-10-11T11:37:05.894Z",
+  "completedAt": "2026-10-11T11:37:15.687Z",
+  "environment": "throw-away git repositories under the system temporary directory; no Worker, no network",
+  "limits": [
+    "Exercises the runner on small fixture suites; it does not run the real product suites (the integration layer does).",
+    "GitHub Actions behaviour of the new workflows is not covered."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "every rule from the brief classifies to exactly one layer",
+      "ok": false,
+      "ms": 1,
+      "error": "tests/alerts-contract.mjs\n\n'manual' !== 'unit'\n"
+    },
+    {
+      "label": "files that match no rule are unclassified, support files are not suites",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "the repository catalogue is complete: no errors, every file classified, at least the 105 suites the CI contract loop ran",
+      "ok": false,
+      "ms": 33,
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'Two suites share the id unit/test-runner-contract.'\n+ ]\n- []\n"
+    },
+    {
+      "label": "the repository catalogue ties tests to requirements through the evidence map",
+      "ok": true,
+      "ms": 24
+    },
+    {
+      "label": "an unclassified test file fails the catalogue",
+      "ok": true,
+      "ms": 85
+    },
+    {
+      "label": "a *-smoke.mjs module that tests/api-smoke.mjs does not import fails the catalogue",
+      "ok": true,
+      "ms": 77
+    },
+    {
+      "label": "an import of a module that does not exist, and a missing entry file, fail the catalogue",
+      "ok": true,
+      "ms": 142
+    },
+    {
+      "label": "new layer directories are discovered when they appear and their support folders are not suites",
+      "ok": true,
+      "ms": 77
+    },
+    {
+      "label": "Playwright specs need a configuration",
+      "ok": true,
+      "ms": 90
+    },
+    {
+      "label": "requirement ids come from the evidence map the way the audit resolves them (exact id, else group key)",
+      "ok": true,
+      "ms": 73
+    },
+    {
+      "label": "counts are read from the existing result files, the report library, Playwright and the last JSON line of output",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "status: a non-zero exit, a reported failure, a timeout and a suite that checks nothing all fail; an all-skipped suite is skipped, not passed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "guard: equal or higher counts pass; a drop of one assertion fails and names the suite",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "guard: a suite that disappeared from the catalogue, did not report, or reported no count fails",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "guard: suites outside this run are not evaluated; an existence-only baseline fails only when the suite fails or goes",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "guard: quarantine excuses a drop only with a reason and a date; stale entries warn; new suites are reported",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "baseline update: raising is free; lowering or removing needs a reason that is logged; a failed suite refuses the update",
+      "ok": true,
+      "ms": 4
+    },
+    {
+      "label": "runner: results from old-style files and the report library are counted, layers without a directory are \"not present\", the tree is restored",
+      "ok": false,
+      "ms": 382,
+      "error": "The input did not match the regular expression /not present: tests\\/smoke\\/ does not exist/. Input:\n\n'Running unit smoke; 3 suite(s).\\n' +\n  '\\n' +\n  '[unit] 3 suite(s)\\n' +\n  '  ok       unit/alpha-contract  3 passed  27ms\\n' +\n  '  ok       unit/beta-client  2 passed, 1 skipped  27ms\\n' +\n  '  ok       unit/gamma-contract  1 passed  21ms\\n' +\n  '\\n' +\n  '[smoke] not present: no suites.\\n' +\n  '\\n' +\n  '  layer  status       suites  passed  failed  skipped   time\\n' +\n  '  -----  -----------  ------  ------  ------  -------  -----\\n' +\n  '  unit   passed            3       6       0        1   75ms\\n' +\n  '  smoke  not present       -       -       -        -      -\\n' +\n  '  total  passed            3       6       0        1  170ms\\n' +\n  '\\n' +\n  'Restored 1 tracked file(s) and deleted 2 untracked result file(s) so the tree matches HEAD.\\n'\n"
+    },
+    {
+      "label": "runner: a failing suite makes the run fail and is reported with its exit code",
+      "ok": true,
+      "ms": 365
+    },
+    {
+      "label": "runner: a manual suite that reads credentials on stdin is blocked with a reason, never started (pull request #126)",
+      "ok": true,
+      "ms": 273
+    },
+    {
+      "label": "runner: a report written by an earlier suite is never counted for a later one, however close in time (slice 11h, the GitHub flake)",
+      "ok": true,
+      "ms": 400
+    },
+    {
+      "label": "runner: a suite that exits 0 but checks nothing is a failure, not a pass",
+      "ok": true,
+      "ms": 366
+    },
+    {
+      "label": "runner: --check-catalogue fails on a stray test file and on an unimported *-smoke.mjs module, and passes otherwise",
+      "ok": true,
+      "ms": 305
+    },
+    {
+      "label": "runner: the regression guard fails when a suite drops below its baseline or disappears, and --update-baseline is deliberate",
+      "ok": true,
+      "ms": 1774
+    },
+    {
+      "label": "runner: the UI layer runs a Playwright configuration through the installed binary and reads its stats; without Playwright it is blocked, not skipped",
+      "ok": true,
+      "ms": 814
+    },
+    {
+      "label": "runner: a suite that exceeds its time limit fails as timed out and the processes it started are stopped with it",
+      "ok": true,
+      "ms": 3644
+    },
+    {
+      "label": "runner: --only runs one suite, and an unknown id is a usage error",
+      "ok": true,
+      "ms": 375
+    }
+  ]
+}

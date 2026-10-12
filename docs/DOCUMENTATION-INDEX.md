@@ -31,3 +31,13 @@ All 176 BRD acceptance criteria remain pending. The audited implementation count
 Current specifications use Markdown and registers use CSV/JSON for GitHub review and maintenance. The original editable Word and Excel files remain available in history. Their original statuses have not been silently rewritten or presented as current execution results.
 
 - [D02 frozen specification](current/d02/SPECIFICATION.md) — isolated assigned-list/read-only identity-context delivery.
+
+## Active D03 story
+
+[Frozen D03 specification](current/d03/SPECIFICATION.md) describes the bounded routine review/save contract and delivery gates, after D02 exact-host synthetic delivery. Final D03 evidence is pending; no parent/formal acceptance is claimed.
+
+## D03 sequential recovery checkpoint
+
+[Current recovery and resume record](current/d03/OVERNIGHT-RECOVERY-20261011.md), [append-only evidence](current/d03/EVIDENCE-20261011-RECOVERY.json) and [unchanged frozen specification](current/d03/SPECIFICATION.md) describe this candidate and the remaining delivery gates.
+
+[Static UAT mapping follow-up](current/d03/EVIDENCE-20261011-UAT-MAP.json) retains the failed initial gate and generated-script consistency repair; formal results remain unchanged.

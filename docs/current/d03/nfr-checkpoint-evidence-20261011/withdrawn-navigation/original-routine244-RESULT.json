@@ -1,0 +1,95 @@
+{
+  "passed": 22,
+  "failed": 1,
+  "checks": [
+    "A1 open creates no draft",
+    "A5 one-person projection only",
+    "A5 refusal anonymous personId=p_meena tenant org_c9d2e605e8f85ceb878a3004679aadc1",
+    "A5 refusal owner personId=p_meena tenant org_c9d2e605e8f85ceb878a3004679aadc1",
+    "A5 refusal other personId=p_meena tenant org_c9d2e605e8f85ceb878a3004679aadc1",
+    "A5 refusal asha personId=p_sunita tenant org_c9d2e605e8f85ceb878a3004679aadc1",
+    "A5 refusal asha personId=p_meena tenant org_a0c6bb21456ee3390fd6bdd600faf722",
+    "A5 refusal asha personId=p_meena&personId=p_farida tenant org_c9d2e605e8f85ceb878a3004679aadc1",
+    "A4 start replay does not duplicate",
+    "A4 explicit start resolves existing draft",
+    "A1 exact compatible three-programme fixture pinned",
+    "A3 ambiguous value refused without mutation",
+    "A3 wrong start person refused",
+    "A3 wrong-person visit save refused",
+    "A5 arbitrary command refused",
+    "A2 canonical and entered unit preserved",
+    "A2 trusted author and observation time",
+    "A4 saved operation replay retains exact revision",
+    "A4 same key changed content refused",
+    "A3 stale version changes nothing",
+    "A3 wrong checked person changes nothing",
+    "A5 Today routine link retains the selected organisation"
+  ],
+  "error": "TimeoutError: page.waitForResponse: Timeout 30000ms exceeded while waiting for event \"response\"",
+  "timings": {
+    "server": [
+      {
+        "type": "startVisit",
+        "status": 200,
+        "ms": 17.13429199999996
+      },
+      {
+        "type": "startVisit",
+        "status": 200,
+        "ms": 14.228583000000071
+      },
+      {
+        "type": "startVisit",
+        "status": 200,
+        "ms": 14.082667000000129
+      },
+      {
+        "type": "saveVisit",
+        "status": 422,
+        "ms": 4.922208000000182
+      },
+      {
+        "type": "startVisit",
+        "status": 409,
+        "ms": 4.514791999999943
+      },
+      {
+        "type": "saveVisit",
+        "status": 404,
+        "ms": 4.048832999999831
+      },
+      {
+        "type": "toggleIntegration",
+        "status": 422,
+        "ms": 1.5972920000001523
+      },
+      {
+        "type": "saveVisit",
+        "status": 200,
+        "ms": 15.329625000000078
+      },
+      {
+        "type": "saveVisit",
+        "status": 200,
+        "ms": 13.057125000000042
+      },
+      {
+        "type": "saveVisit",
+        "status": 409,
+        "ms": 9.63458300000002
+      },
+      {
+        "type": "saveVisit",
+        "status": 409,
+        "ms": 12.670208000000002
+      },
+      {
+        "type": "confirmVisit",
+        "status": 409,
+        "ms": 12.172458000000006
+      }
+    ],
+    "local": []
+  },
+  "layoutObservations": []
+}

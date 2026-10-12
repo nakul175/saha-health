@@ -1,0 +1,492 @@
+// NEW external synthetic qualification control; unchanged runtime and original tests.
+// Never run concurrently with another Worker/browser/performance lane.
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { connect } from 'node:net';
+import { startWorker, identity, client } from '../lib/worker.mjs';
+import { installDeviceObserver, installConnectedObserver } from './d03-ui-observer.mjs';
+
+const frozen = {
+  'lib/saha/store.ts': 'a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb',
+  'lib/saha/access-audit.ts': '22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a',
+  'public/field/app.js': '58b1ea093958d1a4def8f679af8b0de04c59b18fab231ff01ae22692ae5f74dd',
+  'public/field/vault.js': '67c5135c4d758e1138fc710e73ecaec6ca43a092e2e43ce6c16b1ee65f587210',
+  'public/field/app-grants.js': 'e843d0964da8d9fa5593a2bb5f24e9dc38798df471c7ae12444da5f18fc040d9',
+  'docs/current/d03/SPECIFICATION.md': 'f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df',
+};
+const hash = value => createHash('sha256').update(value).digest('hex');
+for (const [path, sha] of Object.entries(frozen)) assert.equal(hash(readFileSync(path)), sha, 'Frozen measurement input ' + path);
+const validateOnly = process.argv.includes('--validate-only');
+const reduced = process.argv.includes('--diagnostic-small');
+const samplesPerPath = reduced ? 3 : 1000;
+const cohorts = reduced ? 1 : 5, perCohort = reduced ? 3 : 200;
+assert.equal(cohorts * perCohort, samplesPerPath);
+const folder = resolve(process.env.SAHA_UI_NFR_EVIDENCE ?? 'tests/reports/d03-real-ui-new-control');
+assert.ok(!existsSync(folder), 'Use NEW evidence directory: prior failures/results are immutable');
+mkdirSync(folder, { recursive: true });
+const mode = process.env.SAHA_UI_NFR_MODE ?? 'all';
+assert.ok(['all', 'device', 'connected'].includes(mode));
+const port = process.env.SAHA_TEST_PORT ?? '20740';
+const state = process.env.SAHA_UI_NFR_STATE ?? '.wrangler/d03-real-ui-nfr-new-control';
+const authorisedDeadline = Date.parse('2026-10-11T02:30:00Z');
+let stopRequested = null, lastActivity = null;
+const deadlineGuard = () => {
+  if (existsSync(join(folder, 'STOP_AFTER_CURRENT_INTERVAL'))) stopRequested = 'explicit stop file';
+  assert.ok(!stopRequested, 'Controlled stop after actual current interval: ' + stopRequested + '; remaining samples pending');
+  assert.ok(Date.now() < authorisedDeadline, 'Authorised local coding/measurement window ended02:30UTC/08:00IST; remaining samples pending');
+};
+process.on('SIGINT', () => { stopRequested = 'SIGINT'; });
+process.on('SIGTERM', () => { stopRequested = 'SIGTERM'; });
+const selectedProfileMode = process.env.SAHA_UI_NFR_PROFILES ?? 'both';
+assert.ok(['reference', 'both'].includes(selectedProfileMode));
+const profiles = [
+  { id: 'reference-number-desktop-surrogate', offline: false, latency: 300, downloadThroughput: 1000000 / 8, uploadThroughput: 1000000 / 8, connectionType: 'cellular3g', abortEvery: 0 },
+  { id: 'degraded-number-desktop-surrogate', offline: false, latency: 800, downloadThroughput: 256000 / 8, uploadThroughput: 256000 / 8, connectionType: 'cellular2g', abortEvery: 97 },
+];
+const thresholds = { autosave: 500, 'explicit-save': 500, 'cached-patient': 2000, 'cached-today': 2000, 'connected-today-list': 3000, 'connected-today-detail': 3000, 'connected-routine-entry': 3000 };
+const records = [], checks = [], fixture = {}, limits = [
+  'Real existing Device visits UI and native local synthetic Worker/D1 only. No D04 runtime or encrypted Routine save was built.',
+  'Desktop Chromium at390x844 is browser emulation; it does not certify supported Android3GB RAM/4 cores/storage or physical power-loss durability.',
+  'CDP latency/throughput values are declared browser network surrogates, not a calibrated physical300ms/800ms round-trip network.',
+  'Degraded loss is declared deterministic abortion of every97th actual /api/ request; no successful response bodies are substituted.',
+  'Warm local intervals begin at real trusted input/click before application clone/queue, include commit/ack/usable DOM and instrumentation overhead; exact readback is separately verified outside the endpoint.',
+  'PBKDF2 derives once during actual unlock; the observer derives a readback key once outside intervals. No claim that cold unlock/setup is within500ms.',
+  'Cached Today is the existing prepared device queue, not all assigned tasks; every Patient/Today presentation appends real encrypted access evidence.',
+  'Connected intervals include real no-store JSON body validation and exact person/visit usable DOM plus browser automation overhead; no header-only endpoint.',
+  'After origin interception is installed, CDP restores native HTTP cache for public assets; actual cache diagnostics are retained and no-store API cache hits are refused.',
+  'Sequential single-browser samples do not satisfy R1 capacity:100 concurrent users/100000 people/50requests-per-second/30minutes.',
+  'All actual timed failures/timeouts contribute observed durations and error findings; successful-only percentiles are separate. No extra successful samples replace failed fixed1000 attempts.',
+  'Zero unexplained errors is the declared conservative local-control budget, not an invented formal BRD approval. Injected degraded errors stay in distributions and numerical ceiling comparisons.',
+  'Physical/clinical/assistive-technology/formal UAT, final-head hosted CI, main merge and live deployment remain pending.',
+];
+const save = (name, value) => writeFileSync(join(folder, name), JSON.stringify(value, null, 2) + '\n');
+const check = (value, label) => { checks.push({ label, pass: !!value }); assert.ok(value, label); };
+const writeRecord = record => { records.push(record); appendFileSync(join(folder, 'raw-samples.jsonl'), JSON.stringify(record) + '\n'); };
+const ok = response => { assert.equal(response.status, 200, response.text); return response.json; };
+function pins(directory, exclusions = new Set(['node_modules', '.git', '.wrangler', 'reports', 'evidence'])) {
+  const out = [];
+  const walk = (path, relative) => { for (const entry of readdirSync(path, { withFileTypes: true })) {
+    if (exclusions.has(entry.name)) continue;
+    const next = join(path, entry.name), rel = join(relative, entry.name);
+    if (entry.isDirectory()) walk(next, rel);
+    else if (entry.isFile()) { const bytes = readFileSync(next); out.push({ path: rel, bytes: bytes.length, sha256: hash(bytes) }); }
+  } };
+  walk(directory, '');
+  return out;
+}
+const inputs = { createdAt: new Date().toISOString(), cwd: process.cwd(), node: process.version, frozen, samplesPerPath, diagnosticOnly: reduced,
+  mode, port, state, profiles, selectedProfileMode, authorisedDeadline: new Date(authorisedDeadline).toISOString(), thresholds, limits, sourceFiles: pins(process.cwd()), distFiles: pins(resolve('dist')) };
+save('INPUT-PINS.json', inputs);
+if (validateOnly) {
+  save('SOURCE-ONLY-VALIDATION.json', { runtimeStarted: false, inputPins: hash(readFileSync(join(folder, 'INPUT-PINS.json'))), frozenProductionMatches: true, sourceParserValidationSeparatelyRequired: true, samplesPerPath, limits });
+  console.log(JSON.stringify({ sourceOnly: true, frozenProductionMatches: true, runtimeStarted: false, folder }));
+  process.exit(0);
+}
+assert.equal(process.env.SAHA_UI_NFR_EXCLUSIVE_RELEASE, 'root-qa166-and-nfr5-released', 'Explicit root exclusive-lane release required before any Worker/browser');
+assert.ok(!existsSync(resolve(state)), 'Use NEW owned synthetic D1 state: prior native fixture/diagnostic records must not be erased');
+const { chromium } = await import(process.env.SAHA_BROWSER_PACKAGE ?? '@playwright/test');
+let worker, browser, context, page;
+const pageErrors = [], networkFailures = [], external = [], flushes = [], setupFailures = [];
+async function initialiseFixture() {
+  worker = await startWorker({ port, name: 'saha-d03-real-ui-new-control', state });
+  const api = client(worker.base), run = crypto.randomUUID().slice(0, 8), owner = identity('owner', run), asha = identity('asha', run, 'Synthetic UI NFR ASHA');
+  const workspace = ok(await api.get(owner, '/api/workspace')), ashaWorkspace = ok(await api.get(asha, '/api/workspace')), org = workspace.organisation.id;
+  const invitation = ok(await api.command(owner, { type: 'createInvite', accountCode: ashaWorkspace.user.accountCode, label: 'Synthetic D03 UI NFR ASHA', role: 'asha', teamIds: ['default'] }, org));
+  ok(await api.command(asha, { type: 'joinOrganisation', token: invitation.result.token }));
+  let current = ok(await api.get(owner, '/api/workspace', org)), person = current.people.find(person => person.id === 'p_meena');
+  ok(await api.command(owner, { type: 'assignPatient', personId: person.id, version: person.version, teamId: 'default', assignedTo: asha.id, reason: 'Bounded synthetic real UI NFR fixture' }, org));
+  for (const packId of ['maternal', 'hypertension', 'tb']) {
+    current = ok(await api.get(asha, '/api/workspace', org)); person = current.people.find(person => person.id === 'p_meena');
+    if (!person.enrolments?.some(enrolment => enrolment.packId === packId && enrolment.state === 'active')) ok(await api.command(asha, { type: 'enrolProgramme', personId: person.id, version: person.version, packId, episodeLabel: 'Synthetic UI NFR compatible fixture', startDate: null }, org));
+  }
+  current = ok(await api.get(asha, '/api/workspace', org)); person = current.people.find(person => person.id === 'p_meena');
+  const packet = ok(await api.command(asha, { type: 'prepareFieldVisit', personId: person.id, version: person.version }, org)).result;
+  const payload = packet.packet.payload;
+  check(payload.userId === asha.id && payload.organisationId === org && payload.personId === person.id, 'Actual server-issued packet exact actor/org/person');
+  check(payload.programmeCapture.packs.length === 3, 'Actual three-programme representative prepared payload');
+  const routine = await api.get(asha, '/api/routine-visit?personId=' + person.id + '&visitId=' + payload.visitId, org);
+  check(routine.status === 200 && routine.headers.get('cache-control') === 'no-store' && routine.json.visit.id === payload.visitId, 'Exact current backend draft and no-store before measurements');
+  Object.assign(fixture, { run, owner, asha, org, personId: person.id, personName: person.name, visitId: payload.visitId, packet,
+    serverPersonBefore: structuredClone(routine.json.person),
+    serverFactsBefore: structuredClone(routine.json.visit.facts), serverVisitVersionBefore: routine.json.visit.version,
+    exactPayloadBytes: Buffer.byteLength(JSON.stringify(packet)), exactPayloadSha256: hash(JSON.stringify(packet)),
+    passphrase: 'Synthetic D03 NFR warm device-only passphrase', createdAt: new Date().toISOString() });
+  const assigned = await api.get(asha, '/api/today', org), selected = await api.get(asha, '/api/today?personId=' + person.id, org);
+  check(assigned.status === 200 && selected.status === 200 && assigned.headers.get('x-saha-organisation') === org && selected.headers.get('x-saha-organisation') === org, 'Actual exact organisation authority response bindings');
+  fixture.exactAssignedRows = structuredClone(assigned.json.records);
+  fixture.exactSelectedRecord = structuredClone(selected.json.record);
+  save('EXACT-SYNTHETIC-FIXTURE.json', fixture);
+  return api;
+}
+async function newContext() {
+  context = await browser.newContext({ viewport: { width: 390, height: 844 }, extraHTTPHeaders: fixture.asha.headers });
+  await context.route('**/*', async route => {
+    const url = route.request().url();
+    if (new URL(url).origin !== worker.base && !url.startsWith('data:')) {
+      external.push({ url, outcome: 'aborted-before-transmission', method: route.request().method() });
+      await route.abort('blockedbyclient');
+    } else await route.continue();
+  });
+  page = await context.newPage(); page.setDefaultTimeout(20000);
+  page.on('pageerror', error => pageErrors.push({ at: new Date().toISOString(), error: String(error) }));
+  page.on('requestfailed', request => networkFailures.push({ url: request.url(), method: request.method(), error: request.failure(), at: new Date().toISOString() }));
+}
+async function ensureFullDeviceForm() {
+  const toggle = page.getByRole('button', { name: 'Show full form', exact: true });
+  if (await toggle.isVisible()) await toggle.click();
+  await page.getByLabel('Notes', { exact: true }).waitFor({ state: 'visible' });
+}
+async function sampleDevice(kind, n, config, action) {
+  deadlineGuard();
+  lastActivity = { path: kind, sample: n, profile: 'warm-desktop-offline-browser', at: new Date().toISOString() };
+  const before = await page.evaluate(config => window.__d03DeviceMeasure.arm(config), { kind, eventType: kind === 'autosave' ? 'input' : 'click',
+    selector: kind === 'autosave' ? '#editor textarea' : kind === 'explicit-save' ? '#save' : kind === 'cached-patient' ? '[data-device-tab="patient"]' : '[data-device-tab="today"]',
+    personId: fixture.personId, personName: fixture.personName, organisationId: fixture.org, visitId: fixture.visitId, actorId: fixture.asha.id,
+    packageHash: fixture.packet.packageHash, grantExpiresAt: fixture.packet.packet.payload.expiresAt, ...config });
+  try {
+    await action();
+    const observation = await page.evaluate(() => window.__d03DeviceMeasure.finish());
+    writeRecord({ path: kind, sample: n, profile: 'warm-desktop-offline-browser', outcome: 'measured', targetMs: thresholds[kind], targetExceeded: observation.ms > thresholds[kind], ...observation });
+  } catch (error) {
+    const diagnostics = await page.evaluate(() => window.__d03DeviceMeasure.failure()).catch(failure => ({ observerFailure: String(failure) }));
+    writeRecord({ path: kind, sample: n, profile: 'warm-desktop-offline-browser', outcome: 'error', error: String(error), before, diagnostics,
+      observedElapsedMs: diagnostics.elapsedMs ?? null, timeout: diagnostics.timeout ?? false, declaredExpectedTransportFault: false });
+    throw error; // Actual local-save/privacy failures cannot be hidden by resetting the notebook.
+  }
+}
+async function deviceMeasurements(api) {
+  await newContext();
+  await page.addInitScript(installDeviceObserver);
+  await page.goto(worker.base + '/field/index.html');
+  await page.evaluate(async ({ packet, pass }) => {
+    const vault = await import('/field/vault.js'), salt = Array.from(crypto.getRandomValues(new Uint8Array(16))), key = await vault.derive(pass, salt);
+    const draft = { ...packet, facts: structuredClone(packet.packet.payload.facts), answers: structuredClone(packet.packet.payload.programmeCapture?.answers ?? {}), absence: structuredClone(packet.packet.payload.programmeCapture?.absence ?? {}), state: 'draft', pending: null };
+    await vault.writeVault({ ...await vault.seal(key, { schema: 1, userId: packet.packet.payload.userId, drafts: [draft], registrations: [] }), salt }, 0);
+  }, { packet: fixture.packet, pass: fixture.passphrase });
+  await page.goto(worker.base + '/app'); await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
+  await page.goto(worker.base + '/app/offline/');
+  const unlockStart = performance.now();
+  await page.locator('#passphrase').fill(fixture.passphrase); await page.locator('#unlock-form button').click();
+  await page.locator('#notebook').waitFor({ state: 'visible' }); await page.waitForFunction(() => !document.getElementById('save').disabled);
+  save('UNLOCK-EXCLUDED-FROM-WARM-TIMINGS.json', { elapsedMs: performance.now() - unlockStart, includesActualKDF: true, note: 'Observed separately; not silently added to/redefined as each warm local save' });
+  await page.locator('#drafts button').click(); await page.locator('#editor h2').waitFor(); await ensureFullDeviceForm();
+  const initialBook = await page.evaluate(pass => window.__d03DeviceMeasure.init(pass), fixture.passphrase);
+  check(initialBook.book.userId === fixture.asha.id && initialBook.book.drafts[0].packet.payload.visitId === fixture.visitId, 'Actual unlocked matching prepared notebook');
+  check(!(initialBook.book.burdenPolicies ?? []).some(policy => policy.enabled), 'Declared ordinary fixture optional burden measurement disabled; code still executes real saved()');
+  await context.setOffline(true);
+  for (let n = 0; n < samplesPerPath; n++) {
+    const notes = 'Synthetic D03 NFR exact warm autosave ' + fixture.run + ':' + String(n).padStart(4, '0');
+    await sampleDevice('autosave', n, { expectedNotes: notes }, () => page.getByLabel('Notes', { exact: true }).fill(notes));
+    // The preceding input's exact transaction has completed. This separately
+    // measures a fresh actual explicit Save with no previous autosave in flight.
+    await sampleDevice('explicit-save', n, { expectedNotes: notes }, () => page.locator('#save').click());
+    await ensureFullDeviceForm();
+    if (n % 100 === 0) console.log(JSON.stringify({ lane: 'device-save', completed: n + 1, perPath: samplesPerPath }));
+  }
+  const received = [], receiptTasks = [];
+  page.on('response', response => {
+    if (new URL(response.url()).pathname !== '/api/offline-opens') return;
+    const task = (async () => {
+      try { received.push({ status: response.status(), body: await response.json(), cacheControl: response.headers()['cache-control'] }); }
+      catch (error) { received.push({ status: response.status(), parseError: String(error) }); }
+    })();
+    receiptTasks.push(task);
+  });
+  for (let cohort = 0; cohort < cohorts; cohort++) {
+    const scope = ok(await api.get(fixture.asha, '/api/workspace', fixture.org));
+    check(scope.user.userId === fixture.asha.id && scope.people.some(person => person.id === fixture.personId && person.assignedTo === fixture.asha.id), 'Current assigned owner checkpoint before cached cohort ' + cohort);
+    for (let index = 0; index < perCohort; index++) {
+      const n = cohort * perCohort + index;
+      await sampleDevice('cached-today', n, { presentation: 'notebook-unlock' }, () => page.locator('[data-device-tab="today"]').click());
+      await sampleDevice('cached-patient', n, { presentation: 'record-entry' }, () => page.locator('[data-device-tab="patient"]').click());
+    }
+    const before = await page.evaluate(() => window.__d03DeviceMeasure.read());
+    check(before.book.offlineOpens.length < 2000, 'Original offline-open bound held without truncation cohort ' + cohort);
+    const beforeIds = before.book.offlineOpens.map(event => event.id), responseIndex = received.length;
+    const reconnectStart = performance.now(); await context.setOffline(false);
+    // Installed Playwright waitForFunction tests Promise truthiness rather than
+    // awaiting an async predicate. Await the native encrypted read explicitly.
+    const reconnectDiagnostic = await page.evaluate(async () => {
+      const started = performance.now(); let latest = null;
+      while (performance.now() - started < 60000) {
+        const value = await window.__d03DeviceMeasure.read();
+        latest = { revision: value.revision, queue: (value.book.offlineOpens ?? []).length, snapshot: value.snapshot };
+        if (latest.queue === 0 && !document.getElementById('notebook').hidden && !document.getElementById('save').disabled)
+          return { ready: true, elapsedMs: performance.now() - started, ...latest };
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+      return { ready: false, elapsedMs: performance.now() - started, ...latest };
+    });
+    await Promise.allSettled(receiptTasks);
+    const after = await page.evaluate(() => window.__d03DeviceMeasure.read());
+    const responses = received.slice(responseIndex);
+    const accepted = responses.flatMap(response => response.body?.accepted ?? []);
+    save('REAL-COHORT-FLUSH-CHECKPOINT-' + cohort + '.json', { beforeIds, beforeRevision: before.revision, afterRevision: after.revision,
+      actualQueueAfter: (after.book.offlineOpens ?? []).length, reconnectDiagnostic, responses, accepted });
+    check(reconnectDiagnostic.ready && (after.book.offlineOpens ?? []).length === 0, 'Actual awaited encrypted queue and usable notebook after reconnect cohort ' + cohort);
+    check(beforeIds.every(id => accepted.includes(id)) && responses.every(response => response.status === 200 && response.body.userId === fixture.asha.id), 'Real exact native server flush acknowledgements cohort ' + cohort);
+    flushes.push({ cohort, timedCountEachPath: perCohort, beforeRevision: before.revision, afterRevision: after.revision, beforeIds, accepted, responses,
+      queueBefore: beforeIds.length, queueAfter: after.book.offlineOpens.length, reconnectOutsideTimingMs: performance.now() - reconnectStart, serverOwnedGrantExpires: fixture.packet.packet.payload.expiresAt });
+    save('REAL-COHORT-FLUSHES.json', flushes);
+    save('ENCRYPTED-VAULT-COHORT-' + cohort + '.json', await page.evaluate(async () => (await import('/field/vault.js')).readVault()));
+    await context.setOffline(true);
+  }
+  check(await page.evaluate(() => window.__d03DeviceMeasure.restore()), 'Exact native IndexedDB methods restored after instrumentation');
+  await context.close(); context = null;
+}
+async function parsedResponse(response, personId, kind) {
+  const body = await response.json(), headers = response.headers();
+  assert.equal(response.status(), 200, JSON.stringify(body)); assert.equal(headers['cache-control'], 'no-store');
+  if (kind === 'list') { assert.equal(headers['x-saha-organisation'], fixture.org); assert.deepEqual(body.records, fixture.exactAssignedRows); }
+  else if (kind === 'detail') { assert.equal(headers['x-saha-organisation'], fixture.org); assert.deepEqual(body.record, fixture.exactSelectedRecord); }
+  else {
+    assert.equal(headers['x-saha-operation-actor'], fixture.asha.id);
+    assert.deepEqual(body.person, fixture.serverPersonBefore); assert.equal(body.visit.id, fixture.visitId); assert.equal(body.organisationId, fixture.org);
+    assert.equal(body.visit.version, fixture.serverVisitVersionBefore); assert.deepEqual(body.visit.facts, fixture.serverFactsBefore);
+  }
+  return { status: response.status(), cacheControl: headers['cache-control'], organisationBinding: kind === 'routine' ? body.organisationId : headers['x-saha-organisation'],
+    trustedActorBinding: kind === 'routine' ? headers['x-saha-operation-actor'] : null, bytes: Buffer.byteLength(JSON.stringify(body)), sha256: hash(JSON.stringify(body)), exactPersonId: personId,
+    visitId: kind === 'routine' ? fixture.visitId : null, version: kind === 'routine' ? body.visit.version : null };
+}
+const safeResponseWait = (predicate) => page.waitForResponse(predicate).then(response => ({ response }), error => ({ error: String(error) }));
+const actualResponse = async wait => { const value = await wait; if (value.error) throw Error(value.error); return value.response; };
+async function actualConnectedReady(kind, sampleIdentity) {
+  const value = await page.evaluate(({kind, sampleIdentity}) => {
+    if (typeof window.__d03FreshConnectedReady !== 'function') throw Error('New page measurement observer unavailable');
+    return window.__d03FreshConnectedReady(kind, sampleIdentity);
+  }, {kind, sampleIdentity});
+  assert.equal(value.path, kind === 'routine' ? '/routine-visit' : '/today');
+  assert.equal(value.sampleIdentity, sampleIdentity); assert.equal(value.kind, kind);
+  assert.equal(value.exactPersonId, fixture.personId); assert.equal(value.exactVisitId, fixture.visitId);
+  assert.equal(value.exactVersion, fixture.serverVisitVersionBefore);
+  assert.equal(new URL(page.url()).pathname, value.path);
+  return value;
+}
+async function connectedMeasurements(api) {
+  for (const profile of profiles.filter(profile => selectedProfileMode === 'both' || profile.abortEvery === 0)) {
+    deadlineGuard(); await newContext();
+    const cdp = await context.newCDPSession(page);
+    await cdp.send('Network.enable');
+    await cdp.send('Network.emulateNetworkConditions', Object.fromEntries(Object.entries(profile).filter(([key]) => !['id', 'abortEvery'].includes(key))));
+    await page.addInitScript(installConnectedObserver, fixture);
+    let count = 0, activeSample = null;
+    const cacheDiagnostics = { profile: profile.id, requestedNativeCacheDisabled: false, responses: 0, publicAssetResponses: 0, publicDiskCacheHits: 0, publicServiceWorkerHits: 0, apiResponses: 0, apiCacheHits: 0 };
+    cdp.on('Network.responseReceived', ({ response }) => {
+      cacheDiagnostics.responses++;
+      const url = new URL(response.url);
+      if (url.pathname.startsWith('/api/')) {
+        cacheDiagnostics.apiResponses++;
+        if (response.fromDiskCache || response.fromServiceWorker) cacheDiagnostics.apiCacheHits++;
+      } else {
+        cacheDiagnostics.publicAssetResponses++;
+        if (response.fromDiskCache) cacheDiagnostics.publicDiskCacheHits++;
+        if (response.fromServiceWorker) cacheDiagnostics.publicServiceWorkerHits++;
+      }
+      appendFileSync(join(folder, 'ACTUAL-NETWORK-CACHE-TIMING-' + profile.id + '.jsonl'), JSON.stringify({
+        sample: activeSample, url: response.url, status: response.status, protocol: response.protocol,
+        fromDiskCache: !!response.fromDiskCache, fromServiceWorker: !!response.fromServiceWorker,
+        encodedDataLength: response.encodedDataLength, actualNetworkTiming: response.timing ?? null,
+      }) + '\n');
+    });
+    const declaredFaults = [];
+    if (profile.abortEvery) await page.route('**/api/**', async route => {
+      if (new URL(route.request().url()).origin !== worker.base) { await route.fallback(); return; }
+      count++;
+      if (count % profile.abortEvery === 0) {
+        const fault = { requestNumber: count, url: route.request().url(), method: route.request().method(),
+          sample: activeSample, outcome: 'actual-native-request-aborted-no-response-substitution' };
+        declaredFaults.push(fault);
+        appendFileSync(join(folder, 'DECLARED-DEGRADED-TRANSPORT-FAULTS.jsonl'), JSON.stringify(fault) + '\n');
+        await route.abort('connectionfailed');
+      } else await route.fallback(); // The context's pre-transmission origin guard still executes.
+    });
+    // Playwright interception otherwise disables normal public asset caching.
+    // Restore the unchanged browser cache, preserving actual no-store API reads.
+    await cdp.send('Network.setCacheDisabled', { cacheDisabled: false });
+    const listPredicate = response => new URL(response.url()).pathname === '/api/today' && !new URL(response.url()).search;
+    const detailPredicate = response => new URL(response.url()).pathname === '/api/today' && new URL(response.url()).searchParams.get('personId') === fixture.personId;
+    const routinePredicate = response => new URL(response.url()).pathname === '/api/routine-visit' && response.request().method() === 'GET' && new URL(response.url()).searchParams.get('personId') === fixture.personId;
+    async function loadList(sampleIdentity) {
+      const response = safeResponseWait(listPredicate);
+      await page.goto(worker.base + '/today', { waitUntil: 'domcontentloaded' });
+      const body = await parsedResponse(await actualResponse(response), fixture.personId, 'list');
+      return { body, ready: await actualConnectedReady('list', sampleIdentity) };
+    }
+    async function loadDetail(sampleIdentity) {
+      const response = safeResponseWait(detailPredicate);
+      await page.getByRole('button', { name: 'Open record ' + fixture.personId, exact: true }).click();
+      const body = await parsedResponse(await actualResponse(response), fixture.personId, 'detail');
+      return { body, ready: await actualConnectedReady('detail', sampleIdentity) };
+    }
+    async function prepare(n, phase, detail) {
+      // Restore a genuine native read-only precondition if an earlier timed action
+      // failed. No timed failure is replaced, and each recovery is retained.
+      for (let attempt = 0; attempt < 3; attempt++) {
+        deadlineGuard(); activeSample = { n, phase, setup: true, attempt };
+        const started = performance.now(), faultIndex = declaredFaults.length;
+        try {
+          const list = await loadList('setup:' + n + ':' + phase + ':' + attempt);
+          const record = detail ? await loadDetail('setup-detail:' + n + ':' + phase + ':' + attempt) : null;
+          appendFileSync(join(folder, 'EXCLUDED-NATIVE-SETUP-RECOVERY.jsonl'), JSON.stringify({ profile: profile.id, n, phase, attempt, outcome: 'ready', elapsedMs: performance.now() - started, list, record }) + '\n');
+          return;
+        } catch (error) {
+          const failure = { profile: profile.id, n, phase, attempt, outcome: 'error', elapsedMs: performance.now() - started,
+            error: String(error), declaredFaults: declaredFaults.slice(faultIndex), declaredExpectedTransportFault: declaredFaults.slice(faultIndex).some(fault => fault.sample?.setup === true) };
+          setupFailures.push(failure);
+          appendFileSync(join(folder, 'EXCLUDED-NATIVE-SETUP-RECOVERY.jsonl'), JSON.stringify(failure) + '\n');
+          if (attempt === 2) throw error;
+        }
+      }
+    }
+    for (let n = 0; n < samplesPerPath; n++) {
+      deadlineGuard();
+      const wholeStart = performance.now(), times = {}, bodies = {};
+      let journeyHadError = false, listUsable = false, detailUsable = false;
+      for (const phase of ['connected-today-list', 'connected-today-detail', 'connected-routine-entry']) {
+        deadlineGuard();
+        lastActivity = { path: phase, sample: n, profile: profile.id, at: new Date().toISOString() };
+        let phaseStart = null, faultIndex = declaredFaults.length;
+        try {
+          if (phase === 'connected-today-detail' && !listUsable) await prepare(n, phase, false);
+          if (phase === 'connected-routine-entry' && !detailUsable) await prepare(n, phase, true);
+          activeSample = { n, phase, setup: false }; faultIndex = declaredFaults.length;
+          phaseStart = performance.now();
+          let observation;
+          if (phase === 'connected-today-list') {
+            observation = await loadList(profile.id + ':' + n + ':' + phase); listUsable = true;
+          } else if (phase === 'connected-today-detail') {
+            observation = await loadDetail(profile.id + ':' + n + ':' + phase); detailUsable = true;
+          } else {
+            const link = page.getByRole('link', { name: 'Review routine visit', exact: true });
+            const href = await link.getAttribute('href');
+            assert.equal(new URL(href, worker.base).searchParams.get('organisationId'), fixture.org);
+            assert.equal(new URL(href, worker.base).searchParams.get('personId'), fixture.personId);
+            const response = safeResponseWait(routinePredicate); await link.click();
+            const body = await parsedResponse(await actualResponse(response), fixture.personId, 'routine');
+            await page.waitForURL('**/routine-visit?**');
+            observation = { body, ready: await actualConnectedReady('routine', profile.id + ':' + n + ':' + phase), actualSelectedHref: href };
+          }
+          times[phase] = performance.now() - phaseStart; bodies[phase] = observation.body;
+          writeRecord({ path: phase, sample: n, profile: profile.id, outcome: 'measured', ms: times[phase], targetMs: thresholds[phase], targetExceeded: times[phase] > thresholds[phase],
+            browserReady: observation.ready, exactBody: observation.body, actualSelectedHref: observation.actualSelectedHref ?? null, declaredExpectedTransportFault: false });
+        } catch (error) {
+          journeyHadError = true;
+          const faults = declaredFaults.slice(faultIndex).filter(fault => fault.sample?.n === n && fault.sample?.phase === phase && !fault.sample?.setup);
+          const elapsed = phaseStart === null ? null : performance.now() - phaseStart;
+          writeRecord({ path: phase, sample: n, profile: profile.id, outcome: phaseStart === null ? 'setup-error-not-entered' : 'error', error: String(error), observedElapsedMs: elapsed,
+            timeout: /timeout|timed out|within20000ms/i.test(String(error)), declaredExpectedTransportFault: faults.length > 0, actualDeclaredFaults: faults,
+            completedStageTimes: times, actualBodies: bodies, dom: await page.locator('body').innerText().catch(() => 'not readable') });
+        }
+      }
+      const wholeMs = performance.now() - wholeStart;
+      writeRecord({ path: 'connected-whole-journey', sample: n, profile: profile.id, outcome: journeyHadError ? 'error' : 'measured', ms: journeyHadError ? null : wholeMs,
+        observedElapsedMs: wholeMs, targetMs: null, targetExceeded: null, stageTimes: times,
+        note: 'Additional three-screen composite incl any recovery; no original3s target assigned to this entire journey. Every screen has its fixed1000 retained attempt outcomes.' });
+      if ((n + 1) % 100 === 0) console.log(JSON.stringify({ lane: 'connected-ui', profile: profile.id, attemptsEachScreen: n + 1, fixedTargetEachScreen: samplesPerPath }));
+      if ((n + 1) % 200 === 0 && n + 1 < samplesPerPath) { const restartAt = performance.now(); await worker.restart(); appendFileSync(join(folder, 'EXCLUDED-WORKER-RESTARTS.jsonl'), JSON.stringify({ profile: profile.id, afterAttempt: n + 1, ms: performance.now() - restartAt, note: 'Outside measured intervals; same durable native D1 state' }) + '\n'); }
+    }
+    save('ACTUAL-CACHE-DIAGNOSTICS-' + profile.id + '.json', cacheDiagnostics);
+    check(cacheDiagnostics.apiCacheHits === 0, 'All measured authority-bearing API responses bypassed disk/ServiceWorker cache ' + profile.id);
+    await cdp.detach(); await context.close(); context = null;
+  }
+  const result = ok(await api.get(fixture.asha, '/api/routine-visit?personId=' + fixture.personId + '&visitId=' + fixture.visitId, fixture.org));
+  check(result.visit.version === fixture.serverVisitVersionBefore && JSON.stringify(result.visit.facts) === JSON.stringify(fixture.serverFactsBefore), 'Timed local saves and connected read-only journeys did not change server clinical draft');
+}
+function distribution(values) {
+  const ordered = values.filter(value => Number.isFinite(value) && value >= 0).sort((a,b) => a-b);
+  const percentile = proportion => ordered.length ? ordered[Math.ceil(proportion*ordered.length)-1] : null;
+  return { n: ordered.length, median: percentile(.5), p95: percentile(.95), p99: percentile(.99), max: ordered.at(-1) ?? null };
+}
+function plannedPaths() {
+  const combinations = [];
+  if (mode !== 'connected') for (const path of ['autosave','explicit-save','cached-patient','cached-today']) combinations.push(['warm-desktop-offline-browser',path]);
+  if (mode !== 'device') for (const profile of profiles.filter(profile => selectedProfileMode === 'both' || !profile.abortEvery))
+    for (const path of ['connected-today-list','connected-today-detail','connected-routine-entry']) combinations.push([profile.id,path]);
+  return combinations;
+}
+function summarise() {
+  const combinations = [...plannedPaths(), ...profiles.map(profile => [profile.id,'connected-whole-journey']).filter(([profile,path]) => records.some(record => record.profile === profile && record.path === path))];
+  return combinations.map(([profile,path]) => {
+    const selected = records.filter(record => record.profile === profile && record.path === path), successes = selected.filter(record => record.outcome === 'measured');
+    const errors = selected.filter(record => record.outcome !== 'measured');
+    const allObserved = selected.map(record => record.outcome === 'measured' ? record.ms : record.observedElapsedMs).filter(Number.isFinite);
+    const completionDistribution = distribution(successes.map(record => record.ms)), allAttemptObservedStopDistribution = distribution(allObserved);
+    const ceiling = thresholds[path] ?? null;
+    const exceeded = ceiling === null ? [] : selected.filter(record => (record.outcome === 'measured' ? record.ms : record.observedElapsedMs) > ceiling);
+    return { profile,path,plannedFixedAttempts:samplesPerPath,attemptsRecorded:selected.length,completedScreens:successes.length,
+      errors:errors.length,declaredExpectedTransportErrors:errors.filter(record => record.declaredExpectedTransportFault).length,
+      unexplainedErrors:errors.filter(record => !record.declaredExpectedTransportFault).length,timeouts:errors.filter(record => record.timeout).length,
+      notEntered:errors.filter(record => record.outcome === 'setup-error-not-entered').length,missingAttemptRecords:Math.max(0,samplesPerPath-selected.length),
+      missingObservedIntervals:selected.length-allObserved.length,successfulSamplesAtLeast1000:successes.length>=1000,
+      allAttemptObservedStopDistribution,successCompletionDistribution:completionDistribution,
+      allAttemptDistributionMeaning:'Stop/failure intervals include actual failed attempts; failed-fast is not a completed-screen timing.',
+      originalNumericalCeilingMs:ceiling,
+      observedCompletionP95WithinNumericalCeiling:ceiling === null || !completionDistribution.n ? null : completionDistribution.p95<=ceiling,
+      observedAllAttemptStopP95WithinNumericalCeiling:ceiling === null || !allAttemptObservedStopDistribution.n ? null : allAttemptObservedStopDistribution.p95<=ceiling,
+      cachedCompletedEntriesOver2s:path.startsWith('cached-')?successes.filter(record => record.ms>2000).length:null,
+      observedCeilingExceedances:exceeded.map(record => ({sample:record.sample,outcome:record.outcome,elapsedMs:record.outcome==='measured'?record.ms:record.observedElapsedMs})),
+      formalPhysicalR1Acceptance:false };
+  });
+}
+function disposition(summaries) {
+  const findings=[];
+  const unexplainedSetupFailures = setupFailures.filter(failure => !failure.declaredExpectedTransportFault);
+  if (unexplainedSetupFailures.length) findings.push({ kind: 'engineering-control-unexplained-setup-errors', count: unexplainedSetupFailures.length,
+    note: 'Recovered native setup failures remain failures; conservative control budget0 is separate from original formal NFR02.' });
+  for (const summary of summaries.filter(summary => summary.path !== 'connected-whole-journey')) {
+    const identity={profile:summary.profile,path:summary.path};
+    if (summary.attemptsRecorded !== samplesPerPath || summary.missingObservedIntervals || summary.notEntered)
+      findings.push({...identity,kind:'incomplete-measurement',expected:samplesPerPath,actual:summary.attemptsRecorded,missingObservedIntervals:summary.missingObservedIntervals,notEntered:summary.notEntered});
+    if (summary.unexplainedErrors) findings.push({...identity,kind:'engineering-control-unexplained-errors',count:summary.unexplainedErrors,
+      note:'Conservative local control budget0; not an original formal NFR zero-error rule.'});
+    if (summary.path.startsWith('cached-') && summary.cachedCompletedEntriesOver2s)
+      findings.push({...identity,kind:'original-cached2s-numerical-exceedance',count:summary.cachedCompletedEntriesOver2s});
+    if (!summary.path.startsWith('cached-') && summary.successCompletionDistribution.p95 > summary.originalNumericalCeilingMs)
+      findings.push({...identity,kind:'original500ms-or3s-completion-p95-numerical-exceedance',actual:summary.successCompletionDistribution.p95,ceiling:summary.originalNumericalCeilingMs});
+    if (summary.allAttemptObservedStopDistribution.p95 > summary.originalNumericalCeilingMs)
+      findings.push({...identity,kind:'engineering-observed-stop-p95-exceeds-numerical-ceiling',actual:summary.allAttemptObservedStopDistribution.p95,
+        ceiling:summary.originalNumericalCeilingMs,note:'Failure stop distribution is not labelled completed-screen performance; no failed attempt was filtered away.'});
+  }
+  return findings;
+}
+let error = null;
+try {
+  deadlineGuard(); const api = await initialiseFixture();
+  browser = await chromium.launch({ headless: true, executablePath: process.env.SAHA_CHROMIUM });
+  if (mode !== 'connected') await deviceMeasurements(api);
+  if (mode !== 'device') await connectedMeasurements(api);
+  const clinicalAfter = ok(await api.get(fixture.asha, '/api/routine-visit?personId=' + fixture.personId + '&visitId=' + fixture.visitId, fixture.org));
+  check(clinicalAfter.visit.version === fixture.serverVisitVersionBefore && JSON.stringify(clinicalAfter.visit.facts) === JSON.stringify(fixture.serverFactsBefore), 'Every selected measurement lane retains original server clinical facts/version');
+  check(external.length === 0, 'No network requests outside the owned loopback synthetic Worker');
+  check(pageErrors.length === 0, 'No uncaught browser application errors');
+} catch (failure) { error = String(failure); }
+finally {
+  if (worker) save('ACTUAL-WORKER-OUTPUT.json', { output: worker.output() });
+  if (page && !page.isClosed() && new URL(page.url()).pathname === '/app/offline/') {
+    try { save('ENCRYPTED-VAULT-PARTIAL-CHECKPOINT.json', await page.evaluate(async () => (await import('/field/vault.js')).readVault())); }
+    catch (failure) { save('VAULT-CHECKPOINT-READ-FAILURE.json', { error: String(failure) }); }
+  }
+  await context?.close().catch(() => {}); await browser?.close().catch(() => {}); await worker?.stop().catch(() => {});
+  const ownedPortObservedFree = await new Promise(resolve => {
+    const socket = connect(Number(port), '127.0.0.1');
+    const timer = setTimeout(() => { socket.destroy(); resolve(null); }, 1500);
+    socket.once('connect', () => { clearTimeout(timer); socket.destroy(); resolve(false); });
+    socket.once('error', () => { clearTimeout(timer); socket.destroy(); resolve(true); });
+  });
+  const finalPins = pins(process.cwd());
+  const original = new Map(inputs.sourceFiles.map(file => [file.path, file.sha256]));
+  const changed = finalPins.filter(file => original.has(file.path) && file.sha256 !== original.get(file.path));
+  const summaries = summarise(), targetFindings = disposition(summaries);
+  const selectedCountsComplete = summaries.filter(summary => summary.path !== 'connected-whole-journey').every(summary => summary.attemptsRecorded === samplesPerPath && !summary.missingObservedIntervals && !summary.notEntered);
+  const result = { finishedAt: new Date().toISOString(), mode, diagnosticOnly: reduced, measurementsComplete: !error && selectedCountsComplete,
+    error, stopRequested, lastActivity, safeStopFile: join(folder, 'STOP_AFTER_CURRENT_INTERVAL'), authorisedDeadline: new Date(authorisedDeadline).toISOString(),
+    samples: records.length, summaries, targetFindings, boundedEngineeringControl: reduced ? 'DIAGNOSTIC ONLY: not1000/path' : error || targetFindings.length ? 'FAIL OR INCOMPLETE' : 'LOCAL SURROGATE CONTROL ONLY; physical/referenceR1 pending',
+    degradedRepeat: mode !== 'device' && selectedProfileMode === 'reference' ? 'NOT RUN: still pending, no complete A9 claim' : mode === 'device' ? 'outside selected device lane' : 'see actual retained per-path summaries', checks,
+    pageErrors, networkFailures, setupFailures, external, immutableInputFilesChanged: changed, allOriginalSourceAndDistPins: inputs.sourceFiles.every(file => finalPins.some(current => current.path === file.path && current.sha256 === file.sha256)),
+    formalAcceptanceClaim: false, currentHeadCIClaim: false, limits, workersAndBrowserStopAttempted: true, ownedPort: port, ownedPortObservedFree };
+  save('RESULT.json', result); save('FINAL-SOURCE-PINS.json', finalPins);
+  console.log(JSON.stringify({ folder, error, sampleRecords: records.length, summaries: result.summaries.map(({ outliers, ...summary }) => summary), immutableInputs: result.allOriginalSourceAndDistPins }));
+  if (error || changed.length || !result.allOriginalSourceAndDistPins || ownedPortObservedFree !== true || (!reduced && targetFindings.length)) process.exitCode = 1;
+}

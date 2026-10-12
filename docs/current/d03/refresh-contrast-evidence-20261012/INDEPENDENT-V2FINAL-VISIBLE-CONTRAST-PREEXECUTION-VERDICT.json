@@ -1,0 +1,100 @@
+{
+  "atUtc": "2026-10-12T07:14:34.198321+00:00",
+  "reviewer": {
+    "agent": "/root/routine_final_review",
+    "independentOfSourceAndDriverAuthor": true,
+    "method": "Static source/driver and read-only actualGit/hash/AST metadata verification; no application/test/driver runtime execution"
+  },
+  "verdict": "PASS_BOUNDED_PREEXECUTION_SOURCE_ELIGIBILITY_ONLY",
+  "candidate": {
+    "base": "ab848c419b1bb765c311b57a26bf8ba93f9a9cf4",
+    "tree": "9325ed6d73c6a3b5d0e995e9ed1d3c2ca831c62d",
+    "finalFreeze": {
+      "path": "outputs/saha-staging-resume-20261012/actionplan-visible-contrast-repair/FINAL-PREPARED-SOURCE-AND-DRIVER-FREEZE.json",
+      "sha256": "ebf96df3dfa8cf8b154edaaefb354ca482efe499ab0022575cf14c42fea3bda1"
+    },
+    "sourceFreeze": {
+      "path": "outputs/saha-staging-resume-20261012/actionplan-visible-contrast-repair/PREPARED-SOURCE-FREEZE.json",
+      "sha256": "e1df6006bf2caee87f5a7295682c468589957800d80f93cfd1f032e6b09b2a92"
+    },
+    "testFullSHA256": "f6da8541313baa81c661e6fb235898bff0ad2f79069bbc323bc9b60e30de6f3b",
+    "testAppend": {
+      "path": "outputs/saha-staging-resume-20261012/actionplan-visible-contrast-repair/append-only-regression.mjs",
+      "sha256": "de5866354a135bce97b3e4fbd31e2d326b3bf1a4e9287281bd36d634aefe8730"
+    },
+    "controlAppSHA256": "7ea83e9c5f568fe4a02f49eec033d618e599a566bd28a4c65a307075a0af763b",
+    "candidateAppSHA256": "b3213356afedafddd8c8d8508122d53bc233eefc96ed4b46138e229a2c84d8e9",
+    "drivers": {
+      "control": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/actionplan-visible-contrast-repair/control-actual-v2final-001/run-owned-visible-contrast.py",
+        "sha256": "d4e02dd70346060b36bf97409d99a9fe599124a83eeecee6996a2b4b674174d9",
+        "buildAndCaseBoundsMs": [
+          600000,
+          600000
+        ],
+        "originalConfiguredCIRepetitions": "retries1/nooverride",
+        "ownedPort": 21441,
+        "compileSourceSnapshot": "Alltracked source+profile before/after actualcanonicalbuild; hash/map/raw compiledbytes inclusive .vite manifests retained",
+        "actualExecutionPending": true
+      },
+      "candidate": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/actionplan-visible-contrast-repair/candidate-actual-v2final-001/run-owned-visible-contrast.py",
+        "sha256": "9a40e2bf4535cf35475452428539b6105ec3067b1e86c3f5668322ef2762674e",
+        "buildAndCaseBoundsMs": [
+          600000,
+          600000
+        ],
+        "originalConfiguredCIRepetitions": "retries1/nooverride",
+        "ownedPort": 21441,
+        "compileSourceSnapshot": "Alltracked source+profile before/after actualcanonicalbuild; hash/map/raw compiledbytes inclusive .vite manifests retained",
+        "actualExecutionPending": true
+      }
+    },
+    "actualIndependentReadback": {
+      "path": "outputs/saha-staging-resume-20261012/action-plan-refresh-design-independent-review/INDEPENDENT-V2FINAL-PREPARED-SOURCE-DRIVER-READBACK.json",
+      "sha256": "d39df97fc2cff8fd0229510a2cb78aff0cead426281f880fdabd034796a54580"
+    }
+  },
+  "findings": [],
+  "sourceVerification": [
+    "Both HEADab848/tree9325 with no stagedchanges and exactly frozen workingpathsets. All9 percheckout pins verified against actualfiles; no preexistingdist.",
+    "Candidate app is exactlyone30byte className=\"transition-colors\" insertion atActionPlan Refresh; sharedButton/load/disabled/auth/scoping/server/runtime/dependencies unchanged. Original Hindi file byteexactprefix; one additive testcase, no original389/config/min26/golden/SPEC changes.",
+    "Route matches actualownedloopbackorigin/path/onequery/seedt.meenaId,GET; oneheldRequestreference; originalauthenticatedactorheaderbindings nonempty/equal andorganisationheader exact. Holds250 thencontinues without overrides; terminal200 refers sameRequestobject/personquery; bounded<=256KiB rawUTF8/parsedrealbody plus partial errors/journal are attached.",
+    "Sampler starts onlyafter actualinitialread/render/viewportscroll. Beforeclick box and everycaptured enabledrect inside390x844. Actualdisabled exercised; truncation null required. Sampler monotonic marker afterrealbody completion is in samebrowserclock; at leastone subsequent enabled sample afteractualdisabled required. V1 late-response initialsample-vacuity removed.",
+    "Strict supported RGB/RGBA channel0..255/alpha0..1 guards; actualbackgroundimages/filter/backdrop/blend none, ancestoropacity1 and opaqueancestor required. Groupopacity composites both text and background over observedancestry, sRGB threshold.04045/weights.2126,.7152,.0722 and unrounded4.5 criterion correct.",
+    "Original serious/critical whole-pageaxe scan remains, people/visits/submissions mustequal beforeread. Sameoriginalcase plus additivecase selected via explicitregex; originalcases/configuredretry1/deadlines/minimums not lowered.",
+    "Drivers require pinnedbase/tree/changedpaths/nineinputs, portableprofile, absentdist/freeowned21441, readonlydonor dependency/browser/facade inventories. Each runs freshcanonicalbuild then sameexplicit2case runner;10minouterbuild/case deadlines preserve originaltest deadlines. Before/after source/profile/fullinclusivecompiled/dependency/browser/facade comparisons and rawcompiled archive/state/partiallogs retained.",
+    "Owned process/session handles recorded; disposal checks recordedbirth/PGID membership and refuses unknown/reused/controller group. Partialfailurejournal and terminalsource/build/cleanup receipt retained; pass requires custody/cleanup/portfree, with no realhosting/provider/install. Unknownownership/cleanup/setupfailure cannot qualify a negativecontrol."
+  ],
+  "executionEligibility": {
+    "rootMayExecuteSequentialOwnedControlThenCandidate": true,
+    "controlDriver": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/actionplan-visible-contrast-repair/control-actual-v2final-001/run-owned-visible-contrast.py",
+    "candidateDriver": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/actionplan-visible-contrast-repair/candidate-actual-v2final-001/run-owned-visible-contrast.py",
+    "runSequentialOnlySameOwnedPort": 21441,
+    "requiredControlOutcome": "Actual originalHindi pass plus additivecase fails specifically unrounded enabledvisiblecontrast assertion; rawbelow4.5 samples/200request/identity/viewport/composition/body/clinical/custody/cleanup mustindependentlyverify. Drivergenericnonzero/setup/timeout/custodyfailure is not successful negativecontrol.",
+    "requiredCandidateOutcome": "Actualtwo selectedcases pass firstattempt,0flaky/skip/unexpected, originalHindi8axe scans plus newscan0violations; realdisabled\u2192postbodyenabledframes/routing/rawidentity/clinical/source/build/custody/cleanup proof. No retry-based acceptance.",
+    "externalDriverLimit": "Drivers are outsidetrackedsource inventory; actualexecution review must correlate frozenfilehash/command and anyfinaldriverreadback. Retainedmaps are not automatically currentbinaryattestation."
+  },
+  "limits": {
+    "actualExecutionOccurred": false,
+    "negativeControlObserved": false,
+    "repairObservedPass": false,
+    "fullUI389GuardQualification": false,
+    "publicationApproval": false,
+    "A9": false,
+    "A10": false,
+    "mergeHostingApproval": false,
+    "exactOriginalCICauseProven": false,
+    "continuousPhysicalFrameCoverageClaim": false,
+    "nfr584ByteEqualityAfterProductionEdit": false
+  },
+  "followup": [
+    "Actualbeforeafter outcomes and rawsource/build/clinical/lifecycle evidence require genuinelyseparate review. Original failures/no-delay diagnostics/V1holds preserved.",
+    "Sampler proves sampled enabledframes underdeclared250ms/router diagnostic, not everyphysicaldisplayframe or exactoriginalCIcause. Existingcase180s/originalretries1 unchanged; selected2cases do notsatisfy fullUIminimum26/fullmandatoryCI.",
+    "After provenrepair, post-build importedcomponent/sharedCSS/sourcebridge/NFR applicability mustexplain productioninputdelta, fresh whole final-headCI and independentcomposedreview; A10hostingstillpending."
+  ],
+  "priorV1Hold": {
+    "path": "outputs/saha-staging-resume-20261012/action-plan-refresh-design-independent-review/INDEPENDENT-V1-VISIBLE-CONTRAST-PREFLIGHT-HOLD.json",
+    "sha256": "4ea4659f7b62f1ac47bde544e49b567e59340c60b90fb19975372e3dc087fb09"
+  }
+}

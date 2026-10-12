@@ -1,0 +1,1852 @@
+{
+  "role": "Author/tester actual CI readback, not independent approval of own fixture",
+  "conclusion": "FAILURE_RETAINED",
+  "head": "a7242964bc53e5baee674e0fb5a97175c7d660a2",
+  "tree": "4ac4a2efcda5013ed719aab74d88acb518106a34",
+  "observedCIMergeRef": "c63faafa9b1f2d12469e30517560404417a0e333",
+  "actualIntegrationChecks": 1084,
+  "integrationSuites": 12,
+  "phaseResults": [
+    {
+      "phase": "remaining10",
+      "exit": {
+        "phase": "remaining10",
+        "runnerExit": 0,
+        "loggerExit": 0,
+        "observedAt": "2026-10-12T07:55:02.748591+00:00"
+      },
+      "totals": {
+        "suites": 10,
+        "passed": 923,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 161485
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 10,
+        "newSuites": []
+      }
+    },
+    {
+      "phase": "recipientHTTP",
+      "exit": {
+        "phase": "recipientHTTP",
+        "runnerExit": 0,
+        "loggerExit": 0,
+        "observedAt": "2026-10-12T07:55:11.042187+00:00"
+      },
+      "totals": {
+        "suites": 1,
+        "passed": 145,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 8102
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      }
+    },
+    {
+      "phase": "recipientScheduled",
+      "exit": {
+        "phase": "recipientScheduled",
+        "runnerExit": 0,
+        "loggerExit": 0,
+        "observedAt": "2026-10-12T07:55:13.370845+00:00"
+      },
+      "totals": {
+        "suites": 1,
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 2138
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      }
+    }
+  ],
+  "UIOriginalRunner": {
+    "totals": {
+      "suites": 1,
+      "passed": 28,
+      "failed": 1,
+      "skipped": 0,
+      "failedSuites": 1,
+      "durationMs": 303425
+    },
+    "guard": {
+      "ok": true,
+      "findings": [],
+      "warnings": [],
+      "evaluated": 1,
+      "newSuites": []
+    },
+    "phaseExit": {
+      "phase": "realPlaywright",
+      "runnerExit": 1,
+      "loggerExit": 0,
+      "observedAt": "2026-10-12T08:00:16.982869+00:00"
+    }
+  },
+  "rawPlaywrightStats": {
+    "startTime": "2026-10-12T07:55:14.672Z",
+    "duration": 301975.73099999997,
+    "expected": 28,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 1
+  },
+  "lastAttemptReporter": {
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": [
+      "desktop \u00b7 confirm-correct-hindi.spec.mjs \u203a visible Hindi phone Action-plan Refresh retains contrast when the scoped read completes"
+    ],
+    "accessibility": {
+      "screensScanned": 45,
+      "violationsFound": 0,
+      "blocking": 0,
+      "violations": []
+    }
+  },
+  "allActualPositiveAttemptAXEScans": 46,
+  "actualAllAttemptViolations": [],
+  "fiveExpectedFailureHarnessControls": [
+    {
+      "file": "harness.spec.mjs",
+      "title": "the axe scan fails on inaccessible markup",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 1291,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 156,
+                "line": 69
+              },
+              "message": "Error: Accessibility on \"harness \u00b7 inaccessible markup\": serious or critical axe violations\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 6\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"critical button-name x1: button\",\u001b[39m\n\u001b[31m+   \"critical image-alt x1: img\",\u001b[39m\n\u001b[31m+   \"critical label x1: input\",\u001b[39m\n\u001b[31m+   \"serious target-size x1: button\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:69\n\n  67 |     this.a11y.push({ screen, passes: result.passes.length, violations: found });\n  68 |     const blocking = found.filter(v => BLOCKING.has(v.impact));\n> 69 |     expect.soft(blocking.map(v => `${v.impact} ${v.id} x${v.nodes}: ${v.targets[0]}`), `Accessibility on \"${screen}\": serious or critical axe violations`).toEqual([]);\n     |                                                                                                                                                            ^\n  70 |     return found;\n  71 |   }\n  72 |   /** Locators for text that changes from run to run, to hide in screenshots. */\n    at Lab.scan (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:69:156)\n    at /home/runner/work/saha-health/saha-health/tests/ui/harness.spec.mjs:11:5"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "3dc28bb056d3b14c50d0d00d61b7073340343d270bd51a16e28254adc3025115",
+              "bytes": 1120,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "an uncaught page error fails the journey",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 307,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 129,
+                "line": 108
+              },
+              "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 7\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"pageerror\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: uncaught error\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "ed5035a374cc4f5768dfaf748ee45b3a0b8677612ffebae997e4cdff784e0781",
+              "bytes": 147,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [
+              {
+                "kind": "pageerror",
+                "who": "anonymous",
+                "text": "harness: uncaught error"
+              }
+            ],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "a console error fails the journey",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 122,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 129,
+                "line": 108
+              },
+              "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: unexpected console error\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "23ea1568a3d1aac80191d2a1af2b0153ab2654e9b3178a41fa6296f1bacf8691",
+              "bytes": 172,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [
+              {
+                "kind": "console",
+                "who": "anonymous",
+                "text": "harness: unexpected console error",
+                "url": ""
+              }
+            ],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "an HTTP 5xx answer fails the journey",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 324,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 129,
+                "line": 108
+              },
+              "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 14\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"http5xx\",\u001b[39m\n\u001b[31m+     \"text\": \"500 GET /harness-boom\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"Failed to load resource: the server responded with a status of 500 (Internal Server Error)\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "8dbb8e0776387e9c4de5fce55748718668c6e2a592207216b69c8a86748e2bef",
+              "bytes": 410,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [
+              {
+                "kind": "http5xx",
+                "who": "anonymous",
+                "text": "500 GET /harness-boom",
+                "url": "http://127.0.0.1:1/harness-boom"
+              },
+              {
+                "kind": "console",
+                "who": "anonymous",
+                "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+                "url": "http://127.0.0.1:1/harness-boom"
+              }
+            ],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "an allow-list entry that does not match does not hide the message",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 102,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 129,
+                "line": 108
+              },
+              "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: a message that is not allowed\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "3fa708ee8b248103bd474030eb54f0020281d498c70f3dfaf1352bbe5d8f0c94",
+              "bytes": 177,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [
+              {
+                "kind": "console",
+                "who": "anonymous",
+                "text": "harness: a message that is not allowed",
+                "url": ""
+              }
+            ],
+            "allowed": []
+          }
+        }
+      ]
+    }
+  ],
+  "normalFirstAttemptPassedBodies": 23,
+  "soleFlakyCase": {
+    "file": "confirm-correct-hindi.spec.mjs",
+    "title": "visible Hindi phone Action-plan Refresh retains contrast when the scoped read completes",
+    "project": "desktop",
+    "status": "flaky",
+    "expectedStatus": "passed",
+    "attempts": [
+      {
+        "retry": 0,
+        "status": "failed",
+        "durationMs": 9412,
+        "errors": [
+          {
+            "location": {
+              "file": "/home/runner/work/saha-health/saha-health/tests/ui/confirm-correct-hindi.spec.mjs",
+              "column": 48,
+              "line": 224
+            },
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m250\u001b[39m\nReceived:    \u001b[31m248.82329000000027\u001b[39m\n\n  222 |   expect(Object.keys(journal.heldRequests[0].actorHeaderBindings).length, 'actual actor binding cannot pass with an empty identity header map').toBeGreaterThan(0);\n  223 |   expect(Object.values(journal.heldRequests[0].actorHeaderBindings).every(Boolean)).toBe(true);\n> 224 |   expect(journal.heldRequests[0].actualHoldMs).toBeGreaterThanOrEqual(250);\n      |                                                ^\n  225 |   expect(sampled).not.toBeNull();\n  226 |   expect(sampled.truncated, 'refuse a sampler that ended before the actual terminal response/measurement window').toBeNull();\n  227 |   const present = sampled.samples.filter(s => s.present);\n    at /home/runner/work/saha-health/saha-health/tests/ui/confirm-correct-hindi.spec.mjs:224:48"
+          }
+        ],
+        "attachmentPins": [
+          {
+            "name": "visible-refresh-actual-read-and-samples.json",
+            "sha256": "01231d5bf48eca9f581adfb37dc9c78930fb8fc8b43c547fe59b5bad8f98de13",
+            "bytes": 3941029,
+            "savedPath": "outputs/saha-staging-resume-20261012/currenta724-normal-ci-qa/raw-attempt-attachments/0-visible-refresh-actual-read-and-samples.json"
+          },
+          {
+            "name": "browser-problems.json",
+            "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+            "bytes": 39,
+            "savedPath": null
+          },
+          {
+            "name": "a11y.json",
+            "sha256": "bcf54e14b6446c877b41e671d47fca87190d077fd59ec810bf2ef5796ea47cdc",
+            "bytes": 136,
+            "savedPath": null
+          }
+        ],
+        "browserProblems": {
+          "unexpected": [],
+          "allowed": []
+        }
+      },
+      {
+        "retry": 1,
+        "status": "passed",
+        "durationMs": 30969,
+        "errors": [],
+        "attachmentPins": [
+          {
+            "name": "visible-refresh-actual-read-and-samples.json",
+            "sha256": "240f71a301d9f4877c246973f93d956d71a4ab8ca97f5a7a69b1df11b2b2be16",
+            "bytes": 4122354,
+            "savedPath": "outputs/saha-staging-resume-20261012/currenta724-normal-ci-qa/raw-attempt-attachments/1-visible-refresh-actual-read-and-samples.json"
+          },
+          {
+            "name": "visible-refresh-alpha-contrast.json",
+            "sha256": "635858508d29acf51dca97ea72e16d089b42d1035b2c984a83450ef697c6ca08",
+            "bytes": 234092,
+            "savedPath": "outputs/saha-staging-resume-20261012/currenta724-normal-ci-qa/raw-attempt-attachments/1-visible-refresh-alpha-contrast.json"
+          },
+          {
+            "name": "browser-problems.json",
+            "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+            "bytes": 39,
+            "savedPath": null
+          },
+          {
+            "name": "a11y.json",
+            "sha256": "bcf54e14b6446c877b41e671d47fca87190d077fd59ec810bf2ef5796ea47cdc",
+            "bytes": 136,
+            "savedPath": null
+          }
+        ],
+        "browserProblems": {
+          "unexpected": [],
+          "allowed": []
+        }
+      }
+    ]
+  },
+  "visibleReadRecomputedResults": [
+    {
+      "retry": 0,
+      "status": "failed",
+      "holdMs": 248.82329000000027,
+      "holdMeetsOriginal250": false,
+      "responseStatus": 200,
+      "requestCount": 1,
+      "responseCount": 1,
+      "seededPersonId": "p_meena",
+      "organisationId": "org_ad83903308766da479a531eb7cc03f2c",
+      "actorOrgBinding": true,
+      "samplerTruncated": null,
+      "enabledFrames": 729,
+      "minimumRecomputedContrast": 12.779238707294423,
+      "belowOriginal4_5": 0,
+      "observedOpacity": [
+        1.0
+      ],
+      "originalContrastAttachmentPresent": false,
+      "limits": "First attempt aborted at the hold oracle before original alpha assertions; recomputed first-attempt contrast is diagnostic readback, not an original test pass."
+    },
+    {
+      "retry": 1,
+      "status": "passed",
+      "holdMs": 250.00370199999998,
+      "holdMeetsOriginal250": true,
+      "responseStatus": 200,
+      "requestCount": 1,
+      "responseCount": 1,
+      "seededPersonId": "p_meena",
+      "organisationId": "org_5aa504a9c72115aa769df51d3d44086e",
+      "actorOrgBinding": true,
+      "samplerTruncated": null,
+      "enabledFrames": 763,
+      "minimumRecomputedContrast": 12.779238707294423,
+      "belowOriginal4_5": 0,
+      "observedOpacity": [
+        1.0
+      ],
+      "originalContrastAttachmentPresent": true,
+      "limits": "Retry pass retained as retry, never qualification."
+    }
+  ],
+  "safeSixActualProof": {
+    "status": 200,
+    "privacyWithheld": false,
+    "minimumCell": 5,
+    "distinctPeople": 6,
+    "distinctVisits": 6,
+    "alertCount": 6,
+    "severity": "high",
+    "proofPin": {
+      "name": "safe-six-destination-alert-proof.json",
+      "sha256": "ff4e8843d309cf9723cfb9fb894ea48604ab27c6818dd7272aafb52620bbd777",
+      "bytes": 6714,
+      "savedPath": "outputs/saha-staging-resume-20261012/currenta724-normal-ci-qa/raw-attempt-attachments/0-safe-six-destination-alert-proof.json"
+    }
+  },
+  "normalSnapshotMode": "missing",
+  "explicitSnapshotUpdateFlag": false,
+  "allNineGoldenReferencesExistedAndRemainBytePinned": {
+    "tests/ui/baselines/desktop/asha-home.png": {
+      "kind": "file",
+      "bytes": 124191,
+      "sha256": "ce849226297cd8919d44894d2f2639f85155cd162d41696cd459d69c8f4a400f"
+    },
+    "tests/ui/baselines/desktop/clinical-review.png": {
+      "kind": "file",
+      "bytes": 168133,
+      "sha256": "f57edf718aaf1e75108f7bcbe2cc5ab3b505da58f948b310d535473327116002"
+    },
+    "tests/ui/baselines/desktop/governance-protocols.png": {
+      "kind": "file",
+      "bytes": 122353,
+      "sha256": "49fddfe9a46a1ac9ab07120ecf959faf5913a44541ffe409cbff728f071b140f"
+    },
+    "tests/ui/baselines/desktop/operations-alerts.png": {
+      "kind": "file",
+      "bytes": 37145,
+      "sha256": "c9fbe6b25d0d727b18f65312afb84b033b448fd9167ce65a76abd448f590be7f"
+    },
+    "tests/ui/baselines/desktop/operations-withheld.png": {
+      "kind": "file",
+      "bytes": 17044,
+      "sha256": "4103acf84bbff6f84a121caf41e288f181fb083b8ac63be2bd1340598df6ed1e"
+    },
+    "tests/ui/baselines/desktop/owner-home.png": {
+      "kind": "file",
+      "bytes": 123702,
+      "sha256": "4dfcf178ea1fa38501defe9959c3ee14d491bb51d12b02a9fb766dc12a443e6a"
+    },
+    "tests/ui/baselines/desktop/receipt-uncertain.png": {
+      "kind": "file",
+      "bytes": 21077,
+      "sha256": "3c995061cbac2652b0b5a8366b319e42c448c8d5340ffcf1dce42e41d14f7370"
+    },
+    "tests/ui/baselines/desktop/visit-form.png": {
+      "kind": "file",
+      "bytes": 126728,
+      "sha256": "033691e08f3a8f4fd3bcb2a55acf52b3bf69b9990d3a13a3e39734fd5249a263"
+    },
+    "tests/ui/baselines/phone/phone-home.png": {
+      "kind": "file",
+      "bytes": 65212,
+      "sha256": "161d6d937290f6a20f34d38b369f179b6cad125964d4691b29f185a46e361d20"
+    }
+  },
+  "original389ObjectsPreserved": true,
+  "actualCoverageRefusal": {
+    "schema": 1,
+    "expectedIds": [
+      "integration/alert-capture-ledger-http",
+      "integration/combined-reviewed-alert-export-cold-independent-http",
+      "integration/combined-reviewed-alert-recipient-hold-http",
+      "integration/combined-reviewed-guided-audio-independent-component",
+      "integration/combined-reviewed-programme-transition-audit-cold-extended-primary",
+      "integration/combined-reviewed-programme-transition-audit-cold-independent-http",
+      "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+      "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser",
+      "integration/combined-reviewed-transition-parity-cold-independent-http",
+      "integration/scheduled-local-check",
+      "integration/combined-reviewed-alert-recipient-current-http",
+      "integration/combined-reviewed-alert-recipient-current-scheduled",
+      "ui/playwright.config"
+    ],
+    "minimumSum": 1102,
+    "actualIds": [
+      "integration/alert-capture-ledger-http",
+      "integration/combined-reviewed-alert-export-cold-independent-http",
+      "integration/combined-reviewed-alert-recipient-hold-http",
+      "integration/combined-reviewed-guided-audio-independent-component",
+      "integration/combined-reviewed-programme-transition-audit-cold-extended-primary",
+      "integration/combined-reviewed-programme-transition-audit-cold-independent-http",
+      "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+      "integration/combined-reviewed-transition-parity-cold-independent-http",
+      "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser",
+      "integration/scheduled-local-check",
+      "integration/combined-reviewed-alert-recipient-current-http",
+      "integration/combined-reviewed-alert-recipient-current-scheduled",
+      "ui/playwright.config"
+    ],
+    "phases": [
+      {
+        "phase": "remaining10",
+        "expectedIds": [
+          "integration/alert-capture-ledger-http",
+          "integration/combined-reviewed-alert-export-cold-independent-http",
+          "integration/combined-reviewed-alert-recipient-hold-http",
+          "integration/combined-reviewed-guided-audio-independent-component",
+          "integration/combined-reviewed-programme-transition-audit-cold-extended-primary",
+          "integration/combined-reviewed-programme-transition-audit-cold-independent-http",
+          "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+          "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser",
+          "integration/combined-reviewed-transition-parity-cold-independent-http",
+          "integration/scheduled-local-check"
+        ],
+        "exit": {
+          "phase": "remaining10",
+          "runnerExit": 0,
+          "loggerExit": 0,
+          "observedAt": "2026-10-12T07:55:02.748591+00:00"
+        },
+        "summary": "tests/reports/original-missing13-remaining10-summary.json",
+        "ids": [
+          "integration/alert-capture-ledger-http",
+          "integration/combined-reviewed-alert-export-cold-independent-http",
+          "integration/combined-reviewed-alert-recipient-hold-http",
+          "integration/combined-reviewed-guided-audio-independent-component",
+          "integration/combined-reviewed-programme-transition-audit-cold-extended-primary",
+          "integration/combined-reviewed-programme-transition-audit-cold-independent-http",
+          "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+          "integration/combined-reviewed-transition-parity-cold-independent-http",
+          "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser",
+          "integration/scheduled-local-check"
+        ],
+        "guard": {
+          "ok": true,
+          "findings": [],
+          "warnings": [],
+          "evaluated": 10,
+          "newSuites": []
+        }
+      },
+      {
+        "phase": "recipientHTTP",
+        "expectedIds": [
+          "integration/combined-reviewed-alert-recipient-current-http"
+        ],
+        "exit": {
+          "phase": "recipientHTTP",
+          "runnerExit": 0,
+          "loggerExit": 0,
+          "observedAt": "2026-10-12T07:55:11.042187+00:00"
+        },
+        "summary": "tests/reports/original-missing13-recipient-http-summary.json",
+        "ids": [
+          "integration/combined-reviewed-alert-recipient-current-http"
+        ],
+        "guard": {
+          "ok": true,
+          "findings": [],
+          "warnings": [],
+          "evaluated": 1,
+          "newSuites": []
+        }
+      },
+      {
+        "phase": "recipientScheduled",
+        "expectedIds": [
+          "integration/combined-reviewed-alert-recipient-current-scheduled"
+        ],
+        "exit": {
+          "phase": "recipientScheduled",
+          "runnerExit": 0,
+          "loggerExit": 0,
+          "observedAt": "2026-10-12T07:55:13.370845+00:00"
+        },
+        "summary": "tests/reports/original-missing13-recipient-scheduled-summary.json",
+        "ids": [
+          "integration/combined-reviewed-alert-recipient-current-scheduled"
+        ],
+        "guard": {
+          "ok": true,
+          "findings": [],
+          "warnings": [],
+          "evaluated": 1,
+          "newSuites": []
+        }
+      },
+      {
+        "phase": "realPlaywright",
+        "expectedIds": [
+          "ui/playwright.config"
+        ],
+        "exit": {
+          "phase": "realPlaywright",
+          "runnerExit": 1,
+          "loggerExit": 0,
+          "observedAt": "2026-10-12T08:00:16.982869+00:00"
+        },
+        "summary": "tests/reports/original-missing13-playwright-summary.json",
+        "ids": [
+          "ui/playwright.config"
+        ],
+        "guard": {
+          "ok": true,
+          "findings": [],
+          "warnings": [],
+          "evaluated": 1,
+          "newSuites": []
+        }
+      }
+    ],
+    "findings": [
+      "realPlaywright: actual phase or logger failed",
+      "ui/playwright.config: actual status/count does not satisfy original minimum with no skips"
+    ],
+    "passed": false,
+    "limits": [
+      "Counts derive from the original runner/guard, not restored historical observed files.",
+      "Known privacy/count conflict and screenshot failures remain failures; no policy/oracle waiver.",
+      "This CI coverage evidence is not formal UAT, physical-device or hosting acceptance."
+    ]
+  },
+  "allCases": [
+    {
+      "file": "asha-visit.spec.mjs",
+      "title": "ASHA visit with a danger sign: assistant, urgent finding, confirmation, programme plan and receipts",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 66997,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "d49cc24950370d802576f8e63e3a1eeb279cfad25afca0d46e710d71f09ba030",
+              "bytes": 705,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "confirm-correct-hindi.spec.mjs",
+      "title": "visit confirmation and the correction dialogs pass axe at desktop and phone widths",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 54454,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "a54e19cfc044ffbc05be70d3c87fc8cdc8057da58ff985b6bc67ee4310378a9e",
+              "bytes": 844,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "confirm-correct-hindi.spec.mjs",
+      "title": "Hindi workspace screens pass axe at desktop and phone widths",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 13183,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "41f33baa9447a1fdd80737f3b90bccfdfc1e46cb22e94f4f62e8bd2582f9d69f",
+              "bytes": 816,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "confirm-correct-hindi.spec.mjs",
+      "title": "visible Hindi phone Action-plan Refresh retains contrast when the scoped read completes",
+      "project": "desktop",
+      "status": "flaky",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 9412,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/confirm-correct-hindi.spec.mjs",
+                "column": 48,
+                "line": 224
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m250\u001b[39m\nReceived:    \u001b[31m248.82329000000027\u001b[39m\n\n  222 |   expect(Object.keys(journal.heldRequests[0].actorHeaderBindings).length, 'actual actor binding cannot pass with an empty identity header map').toBeGreaterThan(0);\n  223 |   expect(Object.values(journal.heldRequests[0].actorHeaderBindings).every(Boolean)).toBe(true);\n> 224 |   expect(journal.heldRequests[0].actualHoldMs).toBeGreaterThanOrEqual(250);\n      |                                                ^\n  225 |   expect(sampled).not.toBeNull();\n  226 |   expect(sampled.truncated, 'refuse a sampler that ended before the actual terminal response/measurement window').toBeNull();\n  227 |   const present = sampled.samples.filter(s => s.present);\n    at /home/runner/work/saha-health/saha-health/tests/ui/confirm-correct-hindi.spec.mjs:224:48"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "visible-refresh-actual-read-and-samples.json",
+              "sha256": "01231d5bf48eca9f581adfb37dc9c78930fb8fc8b43c547fe59b5bad8f98de13",
+              "bytes": 3941029,
+              "savedPath": "outputs/saha-staging-resume-20261012/currenta724-normal-ci-qa/raw-attempt-attachments/0-visible-refresh-actual-read-and-samples.json"
+            },
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "bcf54e14b6446c877b41e671d47fca87190d077fd59ec810bf2ef5796ea47cdc",
+              "bytes": 136,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        },
+        {
+          "retry": 1,
+          "status": "passed",
+          "durationMs": 30969,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "visible-refresh-actual-read-and-samples.json",
+              "sha256": "240f71a301d9f4877c246973f93d956d71a4ab8ca97f5a7a69b1df11b2b2be16",
+              "bytes": 4122354,
+              "savedPath": "outputs/saha-staging-resume-20261012/currenta724-normal-ci-qa/raw-attempt-attachments/1-visible-refresh-actual-read-and-samples.json"
+            },
+            {
+              "name": "visible-refresh-alpha-contrast.json",
+              "sha256": "635858508d29acf51dca97ea72e16d089b42d1035b2c984a83450ef697c6ca08",
+              "bytes": 234092,
+              "savedPath": "outputs/saha-staging-resume-20261012/currenta724-normal-ci-qa/raw-attempt-attachments/1-visible-refresh-alpha-contrast.json"
+            },
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "bcf54e14b6446c877b41e671d47fca87190d077fd59ec810bf2ef5796ea47cdc",
+              "bytes": 136,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "errors.spec.mjs",
+      "title": "a stranger who opens another organisation is refused, with no patient data and no crash",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 2385,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "9a38abbd37f4d7fe453acd8899dadbfa195acd985a5732436b32b644d549cb50",
+              "bytes": 713,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "f0cd18c875aaf475353e74344954b51d4a3ec2dc99de8a10a02ed896737b915f",
+              "bytes": 87,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": [
+              {
+                "kind": "console",
+                "who": "stranger",
+                "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+                "url": "http://127.0.0.1:8821/api/workspace",
+                "allowedBecause": "the refusal under test: the server answers 403 for an organisation this account does not belong to"
+              },
+              {
+                "kind": "console",
+                "who": "stranger",
+                "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+                "url": "http://127.0.0.1:8821/api/workspace",
+                "allowedBecause": "the refusal under test: the server answers 403 for an organisation this account does not belong to"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "file": "errors.spec.mjs",
+      "title": "an invitation code that does not exist is refused with a clear message",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 7756,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "e4237d251ed3ac713c93ec24e4ab7b16dc549e9087000d86041f5555cfe54fc2",
+              "bytes": 336,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "507ed2f3210780fd5c32744c789e4caca80f5848fcc1aa3ef91c1ce80bab38af",
+              "bytes": 114,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": [
+              {
+                "kind": "console",
+                "who": "asha",
+                "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+                "url": "http://127.0.0.1:8821/api/commands",
+                "allowedBecause": "the refusal under test: an unknown invitation code answers 404"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "file": "errors.spec.mjs",
+      "title": "an address that is not a page shows a not-found page",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 1358,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "05a7b8b39d13c9185fff02918d14fa7f6008ce0c5f8d40989323a64e77d9cd4e",
+              "bytes": 330,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "e9470026d0cf56fd6cfd68b6597b826ac6a650f985959db907b19cdbe87a37bb",
+              "bytes": 81,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": [
+              {
+                "kind": "console",
+                "who": "asha",
+                "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+                "url": "http://127.0.0.1:8821/does-not-exist",
+                "allowedBecause": "the refusal under test: an unknown address answers 404"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "file": "frontline-sandbox.spec.mjs",
+      "title": "frontline reader: third-party model code runs in an opaque-origin frame that cannot reach Saha",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 222,
+          "errors": [],
+          "attachmentPins": [],
+          "browserProblems": null
+        }
+      ]
+    },
+    {
+      "file": "governance.spec.mjs",
+      "title": "owner sees the demonstration protocols and the source library",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 3847,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "8c0c9f59ead13cff6c9eaa6f77a0cb1ac8c8673b61f6834fc5d9ba4393965890",
+              "bytes": 199,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "the axe scan fails on inaccessible markup",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 1291,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 156,
+                "line": 69
+              },
+              "message": "Error: Accessibility on \"harness \u00b7 inaccessible markup\": serious or critical axe violations\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 6\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"critical button-name x1: button\",\u001b[39m\n\u001b[31m+   \"critical image-alt x1: img\",\u001b[39m\n\u001b[31m+   \"critical label x1: input\",\u001b[39m\n\u001b[31m+   \"serious target-size x1: button\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:69\n\n  67 |     this.a11y.push({ screen, passes: result.passes.length, violations: found });\n  68 |     const blocking = found.filter(v => BLOCKING.has(v.impact));\n> 69 |     expect.soft(blocking.map(v => `${v.impact} ${v.id} x${v.nodes}: ${v.targets[0]}`), `Accessibility on \"${screen}\": serious or critical axe violations`).toEqual([]);\n     |                                                                                                                                                            ^\n  70 |     return found;\n  71 |   }\n  72 |   /** Locators for text that changes from run to run, to hide in screenshots. */\n    at Lab.scan (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:69:156)\n    at /home/runner/work/saha-health/saha-health/tests/ui/harness.spec.mjs:11:5"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "3dc28bb056d3b14c50d0d00d61b7073340343d270bd51a16e28254adc3025115",
+              "bytes": 1120,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "an uncaught page error fails the journey",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 307,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 129,
+                "line": 108
+              },
+              "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 7\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"pageerror\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: uncaught error\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "ed5035a374cc4f5768dfaf748ee45b3a0b8677612ffebae997e4cdff784e0781",
+              "bytes": 147,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [
+              {
+                "kind": "pageerror",
+                "who": "anonymous",
+                "text": "harness: uncaught error"
+              }
+            ],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "a console error fails the journey",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 122,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 129,
+                "line": 108
+              },
+              "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: unexpected console error\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "23ea1568a3d1aac80191d2a1af2b0153ab2654e9b3178a41fa6296f1bacf8691",
+              "bytes": 172,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [
+              {
+                "kind": "console",
+                "who": "anonymous",
+                "text": "harness: unexpected console error",
+                "url": ""
+              }
+            ],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "an HTTP 5xx answer fails the journey",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 324,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 129,
+                "line": 108
+              },
+              "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 14\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"http5xx\",\u001b[39m\n\u001b[31m+     \"text\": \"500 GET /harness-boom\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"Failed to load resource: the server responded with a status of 500 (Internal Server Error)\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "8dbb8e0776387e9c4de5fce55748718668c6e2a592207216b69c8a86748e2bef",
+              "bytes": 410,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [
+              {
+                "kind": "http5xx",
+                "who": "anonymous",
+                "text": "500 GET /harness-boom",
+                "url": "http://127.0.0.1:1/harness-boom"
+              },
+              {
+                "kind": "console",
+                "who": "anonymous",
+                "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+                "url": "http://127.0.0.1:1/harness-boom"
+              }
+            ],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "an allow-list entry that does not match does not hide the message",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "failed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "durationMs": 102,
+          "errors": [
+            {
+              "location": {
+                "file": "/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs",
+                "column": 129,
+                "line": 108
+              },
+              "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: a message that is not allowed\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/runner/work/saha-health/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+            }
+          ],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "3fa708ee8b248103bd474030eb54f0020281d498c70f3dfaf1352bbe5d8f0c94",
+              "bytes": 177,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [
+              {
+                "kind": "console",
+                "who": "anonymous",
+                "text": "harness: a message that is not allowed",
+                "url": ""
+              }
+            ],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "an allow-list entry with a reason lets exactly that message through, and it is listed",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 305,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "15f8c91a7ec0ab85f3c9954dd21faba4484a90e61d6aced5d45769e3bde9cef5",
+              "bytes": 250,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": [
+              {
+                "kind": "console",
+                "who": "anonymous",
+                "text": "harness: known harmless message",
+                "url": "",
+                "allowedBecause": "harness: proves the allow-list works and is recorded"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "file": "harness.spec.mjs",
+      "title": "screenshot masks hide dates, receipt numbers and codes; unmasked, the same page differs",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 254,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "hindi.spec.mjs",
+      "title": "Hindi: My work shows Hindi text with lang=\"hi\", the choice is saved, and English comes back",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 9170,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "1398829fa6b32fec1e346181071484509da8bb1a47c135a4d516700beeb72343",
+              "bytes": 185,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "owner-setup.spec.mjs",
+      "title": "owner sets a name, invites an ASHA by account code and assigns one person; the ASHA sees only that person",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 19039,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4baa8960123f723d0d8a2a4938a275f3db1b63b7b2fdfdc7edd1859779538bb7",
+              "bytes": 456,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "roles-safe-cohort-positive.spec.mjs",
+      "title": "supervisor sees the destination-uncertain alert for six distinct authorised demo contributors",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 7992,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "safe-six-destination-alert-proof.json",
+              "sha256": "ff4e8843d309cf9723cfb9fb894ea48604ab27c6818dd7272aafb52620bbd777",
+              "bytes": 6714,
+              "savedPath": "outputs/saha-staging-resume-20261012/currenta724-normal-ci-qa/raw-attempt-attachments/0-safe-six-destination-alert-proof.json"
+            },
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "0cb1f79d88cfa5df88410949b24254db42aa5a0bda81007f4b6c1aab801f003e",
+              "bytes": 115,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "roles.spec.mjs",
+      "title": "supervisor sees Operations and alerts and no administration menus; an ASHA menu is care work only",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 6746,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "52ffdf1af69e19ed7757d1aa631b48859f45ff5d9acdc835339f2e70eb24e2d0",
+              "bytes": 179,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "voice.spec.mjs",
+      "title": "voice input: the browser speech service only after the notice; a number from speech; words added after notes; nothing saved until Save draft",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 9829,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "7cb71fef8e656091f369f8bc6a2c4331fca52681a85a3978404f6240ea2a8ea5",
+              "bytes": 86,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "voice.spec.mjs",
+      "title": "voice input: with the browser speech service off and no on-device speech, the microphone says so and never listens",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 1091,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "voice.spec.mjs",
+      "title": "voice input: on-device speech needs no setting and no notice; Hindi is offered; it works inside a dialog",
+      "project": "desktop",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 2590,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "voice.spec.mjs",
+      "title": "voice input: the browser speech service only after the notice; a number from speech; words added after notes; nothing saved until Save draft",
+      "project": "phone",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 9453,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "5a9b6c12897f815574c12df5b55851e4bfe72032213d38e906966a6685b95afb",
+              "bytes": 86,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "voice.spec.mjs",
+      "title": "voice input: with the browser speech service off and no on-device speech, the microphone says so and never listens",
+      "project": "phone",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 1006,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "voice.spec.mjs",
+      "title": "voice input: on-device speech needs no setting and no notice; Hindi is offered; it works inside a dialog",
+      "project": "phone",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 2484,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "app-first-phone.spec.mjs",
+      "title": "app-first: tabs distinguish device sync, receipts and preserved visit review",
+      "project": "phone",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 3842,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "bytes": 2,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "phone.spec.mjs",
+      "title": "phone: the visit list and the visit form are usable at 390x844 with no sideways scroll",
+      "project": "phone",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 9717,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "6c908235428f050bff0f3fda9de68a2665ebba898a7bf604f194cf6c81fbc3c3",
+              "bytes": 169,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    },
+    {
+      "file": "phone.spec.mjs",
+      "title": "phone: the clinical review, the review step and the receipts of a sent visit also fit the width",
+      "project": "phone",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "passed",
+          "durationMs": 14624,
+          "errors": [],
+          "attachmentPins": [
+            {
+              "name": "browser-problems.json",
+              "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a",
+              "bytes": 39,
+              "savedPath": null
+            },
+            {
+              "name": "a11y.json",
+              "sha256": "a3e574355523e553f18a49498a1258223fc0f0ff2a56b6962b32eec6620aa72e",
+              "bytes": 175,
+              "savedPath": null
+            }
+          ],
+          "browserProblems": {
+            "unexpected": [],
+            "allowed": []
+          }
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "The unchanged original UI guard correctly refuses a retry-only pass; original250ms and4.5 criteria are not weakened.",
+    "First attempt failed only the monotonic hold-duration assertion, before subsequent alpha assertions; raw sample recomputation is diagnostic.",
+    "45 final-attempt AXE scans is not all-attempt count;46 actual positive-attempt scans are clean.",
+    "13 attempted original suite IDs with12 qualified integration suites is not389 actualexecutions.",
+    "Nine retained expected PNGs include one unused historical image;eight current screenshot comparisons run normally.",
+    "Recorded281 dist hashes are not archived actual281 compiled bytes.",
+    "No explicit PID/group/port-free receipt is inferred from ordinary Worker teardown/job completion.",
+    "No all-seven CI/A9/merge/hosting/formalhumanphysical acceptance."
+  ]
+}

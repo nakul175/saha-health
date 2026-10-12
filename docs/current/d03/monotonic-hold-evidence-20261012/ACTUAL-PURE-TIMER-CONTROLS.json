@@ -1,0 +1,109 @@
+{
+  "scope": "Pure virtual-clock source control; not actual CI or browser qualification",
+  "controls": 8,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    {
+      "name": "original_single_timer_reproduces_recorded_248_82329_failure",
+      "blockSHA256": "ede6ff10527c8bf0ba9214660eb352773d901c51d785dc54f5edceeef37100a2",
+      "clock": 248.82329000000027,
+      "passed": true
+    },
+    {
+      "name": "early_first_timer_is_completed_to_original_deadline",
+      "blockSHA256": "5027a5e6bb00788ce31ed429547bf0e33b9e74c2ea5271bf60682cbd7ba2d3e3",
+      "clock": 250.82329000000027,
+      "waitRequests": [
+        250,
+        2
+      ],
+      "waitCount": 2,
+      "continued": true,
+      "error": null,
+      "passed": true
+    },
+    {
+      "name": "exact_deadline_one_wait",
+      "blockSHA256": "5027a5e6bb00788ce31ed429547bf0e33b9e74c2ea5271bf60682cbd7ba2d3e3",
+      "clock": 250,
+      "waitRequests": [
+        250
+      ],
+      "waitCount": 1,
+      "continued": true,
+      "error": null,
+      "passed": true
+    },
+    {
+      "name": "late_timer_meets_original_deadline",
+      "blockSHA256": "5027a5e6bb00788ce31ed429547bf0e33b9e74c2ea5271bf60682cbd7ba2d3e3",
+      "clock": 275,
+      "waitRequests": [
+        250
+      ],
+      "waitCount": 1,
+      "continued": true,
+      "error": null,
+      "passed": true
+    },
+    {
+      "name": "eight_nonadvancing_timers_refuse_without_continuation",
+      "blockSHA256": "5027a5e6bb00788ce31ed429547bf0e33b9e74c2ea5271bf60682cbd7ba2d3e3",
+      "clock": 0,
+      "waitRequests": [
+        250,
+        250,
+        250,
+        250,
+        250,
+        250,
+        250,
+        250
+      ],
+      "waitCount": 8,
+      "continued": false,
+      "error": "Error: The actual scoped read hold did not reach its 250 ms monotonic deadline in eight waits",
+      "passed": true
+    },
+    {
+      "name": "repeated_short_returns_cannot_exit_before_deadline",
+      "blockSHA256": "5027a5e6bb00788ce31ed429547bf0e33b9e74c2ea5271bf60682cbd7ba2d3e3",
+      "clock": 249.69999999999996,
+      "waitRequests": [
+        250,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "waitCount": 8,
+      "continued": false,
+      "error": "Error: The actual scoped read hold did not reach its 250 ms monotonic deadline in eight waits",
+      "passed": true
+    },
+    {
+      "name": "already_elapsed_original_deadline_needs_no_wait",
+      "blockSHA256": "5027a5e6bb00788ce31ed429547bf0e33b9e74c2ea5271bf60682cbd7ba2d3e3",
+      "clock": 250,
+      "waitRequests": [],
+      "waitCount": 0,
+      "continued": true,
+      "error": null,
+      "passed": true
+    },
+    {
+      "name": "nonfinite_monotonic_value_refuses_without_continuation",
+      "blockSHA256": "5027a5e6bb00788ce31ed429547bf0e33b9e74c2ea5271bf60682cbd7ba2d3e3",
+      "clock": null,
+      "waitRequests": [],
+      "waitCount": 0,
+      "continued": false,
+      "error": "Error: The actual scoped read hold did not reach its 250 ms monotonic deadline in eight waits",
+      "passed": true
+    }
+  ]
+}

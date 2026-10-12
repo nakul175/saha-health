@@ -1,0 +1,136 @@
+{
+  "schema": "independent-original-missing13-ci-source-review/1",
+  "reviewer": "/root/routine_independent_qa",
+  "author": "/root/routine_final_review",
+  "observedAtUtc": "2026-10-12T04:35:08.388897+00:00",
+  "verdict": "SOURCE_PASS_FOR_ADDITIVE_DIAGNOSTIC_CI_EXECUTION__NO_RUNTIME_OR_RELEASE_QUALIFICATION",
+  "base": "5302f76f353363f95df936251334db5c100a55a4",
+  "candidate": "uncommitted .github/workflows/ci.yml",
+  "candidateSha256": "ea0cab7a4a7ef379773a080dc260e4a6f5561a0b08debdab467f0e82c93454a7",
+  "workingDelta": " M .github/workflows/ci.yml\n",
+  "syntax": {
+    "yamlParsedWithPinnedJsYaml4_1_1": true,
+    "all11BashScriptsParse": true,
+    "all7EmbeddedPythonBlocksCompile": true,
+    "embeddedJavaScriptModuleCompiles": true,
+    "controlsPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/missing13-ci-independent-review/INDEPENDENT-STATIC-EXECUTABLE-SYNTAX-CONTROLS.json",
+    "controlsSha256": "a90f16f6a6501565ea1dd1c5cf9e76def49e003165a8da2806d63203e5903e6f"
+  },
+  "oldWorkflowPreservation": {
+    "entireOldWorkflowByteExactPrefix": true,
+    "allSixJobsDeepEqual": true,
+    "allTopLevelSettingsDeepEqual": true,
+    "onlyNewJob": "original-missing-coverage",
+    "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/missing13-ci-independent-review/YAML-PREFIX-AND-SOURCE-READBACK.json",
+    "readbackSha256": "82d66a6fd8956385b836e2759b9c4a47f016c58bd196a51fb534d45940469d0c"
+  },
+  "originalCriteria": {
+    "baselineFileSha256": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0",
+    "whole389BaselineByteExact": true,
+    "oraclesGoldensConfigQuarantineNotEdited": true,
+    "selected13UniqueOriginalIds": [
+      "integration/alert-capture-ledger-http",
+      "integration/combined-reviewed-alert-export-cold-independent-http",
+      "integration/combined-reviewed-alert-recipient-hold-http",
+      "integration/combined-reviewed-guided-audio-independent-component",
+      "integration/combined-reviewed-programme-transition-audit-cold-extended-primary",
+      "integration/combined-reviewed-programme-transition-audit-cold-independent-http",
+      "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+      "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser",
+      "integration/combined-reviewed-transition-parity-cold-independent-http",
+      "integration/scheduled-local-check",
+      "integration/combined-reviewed-alert-recipient-current-http",
+      "integration/combined-reviewed-alert-recipient-current-scheduled",
+      "ui/playwright.config"
+    ],
+    "selectedMinimumSum": 1102,
+    "perIdMinimum": {
+      "integration/alert-capture-ledger-http": 262,
+      "integration/combined-reviewed-alert-export-cold-independent-http": 72,
+      "integration/combined-reviewed-alert-recipient-hold-http": 39,
+      "integration/combined-reviewed-guided-audio-independent-component": 19,
+      "integration/combined-reviewed-programme-transition-audit-cold-extended-primary": 253,
+      "integration/combined-reviewed-programme-transition-audit-cold-independent-http": 132,
+      "integration/combined-reviewed-simplicity-independent-guided-instructions-browser": 28,
+      "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser": 21,
+      "integration/combined-reviewed-transition-parity-cold-independent-http": 81,
+      "integration/scheduled-local-check": 8,
+      "integration/combined-reviewed-alert-recipient-current-http": 145,
+      "integration/combined-reviewed-alert-recipient-current-scheduled": 16,
+      "ui/playwright.config": 26
+    }
+  },
+  "schemaReview": {
+    "actualRetainedOriginalSummaryHasSuitesKindAndGuardShape": true,
+    "summaryGuardFields": [
+      "ok",
+      "evaluated",
+      "findings"
+    ],
+    "suiteFields": [
+      "id",
+      "kind",
+      "status",
+      "passed",
+      "failed",
+      "skipped"
+    ],
+    "missingMalformedWrongCountSkippedNonzeroRunnerOrLoggerFailureRefused": true,
+    "flakyRejectedByPreservedOriginalPlaywrightCountParser": true,
+    "exact13UniqueSelectionRequired": true,
+    "noRestoredObservedFileCountedAsNewProof": true
+  },
+  "failureSemantics": {
+    "noContinueOnError": true,
+    "runnerAndTeePipeStatusesBothRecordedAndPropagated": true,
+    "laterPhasesCanRunAfterPriorFailureForEvidenceButPriorFailureRemains": true,
+    "legacyFailureSkipsDependentPhasesAndLeavesJobFailed": true,
+    "alwaysArtifactUpload": true,
+    "cancelledPartialRunNeverQualifies": true,
+    "scheduledTestRunsImmediatelyAfterItsHttpProducer": true,
+    "note": "Scheduled step depends on legacy success rather than HTTP success. If HTTP fails, scheduled data is partial/unqualified; HTTP step and final verification still fail, so no false qualified workflow is created."
+  },
+  "installerCustody": {
+    "beforeAndBuiltAndFinalAllTrackedInputsCaptured": true,
+    "packageJsonAndLockAndRuntimeAndTestOraclesProtected": true,
+    "normalInstallerExplicitlyWritesPnpmWorkspaceStoreCacheSettings": true,
+    "workspaceDifferencesJournaledAndExcludedFromProtectedPredicate": true,
+    "packageJsonMutationKnown": false,
+    "packageJsonMutationMustFailIfActuallyObserved": true,
+    "notes": "No blanket installer exception for package.json. Current source installer code writes project configuration through pnpm config; actual dependency manifest mutation was not observed or assumed by this review. Final raw differences require actual applicability review."
+  },
+  "legacy": [
+    {
+      "commit": "75c0f3e5372b9eb08eab0717966b4638163294bc",
+      "actualLocalObjectTree": "c85f6c78dddc1c2fbd6ee2497bad19c97eae1d16",
+      "driver": "tests/alert-disclosure-before.mjs",
+      "driverSha256": "648e53bfe770cbb293405c0d27543f0e5290af60a43df5bbc0e1a991e581fcce",
+      "fetchInNewCI": true,
+      "builtOrExecutedByReviewer": false
+    },
+    {
+      "commit": "8eedc606ef015bd2cf5a8bddb3ed9e50249b5a30",
+      "actualLocalObjectTree": "f536f97c46693a92914956993ba3d7f4a9a9a714",
+      "driver": "tests/alert-export-cold-http.mjs",
+      "driverSha256": "1187d1d14a0b12e9d35ef3dc97c3495db15a688a2fddf087dd4fc20c4a61722e",
+      "fetchInNewCI": true,
+      "builtOrExecutedByReviewer": false
+    }
+  ],
+  "buildCustodyLimit": "built-current and final dist/compiler receipts are hash observations, not archived compiled bytes, and no automated built-current/final equality assertion is added. Actual final source/compiler applicability must be separately reviewed before release; lane SUCCESS alone is not that approval. Original build script confines legacy rebuilds to owned legacy trees and uses current dist for original current-phase history setup.",
+  "unchangedFailuresHeld": [
+    "Literal aggregate count-one roles oracle conflicts with existing minimum-five contributor protection.",
+    "Original screenshot tolerance remains0.02; observed Mac ratio0.03 remains failure until original environment qualification or transparently approved contract reconciliation.",
+    "Prepared audio/phone corrections require individual qualification/integration; this workflow alone does not apply them."
+  ],
+  "reviewerExecution": {
+    "syntaxOnly": true,
+    "networkInstallerBuildBackendBrowserSuiteExecutions": 0,
+    "sourceEdits": 0,
+    "commitPush": false
+  },
+  "a9": false,
+  "mergeEligible": false,
+  "formalHumanDomainHostingAcceptance": false,
+  "findings": []
+}

@@ -1,0 +1,135 @@
+{
+  "reviewer": {
+    "handle": "/root/routine_final_review",
+    "authority": "Human explicit parallel-agent request. Independent reviewer separate from root implementation author and independent QA. Read-only source/diff/static custody review; no tests/build/backend/browser/new registry audit/source mutation/credential approval."
+  },
+  "reviewedAt": "2026-10-11T16:05:21.098071+00:00",
+  "parent": "71b4131b72541a47ce8f33f9caaa682242f9fbf4",
+  "candidate": "Uncommitted composed code freeze; exact16 pins below, documentation and published final-head qualification pending.",
+  "sourceFreezePath": "outputs/saha-eight-hour-20261011/security-bundle-repair/COMPOSED-SOURCE-FREEZE.json",
+  "sourceFreezeSha256": "e8695d77cd3e371219ad3bd51a08c5fe44a1c8cd3495860a2a5c8b2838440add",
+  "sourcePins": {
+    ".github/workflows/ci.yml": "7c43c3cbe617b4aa8649e15b467641b094a487bd39e081a7a569a04ed117df19",
+    "package.json": "8f76a902a6b143cede61435c0b2d8887e38aa4004a35570a9e01de171b239415",
+    "pnpm-lock.yaml": "ff3031cfe106098da32d4ee69199ea94c0d673a0a3df445ee486fc9bd454afaf",
+    "pnpm-workspace.yaml": "ad05806302c6d8c8a20bcb09c93240e38d7d4e9464255f40a460b77be757f26c",
+    "vite.config.ts": "364a1f98c90bb6abbe8cfdb26195a131c0a7d543c05a309c06867cd00e8f414c",
+    "build/bundle-provenance.mjs": "56415251625d6393fb4c087ff249bdb8f7a5f102addb766957dd5fbef7c5c186",
+    "scripts/security-gate.mjs": "d30f04d62af5809b8495e99a85751470478b3219926fa43f8c9bb16a7d468771",
+    "scripts/lib/bundle-provenance.mjs": "a8e8a934e68318366a801f84f7e120acbc95c0d4ca4f3beb456eb3b0c449df7d",
+    "scripts/lib/bundle-audit-coverage.mjs": "e63122a86e2bec1dad8766af0f740f23a3cf590fea14b7510ebbafde5fc5ee8b",
+    "scripts/lib/security-audit-response.mjs": "8e8274e1b3de29e6116ff45beccdc0b4260d13d31fc44b0da74a2c41e6211edd",
+    "tests/bundle-provenance-contract.mjs": "c1f917a3db1833b82004ad72d0fb7390ab59cf25e52ff612c7050566dd73fb76",
+    "tests/bundle-audit-coverage-contract.mjs": "1747f943927a94eccf3c602a996594d7409c2e19ea28a4024f6fedfe3ea4e3de",
+    "tests/security-audit-response-contract.mjs": "9bdf0127b6adadfe908995a8a706e13c6c336c3f199b7fee593fff837e5558d7",
+    "tests/fixtures/security-audit-error-response.json": "1cf39c12597e369266d82ea7fd9caac58ad95be4d2ff4c51fa76359466424061",
+    "tests/fixtures/security-audit-supported-pnpm.json": "346bdc2515be342cc66507b32fa52b7a06a4717aba21b24054e682d8fff55989",
+    "tests/regression-baseline.json": "47846e677554424ead2b122906d2c6727aa9ca9620bd4277656968a153ebd0d9"
+  },
+  "verdict": "FROZEN_COMPOSED_SECURITY_CODE_AND_BOUNDED_EVIDENCE_REVIEW_PASS; FINAL_SOURCE_RELEASE_GATES_HELD",
+  "findings": [],
+  "previousP1s": {
+    "evidence": "outputs/saha-eight-hour-20261011/routine-security-independent-review-71b4131b.json",
+    "sha256": "ecffe0adb9d5aad36198101ad59627fd9fe2f205bfe6fdc713ce78fd77440035",
+    "status": "Retained actual previous failure. Scoped defects repaired at these exact frozen implementation pins, not a claim that old71b release/host is qualified.",
+    "classificationAndSbom": "Compiler module membership now finds minified RSC and includes exact bundled package/version in SBOM independent of devDependencies. Actual corrected prepatch highRSC19.2.6 report blocks; current exact three-peer19.2.8 patch removes that advisory without ignore.",
+    "unavailableAudit": "Strict consumed-envelope/counter/advisory/finding checks plus expected exit1/no signal gate; fixed unavailable errors, stale passed report invalidated before input/tool validation."
+  },
+  "codeAssessment": {
+    "policy": "scripts/security-gate.mjs:60 retains anycritical OR high-and-shipped rule. Dev flag cannot excuse high bundled code. No severity standard/minimum/ignore/quarantine waiver;52 actual accepted findings retained:29high unshipped+23moderate unshipped.",
+    "compilerMembership": "build/bundle-provenance.mjs:37-60 records actual emitted chunk module ownership before minification, exact chunk hashes/four input pins and independent dist-external compiler receipt; unresolvable installed dependency identity aborts build.",
+    "custodyAndCoverage": "scripts/lib/bundle-provenance.mjs binds manifest hash to compiler receipt outside dist, validates current inputs/chunks/path uniqueness/counts/identities, and refuses any unrecorded executable script. Exact public source copies and narrowly validated data-only sidecars are explicit exceptions; metadata filenames alone do not exempt executable code.",
+    "sbomAndLock": "Production dependency traversal visits each occurrence before Map deduplication so later expanded children survive. Union adds all compiler-proven bundled package/version identities. Full --lockfile-only traversal includes dev/optional/every occurrence and exact name/version, preventing stale installed19.2.6 from borrowing patched19.2.8 audit.",
+    "auditAndStaleReport": "Audit JSON requires supported object/map shape, allfive safe nonnegative counters equal advisory object counts, consumed advisory/finding fields and Boolean dev flags; rejects error envelope/unsupported/empty malformed results. Tool failures/signals/unexpected exits preserve current passedfalse/auditAvailablefalse/countsnull placeholder and fixed diagnostic.",
+    "race": "Final provenance fingerprint reread after external tools rejects changed inputs/current valid compiler artifacts. QA actual legitimate compiler-rebuild replay on exactd30 exits3/passedfalse even though final altered receipt is itself valid; old falsepass replay retained.",
+    "dependencies": "Only react/react-dom/react-server-dom-webpack identities19.2.6\u219219.2.8. Lock peer-key closure follows new versions; RSC override forces compatible transitive copies. Imported app code/clinical/data/auth policy unchanged; React rendering/build behavior is changed input and requires fresh affected story evidence.",
+    "ciArtifact": "Only additive bundle-provenance-evidence.json upload in two existing jobs; original workflow selectors/guards/policies retained."
+  },
+  "actualArtifactReview": {
+    "sourcePinsMatch": 16,
+    "compiledChunksIndependentlyHashed": 179,
+    "compilerManifestsAndReceiptsIndependentlyHashed": 3,
+    "currentFourInputPinsPerManifestMatched": true,
+    "runtimePackageIdentities": 57,
+    "all57ExactVersionsInSbom247": true,
+    "allRuntimeLockCoverageReported": 837,
+    "fingerprint": "f6856ad083eaf442e58c62abc55fbd3d87198eacb12a46033b9a24856adfa05d",
+    "registryCounts": {
+      "info": 0,
+      "low": 8,
+      "moderate": 23,
+      "high": 29,
+      "critical": 0
+    },
+    "blocking": 0,
+    "accepted": 52,
+    "retainedRegistryReportSha256": "b700c573733346d2b0927d6edaafb59379dbc586e546355d1736db58e02afcbf",
+    "sbomSha256": "e63bdf39285760dcd92a64a5cc260e7669d8a93f4a905b44329ebf76d249b8fc",
+    "compilerEvidenceSha256": "0bae18d27eeec4c76de5badd71a2984d5b258c380c89d14fac130bd5668b4924",
+    "registryScope": "Read retained actual authorized root registry command/report; reviewer did not make independent network audit."
+  },
+  "independentQaEvidence": {
+    "verdict": {
+      "path": "outputs/saha-eight-hour-20261011/security-bundle-independent/composed-snapshot/INDEPENDENT-SECURITY-QA-VERDICT.json",
+      "sha256": "1625c4227d0ebe91388eb52a7764c9eb2e80a6d4dd8d8ba9ffaee57b1d8caaff"
+    },
+    "controls": {
+      "path": "outputs/saha-eight-hour-20261011/security-bundle-independent/composed-snapshot/INDEPENDENT-CONTROLS.json",
+      "sha256": "d35cb58bffc92c7e87dcd0cec5922efe38fe5cc9ce6e0f90049f5f6720de9edd",
+      "observations": 8,
+      "concurrentRebuildExit": 3,
+      "highShippedExit": 1,
+      "errorJsonAndManifestOmissionExit": 3
+    },
+    "focusedCounts": {
+      "provenance": 50,
+      "fullLockCoverage": 21,
+      "auditCases": 83,
+      "auditAssertions": 499,
+      "failed": 0,
+      "skipped": 0
+    },
+    "executionAuthority": "These are genuine separate QA executions, not this reviewer executing tests or root self-approving. Controls overlap focused checks; no additive unique story-acceptance count."
+  },
+  "preservation": {
+    "originalBaselineRecords": 385,
+    "allOriginalObjectsExact": true,
+    "current": 388,
+    "onlyAdded": {
+      "unit/bundle-audit-coverage-contract": {
+        "layer": "unit",
+        "file": "tests/bundle-audit-coverage-contract.mjs",
+        "minPassed": 21
+      },
+      "unit/bundle-provenance-contract": {
+        "layer": "unit",
+        "file": "tests/bundle-provenance-contract.mjs",
+        "minPassed": 50
+      },
+      "unit/security-audit-response-contract": {
+        "layer": "unit",
+        "file": "tests/security-audit-response-contract.mjs",
+        "minPassed": 499
+      }
+    },
+    "original82AuditCases": "Independent QA verifies raw JSON hashes/expected decisions/all6 verdict labels retained;83rd repeated-expansion case added. No inherited493 counted as final499.",
+    "failedEvidence": "Original ecffe falsepass; intermediate coverage/invalid fixture/old concurrent falsepass retained. No failed output discarded or reclassified pass."
+  },
+  "criteria": {
+    "S1-S5": "Bounded source/current artifact/retained before+after and independent QA support accepted.",
+    "G1-G5": "Bounded supported envelope/exit/stale-report/source assertions supported.",
+    "S6-G6": "HELD pending immutable published final documentation/source/custody/integrity and actual complete changed-input tests/CI/independent final candidate review.",
+    "S7": "No merge/hosting/live/formal/physical/full-parent or50story success inferred."
+  },
+  "limits": [
+    "Compiler receipts are an external-to-dist local build-custody boundary, not cryptographic signatures or protection from an actor rewriting both trusted build source/receipt area. A clean separately reviewed CI build and exact artifact receipt/hash readback are required. Rewriting trusted inputs requires new review.",
+    "Final fingerprint detects drift before report publication; continue exclusive owned build/artifact lane and treat any later source/build/dependency change as stale. This report is not a continuously locked deployment attestation.",
+    "Previous React19.2.6 compiled comparison/local12,000-observation NFR cannot automatically qualify React19.2.8; run original affected built Today/routine journeys and declared performance/load gates on new exact inputs.",
+    "Full unit/workflow/backend/type/lint/catalogue/security/docs/source-baseline/CI qualification still required on final source. This code review does not waive them.",
+    "No real hosting access, observed deployed SHA/live smoke, physical/capacity/domain/formal/human/clinical acceptance or full canonical task/story completion."
+  ],
+  "mergedSha": null,
+  "deployedSha": null,
+  "wholeStoryDone": false,
+  "humanApproval": false
+}

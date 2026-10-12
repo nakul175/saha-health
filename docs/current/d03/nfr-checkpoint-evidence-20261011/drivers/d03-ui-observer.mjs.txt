@@ -1,0 +1,206 @@
+// External synthetic measurement instrumentation only. Calls the unchanged native
+// IndexedDB methods and real application event handlers; never supplies a result.
+export function installDeviceObserver() {
+  const clock = () => performance.timeOrigin + performance.now();
+  const nativePut = IDBObjectStore.prototype.put;
+  const nativeTransaction = IDBDatabase.prototype.transaction;
+  const transactionWrites = new WeakMap();
+  const events = [];
+  let armed = null, key = null, vault = null, grants = null, lastFailure = null;
+  const snapshot = () => ({
+    status: document.getElementById('status')?.textContent,
+    notebookHidden: document.getElementById('notebook')?.hidden,
+    saveDisabled: document.getElementById('save')?.disabled,
+    activeTab: document.querySelector('[data-device-tab][aria-current="page"]')?.dataset.deviceTab,
+    hidden: document.hidden,
+  });
+  IDBDatabase.prototype.transaction = function (...args) {
+    const tx = nativeTransaction.apply(this, args);
+    if (tx.mode === 'readwrite' && tx.objectStoreNames.contains('vault')) {
+      const entries = [];
+      transactionWrites.set(tx, entries);
+      tx.addEventListener('complete', () => {
+        for (const entry of entries) events.push({ ...entry, completeAt: clock(), outcome: 'complete' });
+      });
+      tx.addEventListener('abort', () => events.push({ completeAt: clock(), outcome: 'abort', error: String(tx.error) }));
+    }
+    return tx;
+  };
+  IDBObjectStore.prototype.put = function (value, ...args) {
+    if (this.name === 'vault' && args[0] === 'encrypted' && transactionWrites.has(this.transaction)) {
+      // The real value about to be put is copied for later exact readback comparison.
+      // No CryptoKey or plaintext is written by this observer.
+      transactionWrites.get(this.transaction).push({ putAt: clock(), revision: value.revision, record: structuredClone(value) });
+    }
+    return nativePut.call(this, value, ...args);
+  };
+  const noteMutation = records => {
+    if (!armed?.startAt) return;
+    const status = document.getElementById('status');
+    if (records.some(record => record.target === status || status?.contains(record.target)) &&
+      status?.textContent === 'Encrypted draft saved on this device.') {
+      armed.ackAt = clock();
+      armed.ackMutations++;
+    }
+    if (document.getElementById('save')?.disabled) armed.busySeen = true;
+  };
+  const observer = new MutationObserver(noteMutation);
+  observer.observe(document, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['disabled', 'hidden', 'aria-current'] });
+  for (const type of ['click', 'input']) document.addEventListener(type, event => {
+    if (!armed || armed.startAt || armed.eventType !== type || !event.target.closest(armed.selector)) return;
+    armed.startAt = clock();
+    armed.eventTrusted = event.isTrusted;
+    armed.valueAtStart = event.target.value ?? null;
+  }, true);
+  const visible = element => !!element && !element.hidden && !element.closest('[hidden]') && !!element.getClientRects().length;
+  const targetReady = sample => {
+    if (document.hidden || !visible(document.getElementById('notebook')) || document.getElementById('save')?.disabled) return false;
+    if (sample.kind === 'cached-today') return visible(document.getElementById('device-today')) &&
+      document.querySelector('[data-device-tab="today"]')?.getAttribute('aria-current') === 'page' &&
+      [...document.querySelectorAll('#drafts button')].some(button => button.textContent.includes(sample.personName) && !button.disabled);
+    if (sample.kind === 'cached-patient') return visible(document.getElementById('editor')) &&
+      document.querySelector('[data-device-tab="patient"]')?.getAttribute('aria-current') === 'page' &&
+      document.querySelector('#editor h2')?.textContent === sample.personName &&
+      !!document.querySelector('#editor [data-guided-step]') &&
+      [...document.querySelectorAll('#editor input,#editor textarea')].some(element => visible(element) && !element.disabled);
+    return !document.getElementById('save')?.disabled && !!document.querySelector('#editor textarea');
+  };
+  window.__d03DeviceMeasure = {
+    async init(pass) {
+      vault = await import('/field/vault.js');
+      grants = await import('/field/app-grants.js');
+      const record = await vault.readVault();
+      key = await vault.derive(pass, record.salt); // Observer readback key: excluded, once per unlocked context.
+      return this.read();
+    },
+    async read() {
+      const record = await vault.readVault(), book = await vault.unseal(key, record);
+      return { revision: record.revision, book, ciphertextBytes: record.cipher.length, snapshot: snapshot() };
+    },
+    async arm(config) {
+      if (armed) throw Error('Previous sample not consumed');
+      const before = await this.read();
+      lastFailure = null;
+      armed = { ...config, baselineRevision: before.revision, startAt: null, ackAt: null, ackMutations: 0, busySeen: false, beforeEventIndex: events.length, beforeOpenIds: (before.book.offlineOpens ?? []).map(event => event.id), timeoutMs: config.timeoutMs ?? 15000 };
+      return { revision: before.revision, queue: before.book.offlineOpens?.length ?? 0, cipherBytes: before.ciphertextBytes };
+    },
+    async finish() {
+      const sample = armed;
+      if (!sample) throw Error('Sample not armed');
+      const deadline = clock() + sample.timeoutMs;
+      let chosen;
+      try {
+        while (clock() < deadline) {
+          const fresh = events.slice(sample.beforeEventIndex);
+          const aborted = fresh.find(event => event.outcome === 'abort');
+          if (aborted) throw Error('Actual IndexedDB transaction aborted: ' + aborted.error);
+          chosen = fresh.find(event => event.outcome === 'complete' && event.revision > sample.baselineRevision && event.putAt >= sample.startAt);
+          const needsAck = sample.kind === 'autosave' || sample.kind === 'explicit-save';
+          if (sample.startAt && chosen && (!needsAck || sample.ackAt >= chosen.completeAt) && targetReady(sample)) {
+            // A fresh frame and usable controls are part of the endpoint; no Playwright polling delay in timer.
+            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+            if (targetReady(sample)) break;
+          }
+          await new Promise(resolve => setTimeout(resolve, 0));
+        }
+        if (!sample.startAt || !chosen || !targetReady(sample) || clock() >= deadline) throw Error('Fresh matching commit/ack/usable content not observed');
+        const readyAt = clock();
+        if ((sample.kind === 'autosave' || sample.kind === 'explicit-save') && (!sample.ackAt || sample.ackAt < chosen.completeAt)) throw Error('No new saved acknowledgement after actual commit');
+        if (sample.kind === 'explicit-save' && !sample.busySeen) throw Error('Explicit Save did not enter actual disabled/busy cycle');
+        const readbackStarted = clock(), after = await this.read();
+        const committed = await vault.unseal(key, chosen.record);
+        const draft = after.book.drafts.find(draft => draft.packet.payload.personId === sample.personId && draft.packet.payload.visitId === sample.visitId);
+        const committedDraft = committed.drafts.find(draft => draft.packet.payload.personId === sample.personId && draft.packet.payload.visitId === sample.visitId);
+        if (!draft || !committedDraft || after.book.userId !== sample.actorId || draft.packet.payload.organisationId !== sample.organisationId || after.revision < chosen.revision) throw Error('Exact current signed owner/person/visit readback mismatch');
+        if (!grants.appGrantCurrent(draft.packet.payload, after.book.userId) || !grants.appBookOwnerValid(after.book) ||
+          !grants.appGrantCurrent(committedDraft.packet.payload, committed.userId) ||
+          draft.packageHash !== sample.packageHash || committedDraft.packageHash !== sample.packageHash ||
+          draft.packet.payload.expiresAt !== sample.grantExpiresAt || !await vault.verifyPacket(draft.packet) ||
+          await vault.packetHash(draft.packet) !== sample.packageHash) throw Error('Exact signed current grant/owner/hash validation failed');
+        const isSave = sample.kind === 'autosave' || sample.kind === 'explicit-save';
+        if (isSave && (draft.facts.notes !== sample.expectedNotes || committedDraft.facts.notes !== sample.expectedNotes)) throw Error('Fresh transaction did not contain exact changed synthetic intent');
+        const beforeIds = new Set(sample.beforeOpenIds), newOpens = (after.book.offlineOpens ?? []).filter(event => !beforeIds.has(event.id));
+        if (!isSave && (newOpens.length !== 1 || newOpens[0].presentation !== sample.presentation || newOpens[0].leaseId !== draft.packet.payload.leaseId || newOpens[0].packageHash !== draft.packageHash || newOpens[0].organisationId !== sample.organisationId || !committed.offlineOpens?.some(event => event.id === newOpens[0].id))) throw Error('New exact durable presentation evidence mismatch');
+        const result = { kind: sample.kind, startAt: sample.startAt, commitMs: chosen.completeAt - sample.startAt,
+          freshAcknowledgementMs: sample.ackAt ? sample.ackAt - sample.startAt : null, ms: readyAt - sample.startAt,
+          readbackOutsideTimingMs: clock() - readbackStarted, revisionBefore: sample.baselineRevision,
+          committedRevision: chosen.revision, readbackRevision: after.revision, queueBefore: sample.beforeOpenIds.length,
+          queueAfter: after.book.offlineOpens?.length ?? 0, newOpenIds: newOpens.map(event => event.id),
+          eventTrusted: sample.eventTrusted, busySeen: sample.busySeen, freshAckMutations: sample.ackMutations,
+          ciphertextBytes: after.ciphertextBytes, exactDurableReadback: true, unchangedAppGrantCurrent: true,
+          actualSignatureVerified: true, grantExpiresAt: draft.packet.payload.expiresAt, snapshot: after.snapshot };
+        if (!sample.eventTrusted) throw Error('Action was not a real trusted browser event');
+        return result;
+      } catch (error) {
+        lastFailure = { sample, snapshot: snapshot(), error: String(error), elapsedMs: sample.startAt ? clock() - sample.startAt : null,
+          timeout: clock() >= deadline, actualTransactions: events.map(({ record, ...metadata }) => metadata) };
+        throw error;
+      } finally {
+        armed = null;
+        events.length = 0;
+      }
+    },
+    async failure() {
+      if (lastFailure) return lastFailure;
+      const sample = armed;
+      armed = null;
+      const currentEvents = events.map(({ record, ...metadata }) => metadata);
+      events.length = 0;
+      return { sample, snapshot: snapshot(), actualTransactions: currentEvents };
+    },
+    restore() {
+      observer.disconnect();
+      IDBObjectStore.prototype.put = nativePut;
+      IDBDatabase.prototype.transaction = nativeTransaction;
+      key = null;
+      return IDBObjectStore.prototype.put === nativePut && IDBDatabase.prototype.transaction === nativeTransaction;
+    },
+  };
+}
+
+// Fresh per-action DOM endpoints. Each promise belongs to the requested path/sample;
+// a resolved Today promise can never qualify a later Routine screen.
+export function installConnectedObserver(expected) {
+  const clock = () => performance.timeOrigin + performance.now();
+  window.__d03FreshConnectedReady = (kind, sampleIdentity) => new Promise((resolve, reject) => {
+    let done = false;
+    const wantedPath = kind === 'routine' ? '/routine-visit' : '/today';
+    const isReady = () => {
+      if (document.hidden || location.pathname !== wantedPath) return false;
+      if (kind === 'list') {
+        const main = document.querySelector('main.saha-today');
+        const buttons = [...document.querySelectorAll('button[aria-label^="Open record "]')];
+        return main?.getAttribute('aria-busy') === 'false' &&
+          buttons.length === expected.exactAssignedRows.length && buttons.every(button => !button.disabled) &&
+          expected.exactAssignedRows.every(person => buttons.some(button => button.getAttribute('aria-label') === 'Open record ' + person.id));
+      }
+      if (kind === 'detail') {
+        const main = document.querySelector('main.saha-today'), link = main?.querySelector('a[href^="/routine-visit?"]');
+        const target = link ? new URL(link.href) : null;
+        return main?.getAttribute('aria-busy') === 'false' && main.querySelector('h1')?.textContent === expected.personName &&
+          main.querySelector('dl')?.textContent.includes(expected.personId) && target?.searchParams.get('personId') === expected.personId &&
+          target?.searchParams.get('organisationId') === expected.org && !!link.getClientRects().length;
+      }
+      const main = document.querySelector('main.routine-visit'), person = main?.querySelector('[aria-label="Selected person"]');
+      return main?.getAttribute('aria-busy') === 'false' && person?.textContent.includes(expected.personId) &&
+        person.textContent.includes('Visit ' + expected.visitId + ' · version ' + expected.serverVisitVersionBefore) &&
+        person.querySelector('h2')?.textContent === expected.personName &&
+        main.querySelector('[role="status"]')?.textContent === 'Current server draft loaded. Review before saving.' &&
+        !!main.querySelector('select[aria-label="Go to observation or save"]') &&
+        [...main.querySelectorAll('input')].some(input => !input.disabled && !!input.getClientRects().length);
+    };
+    const observer = new MutationObserver(check);
+    observer.observe(document, { subtree: true, childList: true, attributes: true });
+    const timeout = setTimeout(() => { if (!done) { done = true; observer.disconnect(); reject(Error('Exact new ' + kind + ' content not ready within20000ms')); } }, 20000);
+    function check() {
+      if (done || !isReady()) return;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (done || !isReady()) return;
+        done = true; clearTimeout(timeout); observer.disconnect();
+        resolve({ readyAt: clock(), navigationOrigin: performance.timeOrigin, path: location.pathname,
+          kind, sampleIdentity, exactPersonId: expected.personId, exactVisitId: expected.visitId, exactVersion: expected.serverVisitVersionBefore });
+      }));
+    }
+    document.addEventListener('DOMContentLoaded', check, { once: true }); check();
+  });
+}

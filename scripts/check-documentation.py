@@ -107,7 +107,7 @@ checks['historicalProductAssertions']=total
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
 snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
 source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
-for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json']:
+for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json','evidence-source-snapshots-routine-retention.json','evidence-source-snapshots-refresh-contrast-20261012.json']:
     additional_index=ROOT/'docs/verification'/additional_name
     if additional_index.exists():
         for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():
@@ -196,6 +196,17 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
                 preimage=gzip.decompress(archive.read_bytes())
                 require(hashlib.sha256(preimage).hexdigest()==expected and len(preimage)==binding['bytes'],'Changed generated diagnostic preimage')
             continue
+        # One bound historical test-source preimage: current test bytes remain checked by the current baseline.
+        # This never substitutes for a test report, expected image, assertion count or current execution.
+        if str(manifest_path.relative_to(ROOT))=='tests/evidence/guided-home/manifest.json' and report=='tests/ui/app-first-phone.spec.mjs' and path.is_file() and digest(path)!=expected:
+            binding=read_json('docs/verification/evidence-source-snapshot-phone-navigation-20261012.json')
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound historical phone-source manifest')
+            require(binding['sourcePath']==report and binding['originalManifestPin']=='files.tests/ui/app-first-phone.spec.mjs' and binding['originalSourceSha256']==expected and binding['originalSourceBytes']==meta.get('bytes'),'Unbound historical phone-source pin')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current phone test source is not independently pinned by the current baseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical phone-source preimage')
+            path=archive
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.
         # Report/evidence paths always remain checked in place and cannot use an archive.

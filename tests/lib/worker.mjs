@@ -60,9 +60,11 @@ export function identity(label, run = crypto.randomUUID().slice(0, 8), name) {
 }
 
 /** Request helpers bound to one Worker. `who` is an identity (or null for anonymous); `org` sets x-saha-organisation. */
-export function client(base) {
+export function client(base, { connectionClose = false } = {}) {
   const call = async (who, path, { method = 'GET', body, org, headers = {} } = {}) => {
     const h = { ...(who?.headers ?? {}), ...(org ? { 'x-saha-organisation': org } : {}), ...headers };
+    // Explicit fixture option; no response/request retry. Default connection behavior is unchanged.
+    if (connectionClose) h.Connection = 'close';
     if (body !== undefined) { h['Content-Type'] = 'application/json'; h['Idempotency-Key'] ??= crypto.randomUUID(); }
     const started = performance.now();
     const r = await fetch(base + path, { method, headers: h, body: body === undefined ? undefined : JSON.stringify(body), redirect: 'manual' });
