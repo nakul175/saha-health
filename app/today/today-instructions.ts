@@ -12,5 +12,9 @@ export function todayInstructionPlayer(synthesis: SpeechSynthesis, make: (text: 
   let language: InstructionLanguage = 'en';
   const original = instructionPlayer(synthesis, () => make(TODAY_INSTRUCTIONS[language]), changed);
   return { voices: original.voices, stop: original.stop,
-    play: (next: InstructionLanguage) => { language = next; return original.play(next); } };
+    play: (next: InstructionLanguage) => {
+      language = next;
+      try { return original.play(next); }
+      catch { original.stop(); return false; }
+    } };
 }

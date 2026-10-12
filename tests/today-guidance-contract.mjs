@@ -34,6 +34,11 @@ try {
   check('Today mounts guidance only in authorised list or record states',()=>assert.match(readFileSync('app/today/today.tsx','utf8'),/view.kind === 'list' \|\| view.kind === 'record'/));
   check('Original readonly Today keeps zero form fields',()=>{assert.ok(!/<(?:input|textarea|select)\b/i.test(component));});
   check('Optional collapsed disclosure does not autoplay and closing stops',()=>{assert.ok(component.includes('<details onToggle='));assert.ok(!/<details[^>]*\bopen(?:[=>\s])/.test(component));assert.ok(component.includes('!event.currentTarget.open'));});
+  check('Throwing native utterance constructor returns unavailable with no speech or restored playback',()=>{
+    let spoken=0;const states=[];
+    const failed=todayInstructionPlayer({getVoices:()=>[en],speak:()=>spoken++,cancel:()=>{}},()=>{throw Error('Native utterance constructor unavailable');},playing=>states.push(playing));
+    assert.equal(failed.play('en'),false);assert.equal(spoken,0);assert.equal(states.at(-1),false);
+  });
   const result={passed:checks.length,failed:0,skipped:0,checks,completedAt:new Date().toISOString(),limits:'Pure original-controller synthetic checks; no physical synthesis/recognition/field-usability/formal/hosting acceptance.'};
   mkdirSync('tests/reports',{recursive:true});writeFileSync('tests/reports/today-guidance-contract-result.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
 } finally { rmSync(dir,{recursive:true,force:true}); }

@@ -77,6 +77,18 @@ try{
   await wait(audio().getByText('A local voice for this language is unavailable. Use the written instructions.',{exact:true}));
   check(await audio().getByRole('button',{name:'Listen to instructions',exact:true}).isDisabled(),'Remote-only voice leaves explicit written fallback without playback');
   check(await audio().getByText(/Opening a record saves nothing/).isVisible(),'Written guide remains usable when audio is unavailable');
+  await page.evaluate(()=>{
+    window.__todayAudio.voices=[{name:'Local English',lang:'en-IN',localService:true}];window.speechSynthesis.dispatchEvent(new Event('voiceschanged'));
+    window.__todayAudio.originalUtterance=window.SpeechSynthesisUtterance;
+    Object.defineProperty(window,'SpeechSynthesisUtterance',{value:class {constructor(){throw Error('Owned unavailable native utterance constructor');}},configurable:true});
+  });
+  await page.waitForFunction(()=>Array.from(document.querySelectorAll('section[aria-label="General Today instructions"] button')).some(el=>el.textContent==='Listen to instructions'&&!el.disabled));
+  const beforeConstructor=await page.evaluate(()=>window.__todayAudio.sent.length);
+  await audio().getByRole('button',{name:'Listen to instructions',exact:true}).click();
+  await wait(audio().getByText('A local voice for this language is unavailable. Use the written instructions.',{exact:true}));
+  check(await audio().getByRole('button',{name:'Listen to instructions',exact:true}).isDisabled()&&await audio().getByText(/Opening a record saves nothing/).isVisible(),'Actual throwing utterance constructor leaves disabled Listen and usable written fallback');
+  check(await page.evaluate(count=>window.__todayAudio.sent.length===count,beforeConstructor)&&errors.length===0,'Actual throwing native constructor sends no utterance and creates no page error');
+  await page.evaluate(()=>Object.defineProperty(window,'SpeechSynthesisUtterance',{value:window.__todayAudio.originalUtterance,configurable:true}));
   axe.push(await new AxeBuilder({page}).analyze());
   check(axe.at(-1).violations.length===0,'Actual390px Today guidance has zero axe violations');
   const bounds=await audio().getByRole('button').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return{height:r.height,width:r.width,x:r.x,right:r.right};}));
