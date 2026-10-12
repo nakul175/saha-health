@@ -71,7 +71,9 @@ export async function interfaceLanguageWrite(request:Request) {
     const operation=z.object({language:z.enum(['en','hi']),version:z.number().int().positive()}).strict().safeParse(result.result);
     if(!operation.success||operation.data.language!==change.language||operation.data.version!==change.version+1)fail(409,'The exact preference receipt could not be matched. Keep the attempt unresolved.');
     // Replaying an old valid receipt does not roll back a newer own preference.
-    return reply(interfaceLanguageReceipt.parse({context:await current(actor,org,personId),operation:{key:key.data,...operation.data,replayed:result.replayed===true}}),actor,org);
+    const latest=await current(actor,org,personId);
+    if(latest.version<operation.data.version||latest.version===operation.data.version&&latest.language!==operation.data.language)fail(409,'The saved preference and current readback could not be matched. Keep the exact original attempt unresolved.');
+    return reply(interfaceLanguageReceipt.parse({context:latest,operation:{key:key.data,...operation.data,replayed:result.replayed===true}}),actor,org);
   } catch(cause) {
     // This witness describes only this request. A previously uncertain attempt
     // must still retain its original key/body; it is not a global absence proof.

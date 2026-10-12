@@ -8,7 +8,7 @@ export type InterfaceLanguageContext = z.infer<typeof interfaceLanguageContext>;
 export const interfaceLanguageChange = z.object({ language: z.enum(['en','hi']), version: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER) }).strict();
 export const interfaceLanguageReceipt = z.object({ context: interfaceLanguageContext, operation: z.object({
   key: z.string().uuid(), language: z.enum(['en','hi']), version: z.number().int().positive().max(Number.MAX_SAFE_INTEGER), replayed: z.boolean()
-}).strict() }).strict();
+}).strict() }).strict().refine(value=>value.context.version>=value.operation.version&&(value.context.version>value.operation.version||value.context.language===value.operation.language),'Current preference does not agree with this receipt.');
 export const interfaceLanguageRefusal = z.object({ outcome: z.literal('request-not-dispatched'), key: z.string().uuid(),
   actorId: ref, organisationId: ref, personId: ref, language: z.enum(['en','hi']), version: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER) }).strict();
 // The original English default is preserved for an absent own record. Malformed
