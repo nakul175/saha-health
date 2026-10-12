@@ -1,0 +1,31 @@
+{
+  "passed": 22,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Original exact account org person event and version bind reviewed attempt",
+    "Creating acknowledgement never mutates source or marks tasks complete",
+    "Invalid version refuses 0",
+    "Invalid version refuses -1",
+    "Invalid version refuses 1.1",
+    "Invalid version refuses NaN",
+    "Invalid version refuses Infinity",
+    "Invalid version refuses 9007199254740992",
+    "Invalid reference refuses length0",
+    "Invalid reference refuses length2",
+    "Invalid reference refuses length201",
+    "Missing stale or acknowledged source never builds another attempt",
+    "Missing stale or acknowledged source never builds another attempt",
+    "Missing stale or acknowledged source never builds another attempt",
+    "Missing stale or acknowledged source never builds another attempt",
+    "Exact observed acknowledgement matches its source context",
+    "Other actor org person event or reference never confirms original attempt",
+    "Other actor org person event or reference never confirms original attempt",
+    "Other actor org person event or reference never confirms original attempt",
+    "Other actor org person event or reference never confirms original attempt",
+    "Other actor org person event or reference never confirms original attempt",
+    "Other actor org person event or reference never confirms original attempt"
+  ],
+  "completedAt": "2026-10-12T11:50:11.991Z",
+  "limits": "Pure original-intent bindings only; observed history is not proof of an exact command receipt or fullstory acceptance."
+}
