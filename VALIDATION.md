@@ -1,3 +1,7 @@
+# Generated coverage index repaired; exact successor CI pending — 12 October 2026
+
+The actual91 documentation job114687145830 failed original coverage-map8/1 because the new six-contributor UI fixture was absent from committed generated inventory. [Repair receipt](docs/current/d03/COVERAGE-INDEX-REPAIR-20261012.json): unchanged generator now reports1093 files/757 unmapped/21 UI; coverage9, register44 and pack10 checks pass locally. This is63 tooling checks, not formal UAT or story acceptance. No runtime/test/oracle/requirement/criteria changes. Final successor normal CI and independent review remain pending; story8/10, no merge or observed staging. Earlier evidence below retains its own source/date.
+
 # Approved role capture observed; final normal CI pending — 12 October 2026
 
 [Actual capture and qualification boundary](docs/current/d03/ROLE-PRIVACY-ALIGNMENT-20261012.md): sourceb2 two real desktop cases pass2/0/0 with3 axe scans/0 violations. New related4103PNG copied unchanged; temporary active capture workflow removed, all8 old goldens/original389/min26/global2% preserved. Capture is observational, not A9/comparison or hosting. Independent exact-image/capture review a2a24e80 passes; final-source review and complete normal no-update CI remain required. Story8/10, no new merge/observed staging; existing hosting browser-security availability unconfirmed. Earlier dated evidence below is preserved.
