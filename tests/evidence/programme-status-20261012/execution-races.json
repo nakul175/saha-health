@@ -1,0 +1,82 @@
+[
+  {
+    "mode": "accepted-person",
+    "refusedStatus": 409,
+    "storedPersonVersion": 6,
+    "deliveryPin": 5,
+    "receipt": "SIM-ENROL-788709D2",
+    "state": "accepted"
+  },
+  {
+    "mode": "person",
+    "responseStatus": 200,
+    "responseResult": {
+      "enrolmentId": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
+      "state": "uncertain"
+    },
+    "storedPersonVersion": 6,
+    "deliveryPin": 4,
+    "state": "uncertain",
+    "resultEvents": [
+      {
+        "org_id": "org_9a977159c4a40a25fd5c6cd100202226",
+        "id": "fc163c4f-7723-4b97-b5fa-052c063b93b9",
+        "person_id": "p_meena",
+        "actor_id": "t-b9d08b3a-asha",
+        "actor_name": "asha-b9d08b3a@example.invalid",
+        "role": "asha",
+        "action": "requestDestinationEnrolmentResult",
+        "subject": "4187d3b1-c8f1-437c-a2e9-d59c0c0119c5",
+        "detail": "Destination enrolment uncertain (reference none).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
+        "at": "2026-10-12T11:12:11.344Z",
+        "seq": 37,
+        "prev_hash": "a249c2c66b64764b9ee62af5088a427045ca914a1e48e7fe12427b850f500ac9",
+        "hash": "122228915b4b216484d884d580938573db82357c9e42c82083ac42e38a4d3d49"
+      }
+    ]
+  },
+  {
+    "mode": "connector",
+    "responseStatus": 200,
+    "responseResult": {
+      "enrolmentId": "2960067a-c476-49bc-8a5f-c8e403208638",
+      "state": "uncertain"
+    },
+    "storedPersonVersion": 5,
+    "deliveryPin": 5,
+    "state": "uncertain",
+    "resultEvents": [
+      {
+        "org_id": "org_59ab0ae4f4a050f5de8dd7fb4c6d771c",
+        "id": "9c88f303-ae41-4d72-a023-1b3f14efd198",
+        "person_id": "p_meena",
+        "actor_id": "t-b9d08b3a-asha",
+        "actor_name": "asha-b9d08b3a@example.invalid",
+        "role": "asha",
+        "action": "requestDestinationEnrolmentResult",
+        "subject": "2960067a-c476-49bc-8a5f-c8e403208638",
+        "detail": "Destination enrolment uncertain (reference none).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
+        "at": "2026-10-12T11:12:11.438Z",
+        "seq": 37,
+        "prev_hash": "2b4169943e213f023bb7df913ad4d7da7f11a342aa91c3a84365c21846688239",
+        "hash": "fc2e13ea7628abf781799e00b5fd6b4adde6a935618d9aecb0623f607c00c346"
+      }
+    ]
+  },
+  {
+    "mode": "membership",
+    "responseStatus": 403,
+    "storedPersonVersion": 4,
+    "deliveryPin": 4,
+    "state": "requested",
+    "resultEvents": []
+  },
+  {
+    "mode": "assignment",
+    "responseStatus": 403,
+    "storedPersonVersion": 5,
+    "deliveryPin": 4,
+    "state": "requested",
+    "resultEvents": []
+  }
+]

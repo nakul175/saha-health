@@ -1,0 +1,9 @@
+# Existing destination checkpoint correction
+
+Frozen 2026-10-12 11:02:14 UTC before changing destination-enrolment-execution.ts. Native diagnosis002 result is requested (not accepted/uncertain); stored same-person snapshot has no destinationEnrolment. Failed default/owned001/diagnosis002 receipts remain unchanged. Source cause inspected: request branch clones before only after mutating local destination checkpoint, so delta persistence sees no episode change. Whole-state mocked persistence does not demonstrate native checkpoint custody.
+
+Same canonical SAHA037/APL60/ENG-BR-PROG-06/APL220. Minimal repair moves the existing before clone to request-branch entry before any checkpoint mutation; no new transport, provider, clinical rule, database, route policy, actor/role/purpose/receipt/hash/retry semantics. Old failed operations are not resent/backfilled/relabelled. Qualification uses fresh UUID synthetic requests only.
+
+Strengthened missing-evidence contract: absence of destination state is unavailable/unrecorded evidence. It never proves no request was sent, never confirms rejection/acceptance, and never offers automatic retry. Existing receipts must be investigated by responsible programme steward.
+
+Real native verification must inspect requested checkpoint and its key/hash/operation ID in D1 at existing request-audit insertion before transport, then actual simulator accepted/rejected/uncertain final states. Exact original-key/body replay preserves complete clinical state/events/receipts and does not invoke a second simulator request. Subsequent read-only UI, final post-audit permission changes, protected-error clearing and original 389 minima remain unchanged. Original formal/domain/partner acceptance stays open; separate source/evidence review required before publication.

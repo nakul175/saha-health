@@ -1,0 +1,61 @@
+{
+  "response": {
+    "status": 422,
+    "json": {
+      "error": "Community health MIS does not cover Maternal care. Choose a destination whose programme list includes this episode."
+    },
+    "text": "{\"error\":\"Community health MIS does not cover Maternal care. Choose a destination whose programme list includes this episode.\"}",
+    "ms": 5.576667000000043,
+    "headers": {}
+  },
+  "current": {
+    "id": "p_meena",
+    "name": "Meena Devi",
+    "age": 26,
+    "sex": "Female",
+    "village": "Rampur",
+    "programmes": [
+      "Maternal care",
+      "General care"
+    ],
+    "task": "Antenatal home visit",
+    "due": "Today",
+    "status": "due",
+    "aiConsent": true,
+    "exchangeConsent": false,
+    "consentVersion": 1,
+    "createdAt": "2026-10-12T11:09:42.678Z",
+    "version": 3,
+    "teamId": "default",
+    "assignedTo": "t-8c1b24a7-asha",
+    "synthetic": true,
+    "assignmentHistory": [
+      {
+        "id": "f96bcc24-ca18-449d-b48a-74cf590f2b1d",
+        "at": "2026-10-12T11:09:42.710Z",
+        "by": "t-8c1b24a7-steward-lookup",
+        "fromTeam": "default",
+        "fromOwner": "t-8c1b24a7-steward-lookup",
+        "teamId": "default",
+        "ownerId": "t-8c1b24a7-asha",
+        "reason": "Synthetic checkpoint lookup",
+        "openWork": 0
+      }
+    ],
+    "enrolments": [
+      {
+        "id": "b6252749-0957-4632-a17f-b7bd31f1bf8a",
+        "packId": "maternal",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic checkpoint lookup",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:09:42.724Z",
+        "createdBy": "t-8c1b24a7-asha",
+        "registration": "not_submitted"
+      }
+    ],
+    "followUps": [],
+    "assigned": true
+  }
+}

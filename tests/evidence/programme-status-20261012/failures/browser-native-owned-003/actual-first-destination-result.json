@@ -1,0 +1,107 @@
+{
+  "result": {
+    "enrolmentId": "81990c89-1c4a-4c2a-83d5-439b388b0063",
+    "state": "requested"
+  },
+  "person": {
+    "id": "p_meena",
+    "name": "Meena Devi",
+    "age": 26,
+    "sex": "Female",
+    "village": "Rampur",
+    "programmes": [
+      "Maternal care",
+      "General care",
+      "TB screening",
+      "Chronic care"
+    ],
+    "task": "Antenatal home visit",
+    "due": "Today",
+    "status": "due",
+    "aiConsent": true,
+    "exchangeConsent": false,
+    "consentVersion": 1,
+    "createdAt": "2026-10-12T11:05:12.380Z",
+    "version": 6,
+    "teamId": "default",
+    "assignedTo": "t-a29024a3-asha",
+    "synthetic": true,
+    "assignmentHistory": [
+      {
+        "id": "c619ceb2-780b-4b18-ad00-c2903366a283",
+        "at": "2026-10-12T11:05:12.458Z",
+        "by": "t-a29024a3-owner",
+        "fromTeam": "default",
+        "fromOwner": "t-a29024a3-owner",
+        "teamId": "default",
+        "ownerId": "t-a29024a3-asha",
+        "reason": "Synthetic programme status selection",
+        "openWork": 0
+      }
+    ],
+    "enrolments": [
+      {
+        "id": "81990c89-1c4a-4c2a-83d5-439b388b0063",
+        "packId": "maternal",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic maternal episode",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:05:12.472Z",
+        "createdBy": "t-a29024a3-asha",
+        "registration": "not_submitted",
+        "destinationEnrolment": {
+          "version": 0,
+          "state": "requested",
+          "destinationId": "mis_maternal",
+          "destinationName": "Maternal & child register",
+          "payloadHash": "ed63f9272b1bdf6c0e35729ad9140beec6bcc88ada099ac505efb049d1b6d3e3",
+          "attempts": 1,
+          "history": [],
+          "requestedAt": "2026-10-12T11:05:12.521Z",
+          "requestedBy": "t-a29024a3-asha",
+          "delivery": {
+            "key": "81990c89-1c4a-4c2a-83d5-439b388b0063",
+            "actorId": "t-a29024a3-asha",
+            "connectorVersion": 1,
+            "personVersion": 5,
+            "expiresAt": "2026-10-12T11:20:12.521Z",
+            "operationId": "a8d1c30c-761c-4146-8d53-abb75bae1825",
+            "startedAt": "2026-10-12T11:05:12.521Z",
+            "events": [
+              {
+                "at": "2026-10-12T11:05:12.521Z",
+                "state": "requested",
+                "detail": "Destination enrolment checkpoint saved before the request."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "633d390b-60a7-4dba-b9de-2c5e889b2681",
+        "packId": "tb",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic tb episode",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:05:12.486Z",
+        "createdBy": "t-a29024a3-asha",
+        "registration": "not_submitted"
+      },
+      {
+        "id": "3a4b6578-e0cf-4873-bda7-75fe518273ff",
+        "packId": "hypertension",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic hypertension episode",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:05:12.497Z",
+        "createdBy": "t-a29024a3-asha",
+        "registration": "not_submitted"
+      }
+    ],
+    "followUps": [],
+    "assigned": true
+  }
+}

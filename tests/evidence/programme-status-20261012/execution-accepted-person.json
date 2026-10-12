@@ -1,0 +1,594 @@
+{
+  "response": {
+    "status": 200,
+    "json": {
+      "result": {
+        "enrolmentId": "618bf376-fe08-46fb-9295-2d3e8de58e0e",
+        "state": "accepted",
+        "destinationReceipt": "SIM-ENROL-788709D2"
+      },
+      "snapshot": {
+        "schemaVersion": 1,
+        "revision": 5,
+        "role": "asha",
+        "people": [
+          {
+            "id": "p_meena",
+            "name": "Meena Devi",
+            "age": 26,
+            "sex": "Female",
+            "village": "Rampur",
+            "programmes": [
+              "Maternal care",
+              "General care"
+            ],
+            "task": "Antenatal home visit",
+            "due": "Today",
+            "status": "due",
+            "aiConsent": true,
+            "exchangeConsent": false,
+            "consentVersion": 1,
+            "createdAt": "2026-10-12T11:12:11.191Z",
+            "version": 5,
+            "teamId": "default",
+            "assignedTo": "t-b9d08b3a-asha",
+            "synthetic": true,
+            "assignmentHistory": [
+              {
+                "id": "cbdc3a7a-2862-4351-9950-7ee16897229d",
+                "at": "2026-10-12T11:12:11.224Z",
+                "by": "t-b9d08b3a-steward-accepted-person",
+                "fromTeam": "default",
+                "fromOwner": "t-b9d08b3a-steward-accepted-person",
+                "teamId": "default",
+                "ownerId": "t-b9d08b3a-asha",
+                "reason": "Synthetic checkpoint accepted-person",
+                "openWork": 0
+              }
+            ],
+            "enrolments": [
+              {
+                "id": "618bf376-fe08-46fb-9295-2d3e8de58e0e",
+                "packId": "maternal",
+                "packVersion": 1,
+                "state": "active",
+                "episodeLabel": "Synthetic checkpoint accepted-person",
+                "startDate": null,
+                "createdAt": "2026-10-12T11:12:11.236Z",
+                "createdBy": "t-b9d08b3a-asha",
+                "registration": "not_submitted",
+                "destinationEnrolment": {
+                  "version": 1,
+                  "state": "accepted",
+                  "destinationId": "mis_maternal",
+                  "destinationName": "Maternal & child register",
+                  "payloadHash": "46af181716e3888c212edd5cd7baa2fa18045789404edfeb80d2c5fca0d36271",
+                  "attempts": 1,
+                  "history": [
+                    {
+                      "at": "2026-10-12T11:12:11.250Z",
+                      "from": "requested",
+                      "to": "accepted",
+                      "by": "t-b9d08b3a-asha",
+                      "reason": "Destination accepted the enrolment request."
+                    }
+                  ],
+                  "requestedAt": "2026-10-12T11:12:11.246Z",
+                  "requestedBy": "t-b9d08b3a-asha",
+                  "delivery": {
+                    "key": "618bf376-fe08-46fb-9295-2d3e8de58e0e",
+                    "actorId": "t-b9d08b3a-asha",
+                    "connectorVersion": 1,
+                    "personVersion": 5,
+                    "expiresAt": "2026-10-12T11:27:11.246Z",
+                    "operationId": "7220c8cc-4241-4049-b316-f705a7dfbf02",
+                    "startedAt": "2026-10-12T11:12:11.246Z",
+                    "events": [
+                      {
+                        "at": "2026-10-12T11:12:11.246Z",
+                        "state": "requested",
+                        "detail": "Destination enrolment checkpoint saved before the request."
+                      },
+                      {
+                        "at": "2026-10-12T11:12:11.250Z",
+                        "state": "accepted",
+                        "detail": "Destination Maternal & child register accepted this enrolment request (reference SIM-ENROL-788709D2). The episode is not active until a clinician or supervisor activates it."
+                      }
+                    ]
+                  },
+                  "destinationReceipt": "SIM-ENROL-788709D2",
+                  "acceptedAt": "2026-10-12T11:12:11.250Z"
+                }
+              }
+            ],
+            "followUps": [],
+            "assigned": true
+          }
+        ],
+        "visits": [],
+        "integrations": [
+          {
+            "id": "abdm",
+            "name": "ABDM exchange",
+            "kind": "abdm",
+            "mode": "unconfigured",
+            "status": "unconfigured",
+            "version": 1,
+            "description": "ABHA, HIP and HIU connections require separate onboarding, consent flows and current conformance validation.",
+            "programmes": []
+          },
+          {
+            "id": "ai_completeness",
+            "name": "Record completeness",
+            "kind": "ai",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "Checks missing visit fields and provenance. Deterministic demo adapter; no diagnosis.",
+            "programmes": [],
+            "capability": "completeness"
+          },
+          {
+            "id": "ai_summary",
+            "name": "Visit summariser",
+            "kind": "ai",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "Creates a structured summary from confirmed facts. Deterministic demo adapter; no clinical inference.",
+            "programmes": [],
+            "capability": "summary"
+          },
+          {
+            "id": "ehr_fhir",
+            "name": "Facility EHR",
+            "kind": "ehr",
+            "mode": "unconfigured",
+            "status": "unconfigured",
+            "version": 1,
+            "description": "FHIR R4 example export is available. Live access needs an owner-approved endpoint and resource mapping.",
+            "programmes": []
+          },
+          {
+            "id": "mis_community",
+            "name": "Community health MIS",
+            "kind": "mis",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "A programme simulator that demonstrates a lost response and safe reconciliation.",
+            "programmes": [
+              "General care",
+              "Chronic care",
+              "TB screening"
+            ],
+            "behavior": "uncertain"
+          },
+          {
+            "id": "mis_maternal",
+            "name": "Maternal & child register",
+            "kind": "mis",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "A programme register simulator. Records acceptance and a distinct receipt.",
+            "programmes": [
+              "Maternal care",
+              "Child health"
+            ],
+            "behavior": "accept"
+          }
+        ],
+        "submissions": [],
+        "referrals": [],
+        "audit": [
+          {
+            "id": "d430ce27-ae83-4ba8-a381-a9f8793d8f9e",
+            "at": "2026-10-12T11:12:11.250Z",
+            "actor": "asha-b9d08b3a@example.invalid",
+            "actorId": "t-b9d08b3a-asha",
+            "role": "asha",
+            "action": "requestDestinationEnrolmentResult",
+            "subject": "618bf376-fe08-46fb-9295-2d3e8de58e0e",
+            "detail": "Destination enrolment accepted (reference SIM-ENROL-788709D2).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "9cfeca6a-9d5a-4008-8620-e292e0ea1c9e",
+            "at": "2026-10-12T11:12:11.246Z",
+            "actor": "asha-b9d08b3a@example.invalid",
+            "actorId": "t-b9d08b3a-asha",
+            "role": "asha",
+            "action": "requestDestinationEnrolment",
+            "subject": "618bf376-fe08-46fb-9295-2d3e8de58e0e",
+            "detail": "Destination enrolment requested at Maternal & child register for Synthetic checkpoint accepted-person (maternal, programme Maternal care). Requested by asha-b9d08b3a@example.invalid; nothing is sent to a real partner (mock adapter).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "a952f8a3-a760-43ea-bb52-35474150c15e",
+            "at": "2026-10-12T11:12:11.236Z",
+            "actor": "asha-b9d08b3a@example.invalid",
+            "actorId": "t-b9d08b3a-asha",
+            "role": "asha",
+            "action": "enrolProgramme",
+            "subject": "p_meena",
+            "detail": "Local sandbox episode opened: Maternal care v1. Official registration not submitted.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "16ca6270-2b2e-46b7-9ddd-81aeb291644f",
+            "at": "2026-10-12T11:12:11.224Z",
+            "actor": "steward-accepted-person-b9d08b3a@example.invalid",
+            "actorId": "t-b9d08b3a-steward-accepted-person",
+            "role": "clinician",
+            "action": "assignPatient",
+            "subject": "p_meena",
+            "detail": "Patient assignment updated. Reason: Synthetic checkpoint accepted-person\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-b9d08b3a-steward-accepted-person\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":1,\"isOwner\":true},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          }
+        ],
+        "burdenMeasurement": {
+          "enabled": false,
+          "version": 0
+        },
+        "programmePacks": [
+          {
+            "id": "maternal",
+            "version": 1,
+            "name": "Maternal care",
+            "enrollable": true,
+            "installed": false
+          },
+          {
+            "id": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "enrollable": true,
+            "installed": false
+          },
+          {
+            "id": "maternal",
+            "version": 2,
+            "name": "Maternal care",
+            "enrollable": true,
+            "installed": false
+          },
+          {
+            "id": "hypertension",
+            "version": 1,
+            "name": "Hypertension follow-up",
+            "enrollable": true,
+            "installed": false
+          }
+        ],
+        "auditCursor": null,
+        "user": {
+          "userId": "t-b9d08b3a-asha",
+          "displayName": "asha-b9d08b3a@example.invalid",
+          "accountCode": "2B1B86B60C7445616C8E7560"
+        },
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "environment": "synthetic",
+        "environmentLabel": "Synthetic development and demonstration environment",
+        "externalApisEnabled": false,
+        "agentProviders": [
+          {
+            "id": "local",
+            "name": "Local record assistant",
+            "mode": "local",
+            "model": "structured-parser-v2",
+            "version": 2,
+            "available": true,
+            "reason": "Rules only; no language model or external data transfer."
+          },
+          {
+            "id": "openai",
+            "name": "OpenAI extraction & evidence",
+            "mode": "openai",
+            "model": "gpt-4.1-mini-2025-04-14",
+            "version": 1,
+            "available": false,
+            "reason": "Live model unavailable: server API key and external API switch required."
+          }
+        ],
+        "ehrReadiness": [],
+        "misReadiness": [],
+        "organisation": {
+          "id": "org_42a3960eb47ff0956fa7c12031f2d496",
+          "name": "Rampur care organisation",
+          "revision": 5,
+          "createdAt": "2026-10-12T11:12:11.190Z",
+          "patientRevision": 6
+        },
+        "organisations": [
+          {
+            "id": "org_2e1ce41c175e1c53bf0bc313d7746aac",
+            "name": "Rampur care organisation",
+            "role": "asha",
+            "isOwner": false
+          },
+          {
+            "id": "org_e744571d23e41e51eaf9d7d8cf2176e0",
+            "name": "Rampur care organisation",
+            "role": "clinician",
+            "isOwner": true
+          },
+          {
+            "id": "org_bf808fae637d5c0a5847384eec02bfa6",
+            "name": "Rampur care organisation",
+            "role": "asha",
+            "isOwner": false
+          },
+          {
+            "id": "org_465f7614165b2a4a46e9550b394dd155",
+            "name": "Rampur care organisation",
+            "role": "asha",
+            "isOwner": false
+          },
+          {
+            "id": "org_42a3960eb47ff0956fa7c12031f2d496",
+            "name": "Rampur care organisation",
+            "role": "asha",
+            "isOwner": false
+          }
+        ],
+        "membership": {
+          "userId": "t-b9d08b3a-asha",
+          "displayName": "Synthetic checkpoint accepted-person",
+          "accountCode": "2B1B86B60C7445616C8E7560",
+          "role": "asha",
+          "isOwner": false,
+          "status": "active",
+          "version": 1,
+          "createdAt": "2026-10-12T11:12:11.211Z",
+          "teamIds": [
+            "default"
+          ],
+          "accountName": "asha-b9d08b3a@example.invalid",
+          "nameSource": "invitation",
+          "nameVersion": 0,
+          "language": "en",
+          "languageVersion": 0
+        },
+        "members": [
+          {
+            "userId": "fixture:org_42a3960eb47ff0956fa7c12031f2d496:clinician-author",
+            "displayName": "Demonstration clinician — author (synthetic)",
+            "accountCode": "1214419D1D31630642F9300A",
+            "role": "clinician",
+            "isOwner": false,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-12T11:12:11.190Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "Demonstration clinician — author (synthetic)",
+            "nameSource": "account",
+            "nameVersion": 0
+          },
+          {
+            "userId": "fixture:org_42a3960eb47ff0956fa7c12031f2d496:clinician-reviewer",
+            "displayName": "Demonstration clinician — reviewer (synthetic)",
+            "accountCode": "F5890450941AF70489C23B4D",
+            "role": "clinician",
+            "isOwner": false,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-12T11:12:11.190Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "Demonstration clinician — reviewer (synthetic)",
+            "nameSource": "account",
+            "nameVersion": 0
+          },
+          {
+            "userId": "t-b9d08b3a-asha",
+            "displayName": "Synthetic checkpoint accepted-person",
+            "accountCode": "2B1B86B60C7445616C8E7560",
+            "role": "asha",
+            "isOwner": false,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-12T11:12:11.211Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "asha-b9d08b3a@example.invalid",
+            "nameSource": "invitation",
+            "nameVersion": 0
+          },
+          {
+            "userId": "t-b9d08b3a-steward-accepted-person",
+            "displayName": "steward-accepted-person-b9d08b3a@example.invalid",
+            "accountCode": "702F71B5E9DF1C2672245F91",
+            "role": "clinician",
+            "isOwner": true,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-12T11:12:11.190Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "steward-accepted-person-b9d08b3a@example.invalid",
+            "nameSource": "account",
+            "nameVersion": 0
+          }
+        ],
+        "teams": [
+          {
+            "id": "default",
+            "name": "Rampur care team",
+            "createdAt": "2026-10-12T11:12:11.190Z"
+          }
+        ],
+        "invitations": [],
+        "canManage": false,
+        "speechPolicy": {
+          "cloudAllowed": false,
+          "version": 0
+        },
+        "signOffPolicy": {
+          "required": false,
+          "version": 0
+        },
+        "canAssign": false,
+        "delegatedAuthority": [],
+        "signOutPath": "/signout-with-chatgpt?return_to=%2F",
+        "migration": {
+          "migratedAt": "2026-10-12T11:12:11.190Z",
+          "counts": {
+            "people": 6,
+            "visits": 0,
+            "integrations": 6,
+            "submissions": 0,
+            "referrals": 0,
+            "audit": 22,
+            "receipts": 0
+          }
+        }
+      }
+    },
+    "text": "{\"result\":{\"enrolmentId\":\"618bf376-fe08-46fb-9295-2d3e8de58e0e\",\"state\":\"accepted\",\"destinationReceipt\":\"SIM-ENROL-788709D2\"},\"snapshot\":{\"schemaVersion\":1,\"revision\":5,\"role\":\"asha\",\"people\":[{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T11:12:11.191Z\",\"version\":5,\"teamId\":\"default\",\"assignedTo\":\"t-b9d08b3a-asha\",\"synthetic\":true,\"assignmentHistory\":[{\"id\":\"cbdc3a7a-2862-4351-9950-7ee16897229d\",\"at\":\"2026-10-12T11:12:11.224Z\",\"by\":\"t-b9d08b3a-steward-accepted-person\",\"fromTeam\":\"default\",\"fromOwner\":\"t-b9d08b3a-steward-accepted-person\",\"teamId\":\"default\",\"ownerId\":\"t-b9d08b3a-asha\",\"reason\":\"Synthetic checkpoint accepted-person\",\"openWork\":0}],\"enrolments\":[{\"id\":\"618bf376-fe08-46fb-9295-2d3e8de58e0e\",\"packId\":\"maternal\",\"packVersion\":1,\"state\":\"active\",\"episodeLabel\":\"Synthetic checkpoint accepted-person\",\"startDate\":null,\"createdAt\":\"2026-10-12T11:12:11.236Z\",\"createdBy\":\"t-b9d08b3a-asha\",\"registration\":\"not_submitted\",\"destinationEnrolment\":{\"version\":1,\"state\":\"accepted\",\"destinationId\":\"mis_maternal\",\"destinationName\":\"Maternal & child register\",\"payloadHash\":\"46af181716e3888c212edd5cd7baa2fa18045789404edfeb80d2c5fca0d36271\",\"attempts\":1,\"history\":[{\"at\":\"2026-10-12T11:12:11.250Z\",\"from\":\"requested\",\"to\":\"accepted\",\"by\":\"t-b9d08b3a-asha\",\"reason\":\"Destination accepted the enrolment request.\"}],\"requestedAt\":\"2026-10-12T11:12:11.246Z\",\"requestedBy\":\"t-b9d08b3a-asha\",\"delivery\":{\"key\":\"618bf376-fe08-46fb-9295-2d3e8de58e0e\",\"actorId\":\"t-b9d08b3a-asha\",\"connectorVersion\":1,\"personVersion\":5,\"expiresAt\":\"2026-10-12T11:27:11.246Z\",\"operationId\":\"7220c8cc-4241-4049-b316-f705a7dfbf02\",\"startedAt\":\"2026-10-12T11:12:11.246Z\",\"events\":[{\"at\":\"2026-10-12T11:12:11.246Z\",\"state\":\"requested\",\"detail\":\"Destination enrolment checkpoint saved before the request.\"},{\"at\":\"2026-10-12T11:12:11.250Z\",\"state\":\"accepted\",\"detail\":\"Destination Maternal & child register accepted this enrolment request (reference SIM-ENROL-788709D2). The episode is not active until a clinician or supervisor activates it.\"}]},\"destinationReceipt\":\"SIM-ENROL-788709D2\",\"acceptedAt\":\"2026-10-12T11:12:11.250Z\"}}],\"followUps\":[],\"assigned\":true}],\"visits\":[],\"integrations\":[{\"id\":\"abdm\",\"name\":\"ABDM exchange\",\"kind\":\"abdm\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"ABHA, HIP and HIU connections require separate onboarding, consent flows and current conformance validation.\",\"programmes\":[]},{\"id\":\"ai_completeness\",\"name\":\"Record completeness\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Checks missing visit fields and provenance. Deterministic demo adapter; no diagnosis.\",\"programmes\":[],\"capability\":\"completeness\"},{\"id\":\"ai_summary\",\"name\":\"Visit summariser\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Creates a structured summary from confirmed facts. Deterministic demo adapter; no clinical inference.\",\"programmes\":[],\"capability\":\"summary\"},{\"id\":\"ehr_fhir\",\"name\":\"Facility EHR\",\"kind\":\"ehr\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"FHIR R4 example export is available. Live access needs an owner-approved endpoint and resource mapping.\",\"programmes\":[]},{\"id\":\"mis_community\",\"name\":\"Community health MIS\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme simulator that demonstrates a lost response and safe reconciliation.\",\"programmes\":[\"General care\",\"Chronic care\",\"TB screening\"],\"behavior\":\"uncertain\"},{\"id\":\"mis_maternal\",\"name\":\"Maternal & child register\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme register simulator. Records acceptance and a distinct receipt.\",\"programmes\":[\"Maternal care\",\"Child health\"],\"behavior\":\"accept\"}],\"submissions\":[],\"referrals\":[],\"audit\":[{\"id\":\"d430ce27-ae83-4ba8-a381-a9f8793d8f9e\",\"at\":\"2026-10-12T11:12:11.250Z\",\"actor\":\"asha-b9d08b3a@example.invalid\",\"actorId\":\"t-b9d08b3a-asha\",\"role\":\"asha\",\"action\":\"requestDestinationEnrolmentResult\",\"subject\":\"618bf376-fe08-46fb-9295-2d3e8de58e0e\",\"detail\":\"Destination enrolment accepted (reference SIM-ENROL-788709D2).\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-b9d08b3a-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"not-tracked\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"9cfeca6a-9d5a-4008-8620-e292e0ea1c9e\",\"at\":\"2026-10-12T11:12:11.246Z\",\"actor\":\"asha-b9d08b3a@example.invalid\",\"actorId\":\"t-b9d08b3a-asha\",\"role\":\"asha\",\"action\":\"requestDestinationEnrolment\",\"subject\":\"618bf376-fe08-46fb-9295-2d3e8de58e0e\",\"detail\":\"Destination enrolment requested at Maternal & child register for Synthetic checkpoint accepted-person (maternal, programme Maternal care). Requested by asha-b9d08b3a@example.invalid; nothing is sent to a real partner (mock adapter).\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-b9d08b3a-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"not-tracked\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"a952f8a3-a760-43ea-bb52-35474150c15e\",\"at\":\"2026-10-12T11:12:11.236Z\",\"actor\":\"asha-b9d08b3a@example.invalid\",\"actorId\":\"t-b9d08b3a-asha\",\"role\":\"asha\",\"action\":\"enrolProgramme\",\"subject\":\"p_meena\",\"detail\":\"Local sandbox episode opened: Maternal care v1. Official registration not submitted.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-b9d08b3a-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"16ca6270-2b2e-46b7-9ddd-81aeb291644f\",\"at\":\"2026-10-12T11:12:11.224Z\",\"actor\":\"steward-accepted-person-b9d08b3a@example.invalid\",\"actorId\":\"t-b9d08b3a-steward-accepted-person\",\"role\":\"clinician\",\"action\":\"assignPatient\",\"subject\":\"p_meena\",\"detail\":\"Patient assignment updated. Reason: Synthetic checkpoint accepted-person\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-b9d08b3a-steward-accepted-person\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"clinician\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":true},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"}],\"burdenMeasurement\":{\"enabled\":false,\"version\":0},\"programmePacks\":[{\"id\":\"maternal\",\"version\":1,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"tb\",\"version\":1,\"name\":\"TB screening\",\"enrollable\":true,\"installed\":false},{\"id\":\"maternal\",\"version\":2,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"hypertension\",\"version\":1,\"name\":\"Hypertension follow-up\",\"enrollable\":true,\"installed\":false}],\"auditCursor\":null,\"user\":{\"userId\":\"t-b9d08b3a-asha\",\"displayName\":\"asha-b9d08b3a@example.invalid\",\"accountCode\":\"2B1B86B60C7445616C8E7560\"},\"maintenance\":{\"active\":false,\"reason\":\"\"},\"environment\":\"synthetic\",\"environmentLabel\":\"Synthetic development and demonstration environment\",\"externalApisEnabled\":false,\"agentProviders\":[{\"id\":\"local\",\"name\":\"Local record assistant\",\"mode\":\"local\",\"model\":\"structured-parser-v2\",\"version\":2,\"available\":true,\"reason\":\"Rules only; no language model or external data transfer.\"},{\"id\":\"openai\",\"name\":\"OpenAI extraction & evidence\",\"mode\":\"openai\",\"model\":\"gpt-4.1-mini-2025-04-14\",\"version\":1,\"available\":false,\"reason\":\"Live model unavailable: server API key and external API switch required.\"}],\"ehrReadiness\":[],\"misReadiness\":[],\"organisation\":{\"id\":\"org_42a3960eb47ff0956fa7c12031f2d496\",\"name\":\"Rampur care organisation\",\"revision\":5,\"createdAt\":\"2026-10-12T11:12:11.190Z\",\"patientRevision\":6},\"organisations\":[{\"id\":\"org_2e1ce41c175e1c53bf0bc313d7746aac\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_e744571d23e41e51eaf9d7d8cf2176e0\",\"name\":\"Rampur care organisation\",\"role\":\"clinician\",\"isOwner\":true},{\"id\":\"org_bf808fae637d5c0a5847384eec02bfa6\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_465f7614165b2a4a46e9550b394dd155\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_42a3960eb47ff0956fa7c12031f2d496\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false}],\"membership\":{\"userId\":\"t-b9d08b3a-asha\",\"displayName\":\"Synthetic checkpoint accepted-person\",\"accountCode\":\"2B1B86B60C7445616C8E7560\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.211Z\",\"teamIds\":[\"default\"],\"accountName\":\"asha-b9d08b3a@example.invalid\",\"nameSource\":\"invitation\",\"nameVersion\":0,\"language\":\"en\",\"languageVersion\":0},\"members\":[{\"userId\":\"fixture:org_42a3960eb47ff0956fa7c12031f2d496:clinician-author\",\"displayName\":\"Demonstration clinician — author (synthetic)\",\"accountCode\":\"1214419D1D31630642F9300A\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.190Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — author (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"fixture:org_42a3960eb47ff0956fa7c12031f2d496:clinician-reviewer\",\"displayName\":\"Demonstration clinician — reviewer (synthetic)\",\"accountCode\":\"F5890450941AF70489C23B4D\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.190Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — reviewer (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"t-b9d08b3a-asha\",\"displayName\":\"Synthetic checkpoint accepted-person\",\"accountCode\":\"2B1B86B60C7445616C8E7560\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.211Z\",\"teamIds\":[\"default\"],\"accountName\":\"asha-b9d08b3a@example.invalid\",\"nameSource\":\"invitation\",\"nameVersion\":0},{\"userId\":\"t-b9d08b3a-steward-accepted-person\",\"displayName\":\"steward-accepted-person-b9d08b3a@example.invalid\",\"accountCode\":\"702F71B5E9DF1C2672245F91\",\"role\":\"clinician\",\"isOwner\":true,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:12:11.190Z\",\"teamIds\":[\"default\"],\"accountName\":\"steward-accepted-person-b9d08b3a@example.invalid\",\"nameSource\":\"account\",\"nameVersion\":0}],\"teams\":[{\"id\":\"default\",\"name\":\"Rampur care team\",\"createdAt\":\"2026-10-12T11:12:11.190Z\"}],\"invitations\":[],\"canManage\":false,\"speechPolicy\":{\"cloudAllowed\":false,\"version\":0},\"signOffPolicy\":{\"required\":false,\"version\":0},\"canAssign\":false,\"delegatedAuthority\":[],\"signOutPath\":\"/signout-with-chatgpt?return_to=%2F\",\"migration\":{\"migratedAt\":\"2026-10-12T11:12:11.190Z\",\"counts\":{\"people\":6,\"visits\":0,\"integrations\":6,\"submissions\":0,\"referrals\":0,\"audit\":22,\"receipts\":0}}}}",
+    "ms": 10.334959000000026,
+    "headers": {}
+  },
+  "current": {
+    "id": "p_meena",
+    "name": "Meena Devi",
+    "age": 26,
+    "sex": "Female",
+    "village": "Rampur",
+    "programmes": [
+      "Maternal care",
+      "General care"
+    ],
+    "task": "Antenatal home visit",
+    "due": "Today",
+    "status": "due",
+    "aiConsent": true,
+    "exchangeConsent": false,
+    "consentVersion": 1,
+    "createdAt": "2026-10-12T11:12:11.191Z",
+    "version": 5,
+    "teamId": "default",
+    "assignedTo": "t-b9d08b3a-asha",
+    "synthetic": true,
+    "assignmentHistory": [
+      {
+        "id": "cbdc3a7a-2862-4351-9950-7ee16897229d",
+        "at": "2026-10-12T11:12:11.224Z",
+        "by": "t-b9d08b3a-steward-accepted-person",
+        "fromTeam": "default",
+        "fromOwner": "t-b9d08b3a-steward-accepted-person",
+        "teamId": "default",
+        "ownerId": "t-b9d08b3a-asha",
+        "reason": "Synthetic checkpoint accepted-person",
+        "openWork": 0
+      }
+    ],
+    "enrolments": [
+      {
+        "id": "618bf376-fe08-46fb-9295-2d3e8de58e0e",
+        "packId": "maternal",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic checkpoint accepted-person",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:12:11.236Z",
+        "createdBy": "t-b9d08b3a-asha",
+        "registration": "not_submitted",
+        "destinationEnrolment": {
+          "version": 1,
+          "state": "accepted",
+          "destinationId": "mis_maternal",
+          "destinationName": "Maternal & child register",
+          "payloadHash": "46af181716e3888c212edd5cd7baa2fa18045789404edfeb80d2c5fca0d36271",
+          "attempts": 1,
+          "history": [
+            {
+              "at": "2026-10-12T11:12:11.250Z",
+              "from": "requested",
+              "to": "accepted",
+              "by": "t-b9d08b3a-asha",
+              "reason": "Destination accepted the enrolment request."
+            }
+          ],
+          "requestedAt": "2026-10-12T11:12:11.246Z",
+          "requestedBy": "t-b9d08b3a-asha",
+          "delivery": {
+            "key": "618bf376-fe08-46fb-9295-2d3e8de58e0e",
+            "actorId": "t-b9d08b3a-asha",
+            "connectorVersion": 1,
+            "personVersion": 5,
+            "expiresAt": "2026-10-12T11:27:11.246Z",
+            "operationId": "7220c8cc-4241-4049-b316-f705a7dfbf02",
+            "startedAt": "2026-10-12T11:12:11.246Z",
+            "events": [
+              {
+                "at": "2026-10-12T11:12:11.246Z",
+                "state": "requested",
+                "detail": "Destination enrolment checkpoint saved before the request."
+              },
+              {
+                "at": "2026-10-12T11:12:11.250Z",
+                "state": "accepted",
+                "detail": "Destination Maternal & child register accepted this enrolment request (reference SIM-ENROL-788709D2). The episode is not active until a clinician or supervisor activates it."
+              }
+            ]
+          },
+          "destinationReceipt": "SIM-ENROL-788709D2",
+          "acceptedAt": "2026-10-12T11:12:11.250Z"
+        }
+      }
+    ],
+    "followUps": [],
+    "assigned": true
+  },
+  "de": {
+    "version": 1,
+    "state": "accepted",
+    "destinationId": "mis_maternal",
+    "destinationName": "Maternal & child register",
+    "payloadHash": "46af181716e3888c212edd5cd7baa2fa18045789404edfeb80d2c5fca0d36271",
+    "attempts": 1,
+    "history": [
+      {
+        "at": "2026-10-12T11:12:11.250Z",
+        "from": "requested",
+        "to": "accepted",
+        "by": "t-b9d08b3a-asha",
+        "reason": "Destination accepted the enrolment request."
+      }
+    ],
+    "requestedAt": "2026-10-12T11:12:11.246Z",
+    "requestedBy": "t-b9d08b3a-asha",
+    "delivery": {
+      "key": "618bf376-fe08-46fb-9295-2d3e8de58e0e",
+      "actorId": "t-b9d08b3a-asha",
+      "connectorVersion": 1,
+      "personVersion": 5,
+      "expiresAt": "2026-10-12T11:27:11.246Z",
+      "operationId": "7220c8cc-4241-4049-b316-f705a7dfbf02",
+      "startedAt": "2026-10-12T11:12:11.246Z",
+      "events": [
+        {
+          "at": "2026-10-12T11:12:11.246Z",
+          "state": "requested",
+          "detail": "Destination enrolment checkpoint saved before the request."
+        },
+        {
+          "at": "2026-10-12T11:12:11.250Z",
+          "state": "accepted",
+          "detail": "Destination Maternal & child register accepted this enrolment request (reference SIM-ENROL-788709D2). The episode is not active until a clinician or supervisor activates it."
+        }
+      ]
+    },
+    "destinationReceipt": "SIM-ENROL-788709D2",
+    "acceptedAt": "2026-10-12T11:12:11.250Z"
+  }
+}

@@ -1,0 +1,694 @@
+{
+  "passed": 53,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Existing real backend simulator produces a recorded acceptance",
+    "Existing real backend simulator retains unresolved outcome",
+    "Actual simulator business rejection leaves episode locally available",
+    "Three native requested checkpoints with key digest and operation exist during request audit before simulator transport",
+    "Exact-key replay preserves original requested receipt and current accepted episode without another event receipt or patient mutation",
+    "Wrong actor scope and wrong programme destination refuse before checkpoint with no person event or receipt change",
+    "Actual accepted outcome advances only its own committed person-version pin",
+    "ASHA cannot activate a genuinely recorded simulation acceptance",
+    "Existing owner activation works only after recorded accepted receipt and current source pin",
+    "Unresolved outcome pins only its own persisted increment",
+    "Actual receipt lookup persists accepted outcome without resending request or reusing original receipt",
+    "Separate fresh fixture has genuine accepted simulator receipt before intervening change",
+    "Intervening change after accepted receipt blocks activation while preserving historical receipt and stale pin",
+    "Native postcheckpoint person change blocks the simulator acceptance",
+    "Intervening person change retains stale pin rather than reauthorising latest record",
+    "Stale person source cannot authorise lookup or activation",
+    "Native postcheckpoint connector change blocks the simulator acceptance",
+    "Stale connector source cannot authorise lookup or activation",
+    "Native postcheckpoint membership change blocks the simulator acceptance",
+    "Native postcheckpoint assignment change blocks the simulator acceptance",
+    "Intervening assignment change retains stale pin rather than reauthorising latest record",
+    "Minimal actual response pins person org actor and all three local episodes",
+    "Response preserves pinned pack/episode IDs and actual rejection reason",
+    "Minimal response excludes full partition private payload delivery and unrelated records",
+    "Role owner foreign tenant and unassigned selection refuse without episode disclosure",
+    "Role owner foreign tenant and unassigned selection refuse without episode disclosure",
+    "Role owner foreign tenant and unassigned selection refuse without episode disclosure",
+    "Role owner foreign tenant and unassigned selection refuse without episode disclosure",
+    "Malformed or expanded query is refused: /api/programme-status",
+    "Malformed or expanded query is refused: /api/programme-status?personId=",
+    "Malformed or expanded query is refused: /api/programme-status?personId=p_meena&personId=p_james",
+    "Malformed or expanded query is refused: /api/programme-status?personId=p_meena&mode=all",
+    "Malformed or expanded query is refused: /api/programme-status?personId=%00",
+    "Explicit original organisation is required for the single-person read",
+    "Anonymous request cannot read programme status",
+    "Actual mobile selection shows only assigned records",
+    "Mobile view keeps accepted rejected and uncertain states distinct",
+    "Actual rejection reason and local identity remain visible with simulator limits",
+    "Page performs GET-only reads and no provider or command call",
+    "Actual mobile layout avoids overflow and has44px controls",
+    "All60 native tables compared; only expected read audit/metric tables change, with no clinical/episode/receipt mutation",
+    "Actual BEFORE-audit membership change refuses before protected response",
+    "Actual BEFORE-audit assignment change refuses before protected response",
+    "Actual BEFORE-audit role-owner change refuses before protected response",
+    "Actual AFTER-audit membership change refuses before protected response",
+    "Actual AFTER-audit assignment change refuses before protected response",
+    "Actual AFTER-audit role-owner change refuses before protected response",
+    "Actual backend audit failure clears protected UI instead of showing stale episode status",
+    "Recovery uses a fresh authorised read and retains actual rejection",
+    "Real browser offline transition clears protected record content",
+    "No runtime error or external provider request across the real journey",
+    "Every actual app lib compiled asset and owned test source hash stays unchanged throughout native execution",
+    "Owned native backend is disposed and its loopback port is free"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/today"
+    },
+    {
+      "method": "GET",
+      "path": "/api/programme-status"
+    },
+    {
+      "method": "GET",
+      "path": "/api/programme-status"
+    },
+    {
+      "method": "GET",
+      "path": "/api/today"
+    },
+    {
+      "method": "GET",
+      "path": "/api/programme-status"
+    }
+  ],
+  "external": [],
+  "errors": [],
+  "races": [
+    {
+      "timing": "BEFORE",
+      "mutation": "membership",
+      "status": 403,
+      "body": {
+        "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+      },
+      "memberBefore": {
+        "role": "asha",
+        "status": "active",
+        "version": 1,
+        "is_owner": 0
+      },
+      "memberAfter": {
+        "role": "asha",
+        "status": "suspended",
+        "version": 2,
+        "is_owner": 0
+      }
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "assignment",
+      "status": 404,
+      "body": {
+        "error": "This record is not in your assigned care scope."
+      },
+      "memberBefore": {
+        "role": "asha",
+        "status": "active",
+        "version": 3,
+        "is_owner": 0
+      },
+      "memberAfter": {
+        "role": "asha",
+        "status": "active",
+        "version": 3,
+        "is_owner": 0
+      }
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "role-owner",
+      "status": 403,
+      "body": {
+        "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+      },
+      "memberBefore": {
+        "role": "asha",
+        "status": "active",
+        "version": 3,
+        "is_owner": 0
+      },
+      "memberAfter": {
+        "role": "clinician",
+        "status": "active",
+        "version": 4,
+        "is_owner": 1
+      }
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "membership",
+      "status": 403,
+      "body": {
+        "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+      },
+      "memberBefore": {
+        "role": "asha",
+        "status": "active",
+        "version": 5,
+        "is_owner": 0
+      },
+      "memberAfter": {
+        "role": "asha",
+        "status": "suspended",
+        "version": 6,
+        "is_owner": 0
+      }
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "assignment",
+      "status": 404,
+      "body": {
+        "error": "This record is not in your assigned care scope."
+      },
+      "memberBefore": {
+        "role": "asha",
+        "status": "active",
+        "version": 7,
+        "is_owner": 0
+      },
+      "memberAfter": {
+        "role": "asha",
+        "status": "active",
+        "version": 7,
+        "is_owner": 0
+      }
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "role-owner",
+      "status": 403,
+      "body": {
+        "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+      },
+      "memberBefore": {
+        "role": "asha",
+        "status": "active",
+        "version": 7,
+        "is_owner": 0
+      },
+      "memberAfter": {
+        "role": "clinician",
+        "status": "active",
+        "version": 8,
+        "is_owner": 1
+      }
+    }
+  ],
+  "beforeTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 30,
+      "sha256": "bbf6ce9e2a6d70ba253b119bd47b7d28605a562a008438954f5f897588d9fdd5"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 390,
+      "sha256": "c8a21b73877132cd8228f08df8b01375b050530d3629edcf0a011007d379f4dd"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 56,
+      "sha256": "6343bc3c1e73bc5f6b6f55df672305f5a14bc712a506544fb1e8416b7f9bb4ac"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 10,
+      "sha256": "7c7c75ca5092d42db41eedf434863a1f2e83e96a869a8ffa08b15b055f593f7a"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 60,
+      "sha256": "bbdf7138f6fdad9880d65afd493528f85845f58a41024c07dc36c0100c3a38e3"
+    },
+    "invitations": {
+      "rows": 8,
+      "sha256": "2ac7e0f011902782e4ae56b0580e22d3b300e0e77bc4eca241c65f7e3a6019f3"
+    },
+    "legacy_migrations": {
+      "rows": 10,
+      "sha256": "ec9d95ec5fc28836018f7f9f1f3064bc0a1de595422b1efd14d7209579aa6cf2"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 38,
+      "sha256": "b6623c27b1be0dcf25c953e62b24013f75e2618fe2e3075f75c5e53f460e21cb"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 10,
+      "sha256": "cc92074780198fd40146e4bc0115a2cda9a3cbededefae0d16b5c989f442233f"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 60,
+      "sha256": "482e081726a877399ec8a2e1f24b913355f19da519ea5b4f45a878a927b1c856"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 99,
+      "sha256": "1795de0b1f7847fcd55a170e28520d3941af875cdc4295d60ffc5047138e16f2"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 28,
+      "sha256": "38b5acd55089e984104622dbc8dd022f0818d5d694b14f187eef3883da45a428"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 38,
+      "sha256": "06af08cb9bc941f76eb6a7f0350ffcee6a134ae0df0d068ddb8d1ab7bf832b42"
+    },
+    "teams": {
+      "rows": 10,
+      "sha256": "0cce8b070fb946f04a5128846956fdd5187bf2d0564eb8632d70c2af8d80d53d"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "afterTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 30,
+      "sha256": "bbf6ce9e2a6d70ba253b119bd47b7d28605a562a008438954f5f897588d9fdd5"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 392,
+      "sha256": "d37caa643f0784161d3f706c1e35381c9b84930c2051ef4134df1330b56bed3a"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 56,
+      "sha256": "6343bc3c1e73bc5f6b6f55df672305f5a14bc712a506544fb1e8416b7f9bb4ac"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 10,
+      "sha256": "7c7c75ca5092d42db41eedf434863a1f2e83e96a869a8ffa08b15b055f593f7a"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 60,
+      "sha256": "bbdf7138f6fdad9880d65afd493528f85845f58a41024c07dc36c0100c3a38e3"
+    },
+    "invitations": {
+      "rows": 8,
+      "sha256": "2ac7e0f011902782e4ae56b0580e22d3b300e0e77bc4eca241c65f7e3a6019f3"
+    },
+    "legacy_migrations": {
+      "rows": 10,
+      "sha256": "ec9d95ec5fc28836018f7f9f1f3064bc0a1de595422b1efd14d7209579aa6cf2"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 38,
+      "sha256": "b6623c27b1be0dcf25c953e62b24013f75e2618fe2e3075f75c5e53f460e21cb"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 10,
+      "sha256": "cc92074780198fd40146e4bc0115a2cda9a3cbededefae0d16b5c989f442233f"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 60,
+      "sha256": "482e081726a877399ec8a2e1f24b913355f19da519ea5b4f45a878a927b1c856"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 99,
+      "sha256": "1795de0b1f7847fcd55a170e28520d3941af875cdc4295d60ffc5047138e16f2"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 28,
+      "sha256": "02900ce139778a649c5557417b416b38f5b5fc6ded4aaf585eda8f2567d0d3b5"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 38,
+      "sha256": "06af08cb9bc941f76eb6a7f0350ffcee6a134ae0df0d068ddb8d1ab7bf832b42"
+    },
+    "teams": {
+      "rows": 10,
+      "sha256": "0cce8b070fb946f04a5128846956fdd5187bf2d0564eb8632d70c2af8d80d53d"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "disposed": true,
+  "portFree": true,
+  "completedAt": "2026-10-12T11:12:12.709Z",
+  "limits": "Actual current native local synthetic backend and mobile Chromium; existing simulator lifecycle and disposable native race fixtures only. No real provider/clinical/partner/official registration approval, fullstory/UAT/physical/p95/staging qualification. Clinical-table equality applies to read-only browser segment before deliberate race/recovery setup."
+}
