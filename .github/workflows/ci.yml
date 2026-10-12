@@ -297,7 +297,11 @@ jobs:
                                'Canonical runner restores tracked test evidence: these restored files are not current-run evidence.',
                                'Installer and generated fixture data differences require explicit applicability review.']}
           (out / (phase + '.json')).write_text(json.dumps(record, indent=2) + '\n')
-          assert len(baseline['suites']) == 389, 'Original 389 guarded records must remain'
+          new_unit = 'unit/frontline-followup-contract'
+          assert len(baseline['suites']) == 390, 'Original389 plus exactly one observed frontline unit guard must remain'
+          assert baseline['suites'].get(new_unit) == {'layer': 'unit', 'file': 'tests/frontline-followup-contract.mjs', 'minPassed': 33} and type(baseline['suites'][new_unit]['minPassed']) is int, 'Changed frontline unit guard'
+          original_suites = {key: value for key, value in baseline['suites'].items() if key != new_unit}
+          assert hashlib.sha256(json.dumps(original_suites, sort_keys=True, separators=(',', ':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 guarded records/minima changed'
           if phase == 'final':
               before = json.loads((out / 'before-install.json').read_text())
               assert before['baseline'] == baseline, 'Original baseline changed'
