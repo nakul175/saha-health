@@ -20,10 +20,12 @@ test('app-first: tabs distinguish device sync, receipts and preserved visit revi
  await nav.getByRole('button',{name:'Home',exact:true}).click();await page.getByRole('button',{name:/See my work/}).click();
  await openPatient(page);
  await page.getByRole('button',{name:'Start visit',exact:true}).click();
+ await page.getByRole('combobox',{name:'Go to observation or save',exact:true}).selectOption('fact:weight');
  await field(page,'Weight · kg').fill('57.5');
  await nav.getByRole('button',{name:'People',exact:true}).click();
  await expect(page.getByRole('alertdialog')).toBeVisible();
  await page.getByRole('button',{name:'Keep editing'}).click();
+ await page.getByRole('combobox',{name:'Go to observation or save',exact:true}).selectOption('facts-save');
  await page.getByRole('button',{name:'Save draft',exact:true}).click();
  await expect(page.getByText('Draft saved in the workspace.')).toBeVisible();
  await page.getByRole('tab',{name:/Review & act/}).click();

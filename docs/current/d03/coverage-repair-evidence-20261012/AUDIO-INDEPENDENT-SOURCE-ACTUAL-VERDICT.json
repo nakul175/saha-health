@@ -1,0 +1,178 @@
+{
+  "schema": "independent-audio-fixture-source-and-actual-count-review/1",
+  "reviewer": "/root/routine_independent_qa",
+  "author": "/root",
+  "observedAtUtc": "2026-10-12T04:37:36.222202+00:00",
+  "verdict": "PASS_SCOPED_SOURCE_CORRECTION_AND_ACTUAL_ORIGINAL28_GUARDED_COMPONENT_RESULT",
+  "reviewOccursAfterActualAuthorExecution": true,
+  "candidateSHA256": "c84ede2c845d7583a6aa3858382fa4b444c114bab5e66f35a546b4fd70a4da3a",
+  "basePublishedSource": "5302f76f353363f95df936251334db5c100a55a4",
+  "source": {
+    "allOriginal24LiteralCheckCallExpressionsByteExact": true,
+    "originalDynamicMinimum28Unchanged": true,
+    "literalCallCountVersusRuntimeCountNote": "There are24 original literal check call expressions, including the setup command checker. Repeated setup calls produce the28 observed checks. No claim of28 distinct literal expressions.",
+    "all29MutatingActionExpressionsByteExact": true,
+    "onlyAdditionalReadAndStrongerSettlementWait": true,
+    "strictRemovalPredicate": [
+      "Listen disabled",
+      "Stop disabled",
+      "zero strictly local Hindi voices",
+      "cancelled exactly before+1",
+      "sent unchanged",
+      "fixed unavailable status"
+    ],
+    "firstStepPredicateRetained": [
+      "notes selected and visible",
+      "Stop disabled",
+      "cancelled1",
+      "sent1"
+    ],
+    "bothExplicitWaitCeilingsMs": 20000,
+    "noActionRetrySubstitutionOrProviderAdded": true,
+    "originalRunnerOriginal28GuardQuarantineUnchanged": true,
+    "staticSyntaxActualExit": 0
+  },
+  "actualFailureDiagnosis": {
+    "preservedJournalSha256": "42821e9f4a1ece65989f9fdcbfa9d84b323ca2bbec91b178475a2cb0e81f79f8",
+    "actualSettlementDelayMs": 28.199999928474426,
+    "originalAssertionFailedBeforeReactDomStateSettled": true,
+    "cancelledSentVoicesIdentityUnchangedDuringObservation": true,
+    "scope": "Actual retained one local lifecycle double observation; no broad timing, device or physical voice claim."
+  },
+  "actualExecution": {
+    "authorExecutionMetadata": {
+      "sourceBase": "5302f76f353363f95df936251334db5c100a55a4",
+      "candidateDriverSHA256": "c84ede2c845d7583a6aa3858382fa4b444c114bab5e66f35a546b4fd70a4da3a",
+      "command": [
+        "node",
+        "scripts/test.mjs",
+        "integration",
+        "--only",
+        "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+        "--fast",
+        "--guard",
+        "--report",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/audio-fixture-repair/actual-guarded-001/summary.json"
+      ],
+      "startedAtUtc": "2026-10-12T04:33:47.135331+00:00",
+      "independentSourceReview": "pending; author-run is not approval",
+      "ownedPGID": 60363,
+      "exit": 0,
+      "finishedAtUtc": "2026-10-12T04:33:50.747994+00:00",
+      "consoleSHA256": "d15b7f3eebd338ed61b404a6acf349c77bbce7b6b738ba8875f0556e77f20115",
+      "trackedSourceNoAdditionalChanges": true
+    },
+    "selectedSuite": {
+      "id": "integration/combined-reviewed-simplicity-independent-guided-instructions-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/combined-reviewed-simplicity-independent-guided-instructions-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3227,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__combined-reviewed-simplicity-independent-guided-instructions-browser.log"
+    },
+    "guard": {
+      "ok": true,
+      "findings": [],
+      "warnings": [],
+      "evaluated": 1,
+      "newSuites": []
+    },
+    "freshChildStdout28MatchesGuardedSummary": true,
+    "copiesOfOtherLogsExcludedAsCurrentProof": true,
+    "restoredNativeUnavailablePngExcludedAsCurrentScreenshotProof": true,
+    "buildWasReusedFastNotFresh": true,
+    "underlyingProductionPins": [
+      {
+        "path": "app/guided-instruction-audio.tsx",
+        "currentSha256": "b8956e72b507cd51d92b1bc62a33a6ff06466b1228b0b48e146c6e7ad0c145d3",
+        "byteExactPublished530": true
+      },
+      {
+        "path": "app/guided-instructions.ts",
+        "currentSha256": "1835034cdad3f67f2efe9db720c60a1c0a72e851b56a60f946db45eeca33eaae",
+        "byteExactPublished530": true
+      },
+      {
+        "path": "app/guided-capture.tsx",
+        "currentSha256": "c43ae3fabfdc04952ac28b95df1495ebd094f7c34aa0f0857ee6d542a0ae1de3",
+        "byteExactPublished530": true
+      }
+    ],
+    "finallyAwaitedBrowserAndWorkerCleanupReturnedThroughExit0": true,
+    "independentLivePortProcessCleanupProbePerformed": false,
+    "authorFullSourceCustodyAttestationOnly": true
+  },
+  "evidence": [
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/audio-fixture-repair/SOURCE-FREEZE.json",
+      "sha256": "6d5916cacad6f82824c9dc7aeebf74c8975559316b1d8656e0dcd3851f20f447",
+      "bytes": 946
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/audio-fixture-repair/candidate.mjs",
+      "sha256": "c84ede2c845d7583a6aa3858382fa4b444c114bab5e66f35a546b4fd70a4da3a",
+      "bytes": 10461
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/audio-fixture-repair/prior91ca.mjs",
+      "sha256": "91ca9dde06b3380061a952c6a7309c1f5e8a8816c979c335e00dc54d4a819acc",
+      "bytes": 9696
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/audio-fixture-repair/candidate.diff",
+      "sha256": "091f5bab63e9f067587f9ebe9b86b49dc29b65155bf42a7baa9270aa9f292515",
+      "bytes": 16322
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/missing13-ci-independent-review/INDEPENDENT-AUDIO-ORACLE-ACTION-STATIC-READBACK.json",
+      "sha256": "577a0d5ae38d08a809dba3829adee02fd7f326b7293665d79dfba769650881fe",
+      "bytes": 2987
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/current530-missing-suite-qualification/root-execution/voice-removal-diagnostic-001/observed-evidence/voice-removal-timing-diagnostic.json",
+      "sha256": "42821e9f4a1ece65989f9fdcbfa9d84b323ca2bbec91b178475a2cb0e81f79f8",
+      "bytes": 575
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/audio-fixture-repair/actual-guarded-001/EXECUTION.json",
+      "sha256": "892a0dc60fd65c13e59039a37a1bfadba9bfd84daf0a96ccfed7e7fa09860077",
+      "bytes": 895
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/audio-fixture-repair/actual-guarded-001/summary.json",
+      "sha256": "4e00a10ba1a6423aed9817c8948e9bdd3ddde38a7102a372bbd6e7b6347f45c8",
+      "bytes": 3262
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/audio-fixture-repair/actual-guarded-001/console.log",
+      "sha256": "d15b7f3eebd338ed61b404a6acf349c77bbce7b6b738ba8875f0556e77f20115",
+      "bytes": 730
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-staging-resume-20261012/audio-fixture-repair/actual-guarded-001/runner-reports/logs/integration__combined-reviewed-simplicity-independent-guided-instructions-browser.log",
+      "sha256": "1b841bf94a61f47206d256a910fc53f6de7598c21d2201833d3baa138a54e9cd",
+      "bytes": 14
+    }
+  ],
+  "limits": [
+    "Scoped fixture-source and retained actual28/stdout/original-guard PASS; not independent execution or fresh full build/wholeUI/wholeCI.",
+    "Production source is unchanged; final current integrated source/build/CI evidence remains required.",
+    "API synthesis double verifies local lifecycle and no entered/identity speech; no physical engine, clinical/language, provider or formal acceptance.",
+    "Original24/27 Playwright failure, roles privacy contradiction, screenshot failure and A10 hosting remain separately held."
+  ],
+  "a9": false,
+  "mergeEligible": false,
+  "formalHumanApproval": false,
+  "hostingVerified": false,
+  "findings": []
+}

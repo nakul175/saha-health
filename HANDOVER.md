@@ -1,3 +1,7 @@
+# Current routine visit: test coverage repair, delivery held — 12 October 2026
+
+Start with [the original coverage repair and actual evidence](docs/current/d03/ORIGINAL-COVERAGE-REPAIR-20261012.md). Current story8/10: affected-test/final-head CI and qualified merge/exact observed hosting/live remain held. Audio fixture actually passes28 original checks; selected phone fixture passes1 case. An additive CI job covers the13 previously omitted original suite IDs; its new-head result is pending. Original role/privacy-oracle decision and screenshot/platform verification remain open. No new deployed story is recorded. This header supersedes earlier status headings; their original dated evidence below is retained.
+
 # Current routine source qualified; live gate held — 11 October 2026,20:05UTC
 
 Start with the [current source qualification and actual evidence](docs/current/d03/CURRENT-SOURCE-QUALIFICATION-20261011.md). Application/test9141755 has all six engineering jobs38165380186 plus documentation38165380194 SUCCESS, complete286-path separate source review, genuine completed12,000-observation original NFR and current-source applicability/retention reviews. Exact914 satisfies local A9:9/10; the API,UI and local qualification outputs support three bounded technical tasks. Original targets/minima/spec and failed receipts remain. Current availability actually executes original11/0/0; earlier0/11 preparation headings are dated history, not current execution.

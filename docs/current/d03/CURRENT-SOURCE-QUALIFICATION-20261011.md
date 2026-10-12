@@ -1,3 +1,7 @@
+# Current routine visit: test coverage repair, delivery held — 12 October 2026
+
+Start with [the original coverage repair and actual evidence](ORIGINAL-COVERAGE-REPAIR-20261012.md). Current story8/10: affected-test/final-head CI and qualified merge/exact observed hosting/live remain held. Audio fixture actually passes28 original checks; selected phone fixture passes1 case. An additive CI job covers the13 previously omitted original suite IDs; its new-head result is pending. Original role/privacy-oracle decision and screenshot/platform verification remain open. No new deployed story is recorded. This header supersedes earlier status headings; their original dated evidence below is retained.
+
 # Routine visit: current source qualification and delivery hold
 
 11 October 2026. This record supersedes current-status pointers in earlier dated sections while preserving their source, failed results and limits. The single active bounded user story is an ASHA reviewing and saving an assigned person's routine visit, [issue176](https://github.com/nakul175/saha-health/issues/176), isolated [PR202](https://github.com/nakul175/saha-health/pull/202). The frozen [specification revision1](SPECIFICATION.md) and all ten delivery criteria are unchanged.
