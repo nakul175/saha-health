@@ -117,6 +117,7 @@ try {
     const a = owner.snap.audit.find(x => x.action === 'installDemonstrationPackage'); assert.ok(a, 'the install is audited'); assert.match(a.detail, /Not clinically approved/);
   });
 
+  await r.check('Existing owner programme configuration is metadata only',async()=>{const res=await c.call(owner,'/api/programme-pack-review',{org,headers:{'x-saha-operation-actor':owner.id}});need(res,200,'owner programme');assert.equal(res.json.actorId,owner.id);assert.equal(res.json.organisation.id,org);assert.ok(Array.isArray(res.json.installations));assert.equal(res.json.selected,null);assert.ok(!Object.hasOwn(res.json,'people')&&!Object.hasOwn(res.json,'patients'));});
   // ---- Invitations and scope -------------------------------------------------------------------------------------------------
   let ashaToken = '';
   await r.check('the owner invites an ASHA and a supervisor by account code, and both join the same organisation', async () => {
@@ -239,7 +240,7 @@ try {
   await r.check(`every GET route in HTTP-ROUTES.csv answers the owner with its declared contract (ASHA-only routes refuse; legacy routes succeed)`, async () => {
     const bad = [];
     for (const route of gets) {
-      const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
+      const res = route==='/api/programme-pack-review'?await c.call(owner,pathOf(route),{org,headers:{'x-saha-operation-actor':owner.id}}):await c.get(owner,pathOf(route),org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
       if (route === '/api/today' || route === '/api/routine-visit') {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');

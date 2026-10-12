@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **99 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **100 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -72,6 +72,7 @@ Generated from source: **99 HTTP method/route pairs** and **253 command schema d
 | POST | `/api/patients` | [app/api/patients/route.ts](../../app/api/patients/route.ts) |
 | GET | `/api/pilot` | [app/api/pilot/route.ts](../../app/api/pilot/route.ts) |
 | GET | `/api/programme-migration` | [app/api/programme-migration/route.ts](../../app/api/programme-migration/route.ts) |
+| GET | `/api/programme-pack-review` | [app/api/programme-pack-review/route.ts](../../app/api/programme-pack-review/route.ts) |
 | GET | `/api/provider-sandbox` | [app/api/provider-sandbox/route.ts](../../app/api/provider-sandbox/route.ts) |
 | GET | `/api/purpose-scope` | [app/api/purpose-scope/route.ts](../../app/api/purpose-scope/route.ts) |
 | GET | `/api/reassignment` | [app/api/reassignment/route.ts](../../app/api/reassignment/route.ts) |

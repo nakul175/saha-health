@@ -1,0 +1,27 @@
+{
+  "positive391": true,
+  "negativeControls": [
+    {
+      "case": "oldminimum",
+      "rejected": true
+    },
+    {
+      "case": "oldfile",
+      "rejected": true
+    },
+    {
+      "case": "newlogic40",
+      "rejected": true
+    },
+    {
+      "case": "newnative45",
+      "rejected": true
+    },
+    {
+      "case": "missingnew",
+      "rejected": true
+    }
+  ],
+  "exactInlineCode": "additional = {\"unit/programme-pack-review-contract\":{\"layer\":\"unit\",\"file\":\"tests/programme-pack-review-contract.mjs\",\"minPassed\":40},\"smoke/programme-pack-review-browser\":{\"layer\":\"smoke\",\"file\":\"tests/smoke/programme-pack-review-browser.mjs\",\"minPassed\":45}}\noriginal_suites = {k:v for k,v in baseline['suites'].items() if k not in additional}\nassert len(original_suites) == 389, 'Original389 must remain'\nassert hashlib.sha256(json.dumps(original_suites,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 objects/minima changed'\nassert len(baseline['suites']) == 391 and all(baseline['suites'].get(k)==v for k,v in additional.items()), 'Only observed40 logic and45 native programme review guards added'\n",
+  "criteriaChanged": false
+}
