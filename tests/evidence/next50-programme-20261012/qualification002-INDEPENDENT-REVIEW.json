@@ -1,0 +1,93 @@
+{
+  "reviewer": "/root/next50_identity",
+  "sourceSHA": "cce603b605e3c54168d20c3f4ed1086ef50779b2",
+  "baseSHA": "22a271033eaa57e124a235fc615744928f1ac106",
+  "scope": "SAHA-021/APL-44; ENG-BR-DATA-02/APL-204 bounded effective measurement source/time attribution correction",
+  "canonicalTaskNativeReadback": {
+    "id": "APL-204",
+    "title": "[ENG-BR-DATA-02] Source and timing for every fact",
+    "parentId": "APL-44",
+    "status": "Backlog"
+  },
+  "sourceVerdict": "PASS within prior independently reviewed unchanged source scope",
+  "executionVerdict": "PASS under prospectively recorded actual-clock freeze002",
+  "sourceUnchanged": true,
+  "criteriaOraclesMinimaUnchanged": true,
+  "preImplementationFreezeClaim": false,
+  "chronologyDisposition": "CHRONOLOGY-1 closed prospectively: preserve old receipt and all exploratory reports; no earlier freeze or approval inferred. Actual freeze002 precedes this qualification002 execution.",
+  "oldReviewPreserved": "../INDEPENDENT-REVIEW.json",
+  "freezeFile": "../CONTRACT-FREEZE-002.json",
+  "freezeSHA256": "b613dbf340bcf40c073c4aca5ff2a33ab3bb91d6c3b4dbda6d685ea9e848c985",
+  "actualFrozenAtUtc": "2026-10-12 09:51:38 UTC",
+  "executionStartedAt": "2026-10-12T09:52:00.791Z",
+  "executionFinishedAt": "2026-10-12T09:52:03.043Z",
+  "executedSuites": [
+    {
+      "id": "unit/fact-author-effective-provenance-contract",
+      "file": "tests/fact-author-effective-provenance-contract.mjs",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "originalGuardApplies": false
+    },
+    {
+      "id": "unit/fact-provenance-contract",
+      "file": "tests/root-verification-current-fact-provenance-contract.mjs",
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "originalGuardApplies": true
+    },
+    {
+      "id": "unit/fact-verification-contract",
+      "file": "tests/root-verification-current-fact-verification-contract.mjs",
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "originalGuardApplies": true
+    }
+  ],
+  "originalGuardClassification": {
+    "evaluated": 2,
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "newAdditiveSuite": "unit/fact-author-effective-provenance-contract",
+    "newAdditiveSuiteObservedChecks": 16,
+    "newAdditiveSuiteBaseline": "Not yet present; guard does not claim a minimum for it. Root must add its observed16 minimum and evidence citation separately without changing original389."
+  },
+  "extraChecksEarlier": {
+    "passed": 22,
+    "classification": "Prior independent exploratory pure-helper controls; not rerun or relabelled afterfreeze002"
+  },
+  "publicationQualification": "Still held for central evidence/baseline reconciliation and exact finalCI; no whole-story, human/domain, merge or hosting approval",
+  "noSourceEdits": true,
+  "noNetworkHosting": true,
+  "limits": [
+    "94 checks are3 runtime/pure/schema suites, not94 formal scenarios or stories.",
+    "No HTTP correction/save/persist journey, physical or clinical acceptance.",
+    "No fresh full build/typecheck/fullCI reviewer execution.",
+    "Original historical failure and original chronology receipt remain retained."
+  ],
+  "reviewedSourcePins": {
+    "docs/current/next50/SAHA-021-EFFECTIVE-PROVENANCE.md": "a2cce1ecd136613c4e99554cb9f855aed9ff5fe438da0bcc493dd4c75a06572e",
+    "lib/saha/fact-provenance.ts": "947a2e639374e2182d275f464697a4a0067607a949d89865ff2198ae093e398e",
+    "tests/fact-author-effective-provenance-contract.mjs": "5e404d979ed5617dd4ab6490682d347799f587d2c2aba195eaad70754e89d3a8"
+  },
+  "originalUnchangedPins": {
+    "lib/saha/server.ts": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+    "lib/saha/fact-verification.ts": "17819500d5d8b1e3c730d32d0e4d3acc6eefb8c143cb867d8946997fae62de17",
+    "lib/saha/core.ts": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+    "lib/saha/store.ts": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+    "tests/fact-provenance-contract.mjs": "12af2dc1fe2c07aa3778c1199900aaa1c8b160ee9e4163428a7faf0d7f407c1c",
+    "tests/fact-verification-contract.mjs": "ebc5975290c4c955406d044df39a35d623d5460800694366e2935654f4f90815",
+    "tests/regression-baseline.json": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0",
+    "scripts/test-guard.mjs": "f458e37381ca19d76189ed2a733bc08cf858d9e3fd74107b409699f0a44f2ad4",
+    "requirements/brd-v1.1.json": "42fcf897de33604511fcc385a22670047fba1dad6bb6be0302c421dad8b861a5",
+    "docs/current/d03/SPECIFICATION.md": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df"
+  },
+  "completedAtUtc": "2026-10-12T09:53:00.247551+00:00"
+}
