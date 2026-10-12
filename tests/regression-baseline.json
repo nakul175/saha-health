@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-11",
+  "updatedAt": "2026-10-12",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -668,6 +668,11 @@
       "file": "tests/integration/routine-organisation-http.mjs",
       "minPassed": 52
     },
+    "integration/routine-telemetry-retention-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-telemetry-retention-http.mjs",
+      "minPassed": 64
+    },
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-privacy-registration-current.mjs",
@@ -828,6 +833,11 @@
       "file": "tests/recovery-drill.mjs",
       "minPassed": 21
     },
+    "smoke/amendments-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/amendments-browser.mjs",
+      "minPassed": 45
+    },
     "smoke/app-back-browser": {
       "layer": "smoke",
       "file": "tests/smoke/app-back-guided-browser.mjs",
@@ -972,6 +982,11 @@
       "layer": "unit",
       "file": "tests/root-verification-current-alerts-contract.mjs",
       "minPassed": 25
+    },
+    "unit/amendments-contract": {
+      "layer": "unit",
+      "file": "tests/amendments-contract.mjs",
+      "minPassed": 35
     },
     "unit/anaemia-provider-contract": {
       "layer": "unit",
@@ -1942,11 +1957,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "integration/routine-telemetry-retention-http": {
-      "layer": "integration",
-      "file": "tests/integration/routine-telemetry-retention-http.mjs",
-      "minPassed": 64
     }
   },
   "log": [

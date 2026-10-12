@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **99 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **101 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -8,6 +8,8 @@ Generated from source: **99 HTTP method/route pairs** and **253 command schema d
 | GET | `/api/action-plan` | [app/api/action-plan/route.ts](../../app/api/action-plan/route.ts) |
 | GET | `/api/aggregate-reports` | [app/api/aggregate-reports/route.ts](../../app/api/aggregate-reports/route.ts) |
 | GET | `/api/alerts` | [app/api/alerts/route.ts](../../app/api/alerts/route.ts) |
+| GET | `/api/amendments` | [app/api/amendments/route.ts](../../app/api/amendments/route.ts) |
+| POST | `/api/amendments` | [app/api/amendments/route.ts](../../app/api/amendments/route.ts) |
 | POST | `/api/anaemia-connection-test` | [app/api/anaemia-connection-test/route.ts](../../app/api/anaemia-connection-test/route.ts) |
 | POST | `/api/anaemia-demo-visit` | [app/api/anaemia-demo-visit/route.ts](../../app/api/anaemia-demo-visit/route.ts) |
 | GET | `/api/anaemia-provider` | [app/api/anaemia-provider/route.ts](../../app/api/anaemia-provider/route.ts) |
