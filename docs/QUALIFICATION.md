@@ -1,3 +1,7 @@
+# Human-approved role privacy alignment; qualification pending — 12 October 2026
+
+See [the exact decision and capture/qualification sequence](current/d03/ROLE-PRIVACY-ALIGNMENT-20261012.md). Current predecessor982 has6/7 engineering jobs pass and one original rolecount1 failure; its scoped independent330-path source review passes but release stays held. The human now approves only that obsolete expectation/related image alignment to unchanged minimum-five privacy. Original source/eight goldens/389 guards/min26/global2%/frozen spec remain preserved; a six-contributor positive UI case retains alert coverage. New related image capture and final normal no-update CI/review are still required. Story8/10, no new main merge/observed staging; hosting browser-security availability unconfirmed. Earlier dated evidence below is unchanged.
+
 # Current routine visit: test coverage repair, delivery held — 12 October 2026
 
 Start with [the original coverage repair and actual evidence](current/d03/ORIGINAL-COVERAGE-REPAIR-20261012.md). Current story8/10: affected-test/final-head CI and qualified merge/exact observed hosting/live remain held. Audio fixture actually passes28 original checks; selected phone fixture passes1 case. An additive CI job covers the13 previously omitted original suite IDs; its new-head result is pending. Original role/privacy-oracle decision and screenshot/platform verification remain open. No new deployed story is recorded. This header supersedes earlier status headings; their original dated evidence below is retained.

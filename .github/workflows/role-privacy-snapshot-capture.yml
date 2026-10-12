@@ -1,0 +1,128 @@
+name: Temporary role privacy snapshot capture
+on:
+  push:
+    branches: [fix/routine-report-load-20261011]
+    paths:
+      - .github/workflows/role-privacy-snapshot-capture.yml
+      - tests/ui/roles.spec.mjs
+      - tests/ui/roles-safe-cohort-positive.spec.mjs
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      SAHA_UI_PORT: '8821'
+      SAHA_EXTERNAL_APIS_ENABLED: 'false'
+      SAHA_ENVIRONMENT: synthetic
+      CLOUDFLARE_CF_FETCH_ENABLED: 'false'
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Record source and preserve all eight existing goldens
+        run: |
+          set -euo pipefail
+          CAPTURE_DIR="$RUNNER_TEMP/saha-role-snapshot-capture"
+          mkdir -p "$CAPTURE_DIR"
+          printf 'ROLE_CAPTURE_DIR=%s\n' "$CAPTURE_DIR" >> "$GITHUB_ENV"
+          cat > "$CAPTURE_DIR/capture.py" <<'PY'
+          import hashlib, json, os, pathlib, shutil, subprocess, sys
+          root, out, phase = pathlib.Path.cwd(), pathlib.Path(os.environ['RUNNER_TEMP']) / 'saha-role-snapshot-capture', sys.argv[1]
+          def pin(p):
+              if p.is_symlink(): return {'kind': 'link', 'target': os.readlink(p)}
+              b = p.read_bytes(); return {'kind': 'file', 'bytes': len(b), 'sha256': hashlib.sha256(b).hexdigest()}
+          def git(*a):
+              b = subprocess.check_output(['git', *a], timeout=20); assert len(b) <= 16 * 1024 * 1024; return b
+          names = [os.fsdecode(n) for n in git('ls-files', '-z').split(b'\0') if n]
+          assert all(not pathlib.PurePosixPath(n).is_absolute() and '..' not in pathlib.PurePosixPath(n).parts for n in names)
+          inputs = {n: pin(root / n) for n in names}
+          decision = json.loads((root / 'docs/current/d03/ROLE-PRIVACY-DECISION-20261012.json').read_text())
+          golden = root / 'tests/ui/baselines'; fresh = root / decision['newRelatedExpectedSnapshot']
+          assert decision['newRelatedExpectedSnapshot'] == 'tests/ui/baselines/desktop/operations-withheld.png'
+          assert len(decision['originalGoldenPins']) == 8 and all(n.startswith('tests/ui/baselines/') and '..' not in pathlib.PurePosixPath(n).parts for n in decision['originalGoldenPins'])
+          old = [n.removeprefix('tests/ui/baselines/') for n in decision['originalGoldenPins']]
+          record = {'phase': phase, 'head': git('rev-parse', 'HEAD').decode().strip(), 'tree': git('rev-parse', 'HEAD^{tree}').decode().strip(), 'inputs': inputs, 'goldens': {n: pin(golden / n) for n in old}, 'baseline': json.loads((root / 'tests/regression-baseline.json').read_text()), 'newGolden': pin(fresh) if fresh.exists() else None}
+          (out / (phase + '.json')).write_text(json.dumps(record, indent=2) + '\n')
+          assert len(record['baseline']['suites']) == 389 and record['baseline']['suites']['ui/playwright.config']['minPassed'] == 26
+          if phase == 'before':
+              assert record['head'] == os.environ['GITHUB_SHA'] and os.environ['GITHUB_REF'] == 'refs/heads/fix/routine-report-load-20261011'
+              assert not fresh.exists() and sorted(p.relative_to(golden).as_posix() for p in golden.rglob('*.png')) == sorted(old)
+              assert all(inputs[n]['sha256'] == h for n, h in decision['originalGoldenPins'].items())
+              assert inputs['tests/ui/roles.spec.mjs']['sha256'] == decision['currentRoleSHA256'] and inputs['tests/ui/roles-safe-cohort-positive.spec.mjs']['sha256'] == decision['newPositiveSourceSHA256']
+              assert inputs['tests/regression-baseline.json']['sha256'] == decision['baselineSHA256'] and inputs['docs/current/d03/SPECIFICATION.md']['sha256'] == decision['frozenSpecSHA256']
+              assert (root / 'tests/ui/roles.spec.mjs').read_text().count("'operations-withheld.png'") == 1
+              shutil.copyfile(root / 'pnpm-workspace.yaml', out / 'workspace-before.yaml')
+              for n in old:
+                  p = out / 'old-goldens' / n; p.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(golden / n, p)
+              for n in ['tests/ui/roles.spec.mjs', 'tests/ui/roles-safe-cohort-positive.spec.mjs', 'tests/ui/playwright.config.mjs', 'tests/ui/support/fixtures.mjs', 'tests/ui/support/flows.mjs', 'tests/ui/support/global-setup.mjs', 'docs/current/d03/ROLE-PRIVACY-DECISION-20261012.json', 'package.json', 'pnpm-lock.yaml']:
+                  p = out / 'source' / n; p.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(root / n, p)
+          else:
+              before = json.loads((out / 'before.json').read_text()); findings = []
+              changes = [n for n in set(inputs) | set(before['inputs']) if inputs.get(n) != before['inputs'].get(n)]
+              if set(changes) - {'pnpm-workspace.yaml'}: findings.append('Tracked runtime/source/oracle changed: ' + repr(changes))
+              expected = (out / 'workspace-before.yaml').read_bytes().replace(b'${SITES_PNPM_SHARED_STORE:-.sites-runtime/pnpm-store}', b'.sites-runtime/pnpm-store')
+              if 'pnpm-workspace.yaml' in changes and (root / 'pnpm-workspace.yaml').read_bytes() != expected: findings.append('Unexpected installer workspace change')
+              if record['baseline'] != before['baseline'] or record['goldens'] != before['goldens']: findings.append('Original baseline or golden changed')
+              if sorted(p.relative_to(golden).as_posix() for p in golden.rglob('*.png')) != sorted(old + ['desktop/operations-withheld.png']): findings.append('Missing or unrelated new golden')
+              if not record['newGolden']: findings.append('No new expected PNG captured')
+              else:
+                  assert fresh.read_bytes().startswith(b'\x89PNG\r\n\x1a\n'); shutil.copyfile(fresh, out / 'operations-withheld.png')
+              try:
+                  status = json.loads((out / 'phase-exit.json').read_text()); raw = json.loads((out / 'playwright-raw.json').read_text())
+                  if status != {'runnerExit': 0, 'loggerExit': 0} or any(raw['stats'][k] != v for k, v in {'expected': 2, 'unexpected': 0, 'skipped': 0, 'flaky': 0}.items()): findings.append('Actual two-case capture did not pass')
+                  tools = json.loads((out / 'toolchain.json').read_text())
+                  if any(pin(pathlib.Path(b['path']))['sha256'] != b['sha256'] for b in tools['binaries'].values()): findings.append('Browser executable changed during capture')
+              except Exception as e: findings.append('Missing/invalid actual capture: ' + type(e).__name__)
+              result = {'observationalCaptureOnly': True, 'normalScreenshotComparisonQualified': False, 'A9Qualified': False, 'changes': changes, 'findings': findings, 'oldEightGoldensUnchanged': record['goldens'] == before['goldens']}
+              (out / 'capture-result.json').write_text(json.dumps(result, indent=2) + '\n'); assert not findings, findings
+          PY
+          python3 "$CAPTURE_DIR/capture.py" before
+      - name: Existing pinned install and canonical build
+        run: |
+          set -euo pipefail
+          npm run install:ci 2>&1 | tee "$ROLE_CAPTURE_DIR/install.log"
+          npm run build 2>&1 | tee "$ROLE_CAPTURE_DIR/build.log"
+          node_modules/.bin/playwright install --with-deps chromium 2>&1 | tee "$ROLE_CAPTURE_DIR/chromium-install.log"
+          node --input-type=module <<'JS'
+          import {readFileSync, writeFileSync} from 'node:fs';
+          import {createHash} from 'node:crypto';
+          import {execFileSync} from 'node:child_process';
+          import {createRequire} from 'node:module';
+          const require = createRequire(import.meta.url), {chromium} = require('@playwright/test'), {registry} = require('playwright-core/lib/server/registry/index');
+          const version = require('@playwright/test/package.json').version;
+          if (version !== '1.56.1' || +process.versions.node.split('.')[0] !== 22) throw Error('Original pinned browser/Node major changed');
+          const binaries = Object.fromEntries([['chromium', chromium.executablePath()], ['headlessShell', registry.findExecutable('chromium-headless-shell').executablePath()]].map(([key, path]) => [key, {path, sha256: createHash('sha256').update(readFileSync(path)).digest('hex')}]));
+          writeFileSync(process.env.ROLE_CAPTURE_DIR + '/toolchain.json', JSON.stringify({node: process.version, pnpm: execFileSync('corepack', ['pnpm', '--version'], {encoding:'utf8', timeout:20000}).trim(), playwright: version, binaries, platform: process.platform, runnerOS: process.env.RUNNER_OS}, null, 2) + '\n');
+          JS
+      - name: Observational new role snapshot and positive-six capture only
+        run: |
+          set -euo pipefail
+          unset SAHA_UI_BASE
+          export PLAYWRIGHT_JSON_OUTPUT_NAME="$ROLE_CAPTURE_DIR/playwright-raw.json"
+          set +e
+          node node_modules/@playwright/test/cli.js test tests/ui/roles.spec.mjs tests/ui/roles-safe-cohort-positive.spec.mjs --config tests/ui/playwright.config.mjs --project desktop --update-snapshots --trace=on --reporter=list,json,./tests/ui/support/reporter.mjs 2>&1 | tee "$ROLE_CAPTURE_DIR/playwright.log"
+          statuses=("${PIPESTATUS[@]}")
+          set -e
+          python3 - "${statuses[0]}" "${statuses[1]}" <<'PY'
+          import json, os, pathlib, sys
+          (pathlib.Path(os.environ['ROLE_CAPTURE_DIR']) / 'phase-exit.json').write_text(json.dumps({'runnerExit': int(sys.argv[1]), 'loggerExit': int(sys.argv[2])}) + '\n')
+          PY
+          test "${statuses[1]}" -eq 0 && exit "${statuses[0]}"
+      - name: Always retain final source and refusal evidence
+        if: always()
+        run: python3 "$ROLE_CAPTURE_DIR/capture.py" after
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: observational-role-privacy-snapshot-capture
+          if-no-files-found: error
+          include-hidden-files: true
+          path: |
+            ${{ runner.temp }}/saha-role-snapshot-capture/
+            tests/reports/ui-result.json
+            test-results/ui/
+            .wrangler/saha-ui-state/
