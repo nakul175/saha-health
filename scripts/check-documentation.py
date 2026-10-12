@@ -12,6 +12,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
+HOUSEHOLD_SOURCE_PAIRS = {('tests/evidence/household-proxy-dangling-reference-20261012/manifest.json', 'tests/smoke/household-proxy-review-browser.mjs'), ('tests/evidence/household-proxy-readonly-repair-20261012/manifest.json', 'lib/saha/household-proxy-review.ts'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'lib/saha/household-proxy-review-server.ts'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'app/household-proxy-review/household-proxy-review.tsx'), ('tests/evidence/household-proxy-readonly-repair-20261012/manifest.json', 'tests/household-proxy-review-contract.mjs'), ('tests/evidence/household-proxy-dangling-reference-20261012/manifest.json', 'lib/saha/household-proxy-review.ts'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'tests/smoke/household-proxy-review-browser.mjs'), ('tests/evidence/household-proxy-dangling-reference-20261012/manifest.json', 'tests/household-proxy-review-contract.mjs'), ('tests/evidence/routine-current-source-integration-20261011/manifest.json', 'tests/nfr/authorisation-matrix-current.mjs'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'lib/saha/household-proxy-review.ts'), ('tests/evidence/household-proxy-readonly-repair-20261012/manifest.json', 'tests/smoke/household-proxy-review-browser.mjs'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'tests/household-proxy-review-contract.mjs')}
 errors = []
 checks = {}
 
@@ -196,6 +197,19 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
                 preimage=gzip.decompress(archive.read_bytes())
                 require(hashlib.sha256(preimage).hexdigest()==expected and len(preimage)==binding['bytes'],'Changed generated diagnostic preimage')
             continue
+        # Exact household historical source-only pairs; no actual report/golden/minimum substitution.
+        if (str(manifest_path.relative_to(ROOT)),report) in HOUSEHOLD_SOURCE_PAIRS and path.is_file() and digest(path)!=expected:
+            bindings=read_json('docs/verification/evidence-source-snapshot-household-20261012.json')['records']
+            require(len(bindings)==12 and {(v['originalManifest'],v['sourcePath']) for v in bindings}==HOUSEHOLD_SOURCE_PAIRS,'Changed household sourcepair registry')
+            matches=[v for v in bindings if v['originalManifest']==str(manifest_path.relative_to(ROOT)) and v['sourcePath']==report]
+            require(len(matches)==1,'Ambiguous historical household source pair')
+            binding=matches[0]
+            require(binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size and binding['originalSourceSha256']==expected,'Unbound original household source/manifest')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current household source must matchcurrentbaseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed household exactsourcepreimage/boundary')
+            path=archive
         # One bound historical test-source preimage: current test bytes remain checked by the current baseline.
         # This never substitutes for a test report, expected image, assertion count or current execution.
         if str(manifest_path.relative_to(ROOT))=='tests/evidence/guided-home/manifest.json' and report=='tests/ui/app-first-phone.spec.mjs' and path.is_file() and digest(path)!=expected:

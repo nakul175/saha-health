@@ -555,7 +555,7 @@
       "sourceTextLine": 184,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted.",
+      "current": "Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted. Bounded12October2026 increment: Review assigned household and recorded proxy evidence; see docs/current/next50/HOUSEHOLD-PROXY-REVIEW-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.",
       "remaining": "Household relationships and purpose-limited, expiring proxy authority.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -566,7 +566,18 @@
         "REMAINING-RELEASES.md",
         "lib/saha/household.ts",
         "tests/main-review-fixes-contract.mjs",
-        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+        "app/api/household-proxy-review/route.ts",
+        "app/household-proxy-review/page.tsx",
+        "app/household-proxy-review/household-proxy-review.tsx",
+        "app/household-proxy-review/household-proxy-review.css",
+        "app/today/today.tsx",
+        "lib/saha/household-proxy-review.ts",
+        "lib/saha/household-proxy-review-server.ts",
+        "lib/saha/household-proxy-read-guard.ts",
+        "tests/household-proxy-review-contract.mjs",
+        "tests/smoke/household-proxy-review-browser.mjs",
+        "docs/current/next50/HOUSEHOLD-PROXY-REVIEW-20261012.md"
       ],
       "automatedAcceptanceClaim": false
     },
