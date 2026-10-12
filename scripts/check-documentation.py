@@ -196,6 +196,18 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
                 preimage=gzip.decompress(archive.read_bytes())
                 require(hashlib.sha256(preimage).hexdigest()==expected and len(preimage)==binding['bytes'],'Changed generated diagnostic preimage')
             continue
+        # Two exact historical workforce source pins; current code and actual result reports stay checked.
+        if str(manifest_path.relative_to(ROOT))=='tests/evidence/workforce-status-root-author-20261012/manifest.json' and report in ('app/workforce-status/workforce-status.tsx','tests/smoke/workforce-status-browser.mjs') and path.is_file() and digest(path)!=expected:
+            records=read_json('docs/verification/evidence-source-snapshot-workforce-return-20261012.json')['records']
+            require(isinstance(records,list) and len(records)==2 and {r['sourcePath'] for r in records}=={'app/workforce-status/workforce-status.tsx','tests/smoke/workforce-status-browser.mjs'},'Invalid historical workforce source binding set')
+            binding=next(r for r in records if r['sourcePath']==report)
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound historical workforce author manifest')
+            require(binding['originalSourceSha256']==expected,'Unbound historical workforce source pin')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current workforce source is not independently pinned by current baseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical workforce source preimage')
+            path=archive
         # Exact historical authorization-matrix source, before the additive workforce review route.
         # This preserves original source bytes only; current execution/minima/reports remain in place.
         if str(manifest_path.relative_to(ROOT))=='tests/evidence/routine-current-source-integration-20261011/manifest.json' and report=='tests/nfr/authorisation-matrix-current.mjs' and path.is_file() and digest(path)!=expected:

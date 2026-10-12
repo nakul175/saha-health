@@ -1,0 +1,72 @@
+{
+  "atUtc": "2026-10-12T19:28:01.127167+00:00",
+  "positiveBeforeAndAfter": true,
+  "negativeControls": [
+    {
+      "case": "old-author-manifest",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "actual47-report",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "wrong-current-pin",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "outside-source-archive",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "wrong-binding-record-set",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "historical-source-0",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "current-source-0",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "historical-source-1",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "current-source-1",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "symlink-escape-0",
+      "rejected": true,
+      "exit": 1
+    },
+    {
+      "case": "symlink-escape-1",
+      "rejected": true,
+      "exit": 1
+    }
+  ],
+  "rootSourceAnchorsUnchanged": true,
+  "sourceAnchors": {
+    "docs/verification/evidence-source-snapshot-workforce-return-20261012.json": "52432c868d73f92d759194392f938ceb5d86b068e444191e2d34277c4a5eb5cc",
+    "tests/evidence/workforce-status-root-author-20261012/manifest.json": "fe860f5f50411653a77beb2c2fc5d2910195fa565a9255ef82bbc062ccc667a1",
+    "tests/evidence/workforce-return-navigation-repair-20261012/result.json": "e05686e3f15792ec4aa568c17002e9b3d1db75cf368e6bc817fdff5b437e8dec",
+    "docs/verification/evidence-source-snapshots/workforce-return-workforce-status.tsx.txt": "6ab7d0d69373553c97062a15be0d4514ed212e5aa03be43e244da2ccc37de1ba",
+    "docs/verification/evidence-source-snapshots/workforce-return-workforce-status-browser.mjs.txt": "4b1056d0700df3dc15808fa0254d89684f3be189586a4b203d313793ecb15ea8",
+    "app/workforce-status/workforce-status.tsx": "cabfeb429cbb0ca53f726fc87adef0626cac10f3ab55401366beca7d623df51e",
+    "tests/smoke/workforce-status-browser.mjs": "56e68cd99729a2a3f40122dfd3206d794d163c7803332ceeff9c4d701e5d599f"
+  },
+  "limits": "Actualauthor fullchecker controls in isolated hardlinkmirror; mutatedanchors private inodes. Exacttwo historicalsource exceptions only; no result/golden/minimum exception or coordinatedtrustrewrite immunity/formal/hosting qualification."
+}
