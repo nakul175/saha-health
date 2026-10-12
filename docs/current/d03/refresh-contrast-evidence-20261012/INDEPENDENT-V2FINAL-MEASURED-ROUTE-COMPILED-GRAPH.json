@@ -1,0 +1,117 @@
+{
+  "atUtc": "2026-10-12T07:37:23.499710+00:00",
+  "graph": {
+    "app/today/today.tsx": {
+      "requiredStaticClosure": [
+        {
+          "manifestKey": "_framework-YrLwah_k.js",
+          "file": "_next/static/chunks/framework-YrLwah_k.js",
+          "sha256": "7521acf31051421c2647a502bf4246d2cbb1edfcb393f380f51254f89fb64fe8",
+          "staticImports": [
+            "_rolldown-runtime-C60lm6uB.js"
+          ],
+          "dynamicImports": []
+        },
+        {
+          "manifestKey": "_rolldown-runtime-C60lm6uB.js",
+          "file": "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+          "sha256": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75",
+          "staticImports": [],
+          "dynamicImports": []
+        },
+        {
+          "manifestKey": "app/today/today.tsx",
+          "file": "_next/static/chunks/today-BHAFz0EY.js",
+          "sha256": "f49c95902beb9663b6a6d3ee8d079afc36ab675b12d5cf6fd802032c6d421c22",
+          "staticImports": [
+            "_rolldown-runtime-C60lm6uB.js",
+            "_framework-YrLwah_k.js"
+          ],
+          "dynamicImports": []
+        }
+      ],
+      "legacyWorkspaceAbsentFromRequiredClosure": true
+    },
+    "app/routine-visit/routine-visit.tsx": {
+      "requiredStaticClosure": [
+        {
+          "manifestKey": "_framework-YrLwah_k.js",
+          "file": "_next/static/chunks/framework-YrLwah_k.js",
+          "sha256": "7521acf31051421c2647a502bf4246d2cbb1edfcb393f380f51254f89fb64fe8",
+          "staticImports": [
+            "_rolldown-runtime-C60lm6uB.js"
+          ],
+          "dynamicImports": []
+        },
+        {
+          "manifestKey": "_programmes-BaLhuSdz.js",
+          "file": "_next/static/chunks/programmes-BaLhuSdz.js",
+          "sha256": "6f787aaf0df1acf9e71068ca1ce2954b2c744a21745f1dd6bb2e7120b34e9e93",
+          "staticImports": [
+            "_rolldown-runtime-C60lm6uB.js",
+            "_select-CIenQlod.js",
+            "_framework-YrLwah_k.js"
+          ],
+          "dynamicImports": []
+        },
+        {
+          "manifestKey": "_rolldown-runtime-C60lm6uB.js",
+          "file": "_next/static/chunks/rolldown-runtime-C60lm6uB.js",
+          "sha256": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75",
+          "staticImports": [],
+          "dynamicImports": []
+        },
+        {
+          "manifestKey": "_select-CIenQlod.js",
+          "file": "_next/static/chunks/select-CIenQlod.js",
+          "sha256": "d12d05e6c3b11188f8f945f0adb58841786f1b04d1c7be88c795d3a8f5da8972",
+          "staticImports": [
+            "_rolldown-runtime-C60lm6uB.js",
+            "_framework-YrLwah_k.js"
+          ],
+          "dynamicImports": []
+        },
+        {
+          "manifestKey": "app/routine-visit/routine-visit.tsx",
+          "file": "_next/static/chunks/routine-visit-CYRTcm-r.js",
+          "sha256": "b740f010466eda854af871133b04da6ce26ea5c088b4fbd072969e7f82ece307",
+          "staticImports": [
+            "_rolldown-runtime-C60lm6uB.js",
+            "_programmes-BaLhuSdz.js",
+            "_framework-YrLwah_k.js"
+          ],
+          "dynamicImports": []
+        }
+      ],
+      "legacyWorkspaceAbsentFromRequiredClosure": true
+    }
+  },
+  "sourceRoots": [
+    {
+      "path": "app/page.tsx",
+      "sha256": "d2c6adcb18c2b117e29c8e495a8f285bd196070aec3600893c58d452f9838c78"
+    },
+    {
+      "path": "app/workspace.tsx",
+      "sha256": "c7d6971820b8d13c77859413d2278dbd6a45dcbfef13d0b164c7a2083cde8e8f"
+    },
+    {
+      "path": "app/today/page.tsx",
+      "sha256": "bae5b52807ca9b66d275238a16aad272db53abd936c7766bf0af4af44cb6fb0a"
+    },
+    {
+      "path": "app/today/today.tsx",
+      "sha256": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87"
+    },
+    {
+      "path": "app/routine-visit/page.tsx",
+      "sha256": "3f715c35694267a2896dcc9ed560550cf32d19e469a8ace09e1b9927c07623d8"
+    },
+    {
+      "path": "app/routine-visit/routine-visit.tsx",
+      "sha256": "02fd56320974f1197de7d25d98bbc19b3bf93e72b7af0ed6ad573e3c45ad69f9"
+    }
+  ],
+  "renderReview": "Home / renders WorkspaceApp and Workspace renders ActionPlanPanel. /today wraps distinctToday; /routine-visit wraps distinctRoutineVisit; compiledrequiredclientclosures excludelegacyWorkspace. Globalbootstrap registers lazyWorkspace clientreference; metadatareferenceupdates do not execute ActionPlan control on theseselectedroutecomponents. Actual originalNFRdriver enters /today,/routine-visit and standalone /app/offline/, not legacyHome/patientpage.",
+  "limits": "Static source/compiledmanifest/eagerdependencygraph review, not newnetworkruntimeobservation. Actualfull281 behavioralcomparisons and unchanged20 measuredpublicfiles are in c99 readback. Finalpublishedsource/newCI must correlate samecandidate bytes."
+}
