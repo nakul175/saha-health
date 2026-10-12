@@ -1,0 +1,51 @@
+{
+  "reviewedAtUtc": "2026-10-12T17:08:52.895040+00:00",
+  "reviewerAgent": "/root/next50_identity",
+  "reviewKind": "Genuine separate source/evidence engineering review; no GitHub human/domain approval",
+  "verdict": "PASS within bounded author contract; publication metadata and current-head CI remain pending",
+  "exactHead": "17999f559a56b53179ca4a31a8ec1468b68e9d55",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "story": "SAHA-009 / APL-32 / BR-UX-09",
+  "task": "APL-192 / ENG-BR-UX-09",
+  "authorHandoffSHA256": "dd271589f9dda90408c4e333bb76c3943e79b4f8ddc7554bb3e4ff94788ed8ea",
+  "counts": {
+    "manifestFilesVerified": 1374,
+    "exactNativeSourcePathsVerified": 16962,
+    "sourceFilesChanged": 9,
+    "dependencyFileCustodyEqual": 52299,
+    "compiledArchivedRehashed": 289,
+    "independentPureChecks": 36,
+    "actualAuthorBrowserCases": 6,
+    "axeScans": 3,
+    "axeViolations": 0
+  },
+  "sourceAssessment": {
+    "authority": "Trusted server identity, explicit organisation, active assigned ASHA and programme-delivery purpose. Owner/clinician rejected by new bounded wrapper. Selectors/expected actor headers never authenticate.",
+    "read": "Original access audit plus complete before/after context equality and final assignment/version guard. Narrow selected original confirmed visit and eligible connector labels; endpoints and credential bindings omitted. Source-enforced audit freshness; no injected mid-audit race claimed.",
+    "writes": "Only existing preparePlan/approvePlan writer. Strict same-origin bounded JSON; actor/org/person/visit/plan/hash binding; existing command CAS, source/purpose/consent/destination checks and receipts unchanged. No execution/startVisit/saveVisit/provider path.",
+    "ui": "Explicit visit selection, per-destination exclusion clears affirmation; fresh original plan before exact-hash approval. Protected packet cleared on refused/error/offline/hidden/cancelled response. Approval is visibly local and carries original server15-minute expiry, not clinical approval/external acceptance.",
+    "uncertainty": "Actual server200 approval reply lost once; explicit GET recovers exact plan/hash/current approved actor, no second approval/receipt. Uncertain prepare remains uncertain. Original core only approves proposed plan; conjectured second-actor reapproval cannot arise under examined original writer/assignment changes."
+  },
+  "evidenceAssessment": {
+    "positive": "Exactly2prepare+1approve, preserved clinical facts/patient content/original command receipts/submissions/referrals; exactly+3 patient transaction rev and stored visit record_version, current planId. These original bookkeeping fields are not clinical-content changes.",
+    "refusals": "Actual stale recipient and consent409s leave patients/visits/plans/receipts unchanged; separate assignment/purpose refresh refusal clears protected screen. Actual status vector401,403,403,404,422,403,400,400,403 verified.",
+    "custody": "All1374 sealed files rehashed. Native16962 before/after/current checkout SHA maps equal and exact-head tracked diff clean. Git text/eol=crlf explains unchanged android/gradlew.bat raw Git-vs-working byte difference; disposition retained. Dependencies52299/browser binaries/facade links and all289 archived compiled bytes unchanged.",
+    "build": "browser003 actual fresh build; browser004 only test observer differs, remaining16961 source pins and actual compiled files match predecessor. No fresh004 build claim.",
+    "cleanup": "Observed recorded owned groups empty and reservedport free in actual receipt. This is evidence readback, not a fresh runtime or hosting probe.",
+    "chronology": "Primary FROZEN-SCOPE16:37:38UTC predates implementation/run. browser004 actual SOURCE-BEFORE custody precedes native execution16:53:40. PREPARED-SOURCE-FREEZE preparedAt16:54 and browserCasesNotYetRun fields are post-run descriptive metadata, not prospective freeze or forecasts; preserved verbatim, explicitly not backdated.",
+    "retainedFailures": "browser0010/6 SQL observer audit vs audit_events; browser0024/2 overbroad clinical bookkeeping and duplicate synthetic identities. Actual corrected exact stronger bookkeeping invariants are verified; originals unchanged.",
+    "originalGuards": "All original389 records/baseline/CI/config9goldens and examined writer/security sources byte unchanged. No whole ui/playwright min26 execution claim from selected6."
+  },
+  "limits": [
+    "No newly accepted whole story, formal0/364, physical device, comprehension/domain, NFR, capacity, partner, original fullUI minimum26, current-head CI, deployment or observed staging acceptance.",
+    "Separate source review only; root-owned metadata, new guard qualification and final assembled diff review required.",
+    "No contrived protected-data rewrites, hosting access, automatic sends or source mutations were performed."
+  ],
+  "unresolvedBlockingSourceFindings": [],
+  "evidenceFiles": {
+    "unitRepeat": "independent-review/unit-copy/tests/reports/plan-review-contract-result.json",
+    "attachmentIndex": "independent-review/ATTACHMENT-INDEX.json",
+    "verifiedCounts": "independent-review/VERIFIED-EVIDENCE-COUNTS.json",
+    "lineEndingDisposition": "independent-review/GIT-LINE-ENDINGS-DISPOSITION.json"
+  }
+}

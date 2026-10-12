@@ -1,0 +1,164 @@
+{
+  "createdAtUtc": "2026-10-12T16:56:22.547120+00:00",
+  "story": "SAHA-009 / APL-32 Explainable action review",
+  "technicalTask": "ENG-BR-UX-09 / APL-192",
+  "checkout": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012",
+  "branch": "feat/next50-explicit-action-review-20261012",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "head": "17999f559a56b53179ca4a31a8ec1468b68e9d55",
+  "tree": "b5057b15b62a1252e37662617ff3985fe9a4257e",
+  "changedPaths": [
+    "app/api/plan-review/route.ts",
+    "app/plan-review/page.tsx",
+    "app/plan-review/plan-review.css",
+    "app/plan-review/plan-review.tsx",
+    "app/today/today.tsx",
+    "lib/saha/plan-review-server.ts",
+    "lib/saha/plan-review.ts",
+    "tests/plan-review-contract.mjs",
+    "tests/ui/plan-review.spec.mjs"
+  ],
+  "sourcePins": {
+    "app/api/plan-review/route.ts": {
+      "sha256": "f40f2c1e673ad034f28d7584255c8364b154f89d37979725e5141b456ab27994",
+      "bytes": 418,
+      "gitBlobMatches": true
+    },
+    "app/plan-review/page.tsx": {
+      "sha256": "418023c5bd17377e431139f4616e68bb6e326745a72a5febc473a1282e5746b9",
+      "bytes": 96,
+      "gitBlobMatches": true
+    },
+    "app/plan-review/plan-review.css": {
+      "sha256": "1d06b69d596ffffacd8fd2eb3fe786f27956bd9ffe40a11b44c72ddfaf6ca614",
+      "bytes": 1317,
+      "gitBlobMatches": true
+    },
+    "app/plan-review/plan-review.tsx": {
+      "sha256": "902360493f08822bc718085c5f827ebabf912afba7cfbd3dc6bbc0d6a6fbfe64",
+      "bytes": 12125,
+      "gitBlobMatches": true
+    },
+    "app/today/today.tsx": {
+      "sha256": "c00f7ddf5ffdd52b5360fadb972c0fe86c0a1e874f8e4a8484966b3d9289a8fe",
+      "bytes": 6449,
+      "gitBlobMatches": true
+    },
+    "lib/saha/plan-review-server.ts": {
+      "sha256": "768f8388e49f8e908e3dabbe0f96d20163ace40c4885f26eeb3684acb9a3bd85",
+      "bytes": 5096,
+      "gitBlobMatches": true
+    },
+    "lib/saha/plan-review.ts": {
+      "sha256": "8888599cbbde67bc970eaf070cfe925e20570e5519bff0b7705677fd68006311",
+      "bytes": 5324,
+      "gitBlobMatches": true
+    },
+    "tests/plan-review-contract.mjs": {
+      "sha256": "8dd1167efa763385e8fc90c250c36ae95515f0a9295612b35f8b76899c57f643",
+      "bytes": 7872,
+      "gitBlobMatches": true
+    },
+    "tests/ui/plan-review.spec.mjs": {
+      "sha256": "47b1ae95ae26dd3d1cc18aadc8262beaa71f491667a331c9a1a4b7c1a9e5b745",
+      "bytes": 15271,
+      "gitBlobMatches": true
+    }
+  },
+  "scope": "Assigned ASHA reviews an existing original confirmed visit, actual purpose/configured destination labels/facts and mapped payloads, excludes a destination via fresh original preparePlan, explicitly approves exact original hash/version checkpoint. No execution, provider activation or encounter/clinical editing.",
+  "actualCounts": {
+    "newUnitChecks": 36,
+    "newUnitFailures": 0,
+    "originalAffectedSuites": 3,
+    "originalAffectedUnitChecks": 97,
+    "originalAffectedFailures": 0,
+    "browserCases": 6,
+    "browserFailures": 0,
+    "browserSkipped": 0,
+    "browserFlaky": 0,
+    "axeScans": 3,
+    "axeViolations": 0,
+    "fullPlaywrightGuardExecuted": false,
+    "originalMinimumUnchanged": 26,
+    "compiledArchivedRehashed": 289,
+    "trackedSourcePinned": 16962,
+    "sharedDependencyFilesPinned": 52299
+  },
+  "qualification": {
+    "freshBuildExit0": "browser-003/canonical-build.log",
+    "finalTestSourceOnlyBuildApplicability": "browser-004/PREDECESSOR-BUILD-APPLICABILITY.json",
+    "currentActualMobileAPI": "browser-004/ACTUAL-PLAN-REVIEW-RAW-RESULT.json",
+    "receipt": "browser-004/FINAL-EXECUTION-RECEIPT.json",
+    "typesExit0": "typecheck-004.log",
+    "lintExit0Warnings0": "lint-004.log",
+    "unit": "ACTUAL-UNIT-36-RESULT.json",
+    "affectedOriginalGuard": "affected-units-001-summary.json",
+    "sourceBridge": "FINAL-SOURCE-EXECUTION-BRIDGE.json"
+  },
+  "scenarios": {
+    "positive": "Exactly two prepares plus one approval; checkbox exclusion clears affirmation, new plan ID/hash and one recipient; actual state approved/expiresAt/actor from server. Existing visit clinical fact version/content/patient data/referrals/submissions remain equal; precisely+3 patient transaction rev and visit stored recordVersion, exact current planId asserted. No execute/submission.",
+    "recipientRace": "Separate genuine prepare replaces server plan while old review stays open; old approval409; complete patients/visits/plans/receipts remain unchanged after refusal.",
+    "permissionRace": "Separate consent change invalidates plan; old approval409; whole clinical/plan/receipt rows unchanged after refusal, current stale review withheld.",
+    "readRevocation": "Assignment removed before Refresh then explicitly restored outside comparison phase before purpose restriction; both actual bounded reads refuse and protected screen clears. No forced mid-audit storage race was injected.",
+    "authorisation": "Actual anonymous401/foreignorg403/ownerclinician403/bothassignedwrongpersonvisit404/unsupportedexecute422/mismatchedactor403/duplicateselector400/noorg400/crossorigin403. No plan/receipt/patient/visit mutation.",
+    "uncertain": "Exactly one actual backend approval response observed200 then deliberately aborted before browser receipt (no response substitution); explicit read-only recovery confirms exactplan/hash/actor state, no resend/extra receipt. Offline clears protected packet/affirmation."
+  },
+  "failedRunsRetained": [
+    {
+      "path": "browser-001",
+      "passed": 0,
+      "failed": 6,
+      "reason": "New SQL observer referenced nonexistent audit rather than actual audit_events. All real errors/screenshots/raw/custody retained; no application pass inferred."
+    },
+    {
+      "path": "browser-002",
+      "passed": 4,
+      "failed": 2,
+      "reason": "Overbroad clinical observer counted original plan transaction bookkeeping as clinical changes; second team reused same synthetic identities. Exact old expectations kept, accurate clinical invariants plus exact+3 bookkeeping checks replace false aggregate claim; explicit same-record reassignment replaces invalid duplicate invitation."
+    }
+  ],
+  "limits": [
+    "Author implementation/testing only; separate genuine source/evidence review pending.",
+    "Configured destination name is displayed; no invented verified legal receiving organisation or partner comprehension approval.",
+    "No fact-edit/amendment or grouped action policy introduced; existing confirmed clinical facts remain read-only.",
+    "Actual recipient/consent changes invalidate original approvals; later execution was not invoked or newly qualified (canonical TC-B remains formal Not run).",
+    "Post-audit read freshness is source-enforced, but no injected mid-audit race test is claimed.",
+    "Demo connectors have no external wire payload; exact local hash-bound facts/answers and current recipients shown, current HTTP mapped payloads exposed only under existing scope/purpose.",
+    "Approval is local, expires under the original15minute policy, not external acceptance.",
+    "Selected390x844 desktop-project Chromium cases only; no whole originalUImin26/fullCI, physical phone/screenreader/NFR/partner/formal/live hosting acceptance.",
+    "No push/PR/merge/deployment by author; root metadata/guard/API coverage publication and current-head CI remain pending."
+  ],
+  "ownedCleanup": {
+    "atUtc": "2026-10-12T16:53:51.139480+00:00",
+    "groups": [
+      73916,
+      73934
+    ],
+    "knownPids": [
+      73916,
+      73925,
+      73926,
+      73928,
+      73929,
+      73930,
+      73933,
+      73934,
+      73935,
+      73936,
+      73944,
+      73959,
+      73981,
+      73999,
+      74045
+    ],
+    "remainingOwnedProcesses": [],
+    "portFree": true,
+    "statePreserved": true
+  },
+  "rootNext": [
+    "Arrange genuine independent source and actual evidence review of17999.",
+    "Add only observed unit36 guard and actual newroute authorization/local smoke recipe under preserved original389 andCI jobs; new6cases part of existingUI aggregate.",
+    "Update implementation/requirement/evidence/next-delivery/docs/current manifest additively, retaining historical failures and formal Not run.",
+    "Root handles normal source publication/PR/real current CI; originalmain22a unchanged by this author."
+  ]
+}

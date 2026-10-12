@@ -242,3 +242,8 @@ Cloudflare account settings, Access policy and the `CLOUDFLARE_API_TOKEN` secret
 ## Eight independent frontline apps (3 October 2026)
 
 The owner-private Sites demonstration now has eight independent speech/OCR workflow providers and Saha integration. Read [scope and evidence](docs/current/FRONTLINE-EIGHT-APPS.md). Merged into `main` on 3 October 2026 at the sponsor's instruction (#145), after an agent review whose medium findings M1 and M3 were fixed; the runtime CDN import of the inference libraries without an integrity check remained open after the merge (slice 13b, on a branch, isolates it in a sandboxed frame and checks receipts against what was sent). Four method/route handlers added; no certified command or migration. Synthetic-only; clinical use disabled; hosted staging cannot reach the providers.
+
+
+## 12 October 2026 — explicit action review candidate
+
+[Scope and evidence](docs/current/next50/ACTION-REVIEW-20261012.md): assigned ASHA reviews source facts, purpose, configured recipients and mappedpayload before explicit original local approval. Actual36 intent/6 mobileAPI/97 affected originals,3AXE0; independent source review corroborates1374author artifacts/custody. New API GET/POST make101 method routes,253 original commands/60 tables unchanged. Root metadata/fullaggregate CI/currentroutechecks pending; sixcases are part original UI aggregate, min26 andninegoldens unchanged. No execute/send/domain/formal/hosting acceptance.

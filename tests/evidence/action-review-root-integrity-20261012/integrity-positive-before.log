@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-action-review-root-integrity-control-20261012/scripts/check-documentation.py", line 38, in <module>
+    manifest=read_json('docs/verification/'+name)['files']
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-action-review-root-integrity-control-20261012/scripts/check-documentation.py", line 25, in read_json
+    return json.loads((ROOT/path).read_text())
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-action-review-root-integrity-control-20261012/docs/verification/application-explicit-action-review-20261012-sha256.json'

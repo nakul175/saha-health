@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-10-12T17:14:31.697Z",
+  "startedAt": "2026-10-12T17:14:31.419Z",
+  "command": "node scripts/test.mjs unit --only unit/plan-review-contract --fast --guard --update-baseline --reason Observed bounded action review unit36; original389 unchanged --report /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/action-review/root-preparation/ACTUAL-ROOT-UNIT-REGISTRATION.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 146,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 36,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 278
+  },
+  "suites": [
+    {
+      "id": "unit/plan-review-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/plan-review-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 146,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/plan-review-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__plan-review-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 0,
+    "newSuites": [
+      "unit/plan-review-contract"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 7,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 14,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 999,
+    "components": 98,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 637,
+    "componentsCitingNoRequirement": 22,
+    "requirementsCitedBySomeTest": 157
+  }
+}

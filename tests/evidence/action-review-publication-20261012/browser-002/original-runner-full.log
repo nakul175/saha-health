@@ -1,0 +1,237 @@
+
+Running 6 tests using 1 worker
+
+(node:72774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+  ✘  1 [desktop] › tests/ui/plan-review.spec.mjs:115:1 › assigned mobile worker excludes a destination and explicitly approves exact information without sending (1.2s)
+(node:72801) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72801) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+  ✘  2 [desktop] › tests/ui/plan-review.spec.mjs:115:1 › assigned mobile worker excludes a destination and explicitly approves exact information without sending (retry #1) (1.2s)
+(node:72826) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72826) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+  ✓  3 [desktop] › tests/ui/plan-review.spec.mjs:181:1 › recipient change on the server refuses old approval atomically (1.7s)
+
+  ✓  4 [desktop] › tests/ui/plan-review.spec.mjs:223:1 › consent changes invalidate open confirmation without partial approval (878ms)
+
+  ✘  5 [desktop] › tests/ui/plan-review.spec.mjs:265:1 › assignment and purpose revocation clear protected review and refuse subsequent operations (865ms)
+(node:72890) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72890) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+  ✘  6 [desktop] › tests/ui/plan-review.spec.mjs:265:1 › assignment and purpose revocation clear protected review and refuse subsequent operations (retry #1) (942ms)
+(node:72929) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72929) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+  ✓  7 [desktop] › tests/ui/plan-review.spec.mjs:316:1 › anonymous, foreign organisation, wrong person visit and execute command are refused (254ms)
+
+  ✓  8 [desktop] › tests/ui/plan-review.spec.mjs:373:1 › lost approval reply is recovered read only and offline clears confirmation (2.1s)
+
+
+  1) [desktop] › tests/ui/plan-review.spec.mjs:115:1 › assigned mobile worker excludes a destination and explicitly approves exact information without sending 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 3[39m
+    [31m+ Received  + 4[39m
+
+    [33m@@ -4,11 +4,11 @@[39m
+    [2m        "assigned_to": "t-27e95d78-asha",[22m
+    [2m        "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"completed\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T16:49:55.028Z\",\"version\":4,\"teamId\":\"default\",\"assignedTo\":\"t-27e95d78-asha\",\"synthetic\":true,\"assignmentHistory\":[{\"id\":\"9a04a219-1d66-4d81-8a9f-90065ec74856\",\"at\":\"2026-10-12T16:49:55.108Z\",\"by\":\"t-27e95d78-owner\",\"fromTeam\":\"default\",\"fromOwner\":\"t-27e95d78-owner\",\"teamId\":\"default\",\"ownerId\":\"t-27e95d78-asha\",\"reason\":\"UI test caseload\",\"openWork\":0}]}",[22m
+    [2m        "id": "p_meena",[22m
+    [2m        "name": "Meena Devi",[22m
+    [2m        "org_id": "org_1628345dac835318f897d88b6c8007ae",[22m
+    [32m-       "rev": 4,[39m
+    [31m+       "rev": 7,[39m
+    [2m        "team_id": "default",[22m
+    [2m        "version": 4,[22m
+    [2m      },[22m
+    [2m      Object {[22m
+    [2m        "assigned_to": "t-27e95d78-owner",[22m
+    [33m@@ -108,22 +108,23 @@[39m
+    [2m            "by": "t-27e95d78-asha",[22m
+    [2m            "personId": "p_meena",[22m
+    [2m            "personVersion": 3,[22m
+    [2m          },[22m
+    [2m          "personId": "p_meena",[22m
+    [31m+         "planId": "4fd75414-37e6-4fd9-8903-686370017acc",[39m
+    [2m          "programmeCapture": Object {[22m
+    [2m            "absence": Object {},[22m
+    [2m            "answers": Object {},[22m
+    [2m            "packs": Array [],[22m
+    [2m          },[22m
+    [32m-         "recordVersion": 3,[39m
+    [31m+         "recordVersion": 6,[39m
+    [2m          "state": "confirmed",[22m
+    [2m          "version": 3,[22m
+    [2m        },[22m
+    [2m        "id": "dd6c6319-f71c-46b5-b082-00f098516ee1",[22m
+    [2m        "person_id": "p_meena",[22m
+    [32m-       "record_version": 3,[39m
+    [31m+       "record_version": 6,[39m
+    [2m        "state": "confirmed",[22m
+    [2m        "version": 3,[22m
+    [2m      },[22m
+    [2m    ],[22m
+    [2m  }[22m
+
+      28 |  await page.getByRole('button',{name:'Prepare selected destinations',exact:true}).click();await expect(page.getByRole('status')).toContainText('Fresh bundle prepared');const fresh=await read(lab,t);expect(fresh.json.selected.plan.id).not.toBe(first.json.selected.plan.id);expect(fresh.json.selected.plan.payloadHash).not.toBe(first.json.selected.plan.payloadHash);expect(fresh.json.selected.plan.recipients).toEqual(['mis_maternal']);
+      29 |  await expect(page.getByText('Record a confirmed community visit in the selected destinations',{exact:true})).toBeVisible();await expect(page.getByLabel('Confirmed facts')).toContainText('152/114');await affirm.check();await approve.click();await expect(page.getByRole('status')).toContainText('Locally approved');
+    > 30 |  const current=await read(lab,t),after=stored(t.org);expect(current.json.selected.plan.state).toBe('approved');expect(current.json.selected.plan.approvedById).toBe(t.ashaId);expect(Date.parse(current.json.selected.plan.expiresAt)-Date.parse(current.json.selected.plan.createdAt)).toBeGreaterThan(0);expect(clinical(after)).toEqual(clinical(before));expect(after.command_receipts.length).toBe(before.command_receipts.length+3);expect(posts.map(x=>x.command.type)).toEqual(['preparePlan','preparePlan','approvePlan']);expect(after.submissions).toHaveLength(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await lab.scan(page,'Exact locally approved action review · 390 phone');await attach('actual-bundle-and-custody.json',{first:first.json,fresh:fresh.json,current:current.json,before,after,posts});
+         |                                                                                                                                                                                                                                                                                                                                    ^
+      31 | });
+      32 |
+      33 | test('recipient change on the server refuses old approval atomically',async({lab})=>{
+        at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:30:324
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/ui/plan-review-assigned-mobil-4cf38-information-without-sending-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/ui/plan-review-assigned-mobil-4cf38-information-without-sending-desktop/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 3[39m
+    [31m+ Received  + 4[39m
+
+    [33m@@ -4,11 +4,11 @@[39m
+    [2m        "assigned_to": "t-76da934f-asha",[22m
+    [2m        "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"completed\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T16:49:56.597Z\",\"version\":4,\"teamId\":\"default\",\"assignedTo\":\"t-76da934f-asha\",\"synthetic\":true,\"assignmentHistory\":[{\"id\":\"3598a918-6fb9-4df0-83b5-4cc50fa41ef9\",\"at\":\"2026-10-12T16:49:56.673Z\",\"by\":\"t-76da934f-owner\",\"fromTeam\":\"default\",\"fromOwner\":\"t-76da934f-owner\",\"teamId\":\"default\",\"ownerId\":\"t-76da934f-asha\",\"reason\":\"UI test caseload\",\"openWork\":0}]}",[22m
+    [2m        "id": "p_meena",[22m
+    [2m        "name": "Meena Devi",[22m
+    [2m        "org_id": "org_661e5a69c36292839a8cb4a14be72bd1",[22m
+    [32m-       "rev": 4,[39m
+    [31m+       "rev": 7,[39m
+    [2m        "team_id": "default",[22m
+    [2m        "version": 4,[22m
+    [2m      },[22m
+    [2m      Object {[22m
+    [2m        "assigned_to": "t-76da934f-owner",[22m
+    [33m@@ -108,22 +108,23 @@[39m
+    [2m            "by": "t-76da934f-asha",[22m
+    [2m            "personId": "p_meena",[22m
+    [2m            "personVersion": 3,[22m
+    [2m          },[22m
+    [2m          "personId": "p_meena",[22m
+    [31m+         "planId": "7631e542-aeef-42c2-90b9-1936c63e659d",[39m
+    [2m          "programmeCapture": Object {[22m
+    [2m            "absence": Object {},[22m
+    [2m            "answers": Object {},[22m
+    [2m            "packs": Array [],[22m
+    [2m          },[22m
+    [32m-         "recordVersion": 3,[39m
+    [31m+         "recordVersion": 6,[39m
+    [2m          "state": "confirmed",[22m
+    [2m          "version": 3,[22m
+    [2m        },[22m
+    [2m        "id": "746681f2-f67d-4b6d-9d74-83706a2587a0",[22m
+    [2m        "person_id": "p_meena",[22m
+    [32m-       "record_version": 3,[39m
+    [31m+       "record_version": 6,[39m
+    [2m        "state": "confirmed",[22m
+    [2m        "version": 3,[22m
+    [2m      },[22m
+    [2m    ],[22m
+    [2m  }[22m
+
+      28 |  await page.getByRole('button',{name:'Prepare selected destinations',exact:true}).click();await expect(page.getByRole('status')).toContainText('Fresh bundle prepared');const fresh=await read(lab,t);expect(fresh.json.selected.plan.id).not.toBe(first.json.selected.plan.id);expect(fresh.json.selected.plan.payloadHash).not.toBe(first.json.selected.plan.payloadHash);expect(fresh.json.selected.plan.recipients).toEqual(['mis_maternal']);
+      29 |  await expect(page.getByText('Record a confirmed community visit in the selected destinations',{exact:true})).toBeVisible();await expect(page.getByLabel('Confirmed facts')).toContainText('152/114');await affirm.check();await approve.click();await expect(page.getByRole('status')).toContainText('Locally approved');
+    > 30 |  const current=await read(lab,t),after=stored(t.org);expect(current.json.selected.plan.state).toBe('approved');expect(current.json.selected.plan.approvedById).toBe(t.ashaId);expect(Date.parse(current.json.selected.plan.expiresAt)-Date.parse(current.json.selected.plan.createdAt)).toBeGreaterThan(0);expect(clinical(after)).toEqual(clinical(before));expect(after.command_receipts.length).toBe(before.command_receipts.length+3);expect(posts.map(x=>x.command.type)).toEqual(['preparePlan','preparePlan','approvePlan']);expect(after.submissions).toHaveLength(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await lab.scan(page,'Exact locally approved action review · 390 phone');await attach('actual-bundle-and-custody.json',{first:first.json,fresh:fresh.json,current:current.json,before,after,posts});
+         |                                                                                                                                                                                                                                                                                                                                    ^
+      31 | });
+      32 |
+      33 | test('recipient change on the server refuses old approval atomically',async({lab})=>{
+        at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:30:324
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/ui/plan-review-assigned-mobil-4cf38-information-without-sending-desktop-retry1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/ui/plan-review-assigned-mobil-4cf38-information-without-sending-desktop-retry1/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/ui/plan-review-assigned-mobil-4cf38-information-without-sending-desktop-retry1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/ui/plan-review-assigned-mobil-4cf38-information-without-sending-desktop-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/ui/plan-review.spec.mjs:265:1 › assignment and purpose revocation clear protected review and refuse subsequent operations 
+
+    Error: createInvite as owner: 409 {"error":"This account is already an active member. Edit its membership instead."}
+
+       at support/fixtures.mjs:59
+
+      57 |   async workspace(who, org) { const r = await this.api.get(who, '/api/workspace', org); if (r.status !== 200) throw new Error(`workspace ${who.label}: ${r.status} ${r.text.slice(0, 200)}`); return r.json; }
+      58 |   /** One command; throws unless it succeeds, so set-up never silently half works. */
+    > 59 |   async command(who, body, org) { const r = await this.api.command(who, body, org); if (r.status !== 200) throw new Error(`${body.type} as ${who.label}: ${r.status} ${r.text.slice(0, 300)}`); return r.json; }
+         |                                                                                                                 ^
+      60 |
+      61 |   /** Axe over the whole page as it is now. Serious and critical violations fail the test (soft, so every screen is still scanned). */
+      62 |   async scan(page, screen) {
+        at Lab.command (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/support/fixtures.mjs:59:113)
+        at join (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/support/flows.mjs:19:20)
+        at team (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/support/flows.mjs:23:18)
+        at setup (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:6:35)
+        at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:46:11
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: createInvite as owner: 409 {"error":"This account is already an active member. Edit its membership instead."}
+
+       at support/fixtures.mjs:59
+
+      57 |   async workspace(who, org) { const r = await this.api.get(who, '/api/workspace', org); if (r.status !== 200) throw new Error(`workspace ${who.label}: ${r.status} ${r.text.slice(0, 200)}`); return r.json; }
+      58 |   /** One command; throws unless it succeeds, so set-up never silently half works. */
+    > 59 |   async command(who, body, org) { const r = await this.api.command(who, body, org); if (r.status !== 200) throw new Error(`${body.type} as ${who.label}: ${r.status} ${r.text.slice(0, 300)}`); return r.json; }
+         |                                                                                                                 ^
+      60 |
+      61 |   /** Axe over the whole page as it is now. Serious and critical violations fail the test (soft, so every screen is still scanned). */
+      62 |   async scan(page, screen) {
+        at Lab.command (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/support/fixtures.mjs:59:113)
+        at join (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/support/flows.mjs:19:20)
+        at team (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/support/flows.mjs:23:18)
+        at setup (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:6:35)
+        at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:46:11
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop-retry1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop-retry1/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop-retry1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/ui/plan-review.spec.mjs:115:1 › assigned mobile worker excludes a destination and explicitly approves exact information without sending 
+    [desktop] › tests/ui/plan-review.spec.mjs:265:1 › assignment and purpose revocation clear protected review and refuse subsequent operations 
+  4 passed (12.3s)
+
+UI report: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/reports/ui-result.json (4 passed, 2 failed, 0 skipped, 0 flaky; 2 screens scanned, 0 axe violations)

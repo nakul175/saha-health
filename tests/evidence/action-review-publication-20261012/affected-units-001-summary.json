@@ -1,0 +1,156 @@
+{
+  "generatedAt": "2026-10-12T16:47:08.702Z",
+  "startedAt": "2026-10-12T16:47:06.607Z",
+  "command": "node scripts/test.mjs unit --only unit/mis-contract,unit/purpose-scope-contract,unit/fact-provenance-contract --guard --report ../../outputs/saha-next50-20261012/action-review/affected-units-001-summary.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 3,
+      "passed": 97,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1938,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 97,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 2095
+  },
+  "suites": [
+    {
+      "id": "unit/fact-provenance-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-fact-provenance-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 648,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__fact-provenance-contract.log"
+    },
+    {
+      "id": "unit/mis-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-mis-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 660,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 20,
+      "reason": null,
+      "log": "tests/reports/logs/unit__mis-contract.log"
+    },
+    {
+      "id": "unit/purpose-scope-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-purpose-scope-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 630,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__purpose-scope-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 3,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/verification-programme-root-integration/fixtures/fact-provenance-contract/fact-provenance-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/mis-contract/mis-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/purpose-scope-contract/purpose-scope-contract-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 7,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 14,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 999,
+    "components": 98,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 637,
+    "componentsCitingNoRequirement": 22,
+    "requirementsCitedBySomeTest": 157
+  }
+}

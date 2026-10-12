@@ -1,0 +1,250 @@
+{
+  "suite": "UAT register",
+  "layer": "uat",
+  "passed": 44,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T17:16:28.118Z",
+  "completedAt": "2026-10-12T17:16:28.162Z",
+  "environment": "static check of a CSV file against docs/current/TEST-CATALOGUE.csv; no Worker",
+  "limits": [
+    "Checks that each recorded row is complete and internally consistent; it cannot show that the recorded result is true or that the evidence exists.",
+    "A person cannot be verified from a name: the check rejects placeholders, roles and tool or AI names, and a reviewer equal to the executor, nothing more.",
+    "The blank register passes by design; a pass of this check says nothing about how much of the catalogue has been executed (see the counts in the report)."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "register file exists and parses: docs/testing/uat/uat-results.csv",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "header is exactly the register columns, in order",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "every caseId exists in the catalogue and none is empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "no case appears twice",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "every case in the UAT scripts has a row",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "result holds only Pass / Fail / Blocked / Not run or is empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a row with data in any field has a result",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a Pass has executor, executedAt, build, environment, actualResult, evidence, reviewer and reviewedAt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a reviewer is never the executor, and is a named person",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a Fail has a defect id (and executor, executedAt, build, environment, actualResult)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a Blocked row has executor, executedAt and the reason",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a Not run row carries no executor, evidence, defect or reviewer",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "dates are ISO dates and a review is not earlier than its execution",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a complete Pass is accepted",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a complete Fail is accepted",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Blocked row with a reason is accepted",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a blank row is accepted",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: an unknown caseId is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a duplicate caseId is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: result \"Passed\" is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: result \"pass\" (wrong case) is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: result \"N/A\" is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass without executor is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass without executedAt is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass without build is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass without environment is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass without actualResult is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass without evidence is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass without reviewer is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass without reviewedAt is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass whose reviewer is the executor is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: the same name in different case and spacing is still the executor",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Pass with a placeholder reviewer is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: an AI tool as executor is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a role instead of a person as executor is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a build that is not a commit hash is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a review earlier than the execution is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Fail without a defect id is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Fail with a placeholder defect is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Blocked row without a reason is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a Not run row with an executor is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a row with an executor but no result is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: a register missing a scripted case is rejected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "self-test: isFormal counts a reviewed Pass and not an unreviewed one",
+      "ok": true,
+      "ms": 0
+    }
+  ],
+  "register": {
+    "register": "docs/testing/uat/uat-results.csv",
+    "rows": 158,
+    "scriptedCases": 158,
+    "catalogueCases": 364,
+    "empty": 158,
+    "Pass": 0,
+    "Fail": 0,
+    "Blocked": 0,
+    "NotRun": 0,
+    "formallyExecuted": 0
+  }
+}

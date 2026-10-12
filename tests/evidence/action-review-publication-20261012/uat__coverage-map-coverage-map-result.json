@@ -1,0 +1,74 @@
+{
+  "suite": "Coverage map generator",
+  "layer": "uat",
+  "passed": 9,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T17:16:28.296Z",
+  "completedAt": "2026-10-12T17:16:28.367Z",
+  "environment": "static generation from repository files; no Worker, no network",
+  "limits": [
+    "A test file cited in the evidence map is context, not proof that the test checks the requirement's acceptance criterion.",
+    "The evidence map is incomplete: test files cited by no requirement are listed in the document, and 75 requirements inherit an area-wide list.",
+    "Counts files, not assertions, and says nothing about whether a test passes."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "176 unique requirements, each with an evidence entry",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "status counts match the assessment (sum 176, only known statuses)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "case attachments add up: every catalogue case is attached to each requirement it names",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "every cited test file exists and has a layer; layer counts sum to the file count",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "gap flags are consistent with the counts they come from",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "formally executed cases never exceed catalogue cases and require a register row or a catalogue record",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "UAT cases per requirement come from the same selection as the scripts",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "generation is deterministic (a second build from freshly loaded inputs is byte-identical)",
+      "ok": true,
+      "ms": 14
+    },
+    {
+      "label": "committed COVERAGE.md and coverage.csv equal the regenerated files",
+      "ok": true,
+      "ms": 0
+    }
+  ],
+  "counts": {
+    "requirements": 176,
+    "noAutomatedTestCited": 19,
+    "oneLayerOnly": 44,
+    "noUatCase": 30,
+    "ownEvidenceEntry": 125,
+    "testFilesOnDisk": 1095,
+    "testFilesCitedByNoRequirement": 757,
+    "formallyExecutedCases": 0,
+    "catalogueCases": 364
+  }
+}

@@ -1,0 +1,955 @@
+{
+  "config": {
+    "configFile": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/playwright.config.mjs",
+    "rootDir": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui",
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/support/global-setup.mjs",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ],
+      [
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/support/reporter.mjs"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui",
+        "testIgnore": [
+          "/phone\\.spec\\.mjs$/"
+        ],
+        "testMatch": [
+          "*.spec.mjs"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone",
+        "name": "phone",
+        "testDir": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui",
+        "testIgnore": [],
+        "testMatch": [
+          "/(phone|voice)\\.spec\\.mjs$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "plan-review.spec.mjs",
+      "file": "plan-review.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "assigned mobile worker excludes a destination and explicitly approves exact information without sending",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 224,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_59fd0f53f8852e87b4c34e313bd65c7f\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_59fd0f53f8852e87b4c34e313bd65c7f\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:24:34",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_59fd0f53f8852e87b4c34e313bd65c7f\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:24:34"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-12T16:48:26.322Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                },
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 195,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_2738965376b228908c2789fad630993b\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_2738965376b228908c2789fad630993b\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:24:34",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_2738965376b228908c2789fad630993b\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:24:34"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 1,
+                  "startTime": "2026-10-12T16:48:26.993Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-assigned-mobil-4cf38-information-without-sending-desktop-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a435d56c82a72c5b86bf-d3572422baefd26a7fd7",
+          "file": "plan-review.spec.mjs",
+          "line": 115,
+          "column": 1
+        },
+        {
+          "title": "recipient change on the server refuses old approval atomically",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 766,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_287778f0c66f2919848f1d86efeaf622\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_287778f0c66f2919848f1d86efeaf622\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:35:283",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_287778f0c66f2919848f1d86efeaf622\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:35:283"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-12T16:48:27.581Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-recipient-chan-742a7-ses-old-approval-atomically-desktop/test-failed-1.png"
+                    },
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-recipient-chan-742a7-ses-old-approval-atomically-desktop/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                },
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 795,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_0089a4a12aa2465e756607e18be0730a\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_0089a4a12aa2465e756607e18be0730a\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:35:283",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_0089a4a12aa2465e756607e18be0730a\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:35:283"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 1,
+                  "startTime": "2026-10-12T16:48:28.717Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-recipient-chan-742a7-ses-old-approval-atomically-desktop-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-recipient-chan-742a7-ses-old-approval-atomically-desktop-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-recipient-chan-742a7-ses-old-approval-atomically-desktop-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a435d56c82a72c5b86bf-b2fed329f4c9c87c332d",
+          "file": "plan-review.spec.mjs",
+          "line": 181,
+          "column": 1
+        },
+        {
+          "title": "consent changes invalidate open confirmation without partial approval",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 731,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_e6d2a1d91a7b03922e7033628a62e257\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_e6d2a1d91a7b03922e7033628a62e257\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:40:366",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_e6d2a1d91a7b03922e7033628a62e257\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:40:366"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-12T16:48:29.888Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-consent-change-68e7c-on-without-partial-approval-desktop/test-failed-1.png"
+                    },
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-consent-change-68e7c-on-without-partial-approval-desktop/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 758,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_4049b68743be845ac970255af9d9be1b\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_4049b68743be845ac970255af9d9be1b\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:40:366",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_4049b68743be845ac970255af9d9be1b\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:40:366"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 1,
+                  "startTime": "2026-10-12T16:48:30.981Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-consent-change-68e7c-on-without-partial-approval-desktop-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-consent-change-68e7c-on-without-partial-approval-desktop-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-consent-change-68e7c-on-without-partial-approval-desktop-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a435d56c82a72c5b86bf-f7708c3f6334d3c6a3c8",
+          "file": "plan-review.spec.mjs",
+          "line": 223,
+          "column": 1
+        },
+        {
+          "title": "assignment and purpose revocation clear protected review and refuse subsequent operations",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 741,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_ff6b1c9d2c269e8a26de9f624a300095\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_ff6b1c9d2c269e8a26de9f624a300095\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:45:336",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_ff6b1c9d2c269e8a26de9f624a300095\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:45:336"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-12T16:48:32.101Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop/test-failed-1.png"
+                    },
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                },
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 751,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_0f4bb44ac05bfba688cb0518c2b50a4d\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_0f4bb44ac05bfba688cb0518c2b50a4d\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:45:336",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_0f4bb44ac05bfba688cb0518c2b50a4d\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:45:336"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 1,
+                  "startTime": "2026-10-12T16:48:33.216Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-assignment-and-7923a-efuse-subsequent-operations-desktop-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a435d56c82a72c5b86bf-a7ca65e0b35d4f8a0436",
+          "file": "plan-review.spec.mjs",
+          "line": 265,
+          "column": 1
+        },
+        {
+          "title": "anonymous, foreign organisation, wrong person visit and execute command are refused",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 190,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_bd206b2b5296b1140e3c958f3b3eadd5\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_bd206b2b5296b1140e3c958f3b3eadd5\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:50:60",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_bd206b2b5296b1140e3c958f3b3eadd5\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:50:60"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-12T16:48:34.331Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                },
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 178,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_f6f003f481b780d97d52cea1945739d8\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_f6f003f481b780d97d52cea1945739d8\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:50:60",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_f6f003f481b780d97d52cea1945739d8\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:50:60"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 1,
+                  "startTime": "2026-10-12T16:48:34.871Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-anonymous-fore-fa5bb-execute-command-are-refused-desktop-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a435d56c82a72c5b86bf-7fa18c2a919db005d50c",
+          "file": "plan-review.spec.mjs",
+          "line": 316,
+          "column": 1
+        },
+        {
+          "title": "lost approval reply is recovered read only and offline clears confirmation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 833,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_e4e7b4f6424cb066609633ae4110b1ee\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_e4e7b4f6424cb066609633ae4110b1ee\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:56:895",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_e4e7b4f6424cb066609633ae4110b1ee\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:56:895"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-12T16:48:35.393Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-lost-approval--ad873-offline-clears-confirmation-desktop/test-failed-1.png"
+                    },
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbCiAgICB7CiAgICAgICJraW5kIjogImNvbnNvbGUiLAogICAgICAid2hvIjogImFzaGEiLAogICAgICAidGV4dCI6ICJGYWlsZWQgdG8gbG9hZCByZXNvdXJjZTogbmV0OjpFUlJfRkFJTEVEIiwKICAgICAgInVybCI6ICJodHRwOi8vMTI3LjAuMC4xOjIxNDYxL2FwaS9wbGFuLXJldmlldyIsCiAgICAgICJhbGxvd2VkQmVjYXVzZSI6ICJFeGFjdGx5IG9uZSBkZWxpYmVyYXRlbHkgbG9zdCBsb2NhbCBhcHByb3ZhbCByZXNwb25zZTsgb3JpZ2luYWwgc2VydmVyIG9wZXJhdGlvbiBpcyBvYnNlcnZlZCBhbmQgbmV2ZXIgcmVzZW50LiIKICAgIH0KICBdCn0="
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-lost-approval--ad873-offline-clears-confirmation-desktop/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                },
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 858,
+                  "error": {
+                    "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_33ea8058f064e7657b7345996c2197e3\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n",
+                    "stack": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_33ea8058f064e7657b7345996c2197e3\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:56:895",
+                    "location": {
+                      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                      "column": 53,
+                      "line": 19
+                    },
+                    "snippet": "  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                        "column": 53,
+                        "line": 19
+                      },
+                      "message": "Error: Command failed: python3 -c import pathlib,sqlite3,json,sys\nfiles=[]\nfor path in (pathlib.Path(sys.argv[1])/'v3'/'d1').rglob('*.sqlite'):\n c=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True,timeout=5);names={r[0] for r in c.execute(\"SELECT name FROM sqlite_master WHERE type='table'\")};c.close()\n if {'patients','visits','plans','command_receipts'}<=names: files.append(path)\nassert len(files)==1,str(files)\nc=sqlite3.connect('file:'+str(files[0])+'?mode=ro',uri=True,timeout=5);out={}\nfor table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\nprint(json.dumps(out));c.close() /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/.wrangler/saha-ui-state org_33ea8058f064e7657b7345996c2197e3\nTraceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nsqlite3.OperationalError: no such table: audit\n\n\n  17 | for table in ['patients','visits','plans','submissions','referrals','command_receipts','audit']:\n  18 |  c.row_factory=sqlite3.Row;out[table]=[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE org_id=? ORDER BY rowid',(sys.argv[2],))]\n> 19 | print(json.dumps(out));c.close()`;return JSON.parse(execFileSync('python3',['-c',script,resolve('.wrangler/saha-ui-state'),org],{timeout:10000,maxBuffer:16*1024*1024}).toString());}\n     |                                                     ^\n  20 | function clinical(s){return {patients:s.patients,submissions:s.submissions,referrals:s.referrals,visits:s.visits.map(v=>{const x=JSON.parse(v.data);delete x.plan;return {id:v.id,person_id:v.person_id,version:v.version,record_version:v.record_version,state:v.state,data:x};})};}\n  21 | async function attach(name,body){await test.info().attach(name,{body:JSON.stringify(body),contentType:'application/json'});}\n  22 |\n    at stored (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:19:53)\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs:56:895"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "buffer": "VHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIjxzdHJpbmc+IiwgbGluZSA5LCBpbiA8bW9kdWxlPgpzcWxpdGUzLk9wZXJhdGlvbmFsRXJyb3I6IG5vIHN1Y2ggdGFibGU6IGF1ZGl0Cg=="
+                    }
+                  ],
+                  "retry": 1,
+                  "startTime": "2026-10-12T16:48:36.566Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-lost-approval--ad873-offline-clears-confirmation-desktop-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbCiAgICB7CiAgICAgICJraW5kIjogImNvbnNvbGUiLAogICAgICAid2hvIjogImFzaGEiLAogICAgICAidGV4dCI6ICJGYWlsZWQgdG8gbG9hZCByZXNvdXJjZTogbmV0OjpFUlJfRkFJTEVEIiwKICAgICAgInVybCI6ICJodHRwOi8vMTI3LjAuMC4xOjIxNDYxL2FwaS9wbGFuLXJldmlldyIsCiAgICAgICJhbGxvd2VkQmVjYXVzZSI6ICJFeGFjdGx5IG9uZSBkZWxpYmVyYXRlbHkgbG9zdCBsb2NhbCBhcHByb3ZhbCByZXNwb25zZTsgb3JpZ2luYWwgc2VydmVyIG9wZXJhdGlvbiBpcyBvYnNlcnZlZCBhbmQgbmV2ZXIgcmVzZW50LiIKICAgIH0KICBdCn0="
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-lost-approval--ad873-offline-clears-confirmation-desktop-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/test-results/ui/plan-review-lost-approval--ad873-offline-clears-confirmation-desktop-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/ui/plan-review.spec.mjs",
+                    "column": 53,
+                    "line": 19
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "a435d56c82a72c5b86bf-049761a139ef3732de51",
+          "file": "plan-review.spec.mjs",
+          "line": 373,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-12T16:48:24.797Z",
+    "duration": 12778.058,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 6,
+    "flaky": 0
+  }
+}

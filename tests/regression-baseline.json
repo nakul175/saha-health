@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-11",
+  "updatedAt": "2026-10-12",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -667,6 +667,11 @@
       "layer": "integration",
       "file": "tests/integration/routine-organisation-http.mjs",
       "minPassed": 52
+    },
+    "integration/routine-telemetry-retention-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-telemetry-retention-http.mjs",
+      "minPassed": 64
     },
     "integration/run-api-smoke": {
       "layer": "integration",
@@ -1573,6 +1578,11 @@
       "file": "tests/root-verification-current-plan-dependencies-contract.mjs",
       "minPassed": 9
     },
+    "unit/plan-review-contract": {
+      "layer": "unit",
+      "file": "tests/plan-review-contract.mjs",
+      "minPassed": 36
+    },
     "unit/process-memory-contract": {
       "layer": "unit",
       "file": "tests/process-memory-contract.mjs",
@@ -1942,11 +1952,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "integration/routine-telemetry-retention-http": {
-      "layer": "integration",
-      "file": "tests/integration/routine-telemetry-retention-http.mjs",
-      "minPassed": 64
     }
   },
   "log": [

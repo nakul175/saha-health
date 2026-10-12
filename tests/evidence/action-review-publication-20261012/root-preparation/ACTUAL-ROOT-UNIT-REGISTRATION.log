@@ -1,0 +1,15 @@
+Running unit --fast; 1 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/plan-review-contract  36 passed  146ms
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  unit   passed       1      36       0        0  146ms
+  total  passed       1      36       0        0  278ms
+
+Regression guard: passed (0 baselined suite(s) checked, 0 excused by quarantine).
+  note     1 suite(s) are not in the baseline yet (unit/plan-review-contract); add them with --update-baseline.
+
+Baseline tests/regression-baseline.json updated: 1 added, 0 raised, 0 lowered, 0 removed, 0 unchanged.
+  Review the diff and commit it with the change that justifies it.
