@@ -1,0 +1,165 @@
+{
+  "suite": "access-membership-contract",
+  "node": "v24.21.0",
+  "migrations": 33,
+  "passed": 30,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "unchanged human member records exactly one event with original authority text",
+      "passed": true
+    },
+    {
+      "name": "multiple entries append together without changing clinical records, receipts or history",
+      "passed": true
+    },
+    {
+      "name": "bare SQL-only read binds the same real membership and keeps its original audit text",
+      "passed": true
+    },
+    {
+      "name": "a different trusted actor cannot reuse the captured human membership",
+      "passed": true
+    },
+    {
+      "name": "same actor membership in another organisation cannot authorize this organisation",
+      "passed": true
+    },
+    {
+      "name": "a captured suspended member is refused even if its database row is active",
+      "passed": true
+    },
+    {
+      "name": "current suspended membership refuses without a new access event",
+      "passed": true
+    },
+    {
+      "name": "current removed membership refuses without a new access event",
+      "passed": true
+    },
+    {
+      "name": "missing current membership refuses without a new access event",
+      "passed": true
+    },
+    {
+      "name": "active higher membership version is not silently upgraded",
+      "passed": true
+    },
+    {
+      "name": "changed role is refused even if an invalid writer did not advance its version",
+      "passed": true
+    },
+    {
+      "name": "changed owner flag is refused even if an invalid writer did not advance its version",
+      "passed": true
+    },
+    {
+      "name": "missing, zero and unsafe captured versions fail closed",
+      "passed": true
+    },
+    {
+      "name": "revocation immediately before token acquisition appends no captured access",
+      "passed": true
+    },
+    {
+      "name": "genuine sequence collision followed by revocation cannot commit on the next retry",
+      "passed": true,
+      "detail": {
+        "collisions": 1,
+        "acquiredBatches": 3,
+        "current": {
+          "status": "suspended",
+          "version": 2
+        }
+      }
+    },
+    {
+      "name": "SQLite AFTER audit trigger revocation refuses while preserving the committed audit",
+      "passed": true
+    },
+    {
+      "name": "final current membership read failure refuses without deleting its committed access",
+      "passed": true
+    },
+    {
+      "name": "unknown database failure after a moved audit head stays fail-closed without retry",
+      "passed": true
+    },
+    {
+      "name": "system notification writer appends audit and side row without a fabricated membership",
+      "passed": true
+    },
+    {
+      "name": "malformed supplied membership descriptors cannot choose the unguarded system path",
+      "passed": true
+    },
+    {
+      "name": "post-command access refusal preserves the exact original clinical receipt and records",
+      "passed": true
+    },
+    {
+      "name": "one human read executes exactly three real SQL statements and never changes the organisation token",
+      "passed": true,
+      "detail": {
+        "statements": 3,
+        "batches": 1
+      }
+    },
+    {
+      "name": "thirteen human audit events cross chunk boundaries and append each intended row once",
+      "passed": true,
+      "detail": {
+        "insertChunks": 3
+      }
+    },
+    {
+      "name": "new organisation genesis and thirteen human events remain one intact contiguous append",
+      "passed": true,
+      "detail": {
+        "genesis": 1,
+        "events": 13
+      }
+    },
+    {
+      "name": "revocation in first SQLite audit INSERT chunk refuses and preserves its contiguous committed prefix",
+      "passed": true,
+      "detail": {
+        "committedPrefix": 6,
+        "noReturnedRead": true,
+        "restoredNextAppend": true
+      }
+    },
+    {
+      "name": "organisation AFTER head UPDATE revocation is not hidden: human branch performs no head UPDATE",
+      "passed": true,
+      "detail": {
+        "triggerFired": false,
+        "reason": "Human read no longer updates an organisation token; this is a structural positive, not a revoked-authority negative."
+      }
+    },
+    {
+      "name": "remaining SYSTEM head UPDATE executes its AFTER trigger and the next captured human read is refused",
+      "passed": true,
+      "detail": {
+        "actualAfterHeadTrigger": true,
+        "systemEvidencePreserved": true,
+        "humanReadRefused": true
+      }
+    },
+    {
+      "name": "revocation immediately before final current-membership SELECT refuses its already committed audit",
+      "passed": true
+    },
+    {
+      "name": "human descriptor branch rejects side rows, nonappend audit rows and rows belonging to another organisation",
+      "passed": true
+    },
+    {
+      "name": "malformed or short D1 result metadata fails503 without deleting committed audit evidence",
+      "passed": true
+    }
+  ],
+  "elapsedMs": 1012.2612079999999,
+  "recordedAtUtc": "2026-10-12T09:43:15.525Z",
+  "scope": "Shared helper membership snapshot only; no Worker, hosted identity, full patient/team/purpose/delegation authority or formal acceptance claim"
+}

@@ -1,0 +1,979 @@
+{
+  "suite": "Identity finite numeric-date built Worker",
+  "requirement": "BR-ID-03",
+  "sourceSha256": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+  "port": 21533,
+  "passed": 24,
+  "failed": 23,
+  "checks": [
+    {
+      "name": "HTTP control: finite future expiry and absent activation",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP control: finite past activation",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP control: fractional finite expiry and activation",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow expiry GET /api/workspace",
+      "status": "fail",
+      "error": "{\"schemaVersion\":1,\"revision\":1,\"role\":\"clinician\",\"people\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: overflow expiry GET /api/patients",
+      "status": "fail",
+      "error": "{\"rows\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follo\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: overflow expiry POST /api/commands",
+      "status": "fail",
+      "error": "{\"result\":{\"teamId\":\"b3132705-4106-4c13-8874-ad9fba42b2cd\"},\"snapshot\":{\"schemaVersion\":1,\"revision\":2,\"role\":\"clinician\",\"people\":[{\"id\":\"p_aarav\",\"n\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: negative overflow expiry GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: negative overflow expiry GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: negative overflow expiry POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: missing expiry GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: missing expiry GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: missing expiry POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: string expiry GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: string expiry GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: string expiry POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: null expiry GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: null expiry GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: null expiry POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: expiry outside allowance GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: expiry outside allowance GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: expiry outside allowance POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: future activation outside allowance GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: future activation outside allowance GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: future activation outside allowance POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow activation GET /api/workspace",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow activation GET /api/patients",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: overflow activation POST /api/commands",
+      "status": "pass"
+    },
+    {
+      "name": "HTTP refusal: negative overflow activation GET /api/workspace",
+      "status": "fail",
+      "error": "{\"schemaVersion\":1,\"revision\":2,\"role\":\"clinician\",\"people\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: negative overflow activation GET /api/patients",
+      "status": "fail",
+      "error": "{\"rows\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follo\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: negative overflow activation POST /api/commands",
+      "status": "fail",
+      "error": "{\"error\":\"A team with this name already exists.\"}\n\n409 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: string activation GET /api/workspace",
+      "status": "fail",
+      "error": "{\"schemaVersion\":1,\"revision\":2,\"role\":\"clinician\",\"people\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: string activation GET /api/patients",
+      "status": "fail",
+      "error": "{\"rows\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follo\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: string activation POST /api/commands",
+      "status": "fail",
+      "error": "{\"error\":\"A team with this name already exists.\"}\n\n409 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: null activation GET /api/workspace",
+      "status": "fail",
+      "error": "{\"schemaVersion\":1,\"revision\":2,\"role\":\"clinician\",\"people\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: null activation GET /api/patients",
+      "status": "fail",
+      "error": "{\"rows\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follo\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: null activation POST /api/commands",
+      "status": "fail",
+      "error": "{\"error\":\"A team with this name already exists.\"}\n\n409 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: boolean activation GET /api/workspace",
+      "status": "fail",
+      "error": "{\"schemaVersion\":1,\"revision\":2,\"role\":\"clinician\",\"people\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: boolean activation GET /api/patients",
+      "status": "fail",
+      "error": "{\"rows\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follo\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: boolean activation POST /api/commands",
+      "status": "fail",
+      "error": "{\"error\":\"A team with this name already exists.\"}\n\n409 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: array activation GET /api/workspace",
+      "status": "fail",
+      "error": "{\"schemaVersion\":1,\"revision\":2,\"role\":\"clinician\",\"people\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: array activation GET /api/patients",
+      "status": "fail",
+      "error": "{\"rows\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follo\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: array activation POST /api/commands",
+      "status": "fail",
+      "error": "{\"error\":\"A team with this name already exists.\"}\n\n409 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: object activation GET /api/workspace",
+      "status": "fail",
+      "error": "{\"schemaVersion\":1,\"revision\":2,\"role\":\"clinician\",\"people\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: object activation GET /api/patients",
+      "status": "fail",
+      "error": "{\"rows\":[{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follo\n\n200 !== 401\n"
+    },
+    {
+      "name": "HTTP refusal: object activation POST /api/commands",
+      "status": "fail",
+      "error": "{\"error\":\"A team with this name already exists.\"}\n\n409 !== 401\n"
+    },
+    {
+      "name": "Every application table is unchanged by all refused requests",
+      "status": "fail",
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    abha_review_reservations: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n    accounts: {\n+     rows: 6,\n+     sha256: '33642fae5a0c40fb643bd11c191ea4ddeacd4c9a627a84565a751ddb9ba068dd'\n-     rows: 3,\n-     sha256: '53ff769f69d6a1b5a2b92ac006a85a875d62b1bbb04633db21e938ffe308c0de'\n    },\n    ai_results: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n...\n    audit_events: {\n+     rows: 67,\n+     sha256: '64905dcc3fb109b72c5d0d4aa07b1694cf73e439686a7273ea11e43956ab324b'\n-     rows: 27,\n-     sha256: 'af3b8a8324fa3d67e2c227aa6b804b30e2a661ef8a261e596d9936790e3e45c4'\n    },\n    availability_samples: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n...\n    command_receipts: {\n+     rows: 1,\n+     sha256: '1ff444c5196547f4eb0f1c810709f81b75480f8ad94202ecbf4434488ee5d4b0'\n-     rows: 0,\n-     sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n    device_match_copies: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n...\n    governance: {\n+     rows: 2,\n+     sha256: 'bfd939fa8e4ee3eea59ca78dbbf52b49360c7ff0b0fca21a2591b1c0bca7647c'\n-     rows: 1,\n-     sha256: '6593aa564cac1d0d7f0e64a73aad5ed770106c0c6909ebb0e85a298fb168f52d'\n    },\n    households: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n...\n    integrations: {\n+     rows: 12,\n+     sha256: '7e8812a571f25c69cb79ee207d67c4e6db33665cd24565ab7fd211ff4d35765b'\n-     rows: 6,\n-     sha256: 'd3a442df0dff5d7d50c8fbbdc21d0eeb3e14ef3f705c203a31ca8b6ee84915f9'\n    },\n    invitations: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n    legacy_migrations: {\n+     rows: 2,\n+     sha256: '50f8e641146b010b5e8a3c8c075ffb342bdfc1fb4824098c6246a0c41bf9a4d4'\n-     rows: 1,\n-     sha256: '75e4f38576a5e0cbdba41f13cff02d54b2f1f9032cad4584c3cea8a16ae3e613'\n    },\n    media: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n...\n    memberships: {\n+     rows: 6,\n+     sha256: '03325d43525a0b9e2d74d0286e439ffdfd1f78f98477e712a9a064f9504fdbd5'\n-     rows: 3,\n-     sha256: '7a753dc5b8232c0ac2636211870d24d1e1cd4d59590ef97c8ab973316873a490'\n    },\n    notification_messages: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n...\n    organisations: {\n+     rows: 2,\n+     sha256: 'f52b82771695b2555f228344573d2be7a795c54cb668294704f26ce9265b4f40'\n-     rows: 1,\n-     sha256: '8cacd3730343a7618a37b7cbf55e531c243e43250bdd24db18741b2e65c4fffa'\n    },\n    outreach: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n    patients: {\n+     rows: 12,\n+     sha256: '4c77e72e6c8e466c9b09e32cfd5282146ba40b43c223923cc0ad65e2f1fec617'\n-     rows: 6,\n-     sha256: 'c6ccd9137b77712ec16b48f1fbf6349fdb953090d6fa8c25042928eb315c23f5'\n    },\n    pilot: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n...\n    record_revisions: {\n+     rows: 12,\n+     sha256: 'a245d806cb2797efe84555914b150abc7ead04df7f5ac879f70d47ae43c4c9f0'\n-     rows: 6,\n-     sha256: '2f72d448fc42c27f1c812dcb3f2f4f730c27e59b1a41a67bbb18b060d8f4cabf'\n    },\n    referrals: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n...\n    request_metrics: {\n+     rows: 5,\n+     sha256: '93d4ec98fc4f621e6423a610e99173c5af2b604e0431681ba39d1b9770675ab0'\n-     rows: 1,\n-     sha256: 'af0372f2a8f01e2ba691b52a1e237f66b8ca78ef05814e8aff2773d3e927c8cc'\n    },\n    retention: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n...\n    team_members: {\n+     rows: 6,\n+     sha256: 'a504121798a933050300f4dbfae1131a75a0911166f15fe4e8cc166ae5077595'\n-     rows: 3,\n-     sha256: '2259159583b9b0962d289aeebbb8c470402bf9c125066ca1ef99f838cfe1a63d'\n    },\n    teams: {\n+     rows: 3,\n+     sha256: '932c69b3405e90333e0d66335afc3c671a2b6054c81250fc241ba3fbd74a8da9'\n-     rows: 1,\n-     sha256: 'e673ff3554db2c92897889944a01b50bf709af5b8f0bcc1a896ed750e3525d82'\n    },\n    visits: {\n      rows: 0,\n      sha256: '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'\n    },\n"
+    },
+    {
+      "name": "No refused principal account was created",
+      "status": "fail",
+      "error": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    }
+  ],
+  "responses": [
+    {
+      "name": "finite future expiry and absent activation",
+      "path": "/api/workspace",
+      "status": 200
+    },
+    {
+      "name": "finite past activation",
+      "path": "/api/workspace",
+      "status": 200
+    },
+    {
+      "name": "fractional finite expiry and activation",
+      "path": "/api/workspace",
+      "status": 200
+    },
+    {
+      "name": "overflow expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "overflow expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "overflow expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "name": "negative overflow expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "negative overflow expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "negative overflow expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "missing expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "missing expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "missing expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "string expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "string expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "string expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "null expiry",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "null expiry",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "null expiry",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "expiry outside allowance",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "expiry outside allowance",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "expiry outside allowance",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "future activation outside allowance",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "future activation outside allowance",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "future activation outside allowance",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "overflow activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "overflow activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "name": "overflow activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "name": "negative overflow activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "negative overflow activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "negative overflow activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 409
+    },
+    {
+      "name": "string activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "string activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "string activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 409
+    },
+    {
+      "name": "null activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "null activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "null activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 409
+    },
+    {
+      "name": "boolean activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "boolean activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "boolean activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 409
+    },
+    {
+      "name": "array activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "array activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "array activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 409
+    },
+    {
+      "name": "object activation",
+      "path": "/api/workspace",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "object activation",
+      "path": "/api/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "name": "object activation",
+      "path": "/api/commands",
+      "method": "POST",
+      "status": 409
+    }
+  ],
+  "before": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 3,
+      "sha256": "53ff769f69d6a1b5a2b92ac006a85a875d62b1bbb04633db21e938ffe308c0de"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 27,
+      "sha256": "af3b8a8324fa3d67e2c227aa6b804b30e2a661ef8a261e596d9936790e3e45c4"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 1,
+      "sha256": "6593aa564cac1d0d7f0e64a73aad5ed770106c0c6909ebb0e85a298fb168f52d"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 6,
+      "sha256": "d3a442df0dff5d7d50c8fbbdc21d0eeb3e14ef3f705c203a31ca8b6ee84915f9"
+    },
+    "invitations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "legacy_migrations": {
+      "rows": 1,
+      "sha256": "75e4f38576a5e0cbdba41f13cff02d54b2f1f9032cad4584c3cea8a16ae3e613"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 3,
+      "sha256": "7a753dc5b8232c0ac2636211870d24d1e1cd4d59590ef97c8ab973316873a490"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 1,
+      "sha256": "8cacd3730343a7618a37b7cbf55e531c243e43250bdd24db18741b2e65c4fffa"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 6,
+      "sha256": "c6ccd9137b77712ec16b48f1fbf6349fdb953090d6fa8c25042928eb315c23f5"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 6,
+      "sha256": "2f72d448fc42c27f1c812dcb3f2f4f730c27e59b1a41a67bbb18b060d8f4cabf"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 1,
+      "sha256": "af0372f2a8f01e2ba691b52a1e237f66b8ca78ef05814e8aff2773d3e927c8cc"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 3,
+      "sha256": "2259159583b9b0962d289aeebbb8c470402bf9c125066ca1ef99f838cfe1a63d"
+    },
+    "teams": {
+      "rows": 1,
+      "sha256": "e673ff3554db2c92897889944a01b50bf709af5b8f0bcc1a896ed750e3525d82"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "after": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 6,
+      "sha256": "33642fae5a0c40fb643bd11c191ea4ddeacd4c9a627a84565a751ddb9ba068dd"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 67,
+      "sha256": "64905dcc3fb109b72c5d0d4aa07b1694cf73e439686a7273ea11e43956ab324b"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 1,
+      "sha256": "1ff444c5196547f4eb0f1c810709f81b75480f8ad94202ecbf4434488ee5d4b0"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 2,
+      "sha256": "bfd939fa8e4ee3eea59ca78dbbf52b49360c7ff0b0fca21a2591b1c0bca7647c"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 12,
+      "sha256": "7e8812a571f25c69cb79ee207d67c4e6db33665cd24565ab7fd211ff4d35765b"
+    },
+    "invitations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "legacy_migrations": {
+      "rows": 2,
+      "sha256": "50f8e641146b010b5e8a3c8c075ffb342bdfc1fb4824098c6246a0c41bf9a4d4"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 6,
+      "sha256": "03325d43525a0b9e2d74d0286e439ffdfd1f78f98477e712a9a064f9504fdbd5"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 2,
+      "sha256": "f52b82771695b2555f228344573d2be7a795c54cb668294704f26ce9265b4f40"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 12,
+      "sha256": "4c77e72e6c8e466c9b09e32cfd5282146ba40b43c223923cc0ad65e2f1fec617"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 12,
+      "sha256": "a245d806cb2797efe84555914b150abc7ead04df7f5ac879f70d47ae43c4c9f0"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 5,
+      "sha256": "93d4ec98fc4f621e6423a610e99173c5af2b604e0431681ba39d1b9770675ab0"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 6,
+      "sha256": "a504121798a933050300f4dbfae1131a75a0911166f15fe4e8cc166ae5077595"
+    },
+    "teams": {
+      "rows": 3,
+      "sha256": "932c69b3405e90333e0d66335afc3c671a2b6054c81250fc241ba3fbd74a8da9"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "disposed": true,
+  "completedAt": "2026-10-12T09:41:10.396Z",
+  "limits": [
+    "Synthetic local key endpoint and local D1 only; no hosted sign-in, recovery/MFA, real provider, physical-device or formal acceptance."
+  ]
+}
