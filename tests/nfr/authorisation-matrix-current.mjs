@@ -35,6 +35,7 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 // Documented query parameters per GET route (read from the route readers). kind: which resource the request names.
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
+  '/api/interface-language': w => [{q:`?personId=${w.people.a2}`,kind:'person'}],
   '/api/today': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/routine-visit': w => [
     { q: `?personId=${w.people.a2}`, kind: 'person' },
@@ -125,7 +126,7 @@ try {
   await r.check('route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)', () => none(unclassified, `unclassified GET routes: ${unclassified.join(', ')}`));
   await r.check(`grid is complete: ${cases.length} requests x ${PRINCIPALS.length} principals, every cell has a status`, () => { if (cases.length < 40) throw new Error(`only ${cases.length} cases`); none(violations((c, p) => (Number.isInteger(c.cells[p].status) ? '' : 'no status')), 'cells'); });
   // Today and Routine have exact ASHA-only contracts; all old legacy owner responses remain unchanged.
-  await r.check('control: owner gets 2xx on legacy routes and403 on the exact ASHA-only Today/Routine contracts', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('control: owner gets 2xx on legacy routes and403 on the exact ASHA-only Today/Routine contracts', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/interface-language'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
   await r.check('Today list allows both active ASHAs and refuses all other roles; ASHA 2 opens its own record', () => {
     const list = cases.find(c => c.route === '/api/today' && c.kind === 'plain');
     const detail = cases.find(c => c.route === '/api/today' && c.kind === 'person');
@@ -187,6 +188,8 @@ try {
       for (const marker of [...world.patientNames,...Object.values(world.people),...Object.values(world.visits)]) assert.ok(!actual.text.includes(marker));
     }
   });
+
+  await r.check('Own language preference route is ASHA-only and selected-person scoped; no patient or other-member data',()=>{const c=cases.find(c=>c.route==='/api/interface-language');assert.ok(c);assert.equal(c.cells.asha2.status,200);for(const p of ['owner','admin','supervisor','clinician','stranger'])assert.equal(c.cells[p].status,403);assert.ok([403,404].includes(c.cells.asha1.status));assert.equal(c.cells.anonymous.status,401);});
 
   // ── Anonymous on the non-GET routes ─────────────────────────────────────────────────────────────────────────────────────────────────
   const png = new Uint8Array(2048); png.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);

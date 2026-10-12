@@ -10,10 +10,10 @@ For each of the 176 requirements: its assessment status, the test files its evid
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
 - **52 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
-- **The map is incomplete in both directions.** 757 of 1093 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
+- **The map is incomplete in both directions.** 757 of 1096 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
-- **40 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
+- **42 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
 
 ## Summary
 
@@ -33,10 +33,10 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layer | Requirements citing it | Distinct files cited | Files on disk | On disk but cited by no requirement |
 | --- | ---: | ---: | ---: | ---: |
-| unit | 141 | 212 | 931 | 719 |
+| unit | 141 | 213 | 932 | 719 |
 | integration | 114 | 99 | 115 | 16 |
 | resilience | 2 | 1 | 1 | 0 |
-| smoke | 19 | 7 | 11 | 4 |
+| smoke | 21 | 9 | 13 | 4 |
 | ui | 12 | 9 | 21 | 12 |
 | nfr | 11 | 8 | 14 | 6 |
 
@@ -49,17 +49,17 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 | none | 19 |
 | integration | 8 |
 | unit + integration + smoke | 7 |
-| unit + integration + ui | 4 |
 | unit + integration + smoke + nfr | 3 |
-| unit + ui | 3 |
+| unit + integration + ui | 3 |
+| unit + smoke + ui | 3 |
 | nfr | 2 |
 | resilience | 2 |
 | smoke | 2 |
-| unit + smoke + ui | 2 |
+| unit + integration + smoke + ui | 2 |
+| unit + ui | 2 |
 | integration + nfr | 1 |
 | integration + smoke + nfr | 1 |
 | unit + integration + nfr | 1 |
-| unit + integration + smoke + ui | 1 |
 | unit + integration + smoke + ui + nfr | 1 |
 | unit + smoke + nfr | 1 |
 | unit + smoke + ui + nfr | 1 |
@@ -132,7 +132,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | NFR-14 | unverified | own | Usability and training burden |
 | NFR-27 | partial | own | Connector upgrade compatibility |
 
-## Test files cited by no requirement (757 of 1093)
+## Test files cited by no requirement (757 of 1096)
 
 Each is a test file on disk that no evidence-map entry mentions. They may well test requirements; the map just does not say which.
 
@@ -960,7 +960,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-UX-02 | implemented-local | own | 2 | 0 | 0 | 2 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-03 | partial | own | 2 | 2 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-04 | partial | area | 2 | 2 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
-| BR-UX-05 | partial | own | 3 | 2 | 0 | 0 | 2 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-UX-05 | partial | own | 4 | 2 | 0 | 2 | 2 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-06 | implemented-local | own | 1 | 0 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-07 | partial | own | 6 | 5 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-08 | partial | area | 2 | 2 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
@@ -1118,7 +1118,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | NFR-12 | unverified | own | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | one layer only; no UAT case |
 | NFR-13 | partial | own | 2 | 0 | 0 | 1 | 3 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | no UAT case |
 | NFR-14 | unverified | own | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | no automated test cited; no UAT case |
-| NFR-15 | unverified | own | 1 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | no UAT case |
+| NFR-15 | unverified | own | 2 | 0 | 0 | 2 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | no UAT case |
 | NFR-16 | unverified | own | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | no UAT case |
 | NFR-17 | partial | own | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | no UAT case |
 | NFR-18 | partial | own | 9 | 5 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | no UAT case |

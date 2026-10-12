@@ -1,3 +1,11 @@
+# Routine language candidate — 13 October 2026 IST
+
+| Story / task | Current bounded increment | Remaining gate |
+| --- | --- | --- |
+| SAHA005/APL28; APL188/ENG-BR-UX05 | Own member language preference on routine; generation refusal and receipt consistency qualified at0a9677 with42/55 checks | Portable native/metadata qualification, separate final review and exact-head CI; Hindi human/domain/corpus and whole-story/formal gates open |
+
+See [candidate](current/ROUTINE-LANGUAGE-CANDIDATE-20261013.md). Original criteria, rollout sequencing and earlier history below remain unchanged.
+
 # Monotonic test hold repaired locally; final gate pending — 12 October 2026
 
 [Actual failure and bounded repair](current/d03/MONOTONIC-HOLD-REPAIR-20261012.json): publisheda724 has one flaky added browser case because its first outbound hold was248.823ms below the unchanged250ms minimum; retrypassed. Original minimum guard passed; overallrunner and thirteen-suite qualification correctly refused the flaky result. All46 positive-attempt accessibility scans had0 violations. The successor changes only the fixture wait, preserving all assertions/application/originalcriteria. Eight virtual timing controls pass; fresh local build0 and2 selected browser cases passfirstattempt/9AXE0, actualhold250.570ms, read/clinical/source/dependency/compiled/cleanup evidence retained. Genuine independent actual-result reviewe87d7320 passes within declared source/compiled/read/sampling/recorded-cleanup limits. All584 current b321 application/compiler inputs equal the previous candidate, retaining conditional prior performance applicability; this is not584 equality to04 or new NFR execution. Assembled-source review and complete fresh successor CI remain pending. No new performance observations/physical/formal acceptance; story8/10, no merge/observedstaging. Earlier dated evidence below remains unchanged.

@@ -1,0 +1,268 @@
+{
+  "generatedAt": "2026-10-12T22:32:23.484Z",
+  "startedAt": "2026-10-12T22:32:06.133Z",
+  "command": "node scripts/test.mjs unit smoke nfr uat --only unit/interface-language-contract,smoke/interface-language-browser,smoke/local-smoke,nfr/authorisation-matrix,uat/check-uat-register,uat/generate-uat-pack,uat/coverage-map --fast --guard --report ../../outputs/saha-next50-20261012/routine-language/root-metadata-20261013/affected-guarded003.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 42,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 768,
+      "failedSuites": 0
+    },
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 2,
+      "passed": 87,
+      "failed": 0,
+      "skipped": 1,
+      "durationMs": 9819,
+      "failedSuites": 0
+    },
+    {
+      "layer": "nfr",
+      "status": "passed",
+      "suites": 1,
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5897,
+      "failedSuites": 0
+    },
+    {
+      "layer": "uat",
+      "status": "passed",
+      "suites": 3,
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 515,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 7,
+    "passed": 256,
+    "failed": 0,
+    "skipped": 1,
+    "failedSuites": 0,
+    "durationMs": 17351
+  },
+  "suites": [
+    {
+      "id": "unit/interface-language-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/interface-language-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 42,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 768,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/interface-language-contract-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__interface-language-contract.log"
+    },
+    {
+      "id": "smoke/interface-language-browser",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/interface-language-owned-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 7648,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/interface-language-owned-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__interface-language-browser.log"
+    },
+    {
+      "id": "smoke/local-smoke",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/local-routine-current-smoke.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 32,
+      "failed": 0,
+      "skipped": 1,
+      "durationMs": 2171,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/d03/local-routine-current-smoke-result.json"
+      ],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__local-smoke.log"
+    },
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix-current.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5897,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-current-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    },
+    {
+      "id": "uat/check-uat-register",
+      "layer": "uat",
+      "kind": "suite",
+      "file": "tests/uat/check-uat-register.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 159,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/uat-register-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/uat__check-uat-register.log"
+    },
+    {
+      "id": "uat/coverage-map",
+      "layer": "uat",
+      "kind": "suite",
+      "file": "tests/uat/coverage-map.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 176,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/coverage-map-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/uat__coverage-map.log"
+    },
+    {
+      "id": "uat/generate-uat-pack",
+      "layer": "uat",
+      "kind": "suite",
+      "file": "tests/uat/generate-uat-pack.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 180,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/uat-pack-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/uat__generate-uat-pack.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 7,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 67,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 18
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 610,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 41,
+    "suites": 1001,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 636,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

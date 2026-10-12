@@ -47,6 +47,8 @@ jobs:
         run: |
           npx playwright install --with-deps chromium
           node scripts/test.mjs smoke --only smoke/today-browser --fast --guard
+      - name: Own display-language preference native ownership and exact-receipt regression
+        run: node scripts/test.mjs unit smoke --only unit/interface-language-contract,smoke/interface-language-browser --fast --guard --report tests/reports/interface-language-ci-summary.json
       - name: D03 routine capture and current-authority regression
         run: node scripts/test.mjs integration smoke --only integration/routine-authority-http,integration/routine-organisation-http,integration/routine-attempt-browser,smoke/routine-visit-browser,integration/routine-telemetry-retention-http --fast --guard
       - name: Supply-chain gate (SBOM and audit)
@@ -297,7 +299,12 @@ jobs:
                                'Canonical runner restores tracked test evidence: these restored files are not current-run evidence.',
                                'Installer and generated fixture data differences require explicit applicability review.']}
           (out / (phase + '.json')).write_text(json.dumps(record, indent=2) + '\n')
-          assert len(baseline['suites']) == 389, 'Original 389 guarded records must remain'
+          # Original389 exactly, plus only two actually observed language records.
+          expected_added = {'unit/interface-language-contract': {'layer':'unit','file':'tests/interface-language-contract.mjs','minPassed':42}, 'smoke/interface-language-browser': {'layer':'smoke','file':'tests/smoke/interface-language-owned-browser.mjs','minPassed':55}}
+          original = {k:v for k,v in baseline['suites'].items() if k not in expected_added}
+          assert len(baseline['suites']) == 391 and len(original) == 389, 'Original389 plus exact observed42/55 guards required'
+          assert hashlib.sha256(json.dumps(original,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 records changed'
+          assert {k:baseline['suites'].get(k) for k in expected_added} == expected_added, 'Observed language guard objects changed'
           if phase == 'final':
               before = json.loads((out / 'before-install.json').read_text())
               assert before['baseline'] == baseline, 'Original baseline changed'
