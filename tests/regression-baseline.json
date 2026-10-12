@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-11",
+  "updatedAt": "2026-10-12",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -667,6 +667,16 @@
       "layer": "integration",
       "file": "tests/integration/routine-organisation-http.mjs",
       "minPassed": 52
+    },
+    "integration/routine-save-status-browser": {
+      "layer": "integration",
+      "file": "tests/integration/routine-save-status-browser.mjs",
+      "minPassed": 20
+    },
+    "integration/routine-telemetry-retention-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-telemetry-retention-http.mjs",
+      "minPassed": 64
     },
     "integration/run-api-smoke": {
       "layer": "integration",
@@ -1773,6 +1783,11 @@
       "file": "tests/routine-read-guard-contract.mjs",
       "minPassed": 34
     },
+    "unit/routine-save-status-contract": {
+      "layer": "unit",
+      "file": "tests/routine-save-status-contract.mjs",
+      "minPassed": 20
+    },
     "unit/safe-logs-contract": {
       "layer": "unit",
       "file": "tests/safe-logs-contract.mjs",
@@ -1942,11 +1957,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "integration/routine-telemetry-retention-http": {
-      "layer": "integration",
-      "file": "tests/integration/routine-telemetry-retention-http.mjs",
-      "minPassed": 64
     }
   },
   "log": [

@@ -1,0 +1,70 @@
+{
+  "passed": 20,
+  "failed": 0,
+  "checks": [
+    "Read-only open shows no server draft acknowledgement",
+    "Opening/save-state presentation sends no command",
+    "Server draft status uses the actual returned revision",
+    "Editing a decimal immediately distinguishes unsaved input",
+    "Input alone does not write to the server",
+    "Actual backend save succeeds",
+    "Actual saved readback retains decimal and increments version",
+    "Save acknowledgement is displayed only after matched readback",
+    "Server save grants neither device durability nor destination acceptance",
+    "Editing after a successful save does not retain a false current-save label",
+    "Compare never acknowledges or replaces local edits",
+    "Explicit replacement restores the actual saved decimal",
+    "Lost write acknowledgement shows unresolved status instead of success",
+    "Aborted original POST leaves saved value unchanged",
+    "Exact original attempt reconciles and then displays matched readback",
+    "Recovery preserves original key and command body",
+    "Programme edits are unsaved and never silently committed",
+    "Programme-only save reports matched readback after actual persistence",
+    "Revoked authority clears both protected entries and their save-state region",
+    "No client runtime error or external request"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "key": "027e713d-3c8b-4232-b72d-6ad3aeb7ab74",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"startVisit\",\"personId\":\"p_meena\"}}"
+    },
+    {
+      "method": "POST",
+      "key": "0a0ae131-1e26-4a29-8f42-7211a13f6c3b",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"b88f53ad-ec58-4cf9-9b5a-cd4f8e386246\",\"version\":1,\"facts\":{\"date\":\"2026-10-12T09:52\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"50.1\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"\",\"source\":\"measured\"}}}"
+    },
+    {
+      "method": "GET",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "key": "42a687b5-34ac-47ae-868b-eb250ffe672d",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"b88f53ad-ec58-4cf9-9b5a-cd4f8e386246\",\"version\":2,\"facts\":{\"date\":\"2026-10-12T09:52\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"50.3\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"\",\"source\":\"measured\"}}}"
+    },
+    {
+      "method": "GET",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "key": "42a687b5-34ac-47ae-868b-eb250ffe672d",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"b88f53ad-ec58-4cf9-9b5a-cd4f8e386246\",\"version\":2,\"facts\":{\"date\":\"2026-10-12T09:52\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"50.3\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"\",\"source\":\"measured\"}}}"
+    },
+    {
+      "method": "POST",
+      "key": "3d9fdc5b-4899-4ba4-a343-32b3f9479a74",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveProgrammeAnswers\",\"visitId\":\"b88f53ad-ec58-4cf9-9b5a-cd4f8e386246\",\"version\":3,\"answers\":{\"maternal_contact\":\"Yes\"},\"absence\":{}}}"
+    },
+    {
+      "method": "GET",
+      "body": null
+    }
+  ],
+  "limits": "Built local synthetic backend and Chromium. Bounded save-state increment only; programme edits, confirmed/voided presentation and original authority refusal are additional qualified checks. No full cancellation/exchange acceptance, physical device, formal UAT or hosting."
+}

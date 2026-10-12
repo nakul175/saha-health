@@ -6,6 +6,7 @@ import { MEASURES, FACT_SOURCES, SOURCE_LABEL, VALUE_FIELDS, VALUE_RANGES, measu
   factProvenance, authorText, alternativeUnit } from '@/lib/saha/fact-provenance';
 import type { Facts, FactSource, Measure, ValueField } from '@/lib/saha/types';
 import type { RoutineContext, RoutineStaleRefusal } from '@/lib/saha/routine-visit';
+import { RoutineSaveStatus } from './save-status';
 import './routine-visit.css';
 
 type Attempt = { key: string; command: Record<string, unknown>; personId: string; organisationId: string; actorId: string;
@@ -189,8 +190,9 @@ export default function RoutineVisit() {
     {context && <>
       <section aria-label="Selected person"><h2>{context.person.name}</h2><p>{context.person.village} · {context.person.id}</p>
         <p>{context.person.age} years · {context.person.sex} · Person version {context.person.version}</p>
-        {visit && <p>Visit {visit.id} · version {visit.version} · {visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p>}
+        {visit && <p>Visit {visit.id} · version {visit.version} · {visit.voidedAt ? 'Voided encounter on server' : visit.supersededBy ? 'Superseded encounter on server' : visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p>}
       </section>
+      <RoutineSaveStatus visit={visit ?? null} dirty={dirty} busy={busy} uncertain={uncertain}/>
       {!visit ? <button disabled={busy || uncertain} onClick={() => void send({ type: 'startVisit', personId: context.person.id }, 'Server draft started or resumed and read back.')}>Start or resume routine draft</button> : facts &&
       <GuidedCapture enabled={true} identity={context.person.name + ' · ' + context.person.id} problems={problems}
         steps={[{id:'time',label:'Observation time'},...MEASURES.map(measure => ({id:factStep(measure),label:measure})),{id:'notes',label:'Visit notes'},{id:'review',label:'Review and save'}]}>

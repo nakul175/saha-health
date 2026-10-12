@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "reviewedAtUtc": "2026-10-12T10:06:01.076806+00:00",
+  "reviewer": "Independent programme agent /root/next50_programme, not save-status author",
+  "kind": "Final staged source and metadata suitability for DRAFT publication; not finalCI/live approval",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "stagedPaths": 21,
+  "stagedPins": {
+    ".github/workflows/ci.yml": "27e9d96328c3c6ae9d8623f56ec9c6f8aa2b62fe0893c8c251925b2cc6fbc43b",
+    "REQUIREMENTS-TRACEABILITY.md": "ee9b148dc2dbf6d83ef6d9eb9e5ad98d834ef800fd78b5e2bee829380c5f2c36",
+    "VALIDATION.md": "feb087918d17ad17b8c71922f0843ad5b29d3ce8605faea7704291546e59f311",
+    "app/routine-visit/routine-visit.tsx": "c9a6ef07895895228636cfa6f435ab50a15be11c62edd0ba1dac98721759e35a",
+    "app/routine-visit/save-status.tsx": "ab165454f9c8f6f0a1aae356d163d9c0b8caab3819badb660343a77040548a6a",
+    "docs/IMPLEMENTATION.md": "eaa251ea2adff227a40ef1152b3928d0262e882c84bd7c9304569464c8270214",
+    "docs/NEXT-DELIVERY.md": "ee5d0773e5eefe29b4cb32077d18fc0c9c473539b82af6212d6701afc8b66e5d",
+    "docs/current/TEST-CATALOGUE.csv": "9c83de1de47cdc0bbe4a2a6bf0b0666d605ec51c1d229073ce3e0c411d5dc596",
+    "docs/current/next50/CORE-20261012.md": "91122e9fd5804d2f9ffccaecaa1fc8cadb5bbebdd4fea2ac3282fb1e517ecd8b",
+    "docs/verification/application-connected-save-status-20261012-sha256.json": "1b9fa835b202aab87e6fc7b6ec29179b5b8f56e82c8d537bd814784b2cff5f48",
+    "docs/verification/application-connected-save-status-guard-20261012-sha256.json": "b8633e996fbdf448d4c418f6013ff483514d34e06a3998354f07d1d73296fa26",
+    "docs/verification/current-baseline.json": "56a21a363a93e19dbaef8e49b758261084b8ac55d6ece75572bbcfa8614a9000",
+    "lib/saha/routine-save-status.ts": "05242767e7bc1f71461102f721bc4e0d29cdd538a0b953eed7d8cc66bd83f340",
+    "requirements/assessment.tsv": "bf719d4f44fe20647eb9776950744a09112db57c0cfad86d3203402b6305a74b",
+    "requirements/evidence-map.json": "74d677016a2560aa8672a75159047ee4d5276f3e127514b0d96b73db9f51f51a",
+    "requirements/traceability.csv": "74d9a2e4f3d5d97a2ab05d6db9dd4c82e999d97d939f575b186e94a9039be71f",
+    "requirements/traceability.json": "c506184e2e4af7ff282d5b15cd3093c9a5a1e6c3fa3529f3900bf7f3d4d0fcb8",
+    "scripts/test-catalogue.mjs": "261536e15c2967eb768528148b9b9e3959d0c87f7cbfd4f6ece44902321befe7",
+    "tests/integration/routine-save-status-browser.mjs": "4a856611f1c65b7eaf1c0b7e52d6bf661900490d1ec90833d1adfd367668e925",
+    "tests/regression-baseline.json": "53a93ee4ac80e4f9d8f2576557e28e7136e87159519c30702204b8d8307ff414",
+    "tests/routine-save-status-contract.mjs": "dfb4779366926c50e77bb79855eb12a63e9e9dbfdcc766ea5fa855f90ff7b7cd"
+  },
+  "runtimeReview": "ROOT-SAVE-STATUS-INDEPENDENT-SOURCE-REVIEW-UPDATED.json passes bounded current source and20+20 evidence; new screenshot capture has no API/assertion/minimum effect",
+  "original389EntriesIdentical": true,
+  "newMinima": {
+    "integration/routine-save-status-browser": {
+      "layer": "integration",
+      "file": "tests/integration/routine-save-status-browser.mjs",
+      "minPassed": 20
+    },
+    "unit/routine-save-status-contract": {
+      "layer": "unit",
+      "file": "tests/routine-save-status-contract.mjs",
+      "minPassed": 20
+    }
+  },
+  "originalScopeObjectsPreserved": [
+    "docs/current/d03/SPECIFICATION.md",
+    "requirements/brd-v1.1.json",
+    "docs/reference/workbook/Test-Catalogue.csv",
+    "tests/ui/roles.spec.mjs"
+  ],
+  "originalAssessmentStatusesCheckpointsPreserved": true,
+  "formalCasesNotRunPreserved": true,
+  "sourceAuthority": "No new route/database/command/identity/provider/migration; status rendering only",
+  "findings": [],
+  "verdict": "PASS source/metadata suitability for DRAFT publication only; exacthead fullCI/approval/merge/observedhosting held",
+  "limits": [
+    "Source/metadata review and author-runtime evidence only, no current fullCI/merge/staging/whole-story acceptance.",
+    "Original p95 applicability and broader device/physical/clinical/UAT gates remain open.",
+    "Root must preserve original baseline entries and scopes when repairing additive cardinality."
+  ],
+  "findingsResolved": [
+    {
+      "previous": "P1 original-missing-coverage cardinality conflict",
+      "resolution": "Actual staged guard verifies canonicalfulloriginal389 digest from22a; exactly2 new observedmin20 additions and total391. Independently executed validcurrent/loworiginal/missingoriginal/lownew/extraunobserved controls with expected acceptance/refusals."
+    }
+  ],
+  "independentGuardEvidence": {
+    "base": "22a271033eaa57e124a235fc615744928f1ac106",
+    "originalCount": 389,
+    "originalCanonicalDigest": "b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96",
+    "currentCount": 391,
+    "actualStagedGuardControls": [
+      {
+        "case": "valid391",
+        "accepted": true,
+        "expected": true
+      },
+      {
+        "case": "loweroriginal",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "case": "removeoriginal",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "case": "lowernew",
+        "accepted": false,
+        "expected": false
+      },
+      {
+        "case": "extraunobserved",
+        "accepted": false,
+        "expected": false
+      }
+    ],
+    "currentManifest": "docs/verification/application-connected-save-status-guard-20261012-sha256.json",
+    "currentManifestSHA256": "b8633e996fbdf448d4c418f6013ff483514d34e06a3998354f07d1d73296fa26",
+    "pinsVerified": 1898,
+    "mismatches": []
+  },
+  "independentDocumentationChecker": {
+    "exit": 0,
+    "baselineFiles": 1898,
+    "originalFormalRequirements": 176,
+    "preservedFormalCases": 364,
+    "formalAccepted": 0,
+    "formalCasesRun": 0
+  },
+  "historicalReview": {
+    "path": "outputs/saha-next50-20261012/core-final-review-before-guard-repair.json",
+    "sha256": "a77b615e00c9bf16576aeb1387c282b2a0933e9280e5dc17682e4c4403dc4001"
+  },
+  "productionSourceUnchangedFromPriorScopedReview": {
+    "lib/saha/routine-save-status.ts": "05242767e7bc1f71461102f721bc4e0d29cdd538a0b953eed7d8cc66bd83f340",
+    "app/routine-visit/save-status.tsx": "ab165454f9c8f6f0a1aae356d163d9c0b8caab3819badb660343a77040548a6a",
+    "app/routine-visit/routine-visit.tsx": "c9a6ef07895895228636cfa6f435ab50a15be11c62edd0ba1dac98721759e35a"
+  },
+  "sourceSuitabilityLimits": [
+    "Only an explicit additive browserCIstep and exactoriginal389-plus2 cardinality validation changed; no existing suite selection/oracle/minimum relaxed.",
+    "The screenshot capture writes owned evidence only; source behavior/authority unchanged.",
+    "Current1898-pin manifest and historical previousguard-preparation manifest retained; current pins independently checked and native docchecker passed.",
+    "Rawruntime evidence/contract later bytecopies are not covered by this current staged21path review; separate follow-up review and fresh immutablemanifest needed after additions.",
+    "No fullCI/GitHub/domain/human approval, merge or fresh hostedcommit/live journey claim."
+  ]
+}

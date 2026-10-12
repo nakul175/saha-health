@@ -1,0 +1,766 @@
+{
+  "suite": "Routine original-account write attempt browser recovery",
+  "layer": "integration",
+  "passed": 97,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T09:50:04.219Z",
+  "completedAt": "2026-10-12T09:50:09.961Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Actual local built Worker/native D1 and Chromium with synthetic principals.",
+    "Native audit faults and declared browser-wire header/network faults only; no global ACL, full NFR, physical-device, clinical/UAT or hosted acceptance.",
+    "Recovery retained only in the mounted page; no durable device recovery claim."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "pre-command-start actual access refusal after authority changed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start browser freezes original organisation and trusted actor with its write key",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start protected person, facts and comparison cleared from rendered page",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start initial refusal has no write receipt or clinical mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start while still unauthorized exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start unauthorized recovery only reads current scope and cannot submit or rewrite original receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start unauthorized recovery keeps protected content hidden",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start original actor restored exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start restored actor submits exact original key body organisation and actor",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start UI reconciles only after matched authoritative readback",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start original operation produces one exact selected visit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start original committed receipt retained or originally absent intent committed once",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start recovery creates no duplicate save event",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start previous immutable audit bytes retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "pre-command-start native timing trigger removed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context actual access refusal after authority changed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context browser freezes original organisation and trusted actor with its write key",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context protected person, facts and comparison cleared from rendered page",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context save really committed original receipt once before readback refusal",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context while still unauthorized exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context unauthorized recovery only reads current scope and cannot submit or rewrite original receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context unauthorized recovery keeps protected content hidden",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing actor response header exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing actor response header fails closed before POST with original attempt intact",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing actor response header cannot restore protected DOM",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "mismatched actor response header exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "mismatched actor response header fails closed before POST with original attempt intact",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "mismatched actor response header cannot restore protected DOM",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context original actor restored exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context restored actor submits exact original key body organisation and actor",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context UI reconciles only after matched authoritative readback",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context original operation produces one exact selected visit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context original committed receipt retained or originally absent intent committed once",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context recovery creates no duplicate save event",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context previous immutable audit bytes retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "post-save-context native timing trigger removed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare actual access refusal after authority changed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare browser freezes original organisation and trusted actor with its write key",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare protected person, facts and comparison cleared from rendered page",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare save really committed original receipt once before readback refusal",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare while still unauthorized exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare unauthorized recovery only reads current scope and cannot submit or rewrite original receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare unauthorized recovery keeps protected content hidden",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare original actor restored exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare restored actor submits exact original key body organisation and actor",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare UI reconciles only after matched authoritative readback",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare original operation produces one exact selected visit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare original committed receipt retained or originally absent intent committed once",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare recovery creates no duplicate save event",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "committed-lost-ack-compare previous immutable audit bytes retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Actor-change original POST aborted before commit leaves original A receipt absent",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Different actual actor B restored/assigned exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Different actor receives actual authorised B projection and trusted actor response header",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Different current actor cannot POST original A intent or create B-scoped same-key receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Different current actor recovery clears protected DOM while retaining original A intent",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Trusted identity changes after successful original A GET exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Actor race really occurs after authorized original A GET and before actual POST",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Server refuses changed trusted identity after successful GET with error-only403",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Actor race refusal has no wrong-actor receipt clinical mutation or protected audit read",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Actor race refusal clears protected DOM and retains original unresolved intent",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original actor A restored after B refusal exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Only original restored actor submits the unchanged A key/body/org",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original author commits once; no wrong-person B author receipt or duplicate logical mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit original correction/answer POST aborted before commit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit actual comparison read refuses current authority",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit comparison refusal hides person facts and staged answers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit original actor restored after competing save exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit reconciliation uses original actor key body old version and organisation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit exact actor-bound stale nonapply proof alone releases the original attempt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit proven nonapplied intent ends uncertainty without a false committed receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit stale reconciliation leaves competing clinical bytes and receipt immutable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit original unsaved observation correction survives scope refusal and fresh higher read",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit original unsaved programme choice survives protected component remount",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit comparison requires an explicit replacement choice",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit explicit replacement alone restores competing saved observations",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit explicit replacement alone discards staged programme choice for saved answer",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveVisit stale correction recovery previous immutable audit bytes retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers original correction/answer POST aborted before commit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers actual comparison read refuses current authority",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers comparison refusal hides person facts and staged answers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers original actor restored after competing save exact original attempt recovery remains reachable outside protected context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers reconciliation uses original actor key body old version and organisation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers exact actor-bound stale nonapply proof alone releases the original attempt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers proven nonapplied intent ends uncertainty without a false committed receipt",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers stale reconciliation leaves competing clinical bytes and receipt immutable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers original unsaved observation correction survives scope refusal and fresh higher read",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers original unsaved programme choice survives protected component remount",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Programme recovery merges untouched competing saved choice with original locally changed choice",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers comparison requires an explicit replacement choice",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers explicit replacement alone restores competing saved observations",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers explicit replacement alone discards staged programme choice for saved answer",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "saveProgrammeAnswers stale correction recovery previous immutable audit bytes retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Server expected original actor mismatch refuses error-only403 despite B current care authority",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Server actor mismatch performs no clinical mutation receipt or protected audit read",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Server actor precondition refusal uses privacy headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Expected actor check precedes body parsing and any protected context audit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "All synthetic browser requests stay on loopback; no external/provider requests",
+      "ok": true,
+      "ms": 0
+    }
+  ],
+  "mode": "strict-original-account-attempt",
+  "recordedAtUtc": "2026-10-12T09:50:09.961Z",
+  "actualBrowserCases": 6,
+  "observations": [
+    {
+      "caseId": "CASE-ATTEMPT-PRE-COMMAND-START",
+      "stage": "pre-command-start",
+      "actualStatus": 403,
+      "initialReceiptPresent": false,
+      "originalKey": "a45e161c-ed27-42f4-bbdc-0180af42260d",
+      "requestBodySha256": "c1c6484fa8da9f5014fd08e6b04e01ac0368c65b8d652577daf49e31e85e5a91",
+      "originalActorId": "t-d2d5f16f-asha-a",
+      "originalOrganisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+      "browserPostRequests": [
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "a45e161c-ed27-42f4-bbdc-0180af42260d",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_farida\",\"command\":{\"type\":\"startVisit\",\"personId\":\"p_farida\"}}"
+        },
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "a45e161c-ed27-42f4-bbdc-0180af42260d",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_farida\",\"command\":{\"type\":\"startVisit\",\"personId\":\"p_farida\"}}"
+        }
+      ],
+      "recoveryReadExecuted": true,
+      "originalReceiptUnchanged": true
+    },
+    {
+      "caseId": "CASE-ATTEMPT-POST-SAVE-CONTEXT",
+      "stage": "post-save-context",
+      "actualStatus": 403,
+      "initialReceiptPresent": true,
+      "originalKey": "9162c492-ac11-4ff3-aa25-6ced92dd21ce",
+      "requestBodySha256": "0a90c330a493b691ba3db32d56b3dfe295097c4d4ac3338a46830086aa97e3d4",
+      "originalActorId": "t-d2d5f16f-asha-a",
+      "originalOrganisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+      "browserPostRequests": [
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "9162c492-ac11-4ff3-aa25-6ced92dd21ce",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":2,\"facts\":{\"date\":\"2026-10-12T09:50\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"51.2\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T09:50\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"}}}}}"
+        },
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "9162c492-ac11-4ff3-aa25-6ced92dd21ce",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":2,\"facts\":{\"date\":\"2026-10-12T09:50\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"51.2\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T09:50\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"}}}}}"
+        }
+      ],
+      "recoveryReadExecuted": true,
+      "originalReceiptUnchanged": true
+    },
+    {
+      "caseId": "CASE-ATTEMPT-COMMITTED-LOST-ACK-COMPARE",
+      "stage": "committed-lost-ack-compare",
+      "actualStatus": 403,
+      "initialReceiptPresent": true,
+      "originalKey": "0901ef4b-9031-4292-ad48-7e21cc5a460e",
+      "requestBodySha256": "86122b1dd1d80bd6527cea4314093e5db25cebfc8af18aaa65be75e1ff4990c0",
+      "originalActorId": "t-d2d5f16f-asha-a",
+      "originalOrganisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+      "browserPostRequests": [
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "0901ef4b-9031-4292-ad48-7e21cc5a460e",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":3,\"facts\":{\"date\":\"2026-10-12T09:50\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"51.7\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T09:50\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"}}}}}"
+        },
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "0901ef4b-9031-4292-ad48-7e21cc5a460e",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":3,\"facts\":{\"date\":\"2026-10-12T09:50\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"51.7\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T09:50\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"}}}}}"
+        }
+      ],
+      "recoveryReadExecuted": true,
+      "originalReceiptUnchanged": true
+    },
+    {
+      "caseId": "CASE-ATTEMPT-DIFFERENT-ACTOR",
+      "originalKey": "f55e5836-2b71-4f29-92d9-7d4ea1497bf8",
+      "originalActorId": "t-d2d5f16f-asha-a",
+      "differentActorId": "t-d2d5f16f-asha-b",
+      "originalRequestSha256": "f98356755c01533f69e0ef9de2c6c55ec63e0361bf2470c0be5683a3332dc459",
+      "browserPostRequests": [
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "f55e5836-2b71-4f29-92d9-7d4ea1497bf8",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":4,\"facts\":{\"date\":\"2026-10-12T09:50\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"52.3\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T09:50\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"}}}}}"
+        },
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "f55e5836-2b71-4f29-92d9-7d4ea1497bf8",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":4,\"facts\":{\"date\":\"2026-10-12T09:50\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"52.3\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T09:50\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"}}}}}"
+        },
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "f55e5836-2b71-4f29-92d9-7d4ea1497bf8",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":4,\"facts\":{\"date\":\"2026-10-12T09:50\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"52.3\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T09:50\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"}}}}}"
+        }
+      ],
+      "wrongActorRecoveryGetStatus": 200,
+      "trustedIdentityRaceApplied": true,
+      "raceAdapter": "Actual frozen request forwarded through native client to same Worker under changed trusted identity after legitimate reassignment; actual response fulfilled into browser.",
+      "actualForwardedResponse": {
+        "status": 403,
+        "body": {
+          "error": "The signed-in account changed. Recover the original attempt with the original account."
+        },
+        "originalKey": "f55e5836-2b71-4f29-92d9-7d4ea1497bf8",
+        "expectedActor": "t-d2d5f16f-asha-a",
+        "actualTrustedActor": "t-d2d5f16f-asha-b",
+        "requestBodySha256": "f98356755c01533f69e0ef9de2c6c55ec63e0361bf2470c0be5683a3332dc459"
+      },
+      "raceGetStatus": 200,
+      "racePostStatus": 403,
+      "wrongActorReceiptPresent": false,
+      "originalActorReceiptPresent": true
+    },
+    {
+      "caseId": "CASE-ATTEMPT-COMPETING-SAVEVISIT",
+      "type": "saveVisit",
+      "originalKey": "8e1f8302-ccb5-44e1-8360-2754b501e6df",
+      "originalBodySha256": "b78950c0ec9d3782e664f2b08984b0edfb369daf287d53483aa20e59c6f8ebe0",
+      "originalVersion": 5,
+      "competingVersion": 6,
+      "originalCorrectionValue": "53.4",
+      "originalProgrammeChoice": "Yes",
+      "actualRetryStatus": 409,
+      "actualRetryProof": {
+        "outcome": "not-applied-stale-version",
+        "key": "8e1f8302-ccb5-44e1-8360-2754b501e6df",
+        "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+        "personId": "p_meena",
+        "visitId": "78f3cfa0-e863-48e9-b3b0-a506d47af40b",
+        "expectedVersion": 5,
+        "currentVersion": 6
+      },
+      "competitorReceiptUnchanged": true,
+      "originalReceiptAbsent": true,
+      "browserPostRequests": [
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "8e1f8302-ccb5-44e1-8360-2754b501e6df",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":5,\"facts\":{\"date\":\"2026-10-12T09:50\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"53.4\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T09:50\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"}}}}}"
+        },
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "8e1f8302-ccb5-44e1-8360-2754b501e6df",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":5,\"facts\":{\"date\":\"2026-10-12T09:50\",\"systolic\":\"120\",\"diastolic\":\"80\",\"weight\":\"53.4\",\"temperature\":\"36.5\",\"weeks\":\"20\",\"coughDays\":\"3\",\"notes\":\"Synthetic mounted-page exact-intent recovery\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\",\"at\":\"2026-10-12T09:50\"},\"weeks\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"},\"coughDays\":{\"source\":\"reported\",\"at\":\"2026-10-12T09:50\"}}}}}"
+        }
+      ]
+    },
+    {
+      "caseId": "CASE-ATTEMPT-COMPETING-SAVEPROGRAMMEANSWERS",
+      "type": "saveProgrammeAnswers",
+      "originalKey": "e4c4d30e-0122-41cb-8d3a-1344512ae91c",
+      "originalBodySha256": "f135f64d07cf44df14b127490c1e1f077bd53adce126ab776011ee9c35975e36",
+      "originalVersion": 6,
+      "competingVersion": 7,
+      "originalCorrectionValue": null,
+      "originalProgrammeChoice": "Yes",
+      "actualRetryStatus": 409,
+      "actualRetryProof": {
+        "outcome": "not-applied-stale-version",
+        "key": "e4c4d30e-0122-41cb-8d3a-1344512ae91c",
+        "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+        "personId": "p_meena",
+        "visitId": "78f3cfa0-e863-48e9-b3b0-a506d47af40b",
+        "expectedVersion": 6,
+        "currentVersion": 7
+      },
+      "competitorReceiptUnchanged": true,
+      "originalReceiptAbsent": true,
+      "browserPostRequests": [
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "e4c4d30e-0122-41cb-8d3a-1344512ae91c",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveProgrammeAnswers\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":6,\"answers\":{\"maternal_contact\":\"Yes\"},\"absence\":{}}}"
+        },
+        {
+          "method": "POST",
+          "url": "http://127.0.0.1:21862/api/routine-visit",
+          "key": "e4c4d30e-0122-41cb-8d3a-1344512ae91c",
+          "organisationId": "org_7411aec215c6a2f55673c9673f4ed72d",
+          "expectedActor": "t-d2d5f16f-asha-a",
+          "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveProgrammeAnswers\",\"visitId\":\"78f3cfa0-e863-48e9-b3b0-a506d47af40b\",\"version\":6,\"answers\":{\"maternal_contact\":\"Yes\"},\"absence\":{}}}"
+        }
+      ]
+    },
+    {
+      "caseId": "CASE-ATTEMPT-SERVER-ACTOR-PRECONDITION",
+      "actualStatus": 403,
+      "actualBody": {
+        "error": "The signed-in account changed. Recover the original attempt with the original account."
+      },
+      "malformedBodyStatus": 403,
+      "wrongActorReceiptPresent": false,
+      "originalActorReceiptPresent": false
+    }
+  ],
+  "externalRequests": [],
+  "requestFailures": [
+    {
+      "url": "http://127.0.0.1:21862/api/routine-visit",
+      "method": "POST",
+      "key": "0901ef4b-9031-4292-ad48-7e21cc5a460e",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "url": "http://127.0.0.1:21862/api/routine-visit",
+      "method": "POST",
+      "key": "f55e5836-2b71-4f29-92d9-7d4ea1497bf8",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "url": "http://127.0.0.1:21862/api/routine-visit",
+      "method": "POST",
+      "key": "8e1f8302-ccb5-44e1-8360-2754b501e6df",
+      "error": "net::ERR_FAILED"
+    },
+    {
+      "url": "http://127.0.0.1:21862/api/routine-visit",
+      "method": "POST",
+      "key": "e4c4d30e-0122-41cb-8d3a-1344512ae91c",
+      "error": "net::ERR_FAILED"
+    }
+  ],
+  "caseScope": "Mounted connected browser recovery and independent native server expected-actor controls; deliberate trusted-principal interposition is not browser-cookie/provider reauthentication. No page reload/device persistence claim."
+}

@@ -247,7 +247,7 @@ Hindi/English field notebook (slice 6f). Slice 10j: each member can choose Engli
 - **Catalogue:** Functional, fixture FX-UX-06, catalogue owner "QA with Frontline worker".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-UX; catalogue owner "QA with Frontline worker").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-UX-06: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Candidate ASHA routine visit (Today > Review routine visit; deployment pending). These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -265,7 +265,7 @@ Hindi/English field notebook (slice 6f). Slice 10j: each member can choose Engli
 
 <details><summary>What the build does today (assessment, current state of BR-UX-06)</summary>
 
-Local, server, queued, uncertain and destination-specific states remain separate. The app sync centre explicitly separates encrypted device drafts from programme submissions and never infers a zero queue from a locked notebook.
+Local, server, queued, uncertain and destination-specific states remain separate. The app sync centre explicitly separates encrypted device drafts from programme submissions and never infers a zero queue from a locked notebook. Bounded12October2026 increment: Connected routine save-state display; see docs/current/next50/CORE-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.
 
 </details>
 
