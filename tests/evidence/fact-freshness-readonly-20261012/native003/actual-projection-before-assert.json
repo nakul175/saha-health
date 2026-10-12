@@ -1,0 +1,153 @@
+{
+  "organisationId": "org_74669ba37cd83595abfcf1eed75d0bfe",
+  "actorId": "t-7076e23e-asha",
+  "evaluatedAt": "2026-10-12T18:08:54.648Z",
+  "person": {
+    "id": "6610ec12-e28d-4712-b1e3-c29330802c86",
+    "name": "Synthetic original-time person",
+    "version": 4,
+    "consentVersion": 1
+  },
+  "visits": [
+    {
+      "id": "36530e6f-344e-40a4-a164-77804aa0aefd",
+      "version": 3,
+      "state": "confirmed",
+      "date": "2026-10-12T18:08",
+      "imported": false
+    }
+  ],
+  "limited": false,
+  "selected": {
+    "id": "36530e6f-344e-40a4-a164-77804aa0aefd",
+    "version": 3,
+    "recordVersion": 3,
+    "state": "confirmed",
+    "visitTime": "2026-10-12T18:08",
+    "receivedAt": "2026-10-12T18:08:54.431Z",
+    "imported": false,
+    "measurements": [
+      {
+        "measure": "bloodPressure",
+        "label": "Blood pressure",
+        "values": {
+          "systolic": "120",
+          "diastolic": "80"
+        },
+        "units": {
+          "systolic": "mmHg",
+          "diastolic": "mmHg"
+        },
+        "entered": null,
+        "source": "reported",
+        "observedAt": "2026-10-12T18:08",
+        "origin": "selected-visit-time",
+        "sourceRestriction": null,
+        "rules": [
+          {
+            "id": "69b7a36d-cd59-4421-ad8f-ac0294ee6dfd",
+            "revision": 1,
+            "manifestHash": "a950db736305a73a036280e9afc6af385c2625c37c5944cc346fea468b83e3f6",
+            "title": "Antenatal blood pressure (demonstration, not clinically approved)",
+            "maxHours": 72,
+            "status": "not-applicable",
+            "reason": "This configured rule does not cover the current person, team, programme, age or care role."
+          },
+          {
+            "id": "74eeac83-673e-4606-8c97-8bdc80e98d6a",
+            "revision": 1,
+            "manifestHash": "5b58ad340a6261ccb429965f72bd2efccef8f1709688e1ca801c68782561b6eb",
+            "title": "Existing synthetic24hour rule",
+            "maxHours": 24,
+            "status": "within-configured-age",
+            "reason": "Within this configured age limit at the displayed evaluation time only. This is not reuse or clinical approval."
+          }
+        ]
+      },
+      {
+        "measure": "weight",
+        "label": "Weight",
+        "values": {
+          "weight": "58"
+        },
+        "units": {
+          "weight": "kg"
+        },
+        "entered": null,
+        "source": "measured",
+        "observedAt": "2026-10-10T18:08",
+        "origin": "earlier-observation",
+        "sourceRestriction": null,
+        "rules": [
+          {
+            "id": "74eeac83-673e-4606-8c97-8bdc80e98d6a",
+            "revision": 1,
+            "manifestHash": "5b58ad340a6261ccb429965f72bd2efccef8f1709688e1ca801c68782561b6eb",
+            "title": "Existing synthetic24hour rule",
+            "maxHours": 24,
+            "status": "past-configured-age",
+            "reason": "Past this configured age limit. A new observation is required before this rule can use it."
+          }
+        ]
+      },
+      {
+        "measure": "temperature",
+        "label": "Temperature",
+        "values": {
+          "temperature": "36.5"
+        },
+        "units": {
+          "temperature": "°C"
+        },
+        "entered": null,
+        "source": "measured",
+        "observedAt": "2026-10-12T18:08",
+        "origin": "selected-visit-time",
+        "sourceRestriction": null,
+        "rules": []
+      },
+      {
+        "measure": "weeks",
+        "label": "Gestational age",
+        "values": {
+          "weeks": ""
+        },
+        "units": {
+          "weeks": "weeks"
+        },
+        "entered": null,
+        "source": "measured",
+        "observedAt": "2026-10-12T18:08",
+        "origin": "selected-visit-time",
+        "sourceRestriction": null,
+        "rules": []
+      },
+      {
+        "measure": "coughDays",
+        "label": "Cough duration",
+        "values": {
+          "coughDays": ""
+        },
+        "units": {
+          "coughDays": "days"
+        },
+        "entered": null,
+        "source": "measured",
+        "observedAt": "2026-10-12T18:08",
+        "origin": "selected-visit-time",
+        "sourceRestriction": null,
+        "rules": [
+          {
+            "id": "ed778817-8ce1-47ae-8e38-10776a02ef0b",
+            "revision": 1,
+            "manifestHash": "1d8fa2dce092ec6b755f559cab4491f60603a5c62a05cd6dc711730360d30681",
+            "title": "Presumptive TB: cough duration (demonstration, not clinically approved)",
+            "maxHours": 72,
+            "status": "not-applicable",
+            "reason": "This configured rule does not cover the current person, team, programme, age or care role."
+          }
+        ]
+      }
+    ]
+  }
+}
