@@ -1,0 +1,2 @@
+Observed 2026-10-12T19:05:04.020871+00:00
+Native002 actual8/1: expired fixture set expiry one second before now, but original writer recorded from less than one second ago. It therefore created expiresAt<=from and was correctly unavailable409, not ordinary valid-expired200. Preserve run. Change only expired fixture original start to prior day while expiry stays one second before now; same expired/refusal oracles and writer/core untouched.

@@ -1,0 +1,25 @@
+{
+  "passed": 8,
+  "failed": 1,
+  "skipped": 0,
+  "checks": [
+    "Actual trusted opaque ASHA/org/assignedperson binding",
+    "Only scoped current household identities; outside scope boolean without name/ID/count",
+    "Opening relationship view never selects recipient or implies disclosure",
+    "Explicit current recipient+purpose permits self and actual proxy subject only",
+    "Household head cannot infer private member by household membership alone",
+    "Original relationship/evidence/purpose/expiry/classes stay separately recorded",
+    "Actual bounded metadata contains no clinicalhistory/workitems/contact/account identifiers",
+    "Actual nonmatching purpose omits other subject"
+  ],
+  "requests": [],
+  "errors": [],
+  "external": [],
+  "races": [],
+  "failure": "AssertionError [ERR_ASSERTION]: {\"error\":\"Current household or proxy metadata is unavailable. Refresh and choose again.\"}\n\n409 !== 200\n\n    at ok (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-household-proxy-20261012/tests/smoke/household-proxy-review-browser.mjs:2:351)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-household-proxy-20261012/tests/smoke/household-proxy-review-browser.mjs:17:296\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+  "disposed": true,
+  "portFree": true,
+  "statePreservedOnFailure": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-household-proxy-95b3d0ed-106f-4186-99df-359a0970defd",
+  "completedAt": "2026-10-12T19:04:37.249Z",
+  "limits": "Assigned synthetic ASHA worker relationship metadata and original names-only proxy preview; no clinical/privatehistory disclosure/send/proxywriter/provider/newDB/account authority. Real hidden event uses explicit fixture document property, not OS physicaltab; expiry uses original timestamp.60table equality applies readphases only, fixture writes separate. Not fullstory/institutionalconsent/human/domain/clinical/formal/physical/hosting acceptance."
+}
