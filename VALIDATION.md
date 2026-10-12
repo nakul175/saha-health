@@ -1848,3 +1848,10 @@ Exact2e18 complete CI38134954151 fails: units208/10895passes/14failures in uncha
 11 October2026 — Native-control CI51f90 prerequisite correction: permission63/calendar97 pass, original185 browser assertions not qualified because dedicated job lacked Chromium (installed no count/device32+1failed). Add existing pinned Playwright browser install before unchanged controls; no criterion lowered. FullCI/current-source controls pending.
 
 11 October2026 — ff31 complete engineeringCI38137184201 SUCCESS:208units10910/0/0,147workflow7691/0/0,9finalsmoke/security/UAT497/0/1(inheritedmedia skip). Dedicated63/97/121/64 +12/15/400slot controls pass. Add unchangedoriginal94backendperformance/4no-inspector-memory CI qualification; actual98/newheadfullCI pending. No criteria or originalbaselines changed; slow-profile and independentreview/livegate pending.
+
+
+## 12 October 2026 — Deterministic shortcuts into assigned frontline work
+
+New public task-shortcut page proposes only the existing Today route; the person and task remain explicitly selected under the unchanged authoritative server. Exact aliases and visual controls have the same route; cancellation/correction/refusal cannot perform an action. Final actual native36 parser plus25 mobile Chromium/backend checks pass, including zero launcher API/provider calls, complete60-table equality during launcher-only interactions, correct assigned-person routine selection, ineligible-role/changed-assignment refusal and visible focused input. Build/types/catalogue pass. Retained initial bind/hydration/asset404 and invisible-field receipts; native generated-assets routing repairs the fixture without response substitution. No live model/provider, conversational mutation, clinical policy, full user-story/CWO/formal/UAT/physical/p95 or hosting acceptance.
+
+Scope/evidence boundary: [Deterministic shortcuts into assigned frontline work](docs/current/next50/TASK-ENTRY-20261012.md). Local results are not exact-head fullCI or full-story acceptance; no merge/deployed version claimed by this increment.

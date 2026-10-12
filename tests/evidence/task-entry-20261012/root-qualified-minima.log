@@ -1,0 +1,18 @@
+Running unit smoke --fast; 2 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/task-entry-contract  36 passed  139ms
+
+[smoke] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  smoke/task-entry-browser ...
+  ok       smoke/task-entry-browser  25 passed  2.7s
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  unit   passed       1      36       0        0  139ms
+  smoke  passed       1      25       0        0   2.7s
+  total  passed       2      61       0        0   3.0s
+
+Baseline tests/regression-baseline.json updated: 2 added, 0 raised, 0 lowered, 0 removed, 0 unchanged.
+  Review the diff and commit it with the change that justifies it.

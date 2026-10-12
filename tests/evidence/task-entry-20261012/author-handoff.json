@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "observedAtUtc": "2026-10-12T10:39:07.261904+00:00",
+  "sourceSHA": "f443d0b380f805b5ce43c4b955894cae810e4441",
+  "baseSHA": "22a271033eaa57e124a235fc615744928f1ac106",
+  "sourceDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-task-entry-20261012",
+  "branch": "feat/next50-task-entry-20261012",
+  "canonicalStory": "SAHA040/APL63",
+  "canonicalTask": "ENG-BR-AG-01/APL223",
+  "relatedFullImplementation": "APL10 remains pending",
+  "frozenScope": "FROZEN-SCOPE.md",
+  "frozenSha256": "1d439db7ebbac8a8edb70e642cf610d95de4fc745b87d0a5547a77fec68e8f19",
+  "sourcePins": {
+    "app/task-entry/page.tsx": "c514b3cc8bf0f1b4327a76a433edbb6a7296c3d715bac4e11ad83dd4610498a4",
+    "app/task-entry/task-entry.css": "777b74a5e12e6a2daa20a2ddeafcddf785bf8ce983f5d8f3417afc8444a91297",
+    "app/task-entry/task-entry.tsx": "02307c2c7eb04d28eb77a8ba6dfd8c4d02d5faa9c4f5038665b7dd69dae122fa",
+    "docs/current/task-entry/CONTRACT.md": "1d439db7ebbac8a8edb70e642cf610d95de4fc745b87d0a5547a77fec68e8f19",
+    "docs/current/task-entry/VALIDATION.md": "35d0cf167ccff9bca764b086bd5fb2e95bcbd85645674c7b5314114d805acf82",
+    "lib/saha/task-entry.ts": "f896e8feea57115cb7c288054cf5292edc406ae2daba7f85aa4c9673483cc920",
+    "tests/smoke/task-entry-browser.mjs": "7a4103b078c25a7e3a8a898bbf64b630c88f7f800d59bbc3bd082e2aef25374c",
+    "tests/task-entry-contract.mjs": "43a8e0628019c0a6d76855e65b2c418860ffa64f3808bd1ce2c05034302bdee8"
+  },
+  "actualNativeChecks": {
+    "unit/task-entry-contract": 36,
+    "smoke/task-entry-browser": 25,
+    "failed": 0,
+    "skipped": 0,
+    "buildExit": 0,
+    "typecheckExit": 0,
+    "catalogueExit": 0
+  },
+  "runtimeEvidence": {
+    "launcherApiProviderCalls": 0,
+    "tablesCompared": 60,
+    "tableDataEqualAcrossLauncherOnly": true,
+    "browserProtectedReads": [
+      {
+        "method": "GET",
+        "path": "/api/today",
+        "body": null
+      },
+      {
+        "method": "GET",
+        "path": "/api/today",
+        "body": null
+      },
+      {
+        "method": "GET",
+        "path": "/api/routine-visit",
+        "body": null
+      }
+    ],
+    "navigationWrites": 0,
+    "compiledAndAppLibThisTestObservedPins": 718,
+    "runtimeDisposed": true,
+    "assetFailures": [],
+    "inputStyle": {
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgb(84, 121, 104)",
+      "background": "rgb(246, 250, 248)",
+      "color": "rgb(23, 54, 46)",
+      "value": "open today"
+    }
+  },
+  "evidencePins": {
+    "native-run-final007-summary.json": "a7cef32e3a3e81cf1ac185aacc5328967bf55ca8402c79cc8b97f5b072995e25",
+    "browser-native-007/result.json": "8c99367a4762c528ac4450ba7e07c152a8de412f58a0e368f8173f03f12ba769",
+    "browser-native-007/input-style.json": "39892369752d522ee67528b0fcc1980708f8fce69f7d2b84dc93a7cc77030a73",
+    "browser-native-007/task-entry-phone.png": "6a3e5fb8b664b4532a07fa797a14620c9366a352eacf775b2737879c8db85142",
+    "browser-native-007/task-entry-typed-focused-phone.png": "9e3d96b1f673c98afa2f7dcdd28dba1fccae9fbea443ef14acf6ffce9942a668",
+    "browser-default/result.json": "1cd52c8f6f5eff4287cba9762869b93be1fc6e9222ee9fb494ab630cb0eb6f41",
+    "browser-owned-001/result.json": "b0ba926a06a8cfeebd3322f3b117af0fa40df1784aa2f248c8ab91e09919c325",
+    "browser-owned-002/result.json": "31eb891e9526e551f92cdbef328170c91b923f0d46861f7f86cc631cab78aa2e",
+    "browser-diagnosis-003/result.json": "93bfad5b89d645546f1c5c1e65eafcde76e870a4829b3beda5010ad69f88ae8b",
+    "browser-diagnosis-003/failure.html": "a3a7e1953ea2287475cda3934c5057a8470940dd2a813fed6798b687bb6120fb",
+    "browser-diagnosis-003/failure.png": "72001d7d29f0d407ec278f376a3aefd94708259dcae6353ca69f456f79f3cd90",
+    "browser-native-005/result.json": "6abc10af2c52fbab488363da12503b2d1786713aad32aa8715a00fb3da4078a2",
+    "browser-native-006/result.json": "f9d1eda822af22fa7c8111457a8325fefbb9e0596a8af78f8987472b43d53326",
+    "typecheck-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "catalogue.log": "0c85cb45f456eebd52bf9c3ff311b775733b3e41e5c26ad169d9a27886b28f8f"
+  },
+  "originalProtectedBytesPreserved": {
+    "tests/regression-baseline.json": true,
+    "requirements/brd-v1.1.json": true,
+    "docs/current/d03/SPECIFICATION.md": true,
+    "scripts/test-guard.mjs": true,
+    ".github/workflows/ci.yml": true,
+    "app/today/today.tsx": true,
+    "lib/saha/today-server.ts": true
+  },
+  "failedReceipts": [
+    "browser-default EPERM beforeexecution",
+    "browser-owned001 lostproposal timeout2passed",
+    "browser-owned002 disabledcontrols timeout2passed",
+    "browser-diagnosis003 sevenCSS/JS404 withHTML+console+responses"
+  ],
+  "failureDisposition": "NativeMiniflare generated-assets-first routing repairs fixtureasset404; no bodyinterception/substitution, API goes to realWorker. CSSborder/background fixes observedinvisiblefield. Explicitready gate protects SSRcontrols. Originalassertions/timeouts unchanged.",
+  "sourceInterpretation": "Newdeterministicnavigation path only, notliveAI/model/provider, patientchatbot, monolithactivation, taskmutation/execution orfullstory completion",
+  "publicationPending": [
+    "Separate source/evidence review",
+    "Root-owned new36/25minimum registration and389preservingCIcardinality/evidence-map/assessment/nextdelivery/currentimmutablebaseline",
+    "Exacthead completeCI",
+    "Qualifiedmerge andobservedstaging iflaterauthorisedgate"
+  ],
+  "pushed": false,
+  "merged": false,
+  "observedHostedSHA": null,
+  "newWholeStoriesComplete": 0,
+  "limits": [
+    "Sixty-table equality applies beforeprotectedreads anddeliberatesyntheticrevocation, notentirelaterjourney.",
+    "App/lib,this-test andcompiled hashobservations are notarchivedcompiledbytes/completehelper/dependencycustody; unchangedoriginalhelper source remainsinbaseline.",
+    "No formalCWO/BRD acceptance, physical/qualifiedHindi/frontendfieldusability/p95/model/clinical/domain/UAT/hosting pass."
+  ]
+}

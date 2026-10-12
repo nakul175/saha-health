@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-11",
+  "updatedAt": "2026-10-12",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -668,6 +668,11 @@
       "file": "tests/integration/routine-organisation-http.mjs",
       "minPassed": 52
     },
+    "integration/routine-telemetry-retention-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-telemetry-retention-http.mjs",
+      "minPassed": 64
+    },
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-privacy-registration-current.mjs",
@@ -857,6 +862,11 @@
       "layer": "smoke",
       "file": "tests/smoke/routine-visit-browser.mjs",
       "minPassed": 244
+    },
+    "smoke/task-entry-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/task-entry-browser.mjs",
+      "minPassed": 25
     },
     "smoke/today-browser": {
       "layer": "smoke",
@@ -1843,6 +1853,11 @@
       "file": "tests/sync-receipt-projection.mjs",
       "minPassed": 89
     },
+    "unit/task-entry-contract": {
+      "layer": "unit",
+      "file": "tests/task-entry-contract.mjs",
+      "minPassed": 36
+    },
     "unit/task-limits-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-task-limits-contract.mjs",
@@ -1942,11 +1957,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "integration/routine-telemetry-retention-http": {
-      "layer": "integration",
-      "file": "tests/integration/routine-telemetry-retention-http.mjs",
-      "minPassed": 64
     }
   },
   "log": [
