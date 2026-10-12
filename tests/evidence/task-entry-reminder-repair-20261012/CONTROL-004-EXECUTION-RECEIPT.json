@@ -1,0 +1,58 @@
+{
+  "startedAt": "2026-10-12T11:43:57.439241+00:00",
+  "finishedAt": "2026-10-12T11:44:00.565855+00:00",
+  "command": [
+    "/Users/athena/.local/node/v24.21.0/bin/node",
+    "scripts/test.mjs",
+    "integration",
+    "--only",
+    "integration/reminder-optout-http",
+    "--fast",
+    "--guard",
+    "--report",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/task-entry/reminder-diagnosis/CLOSE-CONTROL-004-SUMMARY.json"
+  ],
+  "runnerPid": 56256,
+  "runnerExit": 0,
+  "sourcePins": 16991,
+  "compiledPins": 286,
+  "sourcesEqual": true,
+  "compiledEqual": true,
+  "baselineEqual": true,
+  "portFree": true,
+  "suite": {
+    "id": "integration/reminder-optout-http",
+    "layer": "integration",
+    "kind": "suite",
+    "file": "tests/reminder-optout-current-http.mjs",
+    "tier": "pr",
+    "status": "passed",
+    "passed": 55,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 2231,
+    "exitCode": 0,
+    "countSource": "result-file",
+    "resultFiles": [
+      "tests/reports/reminder-optout-current/http-result.json"
+    ],
+    "requirementsCited": 1,
+    "reason": null,
+    "log": "tests/reports/logs/integration__reminder-optout-http.log"
+  },
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": []
+  },
+  "nativeResult": {
+    "date": "2026-10-11",
+    "passed": 55,
+    "failed": 0,
+    "browserPassed": 2,
+    "scope": "Actual local Worker/D1 routes; HMAC, forged/expired/stale/replayed events, care scope, durable receipts, preference/consent history and immutable simulated delivery attempts; no real messages"
+  },
+  "limits": "Owned synthetic scratch transport control; not full CI or original application behavioural defect. No published/source-policy/minimum/oracle change or request retry. Fresh canonical build was performed once before all local runs; --fast reuses that pinned build."
+}

@@ -1,0 +1,41 @@
+Running integration --fast; 1 suite(s).
+
+[integration] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/reminder-optout-http ...
+  FAILED   integration/reminder-optout-http  15 passed, 1 failed  1.3s  [exit code 1]
+      | error lines:
+      |   [TypeError: fetch failed] {
+      |     [cause]: SocketError: other side closed
+      |         timeout: undefined,
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | [TypeError: fetch failed] {
+      |   [cause]: SocketError: other side closed
+      |       at Socket.onHttpSocketEnd (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/undici@7.24.8/node_modules/undici/lib/dispatcher/client-h1.
+      |       at Socket.emit (node:events:526:24)
+      |       at endReadableNT (node:internal/streams/readable:1764:12)
+      |       at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      |     code: 'UND_ERR_SOCKET',
+      |     socket: {
+      |       localAddress: '127.0.0.1',
+      |       localPort: 56562,
+      |       remoteAddress: '127.0.0.1',
+      |       remotePort: 21791,
+      |       remoteFamily: 'IPv4',
+      |       timeout: undefined,
+      |       bytesWritten: 1896,
+      |       bytesRead: 6526
+      |     }
+      |   }
+      | }
+      | Node.js v24.21.0
+
+  layer        status  suites  passed  failed  skipped  time
+  -----------  ------  ------  ------  ------  -------  ----
+  integration  failed       1      15       1        0  1.3s
+  total        FAILED       1      15       1        0  1.6s
+
+Regression guard: FAILED (1 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/reminder-optout-http passed 15 assertion(s); baseline is 55 (down 40).
