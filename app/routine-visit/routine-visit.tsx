@@ -30,7 +30,7 @@ export default function RoutineVisit() {
   const [programmeDirty, setProgrammeDirty] = useState(false), [checked, setChecked] = useState(false);
   const [latest, setLatest] = useState<RoutineContext | null>(null);
   const [conflictChoices,setConflictChoices]=useState<Record<string,ConflictChoice>>({}),[conflictChecked,setConflictChecked]=useState(false),[conflictStale,setConflictStale]=useState(false),[heldComparison,setHeldComparison]=useState(false),[comparisonProgrammeDirty,setComparisonProgrammeDirty]=useState(false);
-  const comparisonReadGeneration=useRef(0);
+  const comparisonReadGeneration=useRef(0),comparisonBoundaryActive=useRef(false);
   const comparisonMemory=useRef<{base:RoutineContext;facts:Facts;actorId:string;programme:ProgrammeDraft|null;programmeDirty:boolean}|null>(null);
   const [readChoice, setReadChoice] = useState({ token: 0, kind: 'load' as 'load' | 'merge' });
   const [programmeRecovery, setProgrammeRecovery] = useState<(ProgrammeDraft & { token: number }) | undefined>();
@@ -41,21 +41,31 @@ export default function RoutineVisit() {
   const visit = context?.visit;
   const factsDirty = !!facts && !!visit && JSON.stringify(facts) !== JSON.stringify(visit.facts);
   const dirty = factsDirty || programmeDirty;
-  const invalidateComparisonForEdit=useCallback(()=>{comparisonReadGeneration.current++;setLatest(null);setConflictChoices({});setConflictChecked(false);setConflictStale(false);comparisonMemory.current=null;setHeldComparison(false);},[]);
+  const invalidateComparisonForEdit=useCallback(()=>{comparisonBoundaryActive.current=false;comparisonReadGeneration.current++;setLatest(null);setConflictChoices({});setConflictChecked(false);setConflictStale(false);comparisonMemory.current=null;setHeldComparison(false);},[]);
   const onProgrammeDirty = useCallback((value: boolean) => {if(value)invalidateComparisonForEdit();setProgrammeDirty(value);}, [invalidateComparisonForEdit]);
   const onProgrammeDraft = useCallback((value: ProgrammeDraft) => { programmeDraft.current = structuredClone(value); }, []);
   const endpoint = (personId: string, visitId?: string) => '/api/routine-visit?personId=' + encodeURIComponent(personId) +
     (visitId ? '&visitId=' + encodeURIComponent(visitId) : '');
   const receive = (value: RoutineContext, replaceFacts: boolean) => {
+    comparisonBoundaryActive.current=false;
     setContext(value); if (replaceFacts) setFacts(value.visit?.facts ?? null);
     setConflictChoices({});setConflictChecked(false);setConflictStale(false);
     setChecked(false); setLatest(null);
   };
   const clearProtected = useCallback(() => {
-    comparisonReadGeneration.current++;
+    comparisonBoundaryActive.current=false;comparisonReadGeneration.current++;
     setContext(null); setFacts(null); setLatest(null); setProgrammeDirty(false); setChecked(false);
     setProgrammeRecovery(undefined); programmeDraft.current = null;
   }, []);
+  const clearComparisonForBoundary=useCallback(()=>{
+    if(!comparisonBoundaryActive.current||!comparisonMemory.current)return;
+    setHeldComparison(true);clearProtected();setNotice('Protected comparison cleared. Original edits remain private in this screen’s memory.');
+  },[clearProtected]);
+  const comparisonReadCurrent=(generation:number)=>{
+    if(!mounted.current||generation!==comparisonReadGeneration.current)return false;
+    if(document.hidden||!navigator.onLine){clearComparisonForBoundary();return false;}
+    return true;
+  };
   useEffect(() => {
     mounted.current = true;
     const controller = new AbortController(), query = new URLSearchParams(window.location.search);
@@ -160,7 +170,7 @@ export default function RoutineVisit() {
           value.context.organisationId !== current.organisationId ||
           (current.command.type !== 'startVisit' && value.context.visit?.id !== current.command.visitId))
         throw Error('Saved result could not be matched. Check the exact attempt.');
-      receive(value.context, ['startVisit','saveVisit'].includes(String(current.command.type)));
+      receive(value.context, ['startVisit','saveVisit'].includes(String(current.command.type)));comparisonMemory.current=null;setHeldComparison(false);
       setProgrammeRecovery(undefined);
       setReadChoice(previous => ({ token: previous.token + 1, kind: current.command.type === 'saveVisit' ? 'merge' : 'load' }));
       attempt.current = null; setUncertain(false); setNotice(message);
@@ -173,10 +183,11 @@ export default function RoutineVisit() {
   const compare = async () => {
     if (!context || busy) return;
     const generation=++comparisonReadGeneration.current;setBusy(true);setConflictChoices({});setConflictChecked(false);setConflictStale(false);
-    if(facts&&boundActor.current){comparisonMemory.current={base:structuredClone(context),facts:structuredClone(facts),actorId:boundActor.current,programme:programmeDraft.current?structuredClone(programmeDraft.current):null,programmeDirty};setComparisonProgrammeDirty(programmeDirty);}
+    if(facts&&boundActor.current){comparisonMemory.current={base:structuredClone(context),facts:structuredClone(facts),actorId:boundActor.current,programme:programmeDraft.current?structuredClone(programmeDraft.current):null,programmeDirty};setComparisonProgrammeDirty(programmeDirty);comparisonBoundaryActive.current=true;}
     try {
+      if(!comparisonReadCurrent(generation))return;
       const response = await fetch(endpoint(context.person.id, visit?.id), { cache: 'no-store', credentials: 'same-origin', signal:AbortSignal.timeout(20000), headers: { 'x-saha-organisation': context.organisationId } });
-      if(!mounted.current||generation!==comparisonReadGeneration.current)return;
+      if(!comparisonReadCurrent(generation))return;
       if ([401,403,404].includes(response.status)) {
         setHeldComparison(Boolean(comparisonMemory.current));clearProtected(); setUncertain(Boolean(attempt.current)); setNotice('Access refused. Protected content cleared.'); return;
       }
@@ -188,18 +199,19 @@ export default function RoutineVisit() {
       const value: RoutineContext = await response.json();
       if (value.person.id !== context.person.id || value.organisationId !== context.organisationId ||
           value.visit?.id !== visit?.id) throw Error();
-      if(!mounted.current||generation!==comparisonReadGeneration.current)return;setLatest(value); setNotice('Latest saved record loaded for comparison. Your entries have not been replaced.');
+      if(!comparisonReadCurrent(generation))return;setLatest(value); setNotice('Latest saved record loaded for comparison. Your entries have not been replaced.');
     } catch { if(mounted.current&&generation===comparisonReadGeneration.current){setLatest(null);setConflictStale(true);setNotice('Saved record unavailable. Your entries remain on screen.');} }
     finally { if(mounted.current)setBusy(false); }
   };
   const recoverComparison=async()=>{
-    const held=comparisonMemory.current;if(!held||busy||uncertain)return;const generation=++comparisonReadGeneration.current;setBusy(true);
+    const held=comparisonMemory.current;if(!held||busy||uncertain)return;const generation=++comparisonReadGeneration.current;comparisonBoundaryActive.current=true;setBusy(true);
     try{
+      if(!comparisonReadCurrent(generation))return;
       const r=await fetch(endpoint(held.base.person.id,held.base.visit?.id),{cache:'no-store',credentials:'same-origin',signal:AbortSignal.timeout(20000),headers:{'x-saha-organisation':held.base.organisationId}});
-      if(!mounted.current||generation!==comparisonReadGeneration.current)return;
+      if(!comparisonReadCurrent(generation))return;
       if(!r.ok||r.headers.get('x-saha-operation-actor')!==held.actorId)throw Error();
-      const current=await r.json()as RoutineContext;sameReviewContext(held.base,current);if(!mounted.current||generation!==comparisonReadGeneration.current)return;
-      receive(held.base,false);setFacts(structuredClone(held.facts));setLatest(current);setComparisonProgrammeDirty(held.programmeDirty);setHeldComparison(false);
+      const current=await r.json()as RoutineContext;sameReviewContext(held.base,current);if(!comparisonReadCurrent(generation))return;
+      receive(held.base,false);setFacts(structuredClone(held.facts));setLatest(current);comparisonBoundaryActive.current=true;setComparisonProgrammeDirty(held.programmeDirty);setHeldComparison(false);
       if(held.programme)setProgrammeRecovery({...structuredClone(held.programme),token:1});
       setNotice('Original local edits restored after a fresh authorised read. Review both versions before any save.');
     }catch{if(mounted.current&&generation===comparisonReadGeneration.current){clearProtected();setHeldComparison(true);setNotice('Original comparison unavailable. Local edits remain private in this screen’s memory; no operation was sent.');}}
@@ -211,11 +223,12 @@ export default function RoutineVisit() {
     if(!context||!facts||!latest||!review||!chosen||!conflictChecked||conflictStale||busy||uncertain||programmeDirty||comparisonProgrammeDirty||inFlight.current)return;
     const reviewed=latest,merged=structuredClone(chosen),generation=++comparisonReadGeneration.current;setBusy(true);inFlight.current=true;
     try{
+      if(!comparisonReadCurrent(generation))return;
       const r=await fetch(endpoint(context.person.id,visit?.id),{cache:'no-store',credentials:'same-origin',signal:AbortSignal.timeout(20000),headers:{'x-saha-organisation':context.organisationId}});
-      if(!mounted.current||generation!==comparisonReadGeneration.current)return;
+      if(!comparisonReadCurrent(generation))return;
       if([401,403,404].includes(r.status)||r.headers.get('x-saha-operation-actor')!==boundActor.current){setHeldComparison(Boolean(comparisonMemory.current));clearProtected();setNotice('Access refused or account changed. Protected comparison cleared; local edits retained privately.');return;}
       if(!r.ok)throw Error();const current=await r.json()as RoutineContext;
-      if(!mounted.current||generation!==comparisonReadGeneration.current)return;
+      if(!comparisonReadCurrent(generation))return;
       if(!unchangedReviewCheckpoint(reviewed,current)){setConflictStale(true);setConflictChecked(false);setNotice('The saved record changed again. Compare a fresh version; your unsaved entries have not been replaced.');return;}
       receive(current,false);setFacts(merged);setReadChoice(previous=>({token:previous.token+1,kind:'load'}));setProgrammeRecovery(undefined);comparisonMemory.current=null;setHeldComparison(false);
       setNotice('Reviewed choices are still unsaved. Use Save observations explicitly to commit the current draft version.');heading.current?.focus();
@@ -223,10 +236,10 @@ export default function RoutineVisit() {
     finally{inFlight.current=false;if(mounted.current)setBusy(false);}
   };
   useEffect(()=>{
-    if(!latest)return;const hide=()=>{if(comparisonMemory.current){setHeldComparison(true);clearProtected();setNotice('Protected comparison cleared. Original edits remain private in this screen’s memory.');}};
-    const visibility=()=>{if(document.hidden)hide();};window.addEventListener('offline',hide);window.addEventListener('pagehide',hide);document.addEventListener('visibilitychange',visibility);
-    return()=>{window.removeEventListener('offline',hide);window.removeEventListener('pagehide',hide);document.removeEventListener('visibilitychange',visibility);};
-  },[latest,clearProtected]);
+    const visibility=()=>{if(document.hidden)clearComparisonForBoundary();};
+    window.addEventListener('offline',clearComparisonForBoundary);window.addEventListener('pagehide',clearComparisonForBoundary);document.addEventListener('visibilitychange',visibility);
+    return()=>{window.removeEventListener('offline',clearComparisonForBoundary);window.removeEventListener('pagehide',clearComparisonForBoundary);document.removeEventListener('visibilitychange',visibility);};
+  },[clearComparisonForBoundary]);
   const edit = !!visit && visit.state === 'draft' && !visit.voidedAt && !visit.supersededBy && !busy && !uncertain && (!latest || (!!review && !review.rows.some(row=>row.changed)));
   const setValue = (field: ValueField, value: string) => {invalidateComparisonForEdit();setFacts(previous => {
     if (!previous) return previous;
@@ -280,7 +293,7 @@ export default function RoutineVisit() {
           {reviewProblem&&<p>{reviewProblem}</p>}<label><input type="checkbox" disabled={!chosen||busy||uncertain||conflictStale||programmeDirty||comparisonProgrammeDirty} checked={conflictChecked} onChange={e=>setConflictChecked(e.target.checked)}/>I reviewed the original, unsaved and current saved observation groups.</label>
           <button disabled={!chosen||!conflictChecked||busy||uncertain||conflictStale||programmeDirty||comparisonProgrammeDirty} onClick={()=>void adoptReviewed()}>Adopt reviewed choices without saving</button>
         </section>}{!review&&reviewProblem&&<p role="alert">{reviewProblem}</p>}
-        <button disabled={busy} onClick={()=>{setLatest(null);setConflictChoices({});setConflictChecked(false);setConflictStale(false);setNotice('Comparison cancelled. Your entries are unchanged and remain unsaved.');}}>Cancel comparison and keep my edits</button>
+        <button disabled={busy} onClick={()=>{invalidateComparisonForEdit();setNotice('Comparison cancelled. Your entries are unchanged and remain unsaved.');}}>Cancel comparison and keep my edits</button>
         <button disabled={busy || uncertain} onClick={() => { if (inFlight.current || attempt.current) return;
           receive(latest,true);comparisonMemory.current=null;setHeldComparison(false); setReadChoice(previous => ({token:previous.token+1,kind:'load'}));
           setProgrammeRecovery(undefined);
