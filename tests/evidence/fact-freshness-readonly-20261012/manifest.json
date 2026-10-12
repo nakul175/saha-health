@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-10-12T18:22:52.498056+00:00",
+  "createdAt": "2026-10-12T18:25:58.163011+00:00",
   "files": {
     "ACTUAL-BEFORE-DIAGNOSIS.json": {
       "sha256": "f595870bdd9bec6bb96b712e5976cd7fd6d8761703395a6e48f0c99009bb50a9",
@@ -32,6 +32,10 @@
     "ORIGINAL-BOUNDARY.json": {
       "sha256": "257461a77fb283c6f1e8ebe72cf9470396279b111343e86e43bb29873169b2c5",
       "sizeBytes": 1120
+    },
+    "README-45ff-historical.md": {
+      "sha256": "a6fa8383c7c1c737afd25ec4e60e42b5f2835d8450b118498a6f1658822fb3a7",
+      "sizeBytes": 4098
     },
     "README.md": {
       "sha256": "83573b8b672a33076d1e4f6c1e49a491c250fbac8f4a43c375537211660b4a06",
@@ -274,5 +278,6 @@
       "sizeBytes": 159
     }
   },
-  "limits": "Current byte-pinned author evidence, historical45ff source files relocated withoutbytechanges; originalmanifest historical only, currentcompile check separate."
+  "history": "manifest-45ff-historical.json andREADME-45ff-historical.md are unchanged historical metadata; SOURCE-PREIMAGE-RELOCATION.json maps same sourcebytes. Use this currentmanifest for current folder integrity.",
+  "limits": "No old evidence normalization/backdating; original45ff source and receipts preserved."
 }
