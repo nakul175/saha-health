@@ -1,0 +1,93 @@
+{
+  "format": "saha-independent-bounded-source-review-v1",
+  "reviewer": "/root/next50_identity",
+  "author": "/root/next50_programme",
+  "reviewedAt": "2026-10-12T11:59:58.017346+00:00",
+  "verdict": "PASS",
+  "scope": "Bounded receiving-ASHA software handover review and original acknowledgement increment only; source/evidence review before root shared metadata",
+  "sourceSha": "15e4b259813f0921f6f58b002cb5f492133d1bff",
+  "runtimeSourceAncestor": "6cfcbcdf89c25b076d91686666d7f48ae189697f",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "canonicalStory": "SAHA013/APL36/BR-ID-04/FR-ID-04",
+  "canonicalTask": "ENG-BR-ID-04/APL196",
+  "sourcePins": {
+    "app/api/handover/route.ts": "9fc4cf6808cd5a46bfc620f9d3d55a474cbed32fcbb5d391194ee02e99f950dc",
+    "app/handover/page.tsx": "fb974b9c0cc5eac24e3d15422565ccc84ec082fbb07b8c89e32675769253d4e0",
+    "app/handover/handover.tsx": "c8adeae24eaf38b8d0fbe0294efd550f73fbc3129709f35c5af5dcfbef77dbd0",
+    "app/handover/handover.css": "058e0e368140cab972e03e72a190a3642c7667368100f1e02184f8c9d3cefa56",
+    "lib/saha/handover.ts": "3e5d659b917cda1afe762eff5836238228e3edbe22726097129e9ea39525ae81",
+    "lib/saha/handover-server.ts": "4b0f56dacaa9a7cedac2bba563317d0779155510cef261083e3abe205db22bcf",
+    "tests/handover-contract.mjs": "45f40b9a93f69be714c23b72d38e88f14a212a54b855a1619507d449584e2271",
+    "tests/smoke/handover-browser.mjs": "083cb78559a1aff798a715a84b51dcaff0b8898d7f0ee06763d7a92ce5434d19"
+  },
+  "findings": [],
+  "authorityReview": [
+    "Trusted server identity and explicit organisation; synthetic/training only. Active ASHA and exact assigned person required even for an owner; original scope/load guards remain authoritative.",
+    "Bounded context reads only selected identity, latest applied assignment event, and existing open-work IDs/ownership/dates. Existing caseload writer appends the assignment event when applied; no future scheduler is invented.",
+    "Access audit precedes the existing exact final consistent-batch membership/role/team/purpose/facility/locality/assignment disclosure guard. Six retained actual BEFORE/AFTER audit authority-loss tests refuse. The checkpoint guards its snapshot, not mutations after that snapshot.",
+    "POST rejects alternate actor, organisation/scope, mismatched selected-person command, other command type, cross-origin and query selectors; strict bounded JSON. Original dispatcher alone enforces immutable actor/key/org/body receipt semantics, current write authority, version and latest assignment event. Original server/continuity/caseload/read-guard/access/identity bytes unchanged from main.",
+    "Prerequisite read audit authority loss refuses before any acknowledgement receipt. Post-command context audit/refusal remains an uncertain result, retaining original attempt for explicit recovery rather than new-key retry. Original command receipt is not rewritten.",
+    "No clinical decisions, transfer scheduling, work reassignment, task completion, provider activation, schema/store/policy changes or authority expansion introduced."
+  ],
+  "frontendReview": [
+    "Existing Today assigned selection pins explicit returned organisation; selected read pins server actor and selected identity; reference/review/action are explicit, edit resets review and cancel creates no command.",
+    "Attempt copies original account/organisation/person/version/event/reference/key; no automatic retry, durable reload recovery or new-key fallback. Successful response requires server outcome/key/account/organisation and exact current acknowledgement actor/event/reference match.",
+    "Actual committed-response loss is forwarded once to the real owned backend and its real200 response aborted; explicit recovery sends identical original body/key, reads the actual receipt/patient, and verifies zero duplicates. Three observed browser POSTs are one initial acknowledgement, one second acknowledgement whose response was lost, and one explicit same-key recovery.",
+    "Offline/hidden/pagehide and backend errors abort requests/clear protected handover/input state; uncertain attempt reference remains in memory. Actual offline and audit-error clearing evidence retained. Recovery POST performs a new current-authority read on the server.",
+    "Actual390px screenshot inspected: current effective event and open-work owner visible, outlined input,44px controls and no horizontal overflow. No full accessibility/field acceptance inferred."
+  ],
+  "evidenceReview": {
+    "sourceSha": "15e4b259813f0921f6f58b002cb5f492133d1bff",
+    "base": "22a271033eaa57e124a235fc615744928f1ac106",
+    "sourcePins": {
+      "app/api/handover/route.ts": "9fc4cf6808cd5a46bfc620f9d3d55a474cbed32fcbb5d391194ee02e99f950dc",
+      "app/handover/page.tsx": "fb974b9c0cc5eac24e3d15422565ccc84ec082fbb07b8c89e32675769253d4e0",
+      "app/handover/handover.tsx": "c8adeae24eaf38b8d0fbe0294efd550f73fbc3129709f35c5af5dcfbef77dbd0",
+      "app/handover/handover.css": "058e0e368140cab972e03e72a190a3642c7667368100f1e02184f8c9d3cefa56",
+      "lib/saha/handover.ts": "3e5d659b917cda1afe762eff5836238228e3edbe22726097129e9ea39525ae81",
+      "lib/saha/handover-server.ts": "4b0f56dacaa9a7cedac2bba563317d0779155510cef261083e3abe205db22bcf",
+      "tests/handover-contract.mjs": "45f40b9a93f69be714c23b72d38e88f14a212a54b855a1619507d449584e2271",
+      "tests/smoke/handover-browser.mjs": "083cb78559a1aff798a715a84b51dcaff0b8898d7f0ee06763d7a92ce5434d19"
+    },
+    "manifestFilesVerified": 38,
+    "custodyFilesVerified": 720,
+    "actualNativeChecks": 40,
+    "authorLocalChecks": 121,
+    "readTables": 60,
+    "expectedReadDifferences": [
+      "audit_events",
+      "request_metrics"
+    ],
+    "actualBrowserPOSTs": 3,
+    "explicitRecoverySameBodyAndKey": true,
+    "actualRaceRefusals": 6,
+    "ownedRuntimeDisposed": true,
+    "portFree": true,
+    "sourceClean": true,
+    "originalAuthorityWriterUnchanged": true,
+    "newGuardRegistrationPending": true,
+    "independentPureChecks": 22,
+    "independentPureResultSha256": "d351cb8d1a1f4320b1ef7cc2c85977881375fdbe3ee0460812cf5e67ca612c54",
+    "originalMinimaRecords": 389,
+    "originalBaselineByteEqualMain": true,
+    "freshBuildAuthorEvidence": true,
+    "authorNativeSummarySha256": "739a8deec96404b52308898ac2fef1209b4b792edfb73defb41d2c8249ffddcd",
+    "handoffSha256": "8edb98b4e32358abacde38b9a73bec2dc8b879fa5616a81eb2859de68ade4f68",
+    "manifestSha256": "ef80add8610cd367b11e5436ea80337b35e6beb755fa12af9af264d07920aab6",
+    "verifierSha256": "1da570194d3a554745513bfcb6199e4e486bedecc2b0e57f2343a27a11fe3b39",
+    "formalStatus": "Not run; unchanged"
+  },
+  "failedEvidencePreserved": [
+    "default owned-bind EPERM; author invalid/missing second fixtures; early disabled recovery control wait; original monitoring import type error. All38 committed author-evidence manifest entries verified.",
+    "Independent verifier initially used result[\"failure\"] although successful JSON omits undefined failure; missing guessed baseline path corrected to actual tests/regression-baseline.json. These were verifier diagnostics, not product failures; no candidate source or author receipt changed."
+  ],
+  "pending": [
+    "Root shared metadata/immutable baseline and exact new22/40 minimum registration",
+    "Original broad new GET/POST route recipes and current route counts",
+    "Final shared metadata review, complete exact-head CI and draft publication",
+    "Independent human/domain/formal/field/physical gates where required",
+    "Original complete story residual: locality transfer, observed timed hosted trigger and approved urgency/field acceptance",
+    "Observed hosting, deployed SHA and live synthetic journey"
+  ],
+  "limits": "This is genuine agent source/evidence review, not GitHub human approval, formal TC-BR-ID-04-A/B execution, whole-story qualification, clinical/urgency approval, scheduler/physical/p95/capacity or live staging acceptance. Author browser run verified, not independently rerun; pure22 independently repeated against exact Git source. Original389 objects/minima unchanged. Root may add shared metadata without changing eight reviewed runtime/test pins and request incremental review."
+}

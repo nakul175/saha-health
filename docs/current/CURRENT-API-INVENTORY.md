@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **99 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **101 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -37,6 +37,8 @@ Generated from source: **99 HTTP method/route pairs** and **253 command schema d
 | GET | `/api/frontline-providers` | [app/api/frontline-providers/route.ts](../../app/api/frontline-providers/route.ts) |
 | POST | `/api/frontline-providers` | [app/api/frontline-providers/route.ts](../../app/api/frontline-providers/route.ts) |
 | GET | `/api/governance` | [app/api/governance/route.ts](../../app/api/governance/route.ts) |
+| GET | `/api/handover` | [app/api/handover/route.ts](../../app/api/handover/route.ts) |
+| POST | `/api/handover` | [app/api/handover/route.ts](../../app/api/handover/route.ts) |
 | GET | `/api/history` | [app/api/history/route.ts](../../app/api/history/route.ts) |
 | GET | `/api/household` | [app/api/household/route.ts](../../app/api/household/route.ts) |
 | POST | `/api/identifier-search` | [app/api/identifier-search/route.ts](../../app/api/identifier-search/route.ts) |

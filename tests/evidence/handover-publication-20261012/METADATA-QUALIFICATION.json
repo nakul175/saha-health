@@ -1,0 +1,53 @@
+{
+  "observedAt": "2026-10-12T16:20:58.429934+00:00",
+  "runtimeSource": "15e4b259813f0921f6f58b002cb5f492133d1bff",
+  "metadataAuthor": "/root/next50_identity",
+  "original389Digest": "b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96",
+  "added": {
+    "unit/handover-contract": {
+      "layer": "unit",
+      "file": "tests/handover-contract.mjs",
+      "minPassed": 22
+    },
+    "smoke/handover-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/handover-browser.mjs",
+      "minPassed": 40
+    }
+  },
+  "actualSelectiveChecks": 62,
+  "originalRouteQualification": {
+    "authorization": 64,
+    "smokePassed": 33,
+    "smokeSkipped": 1,
+    "inventory": 101
+  },
+  "limits": [
+    "Root runs use existing candidate build --fast, no new fresh-build claim.",
+    "Original389 unchanged; only two new22/40 guard entries. Seven CI jobs preserved; added smoke40 selection.",
+    "This author metadata requires separate root review; source review is separate and not metadata approval.",
+    "Formal0/176 and0/364, whole story/field/hosting remain pending."
+  ],
+  "staticChecks": {
+    "typesExit": 0,
+    "affectedLintExit": 0,
+    "catalogueExit": 0,
+    "requirementsExit": 0,
+    "uatToolingPassed": 63,
+    "formalCasesRun": 0
+  },
+  "integrityControls": {
+    "privateMirror": true,
+    "negativeControls": 8,
+    "allRejected": true,
+    "untamperedBeforeAndAfterPass": true,
+    "candidateAnchorsUnmodified": true
+  },
+  "metadataValidationObservedAt": "2026-10-12T16:25:10.264968+00:00",
+  "diagnosticsPreserved": [
+    "Metadata edit/copy scripts initially resolved wrong cwd and stopped before any source/evidence changes; preliminary doc-generator output is exploratory, not qualification. Correct root selected before authorized edits/copies.",
+    "First private integrity mirror lacked the then-untracked new current manifest; initial check stopped at missing manifest. Candidate checker passed separately. Staging it and creating a fresh private002 mirror fixed only the control setup. Initial diagnostic retained; no product assertion relaxed."
+  ],
+  "runtime8Equal15e": true,
+  "finalMetadataReview": "Pending separate coordinator review; this evidence is author results only"
+}

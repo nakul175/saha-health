@@ -1,0 +1,107 @@
+{"event":"saha_request","requestId":"944d6002-525c-49c6-84fa-ef08938eac0b","route":"workspace","status":200,"durationMs":25}
+{"event":"saha_request","requestId":"a26051d3-2c6c-4089-8f44-b9f176d53529","route":"workspace","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"4f32774b-9095-408e-a582-e1a4adea46c9","route":"workspace","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"2eacff7e-4345-4d3d-8e1b-3856bae1e212","route":"commands","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"cfeaa6ec-7af6-4085-9563-f71b34479031","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"a4f0e884-f0ae-49d0-a2b2-b627ecc7c480","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"a71c1941-01aa-4096-99fb-6da8999e1d0c","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"8627b5a5-bbcd-454d-abf5-88f0230e1f15","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"abbe8645-f8cb-4a21-87ab-f75e59e759e0","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"81a49b22-914c-4003-9e81-d4fbad0b8d40","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"6bf4b8db-8939-49b7-9fdb-5a5866d25e47","route":"workspace","status":200,"durationMs":3}
+PASS Actual existing transfer moves patient and open work to one receiving worker
+{"event":"saha_request","requestId":"33e0acf7-7f6a-44f3-997a-098e1f01f44b","route":"caseload","status":200,"durationMs":3}
+PASS Actual read pins selected identity effective transfer and accountable open task
+PASS Bounded response excludes unrelated partitions and clinical measurements
+{"event":"saha_request","requestId":"fe1ab2a4-5b8a-4ef1-98e0-758f78350eef","route":"caseload","status":403,"durationMs":1}
+PASS Owner former-scope foreign and unassigned reads refuse without handover disclosure
+{"event":"saha_request","requestId":"e94d1d75-b4c5-4457-848d-6f4cf2e24258","route":"caseload","status":403,"durationMs":1}
+PASS Owner former-scope foreign and unassigned reads refuse without handover disclosure
+{"event":"saha_request","requestId":"a90b528b-3fc3-4409-b765-cd9102bc1067","route":"caseload","status":403,"durationMs":1}
+PASS Owner former-scope foreign and unassigned reads refuse without handover disclosure
+{"event":"saha_request","requestId":"04c43a18-71ef-42c0-8617-b87fa94fcf77","route":"caseload","status":404,"durationMs":2}
+PASS Owner former-scope foreign and unassigned reads refuse without handover disclosure
+{"event":"saha_request","requestId":"26bc6c73-12ac-476e-b8d3-a37d42cb43c4","route":"caseload","status":400,"durationMs":0}
+PASS Invalid selector refuses /api/handover
+{"event":"saha_request","requestId":"8a825794-760f-415c-87f3-a2afb36bd966","route":"caseload","status":400,"durationMs":0}
+PASS Invalid selector refuses /api/handover?personId=
+{"event":"saha_request","requestId":"4983aae7-b757-476f-8d33-4a53435fc324","route":"caseload","status":400,"durationMs":0}
+PASS Invalid selector refuses /api/handover?personId=p_meena&personId=p_rajesh
+{"event":"saha_request","requestId":"feaa8a3c-25c6-4b5f-b607-02bc4a865c32","route":"caseload","status":400,"durationMs":0}
+PASS Invalid selector refuses /api/handover?personId=p_meena&mode=all
+{"event":"saha_request","requestId":"e257642b-6caa-4739-9ce8-4f0524df61e8","route":"caseload","status":400,"durationMs":0}
+{"event":"saha_request","requestId":"a9c8feed-f162-43e5-9586-45d7b3c67968","route":"caseload","status":401,"durationMs":0}
+PASS Explicit organisation and trusted identity are required
+{"event":"saha_request","requestId":"265d8473-27fe-4905-bcf0-00905166ae7e","route":"caseload","status":403,"durationMs":0}
+PASS Wrong actor scope command binding origin or selector refuses acknowledgement
+{"event":"saha_request","requestId":"feb08cdd-6939-40a0-a4df-bb82c05971c6","route":"caseload","status":403,"durationMs":1}
+PASS Wrong actor scope command binding origin or selector refuses acknowledgement
+{"event":"saha_request","requestId":"5be87c40-3b38-4999-9a36-ab369eb0b206","route":"caseload","status":409,"durationMs":0}
+PASS Wrong actor scope command binding origin or selector refuses acknowledgement
+{"event":"saha_request","requestId":"03897744-eab6-4ece-b6d7-e600467c59ec","route":"caseload","status":422,"durationMs":0}
+PASS Wrong actor scope command binding origin or selector refuses acknowledgement
+PASS Wrong actor scope command binding origin or selector refuses acknowledgement
+{"event":"saha_request","requestId":"eaf308db-c3f6-4105-87d0-23dc9ff44860","route":"caseload","status":400,"durationMs":0}
+PASS Wrong actor scope command binding origin or selector refuses acknowledgement
+{"event":"saha_request","requestId":"6316759c-29ad-497a-b7cc-9caf890b557c","route":"caseload","status":409,"durationMs":5}
+{"event":"saha_request","requestId":"b72f1043-0c42-42b8-b9a9-7f39ecf686ac","route":"workspace","status":200,"durationMs":4}
+PASS Actual stale source refuses without recording acknowledgement
+{"event":"saha_request","requestId":"743a0411-420d-44a0-8e95-a2a118bf9f2e","route":"patients","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"272b2e42-14dd-409d-b890-0cfbbdc2e9b5","route":"caseload","status":200,"durationMs":3}
+PASS Actual mobile screen shows transferred open task and accountable receiver
+PASS Cancel and unreviewed input perform no command
+PASS Actual mobile controls have44px geometry visible input border and no overflow
+PASS All60 tables compare equal during review; only expected access audit and metrics append
+{"event":"saha_request","requestId":"4a9e3a55-d464-4f50-bf28-8cd33ae5c0c3","route":"caseload","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"8b3aa622-1aed-4e9a-8343-566103fc18d3","route":"workspace","status":200,"durationMs":4}
+PASS Real phone acknowledgement persists exact reviewed history without completing or orphaning open work
+{"event":"saha_request","requestId":"ab4193ff-2dbc-4b5c-b1df-96b4134f4e76","route":"caseload","status":200,"durationMs":12}
+PASS Exact-key replay preserves patient receipt and assignment-event rows with no duplicate acknowledgement
+{"event":"saha_request","requestId":"074839e7-9e68-47bf-b84e-35d313e61cc0","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"5efe690a-5d2d-4ebf-8945-d73b27636b42","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"da453fd8-a258-4468-af71-5b52fd141e78","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"9bdd4ded-b629-451c-86b4-b9d48d0191ea","route":"patients","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"2238dbfa-63ab-4534-96a4-ada10c6a40bd","route":"caseload","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"337ec8b3-7c56-4c85-bae5-14ce20c3a252","route":"caseload","status":200,"durationMs":15}
+PASS Real committed response loss leaves original reference uncertain and protected contents cleared
+{"event":"saha_request","requestId":"b24ae1b1-0137-494d-ae60-dba3ec9a5874","route":"caseload","status":200,"durationMs":12}
+PASS Explicit recovery uses same original key and exact command with no duplicate patient or receipt mutation
+{"event":"saha_request","requestId":"53b5c93b-bec1-4d15-aa11-0577ed5d8566","route":"caseload","status":403,"durationMs":4}
+PASS Actual BEFORE read-audit membership change refuses protected response
+{"event":"saha_request","requestId":"2c2f8275-fe14-4854-b5b4-7b781b8ccefc","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"09b9ec76-68a1-4a02-bc15-2415f7b0b9fb","route":"caseload","status":404,"durationMs":3}
+PASS Actual BEFORE read-audit assignment change refuses protected response
+{"event":"saha_request","requestId":"6648f5b0-58fb-4516-b637-0df1901b67ab","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"d401a5f9-f953-40a7-bcf5-07d3b83faf6f","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"f443a3e1-70a7-4f9c-8c2f-b614e96ce784","route":"caseload","status":403,"durationMs":3}
+PASS Actual BEFORE read-audit role-owner change refuses protected response
+{"event":"saha_request","requestId":"02d0fa97-fdaa-47d7-8edc-7a31094333c2","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"2be34f1e-3c0d-4aec-8a11-94891964f1fe","route":"caseload","status":403,"durationMs":3}
+PASS Actual AFTER read-audit membership change refuses protected response
+{"event":"saha_request","requestId":"196a1ce6-39ed-4814-b5f3-7f1da624346a","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"7ef58aa3-6b21-463d-bb0b-57aa6e4382ae","route":"caseload","status":404,"durationMs":3}
+PASS Actual AFTER read-audit assignment change refuses protected response
+{"event":"saha_request","requestId":"f9f98544-74ba-4eec-959f-215accbd11e6","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"ecf722f1-2448-4fe6-9f41-365890ced04f","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"0123f9ac-4d02-45ce-9dfe-cdc7b06c9242","route":"caseload","status":403,"durationMs":3}
+PASS Actual AFTER read-audit role-owner change refuses protected response
+{"event":"saha_request","requestId":"ea321b89-0e3c-4cca-adf7-42444b42cc11","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"66cc673e-3fa2-468e-bf53-141682088b6e","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"b18d0cd3-72be-49b5-80c4-82f233e1d6c6","route":"caseload","status":403,"durationMs":3}
+PASS Actual POST membership loss during prerequisite audit refuses before acknowledgement or receipt
+{"event":"saha_request","requestId":"302e01a1-b0c9-4e09-ae86-a56282925e77","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"1043bed2-c5cf-44f3-9cee-cab04eb7c779","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"8748e1d3-6afa-4bb0-ae35-dddb27cb7a93","route":"caseload","status":404,"durationMs":2}
+PASS Actual POST assignment loss during prerequisite audit refuses before acknowledgement or receipt
+{"event":"saha_request","requestId":"fcefa4ad-1005-4654-bd4b-213a12733085","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"48a9e019-e6e3-4fa3-93e7-e1dc152fe667","route":"commands","status":200,"durationMs":7}
+Access audit not recorded Error
+{"event":"saha_request","requestId":"d46ba265-e3f4-40e9-9d7e-a7feb33dabe2","route":"caseload","status":503,"durationMs":6}
+PASS Actual audit failure clears protected content rather than stale handover
+{"event":"saha_request","requestId":"738eba9b-89f4-4d41-b3a7-31ddb750c3a8","route":"patients","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"b83df37c-f45c-4ca8-a51e-908532520249","route":"caseload","status":200,"durationMs":3}
+PASS Actual offline transition clears protected person and handover content
+PASS No actual browser runtime errors or external provider requests
+PASS Actual app lib compiled assets and owned test hashes unchanged throughout execution
+PASS Owned synthetic backend disposed and loopback port free
+{"passed":40,"failed":0,"skipped":0,"disposed":true}

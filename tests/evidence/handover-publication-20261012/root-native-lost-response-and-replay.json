@@ -1,0 +1,63 @@
+{
+  "dropped": {
+    "status": 200,
+    "body": {
+      "outcome": "recorded",
+      "key": "4d5f302f-c740-4a6c-9d59-6f5d4a83767f",
+      "context": {
+        "organisationId": "org_77be1a2527a91ef25d931bdb769c4513",
+        "actorId": "t-e55e74b0-asha",
+        "person": {
+          "id": "p_rajesh",
+          "name": "Rajesh Kumar",
+          "village": "Rampur",
+          "version": 4,
+          "teamId": "default"
+        },
+        "handover": {
+          "id": "fc07b400-53fe-4fdf-9ab6-0e438cb4737f",
+          "at": "2026-10-12T16:19:22.901Z",
+          "by": "t-e55e74b0-owner",
+          "fromTeam": "default",
+          "fromOwner": "t-e55e74b0-owner",
+          "teamId": "default",
+          "ownerId": "t-e55e74b0-asha",
+          "reason": "Caseload transfer: Synthetic second receiving handover",
+          "openWork": 0,
+          "transferId": "ac545758-7d72-4265-8046-56050e17a06f",
+          "acknowledgement": {
+            "by": "t-e55e74b0-asha",
+            "at": "2026-10-12T16:19:23.063Z",
+            "reference": "Synthetic lost response review"
+          }
+        },
+        "work": []
+      }
+    },
+    "request": "{\"personId\":\"p_rajesh\",\"command\":{\"type\":\"acknowledgeAssignment\",\"personId\":\"p_rajesh\",\"version\":3,\"assignmentId\":\"fc07b400-53fe-4fdf-9ab6-0e438cb4737f\",\"reference\":\"Synthetic lost response review\"}}",
+    "key": "4d5f302f-c740-4a6c-9d59-6f5d4a83767f"
+  },
+  "lostReceipt": {
+    "actor_id": "t-e55e74b0-asha",
+    "key": "4d5f302f-c740-4a6c-9d59-6f5d4a83767f",
+    "org_id": "org_77be1a2527a91ef25d931bdb769c4513",
+    "hash": "fc56b97289b84115724770671705fe92601f1ac8be3538d863bf1e05760efbea",
+    "result": "{\"ok\":true}",
+    "person_id": "p_rajesh",
+    "created_at": "2026-10-12T16:19:23.064Z",
+    "command_type": "acknowledgeAssignment",
+    "mutation_subject_id": "p_rajesh",
+    "mutation_event_id": "a741faaf-276e-42a1-b87d-9c81a4390a28",
+    "mutation_context": null
+  },
+  "secondBefore": {
+    "org_id": "org_77be1a2527a91ef25d931bdb769c4513",
+    "id": "p_rajesh",
+    "version": 4,
+    "name": "Rajesh Kumar",
+    "team_id": "default",
+    "assigned_to": "t-e55e74b0-asha",
+    "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T16:19:21.933Z\",\"version\":4,\"teamId\":\"default\",\"assignedTo\":\"t-e55e74b0-asha\",\"synthetic\":true,\"assignmentHistory\":[{\"id\":\"fc07b400-53fe-4fdf-9ab6-0e438cb4737f\",\"at\":\"2026-10-12T16:19:22.901Z\",\"by\":\"t-e55e74b0-owner\",\"fromTeam\":\"default\",\"fromOwner\":\"t-e55e74b0-owner\",\"teamId\":\"default\",\"ownerId\":\"t-e55e74b0-asha\",\"reason\":\"Caseload transfer: Synthetic second receiving handover\",\"openWork\":0,\"transferId\":\"ac545758-7d72-4265-8046-56050e17a06f\",\"acknowledgement\":{\"by\":\"t-e55e74b0-asha\",\"at\":\"2026-10-12T16:19:23.063Z\",\"reference\":\"Synthetic lost response review\"}}]}",
+    "rev": 2
+  }
+}
