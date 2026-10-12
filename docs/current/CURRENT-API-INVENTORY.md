@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **99 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **101 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -13,6 +13,8 @@ Generated from source: **99 HTTP method/route pairs** and **253 command schema d
 | GET | `/api/anaemia-provider` | [app/api/anaemia-provider/route.ts](../../app/api/anaemia-provider/route.ts) |
 | POST | `/api/anaemia-provider` | [app/api/anaemia-provider/route.ts](../../app/api/anaemia-provider/route.ts) |
 | POST | `/api/anaemia-screenings` | [app/api/anaemia-screenings/route.ts](../../app/api/anaemia-screenings/route.ts) |
+| GET | `/api/assistance-control` | [app/api/assistance-control/route.ts](../../app/api/assistance-control/route.ts) |
+| POST | `/api/assistance-control` | [app/api/assistance-control/route.ts](../../app/api/assistance-control/route.ts) |
 | GET | `/api/audit/chain` | [app/api/audit/chain/route.ts](../../app/api/audit/chain/route.ts) |
 | GET | `/api/audit` | [app/api/audit/route.ts](../../app/api/audit/route.ts) |
 | GET | `/api/availability` | [app/api/availability/route.ts](../../app/api/availability/route.ts) |

@@ -1,0 +1,65 @@
+{
+  "observedAt": "2026-10-12T18:11:31.929139+00:00",
+  "checkerSourceSha256": "544599723175fb74d311211fca96648746f62004fa4226d5d3e6c07eae56bafb",
+  "tests": [
+    {
+      "case": "historical-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical authorization-matrix preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-assistance-root-integrity-control-20261012/docs/verification/evidence-source-snapshots/assistance-matrix-3779f8a562c1.mjs"
+    },
+    {
+      "case": "original-manifest-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical authorization-matrix manifest"
+    },
+    {
+      "case": "current-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed baseline file: tests/nfr/authorisation-matrix-current.mjs\nCurrent authorization matrix is not independently pinned by the current baseline"
+    },
+    {
+      "case": "current-evidence-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-assistance-root-integrity-control-20261012/tests/evidence/assistance-control-root-metadata-20261012/root-assistance-auth-summary.json\nChanged evidence size: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-assistance-root-integrity-control-20261012/tests/evidence/assistance-control-root-metadata-20261012/root-assistance-auth-summary.json"
+    },
+    {
+      "case": "wrong-current-pin",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Current authorization matrix is not independently pinned by the current baseline"
+    },
+    {
+      "case": "wrong-source-path",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical authorization-matrix source pin"
+    },
+    {
+      "case": "outside-archive",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical authorization-matrix preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-assistance-root-integrity-control-20261012/tests/nfr/authorisation-matrix-current.mjs"
+    },
+    {
+      "case": "archive-symlink-escape",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical authorization-matrix preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-assistance-control-20261012/docs/verification/evidence-source-snapshots/assistance-matrix-3779f8a562c1.mjs"
+    }
+  ],
+  "untamperedBeforePass": true,
+  "untamperedAfterPass": true,
+  "originalCandidateAnchorsUnmodified": true,
+  "anchors": {
+    "docs/verification/evidence-source-snapshots/assistance-matrix-3779f8a562c1.mjs": "3779f8a562c132fac2b2ded74101a8438b5655389aacfb75e3da4990982fd5d3",
+    "tests/nfr/authorisation-matrix-current.mjs": "791f7da65a410ce2f07cbd8147870befa7904809bb1442b15b4a4e1a014bf2b7",
+    "tests/evidence/routine-current-source-integration-20261011/manifest.json": "9c700f935ec08bc8d55766f8e72a6f4190ed54c03abaf190f336abb03149f017",
+    "tests/evidence/assistance-control-root-metadata-20261012/root-assistance-auth-summary.json": "64579c91af001e32630aa3e1ef2bcd8373319801b990f61a29f46e04ff79e00f",
+    "docs/verification/evidence-source-snapshot-assistance-matrix-20261012.json": "f5d7febb63e171a6ac037dbb69e882331e6310699daefec93534eebd60f60f93"
+  },
+  "limits": "Author synthetic full-checker controls in an isolated hardlinked mirror. Mutated anchors copied to separate private inodes first; original source/evidence/criteria untouched. Tests do not run the app or prove formal acceptance. Trust anchors remain versioned review inputs, not a guarantee against coordinated authorized checker/config rewrites."
+}
