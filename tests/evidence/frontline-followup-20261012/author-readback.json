@@ -1,0 +1,205 @@
+{
+  "atUtc": "2026-10-12T11:29:15.532612+00:00",
+  "mode": "author/tester readback; genuine separate review pending",
+  "actualBrowserCases": [
+    {
+      "case": 1,
+      "title": "assigned mobile worker cancels without writes, then confirms an existing slot without changing clinical work",
+      "status": "expected",
+      "attempts": 1,
+      "attachments": [
+        {
+          "file": "decoded-attachments/1-actual-reschedule-state.json",
+          "sha256": "ba56a7f5dcbea425744704b6d3778eda52cabe86ad7200fd8207c54e5f6a99cf"
+        },
+        {
+          "file": "decoded-attachments/1-browser-problems.json",
+          "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a"
+        },
+        {
+          "file": "decoded-attachments/1-a11y.json",
+          "sha256": "86fb7b2a686072377c3bb30d624d5774c1a093a477794ccd038361db2ac18612"
+        }
+      ],
+      "allowedBrowserMessages": [],
+      "axeScans": 1
+    },
+    {
+      "case": 2,
+      "title": "stale member version refuses atomically with an explicit refresh path",
+      "status": "expected",
+      "attempts": 1,
+      "attachments": [
+        {
+          "file": "decoded-attachments/2-browser-problems.json",
+          "sha256": "99bf6c888474ed12f41322264bb79e58fd9462e79b225cc29e75099b22d01bcb"
+        },
+        {
+          "file": "decoded-attachments/2-a11y.json",
+          "sha256": "0300bfb0707069fa9cb69a1ab0c7c57649ecc5ad9698ebd3c6cc82e3c666ce3b"
+        }
+      ],
+      "allowedBrowserMessages": [
+        {
+          "kind": "console",
+          "who": "asha",
+          "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+          "url": "http://127.0.0.1:21451/api/commands",
+          "allowedBecause": "The deliberate stale-version proposal is refused by the existing server command."
+        }
+      ],
+      "axeScans": 1
+    },
+    {
+      "case": 3,
+      "title": "assignment revocation refuses the write and clears protected content",
+      "status": "expected",
+      "attempts": 1,
+      "attachments": [
+        {
+          "file": "decoded-attachments/3-browser-problems.json",
+          "sha256": "3504d75e5465244b09aa52a458725ebc67bce4bfa99cb40d2880261c8b4ed970"
+        },
+        {
+          "file": "decoded-attachments/3-a11y.json",
+          "sha256": "64d2b5539ac9ed8d98b61d1b9beb17ee61963b34fe2696d64c4005f77304c044"
+        }
+      ],
+      "allowedBrowserMessages": [
+        {
+          "kind": "console",
+          "who": "asha",
+          "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+          "url": "http://127.0.0.1:21451/api/commands",
+          "allowedBecause": "The deliberately revoked assignment refuses this protected reschedule."
+        }
+      ],
+      "axeScans": 1
+    },
+    {
+      "case": 4,
+      "title": "direct anonymous and cross-organisation selectors cannot disclose a plan",
+      "status": "expected",
+      "attempts": 1,
+      "attachments": [
+        {
+          "file": "decoded-attachments/4-browser-problems.json",
+          "sha256": "341f8c152f22ff6f3a1f32ff98eab22de55a4c90a7e5675d33e2c4118e5c88e9"
+        },
+        {
+          "file": "decoded-attachments/4-a11y.json",
+          "sha256": "b077101f087664dc41247390415eca39c9a053dcd2eea120ea785093d0ef9fb0"
+        }
+      ],
+      "allowedBrowserMessages": [
+        {
+          "kind": "console",
+          "who": "anonymous",
+          "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+          "url": "http://127.0.0.1:21451/api/today?personId=p_meena",
+          "allowedBecause": "The deliberate anonymous/foreign-organisation read is refused before any household projection."
+        },
+        {
+          "kind": "console",
+          "who": "asha",
+          "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+          "url": "http://127.0.0.1:21451/api/today?personId=p_meena",
+          "allowedBecause": "The deliberate anonymous/foreign-organisation read is refused before any household projection."
+        }
+      ],
+      "axeScans": 1
+    },
+    {
+      "case": 5,
+      "title": "offline failure clears the plan without claiming that an unavailable read is empty",
+      "status": "expected",
+      "attempts": 1,
+      "attachments": [
+        {
+          "file": "decoded-attachments/5-browser-problems.json",
+          "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a"
+        },
+        {
+          "file": "decoded-attachments/5-a11y.json",
+          "sha256": "c0868ce7b7af70631104a093a02d5fe0baedc82ecd10797e467a8ef23b821222"
+        }
+      ],
+      "allowedBrowserMessages": [],
+      "axeScans": 1
+    },
+    {
+      "case": 6,
+      "title": "a lost committed reply stays uncertain until a read confirms the linked replacement, without resending",
+      "status": "expected",
+      "attempts": 1,
+      "attachments": [
+        {
+          "file": "decoded-attachments/6-actual-lost-reply-state.json",
+          "sha256": "ad731f20dcc35dd22b4bd201d53686c2adbc1fd3e773ed71b7e06b40a2b5a7e3"
+        },
+        {
+          "file": "decoded-attachments/6-browser-problems.json",
+          "sha256": "3b20ba41a470a30ae8b9d7f94143bd05abab175eee5ca773f46c44c67664acc3"
+        },
+        {
+          "file": "decoded-attachments/6-a11y.json",
+          "sha256": "fe58a937e8a6b07a1b69a39282f9adb1aadcbd702cc9c02fbd80ebd29b727731"
+        }
+      ],
+      "allowedBrowserMessages": [
+        {
+          "kind": "console",
+          "who": "asha",
+          "text": "Failed to load resource: net::ERR_CONNECTION_RESET",
+          "url": "http://127.0.0.1:21451/api/commands",
+          "allowedBecause": "This test deliberately drops only the real committed reschedule reply; the server request is not changed or retried."
+        }
+      ],
+      "axeScans": 1
+    },
+    {
+      "case": 7,
+      "title": "partially visible shared visits label only visible people and never expose hidden work or offer a change",
+      "status": "expected",
+      "attempts": 1,
+      "attachments": [
+        {
+          "file": "decoded-attachments/7-actual-partial-shared-scope-state.json",
+          "sha256": "8d1bec076d89f6c5d767e8094568828d817d675fccb65c2d5719df60282cfee6"
+        },
+        {
+          "file": "decoded-attachments/7-browser-problems.json",
+          "sha256": "f0aea880014c3da66b0d43d29475d0ee5c28a49edd56c698bfc286fb8f82345a"
+        },
+        {
+          "file": "decoded-attachments/7-a11y.json",
+          "sha256": "404aaf74b2ef8c5b93e516c007bb7d0c5cbd600c51b6407fadae935030c5e648"
+        }
+      ],
+      "allowedBrowserMessages": [],
+      "axeScans": 2
+    }
+  ],
+  "stats": {
+    "startTime": "2026-10-12T11:27:51.421Z",
+    "duration": 26361.114999999998,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "freshCompiledFilesActuallyRehashed": 290,
+  "originalFull26UIguardExecuted": false,
+  "actualSharedVisit": {
+    "twoVisibleRawCovers": 2,
+    "twoVisibleOutsideScopeCountFromAuthoritativeServer": 1,
+    "oneVisibleRawCovers": 1,
+    "oneVisibleOutsideScopeCountFromAuthoritativeServer": 2,
+    "noBrowserPOST": true,
+    "fourScopedTablesEqualWithinBothReadPhases": true,
+    "rawHiddenCountDisplayed": false,
+    "hiddenIdentitiesDisplayed": false,
+    "bothCanRescheduleFalse": true
+  },
+  "clinicalScope": "Selected-organisation full rows in patients/visits/households/command_receipts compared within each read phase. Explicit fixture assignment between phases changes patient and receipt; no across-phase equality claim. Audit/metric rows intentionally excluded because allowed reads are audited."
+}

@@ -1,3 +1,7 @@
+# Frontline follow-up candidate qualified locally; publication gate pending — 12 October 2026
+
+[Bounded source, evidence and remaining work](frontline-followup-20261012/README.md): SAHA-036/APL59 and ENG-BR-PROG-05/APL219 now expose Today planned follow-ups and explicit existing-slot rescheduling. Corrected source045 has genuine separate scoped review,33 helper groups, existing19+35 canonical checks,7 first-pass native browser cases and8 axe scans with0 violations; build/types/affectedlint pass. Only observed unit33 is appended to389 unchanged guards; originalUI min26/ninegoldens remain. Formal acceptance, full current-head CI, final metadata review/main integration and observed hosting remain pending. Clinical/physical/TC-J01 and original requirements/cases are not promoted. Main base22a is recorded; earlier dated evidence below is preserved unchanged.
+
 # Test strategy
 
 Since round 11 (3 October 2026) the layers, commands and CI tiers are described in [Testing Saha](TESTING.md); this page keeps the evidence rules.

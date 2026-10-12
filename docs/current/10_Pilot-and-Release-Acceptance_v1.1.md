@@ -1,3 +1,7 @@
+# Frontline follow-up candidate qualified locally; publication gate pending — 12 October 2026
+
+[Bounded source, evidence and remaining work](frontline-followup-20261012/README.md): SAHA-036/APL59 and ENG-BR-PROG-05/APL219 now expose Today planned follow-ups and explicit existing-slot rescheduling. Corrected source045 has genuine separate scoped review,33 helper groups, existing19+35 canonical checks,7 first-pass native browser cases and8 axe scans with0 violations; build/types/affectedlint pass. Only observed unit33 is appended to389 unchanged guards; originalUI min26/ninegoldens remain. Formal acceptance, full current-head CI, final metadata review/main integration and observed hosting remain pending. Clinical/physical/TC-J01 and original requirements/cases are not promoted. Main base22a is recorded; earlier dated evidence below is preserved unchanged.
+
 # Pilot and release acceptance
 
 No original gate is accepted and all 176 formal requirement decisions remain pending. R8–R11 supply synthetic rehearsal controls and evidence registers; a record in those registers is not real training, an institutional approval or a completed clinical pilot. The [original acceptance document](../reference/10_Pilot-and-Release-Acceptance_v1.0.md) retains the measurement definitions and full evidence requirements.

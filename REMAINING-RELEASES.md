@@ -1,3 +1,7 @@
+# Frontline follow-up candidate qualified locally; publication gate pending — 12 October 2026
+
+[Bounded source, evidence and remaining work](docs/current/frontline-followup-20261012/README.md): SAHA-036/APL59 and ENG-BR-PROG-05/APL219 now expose Today planned follow-ups and explicit existing-slot rescheduling. Corrected source045 has genuine separate scoped review,33 helper groups, existing19+35 canonical checks,7 first-pass native browser cases and8 axe scans with0 violations; build/types/affectedlint pass. Only observed unit33 is appended to389 unchanged guards; originalUI min26/ninegoldens remain. Formal acceptance, full current-head CI, final metadata review/main integration and observed hosting remain pending. Clinical/physical/TC-J01 and original requirements/cases are not promoted. Main base22a is recorded; earlier dated evidence below is preserved unchanged.
+
 # Remaining delivery plan after Release 11
 
 Five future engineering batches remain planned: R12–R16. R11 also retains open live-provider and clinical-validation work. Five is a planning estimate, not a guarantee of production completion or a claim that R11 is fully accepted. The BRD's R1/R2/R3 phases are different from these engineering release numbers. All 176 acceptance criteria remain pending. The R11 audit recorded 14 implemented-local, 134 partial, 19 not-built and 9 unverified requirements (after development slice 10g: 14, 151, 2 and 9); these labels are not percentages of completion.

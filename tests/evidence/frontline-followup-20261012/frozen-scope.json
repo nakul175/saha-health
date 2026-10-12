@@ -1,0 +1,37 @@
+{
+  "frozenAtUtc": "2026-10-12 10:39:50 UTC",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "tree": "de4c664f32333eb6a82c9744d54db55dc2fd78c5",
+  "story": "SAHA-036 / APL-59",
+  "task": "ENG-BR-PROG-05 / APL-219",
+  "branch": "feat/next50-frontline-followup-20261012",
+  "worktree": "work/saha-next50-followup-20261012",
+  "authority": "Human next50 development; root explicit phase1 read-only plus phase2 existing scoped reschedule. No release/criteria waiver.",
+  "ownedPaths": [
+    "app/follow-ups/*",
+    "app/today/today.tsx",
+    "lib/saha/frontline-followup.ts",
+    "tests/frontline-followup-contract.mjs",
+    "tests/ui/frontline-followup.spec.mjs"
+  ],
+  "port": 21451,
+  "phases": [
+    "Phase1: explicit Today record link to minimal assigned-person plans, own selected cover only; authoritative Today org/person binding, scoped household API, final current Today read before display; distinct no household/empty/refusal/unavailable states.",
+    "Phase2: existing canReschedule planned slot only; date/window proposal plus cancel/confirm, same household/person versions and covered references; no new supervisor approval/explanation policy. Shared eligible slot explicitly retains cover count; command server rechecks all covered persons. No blind write retries."
+  ],
+  "criteria": [
+    "C1 URL selectors and duplicate/malformed parameters confer no authority; server Today org/record match required.",
+    "C2 Only selected person's projected planned item titles/due/open state rendered; unrelated household names/content not rendered.",
+    "C3 Explicit absence only from valid household:null; missing/malformed plan is unavailable, never empty.",
+    "C4 Read errors, authority refusal/revocation, offline/hidden/pagehide clear protected content and invalidate pending reads; stale response cannot republish.",
+    "C5 Date/window proposal makes0POST; cancel and navigation before confirm leave slots/clinical/receipts unchanged.",
+    "C6 Confirm uses existing householdVisitReschedule, exact household/person versions, unique idempotency key, ordinary authoritative identity/scoping/audit; no added approval or mandatory explanation.",
+    "C7 Server success and linked replacement readback alone establish accepted plan; no local pending or lost response called accepted; no automatic retry.",
+    "C8 Stale household/person version refuses atomically, clear refresh path, old/replacement snapshots unchanged.",
+    "C9 Clinical due dates/owners/completion/entitlements and distinctreferrals unchanged; only slot/date/window/link/audit/receipt as existing command permits.",
+    "C10 Assigned/cross-org/other actor/purpose-off refusal real scopedserver response; no new DB/provider/clinicalpolicy/hiddenlegacy activation.",
+    "C11 Mobile390x844 keyboard/focus/labels/no sidewaysoverflow plus realAXE seriouscritical0; existing screenshotoracles untouched.",
+    "C12 Full389original guardobjects/criteria/minima unchanged; run fresh canonicalbuild/types affectedunit + realownedHTTP/browser; preservefailure/retry/skipped evidence and separate review."
+  ],
+  "limits": "Bounded software exposure/reuse increment, not full canonical scheduling/TC-J01/clinical privacy timing/formal UAT/whole-storyDone/hosting. Root metadata/PR/CI owner; no push before review."
+}

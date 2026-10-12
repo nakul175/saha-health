@@ -1,0 +1,181 @@
+{
+  "suite": "Frontline scoped follow-up projection and versioned proposal",
+  "layer": "unit",
+  "passed": 33,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T11:26:27.715Z",
+  "completedAt": "2026-10-12T11:26:27.753Z",
+  "environment": "Actual TypeScript helper, synthetic projection fixtures",
+  "limits": [
+    "Display/command construction checks; server authorization and real browser state are separately exercised."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "Exact selectors are accepted without granting authority",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Refuse missing organisation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Refuse duplicate person",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Refuse duplicate organisation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Refuse unknown selector",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Refuse empty selector",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Refuse unbounded selector",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit null household is distinct from empty visits",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing plan is unavailable, not empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing selected member refuses projection",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Mismatched household versions refuse projection",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Only the selected person’s planned item content is returned",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Source due date, overdue state, owner and open status survive unchanged",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Closed referenced work remains closed",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Valid empty planned list stays explicitly empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Duplicate slots refuse ambiguous projection",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Duplicate cover refuses ambiguous versions",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Projection leaves the input untouched",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Reschedule retains all covered person versions and the existing household version",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Noneligible slot cannot form a command",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown slot cannot form a command",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unchanged time cannot form a command",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Out of range and invalid dates refuse",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "Unknown window refuses without an invented timing policy",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Verified selected record projection excludes unrelated data",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "A different record cannot satisfy the URL selector",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "A missing record never becomes an empty identity",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Accepted result requires the same previous-slot link and a real replacement identifier",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Visible cover count is not inferred to be the total when other covers are outside scope",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "One visible covered person can still be a partially visible shared visit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "An all-visible slot has no outside-scope limitation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing outside-scope metadata is unavailable, not assumed to be zero",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid outside-scope metadata cannot fabricate a sharing claim",
+      "ok": true,
+      "ms": 0
+    }
+  ]
+}
