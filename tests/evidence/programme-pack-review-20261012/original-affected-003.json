@@ -1,0 +1,178 @@
+{
+  "generatedAt": "2026-10-12T18:51:09.810Z",
+  "startedAt": "2026-10-12T18:51:06.551Z",
+  "command": "node scripts/test.mjs unit --only unit/pack-installation-contract,unit/programme-migration-contract,unit/access-membership-contract,unit/access-audit-contract --fast --guard --report ../../outputs/saha-next50-20261012/programme-pack-review/original-affected-003.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 4,
+      "passed": 149,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3083,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 149,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 3259
+  },
+  "suites": [
+    {
+      "id": "unit/access-membership-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/access-membership-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1040,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/access-membership-contract-result.json"
+      ],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/unit__access-membership-contract.log"
+    },
+    {
+      "id": "unit/access-audit-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-access-audit-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 35,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 710,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__access-audit-contract.log"
+    },
+    {
+      "id": "unit/pack-installation-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-pack-installation-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 52,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 666,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__pack-installation-contract.log"
+    },
+    {
+      "id": "unit/programme-migration-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-programme-migration-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 32,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 667,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__programme-migration-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 4,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/verification-programme-root-integration/fixtures/access-audit-contract/access-audit-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/pack-installation-contract/pack-installation-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/programme-migration-contract/programme-migration-contract-result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/access-membership-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 638,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

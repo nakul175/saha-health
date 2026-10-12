@@ -1,0 +1,7 @@
+{
+  "originalPath": "types-001.log",
+  "encoding": "utf-8 lossless originalrawoutput",
+  "originalBytes": 1059,
+  "originalSha256": "1635936cb6285342652381832ea83abb3cba69dfdeb10337a5f5604a3df105ab",
+  "text": "app/programme-pack-review/programme-pack-review.tsx(35,193): error TS2345: Argument of type '{ id: string; version: number; reason: string; state: \"active\" | \"staged\" | \"approved\" | \"rejected\" | \"retired\"; history: { at: string; reason: string; state: \"active\" | \"staged\" | \"approved\" | \"rejected\" | \"retired\"; by: string; }[]; ... 8 more ...; retiredAt: string | null; }' is not assignable to parameter of type '{ id: string; name: string; version: number; state: \"active\" | \"staged\" | \"approved\" | \"rejected\" | \"retired\"; manifestHash: string; packId: string; }'.\n  Property 'name' is missing in type '{ id: string; version: number; reason: string; state: \"active\" | \"staged\" | \"approved\" | \"rejected\" | \"retired\"; history: { at: string; reason: string; state: \"active\" | \"staged\" | \"approved\" | \"rejected\" | \"retired\"; by: string; }[]; ... 8 more ...; retiredAt: string | null; }' but required in type '{ id: string; name: string; version: number; state: \"active\" | \"staged\" | \"approved\" | \"rejected\" | \"retired\"; manifestHash: string; packId: string; }'.\n"
+}
