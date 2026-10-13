@@ -207,6 +207,20 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
             archive=(ROOT/binding['archivedSource']).resolve()
             require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical phone-source preimage')
             path=archive
+        # Exact historical action-review test source, before the diagnostic-only
+        # timeout observer. The current test remains checked by the current
+        # application baseline; this archive preserves only the immutable
+        # evidence manifest's original source pin and never substitutes for a
+        # report, screenshot, assertion result, timeout, retry or minimum.
+        if str(manifest_path.relative_to(ROOT))=='tests/evidence/action-review-publication-20261012/manifest.json' and report=='tests/ui/plan-review.spec.mjs' and path.is_file() and digest(path)!=expected:
+            binding=read_json('docs/verification/evidence-source-snapshot-plan-review-observer-20261013.json')
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound historical plan-review manifest')
+            require(binding['sourcePath']==report and binding['originalManifestPin']=='sourcePins.tests/ui/plan-review.spec.mjs' and binding['originalSourceSha256']==expected and binding['originalSourceBytes']==meta.get('bytes'),'Unbound historical plan-review source pin')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current plan-review test source is not independently pinned by the current baseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical plan-review source preimage')
+            path=archive
         # Exact historical authorization-matrix source, before the additive action-review route.
         # This preserves original source bytes only; current execution/minima/reports remain in place.
         if str(manifest_path.relative_to(ROOT))=='tests/evidence/routine-current-source-integration-20261011/manifest.json' and report=='tests/nfr/authorisation-matrix-current.mjs' and path.is_file() and digest(path)!=expected:
