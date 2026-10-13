@@ -1,0 +1,168 @@
+{
+  "atUtc": "2026-10-13T05:37:26.915483+00:00",
+  "parent": "d444ebb15b90538f0f4c3fa8465a74412419f0fa",
+  "scope": "PR230 branch-local exact historical source binding plus new current baseline/evidence only. No new production/test/oracle changes beyond separately reviewed source checkpoint.",
+  "localAuthorization": {
+    "passed": 63,
+    "failed": 0,
+    "skipped": 0,
+    "originalMinimum": 59,
+    "source": "Committed actual-owned-001 report; not rerun for metadata"
+  },
+  "documentation": {
+    "status": "passed",
+    "scope": "Documentation integrity against the current baseline (application-deployment-evidence-auth-classification-bound-20261013-sha256.json); not product execution or formal acceptance",
+    "baselineSourceFiles": 1906,
+    "originalFiles": 91,
+    "originalArchiveEntries": 89,
+    "unchangedOfficeFiles": 12,
+    "requirements": 176,
+    "preservedTestCases": 364,
+    "historicalProductAssertions": 1284,
+    "sliceEvidenceAssertions": 844773,
+    "currentRelativeLinks": 954,
+    "generatedFiles": 38,
+    "wordReferences": 10,
+    "workbookSheets": 13,
+    "workbookFormulas": 380,
+    "formalAccepted": 0,
+    "testCases": 364,
+    "formalCatalogueCasesRun": 0,
+    "httpRoutes": 100,
+    "commandDiscriminators": 253,
+    "applicationTables": 60,
+    "sqlColumns": 475,
+    "designScreens": 22,
+    "currentNavigationEntries": 14,
+    "historicalAssertions": 1284,
+    "migrationFiles": 33,
+    "prototypeScriptPreserved": true
+  },
+  "requirements": {
+    "count": 176,
+    "exitCode": 0,
+    "formalAccepted": 0
+  },
+  "catalogue": {
+    "exitCode": 0,
+    "reportedSuites": 1000
+  },
+  "fiveActualRefusalsAndTwoCleanPasses": [
+    {
+      "name": "clean-before",
+      "exitCode": 0,
+      "stderr": "",
+      "stdoutSha256": "90f073d93bdad3a768f667bce2177e439bcbb8544bf04050faa236a0071fed38",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "specificExpectedDiagnosticVerified": false
+    },
+    {
+      "name": "current-source",
+      "exitCode": 1,
+      "stderr": "Changed baseline file: tests/nfr/authorisation-matrix-current.mjs\nCurrent authorization matrix is not independently pinned by the current baseline\n",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "51e07dfc29686ca6ac4f85b395918f4f491b895bf3c79844fccf39c84c3a4d85",
+      "specificExpectedDiagnosticVerified": true
+    },
+    {
+      "name": "historical-preimage",
+      "exitCode": 1,
+      "stderr": "Changed historical authorization-matrix preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr230-metadata-tamper-20261013/docs/verification/evidence-source-snapshots/deployment-evidence-matrix-3779f8a562c1.mjs.txt\n",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "3462ef1063a0a44bb69abc3ff99fc789cd6c83bfa3b91cb3c33dadc71fcf1c53",
+      "specificExpectedDiagnosticVerified": true
+    },
+    {
+      "name": "wrong-manifest-binding",
+      "exitCode": 1,
+      "stderr": "Unbound historical authorization-matrix manifest\n",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "5b0df6f4a408707282ebd6a3dcb717667ed3fda950dbe796236fe30fb9c33fd3",
+      "specificExpectedDiagnosticVerified": true
+    },
+    {
+      "name": "current-baseline-pin",
+      "exitCode": 1,
+      "stderr": "Changed baseline file: tests/nfr/authorisation-matrix-current.mjs\nCurrent authorization matrix is not independently pinned by the current baseline\n",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "51e07dfc29686ca6ac4f85b395918f4f491b895bf3c79844fccf39c84c3a4d85",
+      "specificExpectedDiagnosticVerified": true
+    },
+    {
+      "name": "original-report-in-place",
+      "exitCode": 1,
+      "stderr": "Changed slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr230-metadata-tamper-20261013/tests/evidence/routine-current-source-integration-20261011/actual-unit47-summary.json\n",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "4c4eaa69df65ef07ae90621af09c88f5f1cf1de191e574760b099db3c2c0a072",
+      "specificExpectedDiagnosticVerified": true
+    },
+    {
+      "name": "clean-after",
+      "exitCode": 0,
+      "stderr": "",
+      "stdoutSha256": "90f073d93bdad3a768f667bce2177e439bcbb8544bf04050faa236a0071fed38",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "specificExpectedDiagnosticVerified": false
+    }
+  ],
+  "controlResultSha256": "300604b0d45932cda7d3698beb724aa7c441c08669fe6087cedf94ff56559dc3",
+  "controlTrackedSourceCount": 17046,
+  "controlAllBeforeAfterEqual": true,
+  "unchangedParentProof": {
+    "tests/nfr/authorisation-matrix-current.mjs": {
+      "sha256": "e6d2470264d808d84aeb3ba222b94318cf08e37950764ca8b6773689df35d488",
+      "bytes": 46462,
+      "exactToParent": true
+    },
+    "tests/nfr/authorisation-matrix.mjs": {
+      "sha256": "cf8f1a93f3c462747f5731a48274937bfc9384a0867048004fef391b22f2abcf",
+      "bytes": 43197,
+      "exactToParent": true
+    },
+    "tests/evidence/routine-current-source-integration-20261011/manifest.json": {
+      "sha256": "9c700f935ec08bc8d55766f8e72a6f4190ed54c03abaf190f336abb03149f017",
+      "bytes": 3549,
+      "exactToParent": true
+    },
+    "tests/regression-baseline.json": {
+      "sha256": "e6b2e5593cce96eac003c4d985eb2916b65d9fa6601f85dc8e0669bbd14079f0",
+      "bytes": 65657,
+      "exactToParent": true
+    },
+    "requirements/brd-v1.1.json": {
+      "sha256": "42fcf897de33604511fcc385a22670047fba1dad6bb6be0302c421dad8b861a5",
+      "bytes": 102234,
+      "exactToParent": true
+    },
+    "docs/current/TEST-CATALOGUE.csv": {
+      "sha256": "a705c06694aa7d049f46d5f6f55fe35cc6d2d91fb2b25e1929fdbf2c034455a0",
+      "bytes": 474704,
+      "exactToParent": true
+    },
+    "docs/verification/evidence-source-snapshots.json": {
+      "sha256": "6a80f3e96b69724dbe7d6711358b520cedd0f55ec22358ec379a42d4a0172538",
+      "bytes": 565,
+      "exactToParent": true
+    }
+  },
+  "original389CanonicalSha256": "b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96",
+  "currentRegistryCount": 391,
+  "bindingExactPair": {
+    "manifest": "tests/evidence/routine-current-source-integration-20261011/manifest.json",
+    "path": "tests/nfr/authorisation-matrix-current.mjs"
+  },
+  "retainedFailures": [
+    "Genuine prior CI62/1",
+    "Original source minimum assumption refused before runtime",
+    "Initial metadata clean-status observer incorrectly ran after own evidence file creation",
+    "First metadata integrity check refused old current-matrix pin; first new manifest preserved",
+    "Tamper RESULT first summary omitted stderr text; exact raw stderr and explicit expected-diagnostic readback retained here"
+  ],
+  "limits": [
+    "Root independent final metadata review required",
+    "No push performed",
+    "Fresh published exact-head configured CI required",
+    "No staging/deployment/whole-story/human/domain acceptance claim",
+    "Static controls only; no extra native/build/provider execution"
+  ]
+}

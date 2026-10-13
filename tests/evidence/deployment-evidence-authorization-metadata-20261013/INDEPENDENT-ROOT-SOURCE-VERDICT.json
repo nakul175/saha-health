@@ -1,0 +1,27 @@
+{
+  "reviewedAtUtc": "2026-10-13T05:33:00Z",
+  "reviewerRole": "root independent source reviewer",
+  "verdict": "PASS",
+  "reviewedCommit": "d444ebb15b90538f0f4c3fa8465a74412419f0fa",
+  "parentCommit": "d7bd8fc206a35ba01545839857ed199658fad255",
+  "scope": "Classify the new read-only deployment evidence review route in the active authorization matrix",
+  "findings": {
+    "runtimeSourceChange": "One route added to the active bare/no-resource authorization list",
+    "productionSourceChanged": false,
+    "criteriaOrMinimaChanged": false,
+    "existingBaselineChanged": false,
+    "existingBaselineSha256": "e6b2e559",
+    "localAuthorizationChecks": 63,
+    "localAuthorizationFailures": 0,
+    "ownerStatus": 200,
+    "anonymousStatus": 401,
+    "otherRoleStatuses": "six roles returned 403",
+    "minimumPassedPreserved": 59,
+    "sourceCustody": "PASS"
+  },
+  "limits": [
+    "This is source-review approval for preparing branch-local verification metadata and publishing to existing draft PR230.",
+    "It is not GitHub approval, whole-story acceptance, merge approval, or deployment evidence.",
+    "Fresh exact-head CI is required after the baseline is bound."
+  ]
+}
