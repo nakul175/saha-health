@@ -1,0 +1,117 @@
+[
+  {
+    "type": "before",
+    "callId": "expect@77",
+    "stepId": "expect@77",
+    "startTime": 242655.932,
+    "class": "Test",
+    "method": "expect",
+    "title": "Expect \"toContainText\"",
+    "params": {
+      "expected": "saved"
+    },
+    "stack": [
+      {
+        "file": "/home/runner/work/saha-health/saha-health/tests/ui/routine-conflict.spec.mjs",
+        "line": 25,
+        "column": 2171
+      }
+    ]
+  },
+  {
+    "type": "after",
+    "callId": "expect@77",
+    "endTime": 242667.251,
+    "annotations": []
+  },
+  {
+    "type": "before",
+    "callId": "expect@86",
+    "stepId": "expect@86",
+    "startTime": 242862.169,
+    "class": "Test",
+    "method": "expect",
+    "title": "Expect \"toBe\"",
+    "params": {
+      "expected": "128"
+    },
+    "stack": [
+      {
+        "file": "/home/runner/work/saha-health/saha-health/tests/ui/routine-conflict.spec.mjs",
+        "line": 25,
+        "column": 2644
+      }
+    ]
+  },
+  {
+    "type": "after",
+    "callId": "expect@86",
+    "endTime": 242865.162,
+    "annotations": [],
+    "error": {
+      "name": "",
+      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m128\u001b[39m\nReceived: \u001b[31m127\u001b[39m",
+      "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m128\u001b[39m\nReceived: \u001b[31m127\u001b[39m\n    at /home/runner/work/saha-health/saha-health/tests/ui/routine-conflict.spec.mjs:25:2644"
+    }
+  },
+  {
+    "type": "before",
+    "callId": "call@93",
+    "startTime": 242656.879,
+    "title": "Expect \"toContainText\"",
+    "class": "Frame",
+    "method": "expect",
+    "params": {
+      "selector": "main.routine-visit > p[role=status]",
+      "expression": "to.have.text",
+      "expectedText": [
+        {
+          "string": "saved",
+          "matchSubstring": true,
+          "normalizeWhiteSpace": true
+        }
+      ],
+      "expectedValue": {
+        "value": {
+          "v": "undefined"
+        },
+        "handles": []
+      },
+      "isNot": false,
+      "timeout": 10000
+    },
+    "stepId": "expect@77",
+    "pageId": "page@c92891ca12453bca807675867620466f",
+    "beforeSnapshot": "before@call@93"
+  },
+  {
+    "type": "log",
+    "callId": "call@93",
+    "time": 242660.071,
+    "message": "Expect \"toContainText\" with timeout 10000ms"
+  },
+  {
+    "type": "log",
+    "callId": "call@93",
+    "time": 242660.085,
+    "message": "waiting for locator('main.routine-visit > p[role=status]')"
+  },
+  {
+    "type": "log",
+    "callId": "call@93",
+    "time": 242664.94,
+    "message": "  locator resolved to <p role=\"status\">Reviewed choices are still unsaved. Use Save obse\u2026</p>"
+  },
+  {
+    "type": "after",
+    "callId": "call@93",
+    "endTime": 242665.014,
+    "result": {
+      "matches": true,
+      "received": {
+        "s": "Reviewed choices are still unsaved. Use Save observations explicitly to commit the current draft version."
+      }
+    },
+    "afterSnapshot": "after@call@93"
+  }
+]

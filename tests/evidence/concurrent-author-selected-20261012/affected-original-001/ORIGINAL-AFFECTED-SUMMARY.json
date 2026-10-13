@@ -1,0 +1,166 @@
+{
+  "generatedAt": "2026-10-12T18:39:00.776Z",
+  "startedAt": "2026-10-12T18:38:45.178Z",
+  "command": "node scripts/test.mjs integration smoke --only integration/routine-attempt-browser,integration/routine-authority-http,smoke/routine-visit-browser --fast --guard --report /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/concurrent-edits/effective-author-composition/affected-original-001/ORIGINAL-AFFECTED-SUMMARY.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 2,
+      "passed": 342,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8325,
+      "failedSuites": 0
+    },
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 1,
+      "passed": 244,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 7078,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 586,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 15598
+  },
+  "suites": [
+    {
+      "id": "integration/routine-attempt-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration/routine-attempt-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 97,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5606,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/routine-attempt-browser-result.json"
+      ],
+      "requirementsCited": 8,
+      "reason": null,
+      "log": "tests/reports/logs/integration__routine-attempt-browser.log"
+    },
+    {
+      "id": "integration/routine-authority-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration/routine-authority-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 245,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2719,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/routine-authority-http-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": null,
+      "log": "tests/reports/logs/integration__routine-authority-http.log"
+    },
+    {
+      "id": "smoke/routine-visit-browser",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/routine-visit-native-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 244,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 7078,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 11,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__routine-visit-browser.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 3,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 213,
+        "components": 0,
+        "suitesCitingNoRequirement": 69,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 7,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 14,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 98,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 638,
+    "componentsCitingNoRequirement": 22,
+    "requirementsCitedBySomeTest": 157
+  }
+}

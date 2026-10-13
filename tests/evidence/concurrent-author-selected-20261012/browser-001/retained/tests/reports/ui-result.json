@@ -1,0 +1,134 @@
+{
+  "suite": "UI journeys, screenshot regression and accessibility (Playwright, Chromium)",
+  "layer": "ui",
+  "passed": 10,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T18:37:31.487Z",
+  "completedAt": "2026-10-12T18:37:47.931Z",
+  "durationMs": 16444,
+  "environment": "local built Worker, local D1, synthetic data, headless Chromium (Playwright 1.56.1), axe-core 4.13.0",
+  "limits": [
+    "Desktop 1280x720 and phone 390x844 viewports in Chromium only; no Firefox or WebKit, no real phone, no screen reader.",
+    "Screenshot baselines were rendered on one machine; fonts on another host (for example GitHub ubuntu runners) can differ. Regenerate with --update-snapshots.",
+    "Axe finds a subset of accessibility failures; the Hindi text is a draft translation and no Devanagari font is installed on the machine that made the baselines, so no Hindi screenshot is compared."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "desktop · routine-conflict.spec.mjs › two current clients preserve both edits on409 and commit only explicit reviewed grouped choices",
+      "ok": true,
+      "ms": 1972
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › a saved version changed after review blocks adoption without erasing local inputs",
+      "ok": true,
+      "ms": 814
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › revoked authority clears protected comparison and restored original account recovers private edits",
+      "ok": true,
+      "ms": 6643
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › programme-scope restriction refuses adoption without new clinical writes",
+      "ok": true,
+      "ms": 666
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › failed comparison read keeps local edits and never substitutes an empty saved record",
+      "ok": true,
+      "ms": 567
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › staged programme entries block observations-only adoption and survive cancellation",
+      "ok": true,
+      "ms": 1105
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › uncertain committed save still requires original exact-key recovery and blocks adoption",
+      "ok": true,
+      "ms": 1091
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › hiding an active comparison invalidates a pending fresh response without restoring protected content",
+      "ok": true,
+      "ms": 757
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › editing an unchanged comparison invalidates old affirmation while preserving the original guided editor",
+      "ok": true,
+      "ms": 1615
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › first pending Compare GET cannot render protected data after a hidden event",
+      "ok": true,
+      "ms": 744
+    }
+  ],
+  "flaky": [],
+  "projects": [
+    "desktop",
+    "phone"
+  ],
+  "workers": 1,
+  "retries": 1,
+  "screenshotBaselines": 9,
+  "accessibility": {
+    "screensScanned": 3,
+    "violationsFound": 0,
+    "blocking": 0,
+    "violations": []
+  },
+  "browserMessagesAllowed": [
+    {
+      "test": "desktop · routine-conflict.spec.mjs › two current clients preserve both edits on409 and commit only explicit reviewed grouped choices",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+      "url": "http://127.0.0.1:21471/api/routine-visit",
+      "allowedBecause": "Deliberate old-version save refuses atomically before comparison."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › revoked authority clears protected comparison and restored original account recovers private edits",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "http://127.0.0.1:21471/api/routine-visit?personId=p_meena&visitId=1a2b7cdc-d909-4d9e-adc0-8dc6c4dbb925",
+      "allowedBecause": "Deliberate membership suspension refuses the final fresh read and private recovery."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › revoked authority clears protected comparison and restored original account recovers private edits",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "http://127.0.0.1:21471/api/routine-visit?personId=p_meena&visitId=1a2b7cdc-d909-4d9e-adc0-8dc6c4dbb925",
+      "allowedBecause": "Deliberate membership suspension refuses the final fresh read and private recovery."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › programme-scope restriction refuses adoption without new clinical writes",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:21471/api/routine-visit?personId=p_meena&visitId=553036e6-2e90-4ea4-a477-5ccb3ed95dd9",
+      "allowedBecause": "Deliberate narrowed programme scope returns the original non-enumerating404 for this no-longer-visible record."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › failed comparison read keeps local edits and never substitutes an empty saved record",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "url": "http://127.0.0.1:21471/api/routine-visit?personId=p_meena&visitId=a36be1bb-e5fa-4af2-b6de-15ad56cac323",
+      "allowedBecause": "One deliberate local comparison GET transport failure; no response substitution."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › uncertain committed save still requires original exact-key recovery and blocks adoption",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "url": "http://127.0.0.1:21471/api/routine-visit",
+      "allowedBecause": "One actual committed local save response deliberately lost before browser receipt; no replacement or automatic retry."
+    }
+  ],
+  "playwrightStatus": "passed"
+}

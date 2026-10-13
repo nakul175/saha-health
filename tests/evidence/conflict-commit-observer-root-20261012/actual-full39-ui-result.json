@@ -1,0 +1,321 @@
+{
+  "suite": "UI journeys, screenshot regression and accessibility (Playwright, Chromium)",
+  "layer": "ui",
+  "passed": 38,
+  "failed": 1,
+  "skipped": 0,
+  "startedAt": "2026-10-12T19:46:45.681Z",
+  "completedAt": "2026-10-12T19:50:24.639Z",
+  "durationMs": 218957,
+  "environment": "local built Worker, local D1, synthetic data, headless Chromium (Playwright 1.56.1), axe-core 4.13.0",
+  "limits": [
+    "Desktop 1280x720 and phone 390x844 viewports in Chromium only; no Firefox or WebKit, no real phone, no screen reader.",
+    "Screenshot baselines were rendered on one machine; fonts on another host (for example GitHub ubuntu runners) can differ. Regenerate with --update-snapshots.",
+    "Axe finds a subset of accessibility failures; the Hindi text is a draft translation and no Devanagari font is installed on the machine that made the baselines, so no Hindi screenshot is compared."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "desktop · asha-visit.spec.mjs › ASHA visit with a danger sign: assistant, urgent finding, confirmation, programme plan and receipts",
+      "ok": false,
+      "ms": 57756,
+      "retries": 0,
+      "error": "Error: expect(locator).toHaveScreenshot(expected) failed\n\nLocator: locator('.receipt-row').filter({ hasText: 'Community health MIS' })\n  2973 pixels (ratio 0.03 of all image pixels) are different.\n\n  Snapshot: receipt-uncertain.png\n\nCall log:\n  - Expect \"toHaveScreenshot(receipt-uncertain.png)\" with timeout 10000ms\n    - verifying given screenshot expectation\n  - waiting for locator('.receipt-row').filter({ hasText: 'Community health MIS' })\n    - locator resolved to <div class=\"receipt-row\">…</div>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - 2973 pixels (ratio 0.03 of all image pixels) are different.\n  - waiting 100ms before taking screenshot\n  - waiting for locator('.receipt-row').filter({ hasText: 'Community health MIS' })\n    - locator resolved to <div class=\"receipt-row\">…</div>\n  - taking element screenshot\n    - disabled all CSS animations\n  - waiting for fonts to load...\n  - fonts loaded\n  - attempting scroll into view action\n    - waiting for element to be stable\n  - captured a stable screenshot\n  - 2973 pixels (ratio 0.03 of all image pixels) are different.\n"
+    },
+    {
+      "label": "desktop · confirm-correct-hindi.spec.mjs › visit confirmation and the correction dialogs pass axe at desktop and phone widths",
+      "ok": true,
+      "ms": 47505
+    },
+    {
+      "label": "desktop · confirm-correct-hindi.spec.mjs › Hindi workspace screens pass axe at desktop and phone widths",
+      "ok": true,
+      "ms": 6296
+    },
+    {
+      "label": "desktop · confirm-correct-hindi.spec.mjs › visible Hindi phone Action-plan Refresh retains contrast when the scoped read completes",
+      "ok": true,
+      "ms": 11854
+    },
+    {
+      "label": "desktop · errors.spec.mjs › a stranger who opens another organisation is refused, with no patient data and no crash",
+      "ok": true,
+      "ms": 1228
+    },
+    {
+      "label": "desktop · errors.spec.mjs › an invitation code that does not exist is refused with a clear message",
+      "ok": true,
+      "ms": 5650
+    },
+    {
+      "label": "desktop · errors.spec.mjs › an address that is not a page shows a not-found page",
+      "ok": true,
+      "ms": 990
+    },
+    {
+      "label": "desktop · frontline-sandbox.spec.mjs › frontline reader: third-party model code runs in an opaque-origin frame that cannot reach Saha",
+      "ok": true,
+      "ms": 88
+    },
+    {
+      "label": "desktop · governance.spec.mjs › owner sees the demonstration protocols and the source library",
+      "ok": true,
+      "ms": 2251
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › the axe scan fails on inaccessible markup",
+      "ok": true,
+      "ms": 1008
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › an uncaught page error fails the journey",
+      "ok": true,
+      "ms": 268
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › a console error fails the journey",
+      "ok": true,
+      "ms": 72
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › an HTTP 5xx answer fails the journey",
+      "ok": true,
+      "ms": 271
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › an allow-list entry that does not match does not hide the message",
+      "ok": true,
+      "ms": 71
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks that must pass › an allow-list entry with a reason lets exactly that message through, and it is listed",
+      "ok": true,
+      "ms": 271
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks that must pass › screenshot masks hide dates, receipt numbers and codes; unmasked, the same page differs",
+      "ok": true,
+      "ms": 205
+    },
+    {
+      "label": "desktop · hindi.spec.mjs › Hindi: My work shows Hindi text with lang=\"hi\", the choice is saved, and English comes back",
+      "ok": true,
+      "ms": 6185
+    },
+    {
+      "label": "desktop · owner-setup.spec.mjs › owner sets a name, invites an ASHA by account code and assigns one person; the ASHA sees only that person",
+      "ok": true,
+      "ms": 13674
+    },
+    {
+      "label": "desktop · roles-safe-cohort-positive.spec.mjs › supervisor sees the destination-uncertain alert for six distinct authorised demo contributors",
+      "ok": true,
+      "ms": 2223
+    },
+    {
+      "label": "desktop · roles.spec.mjs › supervisor sees Operations and alerts and no administration menus; an ASHA menu is care work only",
+      "ok": true,
+      "ms": 3012
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › two current clients preserve both edits on409 and commit only explicit reviewed grouped choices",
+      "ok": true,
+      "ms": 2028
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › a saved version changed after review blocks adoption without erasing local inputs",
+      "ok": true,
+      "ms": 816
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › revoked authority clears protected comparison and restored original account recovers private edits",
+      "ok": true,
+      "ms": 6710
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › programme-scope restriction refuses adoption without new clinical writes",
+      "ok": true,
+      "ms": 696
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › failed comparison read keeps local edits and never substitutes an empty saved record",
+      "ok": true,
+      "ms": 620
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › staged programme entries block observations-only adoption and survive cancellation",
+      "ok": true,
+      "ms": 1134
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › uncertain committed save still requires original exact-key recovery and blocks adoption",
+      "ok": true,
+      "ms": 1106
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › hiding an active comparison invalidates a pending fresh response without restoring protected content",
+      "ok": true,
+      "ms": 817
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › editing an unchanged comparison invalidates old affirmation while preserving the original guided editor",
+      "ok": true,
+      "ms": 1663
+    },
+    {
+      "label": "desktop · routine-conflict.spec.mjs › first pending Compare GET cannot render protected data after a hidden event",
+      "ok": true,
+      "ms": 811
+    },
+    {
+      "label": "desktop · voice.spec.mjs › voice input: the browser speech service only after the notice; a number from speech; words added after notes; nothing saved until Save draft",
+      "ok": true,
+      "ms": 7352
+    },
+    {
+      "label": "desktop · voice.spec.mjs › voice input: with the browser speech service off and no on-device speech, the microphone says so and never listens",
+      "ok": true,
+      "ms": 381
+    },
+    {
+      "label": "desktop · voice.spec.mjs › voice input: on-device speech needs no setting and no notice; Hindi is offered; it works inside a dialog",
+      "ok": true,
+      "ms": 1823
+    },
+    {
+      "label": "phone · app-first-phone.spec.mjs › app-first: tabs distinguish device sync, receipts and preserved visit review",
+      "ok": true,
+      "ms": 2026
+    },
+    {
+      "label": "phone · phone.spec.mjs › phone: the visit list and the visit form are usable at 390x844 with no sideways scroll",
+      "ok": true,
+      "ms": 7268
+    },
+    {
+      "label": "phone · phone.spec.mjs › phone: the clinical review, the review step and the receipts of a sent visit also fit the width",
+      "ok": true,
+      "ms": 11804
+    },
+    {
+      "label": "phone · voice.spec.mjs › voice input: the browser speech service only after the notice; a number from speech; words added after notes; nothing saved until Save draft",
+      "ok": true,
+      "ms": 7291
+    },
+    {
+      "label": "phone · voice.spec.mjs › voice input: with the browser speech service off and no on-device speech, the microphone says so and never listens",
+      "ok": true,
+      "ms": 364
+    },
+    {
+      "label": "phone · voice.spec.mjs › voice input: on-device speech needs no setting and no notice; Hindi is offered; it works inside a dialog",
+      "ok": true,
+      "ms": 1819
+    }
+  ],
+  "flaky": [],
+  "projects": [
+    "desktop",
+    "phone"
+  ],
+  "workers": 1,
+  "retries": 0,
+  "screenshotBaselines": 9,
+  "accessibility": {
+    "screensScanned": 48,
+    "violationsFound": 0,
+    "blocking": 0,
+    "violations": []
+  },
+  "browserMessagesAllowed": [
+    {
+      "test": "desktop · errors.spec.mjs › a stranger who opens another organisation is refused, with no patient data and no crash",
+      "kind": "console",
+      "who": "stranger",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "http://127.0.0.1:21881/api/workspace",
+      "allowedBecause": "the refusal under test: the server answers 403 for an organisation this account does not belong to"
+    },
+    {
+      "test": "desktop · errors.spec.mjs › a stranger who opens another organisation is refused, with no patient data and no crash",
+      "kind": "console",
+      "who": "stranger",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "http://127.0.0.1:21881/api/workspace",
+      "allowedBecause": "the refusal under test: the server answers 403 for an organisation this account does not belong to"
+    },
+    {
+      "test": "desktop · errors.spec.mjs › an invitation code that does not exist is refused with a clear message",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:21881/api/commands",
+      "allowedBecause": "the refusal under test: an unknown invitation code answers 404"
+    },
+    {
+      "test": "desktop · errors.spec.mjs › an address that is not a page shows a not-found page",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:21881/does-not-exist",
+      "allowedBecause": "the refusal under test: an unknown address answers 404"
+    },
+    {
+      "test": "desktop · harness.spec.mjs › the checks that must pass › an allow-list entry with a reason lets exactly that message through, and it is listed",
+      "kind": "console",
+      "who": "anonymous",
+      "text": "harness: known harmless message",
+      "url": "",
+      "allowedBecause": "harness: proves the allow-list works and is recorded"
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › two current clients preserve both edits on409 and commit only explicit reviewed grouped choices",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+      "url": "http://127.0.0.1:21881/api/routine-visit",
+      "allowedBecause": "Deliberate old-version save refuses atomically before comparison."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › revoked authority clears protected comparison and restored original account recovers private edits",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "http://127.0.0.1:21881/api/routine-visit?personId=p_meena&visitId=5ef57f95-fa88-4a9c-b1f6-dc1807211b89",
+      "allowedBecause": "Deliberate membership suspension refuses the final fresh read and private recovery."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › revoked authority clears protected comparison and restored original account recovers private edits",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "http://127.0.0.1:21881/api/routine-visit?personId=p_meena&visitId=5ef57f95-fa88-4a9c-b1f6-dc1807211b89",
+      "allowedBecause": "Deliberate membership suspension refuses the final fresh read and private recovery."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › programme-scope restriction refuses adoption without new clinical writes",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:21881/api/routine-visit?personId=p_meena&visitId=28d9bfd6-2167-4899-ada8-e449bf497ce6",
+      "allowedBecause": "Deliberate narrowed programme scope returns the original non-enumerating404 for this no-longer-visible record."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › failed comparison read keeps local edits and never substitutes an empty saved record",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "url": "http://127.0.0.1:21881/api/routine-visit?personId=p_meena&visitId=ab32eceb-a6e0-4034-b201-0c21cb543096",
+      "allowedBecause": "One deliberate local comparison GET transport failure; no response substitution."
+    },
+    {
+      "test": "desktop · routine-conflict.spec.mjs › uncertain committed save still requires original exact-key recovery and blocks adoption",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: net::ERR_FAILED",
+      "url": "http://127.0.0.1:21881/api/routine-visit",
+      "allowedBecause": "One actual committed local save response deliberately lost before browser receipt; no replacement or automatic retry."
+    }
+  ],
+  "playwrightStatus": "failed"
+}
