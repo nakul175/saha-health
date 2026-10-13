@@ -1,0 +1,138 @@
+{
+  "effectiveAt": "2026-10-13T03:57:00.342Z",
+  "integration": {
+    "id": "b5baa830-1cea-459e-8a5c-236352890c32",
+    "name": "Synthetic weight destination",
+    "description": "Inert synthetic original profile only, no remote request or credential.",
+    "kind": "mis",
+    "mode": "http",
+    "status": "active",
+    "version": 2,
+    "endpoint": "https://example.invalid/synthetic-programme",
+    "credentialBinding": "SAHA_MIS_TEST",
+    "programmes": [
+      "General care"
+    ],
+    "capability": "generic",
+    "mis": {
+      "contract": "saha-mis-v1",
+      "mapping": [
+        {
+          "source": "weight",
+          "target": "mass",
+          "required": true
+        }
+      ],
+      "corrections": false,
+      "test": {
+        "ok": true,
+        "version": 2,
+        "at": "2026-10-13T03:56:52.234Z",
+        "message": "Recorded controlled synthetic profile; not an actual partner test or activation approval."
+      },
+      "lifecycle": {
+        "version": 3,
+        "currentId": "fcbfd45d-5b95-41db-87b0-64625b5825ad",
+        "revisions": [
+          {
+            "id": "fcbfd45d-5b95-41db-87b0-64625b5825ad",
+            "hash": "963fc1c89e78c082029403495f8baddeb53cf7a8136f85e84948dba3e228ba31",
+            "manifest": {
+              "mapping": [
+                {
+                  "source": "weight",
+                  "target": "mass",
+                  "required": true
+                }
+              ],
+              "programmes": [
+                "General care"
+              ],
+              "corrections": false,
+              "source": {
+                "reference": "legacy-unreviewed",
+                "version": "untracked"
+              },
+              "terminology": [],
+              "effectiveAt": "2026-10-13T03:56:52.348Z"
+            },
+            "createdAt": "2026-10-13T03:56:52.348Z",
+            "by": "t-9e3c0ce2-selective-owner",
+            "baseline": true
+          },
+          {
+            "id": "3c1cf61c-b6c0-4b75-9f0a-f7ba398aeac5",
+            "hash": "07b1839a7de4f2a6e2db2ed79a81c88fa23cb471d0600c842aacb6a50f264893",
+            "manifest": {
+              "mapping": [
+                {
+                  "source": "weight",
+                  "target": "newMass",
+                  "required": true
+                }
+              ],
+              "programmes": [
+                "General care"
+              ],
+              "corrections": false,
+              "source": {
+                "reference": "SYNTHETIC-BOUNDARY-REVIEW",
+                "version": "1"
+              },
+              "terminology": [],
+              "effectiveAt": "2026-10-13T03:57:00.342Z"
+            },
+            "createdAt": "2026-10-13T03:56:52.348Z",
+            "by": "t-9e3c0ce2-selective-owner"
+          }
+        ],
+        "events": [
+          {
+            "action": "draft",
+            "revisionId": "3c1cf61c-b6c0-4b75-9f0a-f7ba398aeac5",
+            "at": "2026-10-13T03:56:52.348Z",
+            "by": "t-9e3c0ce2-selective-owner"
+          },
+          {
+            "action": "impact",
+            "revisionId": "3c1cf61c-b6c0-4b75-9f0a-f7ba398aeac5",
+            "at": "2026-10-13T03:56:52.361Z",
+            "by": "t-9e3c0ce2-selective-owner",
+            "impactHash": "0c37331fe656ab460d6ede20c147b263957a28c41b7ebb98c25aec4b408ac4d8",
+            "counts": {
+              "unsent": 0,
+              "changed": 0,
+              "unmappable": 0,
+              "pendingPlans": 0,
+              "changedPlans": 0,
+              "lookupOnly": 0,
+              "terminalPreserved": 0,
+              "deprecated": 0,
+              "ambiguous": 0
+            }
+          },
+          {
+            "action": "review",
+            "revisionId": "3c1cf61c-b6c0-4b75-9f0a-f7ba398aeac5",
+            "at": "2026-10-13T03:56:52.374Z",
+            "by": "t-9e3c0ce2-selective-owner",
+            "impactHash": "0c37331fe656ab460d6ede20c147b263957a28c41b7ebb98c25aec4b408ac4d8",
+            "counts": {
+              "unsent": 0,
+              "changed": 0,
+              "unmappable": 0,
+              "pendingPlans": 0,
+              "changedPlans": 0,
+              "lookupOnly": 0,
+              "terminalPreserved": 0,
+              "deprecated": 0,
+              "ambiguous": 0
+            }
+          }
+        ],
+        "pendingId": "3c1cf61c-b6c0-4b75-9f0a-f7ba398aeac5"
+      }
+    }
+  },
+  "limits": "Genuine original owner draft/impact/syntheticreview command receipts, no mappingapply/activation/provider/clinicalapproval."
+}

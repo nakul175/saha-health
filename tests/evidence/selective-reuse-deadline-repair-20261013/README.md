@@ -1,0 +1,11 @@
+# Selective reuse — mapping deadline and metadata oracle repair
+
+Narrow successor to immutable 7cd3d669 and its genuine independent HOLD. All77 old author artifacts, original38pure/49native controls,103guarded assertions,389baseline records and both exact counterexamples are retained. No prior verdict is relabelled.
+
+The permitted preview takes the earliest original assignment and actually blocking original mapping effective time. It evaluates unchanged assertMappingEffective, including at the future recorded time, so an ordinary unreviewed draft creates no new restriction. The final server clock guard runs synchronously after the last awaited raw proof. The existing timer clears protected values at the known review deadline.
+
+The default metadata privacy oracle checks the exact allowed structure instead of searching every string for number55. A valid past encounter timestamp with minute55 remains permitted metadata with no selected payload. Original privacy coverage is preserved and strengthened.
+
+Actual44pure/57native/103original pass; all original check names retained, no skipped cases. Fresh build/types/packagedtypes/catalogue/lint ratchet pass, retaining1392 inherited errors and627warnings. Actual original owner draft/impact/syntheticreview creates a future mapping deadline, phone clears old values naturally, freshdueGET withholds mappedfields/receiptcomparison, originalcancel restoresfreshreview without resend. Actual read phase clinical/receipt rows stay stable; setup commands are separate. AXE0, source/compiled custody and owned21881 disposal/free receipts retained. Defaultps EPERM and a later packaging hash-argument failure are preserved; no runtime or failingmanifest is relabelled.
+
+The reviewer of7cd authored this correction: a different reviewer/root must review the successor. Synthetic mapping review is not clinical/domain/partner approval. No forced expiry inside the final database await was measured; final synchronous placement/equality control are separate source/pure evidence. No new prepare/approve/send/model/provider/policy, currentheadCI, merge, deployment or full-story acceptance is claimed. Logs retain exactbytes through hash/count/text wrappers; compiled archive stays outsideGit. Historical preimages end .txt.

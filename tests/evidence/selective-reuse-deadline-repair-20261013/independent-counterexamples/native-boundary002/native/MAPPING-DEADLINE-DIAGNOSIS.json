@@ -1,0 +1,672 @@
+{
+  "atUtc": "2026-10-13T03:57:00.504Z",
+  "effectiveAt": "2026-10-13T03:57:00.342Z",
+  "displayedAt": "2026-10-13T03:56:53.026Z",
+  "actualBefore": {
+    "status": 200,
+    "body": {
+      "organisationId": "org_742625aed57baa9928b803fbf072b7b7",
+      "actorId": "worker@example.invalid",
+      "personId": "95a31285-419a-45e4-b5bc-275c5d490bec",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "e7bfc50f-a8e2-4ea0-a226-805f3675e353",
+          "version": 3,
+          "date": "2026-10-13T03:56"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "13d60ae4-6782-4cf2-8c03-b74b338ef521",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "b5baa830-1cea-459e-8a5c-236352890c32",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "e7bfc50f-a8e2-4ea0-a226-805f3675e353",
+        "visitVersion": 3,
+        "destinationId": "b5baa830-1cea-459e-8a5c-236352890c32",
+        "purpose": "programme-delivery",
+        "state": "permitted-preview",
+        "reason": null,
+        "mapping": [
+          {
+            "source": "weight",
+            "target": "mass",
+            "required": true
+          }
+        ],
+        "excluded": [
+          "terminologyCode",
+          "weightSource",
+          "weightObservedAt",
+          "weightUnit",
+          "temperatureSource",
+          "temperatureObservedAt",
+          "temperatureUnit",
+          "systolicSource",
+          "systolicObservedAt",
+          "systolicUnit",
+          "diastolicSource",
+          "diastolicObservedAt",
+          "diastolicUnit",
+          "weeksSource",
+          "weeksObservedAt",
+          "weeksUnit",
+          "coughDaysSource",
+          "coughDaysObservedAt",
+          "coughDaysUnit",
+          "personId",
+          "visitId",
+          "date",
+          "source",
+          "systolic",
+          "diastolic",
+          "temperature",
+          "weeks",
+          "coughDays",
+          "notes"
+        ],
+        "payload": {
+          "contract": "saha-mis-v1",
+          "environment": "synthetic",
+          "operation": "submit",
+          "fields": {
+            "mass": "55"
+          }
+        },
+        "payloadHash": "78561ffe53b655d6cfaf8feafa3156c5b431ccc5b8a07cc88e7a8dc46c733e30",
+        "originalPlan": null
+      },
+      "readOnly": true
+    }
+  },
+  "actualAfter": {
+    "status": 200,
+    "body": {
+      "organisationId": "org_742625aed57baa9928b803fbf072b7b7",
+      "actorId": "worker@example.invalid",
+      "personId": "95a31285-419a-45e4-b5bc-275c5d490bec",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "e7bfc50f-a8e2-4ea0-a226-805f3675e353",
+          "version": 3,
+          "date": "2026-10-13T03:56"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "13d60ae4-6782-4cf2-8c03-b74b338ef521",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "b5baa830-1cea-459e-8a5c-236352890c32",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "e7bfc50f-a8e2-4ea0-a226-805f3675e353",
+        "visitVersion": 3,
+        "destinationId": "b5baa830-1cea-459e-8a5c-236352890c32",
+        "purpose": "programme-delivery",
+        "state": "withheld",
+        "reason": "Current original mapping, terminology, source or required field refuses this payload.",
+        "mapping": [],
+        "excluded": [],
+        "payload": null,
+        "payloadHash": null,
+        "originalPlan": null
+      },
+      "readOnly": true
+    }
+  },
+  "phoneStillPermitted": true,
+  "phoneStillMass": true,
+  "clinicalAndReceiptRowsUnchanged": true,
+  "tableBefore": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 6,
+      "sha256": "4c9e9c8969148621c4cd4019f52bb25a2281f1273490cf5fe5b6ba14017f368e"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 85,
+      "sha256": "c3b96cb0fad50527f878523564b6dafda82b7bdadff564b495a0855033298078"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 17,
+      "sha256": "5a609bbd505ae72fe161d2978e68790d323a0efaa6705ca30d2c81942d697a15"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 2,
+      "sha256": "4320ff9a01852514d37251e6daaf3b1b4db991217499d13b0d1e97b4c71def12"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 14,
+      "sha256": "e5e66a6d19d1b93e4c3d137ce3b83f90147eef4eda6a6817a8b313aa8d0215b3"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "e6ac595827919ad4e1712cd87c2cd60dc9cd55225e79e277d0b33f41a0b55365"
+    },
+    "legacy_migrations": {
+      "rows": 2,
+      "sha256": "920d3ae8b780d1168df4dbc544a86bb9c43ec1f95caf793c98da58fa472817e3"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 7,
+      "sha256": "072ceba47ea0a9abefe92cb3d33c0ba4ea2b33936782c511b9638a9dab0b4564"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 1,
+      "sha256": "a7b685173f7f4b65b798b55672f1897166bf7c301ecbcc658ee87bf4e01bcb18"
+    },
+    "organisations": {
+      "rows": 2,
+      "sha256": "400d44cd0a192f659091182685d45930a60da8817ed11a25c9fa2090e02a563e"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 13,
+      "sha256": "61d3532393cecac71e1f7c138266a3729afe41f6d4c0855d764195896a5e5df1"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 21,
+      "sha256": "342d6f7784be60634128afe23565c6ef80e6635fd95d1cb882b4458e11635328"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 4,
+      "sha256": "1cc8fafdd6d883529d63094f64bb8cd8635e435cec155250f0bf97d1f0ec57a5"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 7,
+      "sha256": "df85bf4485f37c5e1035b9293e576565eee2bd652f0fc5afe58aae9485a88226"
+    },
+    "teams": {
+      "rows": 2,
+      "sha256": "7f114516aafa56a9352c2d992182c658a694151d94ad2834d178077d8dc131da"
+    },
+    "visits": {
+      "rows": 1,
+      "sha256": "20eefa170bd92341372b9c59bde031ab87bfd1be5b67f46a1a3385a135e1a15a"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "tableAfter": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 6,
+      "sha256": "4c9e9c8969148621c4cd4019f52bb25a2281f1273490cf5fe5b6ba14017f368e"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 90,
+      "sha256": "0896bf56b725a8b3054145a6ad977b9cedf9a27f2d67c86622fc79d9bc6ac383"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 17,
+      "sha256": "5a609bbd505ae72fe161d2978e68790d323a0efaa6705ca30d2c81942d697a15"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 2,
+      "sha256": "4320ff9a01852514d37251e6daaf3b1b4db991217499d13b0d1e97b4c71def12"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 14,
+      "sha256": "e5e66a6d19d1b93e4c3d137ce3b83f90147eef4eda6a6817a8b313aa8d0215b3"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "e6ac595827919ad4e1712cd87c2cd60dc9cd55225e79e277d0b33f41a0b55365"
+    },
+    "legacy_migrations": {
+      "rows": 2,
+      "sha256": "920d3ae8b780d1168df4dbc544a86bb9c43ec1f95caf793c98da58fa472817e3"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 7,
+      "sha256": "072ceba47ea0a9abefe92cb3d33c0ba4ea2b33936782c511b9638a9dab0b4564"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 1,
+      "sha256": "a7b685173f7f4b65b798b55672f1897166bf7c301ecbcc658ee87bf4e01bcb18"
+    },
+    "organisations": {
+      "rows": 2,
+      "sha256": "400d44cd0a192f659091182685d45930a60da8817ed11a25c9fa2090e02a563e"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 13,
+      "sha256": "61d3532393cecac71e1f7c138266a3729afe41f6d4c0855d764195896a5e5df1"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 21,
+      "sha256": "342d6f7784be60634128afe23565c6ef80e6635fd95d1cb882b4458e11635328"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 4,
+      "sha256": "24a7f022d123828049ef9022e290301ecbbb673da001e297564d323b18850f34"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 7,
+      "sha256": "df85bf4485f37c5e1035b9293e576565eee2bd652f0fc5afe58aae9485a88226"
+    },
+    "teams": {
+      "rows": 2,
+      "sha256": "7f114516aafa56a9352c2d992182c658a694151d94ad2834d178077d8dc131da"
+    },
+    "visits": {
+      "rows": 1,
+      "sha256": "20eefa170bd92341372b9c59bde031ab87bfd1be5b67f46a1a3385a135e1a15a"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "limits": "Clock progressed naturally; no productionclock/source hook, response substitution, timer/oracleweakening or provider/hosting. CurrentUIinitialresponse remainsdisplayed; freshserverread correctlywithholds dueoriginalmapping."
+}

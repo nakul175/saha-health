@@ -1,0 +1,77 @@
+{
+  "registeredProfiles": [
+    {
+      "id": "1d6758a9-185e-45ad-aef6-31af4799c1f0",
+      "data": {
+        "id": "1d6758a9-185e-45ad-aef6-31af4799c1f0",
+        "name": "Synthetic weight destination",
+        "description": "Inert synthetic original profile only, no remote request or credential.",
+        "kind": "mis",
+        "mode": "http",
+        "status": "active",
+        "version": 2,
+        "endpoint": "https://example.invalid/synthetic-programme",
+        "credentialBinding": "SAHA_MIS_TEST",
+        "programmes": [
+          "General care"
+        ],
+        "capability": "generic",
+        "mis": {
+          "contract": "saha-mis-v1",
+          "mapping": [
+            {
+              "source": "weight",
+              "target": "mass",
+              "required": true
+            }
+          ],
+          "corrections": false,
+          "test": {
+            "ok": true,
+            "version": 2,
+            "at": "2026-10-13T04:03:28.705Z",
+            "message": "Recorded controlled synthetic profile; not an actual partner test or activation approval."
+          }
+        }
+      }
+    },
+    {
+      "id": "ebed3ab2-a317-4781-a7a1-8648cc808590",
+      "data": {
+        "id": "ebed3ab2-a317-4781-a7a1-8648cc808590",
+        "name": "Synthetic temperature destination",
+        "description": "Inert synthetic original profile only, no remote request or credential.",
+        "kind": "mis",
+        "mode": "http",
+        "status": "active",
+        "version": 2,
+        "endpoint": "https://example.invalid/synthetic-programme",
+        "credentialBinding": "SAHA_MIS_TEST",
+        "programmes": [
+          "General care"
+        ],
+        "capability": "generic",
+        "mis": {
+          "contract": "saha-mis-v1",
+          "mapping": [
+            {
+              "source": "temperature",
+              "target": "temp",
+              "required": true
+            }
+          ],
+          "corrections": false,
+          "test": {
+            "ok": true,
+            "version": 2,
+            "at": "2026-10-13T04:03:28.705Z",
+            "message": "Recorded controlled synthetic profile; not an actual partner test or activation approval."
+          }
+        }
+      }
+    }
+  ],
+  "originalPreparedPlanId": "f546d839-15f8-4b6b-a3bd-94cef7ae7049",
+  "originalPrepareKey": "c02e1427-1b5e-4c35-941d-4c0aae9d94ce",
+  "limits": "Recorded active/mapping-test statuses are controlled inert synthetic profile fields, not real partner test, clinical approval or external activation. Original preparePlan is existing solewriter setup; newflow has no writer."
+}
