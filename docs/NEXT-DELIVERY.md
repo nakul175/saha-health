@@ -1,3 +1,7 @@
+# PR218 availability fixture qualification — 13 October2026
+
+[Exact source and retained failure/local11 qualification](current/next50/AMENDMENTS-AVAILABILITY-REPAIR-20261013.md) records a reviewed twelve-line fixture addition, fresh actual build and original guarded11/0/0 with source/dependency/browser/compiled/owned-cleanup evidence. PR218 amendments production, all391 original/current guard records, seven CI jobs, criteria/minima/goldens remain unchanged. Original disable200/UItimeout remains; stalepost-disablebody is inference. Final composed review, samePR publication and exactnewheadCI/whole-source/domain/formal/hosting gates remain open. Earlier history below is unchanged.
+
 # Monotonic test hold repaired locally; final gate pending — 12 October 2026
 
 [Actual failure and bounded repair](current/d03/MONOTONIC-HOLD-REPAIR-20261012.json): publisheda724 has one flaky added browser case because its first outbound hold was248.823ms below the unchanged250ms minimum; retrypassed. Original minimum guard passed; overallrunner and thirteen-suite qualification correctly refused the flaky result. All46 positive-attempt accessibility scans had0 violations. The successor changes only the fixture wait, preserving all assertions/application/originalcriteria. Eight virtual timing controls pass; fresh local build0 and2 selected browser cases passfirstattempt/9AXE0, actualhold250.570ms, read/clinical/source/dependency/compiled/cleanup evidence retained. Genuine independent actual-result reviewe87d7320 passes within declared source/compiled/read/sampling/recorded-cleanup limits. All584 current b321 application/compiler inputs equal the previous candidate, retaining conditional prior performance applicability; this is not584 equality to04 or new NFR execution. Assembled-source review and complete fresh successor CI remain pending. No new performance observations/physical/formal acceptance; story8/10, no merge/observedstaging. Earlier dated evidence below remains unchanged.
@@ -288,3 +292,6 @@ Combined validation now passes147 unit suites/8,594 checks, fullHTTP/restore/sec
 | B27 frozen reports | Immutable original editions and reviewed corrections; independent cancellation freshness repair | Final independent review complete in isolated source, not yet integrated |
 
 Full41-group residual scope remains in [the dispatch ledger](current/APP-FIRST-REMAINING-WORK.md). B09 inbound conflicts, B13 household completion and hosted transport diagnosis proceed in parallel. SDK licence decision, APK/device and all clinical/external/formal acceptance remain pending.
+
+
+| 12 October 2026 | Review an assigned confirmed source and explicitly create a linked correction draft | [BR-DATA-06](current/next50/AMENDMENTS-20261012.md) | Bounded source/local evidence; publication/CI pending, whole story open |

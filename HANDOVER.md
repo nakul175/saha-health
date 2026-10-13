@@ -1,3 +1,7 @@
+# PR218 availability fixture qualification — 13 October2026
+
+[Exact source and retained failure/local11 qualification](docs/current/next50/AMENDMENTS-AVAILABILITY-REPAIR-20261013.md) records a reviewed twelve-line fixture addition, fresh actual build and original guarded11/0/0 with source/dependency/browser/compiled/owned-cleanup evidence. PR218 amendments production, all391 original/current guard records, seven CI jobs, criteria/minima/goldens remain unchanged. Original disable200/UItimeout remains; stalepost-disablebody is inference. Final composed review, samePR publication and exactnewheadCI/whole-source/domain/formal/hosting gates remain open. Earlier history below is unchanged.
+
 # Monotonic test hold repaired locally; final gate pending — 12 October 2026
 
 [Actual failure and bounded repair](docs/current/d03/MONOTONIC-HOLD-REPAIR-20261012.json): publisheda724 has one flaky added browser case because its first outbound hold was248.823ms below the unchanged250ms minimum; retrypassed. Original minimum guard passed; overallrunner and thirteen-suite qualification correctly refused the flaky result. All46 positive-attempt accessibility scans had0 violations. The successor changes only the fixture wait, preserving all assertions/application/originalcriteria. Eight virtual timing controls pass; fresh local build0 and2 selected browser cases passfirstattempt/9AXE0, actualhold250.570ms, read/clinical/source/dependency/compiled/cleanup evidence retained. Genuine independent actual-result reviewe87d7320 passes within declared source/compiled/read/sampling/recorded-cleanup limits. All584 current b321 application/compiler inputs equal the previous candidate, retaining conditional prior performance applicability; this is not584 equality to04 or new NFR execution. Assembled-source review and complete fresh successor CI remain pending. No new performance observations/physical/formal acceptance; story8/10, no merge/observedstaging. Earlier dated evidence below remains unchanged.
@@ -242,3 +246,8 @@ Cloudflare account settings, Access policy and the `CLOUDFLARE_API_TOKEN` secret
 ## Eight independent frontline apps (3 October 2026)
 
 The owner-private Sites demonstration now has eight independent speech/OCR workflow providers and Saha integration. Read [scope and evidence](docs/current/FRONTLINE-EIGHT-APPS.md). Merged into `main` on 3 October 2026 at the sponsor's instruction (#145), after an agent review whose medium findings M1 and M3 were fixed; the runtime CDN import of the inference libraries without an integrity check remained open after the merge (slice 13b, on a branch, isolates it in a sandboxed frame and checks receipts against what was sent). Four method/route handlers added; no certified command or migration. Synthetic-only; clinical use disabled; hosted staging cannot reach the providers.
+
+
+## 12 October 2026 — traceable correction draft candidate
+
+See [scope and evidence](docs/current/next50/AMENDMENTS-20261012.md). Actual35 intent/45 native and47 original checks, separate source review and repeated35/45 pass. Root metadata/current API qualification pending; new GET+POST make101 routes, existing253 commands/60tables unchanged. Full story/domain/formal/hosting open; no merge or deployment. Earlier dated history preserved.

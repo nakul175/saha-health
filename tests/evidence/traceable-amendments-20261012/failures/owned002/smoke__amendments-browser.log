@@ -1,0 +1,37 @@
+{"event":"saha_request","requestId":"4ee95f1a-286d-43d0-8c6e-c4ed4f009b0d","route":"workspace","status":200,"durationMs":25}
+{"event":"saha_request","requestId":"8d24deda-bddf-4a86-a9d9-cd41ac4de247","route":"workspace","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"80d2af2f-bc48-4714-8971-9ec81b860376","route":"workspace","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"9fce84a0-7005-40af-bbba-513a47123363","route":"commands","status":200,"durationMs":21}
+{"event":"saha_request","requestId":"38cf21dc-697e-4f62-b242-a263222c7663","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"a9b139da-b622-4fd4-89f3-a92710ce929a","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"e7ec2668-1d10-41a5-acbd-4f3a48206de8","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"a31c2cd7-b943-4f74-b5a4-9ac9fd970c2b","route":"workspace","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"e85517ed-c96a-4433-a33e-4e9199606eb8","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"01858869-792f-4a19-af26-7f41444dc938","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"56abfaa9-2260-408b-a3d1-8ddacd526bc1","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"4d42ae90-3023-428c-87a7-1dca67f92db6","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"8c000c8d-7dd4-475d-ae85-15fa1edf3f92","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"469ef677-c563-4f9e-be07-5e774990b47c","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"00b0a5ae-5423-400a-98ce-daba635dfbc9","route":"commands","status":422,"durationMs":0}
+{"passed":0,"failed":1,"skipped":0,"disposed":true}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Invalid literal value, expected true"}
+
+422 !== 200
+
+    at ok (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-amendments-20261012/tests/smoke/amendments-browser.mjs:12:101)
+    at confirmed (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-amendments-20261012/tests/smoke/amendments-browser.mjs:22:503)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-amendments-20261012/tests/smoke/amendments-browser.mjs:23:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 422,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

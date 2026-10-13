@@ -35,6 +35,7 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 // Documented query parameters per GET route (read from the route readers). kind: which resource the request names.
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
+  '/api/amendments': w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/today': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/routine-visit': w => [
     { q: `?personId=${w.people.a2}`, kind: 'person' },
@@ -124,8 +125,15 @@ try {
 
   await r.check('route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)', () => none(unclassified, `unclassified GET routes: ${unclassified.join(', ')}`));
   await r.check(`grid is complete: ${cases.length} requests x ${PRINCIPALS.length} principals, every cell has a status`, () => { if (cases.length < 40) throw new Error(`only ${cases.length} cases`); none(violations((c, p) => (Number.isInteger(c.cells[p].status) ? '' : 'no status')), 'cells'); });
-  // Today and Routine have exact ASHA-only contracts; all old legacy owner responses remain unchanged.
-  await r.check('control: owner gets 2xx on legacy routes and403 on the exact ASHA-only Today/Routine contracts', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  // Today, Routine and traceable amendments have exact ASHA-only contracts; all old legacy owner responses remain unchanged.
+  await r.check('control: owner gets 2xx on legacy routes and403 on the exact ASHA-only Today/Routine/Amendments contracts', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/amendments'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('Traceable amendments permits only the assigned ASHA and refuses every other principal', () => {
+    const row = cases.find(c => c.route === '/api/amendments'); assert.ok(row);
+    assert.equal(row.cells.asha2.status, 200);
+    assert.ok([403, 404].includes(row.cells.asha1.status));
+    for (const role of ['owner', 'admin', 'supervisor', 'clinician', 'stranger']) assert.equal(row.cells[role].status, 403, fmt(row, role));
+    assert.equal(row.cells.anonymous.status, 401);
+  });
   await r.check('Today list allows both active ASHAs and refuses all other roles; ASHA 2 opens its own record', () => {
     const list = cases.find(c => c.route === '/api/today' && c.kind === 'plain');
     const detail = cases.find(c => c.route === '/api/today' && c.kind === 'person');

@@ -1,0 +1,18 @@
+{
+  "observedAt": "2026-10-12T16:45:45.880976+00:00",
+  "beforeFailedCount": {
+    "nativePassed": 26,
+    "nativeFailed": 1
+  },
+  "actualRowEquality": true,
+  "actualReceiptCounts": [
+    15,
+    15
+  ],
+  "changedMetadata": {
+    "beforeLastRowId": 127,
+    "afterLastRowId": 130
+  },
+  "sourceCorrection": "Test fixture only: compare all stored visit .results rows, not D1 query envelope metadata containing global last_row_id affected by permitted new read-audit events. Original failing diagnostic retained; key/draft/receipt row equality/count assertions unchanged. Same comparison correction applies to explicit loss recovery.",
+  "limits": "Author actual diagnosis; no original oracle/minimum change or product policy/source change. Existing audit/read behavior retained."
+}

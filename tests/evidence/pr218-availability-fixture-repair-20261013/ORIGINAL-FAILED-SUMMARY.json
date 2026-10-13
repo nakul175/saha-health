@@ -1,0 +1,126 @@
+{
+  "generatedAt": "2026-10-12T17:25:15.383Z",
+  "startedAt": "2026-10-12T17:24:33.683Z",
+  "command": "node scripts/test.mjs ui --only ui/availability --fast --guard",
+  "node": "v22.23.3",
+  "layers": [
+    {
+      "layer": "ui",
+      "status": "failed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 40790,
+      "failedSuites": 1
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 1,
+    "durationMs": 41700
+  },
+  "suites": [
+    {
+      "id": "ui/availability",
+      "layer": "ui",
+      "kind": "suite",
+      "file": "tests/ui/availability.mjs",
+      "tier": "extended",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 40790,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 2,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/ui__availability.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "ui/availability",
+        "kind": "uncounted",
+        "message": "Suite ui/availability reported no assertion count; baseline needs at least 11.",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/availability/availability-owner.png",
+      "tests/evidence/availability/http-browser.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 67,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 636,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

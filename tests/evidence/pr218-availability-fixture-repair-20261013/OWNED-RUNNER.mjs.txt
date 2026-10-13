@@ -1,0 +1,29 @@
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {readFileSync,writeFileSync,mkdirSync,readdirSync,statSync,realpathSync} from 'node:fs';
+import {resolve,join} from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {createServer} from 'node:net';
+import {pathToFileURL} from 'node:url';
+import {createRequire} from 'node:module';
+const w=resolve('work/saha-pr218-availability-repair-20261013'),out=resolve('outputs/saha-next50-20261012/pr218-availability-repair-20261013/actual-owned-002');mkdirSync(out,{recursive:false});
+const {runOwnedCommand}=await import(pathToFileURL(join(w,'tests/lib/routine-retention/containment.mjs')));
+const {chromium}=await import(pathToFileURL(join(w,'node_modules/@playwright/test/index.mjs')));
+const hash=p=>createHash('sha256').update(readFileSync(p)).digest('hex'),save=(p,v)=>writeFileSync(join(out,p),JSON.stringify(v,null,2)+'\n');
+const names=execFileSync('git',['-C',w,'ls-files','-z'],{maxBuffer:16*1024*1024,timeout:20000}).toString().split('\0').filter(Boolean);const source=()=>Object.fromEntries(names.map(n=>[n,hash(join(w,n))]));
+const packagePath=n=>n==='miniflare'?createRequire(realpathSync(join(w,'node_modules/wrangler/package.json'))).resolve('miniflare/package.json'):join(w,'node_modules',n,'package.json');
+const dependencies=()=>Object.fromEntries(['react','react-dom','react-server-dom-webpack','vite','vinext','wrangler','miniflare','typescript','@playwright/test','@axe-core/playwright'].map(n=>[n,{packageJSONRealpath:realpathSync(packagePath(n)),sha256:hash(packagePath(n))}]));
+const browser=()=>({path:chromium.executablePath(),sha256:hash(chromium.executablePath())});
+const dist=()=>{const map={};const walk=p=>{for(const name of readdirSync(p)){const f=join(p,name);if(statSync(f).isDirectory())walk(f);else map[f.slice(w.length+1)]=hash(f);}};walk(join(w,'dist'));return map;};
+const portFree=()=>new Promise((yes,no)=>{const s=createServer();s.once('error',no);s.listen(22019,'127.0.0.1',()=>s.close(e=>e?no(e):yes(true)));});
+const before=source(),beforeDeps=dependencies(),beforeBrowser=browser();save('SOURCE-BEFORE.json',before);save('DEPENDENCIES-BEFORE.json',beforeDeps);save('BROWSER-BEFORE.json',beforeBrowser);let failed;
+try{
+ assert.equal(await portFree(),true);save('PREFLIGHT.json',{atUtc:new Date().toISOString(),port:22019,free:true,ownOnly:true});
+ const build=await runOwnedCommand(process.execPath,['scripts/run-framework.mjs','build'],{cwd:w,env:{...process.env},stdout:join(out,'build-stdout.log'),stderr:join(out,'build-stderr.log'),timeoutMs:300000,graceMs:10000,onSpawn:h=>save('build-handle.json',h)});save('build-command.json',build);assert.equal(build.ok,true,'Canonical build/owned lifecycle must qualify');
+ assert.deepEqual(source(),before,'Tracked source changed during build');const compiled=dist();save('COMPILED-BEFORE.json',compiled);
+ const test=await runOwnedCommand(process.execPath,['scripts/test.mjs','ui','--only','ui/availability','--fast','--guard','--report',join(out,'summary.json')],{cwd:w,env:{...process.env,SAHA_AVAILABILITY_PORT:'22019',SAHA_BROWSER_PACKAGE:'@playwright/test'},stdout:join(out,'test-stdout.log'),stderr:join(out,'test-stderr.log'),timeoutMs:180000,graceMs:10000,onSpawn:h=>save('test-handle.json',h)});save('test-command.json',test);
+ for(const f of ['tests/reports/availability-fixture/disable-refresh-journal.json','tests/reports/results/ui__availability.json','tests/reports/logs/ui__availability.log']){try{writeFileSync(join(out,f.split('/').at(-1)),readFileSync(join(w,f)));}catch(e){save('missing-'+f.split('/').at(-1)+'.json',{error:String(e)});}}
+ const after=source(),afterDeps=dependencies(),afterBrowser=browser(),afterCompiled=dist();save('SOURCE-AFTER.json',after);save('DEPENDENCIES-AFTER.json',afterDeps);save('BROWSER-AFTER.json',afterBrowser);save('COMPILED-AFTER.json',afterCompiled);assert.deepEqual(after,before);assert.deepEqual(afterDeps,beforeDeps);assert.deepEqual(afterBrowser,beforeBrowser);assert.deepEqual(afterCompiled,compiled);
+ assert.equal(test.ok,true,'Original availability test/guard must qualify');const summary=JSON.parse(readFileSync(join(out,'summary.json')));assert.equal(summary.guard.ok,true);assert.equal(summary.totals.passed,11);assert.equal(summary.totals.failedSuites,0);assert.equal(summary.totals.skipped,0);save('QUALIFIED.json',{atUtc:new Date().toISOString(),passed:11,failed:0,skipped:0,guard:true,sourceCount:names.length,compiledCount:Object.keys(compiled).length,sourceDependencyBrowserCompiledUnchanged:true,head:execFileSync('git',['-C',w,'rev-parse','HEAD'],{timeout:20000,maxBuffer:16*1024*1024}).toString().trim(),sourceHash:hash(join(w,'tests/ui/availability.mjs')),limits:'One source-pinned synthetic run; no clinical/domain/hosting or exact original CI cause proof. Original CI failure preserved.'});
+}catch(e){failed=e;save('FAILED.json',{atUtc:new Date().toISOString(),error:String(e.stack)});throw e;}
+finally{save('CLEANUP.json',{atUtc:new Date().toISOString(),port:22019,portFree:await portFree(),failed:!!failed});}
