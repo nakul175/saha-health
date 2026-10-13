@@ -12,6 +12,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
+OWN_CARE_SOURCE_PAIRS = {('tests/evidence/own-care-permissions-20261013/manifest.json', 'lib/saha/own-care-permissions.ts'), ('tests/evidence/own-care-permissions-20261013/manifest.json', 'tests/own-care-permissions-contract.mjs'), ('tests/evidence/own-care-permissions-20261013/manifest.json', 'tests/lib/own-care-permissions-browser-driver.mjs'), ('tests/evidence/routine-current-source-integration-20261011/manifest.json', 'tests/nfr/authorisation-matrix-current.mjs')}
 errors = []
 checks = {}
 
@@ -207,6 +208,21 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
             archive=(ROOT/binding['archivedSource']).resolve()
             require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical phone-source preimage')
             path=archive
+        # Four bound own-care historical source preimages only; current source remains independently pinned.
+        if (str(manifest_path.relative_to(ROOT)),report) in OWN_CARE_SOURCE_PAIRS and path.is_file() and digest(path)!=expected:
+            bindings=read_json('docs/verification/evidence-source-snapshot-own-care-20261013.json')['records']
+            require(len(bindings)==4 and {(v['originalManifest'],v['sourcePath']) for v in bindings}==OWN_CARE_SOURCE_PAIRS,'Changed own-care sourcepair registry')
+            matches=[v for v in bindings if (v['originalManifest'],v['sourcePath'])==(str(manifest_path.relative_to(ROOT)),report)]
+            require(len(matches)==1,'Ambiguous own-care sourcepair binding')
+            if len(matches)==1:
+                binding=matches[0]
+                require(binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound original own-care manifest')
+                require(binding['originalSourceSha256']==expected,'Unbound original own-care source pin')
+                current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+                require(current_pin==digest(path)==binding['currentSourceSha256'],'Current own-care source is not independently baseline-pinned')
+                archive=(ROOT/binding['archivedSource']).resolve()
+                require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed own-care source preimage')
+                path=archive
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.
         # Report/evidence paths always remain checked in place and cannot use an archive.

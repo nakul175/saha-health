@@ -1,0 +1,264 @@
+[
+  {
+    "status": 200,
+    "body": {
+      "organisationId": "org_e4b4f81a1f7b007fe26ee4af2a6c9932",
+      "actorId": "worker@example.invalid",
+      "membershipVersion": 2,
+      "role": "asha",
+      "teams": [
+        {
+          "id": "default",
+          "name": "Rampur care team"
+        }
+      ],
+      "assignmentMode": "direct-assignment-and-team",
+      "programmeRestriction": "General care",
+      "purposeRestriction": [
+        "reporting"
+      ],
+      "facility": {
+        "enforced": true,
+        "references": [
+          {
+            "id": "f-own",
+            "name": "Synthetic own facility"
+          }
+        ]
+      },
+      "locality": {
+        "enforced": true,
+        "references": [
+          {
+            "id": "l-own",
+            "name": "Synthetic own locality"
+          }
+        ]
+      },
+      "scopeVersion": 3,
+      "asOf": "2026-10-13T05:02:48.773Z",
+      "refreshAt": null
+    }
+  },
+  {
+    "status": 401,
+    "body": {
+      "error": "Sign in to use your workspace."
+    }
+  },
+  {
+    "status": 403,
+    "body": {
+      "error": "Your organisation membership is inactive or unavailable."
+    }
+  },
+  {
+    "status": 400,
+    "body": {
+      "error": "This view accepts no person, member, purpose or action selectors."
+    }
+  },
+  {
+    "status": 400,
+    "body": {
+      "error": "This view accepts no person, member, purpose or action selectors."
+    }
+  },
+  {
+    "status": 400,
+    "body": {
+      "error": "This view accepts no person, member, purpose or action selectors."
+    }
+  },
+  {
+    "status": 400,
+    "body": {
+      "error": "This view accepts no person, member, purpose or action selectors."
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "error": "Current care context changed. Refresh before continuing."
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "error": "Current care context changed. Refresh before continuing."
+    }
+  },
+  {
+    "status": 503,
+    "body": {
+      "error": "Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner."
+    }
+  },
+  {
+    "status": 403,
+    "body": {
+      "error": "An active ASHA care context is required."
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "organisationId": "org_e4b4f81a1f7b007fe26ee4af2a6c9932",
+      "actorId": "worker@example.invalid",
+      "membershipVersion": 2,
+      "role": "asha",
+      "teams": [
+        {
+          "id": "default",
+          "name": "Rampur care team"
+        }
+      ],
+      "assignmentMode": "direct-assignment-and-team",
+      "programmeRestriction": "General care",
+      "purposeRestriction": [
+        "reporting"
+      ],
+      "facility": {
+        "enforced": true,
+        "references": [
+          {
+            "id": "f-missing",
+            "name": null
+          },
+          {
+            "id": "f-own",
+            "name": "Synthetic own facility"
+          }
+        ]
+      },
+      "locality": {
+        "enforced": true,
+        "references": [
+          {
+            "id": "l-missing",
+            "name": null
+          },
+          {
+            "id": "l-own",
+            "name": "Synthetic own locality"
+          }
+        ]
+      },
+      "scopeVersion": 3,
+      "asOf": "2026-10-13T05:02:50.880Z",
+      "refreshAt": null
+    }
+  },
+  {
+    "status": 503,
+    "body": {
+      "error": "Current recorded care policy is unavailable."
+    }
+  },
+  {
+    "status": 503,
+    "body": {
+      "error": "Current recorded care policy is unavailable."
+    }
+  },
+  {
+    "status": 503,
+    "body": {
+      "error": "Current recorded care policy is unavailable."
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "organisationId": "org_e4b4f81a1f7b007fe26ee4af2a6c9932",
+      "actorId": "worker@example.invalid",
+      "membershipVersion": 2,
+      "role": "asha",
+      "teams": [
+        {
+          "id": "default",
+          "name": "Rampur care team"
+        }
+      ],
+      "assignmentMode": "direct-assignment-and-team",
+      "programmeRestriction": "General care",
+      "purposeRestriction": [
+        "reporting"
+      ],
+      "facility": {
+        "enforced": false,
+        "references": []
+      },
+      "locality": {
+        "enforced": false,
+        "references": []
+      },
+      "scopeVersion": 0,
+      "asOf": "2026-10-13T05:02:51.510Z",
+      "refreshAt": null
+    }
+  },
+  {
+    "status": 200,
+    "body": {
+      "organisationId": "org_e4b4f81a1f7b007fe26ee4af2a6c9932",
+      "actorId": "worker@example.invalid",
+      "membershipVersion": 2,
+      "role": "asha",
+      "teams": [
+        {
+          "id": "default",
+          "name": "Rampur care team"
+        }
+      ],
+      "assignmentMode": "direct-assignment-and-team",
+      "programmeRestriction": null,
+      "purposeRestriction": null,
+      "facility": {
+        "enforced": true,
+        "references": [
+          {
+            "id": "f-own",
+            "name": "Synthetic own facility"
+          }
+        ]
+      },
+      "locality": {
+        "enforced": true,
+        "references": [
+          {
+            "id": "l-own",
+            "name": "Synthetic own locality"
+          }
+        ]
+      },
+      "scopeVersion": 3,
+      "asOf": "2026-10-13T05:02:51.704Z",
+      "refreshAt": null
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "error": "Resolve due or held assignments through the existing authority workflow before reopening current care permissions."
+    }
+  },
+  {
+    "status": 409,
+    "body": {
+      "error": "Resolve due or held assignments through the existing authority workflow before reopening current care permissions."
+    }
+  },
+  {
+    "status": 503,
+    "body": {
+      "error": "Current assignment context is unavailable."
+    }
+  },
+  {
+    "status": 403,
+    "body": {
+      "error": "An active ASHA care context is required."
+    }
+  }
+]
