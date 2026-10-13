@@ -1,0 +1,58 @@
+{
+  "id": "APL-77",
+  "uuid": "3dff9cd4-81da-4f4d-8209-974aff563fe6",
+  "title": "[SAHA-054] Evidence and deployment authorisation",
+  "description": "## User / outcome\n\nAs an AI governance owner, I need to review model-version evidence, evaluation context, limitations and deployment authorisation separately, so that clinical activation cannot follow from a successful technical API test alone.\n\nBounded scope: Evidence review and regulatory/deployment decisions remain separate, version-bound records; activation stays blocked until the source-required evidence and approvals exist.\n\n## Canonical scope and hierarchy\n\nScope ID: SAHA-054; type: functional. Original IDs: BR-AI-03.\nCWO references: None. Decision references: None recorded.\nPrimary epic: WP05; related work packages: WP05. Source original release(s): R1.\nThis is one of the 160 reconciled scope items. 1 original requirement(s) map here exactly once.\n\n## Original requirement and acceptance text\n\n### BR-AI-03 — Evidence and deployment authorisation\n\nPriority: Must; original release: R1.\n\nEvidence records shall identify model version, evaluation context, limitations and review decisions. Regulatory status and local deployment authorisation shall be recorded separately from technical integration and sandbox evaluation.\n\nAcceptance: A technically successful API test cannot activate a clinical capability without the required documented evidence and deployment approvals.\n\n## Additional CWO acceptance / refusal criteria\n\nNo additional CWO criterion assigned to this owner; original criteria are retained unchanged.\n\n## Original test scenarios — not executed acceptance\n\n### TC-BR-AI-03-A — Evidence and deployment authorisation acceptance\n\nType: Functional; source role: QA with AI governance owner; fixture: FX-AI-03.\nPreconditions: Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution.\nSteps: 1. Load FX-AI-03. 2. Evidence and approval are distinct records tied to provider version, population, study setting and deployment scope. 3. Capture UI/API results and stored receipt or audit evidence.\nExpected: A technically successful API test cannot activate a clinical capability without the required documented evidence and deployment approvals.\nFormal status: Not run; no engineering subset automatically passes this case.\n\n### TC-BR-AI-03-B — Evidence and deployment authorisation adverse condition\n\nType: Negative or recovery; source role: QA with AI governance owner; fixture: FX-AI-03-NEG.\nPreconditions: Isolated synthetic tenant; begin from the corresponding acceptance scenario; inject only the named adverse condition.\nSteps: 1. Establish the normal precondition. 2. Provide only an API success log as evidence; clinical activation remains blocked. 3. Inspect user state, side effects, audit and any recovery queue.\nExpected: Provide only an API success log as evidence; clinical activation remains blocked. Evidence must show the actual final state and any accountable unresolved work.\nFormal status: Not run; no engineering subset automatically passes this case.\n\n## Authorization, error and recovery contract\n\nCurrent server role/tenant/assignment/purpose, audit and version constraints remain applicable. Before execution, freeze authorised positive behaviour, out-of-scope/changed-authority refusal, invalid input, unavailable dependency, stale version and uncertain-save recovery wherever relevant. Inspect actual code/API/data and inherited failures; preserve targets and no-side-effect guarantees. Do not substitute an assumed UI or reference API catalogue for a current implementation contract.\n\n## Current evidence and readiness\n\nBR-AI-03: source assessment \"partial\"; target checkpoint R11. Full remaining scope stays open; see authoritative requirements/assessment.tsv and current evidence-map. Remaining: Regulatory status, representative clinical evidence and signed deployment authorisation; no real approval recorded.\nCanonical item remains Backlog/unqualified. Current local source/assessment may contain bounded implemented components; original formal acceptance is not thereby passed. No named executor, estimate or delivery date is invented.\nNot part of the first D01–D08 implementation tasks; later prioritisation requires sponsor decision and dependency checks.\n\n## Technical work and delivery\n\nRequirement-linked engineering subtasks retain ENG IDs, source outcomes, owner roles, dependencies and tests. Inspect current reuse and freeze a minimal ready slice before coding; no bulk implementation dispatch. GitHub #188 remains the single delivery controller. Isolated qualified story PRs, final-code CI/review/native approvals and exact hosting/smoke evidence govern delivery.\nNo real patient/recipient, provider activation, paid services, new hosting, parallel database, clinical policy or destructive migration is authorised by this backlog.\n\nSources: [scope row](<https://github.com/nakul175/saha-health/blob/9e74b6a4648aa0a0a9e3fa32474cb4c943f1aea1/docs/current/community-worker-os/scope.tsv>), [additional criteria](<https://github.com/nakul175/saha-health/blob/9e74b6a4648aa0a0a9e3fa32474cb4c943f1aea1/docs/current/community-worker-os/new-criteria.tsv>), [source BRD requirements](<https://github.com/nakul175/saha-health/blob/7668a03d97c1ae62174f09e65ccd5a5717120be6/requirements/brd-v1.1.json>), [formal catalogue](<https://github.com/nakul175/saha-health/blob/7668a03d97c1ae62174f09e65ccd5a5717120be6/docs/reference/workbook/Test-Catalogue.csv>), [delivery gates](<https://linear.app/aplyd-sandbox/document/saha-story-readiness-and-delivery-gates-3fbcfc7ee2e7>).\n\n## v4.2 planning refinement — source preserved\n\nAuthor recommendation for planning only. Original requirements, frozen criteria, native status/priority/milestone/assignee and historic evidence remain unchanged. Do not weaken criteria to obtain a pass.\n\n### Priority, sequence and forecast\n\nCore visual capture correctness and authority take precedence over optional assistance; provider activation/evaluation evidence is a separate dependency.\n\nSource priorities: Must; release: R1. Source package inputs: WP02, WP03, WP04. These are inspection inputs, not whole-epic completion requirements.\n\nRecommended size: 4–10 engineering effort days, low confidence. Method: owned requirement count plus interface/device/source-gap uncertainty; inspect current reuse first. Excludes approval/partner wait, participant recruitment and observation windows; no staffing/date commitment.\n\n### Scenario coverage and evidence contract\n\n* Positive: Run TC-BR-AI-03-A using the source-named fixture, actor, preconditions and exact Expected oracle; cover review model-version evidence, evaluation context, limitations and deployment authorisation separately.\n* Refusal/adverse: Run TC-BR-AI-03-B; retained source adverse/recovery case: Provide only an API success log as evidence; clinical activation remains blocked.. Its source label does not by itself establish refusal coverage.\n* Error/recovery refinement: Supply only an API success receipt for a clinical model version. Keep deployment authorisation blocked and identify the missing signed capability-specific evidence and deployment approval.\n* Authorization refinement: For AI governance owner performing “review model-version evidence, evaluation context, limitations and deployment authorisation separately”: Attempt the same operation with an ineligible role/purpose, unsupported case or unapproved capability version; deny retrieval/invocation/action before protected content reaches a model or tool.\n\nBind source/configuration and synthetic fixture version to actual UI/API/state/side-effect/audit outputs; record every failed, skipped and untested case separately. Planned scenarios remain Not run, and local reuse evidence cannot satisfy full formal or live/domain approval.\n\nAI applicability: version the intended use, permitted data, model/prompt/tool configuration and evaluation dataset; preserve every existing proposed/approved threshold and subgroup/critical-field requirement. Safety, malformed/unsupported output, non-generative fallback and drift/incident triggers require distinct evidence before activation.\n\nUse the [SAHA AI assurance, discovery and release-learning recommendation](<https://linear.app/aplyd-sandbox/document/saha-ai-assurance-discovery-and-release-learning-9e1b1616111e>) for the versioned dataset/evaluation, safety/fallback, privacy and drift contract; this link does not approve provider/clinical activation.\n\n### Shared gates and remaining decisions\n\nLink [SAHA-READY-1.0 and SAHA-DONE-1.0](<https://linear.app/aplyd-sandbox/document/saha-story-readiness-and-delivery-gates-3fbcfc7ee2e7>); apply the engineering/synthetic scope and exact version, alongside this issue’s unchanged source acceptance. Shared checklist completeness cannot approve domain decisions or stand in for observed delivery.\n\nUse the existing Current evidence/readiness and original formal cases for unresolved authority/evidence; this refinement does not mark the canonical item Ready or accepted.",
+  "projectMilestone": {
+    "id": "c1b16578-cd76-4598-837b-af20bc793744",
+    "name": "Product R1 — authorised multi-programme pilot"
+  },
+  "priority": {
+    "value": 2,
+    "name": "High"
+  },
+  "url": "https://linear.app/aplyd-sandbox/issue/APL-77/saha-054-evidence-and-deployment-authorisation",
+  "gitBranchName": "nakul17/apl-77-saha-054-evidence-and-deployment-authorisation",
+  "createdAt": "2026-10-10T09:01:32.151Z",
+  "updatedAt": "2026-10-10T17:42:18.990Z",
+  "archivedAt": null,
+  "completedAt": null,
+  "startedAt": null,
+  "canceledAt": null,
+  "dueDate": null,
+  "slaStartedAt": null,
+  "slaMediumRiskAt": null,
+  "slaHighRiskAt": null,
+  "slaBreachesAt": null,
+  "status": "Backlog",
+  "statusType": "backlog",
+  "labels": [
+    "SAHA Scope"
+  ],
+  "attachments": [],
+  "documents": [],
+  "stateHistory": [
+    {
+      "state": {
+        "id": "3970a201-582f-4d4a-a448-fd2703e77cba",
+        "name": "Backlog",
+        "type": "backlog"
+      },
+      "startedAt": "2026-10-10T09:01:32.151Z",
+      "endedAt": null
+    }
+  ],
+  "createdBy": "NAKUL JAIN",
+  "createdById": "4d7ec541-0a39-4f85-97af-352c64010859",
+  "project": "SAHA — Community Worker OS",
+  "projectId": "d60fda66-7be7-41d1-a7e8-c7ec50b51632",
+  "parentId": "APL-17",
+  "team": "Aplyd Sandbox",
+  "teamId": "525d5b8a-9fb9-496d-b98b-32b29915e80a",
+  "relations": {
+    "blocks": [],
+    "blockedBy": [],
+    "relatedTo": [],
+    "duplicateOf": null
+  }
+}

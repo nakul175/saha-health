@@ -1,0 +1,46 @@
+{
+  "atUtc": "2026-10-13T05:02:21.737190+00:00",
+  "source": "Exact extracted current workflow Python guard",
+  "controlCount": 7,
+  "results": [
+    {
+      "case": "exactoriginal389 plus observed35/40 accepts",
+      "passed": true,
+      "expected": "accept"
+    },
+    {
+      "case": "new minimum lowered",
+      "passed": true,
+      "expected": "refuse"
+    },
+    {
+      "case": "new fixture path changed",
+      "passed": true,
+      "expected": "refuse"
+    },
+    {
+      "case": "new record omitted",
+      "passed": true,
+      "expected": "refuse"
+    },
+    {
+      "case": "unexpected extra record",
+      "passed": true,
+      "expected": "refuse"
+    },
+    {
+      "case": "old minimum weakened",
+      "passed": true,
+      "expected": "refuse"
+    },
+    {
+      "case": "old record removed",
+      "passed": true,
+      "expected": "refuse"
+    }
+  ],
+  "originalWholeWorkflowInverseByteExact": true,
+  "runtimeTestsExecuted": false,
+  "original7JobsSettingsSelectionsPreserved": true,
+  "limits": "Pure copied-register controls prove metadata assertion refusal; not GitHub workflow execution"
+}

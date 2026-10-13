@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "Existing original manifest digest retained",
+    "Current provider version separate from manifest model",
+    "Intended population and settings preserved",
+    "No evidence is not a passing score",
+    "Missing review explicitly null",
+    "No signed or regulatory approval inferred",
+    "Read-only clinical deployment false",
+    "Original hold remains visible"
+  ],
+  "error": "ZodError: [\n  {\n    \"code\": \"unrecognized_keys\",\n    \"keys\": [\n      \"available\",\n      \"reason\"\n    ],\n    \"path\": [],\n    \"message\": \"Unrecognized key(s) in object: 'available', 'reason'\"\n  }\n]\n    at get error (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:39:31)\n    at ZodObject.parse (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:114:22)\n    at Module.projectDeploymentEvidence (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-deployment-evidence-review-20261013/.deployment-review-W19vvZ/deployment-evidence-review.js:64:93)\n    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-deployment-evidence-review-20261013/tests/deployment-evidence-review-contract.mjs:27:18"
+}

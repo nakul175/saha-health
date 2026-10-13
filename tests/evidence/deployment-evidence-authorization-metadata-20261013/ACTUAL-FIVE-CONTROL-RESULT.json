@@ -1,0 +1,115 @@
+{
+  "atUtc": "2026-10-13T05:36:10.730547+00:00",
+  "scope": "Five actual full-checker negative mutations in an isolated scratch; source-only, no runtime/install/build/provider execution. Original reports checked in place.",
+  "parent": "d444ebb15b90538f0f4c3fa8465a74412419f0fa",
+  "checkerSha256": "2cf8e1a44e792bdb7aaa939907e846ccee4684794a0b9c2d8fafe4bff537a6db",
+  "scratch": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr230-metadata-tamper-20261013",
+  "filesCopied": [
+    "docs/verification/current-baseline.json",
+    "docs/verification/evidence-source-snapshot-deployment-evidence-matrix-20261013.json",
+    "docs/verification/evidence-source-snapshots/deployment-evidence-matrix-3779f8a562c1.mjs.txt",
+    "scripts/check-documentation.py",
+    "tests/evidence/deployment-evidence-authorization-metadata-20261013/INDEPENDENT-ROOT-SOURCE-VERDICT.json",
+    "tests/evidence/deployment-evidence-authorization-metadata-20261013/METADATA-CONTRACT.json",
+    "docs/verification/application-deployment-evidence-auth-classification-20261013-sha256.json",
+    "docs/verification/application-deployment-evidence-auth-classification-bound-20261013-sha256.json"
+  ],
+  "fiveRefusals": 5,
+  "cleanPasses": 2,
+  "results": [
+    {
+      "name": "clean-before",
+      "expected": "pass",
+      "exitCode": 0,
+      "criterionSatisfied": true,
+      "stdoutSha256": "90f073d93bdad3a768f667bce2177e439bcbb8544bf04050faa236a0071fed38",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observedFailures": []
+    },
+    {
+      "name": "current-source",
+      "expected": "refusal",
+      "exitCode": 1,
+      "criterionSatisfied": true,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "51e07dfc29686ca6ac4f85b395918f4f491b895bf3c79844fccf39c84c3a4d85",
+      "observedFailures": []
+    },
+    {
+      "name": "historical-preimage",
+      "expected": "refusal",
+      "exitCode": 1,
+      "criterionSatisfied": true,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "3462ef1063a0a44bb69abc3ff99fc789cd6c83bfa3b91cb3c33dadc71fcf1c53",
+      "observedFailures": []
+    },
+    {
+      "name": "wrong-manifest-binding",
+      "expected": "refusal",
+      "exitCode": 1,
+      "criterionSatisfied": true,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "5b0df6f4a408707282ebd6a3dcb717667ed3fda950dbe796236fe30fb9c33fd3",
+      "observedFailures": []
+    },
+    {
+      "name": "current-baseline-pin",
+      "expected": "refusal",
+      "exitCode": 1,
+      "criterionSatisfied": true,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "51e07dfc29686ca6ac4f85b395918f4f491b895bf3c79844fccf39c84c3a4d85",
+      "observedFailures": []
+    },
+    {
+      "name": "original-report-in-place",
+      "expected": "refusal",
+      "exitCode": 1,
+      "criterionSatisfied": true,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "4c4eaa69df65ef07ae90621af09c88f5f1cf1de191e574760b099db3c2c0a072",
+      "observedFailures": []
+    },
+    {
+      "name": "clean-after",
+      "expected": "pass",
+      "exitCode": 0,
+      "criterionSatisfied": true,
+      "stdoutSha256": "90f073d93bdad3a768f667bce2177e439bcbb8544bf04050faa236a0071fed38",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observedFailures": []
+    }
+  ],
+  "trackedSourceCount": 17046,
+  "allTrackedBeforeAfterEqual": true,
+  "allWorkingBeforeAfterEqual": true,
+  "protectedPinsBefore": {
+    "docs/verification/application-deployment-evidence-auth-classification-20261013-sha256.json": "4b1df650d90e82d23de2a1e106f9ab379ca7098e7641e0593f18a267773e7196",
+    "docs/verification/application-deployment-evidence-auth-classification-bound-20261013-sha256.json": "dac7f345cb3a08a31194607e08fb8f5c19192f348e9c7314f264278cf30d777b",
+    "docs/verification/current-baseline.json": "c2acbb400159bea6306be6d1691647ac839be7c8c42962f5c3c72dee670a7bf3",
+    "docs/verification/evidence-source-snapshot-deployment-evidence-matrix-20261013.json": "bb8fabac10b6efe279f4425ab2267f19331bd756bd791735b96ad69b29ab2b24",
+    "docs/verification/evidence-source-snapshots/deployment-evidence-matrix-3779f8a562c1.mjs.txt": "3779f8a562c132fac2b2ded74101a8438b5655389aacfb75e3da4990982fd5d3",
+    "scripts/check-documentation.py": "2cf8e1a44e792bdb7aaa939907e846ccee4684794a0b9c2d8fafe4bff537a6db",
+    "tests/evidence/deployment-evidence-authorization-metadata-20261013/INDEPENDENT-ROOT-SOURCE-VERDICT.json": "48295f571a48855b2fad0ebc4b0ffbdf7422d534c1165fb7295db94f22bfa3e2",
+    "tests/evidence/deployment-evidence-authorization-metadata-20261013/METADATA-CONTRACT.json": "0261c4d866c1fe8dd8968d861a6c1a29b6e28a4ef0ae1acde660a286e15704ea",
+    "tests/evidence/routine-current-source-integration-20261011/actual-unit47-summary.json": "68a0c29f09aca316a224ec195d96426a90a19760d3a37bd2ad8d0fdde69b0ca3",
+    "tests/nfr/authorisation-matrix-current.mjs": "e6d2470264d808d84aeb3ba222b94318cf08e37950764ca8b6773689df35d488"
+  },
+  "protectedPinsAfter": {
+    "docs/verification/application-deployment-evidence-auth-classification-20261013-sha256.json": "4b1df650d90e82d23de2a1e106f9ab379ca7098e7641e0593f18a267773e7196",
+    "docs/verification/application-deployment-evidence-auth-classification-bound-20261013-sha256.json": "dac7f345cb3a08a31194607e08fb8f5c19192f348e9c7314f264278cf30d777b",
+    "docs/verification/current-baseline.json": "c2acbb400159bea6306be6d1691647ac839be7c8c42962f5c3c72dee670a7bf3",
+    "docs/verification/evidence-source-snapshot-deployment-evidence-matrix-20261013.json": "bb8fabac10b6efe279f4425ab2267f19331bd756bd791735b96ad69b29ab2b24",
+    "docs/verification/evidence-source-snapshots/deployment-evidence-matrix-3779f8a562c1.mjs.txt": "3779f8a562c132fac2b2ded74101a8438b5655389aacfb75e3da4990982fd5d3",
+    "scripts/check-documentation.py": "2cf8e1a44e792bdb7aaa939907e846ccee4684794a0b9c2d8fafe4bff537a6db",
+    "tests/evidence/deployment-evidence-authorization-metadata-20261013/INDEPENDENT-ROOT-SOURCE-VERDICT.json": "48295f571a48855b2fad0ebc4b0ffbdf7422d534c1165fb7295db94f22bfa3e2",
+    "tests/evidence/deployment-evidence-authorization-metadata-20261013/METADATA-CONTRACT.json": "0261c4d866c1fe8dd8968d861a6c1a29b6e28a4ef0ae1acde660a286e15704ea",
+    "tests/evidence/routine-current-source-integration-20261011/actual-unit47-summary.json": "68a0c29f09aca316a224ec195d96426a90a19760d3a37bd2ad8d0fdde69b0ca3",
+    "tests/nfr/authorisation-matrix-current.mjs": "e6d2470264d808d84aeb3ba222b94318cf08e37950764ca8b6773689df35d488"
+  },
+  "nativeExecuted": false,
+  "installerExecuted": false,
+  "buildExecuted": false,
+  "noAcceptancePromotion": true
+}

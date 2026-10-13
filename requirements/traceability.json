@@ -1892,7 +1892,7 @@
       "sourceTextLine": 306,
       "implementation": "partial",
       "target": "R11",
-      "current": "Version-bound synthetic evaluation, separate clinical review and owner activation are persisted and checked at use. Independent anaemia demo remains outside clinical activation and carries clinicalUse:false; real model use is engineering-only.",
+      "current": "Version-bound synthetic evaluation, separate clinical review and owner activation are persisted and checked at use. Independent anaemia demo remains outside clinical activation and carries clinicalUse:false; real model use is engineering-only. Bounded SAHA054/APL77 read-only evidence review (13 October2026) separates current provider/model/corpus evidence, intended population and settings, original recorded review/localstate, and explicitly unrecorded regulatory/signed clinical deployment authorisation. Actual35 pure/40 local D1-mobile/171 original guarded checks and separate bounded root review pass; no model/provider invocation, approval or activation. See docs/current/deployment-evidence-review/QUALIFICATION-20261013.md. Full source-required clinical/regulatory/representative evidence, current-head CI and hosting remain open.",
       "remaining": "Regulatory status, representative clinical evidence and signed deployment authorisation; no real approval recorded.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1900,7 +1900,16 @@
         "lib/saha/anaemia.ts",
         "lib/saha/anaemia-server.ts",
         "tests/anaemia-provider-contract.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md",
+        "app/api/deployment-evidence-review/route.ts",
+        "app/deployment-evidence-review/page.tsx",
+        "app/deployment-evidence-review/screen.tsx",
+        "lib/saha/deployment-evidence-review-server.ts",
+        "lib/saha/deployment-evidence-review.ts",
+        "tests/deployment-evidence-review-contract.mjs",
+        "tests/smoke/deployment-evidence-review-browser.mjs",
+        "docs/current/deployment-evidence-review/QUALIFICATION-20261013.md",
+        "tests/evidence/deployment-evidence-review-20261013/AUTHOR-SOURCE-QUALIFICATION.json"
       ],
       "automatedAcceptanceClaim": false
     },

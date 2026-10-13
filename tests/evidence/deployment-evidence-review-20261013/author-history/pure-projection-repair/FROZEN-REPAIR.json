@@ -1,0 +1,7 @@
+{
+  "atUtc": "2026-10-13T03:46:13.468394+00:00",
+  "finding": "Actual pure001 stopped on provider snapshot strict pick parsing unselected available/reason fields. Source must explicitly project only snapshot fields, preserving full provider validation and response strictness.",
+  "preimageSHA256": "9d10d3e166d0b2b76034f36ab307aaf41069c2e09aa529140749a5bc0e3780fe",
+  "originalFailure": "../pure-001/failure.json",
+  "change": "Explicitly select id/name/mode/model/version before strict snapshot parse; no check relaxation."
+}

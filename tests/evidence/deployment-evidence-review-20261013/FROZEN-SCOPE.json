@@ -1,0 +1,65 @@
+{
+  "atUtc": "2026-10-13T03:08:12.015097+00:00",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "canonical": "SAHA054/APL77/BR-AI03",
+  "technicalChild": "APL237/ENG-BR-AI03",
+  "ownedPaths": [
+    "app/api/deployment-evidence-review/route.ts",
+    "app/deployment-evidence-review/",
+    "lib/saha/deployment-evidence-review.ts",
+    "lib/saha/deployment-evidence-review-server.ts",
+    "lib/saha/deployment-evidence-review-read-guard.ts",
+    "tests/deployment-evidence-review-contract.mjs",
+    "tests/lib/deployment-evidence-review-native-runtime.mjs",
+    "tests/lib/deployment-evidence-review-browser-driver.mjs",
+    "tests/smoke/deployment-evidence-review-browser.mjs",
+    "tests/evidence/deployment-evidence-review-20261013/"
+  ],
+  "scope": "Current active clinician organisation owner reviews existing exact capability manifest, registered provider/model version, synthetic evaluation dataset/context/results/limits, recorded independent review and local state separately. Read-only GET; no writer or provider/model invocation. Signed deployment/regulatory/representative clinical evidence explicitly unrecorded in current schema; no inference from API success, synthetic passing score or local review/state.",
+  "authority": "Trusted provider principal + explicit organisation, current original clinician/owner membership, original entryScope; direct readState empty patient window and source/account/member/team/governance/integration/ops/transfer audit proof. No delegated patient expansion or loadFor bootstrap. Original purpose map has no governance metadata view/outbound flow, so no patient AI-purpose/consent authority invented.",
+  "positive": [
+    "Original immutable capability identity/model/version intended age/language/setting/team/role/task limits distinct from exact recorded synthetic provider snapshot and known corpus scope.",
+    "Missing review/evaluation explicitly missing, not approved. Existing review shows original reference/by/version/dependency facts and issue status; no created approval.",
+    "Known current synthetic corpus hash + cases + recomputed score validated; mismatched version/hash/results refuse, historical unknown corpus explicitly unverified.",
+    "Read60 tables only chainedaudit/metrics change; no approval/activation/provider/model or clinical write."
+  ],
+  "refusals": [
+    "Anonymous/unknown/foreign/nonowner/nonclinical/suspended/changed actor/account",
+    "Malformed/duplicate manifest/evaluation records, digest/current provider substitution, corrupt raw metadata or source race, audit failure",
+    "Due/held/corrupt scheduled transfer refusal without scheduler; known future deadline expires before publication",
+    "POST/query command attempts cannot create evidence/approval/deployment"
+  ],
+  "browser": [
+    "390px accessible readable distinct evidence and deployment areas, no overflow/touch44, no provider/model commands",
+    "Current account response binding/epoch; clear on hidden/offline/pagehide and current source refusal; held first successful GET cannot repopulate hidden data",
+    "Source changes require explicit refreshed review, not approval inference or automatic retries"
+  ],
+  "originalGuarded": [
+    "unit/governance-contract",
+    "unit/capability-lifecycle-contract",
+    "unit/provider-sandbox-contract",
+    "unit/purpose-scope-contract",
+    "unit/caseload-schedule-contract"
+  ],
+  "originalSourcePins": {
+    "lib/saha/governance.ts": "79c25780802491bb9d266af34a325e5d381d70ff4776e5a9f0125359060cd3a9",
+    "lib/saha/evaluation.ts": "ff4cb03442c912438bdf44cdecd135f3b409d9fb4d005bc98a6a0fa8fc401d2d",
+    "lib/saha/agent.ts": "553aa94c125518ebac4da2551c967eb2030fcfb0546dc65acfac3591df97c060",
+    "lib/saha/store.ts": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+    "lib/saha/server.ts": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+    "lib/saha/identity.ts": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+    "lib/saha/access-audit.ts": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a",
+    "lib/saha/purpose-scope.ts": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+    "lib/saha/caseload.ts": "844e87ef2e719d70d9212e17171d9ff415361d35dd497b20ad4db5b597f6ee45",
+    "lib/saha/caseload-schedule.ts": "68e8864cb5b35cda05544c823285984bc2acff059f8be5c9a63ef5d666d06a53",
+    "tests/regression-baseline.json": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0",
+    "package.json": "8f76a902a6b143cede61435c0b2d8887e38aa4004a35570a9e01de171b239415",
+    "pnpm-lock.yaml": "ff3031cfe106098da32d4ee69199ea94c0d673a0a3df445ee486fc9bd454afaf"
+  },
+  "port": 21997,
+  "limits": [
+    "No persistence of arbitrary evidence/regulatory/signed-deployment fields: the schema lacks them; missing records cannot be represented as approved.",
+    "No provider/model test/evaluation execution/activation/deployment or new policy/store. Controlled synthetic seeded evidence is not domain acceptance.",
+    "Formal cases/representative population/study/clinical/regulatory/human acceptance and root metadata/finalCI/publication/hosting remain open."
+  ]
+}
