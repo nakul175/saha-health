@@ -10,6 +10,9 @@ import { routineSelection, currentServerDraft } from '@/lib/saha/resume-work';
 import { RoutineSaveStatus } from './save-status';
 import { observationConflict, reviewedFacts, unchangedReviewCheckpoint, sameReviewContext, type ConflictChoice } from '@/lib/saha/routine-conflict';
 import './routine-visit.css';
+import InterfaceLanguage from './interface-language';
+import { I18nProvider, TranslationNotice } from '../i18n';
+import type { Language } from '@/lib/saha/messages';
 
 const conflictGroupText=(id:string,value:Facts)=>{
   if(id==='context')return 'Visit observation time (UTC): '+value.date+'\nDefault source: '+SOURCE_LABEL[value.source];
@@ -26,6 +29,8 @@ type Attempt = { key: string; command: Record<string, unknown>; personId: string
   input: { facts: Facts | null; programme: ProgrammeDraft | null } };
 export default function RoutineVisit() {
   const [context, setContext] = useState<RoutineContext | null>(null);
+  const [displayLanguage,setDisplayLanguage]=useState<Language>('en');
+  const [languageBinding,setLanguageBinding]=useState<{actorId:string;organisationId:string;personId:string}|null>(null);
   const [facts, setFacts] = useState<Facts | null>(null);
   const [notice, setNotice] = useState('Loading routine visit…');
   const [busy, setBusy] = useState(false), [uncertain, setUncertain] = useState(false);
@@ -38,6 +43,7 @@ export default function RoutineVisit() {
   const [programmeRecovery, setProgrammeRecovery] = useState<(ProgrammeDraft & { token: number }) | undefined>();
   const attempt = useRef<Attempt | null>(null), heading = useRef<HTMLHeadingElement>(null);
   const boundActor = useRef<string | null>(null);
+  const protectionGeneration=useRef(0);
   const programmeDraft = useRef<ProgrammeDraft | null>(null);
   const mounted = useRef(true), inFlight = useRef(false);
   const visit = context?.visit;
@@ -56,6 +62,7 @@ export default function RoutineVisit() {
   };
   const clearProtected = useCallback(() => {
     comparisonBoundaryActive.current=false;comparisonReadGeneration.current++;
+    protectionGeneration.current++;
     setContext(null); setFacts(null); setLatest(null); setProgrammeDirty(false); setChecked(false);
     setProgrammeRecovery(undefined); programmeDraft.current = null;
   }, []);
@@ -89,6 +96,7 @@ export default function RoutineVisit() {
         if (selection.actorId && actorId !== selection.actorId) throw Error('The signed-in account changed. Return to Resume work with the original account.');
         if (selection.visitId) currentServerDraft(value, selectedPerson, selectedOrganisation, actorId, selection.visitId);
         boundActor.current = actorId;
+        setLanguageBinding({actorId,organisationId:selectedOrganisation,personId:selectedPerson});
         receive(value, true); setNotice(value.visit ? 'Current server draft loaded. Review before saving.' : 'No current draft. Opening this screen creates nothing.');
         heading.current?.focus();
       }).catch(cause => { if (!controller.signal.aborted) setNotice(cause.message); });
@@ -109,6 +117,8 @@ export default function RoutineVisit() {
       input: { facts: facts ? structuredClone(facts) : null,
         programme: programmeDraft.current ? structuredClone(programmeDraft.current) : null } } : null;
     if (!current) return null;
+    const generation=protectionGeneration.current;
+    const revoked=()=>{if(generation===protectionGeneration.current)return false;setUncertain(true);setNotice('Access refused. Protected content cleared.');return true;};
     attempt.current = current; inFlight.current = true; setBusy(true);
     try {
       if (retry) {
@@ -118,7 +128,7 @@ export default function RoutineVisit() {
         const authorised = await fetch(endpoint(current.personId, selectedVisit), {
           cache: 'no-store', credentials: 'same-origin',
           headers: { 'x-saha-organisation': current.organisationId } });
-        if (!mounted.current) return null;
+        if (!mounted.current || revoked()) { void authorised.body?.cancel().catch(()=>{}); return null; }
         if ([401,403,404].includes(authorised.status)) {
           clearProtected(); setUncertain(true); setNotice('Access refused. Protected content cleared.'); return null;
         }
@@ -128,6 +138,7 @@ export default function RoutineVisit() {
           setNotice('Sign in with the original account to check this attempt. Protected content cleared.'); return null;
         }
         const value: RoutineContext = await authorised.json();
+        if (!mounted.current || revoked()) return null;
         if (value.person.id !== current.personId || value.organisationId !== current.organisationId ||
             (selectedVisit && value.visit?.id !== selectedVisit)) throw Error('Original selection could not be matched.');
         // Retain still-authorised unsaved edits. After a refusal only freshly
@@ -145,13 +156,14 @@ export default function RoutineVisit() {
         headers: { 'Content-Type': 'application/json', 'Idempotency-Key': current.key,
           'x-saha-organisation': current.organisationId, 'x-saha-operation-actor': current.actorId },
         body: JSON.stringify({ personId: current.personId, command: current.command }) });
-      if (!mounted.current) return null;
+      if (!mounted.current || revoked()) { void response.body?.cancel().catch(()=>{}); return null; }
       if (!response.ok) {
         if ([401,403,404].includes(response.status)) {
           clearProtected(); setUncertain(true); setNotice('Access refused. Protected content cleared.'); return null;
         }
         if (response.status >= 500) throw Error('Write outcome is uncertain. Keep this screen and check the exact attempt.');
         const problem = await response.json() as { error?: string; operation?: Partial<RoutineStaleRefusal> };
+        if (!mounted.current || revoked()) return null;
         const refusal = problem.operation;
         const staleAttempt = response.status === 409 && refusal &&
           response.headers.get('x-saha-operation-actor') === current.actorId &&
@@ -169,6 +181,7 @@ export default function RoutineVisit() {
         clearProtected(); throw Error('Original account could not be matched.');
       }
       const value = await response.json() as { context: RoutineContext; result: unknown };
+      if (!mounted.current || revoked()) return null;
       if (!value.context || value.context.person.id !== current.personId ||
           value.context.organisationId !== current.organisationId ||
           (current.command.type !== 'startVisit' && value.context.visit?.id !== current.command.visitId))
@@ -185,12 +198,12 @@ export default function RoutineVisit() {
   };
   const compare = async () => {
     if (!context || busy) return;
-    const generation=++comparisonReadGeneration.current;setBusy(true);setConflictChoices({});setConflictChecked(false);setConflictStale(false);
+    const generation=++comparisonReadGeneration.current, protection=protectionGeneration.current;setBusy(true);setConflictChoices({});setConflictChecked(false);setConflictStale(false);
     if(facts&&boundActor.current){comparisonMemory.current={base:structuredClone(context),facts:structuredClone(facts),actorId:boundActor.current,programme:programmeDraft.current?structuredClone(programmeDraft.current):null,programmeDirty};setComparisonProgrammeDirty(programmeDirty);comparisonBoundaryActive.current=true;}
     try {
       if(!comparisonReadCurrent(generation))return;
       const response = await fetch(endpoint(context.person.id, visit?.id), { cache: 'no-store', credentials: 'same-origin', signal:AbortSignal.timeout(20000), headers: { 'x-saha-organisation': context.organisationId } });
-      if(!comparisonReadCurrent(generation))return;
+      if(!comparisonReadCurrent(generation) || protection!==protectionGeneration.current){void response.body?.cancel().catch(()=>{});return;}
       if ([401,403,404].includes(response.status)) {
         setHeldComparison(Boolean(comparisonMemory.current));clearProtected(); setUncertain(Boolean(attempt.current)); setNotice('Access refused. Protected content cleared.'); return;
       }
@@ -200,10 +213,11 @@ export default function RoutineVisit() {
         setNotice('Sign in with the original account to check this attempt. Protected content cleared.'); return;
       }
       const value: RoutineContext = await response.json();
+      if (!mounted.current || protection!==protectionGeneration.current) return;
       if (value.person.id !== context.person.id || value.organisationId !== context.organisationId ||
           value.visit?.id !== visit?.id) throw Error();
       if(!comparisonReadCurrent(generation))return;setLatest(value); setNotice('Latest saved record loaded for comparison. Your entries have not been replaced.');
-    } catch { if(mounted.current&&generation===comparisonReadGeneration.current){setLatest(null);setConflictStale(true);setNotice('Saved record unavailable. Your entries remain on screen.');} }
+    } catch { if(mounted.current&&generation===comparisonReadGeneration.current&&protection===protectionGeneration.current){setLatest(null);setConflictStale(true);setNotice('Saved record unavailable. Your entries remain on screen.');} }
     finally { if(mounted.current)setBusy(false); }
   };
   const recoverComparison=async()=>{
@@ -254,9 +268,11 @@ export default function RoutineVisit() {
   const setProvenance = (measure: Measure, source: FactSource, at?: string) => {invalidateComparisonForEdit();setFacts(previous => !previous ? previous :
     { ...previous, provenance: { ...previous.provenance, [measure]: { source, ...(at ? { at } : {}) } } });};
   const problems = facts && visit ? captureProblems(facts, visit) : [];
-  return <main className="routine-visit" aria-busy={busy}>
+  return <I18nProvider lang={displayLanguage}><main className="routine-visit" lang="en" aria-busy={busy}>
     <p>Saha · Synthetic / training</p><h1 ref={heading} tabIndex={-1}>Routine visit</h1>
     <p role="status">{notice}</p>
+    {languageBinding && <InterfaceLanguage binding={languageBinding} onLanguage={setDisplayLanguage} onRefused={()=>{clearProtected();setNotice('Access refused. Protected content cleared.');}}/>}
+    <TranslationNotice partial={true} untranslated={false}/>
     {context && <>
       <section aria-label="Selected person"><h2>{context.person.name}</h2><p>{context.person.village} · {context.person.id}</p>
         <p>{context.person.age} years · {context.person.sex} · Person version {context.person.version}</p>
@@ -264,9 +280,9 @@ export default function RoutineVisit() {
       </section>
       <RoutineSaveStatus visit={visit ?? null} dirty={dirty} busy={busy} uncertain={uncertain}/>
       {!visit ? <button disabled={busy || uncertain} onClick={() => void send({ type: 'startVisit', personId: context.person.id }, 'Server draft started or resumed and read back.')}>Start or resume routine draft</button> : facts &&
-      <GuidedCapture enabled={true} identity={context.person.name + ' · ' + context.person.id} problems={problems}
+      <div lang={displayLanguage}><GuidedCapture enabled={true} identity={context.person.name + ' · ' + context.person.id} problems={problems}
         steps={[{id:'time',label:'Observation time'},...MEASURES.map(measure => ({id:factStep(measure),label:measure})),{id:'notes',label:'Visit notes'},{id:'review',label:'Review and save'}]}>
-        <CaptureStage id="time"><label>Visit observation time (UTC)<input type="datetime-local" disabled={!edit} value={facts.date} onChange={event => {invalidateComparisonForEdit();setFacts({...facts,date:event.target.value});}}/></label></CaptureStage>
+        <I18nProvider lang="en"><div lang="en"><CaptureStage id="time"><label>Visit observation time (UTC)<input type="datetime-local" disabled={!edit} value={facts.date} onChange={event => {invalidateComparisonForEdit();setFacts({...facts,date:event.target.value});}}/></label></CaptureStage>
         {MEASURES.map(measure => <CaptureStage key={measure} id={factStep(measure)}>
           {VALUE_FIELDS.filter(field => measureOf(field) === measure).map(field => <label key={field}>{VALUE_RANGES.fields[field].label} ({VALUE_RANGES.fields[field].unit})
             <input aria-label={VALUE_RANGES.fields[field].label + ' (' + VALUE_RANGES.fields[field].unit + ')'} inputMode="decimal" maxLength={12} disabled={!edit} value={facts[field]} onChange={event => setValue(field,event.target.value)}/>
@@ -288,7 +304,8 @@ export default function RoutineVisit() {
           {visit.state === 'draft' && <><label><input type="checkbox" disabled={!edit || dirty} checked={checked} onChange={event => setChecked(event.target.checked)}/>I checked {context.person.name} · {context.person.id} for this visit.</label>
             <button disabled={!edit || dirty || !checked} onClick={() => void send({type:'confirmVisit',visitId:visit.id,version:visit.version,patientCheck:{personId:context.person.id,personVersion:context.person.version,confirmed:true}},'Confirmed encounter saved and read back. Destination remains not submitted.')}>Confirm checked visit</button></>}
         </CaptureStage>
-      </GuidedCapture>}
+        </div></I18nProvider>
+      </GuidedCapture></div>}
       {visit && <button disabled={busy} onClick={() => void compare()}>Compare latest saved record</button>}
       {latest && <section aria-label="Saved record comparison"><h2>Saved version {latest.visit?.version}</h2><p>Your version {visit?.version}; unsaved entries remain in the editor.</p><pre>{JSON.stringify(latest.visit?.facts,null,2)}</pre>
         {review&&<section aria-label="Observation conflict review"><h3>Review each changed observation group</h3><p>Original version {review.base.visit?.version}; current saved version {review.current.visit?.version}. Choices stay unsaved. Values, paired blood pressure, source/time, units and unusual-value reasons remain together.</p>
@@ -309,5 +326,5 @@ export default function RoutineVisit() {
       <button disabled={busy} onClick={() => attempt.current && void send(attempt.current.command,'Exact operation reconciled and read back.',true)}>Check exact write attempt</button>
     </section>}
     <a href="/today">Back to Today</a><p>Entries on this screen are not a durable local save. This connected flow needs the server; prepared encrypted offline work is a separate journey.</p>
-  </main>;
+  </main></I18nProvider>;
 }

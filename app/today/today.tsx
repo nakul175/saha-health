@@ -136,6 +136,8 @@ export default function Today() {
             encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review original fact times</a>
           <a href={'/plan-review?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
             encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review proposed actions</a>
+          <a href={'/household-proxy-review?personId=' + encodeURIComponent(record.id) + '&organisationId=' + encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review household and proxy boundaries</a>
+          <a href={'/care-permissions?'+new URLSearchParams({organisationId:view.kind==='record'?view.organisationId:''})}>Review my care permissions</a>
         </>
       ) : (
         <>

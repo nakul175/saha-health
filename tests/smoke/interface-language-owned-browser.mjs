@@ -1,0 +1,30 @@
+// BR-UX-05 / NFR-15: portable ownership adapter for the unchanged current 55-check
+// built Worker/D1 language driver. Hindi remains draft; no formal acceptance.
+import assert from 'node:assert/strict';
+import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, unlinkSync, readdirSync, statSync } from 'node:fs';
+import { resolve, join } from 'node:path';
+import { createServer } from 'node:net';
+import { runOwnedCommand, sha256 } from '../lib/routine-retention/containment.mjs';
+
+const reports=resolve('tests/reports'), attempt=join(reports,`interface-language-owned-${Date.now()}-${process.pid}`);
+const canonical=join(reports,'interface-language-owned-result.json');
+mkdirSync(reports,{recursive:true});assert.equal(existsSync(attempt),false);mkdirSync(attempt);
+if(existsSync(canonical)){copyFileSync(canonical,join(attempt,'previous-result.json'));unlinkSync(canonical);}
+const capture=()=>{const files=[],walk=p=>{for(const name of readdirSync(p)){const file=join(p,name);if(statSync(file).isDirectory())walk(file);else files.push(file);}};for(const p of ['app','lib','dist'])walk(p);files.push('tests/interface-language-contract.mjs','tests/smoke/interface-language-browser.mjs','tests/lib/interface-language-native-runtime.mjs','tests/smoke/interface-language-owned-browser.mjs','tests/lib/routine-retention/containment.mjs');return Object.fromEntries(files.sort().map(p=>[p,sha256(readFileSync(p))]));};
+const before=capture(),abort=new AbortController();let command=null,handle=null;
+const stop=signal=>abort.abort(new Error(`Language native wrapper cancelled: ${signal}`));
+const term=()=>stop('SIGTERM'),interrupt=()=>stop('SIGINT');process.on('SIGTERM',term);process.on('SIGINT',interrupt);
+try{
+ const native=join(attempt,'native');
+ command=await runOwnedCommand(process.execPath,[resolve('tests/smoke/interface-language-browser.mjs')],{cwd:process.cwd(),env:{...process.env,SAHA_INTERFACE_LANGUAGE_OUTPUT:native,SAHA_INTERFACE_LANGUAGE_PORT:process.env.SAHA_INTERFACE_LANGUAGE_PORT??'21961'},stdout:join(attempt,'stdout.log'),stderr:join(attempt,'stderr.log'),timeoutMs:180000,graceMs:10000,abortSignal:abort.signal,onSpawn:value=>{handle=value;writeFileSync(join(attempt,'registered-handle.json'),JSON.stringify(value,null,2)+'\n',{flag:'wx'});}});
+ writeFileSync(join(attempt,'command.json'),JSON.stringify(command,null,2)+'\n',{flag:'wx'});
+ assert.equal(command.ok,true,'Actual unchanged native driver must pass and its registered process group must be empty.');
+ assert.equal(abort.signal.aborted,false);
+ const bytes=readFileSync(join(native,'result.json')),result=JSON.parse(bytes),custody=JSON.parse(readFileSync(join(native,'custody.json'))),lifecycle=JSON.parse(readFileSync(join(native,'native-lifecycle.json')));
+ assert.equal(result.passed,55);assert.equal(result.failed,0);assert.equal(result.skipped,0);assert.equal(result.checks.length,55);
+ assert.equal(custody.equal,true);assert.equal(lifecycle.disposed,true);assert.deepEqual(lifecycle.errors,[]);assert.deepEqual(capture(),before);
+ await new Promise((yes,no)=>{const probe=createServer(),timer=setTimeout(()=>{probe.close();no(new Error('Owned language port-free observation exceeded1500ms.'));},1500);probe.once('error',error=>{clearTimeout(timer);no(error);});probe.listen(lifecycle.port,'127.0.0.1',()=>probe.close(error=>{clearTimeout(timer);error?no(error):yes();}));});
+ writeFileSync(join(attempt,'qualification.json'),JSON.stringify({atUtc:new Date().toISOString(),nativeResultSHA256:sha256(bytes),sourceBuildUnchanged:true,pins:Object.keys(before).length,registeredGroup:command.registeredGroup,liveGroupAfterCleanup:command.liveGroupAfterCleanup,actualOwnedPortFree:true,port:lifecycle.port,limits:'Current unchanged 55 native groups, synthetic only; Hindi draft and clinical-save named race remain separate from preference effects. No current-head CI, human/domain/formal/device/hosting acceptance.'},null,2)+'\n',{flag:'wx'});
+ writeFileSync(canonical,bytes,{flag:'wx'});console.log(JSON.stringify({passed:55,failed:0,skipped:0,attempt,countSource:'actual qualified native result'}));
+}catch(error){writeFileSync(join(attempt,'failure.json'),JSON.stringify({atUtc:new Date().toISOString(),error:String(error.stack??error),command,handle,cancelled:abort.signal.aborted,canonicalWritten:existsSync(canonical)},null,2)+'\n',{flag:'wx'});throw error;}
+finally{process.off('SIGTERM',term);process.off('SIGINT',interrupt);}
