@@ -1,0 +1,139 @@
+{
+  "state": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-deploy-review-dff67aa1-8299-4f50-9e5b-f3d19f0e0e87",
+  "port": 21997,
+  "base": "http://127.0.0.1:21997",
+  "ownerPid": 59171,
+  "ready": true,
+  "disposed": true,
+  "migration": {
+    "command": "/Users/athena/.local/node/v24.21.0/bin/node",
+    "args": [
+      "--import",
+      "./scripts/sites-env.mjs",
+      "./node_modules/wrangler/bin/wrangler.js",
+      "d1",
+      "execute",
+      "DB",
+      "--local",
+      "--config",
+      "dist/server/wrangler.json",
+      "--persist-to",
+      "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-deploy-review-dff67aa1-8299-4f50-9e5b-f3d19f0e0e87",
+      "--file",
+      "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/deployment-evidence-review/native-owned002/native/original-migrations.sql"
+    ],
+    "startedAt": "2026-10-13T03:50:27.384Z",
+    "pid": 59172,
+    "registeredGroup": null,
+    "cleanupScope": "direct child only; outer registered driver group contains descendants",
+    "timeoutMs": 60000,
+    "graceMs": 3000,
+    "timedOut": false,
+    "cancelled": false,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "cleanupErrors": [],
+    "signals": [],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-13T03:50:28.033Z",
+    "ms": 648.683125,
+    "ok": true
+  },
+  "migrationFiles": 33,
+  "migrationSourcePins": {
+    "drizzle/0000_handy_blockbuster.sql": "2236e64f6447dbe48fbb36e4d3a7244dd03cf39cdb7123ab5c6e83f573defce6",
+    "drizzle/0001_tearful_victor_mancha.sql": "139f64838d42486d5a2c0563eca6ad65d9a64db71733fb81155d345189f76ee0",
+    "drizzle/0002_petite_marten_broadcloak.sql": "f6af8de70b458aede86cfd9e60339fdcc2f5cfc3844b21281994f52718502f55",
+    "drizzle/0003_sparkling_red_wolf.sql": "2822e27e9b56cca50e9e3ced7195618825a36f0ecf51507d35b75ceff349811d",
+    "drizzle/0004_freezing_scarlet_witch.sql": "12002e1afdce4461b293e33b62bb59e867c674350168dfa2e40f8e5848217c04",
+    "drizzle/0005_breezy_killraven.sql": "dee0b347e61d9e4105476fc22b28f496c28cbb15b86d8958f6736db5417ca03b",
+    "drizzle/0006_patient_concurrency.sql": "aec549f8f38528a2ff556a76e1e3590abadaee7f3fac3c22ebba982e1d068cc3",
+    "drizzle/0007_households.sql": "9e7969af8750530819f3184a36f3fa4e65cbcad9afae16dad3febd6f76f8fb55",
+    "drizzle/0008_caseload_transfers.sql": "79505896f6998e68976fce2039ed019dcc64f42be3d42a4bfd026d8b4dccf114",
+    "drizzle/0009_identity_cases.sql": "2a9bee76aaf7a4e4cebf17a8f919bf516d9f94cfdf6fd1fd775e8ff5fcc0fbab",
+    "drizzle/0010_rights_requests.sql": "146897ace5fafcd8a06d6c0c9ca8a587e2c690e7b0f0b7fd868e7cee93dd2b4c",
+    "drizzle/0011_retention.sql": "2a95cd06b7fd881a823ff8ddff3971ca3c43108305afdc548de04e0c11ca74cf",
+    "drizzle/0012_media.sql": "cae1e5b2f698314d9efa7e69560347d4fae4d8247ef6ea20050dd328880abc12",
+    "drizzle/0013_audit_chain.sql": "f24a3d74d373b1629b6120459372558c407224585c1568b33af01662c3ade402",
+    "drizzle/0014_alert_delivery.sql": "7c54e02a59ef40099b3054c48a7ff0a29161008f2c6ed9c8e65546b172c24eb9",
+    "drizzle/0015_notification_channel.sql": "b4a69051fe3c469a424b062fb0b81a86e1c28eaa7301d8d410981a3b7f0ce792",
+    "drizzle/0016_scheduled_cursor.sql": "6d9a557b92fc0c330923bf050cc5f1e5ee67969f9f9f09295dc611e4472a4528",
+    "drizzle/0017_audit_time_indexes.sql": "5f422573b8bb220d31b748121d393cbc34168a4ff3e02170f5399df471f40305",
+    "drizzle/0018_abha_review_reservations.sql": "e6fbb3528dffc83ebc6ce8d8c842e8530ea71a85f5ab049a3d68b2c37a69be15",
+    "drizzle/0019_availability_samples.sql": "93f9914cf9b01341c8f26315463ae9a31bb8c836751025d4ab25094d8e4591d3",
+    "drizzle/0020_device_work.sql": "f12c07f8698406fa354735b7d1393f648dc29b6150da51fdd8b0ebf67bf746c1",
+    "drizzle/0021_work_burden.sql": "29901d522ebe932c75780d8d7c9588e034737a056e772729e82148c05734a223",
+    "drizzle/0022_registration_device_work.sql": "cbfe4dc10988e175c61cddd6ca7fbf0f974c2dc474ad16df23150eeba2c999ac",
+    "drizzle/0023_offline_opens.sql": "d202d2b2ce30d50fc95f757bab4a5cc45e2a51c811bcc2db94d3da8476eb20a1",
+    "drizzle/0024_registration_wire_receipts.sql": "17a610fa08bf46f06a056b8c69d90db0accbc69ae9bc935e4e8d76b47e67206a",
+    "drizzle/0025_clinical_source_documents.sql": "979c344af89901879c39c377b4af335187ec8181bbc616f138730f8f55ce7dec",
+    "drizzle/0026_work_burden_sessions.sql": "18449d9ba061f220a81da8ae49465683149c1195f89ef299fc242baa4b741ffe",
+    "drizzle/0027_indicator_figures.sql": "272ed0cdabacc87f91dd1ee48ca13e992a49e808e38dfb450ae5892fd41baaef",
+    "drizzle/0028_indicator_figure_disclosures.sql": "bbd7962a8a836e7c43eefceb41f6797814af75908217047b9f689a7edbf247f8",
+    "drizzle/0029_object_media.sql": "dc6d79a38a3fa6b0d15f2843deda013c65f9e64bb8b445614a9667607d3f8a09",
+    "drizzle/0030_reporting_completeness.sql": "b5bb2ac7f8a19e7a78318105117dad9e07c923fb118260ee569f7798ed8a47d4",
+    "drizzle/0031_installed_pack_work.sql": "17c9cefabde9885d6ab292bcc06ec376eb8f999a5919a33ed923806e4282b676",
+    "drizzle/0032_installed_pack_transition.sql": "5a0a8999355222ffe4867ac30ef6a138d365c9f119cd707b999288de17536995"
+  },
+  "migrationHandle": {
+    "pid": 59172,
+    "registeredGroup": null
+  },
+  "phases": [
+    {
+      "name": "checking allocated loopback port",
+      "at": "2026-10-13T03:50:27.378Z"
+    },
+    {
+      "name": "applying original migrations in one bounded native D1 command",
+      "at": "2026-10-13T03:50:27.384Z"
+    },
+    {
+      "name": "native migration handle recorded before waiting",
+      "at": "2026-10-13T03:50:27.386Z"
+    },
+    {
+      "name": "constructing one owned Miniflare application runtime",
+      "at": "2026-10-13T03:50:28.112Z"
+    },
+    {
+      "name": "Miniflare cleanup handle exists before readiness",
+      "at": "2026-10-13T03:50:28.118Z"
+    },
+    {
+      "name": "native Worker ready",
+      "at": "2026-10-13T03:50:28.266Z"
+    },
+    {
+      "name": "attempting bounded native disposal",
+      "at": "2026-10-13T03:50:32.352Z"
+    },
+    {
+      "name": "native disposal completed",
+      "at": "2026-10-13T03:50:32.362Z"
+    }
+  ],
+  "errors": [],
+  "migrationConcatenationSha256": "a4ae1a4914b89a37d1c9ac3cec2bb387b825098bc0dfe4e1e8738c821c44b438",
+  "migrationGroupObservation": {
+    "observerPid": 59181,
+    "observerDetached": true,
+    "exitCode": 0,
+    "signal": null,
+    "targetGroup": 59171,
+    "rows": [
+      {
+        "pid": 59171,
+        "pgid": 59171,
+        "ppid": 59164,
+        "state": "Ss"
+      }
+    ]
+  },
+  "migrationDriverGroupMatched": true,
+  "migrationDescendantsAfterExit": []
+}

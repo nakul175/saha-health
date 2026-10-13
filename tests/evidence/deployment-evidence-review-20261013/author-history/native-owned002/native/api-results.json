@@ -1,0 +1,539 @@
+[
+  {
+    "method": "GET",
+    "status": 200,
+    "value": {
+      "actorId": "t-16752039-deployment-evidence-owner",
+      "organisationId": "org_4ea8127f485117a314150c40279b4dc2",
+      "organisationName": "Rampur care organisation",
+      "contextHash": "722927e5ebf99d014c535eff0e1679f830e3b3732715916113a634483671be74",
+      "refreshAt": null,
+      "entries": [],
+      "clinicalDeployment": false,
+      "readOnly": true
+    }
+  },
+  {
+    "method": "GET",
+    "status": 401,
+    "value": {
+      "error": "Sign in to use your workspace."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 403,
+    "value": {
+      "error": "A current clinician organisation owner is required."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 403,
+    "value": {
+      "error": "Your organisation membership is inactive or unavailable."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 403,
+    "value": {
+      "error": "Your organisation membership is inactive or unavailable."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 403,
+    "value": {
+      "error": "The signed-in review account changed."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 200,
+    "value": {
+      "actorId": "t-16752039-deployment-evidence-owner",
+      "organisationId": "org_4ea8127f485117a314150c40279b4dc2",
+      "organisationName": "Rampur care organisation",
+      "contextHash": "135865470fc813115e61a0c56e3ed6efed7559cc6ac0caa5fd9aa7568b142e6e",
+      "refreshAt": null,
+      "entries": [
+        {
+          "id": "f4ecb5e8-aea2-4d2e-89fb-4d549f0ff345",
+          "key": "review-evidence",
+          "title": "Synthetic capability evidence",
+          "revision": 1,
+          "version": 1,
+          "manifestHash": "133875bf4063fd8b225cd8bdf8a20888b2e93aee0b9b3c1642d8ae669f1a2afd",
+          "providerId": "local",
+          "model": "structured-parser-v2",
+          "agentVersion": "saha-agent-1.2.0",
+          "currentProvider": {
+            "id": "local",
+            "name": "Local record assistant",
+            "mode": "local",
+            "model": "structured-parser-v2",
+            "version": 2,
+            "available": true,
+            "reason": "Rules only; no language model or external data transfer."
+          },
+          "intended": {
+            "ageMin": 10,
+            "ageMax": 80,
+            "languages": [
+              "en",
+              "hi"
+            ],
+            "settings": [
+              "community"
+            ],
+            "roles": [
+              "asha"
+            ],
+            "teams": [
+              {
+                "id": "default",
+                "name": "Rampur care team"
+              }
+            ],
+            "tasks": [
+              "extract"
+            ],
+            "devices": [
+              "browser"
+            ],
+            "purpose": "documentary-evidence",
+            "excludedUses": "No diagnosis, prescription or automatic clinical action.",
+            "reviewBy": "2099-01-01",
+            "effectiveFrom": "2026-10-13"
+          },
+          "evaluations": [],
+          "independentReview": null,
+          "recordedLocalState": "draft",
+          "localIssues": [
+            "Independent clinical review required"
+          ],
+          "localHistory": [
+            {
+              "at": "2026-10-13T03:50:29.492Z",
+              "by": "t-16752039-deployment-evidence-owner",
+              "state": "draft",
+              "reason": "Original synthetic capability draft only, not clinical approval."
+            }
+          ],
+          "regulatoryStatus": "not-recorded",
+          "signedDeploymentAuthorisation": "not-recorded",
+          "clinicalAuthorised": false
+        }
+      ],
+      "clinicalDeployment": false,
+      "readOnly": true
+    }
+  },
+  {
+    "method": "GET",
+    "status": 200,
+    "value": {
+      "actorId": "t-16752039-deployment-evidence-owner",
+      "organisationId": "org_4ea8127f485117a314150c40279b4dc2",
+      "organisationName": "Rampur care organisation",
+      "contextHash": "ce910b1d37fe2514d26ddf0ab444404443fd629065a02d70e7c4b82c5ee9ad8d",
+      "refreshAt": null,
+      "entries": [
+        {
+          "id": "f4ecb5e8-aea2-4d2e-89fb-4d549f0ff345",
+          "key": "review-evidence",
+          "title": "Synthetic capability evidence",
+          "revision": 1,
+          "version": 1,
+          "manifestHash": "133875bf4063fd8b225cd8bdf8a20888b2e93aee0b9b3c1642d8ae669f1a2afd",
+          "providerId": "local",
+          "model": "structured-parser-v2",
+          "agentVersion": "saha-agent-1.2.0",
+          "currentProvider": {
+            "id": "local",
+            "name": "Local record assistant",
+            "mode": "local",
+            "model": "structured-parser-v2",
+            "version": 2,
+            "available": true,
+            "reason": "Rules only; no language model or external data transfer."
+          },
+          "intended": {
+            "ageMin": 10,
+            "ageMax": 80,
+            "languages": [
+              "en",
+              "hi"
+            ],
+            "settings": [
+              "community"
+            ],
+            "roles": [
+              "asha"
+            ],
+            "teams": [
+              {
+                "id": "default",
+                "name": "Rampur care team"
+              }
+            ],
+            "tasks": [
+              "extract"
+            ],
+            "devices": [
+              "browser"
+            ],
+            "purpose": "documentary-evidence",
+            "excludedUses": "No diagnosis, prescription or automatic clinical action.",
+            "reviewBy": "2099-01-01",
+            "effectiveFrom": "2026-10-13"
+          },
+          "evaluations": [
+            {
+              "id": "synthetic-scored-evidence",
+              "manifestHash": "133875bf4063fd8b225cd8bdf8a20888b2e93aee0b9b3c1642d8ae669f1a2afd",
+              "provider": {
+                "id": "local",
+                "name": "Local record assistant",
+                "mode": "local",
+                "model": "structured-parser-v2",
+                "version": 2
+              },
+              "agentVersion": "saha-agent-1.2.0",
+              "corpusVersion": "saha-synthetic-evidence-1",
+              "corpusHash": "2271328aa1c4519b8c904344640f300e018e99ccba6daed8e9bdcb2bc27490d6",
+              "caseCount": 18,
+              "state": "completed",
+              "createdAt": "2026-10-13T03:50:29.486Z",
+              "currentCorpus": true,
+              "matchesManifest": true,
+              "matchesCurrentProvider": true,
+              "recomputed": {
+                "passed": true,
+                "precision": 1,
+                "recall": 1,
+                "failed": 0,
+                "criticalFailures": 0
+              },
+              "studySetting": "Hand-authored synthetic engineering examples; no representative clinical study.",
+              "population": "Representative population, age distribution and clinical setting are not recorded by this evaluation contract."
+            }
+          ],
+          "independentReview": null,
+          "recordedLocalState": "draft",
+          "localIssues": [
+            "Independent clinical review required"
+          ],
+          "localHistory": [
+            {
+              "at": "2026-10-13T03:50:29.492Z",
+              "by": "t-16752039-deployment-evidence-owner",
+              "state": "draft",
+              "reason": "Original synthetic capability draft only, not clinical approval."
+            }
+          ],
+          "regulatoryStatus": "not-recorded",
+          "signedDeploymentAuthorisation": "not-recorded",
+          "clinicalAuthorised": false
+        }
+      ],
+      "clinicalDeployment": false,
+      "readOnly": true
+    }
+  },
+  {
+    "method": "GET",
+    "status": 503,
+    "value": {
+      "error": "Recorded evaluation metrics cannot be reproduced."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 200,
+    "value": {
+      "actorId": "t-16752039-deployment-evidence-owner",
+      "organisationId": "org_4ea8127f485117a314150c40279b4dc2",
+      "organisationName": "Rampur care organisation",
+      "contextHash": "3a073f18d707f269c9c0ce66ea3da5b0ab38c513bd0f2143b635b445cca909a6",
+      "refreshAt": null,
+      "entries": [
+        {
+          "id": "f4ecb5e8-aea2-4d2e-89fb-4d549f0ff345",
+          "key": "review-evidence",
+          "title": "Synthetic capability evidence",
+          "revision": 1,
+          "version": 1,
+          "manifestHash": "133875bf4063fd8b225cd8bdf8a20888b2e93aee0b9b3c1642d8ae669f1a2afd",
+          "providerId": "local",
+          "model": "structured-parser-v2",
+          "agentVersion": "saha-agent-1.2.0",
+          "currentProvider": {
+            "id": "local",
+            "name": "Local record assistant",
+            "mode": "local",
+            "model": "structured-parser-v2",
+            "version": 2,
+            "available": true,
+            "reason": "Rules only; no language model or external data transfer."
+          },
+          "intended": {
+            "ageMin": 10,
+            "ageMax": 80,
+            "languages": [
+              "en",
+              "hi"
+            ],
+            "settings": [
+              "community"
+            ],
+            "roles": [
+              "asha"
+            ],
+            "teams": [
+              {
+                "id": "default",
+                "name": "Rampur care team"
+              }
+            ],
+            "tasks": [
+              "extract"
+            ],
+            "devices": [
+              "browser"
+            ],
+            "purpose": "documentary-evidence",
+            "excludedUses": "No diagnosis, prescription or automatic clinical action.",
+            "reviewBy": "2099-01-01",
+            "effectiveFrom": "2026-10-13"
+          },
+          "evaluations": [
+            {
+              "id": "synthetic-scored-evidence",
+              "manifestHash": "133875bf4063fd8b225cd8bdf8a20888b2e93aee0b9b3c1642d8ae669f1a2afd",
+              "provider": {
+                "id": "local",
+                "name": "Local record assistant",
+                "mode": "local",
+                "model": "structured-parser-v2",
+                "version": 1
+              },
+              "agentVersion": "saha-agent-1.2.0",
+              "corpusVersion": "saha-synthetic-evidence-1",
+              "corpusHash": "2271328aa1c4519b8c904344640f300e018e99ccba6daed8e9bdcb2bc27490d6",
+              "caseCount": 18,
+              "state": "completed",
+              "createdAt": "2026-10-13T03:50:29.486Z",
+              "currentCorpus": true,
+              "matchesManifest": true,
+              "matchesCurrentProvider": false,
+              "recomputed": {
+                "passed": true,
+                "precision": 1,
+                "recall": 1,
+                "failed": 0,
+                "criticalFailures": 0
+              },
+              "studySetting": "Hand-authored synthetic engineering examples; no representative clinical study.",
+              "population": "Representative population, age distribution and clinical setting are not recorded by this evaluation contract."
+            }
+          ],
+          "independentReview": null,
+          "recordedLocalState": "draft",
+          "localIssues": [
+            "Independent clinical review required"
+          ],
+          "localHistory": [
+            {
+              "at": "2026-10-13T03:50:29.492Z",
+              "by": "t-16752039-deployment-evidence-owner",
+              "state": "draft",
+              "reason": "Original synthetic capability draft only, not clinical approval."
+            }
+          ],
+          "regulatoryStatus": "not-recorded",
+          "signedDeploymentAuthorisation": "not-recorded",
+          "clinicalAuthorised": false
+        }
+      ],
+      "clinicalDeployment": false,
+      "readOnly": true
+    }
+  },
+  {
+    "method": "GET",
+    "status": 503,
+    "value": {
+      "error": "Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 403,
+    "value": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 409,
+    "value": {
+      "error": "Evidence, provider or review authority changed before publication. Refresh."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 403,
+    "value": {
+      "error": "A current clinician organisation owner is required."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 200,
+    "value": {
+      "actorId": "t-16752039-deployment-evidence-owner",
+      "organisationId": "org_4ea8127f485117a314150c40279b4dc2",
+      "organisationName": "Rampur care organisation",
+      "contextHash": "f0ecd5cc04540cd56a608d684eeb9e607f6aa4e5da20df198c95cc5f6a02950d",
+      "refreshAt": "2026-10-14T03:50:30.606Z",
+      "entries": [
+        {
+          "id": "f4ecb5e8-aea2-4d2e-89fb-4d549f0ff345",
+          "key": "review-evidence",
+          "title": "Synthetic capability evidence",
+          "revision": 1,
+          "version": 1,
+          "manifestHash": "133875bf4063fd8b225cd8bdf8a20888b2e93aee0b9b3c1642d8ae669f1a2afd",
+          "providerId": "local",
+          "model": "structured-parser-v2",
+          "agentVersion": "saha-agent-1.2.0",
+          "currentProvider": {
+            "id": "local",
+            "name": "Local record assistant",
+            "mode": "local",
+            "model": "structured-parser-v2",
+            "version": 2,
+            "available": true,
+            "reason": "Rules only; no language model or external data transfer."
+          },
+          "intended": {
+            "ageMin": 10,
+            "ageMax": 80,
+            "languages": [
+              "en",
+              "hi"
+            ],
+            "settings": [
+              "community"
+            ],
+            "roles": [
+              "asha"
+            ],
+            "teams": [
+              {
+                "id": "default",
+                "name": "Rampur care team"
+              }
+            ],
+            "tasks": [
+              "extract"
+            ],
+            "devices": [
+              "browser"
+            ],
+            "purpose": "documentary-evidence",
+            "excludedUses": "No diagnosis, prescription or automatic clinical action.",
+            "reviewBy": "2099-01-01",
+            "effectiveFrom": "2026-10-13"
+          },
+          "evaluations": [
+            {
+              "id": "synthetic-scored-evidence",
+              "manifestHash": "133875bf4063fd8b225cd8bdf8a20888b2e93aee0b9b3c1642d8ae669f1a2afd",
+              "provider": {
+                "id": "local",
+                "name": "Local record assistant",
+                "mode": "local",
+                "model": "structured-parser-v2",
+                "version": 2
+              },
+              "agentVersion": "saha-agent-1.2.0",
+              "corpusVersion": "saha-synthetic-evidence-1",
+              "corpusHash": "2271328aa1c4519b8c904344640f300e018e99ccba6daed8e9bdcb2bc27490d6",
+              "caseCount": 18,
+              "state": "completed",
+              "createdAt": "2026-10-13T03:50:29.486Z",
+              "currentCorpus": true,
+              "matchesManifest": true,
+              "matchesCurrentProvider": true,
+              "recomputed": {
+                "passed": true,
+                "precision": 1,
+                "recall": 1,
+                "failed": 0,
+                "criticalFailures": 0
+              },
+              "studySetting": "Hand-authored synthetic engineering examples; no representative clinical study.",
+              "population": "Representative population, age distribution and clinical setting are not recorded by this evaluation contract."
+            }
+          ],
+          "independentReview": null,
+          "recordedLocalState": "draft",
+          "localIssues": [
+            "Independent clinical review required"
+          ],
+          "localHistory": [
+            {
+              "at": "2026-10-13T03:50:29.492Z",
+              "by": "t-16752039-deployment-evidence-owner",
+              "state": "draft",
+              "reason": "Original synthetic capability draft only, not clinical approval."
+            }
+          ],
+          "regulatoryStatus": "not-recorded",
+          "signedDeploymentAuthorisation": "not-recorded",
+          "clinicalAuthorised": false
+        }
+      ],
+      "clinicalDeployment": false,
+      "readOnly": true
+    }
+  },
+  {
+    "method": "GET",
+    "status": 409,
+    "value": {
+      "error": "Resolve due or held assignments through the existing authority workflow before reopening deployment evidence review."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 409,
+    "value": {
+      "error": "Resolve due or held assignments through the existing authority workflow before reopening deployment evidence review."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 503,
+    "value": {
+      "error": "Current assignment context is unavailable."
+    }
+  },
+  {
+    "method": "GET",
+    "status": 200,
+    "value": {
+      "actorId": "opaque/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "organisationId": "org_6977460a1d9bd6c7858524d679ac2d86",
+      "organisationName": "Rampur care organisation",
+      "contextHash": "9d18168dd87ec4adac06127a420fa9a3332edae96d3b6abf1d06b9bdc49dab38",
+      "refreshAt": null,
+      "entries": [],
+      "clinicalDeployment": false,
+      "readOnly": true
+    }
+  }
+]
