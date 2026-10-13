@@ -241,6 +241,18 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
             archive=(ROOT/binding['archivedSource']).resolve()
             require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical phone-source preimage')
             path=archive
+        # One exact historical offline cold-sync fixture preimage. The immutable
+        # original execution manifest stays bound to its archived source while
+        # the current bounded-poll fixture is pinned by the current baseline.
+        if str(manifest_path.relative_to(ROOT))=='tests/evidence/offline-sync-hash-cold/manifest.json' and report=='tests/offline-sync-hash-cold-extra-browser.mjs' and path.is_file() and digest(path)!=expected:
+            binding=read_json('docs/verification/evidence-source-snapshot-offline-sync-cold-poll-20261013.json')
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound historical offline-sync-cold manifest')
+            require(binding['sourcePath']==report and binding['originalManifestPin']=='files.tests/offline-sync-hash-cold-extra-browser.mjs' and binding['originalSourceSha256']==expected and isinstance(binding['originalSourceBytes'],int) and binding['originalSourceBytes']>0,'Unbound historical offline-sync-cold source pin')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current offline-sync-cold fixture is not independently pinned by the current baseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical offline-sync-cold source preimage')
+            path=archive
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.
         # Report/evidence paths always remain checked in place and cannot use an archive.
