@@ -36,6 +36,7 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
   '/api/today': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
+  '/api/selective-reuse': w => [{q:`?personId=${w.people.a2}`,kind:'person'}],
   '/api/routine-visit': w => [
     { q: `?personId=${w.people.a2}`, kind: 'person' },
     { q: `?personId=${w.people.a2}&visitId=${w.visits.v2}`, kind: 'person' },
@@ -134,6 +135,7 @@ try {
     assert.equal(detail.cells.asha2.status, 200);
     assert.ok([403, 404].includes(detail.cells.asha1.status));
   });
+  await r.check('selective mapped review permits current scoped care users and refuses other roles', () => {const c=cases.find(x=>x.route==='/api/selective-reuse');assert.ok(c);for(const p of ['owner','clinician','asha2'])assert.equal(c.cells[p].status,200,fmt(c,p));assert.equal(c.cells.anonymous.status,401);assert.equal(c.cells.stranger.status,403);for(const p of ['asha1','admin','supervisor'])assert.ok([403,404].includes(c.cells[p].status),fmt(c,p));});
   await r.check('control: for every ASHA-readable route naming a resource of ASHA 2, ASHA 2 gets 200 (so ASHA 1\'s refusal is a scope refusal, not a malformed request)', () => none(violations((c, p) => p === 'asha2' && c.kind !== 'plain' && c.kind !== 'clinical-source-person' && c.cells[p].status !== 200 ? 'expected 200' : ''), 'asha2 control'));
   await r.check('clinical source history permits scoped clinicians and refuses both ASHAs including the assigned ASHA', () => { const c=cases.find(c=>c.route==='/api/imported-evidence');assert.ok(c);for(const p of ['owner','clinician'])assert.equal(c.cells[p].status,200,fmt(c,p));for(const p of ['asha1','asha2'])assert.equal(c.cells[p].status,403,fmt(c,p)); });
   await r.check('inbound conflict history permits scoped care clinicians and supervisor and refuses ASHAs and administrator', () => { const c=cases.find(c=>c.route==='/api/inbound-conflicts');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','clinician','supervisor'].includes(p)?200:403,fmt(c,p)); });

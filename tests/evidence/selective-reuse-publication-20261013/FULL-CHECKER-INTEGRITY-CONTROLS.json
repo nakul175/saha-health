@@ -1,0 +1,72 @@
+{
+  "atUtc": "2026-10-13T05:12:28.083021+00:00",
+  "scope": "Actual full unchanged branch checker executed on exact private mirror; source/report/history/criteria tamper only in mirror, each exactbyte restored. No app/runtime/source hooks or author-source changes.",
+  "positiveBefore": true,
+  "negativeControls": [
+    {
+      "name": "current-runtime-source",
+      "path": "lib/saha/selective-reuse.ts",
+      "exitCode": 1,
+      "refused": true,
+      "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA": "25a0aa6e3087f60f68ebd9c823b7b49995163b013327ffaf69280c14b2b24a94"
+    },
+    {
+      "name": "current-auth-source",
+      "path": "tests/nfr/authorisation-matrix-current.mjs",
+      "exitCode": 1,
+      "refused": true,
+      "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA": "3faa82a3fc3510ce526f8dc0caeed18540b92a7adc776bef5a64b7706c614b49"
+    },
+    {
+      "name": "current-native57-report",
+      "path": "tests/evidence/selective-reuse-deadline-repair-20261013/native002/native/result.json",
+      "exitCode": 1,
+      "refused": true,
+      "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA": "47735fa31a75fcea5cfdff9b66ea13ded5ee3b4b85c968c6cb0d28d1faf24f69"
+    },
+    {
+      "name": "original-matrix-manifest",
+      "path": "tests/evidence/routine-current-source-integration-20261011/manifest.json",
+      "exitCode": 1,
+      "refused": true,
+      "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA": "bffaa6fc39f3378ddc16095a8026c35aa99b80e4f8a4021a9224006ab2b73b13"
+    },
+    {
+      "name": "original-matrix-source-preimage",
+      "path": "docs/verification/evidence-source-snapshots/3779f8a562c132fac2b2ded74101a8438b5655389aacfb75e3da4990982fd5d3.txt",
+      "exitCode": 1,
+      "refused": true,
+      "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA": "10d70dc8b50e7f154f373befb725bca08d1d749583d486996a465325db4557e2"
+    },
+    {
+      "name": "current-source-binding",
+      "path": "docs/verification/evidence-source-snapshot-selective-matrix-20261013.json",
+      "exitCode": 1,
+      "refused": true,
+      "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA": "92abcb9d52a21cef889d21458e1b0212d114a81366989c864a18a6b28fffdc60"
+    },
+    {
+      "name": "new-guard-minimum",
+      "path": "tests/regression-baseline.json",
+      "exitCode": 1,
+      "refused": true,
+      "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA": "8978dc18397683aa5838ebc9319bb1b525268b139c5a839ea020c6345462b39e"
+    },
+    {
+      "name": "original-product-contract",
+      "path": "requirements/brd-v1.1.json",
+      "exitCode": 1,
+      "refused": true,
+      "stdoutSHA": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSHA": "5cc46153b0de9ede80e53e0cdf5e4e55f421ba675d51abb7c2110a03ae280256"
+    }
+  ],
+  "positiveAfter": true
+}

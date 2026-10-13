@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **99 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **100 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -89,6 +89,7 @@ Generated from source: **99 HTTP method/route pairs** and **253 command schema d
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |
 | GET | `/api/routine-visit` | [app/api/routine-visit/route.ts](../../app/api/routine-visit/route.ts) |
 | POST | `/api/routine-visit` | [app/api/routine-visit/route.ts](../../app/api/routine-visit/route.ts) |
+| GET | `/api/selective-reuse` | [app/api/selective-reuse/route.ts](../../app/api/selective-reuse/route.ts) |
 | GET | `/api/today` | [app/api/today/route.ts](../../app/api/today/route.ts) |
 | GET | `/api/trace` | [app/api/trace/route.ts](../../app/api/trace/route.ts) |
 | GET | `/api/value-range-protocols` | [app/api/value-range-protocols/route.ts](../../app/api/value-range-protocols/route.ts) |

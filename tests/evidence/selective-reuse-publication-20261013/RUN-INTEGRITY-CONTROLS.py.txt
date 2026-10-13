@@ -1,0 +1,23 @@
+from pathlib import Path
+import json, subprocess, hashlib, datetime
+OUT=Path(__file__).resolve().parent
+R=OUT/'private-integrity-mirror'
+PYTHON='/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3'
+binding=json.loads((R/'docs/verification/evidence-source-snapshot-selective-matrix-20261013.json').read_text())
+def check(label):
+ p=subprocess.run([PYTHON,'scripts/check-documentation.py'],cwd=R,capture_output=True)
+ (OUT/(label+'.stdout.log')).write_bytes(p.stdout);(OUT/(label+'.stderr.log')).write_bytes(p.stderr)
+ return p
+before=check('controls-positive-before');assert before.returncode==0
+native='tests/evidence/selective-reuse-deadline-repair-20261013/native002/native/result.json'
+cases=[('current-runtime-source','lib/saha/selective-reuse.ts',lambda b:b+b'\n// synthetic integrity tamper\n'),('current-auth-source','tests/nfr/authorisation-matrix-current.mjs',lambda b:b+b'\n// synthetic integrity tamper\n'),('current-native57-report',native,lambda b:b+b'\n'),('original-matrix-manifest',binding['originalManifest'],lambda b:b+b'\n'),('original-matrix-source-preimage',binding['archivedSource'],lambda b:b+b'\n'),('current-source-binding','docs/verification/evidence-source-snapshot-selective-matrix-20261013.json',lambda b:json.dumps({**json.loads(b),'currentSourceSha256':'0'*64}).encode()),('new-guard-minimum','tests/regression-baseline.json',lambda b:json.dumps((lambda d:(d['suites']['unit/selective-reuse-contract'].update(minPassed=1),d)[1])(json.loads(b))).encode()),('original-product-contract','requirements/brd-v1.1.json',lambda b:b+b'\n')]
+results=[]
+for name,path,change in cases:
+ p=R/path;raw=p.read_bytes()
+ try:
+  p.write_bytes(change(raw));c=check('negative-'+name);results.append({'name':name,'path':path,'exitCode':c.returncode,'refused':c.returncode!=0,'stdoutSHA':hashlib.sha256(c.stdout).hexdigest(),'stderrSHA':hashlib.sha256(c.stderr).hexdigest()})
+ finally:p.write_bytes(raw)
+ assert c.returncode!=0,name
+final=check('controls-positive-after');assert final.returncode==0
+result={'atUtc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'Actual full unchanged branch checker executed on exact private mirror; source/report/history/criteria tamper only in mirror, each exactbyte restored. No app/runtime/source hooks or author-source changes.','positiveBefore':True,'negativeControls':results,'positiveAfter':True}
+(OUT/'FULL-CHECKER-INTEGRITY-CONTROLS.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'positiveBefore':True,'refused':len(results),'positiveAfter':True}))

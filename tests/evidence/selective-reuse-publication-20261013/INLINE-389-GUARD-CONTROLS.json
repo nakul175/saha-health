@@ -1,0 +1,33 @@
+{
+  "positive": true,
+  "actualCIBlockSHA": "2cd767de5feae429a44e5fcef9845823d1609e12cd1fc225a3bd646b3e9903d9",
+  "actualOldKey": "integration/alert-capture-ledger-http",
+  "negativeControls": [
+    {
+      "name": "old record minimum weakened",
+      "refused": true,
+      "error": "Original389 records/minima changed"
+    },
+    {
+      "name": "old record removed",
+      "refused": true,
+      "error": "Original 389 guarded records must remain"
+    },
+    {
+      "name": "new minimum lowered",
+      "refused": true,
+      "error": "Only observed44 selective logic and57 native guards added"
+    },
+    {
+      "name": "extra record inserted",
+      "refused": true,
+      "error": "Original 389 guarded records must remain"
+    },
+    {
+      "name": "old layer changed",
+      "refused": true,
+      "error": "Original389 records/minima changed"
+    }
+  ],
+  "scope": "Executed exact currentCI inlinepreservation guard; old389 fullrecorddigest and only44/57 additions. Not testexecution or clinical/story approval."
+}

@@ -42,6 +42,7 @@ const SIGN_IN = /sign in/i;
 const recipes = (visitId, org) => ({
   '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/routine-visit': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
+  '/api/selective-reuse': '?personId=p_meena',
   '/api/inbound-conflicts': '?personId=p_meena',
   '/api/imported-evidence': '?personId=p_meena',
   '/api/abdm': '?personId=p_meena', '/api/action-plan': '?personId=p_meena', '/api/history': '?personId=p_meena', '/api/household': '?personId=p_meena',
@@ -252,6 +253,7 @@ try {
     }
     assert.equal(bad.length, 0, `routes that failed: ${bad.join('; ')}`);
   });
+  await r.check('selective default review returns exact care-account/person metadata without any selected payload or facts', async () => {const res=await c.get(asha,'/api/selective-reuse?personId=p_meena',org);need(res,200,'selective default ASHA metadata');assert.equal(res.json.organisationId,org);assert.equal(res.json.actorId,asha.snap.user.userId);assert.equal(res.json.personId,'p_meena');assert.equal(res.json.selected,null);assert.equal(res.json.readOnly,true);assert.ok(!('facts' in res.json));for(const v of res.json.visits)assert.deepEqual(Object.keys(v).sort(),['date','id','version']);});
   await r.check('Today returns only the assigned ASHA record and opens its exact read-only identity context', async () => {
     const list = await c.get(asha, '/api/today', org); need(list, 200, 'ASHA Today list');
     assert.deepEqual(list.json, {records: [{id: 'p_meena', name: asha.snap.people[0].name, village: asha.snap.people[0].village}]});

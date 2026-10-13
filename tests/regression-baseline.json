@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-11",
+  "updatedAt": "2026-10-13",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -668,6 +668,11 @@
       "file": "tests/integration/routine-organisation-http.mjs",
       "minPassed": 52
     },
+    "integration/routine-telemetry-retention-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-telemetry-retention-http.mjs",
+      "minPassed": 64
+    },
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-privacy-registration-current.mjs",
@@ -857,6 +862,11 @@
       "layer": "smoke",
       "file": "tests/smoke/routine-visit-browser.mjs",
       "minPassed": 244
+    },
+    "smoke/selective-reuse-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/selective-reuse-browser.mjs",
+      "minPassed": 57
     },
     "smoke/today-browser": {
       "layer": "smoke",
@@ -1793,6 +1803,11 @@
       "file": "tests/security-audit-response-contract.mjs",
       "minPassed": 499
     },
+    "unit/selective-reuse-contract": {
+      "layer": "unit",
+      "file": "tests/selective-reuse-contract.mjs",
+      "minPassed": 44
+    },
     "unit/send-gate-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-send-gate-contract.mjs",
@@ -1942,11 +1957,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "integration/routine-telemetry-retention-http": {
-      "layer": "integration",
-      "file": "tests/integration/routine-telemetry-retention-http.mjs",
-      "minPassed": 64
     }
   },
   "log": [

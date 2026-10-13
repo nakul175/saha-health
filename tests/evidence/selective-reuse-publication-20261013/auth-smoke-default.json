@@ -1,0 +1,159 @@
+{
+  "generatedAt": "2026-10-13T05:03:54.116Z",
+  "startedAt": "2026-10-13T05:03:52.965Z",
+  "command": "node scripts/test.mjs nfr smoke --only nfr/authorisation-matrix,smoke/local-smoke --fast --guard --report ../../outputs/saha-next50-20261012/selective-reuse/publication-metadata/auth-smoke-default.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "smoke",
+      "status": "failed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 440,
+      "failedSuites": 1
+    },
+    {
+      "layer": "nfr",
+      "status": "failed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 436,
+      "failedSuites": 1
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0,
+    "failedSuites": 2,
+    "durationMs": 1151
+  },
+  "suites": [
+    {
+      "id": "smoke/local-smoke",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/local-routine-current-smoke.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 440,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/d03/local-routine-current-smoke-result.json"
+      ],
+      "requirementsCited": 4,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/smoke__local-smoke.log"
+    },
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix-current.mjs",
+      "tier": "extended",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 436,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 5,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "nfr/authorisation-matrix",
+        "kind": "uncounted",
+        "message": "Suite nfr/authorisation-matrix reported no assertion count; baseline needs at least 59.",
+        "excused": false
+      },
+      {
+        "id": "smoke/local-smoke",
+        "kind": "dropped",
+        "message": "Suite smoke/local-smoke passed 0 assertion(s); baseline is 30 (down 30).",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 67,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 17
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 42,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 636,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}
