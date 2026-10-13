@@ -232,6 +232,18 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
             archive=(ROOT/binding['archivedSource']).resolve()
             require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical authorization-matrix preimage')
             path=archive
+        # Exact historical offline-purge fixture preimage for PR219's combined
+        # fixture repair. Current source remains pinned by the active baseline;
+        # no report, oracle, timeout or execution result can use this archive.
+        if str(manifest_path.relative_to(ROOT))=='tests/evidence/app-first-offline-rawkey-broad/manifest.json' and report=='tests/integration-offline-guided-purge-failure-browser.mjs' and path.is_file() and digest(path)!=expected:
+            binding=read_json('docs/verification/evidence-source-snapshot-pr219-offline-purge-connection-close-20261013.json')
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound historical PR219 offline-purge manifest')
+            require(binding['sourcePath']==report and binding['originalManifestPin']=='sourceSha256.tests/integration-offline-guided-purge-failure-browser.mjs' and binding['originalSourceSha256']==expected and isinstance(binding['originalSourceBytes'],int) and binding['originalSourceBytes']>0,'Unbound historical PR219 offline-purge source pin')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current PR219 offline-purge fixture is not independently pinned by current baseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical PR219 offline-purge source preimage')
+            path=archive
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.
         # Report/evidence paths always remain checked in place and cannot use an archive.
