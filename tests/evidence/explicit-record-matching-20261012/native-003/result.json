@@ -1,0 +1,599 @@
+{
+  "passed": 36,
+  "failed": 1,
+  "skipped": 0,
+  "checks": [
+    "Actual separate synthetic twin records share name locality age and permitted TEST contact; no automatic merge",
+    "Actual scoped setup exposes current actor and permitted teams only",
+    "Actual permitted matching yields2separate possible records and original assistance evidence, with no selected identity",
+    "Actual explicit second-record choice opens exactly that original version and actor context",
+    "Matching disclosure contains no contact secret clinical partition provider binding or invented score",
+    "Untrusted account tenant and non-ASHA setup refuse",
+    "Untrusted account tenant and non-ASHA setup refuse",
+    "Untrusted account tenant and non-ASHA setup refuse",
+    "Untrusted account tenant and non-ASHA setup refuse",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 422",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 403",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 403",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 403",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 400",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 422",
+    "Actual wrong operation actor team origin address malformed input and unseen choice refuse 409",
+    "Missing explicitorg and GET search text refuse",
+    "Real Today entry carries current organisation only; no name or inferred person",
+    "Typing demographics does not automatically search select or prepare any person-specific action",
+    "Actual phone demographic input has a visible border and44px height",
+    "Actual twin ambiguity selects neither record and requires explicit choice and affirmation",
+    "A selected radio alone never opens or resolves identity",
+    "Explicit cancellation discards possible-choice state without a selection read",
+    "Actual mobile explicit choice opens exactly the chosen stable record identifier",
+    "Phone selected-record card has no horizontal overflow",
+    "Actual selected phone accessibility scan has zero violations",
+    "All60 stored tables unchanged throughout search cancel and selection except existing audit/metrics; zero registration matchcopy merge visit or receipt",
+    "Genuine original person-version change rejects the old candidate fingerprint",
+    "Stale choice creates no identity merge clinical change or command receipt",
+    "Actual BEFORE search audit membership loss refuses all candidate disclosure",
+    "Actual BEFORE search audit role loss refuses all candidate disclosure",
+    "Actual BEFORE search audit assignment loss refuses all candidate disclosure",
+    "Actual AFTER search audit membership loss refuses all candidate disclosure",
+    "Actual AFTER search audit role loss refuses all candidate disclosure",
+    "Actual AFTER search audit assignment loss refuses all candidate disclosure",
+    "Named purpose removal refuses matching even with existing assignment"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/record-matching",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"search\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"}}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"search\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"}}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/record-matching",
+      "body": "{\"type\":\"select\",\"query\":{\"name\":\"Synthetic Same Twin\",\"age\":25,\"sex\":\"Female\",\"village\":\"Synthetic matching locality\",\"teamId\":\"default\"},\"hash\":\"0482f057428a41873bd479f6848382ea84cd75810b74641ddc90c2178bc998a0\",\"personId\":\"9c0ccf9e-e448-4d64-b03e-3d7272ad9078\",\"version\":3}"
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "races": [
+    {
+      "timing": "BEFORE",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "role",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "assignment",
+      "status": 409
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "role",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "assignment",
+      "status": 409
+    }
+  ],
+  "beforeTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 9,
+      "sha256": "728048e5faa3a4a87b94f90ea41d274ca55de19d61fd50aa140ccc4e77a00e2a"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 103,
+      "sha256": "a8f0a2b23b64dc0c03e7ab05737572a952321b3436acce86d36ee058c43e4f09"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 8,
+      "sha256": "41f920c2ffbb02f07cb311146d5668c9e793b84f8af7ed33eed3ccabd83e6ab2"
+    },
+    "device_match_copies": {
+      "rows": 1,
+      "sha256": "ac3b3bcf1f1e15ced74142e2ba3e30ac110a11f8b826d4bc55b5d707fe491666"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 1,
+      "sha256": "97b9803352eb8084ad3e6c59ed7bf9ace285cf75c969936c94687d6b9a1f8994"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 3,
+      "sha256": "b0a71ec7b8ab3d5c9ac0d3af30441dd0981004c6e058a9e69c8042f6fd22cb66"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 18,
+      "sha256": "3ecb5272887c03c683995f923fdf015edbfc4964424542a804128d56cf1f6abf"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "cd22dfce905a74914d679c09087f54e3289921032574eb93c018e10211544454"
+    },
+    "legacy_migrations": {
+      "rows": 3,
+      "sha256": "36b87c404443135a61016c5be36a43983abd62c1f488032ffaca11993c3dcc70"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 10,
+      "sha256": "bc5430693156d81fcc5e8340e74f1283533fd63420ade16233a6153a39fe8fe9"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 3,
+      "sha256": "cde9fbee711660bac39db867cf677f119c4efe0b1d2d4b3e8baf3b2767e3291f"
+    },
+    "outreach": {
+      "rows": 1,
+      "sha256": "da046930ad050eb24bdef217beb30d9fed133cff0fea9224b9bdf94eb555dd0c"
+    },
+    "patients": {
+      "rows": 20,
+      "sha256": "0619c6c91d8547e9ae0c5e892f53a2b2a9a1cdc900a5c8df7f271a40f8cb3faf"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 24,
+      "sha256": "2400a695bdc0d56c9e2303473f610f60ac19b6b1707b3a6bae7794db7ab67934"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 5,
+      "sha256": "0f7628a59af9897f0516c8e3ad2d0ffee9c116f8040fd035a095783398ac6237"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 10,
+      "sha256": "f8cc3c09010ff1e9c98b453a22dbfb78e6639edcec7ab423f5f1ae8600f6ddd6"
+    },
+    "teams": {
+      "rows": 3,
+      "sha256": "ad7a8c47d9d6a93ee67c9726235d2f541bdfe177805cbe23f75f9a43842b3e9f"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "afterTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 9,
+      "sha256": "728048e5faa3a4a87b94f90ea41d274ca55de19d61fd50aa140ccc4e77a00e2a"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 108,
+      "sha256": "2c6399c643ad69d5aba445dad94ac899585b2d1b412649a5cdb6e29229e5e6d2"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 8,
+      "sha256": "41f920c2ffbb02f07cb311146d5668c9e793b84f8af7ed33eed3ccabd83e6ab2"
+    },
+    "device_match_copies": {
+      "rows": 1,
+      "sha256": "ac3b3bcf1f1e15ced74142e2ba3e30ac110a11f8b826d4bc55b5d707fe491666"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 1,
+      "sha256": "97b9803352eb8084ad3e6c59ed7bf9ace285cf75c969936c94687d6b9a1f8994"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 3,
+      "sha256": "b0a71ec7b8ab3d5c9ac0d3af30441dd0981004c6e058a9e69c8042f6fd22cb66"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 18,
+      "sha256": "3ecb5272887c03c683995f923fdf015edbfc4964424542a804128d56cf1f6abf"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "cd22dfce905a74914d679c09087f54e3289921032574eb93c018e10211544454"
+    },
+    "legacy_migrations": {
+      "rows": 3,
+      "sha256": "36b87c404443135a61016c5be36a43983abd62c1f488032ffaca11993c3dcc70"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 10,
+      "sha256": "bc5430693156d81fcc5e8340e74f1283533fd63420ade16233a6153a39fe8fe9"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 3,
+      "sha256": "cde9fbee711660bac39db867cf677f119c4efe0b1d2d4b3e8baf3b2767e3291f"
+    },
+    "outreach": {
+      "rows": 1,
+      "sha256": "da046930ad050eb24bdef217beb30d9fed133cff0fea9224b9bdf94eb555dd0c"
+    },
+    "patients": {
+      "rows": 20,
+      "sha256": "0619c6c91d8547e9ae0c5e892f53a2b2a9a1cdc900a5c8df7f271a40f8cb3faf"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 24,
+      "sha256": "2400a695bdc0d56c9e2303473f610f60ac19b6b1707b3a6bae7794db7ab67934"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 6,
+      "sha256": "4cd0431ba7ef452f4f23fc4aac7c0e3e869fa62b1b8db36a2ac20799e9700905"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 10,
+      "sha256": "f8cc3c09010ff1e9c98b453a22dbfb78e6639edcec7ab423f5f1ae8600f6ddd6"
+    },
+    "teams": {
+      "rows": 3,
+      "sha256": "ad7a8c47d9d6a93ee67c9726235d2f541bdfe177805cbe23f75f9a43842b3e9f"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: {\"error\":\"This member already has an active programme/purpose scope. Revoke it before setting another.\"}\n\n409 !== 200\n\n    at ok (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-patient-matching-20261012/tests/smoke/record-matching-browser.mjs:13:121)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-patient-matching-20261012/tests/smoke/record-matching-browser.mjs:49:538\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+  "disposed": true,
+  "portFree": true,
+  "statePreservedOnFailure": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-record-matching-40222816-ce71-48b8-9298-58de40058d27",
+  "completedAt": "2026-10-12T17:22:45.196Z",
+  "limits": "Bounded assigned-ASHA demographic matching and explicit existing record selection only. No identity merge/verification, issuer search, registration, assistant action or clinical writer. Not fullstory/CWO/physical/privacytiming/matchingperformance/formal/UAT/hosting acceptance.60table equality covers initial pure read/search/cancel/selection before deliberate mutation fixtures."
+}

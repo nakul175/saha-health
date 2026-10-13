@@ -1,0 +1,16 @@
+Running unit --fast; 4 suite(s).
+
+[unit] 4 suite(s)
+  ok       unit/continuity-contract  29 passed  637ms
+  ok       unit/identifier-crosswalk-contract  84 passed  646ms
+  ok       unit/merge-contract  27 passed  615ms
+  ok       unit/routine-read-guard-contract  34 passed  1.2s
+
+  layer  status  suites  passed  failed  skipped  time
+  -----  ------  ------  ------  ------  -------  ----
+  unit   passed       4     174       0        0  3.1s
+  total  passed       4     174       0        0  3.9s
+
+Restored 3 tracked file(s) and deleted 1 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (4 baselined suite(s) checked, 0 excused by quarantine).

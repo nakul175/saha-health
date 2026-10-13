@@ -1,0 +1,152 @@
+{
+  "org": "org_10b5e34a4a1d3ac8bc49aeccfc53d7b2",
+  "actor": "t-6989c93a-asha",
+  "first": "de8f9b9e-fb95-4521-be07-375c65298da3",
+  "second": "e376f631-6118-43a9-bc84-36441b1ba689",
+  "query": {
+    "name": "Synthetic Same Twin",
+    "age": 25,
+    "sex": "Female",
+    "village": "Synthetic matching locality",
+    "teamId": "default"
+  },
+  "found": {
+    "organisationId": "org_10b5e34a4a1d3ac8bc49aeccfc53d7b2",
+    "actorId": "t-6989c93a-asha",
+    "hash": "986630849524262011a89950b1294a331fd4a1720dfc963d4a3a1880c87bc533",
+    "candidates": [
+      {
+        "id": "de8f9b9e-fb95-4521-be07-375c65298da3",
+        "name": "Synthetic Same Twin",
+        "age": 25,
+        "sex": "Female",
+        "village": "Synthetic matching locality",
+        "version": 3,
+        "match": "Same normalised name"
+      },
+      {
+        "id": "e376f631-6118-43a9-bc84-36441b1ba689",
+        "name": "Synthetic Same Twin",
+        "age": 25,
+        "sex": "Female",
+        "village": "Synthetic matching locality",
+        "version": 3,
+        "match": "Same normalised name"
+      }
+    ],
+    "overflow": false,
+    "scope": "Only records permitted to your current account are searched. Candidates are not identity decisions.",
+    "selected": null
+  },
+  "selected": {
+    "organisationId": "org_10b5e34a4a1d3ac8bc49aeccfc53d7b2",
+    "actorId": "t-6989c93a-asha",
+    "hash": "986630849524262011a89950b1294a331fd4a1720dfc963d4a3a1880c87bc533",
+    "candidates": [
+      {
+        "id": "de8f9b9e-fb95-4521-be07-375c65298da3",
+        "name": "Synthetic Same Twin",
+        "age": 25,
+        "sex": "Female",
+        "village": "Synthetic matching locality",
+        "version": 3,
+        "match": "Same normalised name"
+      },
+      {
+        "id": "e376f631-6118-43a9-bc84-36441b1ba689",
+        "name": "Synthetic Same Twin",
+        "age": 25,
+        "sex": "Female",
+        "village": "Synthetic matching locality",
+        "version": 3,
+        "match": "Same normalised name"
+      }
+    ],
+    "overflow": false,
+    "scope": "Only records permitted to your current account are searched. Candidates are not identity decisions.",
+    "selected": {
+      "id": "e376f631-6118-43a9-bc84-36441b1ba689",
+      "name": "Synthetic Same Twin",
+      "age": 25,
+      "sex": "Female",
+      "village": "Synthetic matching locality",
+      "version": 3,
+      "identityState": "local"
+    }
+  },
+  "observed": {
+    "status": 200,
+    "body": {
+      "organisationId": "org_10b5e34a4a1d3ac8bc49aeccfc53d7b2",
+      "actorId": "t-6989c93a-asha",
+      "hash": "705ad004b34b145218f834a3331d2dbde7826d6c09ae8db37984cc38b1215219",
+      "candidates": [
+        {
+          "id": "de8f9b9e-fb95-4521-be07-375c65298da3",
+          "name": "Synthetic Same Twin",
+          "age": 25,
+          "sex": "Female",
+          "village": "Synthetic matching locality",
+          "version": 4,
+          "match": "Same normalised name"
+        },
+        {
+          "id": "e376f631-6118-43a9-bc84-36441b1ba689",
+          "name": "Synthetic Same Twin",
+          "age": 25,
+          "sex": "Female",
+          "village": "Synthetic matching locality",
+          "version": 9,
+          "match": "Same normalised name"
+        }
+      ],
+      "overflow": false,
+      "scope": "Only records permitted to your current account are searched. Candidates are not identity decisions.",
+      "selected": null
+    }
+  },
+  "races": [
+    {
+      "timing": "BEFORE",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "role",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "assignment",
+      "status": 409
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "role",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "assignment",
+      "status": 409
+    },
+    {
+      "timing": "AFTER",
+      "action": "viewPatientRecord",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "action": "viewPatientRecord",
+      "mutation": "assignment",
+      "status": 409
+    }
+  ]
+}

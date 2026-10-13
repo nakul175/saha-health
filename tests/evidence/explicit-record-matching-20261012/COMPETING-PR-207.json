@@ -1,0 +1,47 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "url": "https://github.com/nakul175/saha-health/pull/207",
+    "number": 207,
+    "state": "open",
+    "merged": false,
+    "mergeable": false,
+    "draft": true,
+    "body": "This adds a bounded native tenant-isolation regression fixture for the existing APL-763 engineering task under APL-150. The same 13 synthetic collision, locality/name, media, export, refusal and audit scenarios exercise the existing compiled application and D1 implementation. Application policy, schema, migrations, dependencies and providers are unchanged.\n\nThe native supervisor requires clean source/build/profile custody and owns a fresh state and detached process group with bounded migration, readiness, complete HTTP reads and disposal. Original broad regression selections, guards and timeouts remain byte-for-byte. The new tenant fixture now runs in its own fresh CI job so earlier suites cannot mutate tracked evidence before its strict clean-source check.\n\nThe dedicated job uses an individually verified installer-custody adapter around the unchanged installer. It retains actual generated workspace bytes, accepts only the observed store/cache substitutions with every other policy unchanged, restores the exact committed workspace bytes, and refuses unknown tracked changes. Its pure control fixture reads the bounded committed workspace policy separately from the actual working input; it does not claim an installation occurred.\n\nValidation and limits:\n- Source publication was independently reviewed at the frozen 39-path successor (`94c550fb`): root receipt `c741a092`, exact patch `29fdd199`, intended and published tree `4461bbb9a23e5337ae08e794edc98dd5b36ae29e`.\n- The same 22 in-process installer controls pass in both committed and generated-policy contexts (22/0/0 each; overlapping controls, not 44 unique checks). The earlier genuine generated-policy failure (21/1) is retained.\n- Syntax, documentation integrity (1,790 entries), requirements (176), catalogue (968 suites), and unchanged UAT tooling (63 assertions with original guards) pass. Formal UAT remains 0/364.\n- All 1,139 original test source hashes/Git blobs, all 374 original regression records and minima (sum 24,893), the 13 native case bodies, old source manifests and historical documentation suffixes remain. Removing the sole new dedicated job recovers the original full CI bytes.\n- Earlier exact-source CI `38161234419` failed before any new tenant case ran because installer-generated workspace and prior suite evidence violated the strict clean-source guard. The raw failure and 0/13 result are retained; the guard was not relaxed.\n- New native execution at source publication is **Not run: 0/13**. Engineering CI `38164441598` and documentation `38164441599` have started; their actual outputs and failures must be inspected before qualification. No new native minimum or parent story completion is claimed.\n- This draft remains based on main `7668a03d97c1ae62174f09e65ccd5a5717120be6`. Current-primary/shared dependency integration requires separate qualification. Full RLS, backup/index/asynchronous, formal Security/Privacy, human/domain, merge and observed hosting gates remain open.\n\nThe contract and boundaries are in `docs/current/tenant-isolation-preparation/SPECIFICATION.json` and `PREPARATION.md`. This is a test prerequisite, not a completed parent user story or deployment.\n",
+    "title": "Test existing tenant boundaries with a bounded native regression fixture",
+    "base": "main",
+    "base_sha": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+    "head": "test/tenant-record-adversarial-contract-20261011",
+    "head_sha": "0327531399efdcd73feae8dbb36a9c1135072172",
+    "head_repo_id": 1389866001,
+    "head_repo_full_name": "nakul175/saha-health",
+    "merge_commit_sha": "b6f793d58c38204dda4cc623a293bd1f30dd78c7",
+    "user": {
+      "login": "nakul175",
+      "name": "nakul175",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/166727458?v=4",
+      "id": 166727458
+    },
+    "requested_reviewers": null,
+    "requested_team_reviewers": null,
+    "diff": null,
+    "comments": null,
+    "created_at": "2026-10-11T17:49:14Z",
+    "updated_at": "2026-10-11T18:36:02Z",
+    "closed_at": null,
+    "merged_at": null,
+    "commits": 2,
+    "changed_files": 50,
+    "additions": 12985,
+    "deletions": 5,
+    "display_url": "https://github.com/nakul175/saha-health/pull/207",
+    "display_title": "Test existing tenant boundaries with a bounded native regression fixture"
+  },
+  "isError": false
+}

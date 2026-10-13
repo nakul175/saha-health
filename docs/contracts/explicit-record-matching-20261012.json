@@ -1,0 +1,29 @@
+{
+  "frozenAtUtc": "2026-10-12T17:16:02.445762+00:00",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "story": "SAHA-014 / APL-37 / BR-ID-05",
+  "technicalTask": "APL-197 / ENG-BR-ID-05 / FR-ID-05",
+  "boundary": "Assigned ASHA searches demographics with individually reused original patientMatches, sees only permitted possible candidates and explicit evidence (no invented numerical/official score), explicitly chooses one existing record; current server identity/org/assignment/purpose/version/hash governs the audited read. No patient registration, auto-choice, identity resolution/merge, encounter/action/provider writer. Existing clinician-only identity-resolution rules unchanged.",
+  "criteria": {
+    "C1": "Synthetic/training; active ASHA in explicitorg, current memberteam and existingpatient scope, care-coordination purpose; owner/clinician/foreign/anonymous/revoked refused.",
+    "C2": "Demographic body only; strict bounded JSON and same-origin; no entered name/age/village in URL/audit. Existing matching exact/near-name logic and20 bound/fingerprint unchanged; unknown/malformed unavailable, notempty.",
+    "C3": "Two same-name/shared-phone/twin records remain distinct possible records, stableid/age/sex/village/version/evidence for explicitselection; noautomaticchoice/merge orscoreclaimed. Limited/overflow isexplicit and choosingone is withheld untilboundednewsearch.",
+    "C4": "Search uses original audit, recomputes same currenthash/context afteraudit, compares membership/teams/currentassignedids and original consistent assignmentguard before disclosure. Role/purpose/scope/identity/version changes refuse. Emptyresultsmean onlythis permitted snapshot, notabsence globally.",
+    "C5": "Choose requires explicitcandidateid/version/currentqueryhash/expectedtrustedactor. Recompute currentmatches, auditselectedexistingrecord, then reread+compare andconsistentguard; stale/changedperson/actor refuse, neverfallbacktoanotherrecord.",
+    "C6": "Only identitycontext reads.60table clinical/identity/receipts stored rows unchanged except audit/metrics duringsearch/choose; no matchcopy/registration command/clinicalwriter/model/provider ornationalverification.",
+    "C7": "UI sensitive query/candidates/selection clears on changedinput/newsearch/error/refusal/offline/hidden/cancelledresponse; readlostreply remainsunselected andonlyexplicitsearch again; noautomaticresend orsaveddecision.",
+    "C8": "Actual390mobile labels/focus/visiblefields44px/overflow/screenshot andbackend authorityrace tests. Build/type/affectedtests actualoriginalminima; failedruns/source/build/dependency/cleanup retained.",
+    "C9": "Original389/testsource/goldens/timeouts/formal gates unchanged. WholeSAHA014/CWOassistant/issuer lookup/matchingperformance/privacytiming/clinicianresolution/physical/formal/hosting remainopen."
+  },
+  "plannedScenarios": [
+    "same-name twins sharedphone kept2ids, pure spellingvariant/Hindi/Unicode normalization usingexisting matching evidence, emptyand21overflow",
+    "explicitselect secondexistingrecord currentactor/org/hash/version, selectcancel/noAPIwhenambiguous",
+    "anonymous/foreign/nonASHA/unassignedteam/wrongid/changedactor/crossorigin/querypayload/invalidschema refuse",
+    "scope/member/purpose changes before and duringauditedread, stalecandidatehash/version aftergenuineupdate refuse, auditeddependencyfailure withclearedUI",
+    "genuinecommittedreadreply200lost; nostoredidentitydecision/noresend, explicitsearchrecovers; hidden/offline clears;60table equality",
+    "individuallyaffected original continuity/identifier-crosswalk/merge/readguard guards; actualsource/build/runtime custody andownedcleanup"
+  ],
+  "published": false,
+  "frozenOriginalCriteriaUnchanged": true,
+  "sharedMetadataOwnedBy": "root"
+}
