@@ -1,0 +1,163 @@
+{
+  "completedGroups": [
+    "Actual anonymous, nonoperator and other-organisation reports refuse",
+    "Report rejects unsupported, duplicate, malformed and future query filters",
+    "Unconfigured report remains disabled and audited without patient facts",
+    "Nonowner cannot enable availability through actual command route",
+    "Chromium owner enables fixed synthetic checks in reachable Operations form",
+    "Chromium manual check records immutable D1 evidence and honest missing scheduler coverage",
+    "Real POST duplicate is idempotent, fixed payload only and query URL refused",
+    "Maintenance permits core diagnosis and refuses no support/query semantics"
+  ],
+  "currentGroup": "Chromium owner disables checks and prior evidence stays immutable",
+  "status": "failed",
+  "finalDisable": {
+    "timeoutMs": 30000,
+    "events": [
+      {
+        "phase": "request",
+        "path": "/api/operations",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null
+      },
+      {
+        "phase": "response",
+        "path": "/api/operations",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null,
+        "status": 200,
+        "requestId": "457a7ade-043d-4928-b0a6-efb4e592d991"
+      },
+      {
+        "phase": "request",
+        "path": "/api/availability",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null
+      },
+      {
+        "phase": "response",
+        "path": "/api/availability",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null,
+        "status": 200,
+        "requestId": null
+      },
+      {
+        "phase": "request",
+        "path": "/api/commands",
+        "method": "POST",
+        "selectedOrganisationMatches": true,
+        "command": {
+          "type": "opsAvailability",
+          "version": 3,
+          "enabled": false,
+          "reasonLength": 43,
+          "reasonSHA256": "8be65063e65da11c6fe52ea34616272d835fdf917b41e3c1add809aeebac6ce8"
+        }
+      },
+      {
+        "phase": "response",
+        "path": "/api/commands",
+        "method": "POST",
+        "selectedOrganisationMatches": true,
+        "command": {
+          "type": "opsAvailability",
+          "version": 3,
+          "enabled": false,
+          "reasonLength": 43,
+          "reasonSHA256": "8be65063e65da11c6fe52ea34616272d835fdf917b41e3c1add809aeebac6ce8"
+        },
+        "status": 200,
+        "requestId": "ff91c6d2-40dd-441a-9018-2cb469692586"
+      },
+      {
+        "phase": "request",
+        "path": "/api/operations",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null
+      },
+      {
+        "phase": "request",
+        "path": "/api/operations",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null
+      },
+      {
+        "phase": "response",
+        "path": "/api/operations",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null,
+        "status": 200,
+        "requestId": "c8b08ea4-ccc4-4a10-9b97-302b722e5676"
+      },
+      {
+        "phase": "request",
+        "path": "/api/availability",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null
+      },
+      {
+        "phase": "response",
+        "path": "/api/operations",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null,
+        "status": 200,
+        "requestId": "e0eb9d5d-4518-4afe-9f1a-3f614087b194"
+      },
+      {
+        "phase": "request",
+        "path": "/api/availability",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null
+      },
+      {
+        "phase": "response",
+        "path": "/api/availability",
+        "method": "GET",
+        "selectedOrganisationMatches": true,
+        "command": null,
+        "status": 200,
+        "requestId": null
+      }
+    ],
+    "overflow": false,
+    "renderedReportVersion": 3,
+    "reasonSHA256": "8be65063e65da11c6fe52ea34616272d835fdf917b41e3c1add809aeebac6ce8",
+    "reasonLength": 43,
+    "phase": "actual single disable response captured before assertions",
+    "refreshStatus": 200,
+    "refreshRequestId": "457a7ade-043d-4928-b0a6-efb4e592d991",
+    "availabilityStatus": 200,
+    "availabilityRequestId": null,
+    "availabilityEnabled": true,
+    "canConfigure": true,
+    "filledReasonSHA256": "8be65063e65da11c6fe52ea34616272d835fdf917b41e3c1add809aeebac6ce8",
+    "filledReasonLength": 43,
+    "submitted": {
+      "path": "/api/commands",
+      "method": "POST",
+      "selectedOrganisationMatches": true,
+      "command": {
+        "type": "opsAvailability",
+        "version": 3,
+        "enabled": false,
+        "reasonLength": 43,
+        "reasonSHA256": "8be65063e65da11c6fe52ea34616272d835fdf917b41e3c1add809aeebac6ce8"
+      }
+    },
+    "disableStatus": 200,
+    "disableRequestId": "ff91c6d2-40dd-441a-9018-2cb469692586"
+  },
+  "errorName": "TimeoutError",
+  "errorSHA256": "12b5b7ceb63a3f37cbee52a1a9b7e4a8a80286354a5b4834216e2d24395598ea"
+}

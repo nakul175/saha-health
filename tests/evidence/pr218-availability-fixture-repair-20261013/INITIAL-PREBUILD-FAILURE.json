@@ -1,0 +1,10 @@
+{
+  "atUtc": "2026-10-13T05:14:12.234396+00:00",
+  "driverSHA256": "26b96782d405e24a84ed1524170283129e54f6077d49a47c193052a682311041",
+  "error": "ENOENT direct node_modules/miniflare while hashing dependency metadata before try/build/native; Miniflare is a transitive pinned Wrangler dependency, not a top-level facade entry.",
+  "buildExecuted": false,
+  "nativeExecuted": false,
+  "portOpened": false,
+  "qualifiesChecks": 0,
+  "correction": "Resolve actual installed Miniflare package from real Wrangler package context; no dependency installation or source/oracle change."
+}

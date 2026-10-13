@@ -4758,7 +4758,7 @@
       "sourceTextLine": 690,
       "implementation": "unverified",
       "target": "R15",
-      "current": "Request telemetry exists; no monthly availability measurement. Current opt-in synthetic local availability ledger uses immutable audited five-minute UTC samples, activation-window denominator and explicit missing coverage, maintenance and dependency gaps; manual HTTP samples are separately labelled. It is a local receipt/readiness contract, not independent hosted/platform uptime or full clinical delivery. Hosted target remains unmeasured.",
+      "current": "Request telemetry exists; no monthly availability measurement. Current opt-in synthetic local availability ledger uses immutable audited five-minute UTC samples, activation-window denominator and explicit missing coverage, maintenance and dependency gaps; manual HTTP samples are separately labelled. It is a local receipt/readiness contract, not independent hosted/platform uptime or full clinical delivery. Hosted target remains unmeasured. PR218 fixture qualification (13 October2026) retains the failed acknowledged-disable/UItimeout and adds one reviewed explicitpostresponseRefresh within original30seconds. Fresh builtlocal original11 guardedchecks pass; exacthosted99.5 percent remains unmeasured. See docs/current/next50/AMENDMENTS-AVAILABILITY-REPAIR-20261013.md.",
       "remaining": "Synthetic probes and transparent core/end-to-end availability reporting against 99.5 percent target.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4766,7 +4766,9 @@
         "lib/saha/availability.ts",
         "tests/availability-contract.mjs",
         "tests/ui/availability.mjs",
-        "docs/current/SYNTHETIC-AVAILABILITY.md"
+        "docs/current/SYNTHETIC-AVAILABILITY.md",
+        "docs/current/next50/AMENDMENTS-AVAILABILITY-REPAIR-20261013.md",
+        "tests/evidence/pr218-availability-fixture-repair-20261013/AUTHOR-QUALIFICATION.json"
       ],
       "automatedAcceptanceClaim": false
     },
