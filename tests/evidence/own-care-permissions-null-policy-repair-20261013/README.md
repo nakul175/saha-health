@@ -1,0 +1,9 @@
+# Own care policy null repair — author qualification
+
+Prospectively frozen viewer-only correction on ea62223d after genuine independent HOLD: present-null accessScope/purposeGrants must be unavailable, not default no restriction. Only undefined receives the existing default. Underlying original access/facility/purpose/scope writers and all criteria remain unchanged. One production helper plus two focused testfiles change; other9originalsource paths untouched.
+
+Actual45pure = original41 +2null503 negatives +2undefined/other-policy positive controls. Actual51native = original45 +2storednull HTTP/no-data/read-table controls +2phone503clearing +2genuineabsence positive controls. Actual4originalguardedsuites116/0/0 pass, old389 byte-exact. Freshbuild/types/catalogue pass and changedhelperlint0warnings. Inherited wholeapp lint debt is not relabeled0. Registeredowned21883 fixture disposed and portfree,727 measuredsource/build/driver pins stable,291 compiledarchive entries preserved. No model/provider/externalcalls.
+
+All55 predecessor evidencefiles and oldmanifest are unchanged; sourcepreimages and independentHOLD/actualtwo diagnosis receipts are copied unaltered. Old41/45case bodies remain; newcontrols are additive. No criteria/minimum/golden/timeout/retry/policy weakening or failedreceipt promotion. New defaultrestrictedpsEPERM attempt retained before approvednarrowownedlocal runtime; successfulnative is a distinctfolder. Newphone refused storednull fields and later genuinelyabsent fields preserve originalmetadata behavior; no action permission granted.
+
+Authoronlysource candidate; this agent authoredrepair and cannot independentlyapprove it. Different-agent finalreview then rootmetadata/CI/publication required. No fullread/write/search/export/tool matrix/directory/domain/human/formal/hosting/whole-storyDone claim. ExistingPR206 untouched.

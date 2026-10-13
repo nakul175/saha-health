@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **99 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **100 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -64,6 +64,7 @@ Generated from source: **99 HTTP method/route pairs** and **253 command schema d
 | POST | `/api/offline-opens` | [app/api/offline-opens/route.ts](../../app/api/offline-opens/route.ts) |
 | GET | `/api/operations` | [app/api/operations/route.ts](../../app/api/operations/route.ts) |
 | GET | `/api/outreach` | [app/api/outreach/route.ts](../../app/api/outreach/route.ts) |
+| GET | `/api/own-care-permissions` | [app/api/own-care-permissions/route.ts](../../app/api/own-care-permissions/route.ts) |
 | GET | `/api/pack-installations` | [app/api/pack-installations/route.ts](../../app/api/pack-installations/route.ts) |
 | POST | `/api/patient-import` | [app/api/patient-import/route.ts](../../app/api/patient-import/route.ts) |
 | POST | `/api/patient-matches` | [app/api/patient-matches/route.ts](../../app/api/patient-matches/route.ts) |

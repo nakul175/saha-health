@@ -1,0 +1,207 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Regenerate requirements/traceability.json
++ actual - expected
+... Skipped lines
+
+  '{\n' +
+    '  "auditedAt": "2026-09-30",\n' +
+    '  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b, 10h, 10e, 10c, 10d, 10f, 10g, 10i, 10j, 10b, 10a",\n' +
+    '  "source": {\n' +
+    '    "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",\n' +
+...
+    '      "target": "R16",\n' +
++   '      "current": "Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state. App-first bottom-tab navigation retains the existing dirty-form guard; browser Back handling is locally reviewed and verified; physical Android Back acceptance remains pending. Browser Back controller and actual Chromium checks now pass dirty-form keep/discard and scope-aware restoration; physical Android Back remains unverified. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending. D02 isolated /today candidate reuses server scope and durable audit with a read-only identity-context projection; see docs/current/d02/SPECIFICATION.md and VALIDATION.md. Formal and representative-worker acceptance remain pending. D03 isolated routine candidate reuses current guided controls and four audited commands bound to one selected person;50 built synthetic backend/browser checks cover shared three-pack capture, provenance, lost committed acknowledgement, explicit conflict recovery and changed-authority refusal. Existing encrypted local component full-fixture p95 is separately measured under the unchanged500ms target; the connected screen does not acknowledge durable local work. Final CI/review/host gate and representative-device/worker/formal acceptance remain pending. See docs/current/d03/SPECIFICATION.md and EVIDENCE.json. '... 402383 more characters
+-   '      "current": "Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state. App-first bottom-tab navigation retains the existing dirty-form guard; browser Back handling is locally reviewed and verified; physical Android Back acceptance remains pending. Browser Back controller and actual Chromium checks now pass dirty-form keep/discard and scope-aware restoration; physical Android Back remains unverified. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending. D02 isolated /today candidate reuses server scope and durable audit with a read-only identity-context projection; see docs/current/d02/SPECIFICATION.md and VALIDATION.md. Formal and representative-worker acceptance remain pending. D03 isolated routine candidate reuses current guided controls and four audited commands bound to one selected person;50 built synthetic backend/browser checks cover shared three-pack capture, provenance, lost committed acknowledgement, explicit conflict recovery and changed-authority refusal. Existing encrypted local component full-fixture p95 is separately measured under the unchanged500ms target; the connected screen does not acknowledge durable local work. Final CI/review/host gate and representative-device/worker/formal acceptance remain pending. See docs/current/d03/SPECIFICATION.md and EVIDENCE.json. '... 403250 more characters
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-own-care-permissions-20261013/scripts/audit-requirements.mjs:27:94
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '{\n' +
+    '  "auditedAt": "2026-09-30",\n' +
+    '  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b, 10h, 10e, 10c, 10d, 10f, 10g, 10i, 10j, 10b, 10a",\n' +
+    '  "source": {\n' +
+    '    "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",\n' +
+    '    "version": "1.1",\n' +
+    '    "sha256": "8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8",\n' +
+    '    "extraction": "Requirement and acceptance text extracted from the supplied BRD; sourceTextLine refers to the temporary paragraph extraction, not a Word page number."\n' +
+    '  },\n' +
+    '  "counts": {\n' +
+    '    "implemented-local": 14,\n' +
+    '    "partial": 151,\n' +
+    '    "not-built": 2,\n' +
+    '    "unverified": 9\n' +
+    '  },\n' +
+    '  "acceptance": {\n' +
+    '    "pending": 176,\n' +
+    '    "accepted": 0\n' +
+    '  },\n' +
+    '  "definitions": {\n' +
+    '    "implemented-local": "The described local control exists; acceptance and external validation remain pending.",\n' +
+    '    "partial": "A foundation exists, with functional and/or operating gaps.",\n' +
+    '    "not-built": "No complete implementation of the specified capability.",\n' +
+    '    "unverified": "The required measurable outcome has not been established."\n' +
+    '  },\n' +
+    '  "evidenceNote": "Paths point to related implementation, synthetic tests or gap documentation. They do not assert that every clause is tested. No BRD acceptance is claimed; each row retains its exact source acceptance criterion and a remaining-work statement.",\n' +
+    '  "requirements": [\n' +
+    '    {\n' +
+    '      "id": "BR-UX-01",\n' +
+    '      "title": "One task entry point",\n' +
+    '      "priority": "Must",\n' +
+    '      "brdRelease": "R1",\n' +
+    '      "requirement": "The worker shall start a visit, follow-up or screening from one workspace. Eligible programme activities and AI functions shall appear within that task without requiring the worker to select a vendor application.",\n' +
+    '      "acceptance": "Acceptance: The approved multi-programme journey completes through one authenticated workspace with no separate AI login or manual transfer of patient details.",\n' +
+    '      "sourceTextLine": 137,\n' +
+    '      "implementation": "partial",\n' +
+    '      "target": "R12",\n' +
+    '      "current": "One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen. App-first slice: authenticated /app reuses the care workspace, with Today, People, Referrals, Sync and More; a browser phone preview is tested with synthetic data. Android Browser Helper source opens the same app, but APK/device verification remains pending. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending. D02 isolated /today candidate reuses server scope and durable audit with a read-only identity-context projection; see docs/current/d02/SPECIFICATION.md and VALIDATION.md. Formal and representative-worker acceptance remain pending. D03 isolated routine candidate reuses current guided controls and four audited commands bound to one selected person;50 built synthetic backend/browser checks cover shared three-pack capture, provenance, lost committed acknowledgement, explicit conflict recovery and changed-authority refusal. Existing encrypted local component full-fixture p95 is separately measured under the unchanged500ms target; the connected screen does not acknowledge durable local work. Final CI/review/host gate and representative-device/worker/formal acceptance remain pending. See docs/current/d03/SPECIFICATION.md and EVIDENCE.json. Overnight recovery checkpoint (11 October 2026): originating organisation and unresolved exact-key continuity are repaired; a bounded audited higher-version/no-receipt disposition permits explicit stale recovery. Current source/evidence and the unresolved full-unit contention failure are in docs/current/d03/OVERNIGHT-RECOVERY-20261011.md. Local browser/component evidence is not full NFR, CI, hosted or formal acceptance. Overnight access/recovery checkpoint (11 October 2026): final consistent Routine/Today access checks, bounded ACCESS append liveness, original-organisation dispatch and original-account exact-attempt recovery have scoped native/browser and final203-unit/API/restore evidence. See docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md and EVIDENCE-20261011-AUTHORITY.json. Current-head CI, complete applicable physical/reference-device NFR and hosted A10 remain pending; wider captured-member helper and formal acceptance are not closed. Integrated audit qualification (11 October 2026): current-membership append/postcheck and native excess-count witness pass fresh current305 full205/10791 guarded205; same-runtime canonical166/14529 passes guarded166 with one inherited media skip and excluded old13 unit fixture declared. All380 prior guard records remain exact. See docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md and EVIDENCE-20261011-AUDIT-GUARD.json for exact source/setup limits and saved Git receipts. Complete real UI/reference NFR02, originalNFR5, final-head CI, separate final review and A10 remain pending; physical/clinical/formal acceptance is unchanged. Current NFR checkpoint (11 October 2026): authorization63/0, classifier11/0 and native source-drift10/0 pass; load12/3 fails with360/400 slots complete under unchanged minima/budgets. Fixed1000 realUI control finishes8000 records, Routine p953132.309ms exceeds3s; desktop surrogate is not physical/R1 acceptance. Navigation proposal failed22/1 and is withheld, original Today unchanged. See docs/current/d03/NFR-CHECKPOINT-20261011.md and EVIDENCE-20261011-NFR-CHECKPOINT.json. Current-head CI/A9/A10 and formal criteria remain open; no implementation status is promoted.",\n' +
+    '      "remaining": "Validate the full journey with two independent real providers and programme destinations.",\n' +
+    '      "acceptanceStatus": "pending",\n' +
+    '      "evidenceContext": [\n' +
+    '        "app/workspace.tsx",\n' +
+    '        "app/continuity-panel.tsx",\n' +
+    '        "tests/api-smoke.mjs",\n' +
+    '        "tests/smoke/local-smoke.mjs",\n' +
+    '        "tests/ui/asha-visit.spec.mjs",\n' +
+    '        "app/app/page.tsx",\n' +
+    '        "app/frontline-navigation.tsx",\n' +
+    '        "tests/app-first-ui.cjs",\n' +
+    '        "tests/ui/app-first-phone.spec.mjs",\n' +
+    '        "docs/current/APP-FIRST-UI.md",\n' +
+    '        "docs/current/ANDROID-APP.md",\n' +
+    '        "app/registration-guidance.tsx",\n' +
+    '        "tests/guided-registration-browser.mjs",\n' +
+    '        "tests/guided-registration-overflow-browser.mjs",\n' +
+    '        "tests/guided-registration-root-independent-browser.mjs",\n' +
+    '        "app/routine-visit/routine-visit.tsx",\n' +
+    '        "lib/saha/routine-visit-server.ts",\n' +
+    '        "tests/smoke/routine-visit-browser.mjs",\n' +
+    '        "docs/current/d03/SPECIFICATION.md",\n' +
+    '        "docs/current/d03/EVIDENCE.json",\n' +
+    '        "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",\n' +
+    '        "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",\n' +
+    '        "tests/integration/routine-attempt-browser.mjs",\n' +
+    '        "tests/integration/routine-organisation-http.mjs",\n' +
+    '        "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",\n' +
+    '        "docs/current/d03/BASELINE-IMPACT-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-BASELINE.json",\n' +
+    '        "tests/smoke/local-routine-current-smoke.mjs",\n' +
+    '        "docs/current/d03/NFR-CHECKPOINT-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-NFR-CHECKPOINT.json",\n' +
+    '        "docs/current/d03/nfr-checkpoint-evidence-20261011/MANIFEST.json"\n' +
+    '      ],\n' +
+    '      "automatedAcceptanceClaim": false\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "id": "BR-UX-02",\n' +
+    '      "title": "Clear patient and visit context",\n' +
+    '      "priority": "Must",\n' +
+    '      "brdRelease": "R1",\n' +
+    '      "requirement": "The interface shall show the active person and visit throughout capture, model use and action review. Changing patients shall explicitly close or suspend the current context and clear uncommitted cross-person inputs.",\n' +
+    `      "acceptance": "Acceptance: Patient-switch tests cannot attach the prior person's recording, answer or AI result to the next person.",\n` +
+    '      "sourceTextLine": 140,\n' +
+    '      "implementation": "implemented-local",\n' +
+    '      "target": "R16",\n' +
+    '      "current": "Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state. App-first bottom-tab navigation retains the existing dirty-form guard; browser Back handling is locally reviewed and verified; physical Android Back acceptance remains pending. Browser Back controller and actual Chromium checks now pass dirty-form keep/discard and scope-aware restoration; physical Android Back remains unverified. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending. D02 isolated /today candidate reuses server scope and durable audit with a read-only identity-context projection; see docs/current/d02/SPECIFICATION.md and VALIDATION.md. Formal and representative-worker acceptance remain pending. D03 isolated routine candidate reuses current guided controls and four audited commands bound to one selected person;50 built synthetic backend/browser checks cover shared three-pack capture, provenance, lost committed acknowledgement, explicit conflict recovery and changed-authority refusal. Existing encrypted local component full-fixture p95 is separately measured under the unchanged500ms target; the connected screen does not acknowledge durable local work. Final CI/review/host gate and representative-device/worker/formal acceptance remain pending. See docs/current/d03/SPECIFICATION.md and EVIDENCE.json. '... 402383 more characters,
+  expected: '{\n' +
+    '  "auditedAt": "2026-09-30",\n' +
+    '  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b, 10h, 10e, 10c, 10d, 10f, 10g, 10i, 10j, 10b, 10a",\n' +
+    '  "source": {\n' +
+    '    "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",\n' +
+    '    "version": "1.1",\n' +
+    '    "sha256": "8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8",\n' +
+    '    "extraction": "Requirement and acceptance text extracted from the supplied BRD; sourceTextLine refers to the temporary paragraph extraction, not a Word page number."\n' +
+    '  },\n' +
+    '  "counts": {\n' +
+    '    "implemented-local": 14,\n' +
+    '    "partial": 151,\n' +
+    '    "not-built": 2,\n' +
+    '    "unverified": 9\n' +
+    '  },\n' +
+    '  "acceptance": {\n' +
+    '    "pending": 176,\n' +
+    '    "accepted": 0\n' +
+    '  },\n' +
+    '  "definitions": {\n' +
+    '    "implemented-local": "The described local control exists; acceptance and external validation remain pending.",\n' +
+    '    "partial": "A foundation exists, with functional and/or operating gaps.",\n' +
+    '    "not-built": "No complete implementation of the specified capability.",\n' +
+    '    "unverified": "The required measurable outcome has not been established."\n' +
+    '  },\n' +
+    '  "evidenceNote": "Paths point to related implementation, synthetic tests or gap documentation. They do not assert that every clause is tested. No BRD acceptance is claimed; each row retains its exact source acceptance criterion and a remaining-work statement.",\n' +
+    '  "requirements": [\n' +
+    '    {\n' +
+    '      "id": "BR-UX-01",\n' +
+    '      "title": "One task entry point",\n' +
+    '      "priority": "Must",\n' +
+    '      "brdRelease": "R1",\n' +
+    '      "requirement": "The worker shall start a visit, follow-up or screening from one workspace. Eligible programme activities and AI functions shall appear within that task without requiring the worker to select a vendor application.",\n' +
+    '      "acceptance": "Acceptance: The approved multi-programme journey completes through one authenticated workspace with no separate AI login or manual transfer of patient details.",\n' +
+    '      "sourceTextLine": 137,\n' +
+    '      "implementation": "partial",\n' +
+    '      "target": "R12",\n' +
+    '      "current": "One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen. App-first slice: authenticated /app reuses the care workspace, with Today, People, Referrals, Sync and More; a browser phone preview is tested with synthetic data. Android Browser Helper source opens the same app, but APK/device verification remains pending. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending. D02 isolated /today candidate reuses server scope and durable audit with a read-only identity-context projection; see docs/current/d02/SPECIFICATION.md and VALIDATION.md. Formal and representative-worker acceptance remain pending. D03 isolated routine candidate reuses current guided controls and four audited commands bound to one selected person;50 built synthetic backend/browser checks cover shared three-pack capture, provenance, lost committed acknowledgement, explicit conflict recovery and changed-authority refusal. Existing encrypted local component full-fixture p95 is separately measured under the unchanged500ms target; the connected screen does not acknowledge durable local work. Final CI/review/host gate and representative-device/worker/formal acceptance remain pending. See docs/current/d03/SPECIFICATION.md and EVIDENCE.json. Overnight recovery checkpoint (11 October 2026): originating organisation and unresolved exact-key continuity are repaired; a bounded audited higher-version/no-receipt disposition permits explicit stale recovery. Current source/evidence and the unresolved full-unit contention failure are in docs/current/d03/OVERNIGHT-RECOVERY-20261011.md. Local browser/component evidence is not full NFR, CI, hosted or formal acceptance. Overnight access/recovery checkpoint (11 October 2026): final consistent Routine/Today access checks, bounded ACCESS append liveness, original-organisation dispatch and original-account exact-attempt recovery have scoped native/browser and final203-unit/API/restore evidence. See docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md and EVIDENCE-20261011-AUTHORITY.json. Current-head CI, complete applicable physical/reference-device NFR and hosted A10 remain pending; wider captured-member helper and formal acceptance are not closed. Integrated audit qualification (11 October 2026): current-membership append/postcheck and native excess-count witness pass fresh current305 full205/10791 guarded205; same-runtime canonical166/14529 passes guarded166 with one inherited media skip and excluded old13 unit fixture declared. All380 prior guard records remain exact. See docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md and EVIDENCE-20261011-AUDIT-GUARD.json for exact source/setup limits and saved Git receipts. Complete real UI/reference NFR02, originalNFR5, final-head CI, separate final review and A10 remain pending; physical/clinical/formal acceptance is unchanged. Current NFR checkpoint (11 October 2026): authorization63/0, classifier11/0 and native source-drift10/0 pass; load12/3 fails with360/400 slots complete under unchanged minima/budgets. Fixed1000 realUI control finishes8000 records, Routine p953132.309ms exceeds3s; desktop surrogate is not physical/R1 acceptance. Navigation proposal failed22/1 and is withheld, original Today unchanged. See docs/current/d03/NFR-CHECKPOINT-20261011.md and EVIDENCE-20261011-NFR-CHECKPOINT.json. Current-head CI/A9/A10 and formal criteria remain open; no implementation status is promoted.",\n' +
+    '      "remaining": "Validate the full journey with two independent real providers and programme destinations.",\n' +
+    '      "acceptanceStatus": "pending",\n' +
+    '      "evidenceContext": [\n' +
+    '        "app/workspace.tsx",\n' +
+    '        "app/continuity-panel.tsx",\n' +
+    '        "tests/api-smoke.mjs",\n' +
+    '        "tests/smoke/local-smoke.mjs",\n' +
+    '        "tests/ui/asha-visit.spec.mjs",\n' +
+    '        "app/app/page.tsx",\n' +
+    '        "app/frontline-navigation.tsx",\n' +
+    '        "tests/app-first-ui.cjs",\n' +
+    '        "tests/ui/app-first-phone.spec.mjs",\n' +
+    '        "docs/current/APP-FIRST-UI.md",\n' +
+    '        "docs/current/ANDROID-APP.md",\n' +
+    '        "app/registration-guidance.tsx",\n' +
+    '        "tests/guided-registration-browser.mjs",\n' +
+    '        "tests/guided-registration-overflow-browser.mjs",\n' +
+    '        "tests/guided-registration-root-independent-browser.mjs",\n' +
+    '        "app/routine-visit/routine-visit.tsx",\n' +
+    '        "lib/saha/routine-visit-server.ts",\n' +
+    '        "tests/smoke/routine-visit-browser.mjs",\n' +
+    '        "docs/current/d03/SPECIFICATION.md",\n' +
+    '        "docs/current/d03/EVIDENCE.json",\n' +
+    '        "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",\n' +
+    '        "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",\n' +
+    '        "tests/integration/routine-attempt-browser.mjs",\n' +
+    '        "tests/integration/routine-organisation-http.mjs",\n' +
+    '        "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",\n' +
+    '        "docs/current/d03/BASELINE-IMPACT-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-BASELINE.json",\n' +
+    '        "tests/smoke/local-routine-current-smoke.mjs",\n' +
+    '        "docs/current/d03/NFR-CHECKPOINT-20261011.md",\n' +
+    '        "docs/current/d03/EVIDENCE-20261011-NFR-CHECKPOINT.json",\n' +
+    '        "docs/current/d03/nfr-checkpoint-evidence-20261011/MANIFEST.json"\n' +
+    '      ],\n' +
+    '      "automatedAcceptanceClaim": false\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "id": "BR-UX-02",\n' +
+    '      "title": "Clear patient and visit context",\n' +
+    '      "priority": "Must",\n' +
+    '      "brdRelease": "R1",\n' +
+    '      "requirement": "The interface shall show the active person and visit throughout capture, model use and action review. Changing patients shall explicitly close or suspend the current context and clear uncommitted cross-person inputs.",\n' +
+    `      "acceptance": "Acceptance: Patient-switch tests cannot attach the prior person's recording, answer or AI result to the next person.",\n` +
+    '      "sourceTextLine": 140,\n' +
+    '      "implementation": "implemented-local",\n' +
+    '      "target": "R16",\n' +
+    '      "current": "Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state. App-first bottom-tab navigation retains the existing dirty-form guard; browser Back handling is locally reviewed and verified; physical Android Back acceptance remains pending. Browser Back controller and actual Chromium checks now pass dirty-form keep/discard and scope-aware restoration; physical Android Back remains unverified. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending. D02 isolated /today candidate reuses server scope and durable audit with a read-only identity-context projection; see docs/current/d02/SPECIFICATION.md and VALIDATION.md. Formal and representative-worker acceptance remain pending. D03 isolated routine candidate reuses current guided controls and four audited commands bound to one selected person;50 built synthetic backend/browser checks cover shared three-pack capture, provenance, lost committed acknowledgement, explicit conflict recovery and changed-authority refusal. Existing encrypted local component full-fixture p95 is separately measured under the unchanged500ms target; the connected screen does not acknowledge durable local work. Final CI/review/host gate and representative-device/worker/formal acceptance remain pending. See docs/current/d03/SPECIFICATION.md and EVIDENCE.json. '... 403250 more characters,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

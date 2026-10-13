@@ -1,0 +1,116 @@
+{
+  "generatedAt": "2026-10-13T05:03:02.205Z",
+  "startedAt": "2026-10-13T05:02:46.805Z",
+  "command": "node scripts/test.mjs smoke --only smoke/own-care-permissions-browser --fast --guard --report ../../outputs/saha-next50-20261012/own-care-permissions/publication-20261013/GUARD-NATIVE-010-summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 1,
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 15223,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 51,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 15400
+  },
+  "suites": [
+    {
+      "id": "smoke/own-care-permissions-browser",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/own-care-permissions-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 15223,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__own-care-permissions-browser.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 67,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 42,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 636,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

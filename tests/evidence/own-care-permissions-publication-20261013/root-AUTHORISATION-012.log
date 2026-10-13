@@ -1,0 +1,40 @@
+Running nfr --fast; 1 suite(s).
+
+[nfr] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  nfr/authorisation-matrix ...
+  FAILED   nfr/authorisation-matrix  63 passed, 1 failed  7.7s  [exit code 1]
+      | error lines:
+      |   FAIL control: owner gets 2xx on legacy routes and403 on the exact ASHA-only Today/Routine contracts: owner control: 1 violation(s)
+      | activateMis                                       422    403    403    403    403    403    403
+      | testMis                                           422    403    403    403    403    403    403
+      | setAdapterOperations                              422    403    403    403    403    403    403
+      | enableAgentContract                               409    403    403    403    403    403    403
+      | patientImportApply                                409    403    409    403    403    403    403
+      | joinOrganisation (unknown token)                  404    404    404    404    404    404    404
+      | switchOrganisation (to this organisation)         200    200    200    200    200    200    403
+      | 138 refusals recorded; sample reasons:
+      |   startVisit/admin: A care role is required for this action.
+      |   correctIdentity/supervisor: A care role is required for this action.
+      |   assignPatient/clinician: An owner with patient access or a team supervisor must manage assignments.
+      |   createTeam/asha2: Only organisation owners can manage membership and teams.
+      |   revokeInvite/admin: Only organisation owners can manage membership and teams.
+      |   updateMember/asha2: Only organisation owners can manage membership and teams.
+      |   removeMember/admin: Only organisation owners can remove members.
+      |   opsRates/asha2: Operations access required.
+      |   opsBudget/admin: Only an owner can set cost budgets.
+      |   opsInvoiceReconcile/asha2: Only an organisation owner can record an invoice reconciliation.
+      |   probeEhr/admin: Owner access required.
+      |   activateEhr/asha2: Only an organisation owner can configure EHR exchange.
+      |   activateMis/admin: Only an organisation owner can configure programme delivery.
+      |   testMis/asha2: Only an organisation owner can test a connection.
+      |   enableAgentContract/admin: Only an organisation owner can set an agent contract.
+      |   patientImportApply/clinician: Only an owner or supervisor with a clinician or supervisor role can import people, for teams they be
+      | {"suite":"Authorisation matrix (non-functional: security)","passed":63,"failed":1,"skipped":0,"completedAt":"2026-10-13T05:03:37.778Z"}
+
+  layer  status  suites  passed  failed  skipped  time
+  -----  ------  ------  ------  ------  -------  ----
+  nfr    failed       1      63       1        0  7.7s
+  total  FAILED       1      63       1        0  7.9s
+
+Regression guard: passed (1 baselined suite(s) checked, 0 excused by quarantine).

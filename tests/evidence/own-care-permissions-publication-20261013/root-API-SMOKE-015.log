@@ -1,0 +1,13 @@
+Running smoke --fast; 1 suite(s).
+
+[smoke] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  smoke/local-smoke ...
+  ok       smoke/local-smoke  32 passed, 1 skipped  3.5s
+
+  layer  status  suites  passed  failed  skipped  time
+  -----  ------  ------  ------  ------  -------  ----
+  smoke  passed       1      32       0        1  3.5s
+  total  passed       1      32       0        1  3.7s
+
+Regression guard: passed (1 baselined suite(s) checked, 0 excused by quarantine).

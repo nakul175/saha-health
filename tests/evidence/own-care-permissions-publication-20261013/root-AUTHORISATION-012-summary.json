@@ -1,0 +1,118 @@
+{
+  "generatedAt": "2026-10-13T05:03:37.951Z",
+  "startedAt": "2026-10-13T05:03:30.053Z",
+  "command": "node scripts/test.mjs nfr --only nfr/authorisation-matrix --fast --guard --report ../../outputs/saha-next50-20261012/own-care-permissions/publication-20261013/AUTHORISATION-012-summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "nfr",
+      "status": "failed",
+      "suites": 1,
+      "passed": 63,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 7738,
+      "failedSuites": 1
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 63,
+    "failed": 1,
+    "skipped": 0,
+    "failedSuites": 1,
+    "durationMs": 7898
+  },
+  "suites": [
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix-current.mjs",
+      "tier": "extended",
+      "status": "failed",
+      "passed": 63,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 7738,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-current-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 67,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 42,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 636,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

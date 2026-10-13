@@ -1,0 +1,1 @@
+import {ownCarePermissionsRead} from '@/lib/saha/own-care-permissions-server';import {error} from '@/lib/saha/server';import {measured} from '@/lib/saha/monitoring';export const dynamic='force-dynamic';export async function GET(r:Request){return measured(r,'commands',async()=>{try{return await ownCarePermissionsRead(r);}catch(e){return error(e);}});}

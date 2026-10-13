@@ -1,0 +1,77 @@
+{
+  "untamperedPassed": true,
+  "fullCheckerRefusals": [
+    {
+      "name": "archive-byte",
+      "exit": 1,
+      "expectedDiagnostic": "Changed own-care source preimage",
+      "refused": true
+    },
+    {
+      "name": "extra-pair",
+      "exit": 1,
+      "expectedDiagnostic": "Changed own-care sourcepair registry",
+      "refused": true
+    },
+    {
+      "name": "manifest-binding",
+      "exit": 1,
+      "expectedDiagnostic": "Unbound original own-care manifest",
+      "refused": true
+    },
+    {
+      "name": "current-binding",
+      "exit": 1,
+      "expectedDiagnostic": "Current own-care source is not independently baseline-pinned",
+      "refused": true
+    },
+    {
+      "name": "report-pair",
+      "exit": 1,
+      "expectedDiagnostic": "Changed own-care sourcepair registry",
+      "refused": true
+    },
+    {
+      "name": "archive-bounds",
+      "exit": 1,
+      "expectedDiagnostic": "Changed own-care source preimage",
+      "refused": true
+    },
+    {
+      "name": "real-report",
+      "exit": 1,
+      "expectedDiagnostic": "Changed slice evidence:",
+      "refused": true
+    },
+    {
+      "name": "current-source",
+      "exit": 1,
+      "expectedDiagnostic": "Changed baseline file:",
+      "refused": true
+    }
+  ],
+  "inlineOriginal389GuardRefusals": [
+    {
+      "name": "old-min",
+      "refused": true
+    },
+    {
+      "name": "missing-old",
+      "refused": true
+    },
+    {
+      "name": "new-min",
+      "refused": true
+    },
+    {
+      "name": "missing-new",
+      "refused": true
+    },
+    {
+      "name": "extra-record",
+      "refused": true
+    }
+  ],
+  "runtimeAndOriginalBranchUntouched": true,
+  "scope": "Privatecopynegative controls; no new storyacceptance/testminimum change."
+}
