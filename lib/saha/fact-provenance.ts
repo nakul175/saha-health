@@ -6,6 +6,13 @@ const own=<T>(r:Record<string,T>|undefined|null,k:string):T|undefined=>r&&Object
 // the workspace UI and the FHIR exports. A recorded value is measured or reported; a blank measurement may say
 // why it is missing (not asked, declined, unknown, not applicable), which is never read as a normal finding.
 // Visits without per-measurement entries fall back to the visit-level source and observation time.
+// UTC observation minutes must name a real calendar minute, without Date.parse rollover.
+// Calendar validity is separate from the existing future-time and clinical range rules.
+export function validObservationMinute(value:unknown):value is string{
+ if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(value))return false;
+ const at=Date.parse(value+'Z');
+ return Number.isFinite(at)&&new Date(at).toISOString().slice(0,16)===value;
+}
 export const FACT_SOURCES=['measured','reported','not-asked','declined','unknown','not-applicable'] as const satisfies readonly FactSource[];
 export const RECORDED_SOURCES=['measured','reported'] as const satisfies readonly FactSource[];
 export const MISSING_SOURCES=['not-asked','declined','unknown','not-applicable'] as const satisfies readonly FactSource[];

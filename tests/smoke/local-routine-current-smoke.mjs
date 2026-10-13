@@ -42,6 +42,11 @@ const SIGN_IN = /sign in/i;
 const recipes = (visitId, org) => ({
   '/api/programme-status': '?personId=p_meena',
   '/api/handover': '?personId=p_meena',
+  '/api/record-matching': '',
+  '/api/fact-freshness': '?personId=p_meena',
+  '/api/amendments': '?personId=p_meena',
+  '/api/plan-review': '?personId=p_meena',
+  '/api/assistance-control': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
   '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/routine-visit': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
   '/api/inbound-conflicts': '?personId=p_meena',
@@ -119,6 +124,7 @@ try {
     const a = owner.snap.audit.find(x => x.action === 'installDemonstrationPackage'); assert.ok(a, 'the install is audited'); assert.match(a.detail, /Not clinically approved/);
   });
 
+  await r.check('Existing owner workforce roster is metadata only',async()=>{const res=await c.get(owner,'/api/workforce-status',org);need(res,200,'owner workforce');assert.equal(res.json.actorId,owner.id);assert.equal(res.json.organisation.id,org);assert.ok(Array.isArray(res.json.members));assert.ok(!Object.hasOwn(res.json,'people')&&!Object.hasOwn(res.json,'patients'));});
   // ---- Invitations and scope -------------------------------------------------------------------------------------------------
   let ashaToken = '';
   await r.check('the owner invites an ASHA and a supervisor by account code, and both join the same organisation', async () => {
@@ -242,7 +248,7 @@ try {
     const bad = [];
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
-      if (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover'].includes(route)) {
+      if (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control'].includes(route)) {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
         continue;
@@ -316,6 +322,20 @@ try {
       }
     });
   }
+  await r.check('Matching setup discloses only current ASHA org/account/team metadata, no patient packet', async () => { const value=await c.get(asha,'/api/record-matching',org);need(value,200,'matching setup');assert.deepEqual(Object.keys(value.json).sort(),['actorId','organisationId','teams']);assert.equal(value.json.actorId,asha.id);assert.equal(value.json.organisationId,org);assert.ok(Array.isArray(value.json.teams));const refused=await c.get(owner,'/api/record-matching',org);need(refused,403,'matching owner refusal');assert.deepEqual(Object.keys(refused.json),['error']); });
+  await r.check('Freshness index retains current actor org person and no automatic visit selection',async()=>{const res=await c.get(asha,'/api/fact-freshness?personId=p_meena',org);need(res,200,'freshness index');assert.equal(res.json.actorId,asha.id);assert.equal(res.json.organisationId,org);assert.equal(res.json.person.id,'p_meena');assert.equal(res.json.selected,null);assert.ok(Array.isArray(res.json.visits));});
+  await r.check('Traceable amendments returns only the assigned ASHA record and refuses foreign scope or other roles', async () => {
+    const result = await c.get(asha, '/api/amendments?personId=p_meena', org);
+    need(result, 200, 'assigned ASHA amendment source review');
+    assert.equal(result.json.person.id, 'p_meena'); assert.equal(result.json.organisationId, org);
+    assert.equal(result.json.actorId, asha.id); assert.ok(Array.isArray(result.json.visits));
+    for (const [who, query, statuses] of [[asha, '?personId=p_rajesh', [403, 404]], [owner, '?personId=p_meena', [403]], [supervisor, '?personId=p_meena', [403]], [stranger, '?personId=p_meena', [403]], [null, '?personId=p_meena', [401]]]) {
+      const refusal = await c.get(who, '/api/amendments' + query, org);
+      assert.ok(statuses.includes(refusal.status)); assert.deepEqual(Object.keys(refusal.json).sort(), ['error']);
+    }
+  });
+  await r.check('Assistance status belongs to exact assigned actor/person/visit and excludes source outputs',async()=>{const res=await c.get(asha,'/api/assistance-control?personId=p_meena&visitId='+visitId,org);need(res,200,'assistance status');assert.equal(res.json.actorId,asha.id);assert.equal(res.json.organisationId,org);assert.equal(res.json.person.id,'p_meena');assert.equal(res.json.selected.id,visitId);assert.ok(res.json.selected.requests.every(x=>x.actorId===asha.id));assert.ok(!res.json.selected.requests.some(x=>'input' in x||'output' in x));});
+  await r.check('Existing owner workforce roster is metadata only',async()=>{const res=await c.get(owner,'/api/workforce-status',org);need(res,200,'owner workforce');assert.equal(res.json.actorId,owner.id);assert.equal(res.json.organisation.id,org);assert.ok(Array.isArray(res.json.members));assert.ok(!Object.hasOwn(res.json,'people')&&!Object.hasOwn(res.json,'patients'));});
   for (const row of sweep) if (row.skipped) r.skip(`GET ${row.route}`, row.skipped);
   for (const route of gets.filter(x => x in unsuppliable)) r.skip(`GET ${route}`, unsuppliable[route]);
   await r.check('the Worker logged no 5xx response and no unhandled workspace error during the run', async () => {

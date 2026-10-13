@@ -135,8 +135,29 @@ export const TASK_ENTRY_SCREEN = 'Candidate deterministic task shortcuts (/task-
 export const PROGRAMME_STATUS_SCREEN = 'Candidate ASHA programme status (/programme-status; simulator evidence; deployment pending)';
 export const FRONTLINE_FOLLOWUP_SCREEN = 'Candidate planned follow-ups (Today > View planned follow-ups; publication/deployment pending)';
 export const HANDOVER_SCREEN = 'Candidate receiving ASHA handover (/handover; acknowledgement only; deployment pending)';
+export const MATCHING_SCREEN='Candidate ASHA existing-record matching (/record-matching; explicit read-only selection; deployment pending)';
+export const FRESHNESS_SCREEN='Candidate ASHA original fact time and configured relevance (/fact-freshness; no copying/clinical qualification; deployment pending)';
+export const TODAY_SCREEN='Candidate ASHA Today (/today; assigned records; deployment pending)';
+export const AMENDMENTS_SCREEN = 'Candidate ASHA traceable correction (/amendments; draft creation only; deployment pending)';
+export const PLAN_REVIEW_SCREEN = 'Candidate ASHA action review (/plan-review; local approval only; deployment pending)';
+export const ASSISTANCE_SCREEN='Candidate ASHA own assistance status and cancellation (/assistance-control; no provider activation; deployment pending)';
+export const WORKFORCE_SCREEN='Candidate existing-owner workforce suspension (/workforce-status; no activation or institutional verification; deployment pending)';
 export const PANEL_HOME = {
   'app/routine-visit/save-status.tsx': [ROUTINE_CAPTURE_SCREEN],
+  'app/record-matching/page.tsx':[MATCHING_SCREEN],
+  'app/record-matching/record-matching.tsx':[MATCHING_SCREEN],
+  'app/fact-freshness/page.tsx':[FRESHNESS_SCREEN],
+  'app/fact-freshness/fact-freshness.tsx':[FRESHNESS_SCREEN],
+  'app/today/today.tsx':[TODAY_SCREEN],
+  'app/guided-capture.tsx': [PERSON, ROUTINE_CAPTURE_SCREEN],
+  'app/amendments/page.tsx': [AMENDMENTS_SCREEN],
+  'app/amendments/amendments.tsx': [AMENDMENTS_SCREEN],
+  'app/plan-review/page.tsx': [PLAN_REVIEW_SCREEN],
+  'app/plan-review/plan-review.tsx': [PLAN_REVIEW_SCREEN],
+  'app/assistance-control/page.tsx':[ASSISTANCE_SCREEN],
+  'app/assistance-control/assistance-control.tsx':[ASSISTANCE_SCREEN],
+  'app/workforce-status/page.tsx':[WORKFORCE_SCREEN],
+  'app/workforce-status/workforce-status.tsx':[WORKFORCE_SCREEN],
   'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/resume-work/resume-work.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/resume-work/page.tsx': [ROUTINE_CAPTURE_SCREEN],
