@@ -1,0 +1,13 @@
+Running nfr --fast; 1 suite(s).
+
+[nfr] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  nfr/authorisation-matrix ...
+  ok       nfr/authorisation-matrix  63 passed  7.5s
+
+  layer  status  suites  passed  failed  skipped  time
+  -----  ------  ------  ------  ------  -------  ----
+  nfr    passed       1      63       0        0  7.5s
+  total  passed       1      63       0        0  7.6s
+
+Regression guard: passed (1 baselined suite(s) checked, 0 excused by quarantine).
