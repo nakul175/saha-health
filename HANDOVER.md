@@ -242,3 +242,9 @@ Cloudflare account settings, Access policy and the `CLOUDFLARE_API_TOKEN` secret
 ## Eight independent frontline apps (3 October 2026)
 
 The owner-private Sites demonstration now has eight independent speech/OCR workflow providers and Saha integration. Read [scope and evidence](docs/current/FRONTLINE-EIGHT-APPS.md). Merged into `main` on 3 October 2026 at the sponsor's instruction (#145), after an agent review whose medium findings M1 and M3 were fixed; the runtime CDN import of the inference libraries without an integrity check remained open after the merge (slice 13b, on a branch, isolates it in a sandboxed frame and checks receipts against what was sent). Four method/route handlers added; no certified command or migration. Synthetic-only; clinical use disabled; hosted staging cannot reach the providers.
+
+
+12October development: existing-owner suspension root520b source and actual48/44/49 checks separately reviewed. Metadata/additive CI controls being qualified, full workforce lifecycle/formal/hosting open. Original389/criteria remain unchanged.
+
+
+12October actual publishedworkforce return-navigation defect independently reproduced on e873. Only new Backtoworkspace NextLink replaced with identical full-document anchor; no framework/policy/originalwriter change. Freshbuild/types/actualtargetedlint and47native (old44 preserved +3 actualvisibleentry/return/tablecustody) pass, zero browsererrors, nonempty9GET navigation requests/60tables onlyauditmetrics. Genuine separate source/evidence review passed; original389/unit48 unchanged, observednative minimum tightened44to47. Failed e873/invalidlintshim/evidencefilename setup receipts retained. Newexacthead fullCI/finalmetadata review, wholeworkforce/physical/formal/domain/hosting stillpending.

@@ -1,0 +1,61 @@
+Running integration --fast; 2 suite(s).
+
+[integration] 2 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/offline-open-unsent-pruning-browser ...
+  FAILED   integration/offline-open-unsent-pruning-browser  no count  590ms  [exit code 1]
+      | error lines:
+      |       throw new Error(`Migrating the fresh local database failed: ${String(e.stderr ?? e.message).slice(-1200)}`);
+      |   Error: Migrating the fresh local database failed: Error: listen EPERM: operation not permitted 127.0.0.1
+      | file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/lib/migrate.mjs:23
+      |     throw new Error(`Migrating the fresh local database failed: ${String(e.stderr ?? e.message).slice(-1200)}`);
+      |           ^
+      | Error: Migrating the fresh local database failed: Error: listen EPERM: operation not permitted 127.0.0.1
+      |     at Server.setupListenHandle [as _listen2] (node:net:2306:21)
+      |     at listenInCluster (node:net:2437:12)
+      |     at node:net:2666:7
+      |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      |   code: 'EPERM',
+      |   errno: -1,
+      |   syscall: 'listen',
+      |   address: '127.0.0.1'
+      | }
+      |     at migrateOnce (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/lib/migrate.mjs:23:11)
+      |     at freshDatabase (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/lib/worker.mjs:18:3)
+      |     at startWorker (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/lib/worker.mjs:29:14)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/offline-open-unsent-pruning-browser.mjs:1:501
+      | Node.js v24.21.0
+  running  integration/offline-sync-hash-cold-extra-browser ...
+  FAILED   integration/offline-sync-hash-cold-extra-browser  no count  494ms  [exit code 1]
+      | error lines:
+      |       throw new Error(`Migrating the fresh local database failed: ${String(e.stderr ?? e.message).slice(-1200)}`);
+      |   Error: Migrating the fresh local database failed: Error: listen EPERM: operation not permitted 127.0.0.1
+      | file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/lib/migrate.mjs:23
+      |     throw new Error(`Migrating the fresh local database failed: ${String(e.stderr ?? e.message).slice(-1200)}`);
+      |           ^
+      | Error: Migrating the fresh local database failed: Error: listen EPERM: operation not permitted 127.0.0.1
+      |     at Server.setupListenHandle [as _listen2] (node:net:2306:21)
+      |     at listenInCluster (node:net:2437:12)
+      |     at node:net:2666:7
+      |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      |   code: 'EPERM',
+      |   errno: -1,
+      |   syscall: 'listen',
+      |   address: '127.0.0.1'
+      | }
+      |     at migrateOnce (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/lib/migrate.mjs:23:11)
+      |     at freshDatabase (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/lib/worker.mjs:18:3)
+      |     at startWorker (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/lib/worker.mjs:29:14)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr223-offline-readiness-20261013/tests/offline-sync-hash-cold-extra-browser.mjs:3:18
+      | Node.js v24.21.0
+
+  layer        status  suites  passed  failed  skipped  time
+  -----------  ------  ------  ------  ------  -------  ----
+  integration  failed       2       0       0        0  1.1s
+  total        FAILED       2       0       0        0  1.8s
+
+Restored 2 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: FAILED (2 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/offline-open-unsent-pruning-browser reported no assertion count; baseline needs at least 13.
+  FAIL     Suite integration/offline-sync-hash-cold-extra-browser reported no assertion count; baseline needs at least 55.

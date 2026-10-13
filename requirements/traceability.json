@@ -345,7 +345,7 @@
       "sourceTextLine": 166,
       "implementation": "partial",
       "target": "R15",
-      "current": "Account-bound invitations, role/team changes, suspension and immediate online access checks. Slice 1b adds removal that requires the caseload to be transferred first, keeps history and needs a new invitation to return. Slice 1d adds roster-based bulk invitation, update and suspension. Slice 10d adds workforce import from a CSV file: an owner uploads a roster (name, account code, role, team, status, optional external staff id) for a dry run that lists invitations to create, memberships to update or suspend, rows rejected with reasons and conflicts under a plan hash, downloads a rejection report and applies exactly the previewed plan (refused if anything changed since), on the slice 1d rules, in batches of at most 100 rows with an audit record.",
+      "current": "Account-bound invitations, role/team changes, suspension and immediate online access checks. Slice 1b adds removal that requires the caseload to be transferred first, keeps history and needs a new invitation to return. Slice 1d adds roster-based bulk invitation, update and suspension. Slice 10d adds workforce import from a CSV file: an owner uploads a roster (name, account code, role, team, status, optional external staff id) for a dry run that lists invitations to create, memberships to update or suspend, rows rejected with reasons and conflicts under a plan hash, downloads a rejection report and applies exactly the previewed plan (refused if anything changed since), on the slice 1d rules, in batches of at most 100 rows with an audit record. Bounded12October2026 increment: Explicit existing-owner suspension with original command and receipt recovery; see docs/current/next50/WORKFORCE-STATUS-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.",
       "remaining": "Formal verification, scheduled or API workforce feeds, upstream de-provisioning, batches over 100 rows, verified and displayed external staff ids, and production identity governance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -360,7 +360,17 @@
         "lib/saha/workforce-import-server.ts",
         "tests/workforce-import-contract.mjs",
         "tests/workforce-import-smoke.mjs",
-        "docs/current/SLICE-10D-WORKFORCE-IMPORT.md"
+        "docs/current/SLICE-10D-WORKFORCE-IMPORT.md",
+        "app/api/workforce-status/route.ts",
+        "app/workforce-status/page.tsx",
+        "app/workforce-status/workforce-status.tsx",
+        "app/workforce-status/workforce-status.css",
+        "app/organisation.tsx",
+        "lib/saha/workforce-status.ts",
+        "lib/saha/workforce-status-server.ts",
+        "tests/workforce-status-contract.mjs",
+        "tests/smoke/workforce-status-browser.mjs",
+        "docs/current/next50/WORKFORCE-STATUS-20261012.md"
       ],
       "automatedAcceptanceClaim": false
     },

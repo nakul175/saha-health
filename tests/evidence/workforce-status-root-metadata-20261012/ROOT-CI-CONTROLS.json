@@ -1,0 +1,27 @@
+{
+  "positive391": true,
+  "negativeControls": [
+    {
+      "case": "oldminimum",
+      "rejected": true
+    },
+    {
+      "case": "oldfile",
+      "rejected": true
+    },
+    {
+      "case": "newlogic",
+      "rejected": true
+    },
+    {
+      "case": "newnative",
+      "rejected": true
+    },
+    {
+      "case": "missingnew",
+      "rejected": true
+    }
+  ],
+  "exactInlineCode": "additional = {\"unit/workforce-status-contract\":{\"layer\":\"unit\",\"file\":\"tests/workforce-status-contract.mjs\",\"minPassed\":48},\"smoke/workforce-status-browser\":{\"layer\":\"smoke\",\"file\":\"tests/smoke/workforce-status-browser.mjs\",\"minPassed\":44}}\noriginal_suites = {k:v for k,v in baseline['suites'].items() if k not in additional}\nassert len(original_suites) == 389, 'Original389 must remain'\nassert hashlib.sha256(json.dumps(original_suites,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 objects/minima changed'\nassert len(baseline['suites']) == 391 and all(baseline['suites'].get(k)==v for k,v in additional.items()), 'Only observed48 logic and44 native suspension guards added'\n",
+  "criteriaChanged": false
+}

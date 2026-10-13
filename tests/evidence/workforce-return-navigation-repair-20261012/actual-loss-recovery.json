@@ -1,0 +1,87 @@
+{
+  "status": 200,
+  "body": {
+    "outcome": "original-suspension-recorded",
+    "key": "daed8eca-8f18-4c17-80ac-969c81935fed",
+    "result": {
+      "ok": true
+    },
+    "context": {
+      "actorId": "owner|85c7f223",
+      "organisation": {
+        "id": "org_5d2bdeb350ef32f49945be2fa780f8d3",
+        "name": "Rampur care organisation"
+      },
+      "members": [
+        {
+          "userId": "fixture:org_5d2bdeb350ef32f49945be2fa780f8d3:clinician-author",
+          "name": "Demonstration clinician — author (synthetic)",
+          "role": "clinician",
+          "isOwner": false,
+          "status": "active",
+          "version": 1,
+          "teamIds": [
+            "default"
+          ]
+        },
+        {
+          "userId": "fixture:org_5d2bdeb350ef32f49945be2fa780f8d3:clinician-reviewer",
+          "name": "Demonstration clinician — reviewer (synthetic)",
+          "role": "clinician",
+          "isOwner": false,
+          "status": "active",
+          "version": 1,
+          "teamIds": [
+            "default"
+          ]
+        },
+        {
+          "userId": "owner|85c7f223",
+          "name": "Synthetic Workforce Owner",
+          "role": "clinician",
+          "isOwner": true,
+          "status": "active",
+          "version": 1,
+          "teamIds": [
+            "default"
+          ]
+        },
+        {
+          "userId": "t-85c7f223-observer",
+          "name": "observer-85c7f223@example.invalid",
+          "role": "supervisor",
+          "isOwner": false,
+          "status": "suspended",
+          "version": 2,
+          "teamIds": [
+            "default"
+          ]
+        },
+        {
+          "userId": "t-85c7f223-protectedPeer",
+          "name": "protectedPeer-85c7f223@example.invalid",
+          "role": "clinician",
+          "isOwner": false,
+          "status": "active",
+          "version": 1,
+          "teamIds": [
+            "default"
+          ]
+        },
+        {
+          "userId": "worker/85c7f223",
+          "name": "Synthetic Workforce Worker",
+          "role": "asha",
+          "isOwner": false,
+          "status": "suspended",
+          "version": 2,
+          "teamIds": [
+            "default"
+          ]
+        }
+      ]
+    }
+  },
+  "request": "{\"type\":\"updateMember\",\"userId\":\"t-85c7f223-observer\",\"version\":1,\"role\":\"supervisor\",\"teamIds\":[\"default\"],\"isOwner\":false,\"status\":\"suspended\",\"reason\":\"Synthetic genuinely lost suspension response\"}",
+  "key": "daed8eca-8f18-4c17-80ac-969c81935fed"
+}

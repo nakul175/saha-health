@@ -117,6 +117,7 @@ try {
     const a = owner.snap.audit.find(x => x.action === 'installDemonstrationPackage'); assert.ok(a, 'the install is audited'); assert.match(a.detail, /Not clinically approved/);
   });
 
+  await r.check('Existing owner workforce roster is metadata only',async()=>{const res=await c.get(owner,'/api/workforce-status',org);need(res,200,'owner workforce');assert.equal(res.json.actorId,owner.id);assert.equal(res.json.organisation.id,org);assert.ok(Array.isArray(res.json.members));assert.ok(!Object.hasOwn(res.json,'people')&&!Object.hasOwn(res.json,'patients'));});
   // ---- Invitations and scope -------------------------------------------------------------------------------------------------
   let ashaToken = '';
   await r.check('the owner invites an ASHA and a supervisor by account code, and both join the same organisation', async () => {

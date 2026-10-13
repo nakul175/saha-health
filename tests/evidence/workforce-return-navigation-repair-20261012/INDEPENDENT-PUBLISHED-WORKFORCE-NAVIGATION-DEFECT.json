@@ -1,0 +1,73 @@
+{
+  "verdict": "BLOCKED: concreteP2 new membership page return navigation fails on exact published source. Existing plain-anchor entry works; new NextLink return and prefetch do not.",
+  "reviewer": "/root/routine_independent_qa",
+  "sourceHead": "e87324c424b3a12371863c9f367c57b1571720b7",
+  "sourceTree": "69ca52de03c98f9fe62cd0326740a1c400411e3b",
+  "sourceIsPublishedPR": 223,
+  "ownedScratch": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-workforce-navigation-diagnostic-e873-20261012",
+  "freshCanonicalBuildExit0": true,
+  "actualFourEntryReadChecksPassed": [
+    "Existingowner seesvisibleorganisationmenu without mode/hiddenactivation",
+    "Actualvisibleorganizationanchor reachesworkforcescreen",
+    "Organisationentry usesfreshdocument asitsplainanchor specifies",
+    "Actualcurrentownerorganisation rosterloaded viaauthoritativeAPI"
+  ],
+  "finding": {
+    "priority": 2,
+    "file": "app/workforce-status/workforce-status.tsx",
+    "line": 107,
+    "trigger": "Visible existingowner organisationmenu -> plain anchor workforceentry -> ownerroster -> actualBack toworkspace link click. No hiddenmode activation.",
+    "actual": "TypeError e is not a function in actualfreshcompiledworkforce-status-rrk-l19b.js2:13939; URL remains/workforce-status, prior documentmarker preserved,10secondnavigationwait fails and no returnrequest occurs.",
+    "expected": "User can return toexisting visibleworkspace usingthe advertised link.",
+    "actualBrowserError": {
+      "phase": "workforce-return-click",
+      "name": "TypeError",
+      "message": "e is not a function",
+      "stack": "TypeError: e is not a function\n    at http://127.0.0.1:21903/_next/static/chunks/workforce-status-rrk-l19b.js:2:13939\n    at e.startTransition (http://127.0.0.1:21903/_next/static/chunks/framework-YrLwah_k.js:1:6185)\n    at W (http://127.0.0.1:21903/_next/static/chunks/workforce-status-rrk-l19b.js:2:13918)\n    at yd (http://127.0.0.1:21903/_next/static/chunks/framework-YrLwah_k.js:8:125860)\n    at http://127.0.0.1:21903/_next/static/chunks/framework-YrLwah_k.js:8:130853\n    at _n (http://127.0.0.1:21903/_next/static/chunks/framework-YrLwah_k.js:8:15080)\n    at wd (http://127.0.0.1:21903/_next/static/chunks/framework-YrLwah_k.js:8:127087)\n    at up (http://127.0.0.1:21903/_next/static/chunks/framework-YrLwah_k.js:9:28432)\n    at cp (http://127.0.0.1:21903/_next/static/chunks/framework-YrLwah_k.js:9:28254)"
+    },
+    "relatedConsoleErrors": [
+      {
+        "phase": "workforce-entry-click",
+        "type": "error",
+        "text": "[vinext] RSC prefetch setup error: TypeError: f is not a function\n    at http://127.0.0.1:21903/_next/static/chunks/workforce-status-rrk-l19b.js:2:6476",
+        "location": {
+          "url": "http://127.0.0.1:21903/_next/static/chunks/workforce-status-rrk-l19b.js",
+          "lineNumber": 1,
+          "columnNumber": 9060
+        }
+      },
+      {
+        "phase": "workforce-return-click",
+        "type": "error",
+        "text": "[vinext] RSC prefetch setup error: TypeError: f is not a function\n    at http://127.0.0.1:21903/_next/static/chunks/workforce-status-rrk-l19b.js:2:6476",
+        "location": {
+          "url": "http://127.0.0.1:21903/_next/static/chunks/workforce-status-rrk-l19b.js",
+          "lineNumber": 1,
+          "columnNumber": 9060
+        }
+      }
+    ],
+    "minimumRepairRecommendation": "Rootauthor freeze a full-document anchor for this return path and remove its unused NextLinkimport; add a real visible organisation-entry/roster/return navigation oracle preserving all original44checks/minima. Current compiledframework lacks usable RSCnavigation/prefetch functions in this isolatedroute; do not bypass by root/core edits or assumehosting isidentical."
+  },
+  "entryHypothesisCorrected": "Actual organisation.tsx48 alreadyplainanchor; entry succeeds with freshdocument and two genuineworkforceAPI200s. No evidence of failedentry or blockedworkforceAPI.",
+  "evidence": {
+    "actualHTMLConsoleFullStackNetworkAndPNGRetained": true,
+    "whole60RawTableSnapshotsPreserved": true,
+    "changedTables": [
+      "audit_events",
+      "request_metrics"
+    ],
+    "source17022BeforeAfterFixed": true,
+    "sharedDeps52299BeforeAfterFixed": true,
+    "freshCompiled308IncludingHiddenManifestsBeforeAfterArchivedAndRehashed": true,
+    "visibleNoModeSwitches": true,
+    "ownedRuntimeDisposedPort21903Free": true
+  },
+  "limits": [
+    "Actualowned syntheticportable currentpublishedruntime only; no DigitalOcean/dashboard access or hosting inference.",
+    "No whole44greenrerun, mutation/suspension/provider operation, source repair, CI rerun/publication/branchchange performed.",
+    "Previouslyreviewed44native checks remain actual within their directroute scope; they did not click this return link and cannot qualify navigation.",
+    "This is a genuine independently reproduced application/framework integration failure, not a discardedobserver error or hypotheticalcomponentrisk."
+  ],
+  "atUtc": "2026-10-12T19:16:36.875997+00:00"
+}

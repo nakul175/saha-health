@@ -1,0 +1,17 @@
+Running integration --fast; 2 suite(s).
+
+[integration] 2 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/offline-open-unsent-pruning-browser ...
+  ok       integration/offline-open-unsent-pruning-browser  13 passed  7.2s
+  running  integration/offline-sync-hash-cold-extra-browser ...
+  ok       integration/offline-sync-hash-cold-extra-browser  55 passed  4.3s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  integration  passed       2      68       0        0  11.5s
+  total        passed       2      68       0        0  11.7s
+
+Restored 9 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (2 baselined suite(s) checked, 0 excused by quarantine).

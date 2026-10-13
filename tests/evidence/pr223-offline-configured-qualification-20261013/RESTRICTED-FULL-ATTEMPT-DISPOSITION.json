@@ -1,0 +1,1917 @@
+{
+  "at": "2026-10-13T04:42:24.816127Z",
+  "actualSummary": {
+    "suites": 147,
+    "passed": 13,
+    "failed": 9,
+    "skipped": 0,
+    "failedSuites": 146,
+    "durationMs": 68645
+  },
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "integration/app-offline-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/app-offline-browser reported no assertion count; baseline needs at least 22.",
+        "excused": false
+      },
+      {
+        "id": "integration/app-offline-review-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/app-offline-review-browser reported no assertion count; baseline needs at least 22.",
+        "excused": false
+      },
+      {
+        "id": "integration/app-offline-scope-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/app-offline-scope-browser reported no assertion count; baseline needs at least 15.",
+        "excused": false
+      },
+      {
+        "id": "integration/asha-guided-capture-browser",
+        "kind": "dropped",
+        "message": "Suite integration/asha-guided-capture-browser passed 0 assertion(s); baseline is 48 (down 48).",
+        "excused": false
+      },
+      {
+        "id": "integration/asha-guided-capture-conditional",
+        "kind": "dropped",
+        "message": "Suite integration/asha-guided-capture-conditional passed 0 assertion(s); baseline is 11 (down 11).",
+        "excused": false
+      },
+      {
+        "id": "integration/asha-guided-capture-legacy-range",
+        "kind": "dropped",
+        "message": "Suite integration/asha-guided-capture-legacy-range passed 0 assertion(s); baseline is 18 (down 18).",
+        "excused": false
+      },
+      {
+        "id": "integration/asha-guided-capture-uncertainty",
+        "kind": "uncounted",
+        "message": "Suite integration/asha-guided-capture-uncertainty reported no assertion count; baseline needs at least 15.",
+        "excused": false
+      },
+      {
+        "id": "integration/auxiliary-read-http",
+        "kind": "uncounted",
+        "message": "Suite integration/auxiliary-read-http reported no assertion count; baseline needs at least 15.",
+        "excused": false
+      },
+      {
+        "id": "integration/clinical-source-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/clinical-source-browser reported no assertion count; baseline needs at least 9.",
+        "excused": false
+      },
+      {
+        "id": "integration/clinical-source-dependency-http",
+        "kind": "uncounted",
+        "message": "Suite integration/clinical-source-dependency-http reported no assertion count; baseline needs at least 31.",
+        "excused": false
+      },
+      {
+        "id": "integration/clinical-source-http",
+        "kind": "uncounted",
+        "message": "Suite integration/clinical-source-http reported no assertion count; baseline needs at least 28.",
+        "excused": false
+      },
+      {
+        "id": "integration/clinical-source-identity-http",
+        "kind": "uncounted",
+        "message": "Suite integration/clinical-source-identity-http reported no assertion count; baseline needs at least 7.",
+        "excused": false
+      },
+      {
+        "id": "integration/clinical-source-retrieval-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/clinical-source-retrieval-browser reported no assertion count; baseline needs at least 9.",
+        "excused": false
+      },
+      {
+        "id": "integration/clinical-source-retrieval-http",
+        "kind": "uncounted",
+        "message": "Suite integration/clinical-source-retrieval-http reported no assertion count; baseline needs at least 41.",
+        "excused": false
+      },
+      {
+        "id": "integration/command-authority-http",
+        "kind": "uncounted",
+        "message": "Suite integration/command-authority-http reported no assertion count; baseline needs at least 30.",
+        "excused": false
+      },
+      {
+        "id": "integration/completeness-cold-extra-authority-http",
+        "kind": "uncounted",
+        "message": "Suite integration/completeness-cold-extra-authority-http reported no assertion count; baseline needs at least 89.",
+        "excused": false
+      },
+      {
+        "id": "integration/completeness-cold-extra-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/completeness-cold-extra-browser reported no assertion count; baseline needs at least 27.",
+        "excused": false
+      },
+      {
+        "id": "integration/composite-authority-independent-extra-http",
+        "kind": "uncounted",
+        "message": "Suite integration/composite-authority-independent-extra-http reported no assertion count; baseline needs at least 95.",
+        "excused": false
+      },
+      {
+        "id": "integration/composite-authority-repair-http",
+        "kind": "uncounted",
+        "message": "Suite integration/composite-authority-repair-http reported no assertion count; baseline needs at least 86.",
+        "excused": false
+      },
+      {
+        "id": "integration/composite-measures-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/composite-measures-browser reported no assertion count; baseline needs at least 24.",
+        "excused": false
+      },
+      {
+        "id": "integration/composite-measures-http",
+        "kind": "uncounted",
+        "message": "Suite integration/composite-measures-http reported no assertion count; baseline needs at least 133.",
+        "excused": false
+      },
+      {
+        "id": "integration/contact-import-http",
+        "kind": "uncounted",
+        "message": "Suite integration/contact-import-http reported no assertion count; baseline needs at least 15.",
+        "excused": false
+      },
+      {
+        "id": "integration/contact-import-independent-review",
+        "kind": "uncounted",
+        "message": "Suite integration/contact-import-independent-review reported no assertion count; baseline needs at least 14.",
+        "excused": false
+      },
+      {
+        "id": "integration/delta-read-audit-http",
+        "kind": "uncounted",
+        "message": "Suite integration/delta-read-audit-http reported no assertion count; baseline needs at least 26.",
+        "excused": false
+      },
+      {
+        "id": "integration/device-work-browser",
+        "kind": "dropped",
+        "message": "Suite integration/device-work-browser passed 0 assertion(s); baseline is 64 (down 64).",
+        "excused": false
+      },
+      {
+        "id": "integration/device-work-purge-failure-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/device-work-purge-failure-browser reported no assertion count; baseline needs at least 49.",
+        "excused": false
+      },
+      {
+        "id": "integration/figure-impact-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/figure-impact-browser reported no assertion count; baseline needs at least 18.",
+        "excused": false
+      },
+      {
+        "id": "integration/figure-impact-http",
+        "kind": "uncounted",
+        "message": "Suite integration/figure-impact-http reported no assertion count; baseline needs at least 101.",
+        "excused": false
+      },
+      {
+        "id": "integration/figure-impact-independent-extra-http",
+        "kind": "uncounted",
+        "message": "Suite integration/figure-impact-independent-extra-http reported no assertion count; baseline needs at least 111.",
+        "excused": false
+      },
+      {
+        "id": "integration/guided-home-browser",
+        "kind": "dropped",
+        "message": "Suite integration/guided-home-browser passed 0 assertion(s); baseline is 33 (down 33).",
+        "excused": false
+      },
+      {
+        "id": "integration/guided-programme-reset-original-probe",
+        "kind": "uncounted",
+        "message": "Suite integration/guided-programme-reset-original-probe reported no assertion count; baseline needs at least 5.",
+        "excused": false
+      },
+      {
+        "id": "integration/guided-programme-reset-variants",
+        "kind": "uncounted",
+        "message": "Suite integration/guided-programme-reset-variants reported no assertion count; baseline needs at least 30.",
+        "excused": false
+      },
+      {
+        "id": "integration/guided-registration-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/guided-registration-browser reported no assertion count; baseline needs at least 45.",
+        "excused": false
+      },
+      {
+        "id": "integration/guided-registration-overflow-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/guided-registration-overflow-browser reported no assertion count; baseline needs at least 13.",
+        "excused": false
+      },
+      {
+        "id": "integration/guided-registration-root-independent-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/guided-registration-root-independent-browser reported no assertion count; baseline needs at least 53.",
+        "excused": false
+      },
+      {
+        "id": "integration/guided-repair-independent-probe",
+        "kind": "uncounted",
+        "message": "Suite integration/guided-repair-independent-probe reported no assertion count; baseline needs at least 53.",
+        "excused": false
+      },
+      {
+        "id": "integration/household-completion-authority-review",
+        "kind": "uncounted",
+        "message": "Suite integration/household-completion-authority-review reported no assertion count; baseline needs at least 118.",
+        "excused": false
+      },
+      {
+        "id": "integration/household-completion-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/household-completion-browser reported no assertion count; baseline needs at least 39.",
+        "excused": false
+      },
+      {
+        "id": "integration/household-completion-http",
+        "kind": "uncounted",
+        "message": "Suite integration/household-completion-http reported no assertion count; baseline needs at least 105.",
+        "excused": false
+      },
+      {
+        "id": "integration/household-completion-independent-http",
+        "kind": "uncounted",
+        "message": "Suite integration/household-completion-independent-http reported no assertion count; baseline needs at least 105.",
+        "excused": false
+      },
+      {
+        "id": "integration/household-reschedule-http",
+        "kind": "uncounted",
+        "message": "Suite integration/household-reschedule-http reported no assertion count; baseline needs at least 10.",
+        "excused": false
+      },
+      {
+        "id": "integration/household-reschedule-independent-http",
+        "kind": "uncounted",
+        "message": "Suite integration/household-reschedule-independent-http reported no assertion count; baseline needs at least 26.",
+        "excused": false
+      },
+      {
+        "id": "integration/import-unit-parity-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/import-unit-parity-browser reported no assertion count; baseline needs at least 13.",
+        "excused": false
+      },
+      {
+        "id": "integration/imported-evidence-browser",
+        "kind": "dropped",
+        "message": "Suite integration/imported-evidence-browser passed 0 assertion(s); baseline is 12 (down 12).",
+        "excused": false
+      },
+      {
+        "id": "integration/imported-evidence-http",
+        "kind": "uncounted",
+        "message": "Suite integration/imported-evidence-http reported no assertion count; baseline needs at least 40.",
+        "excused": false
+      },
+      {
+        "id": "integration/imported-evidence-independent-browser",
+        "kind": "dropped",
+        "message": "Suite integration/imported-evidence-independent-browser passed 0 assertion(s); baseline is 6 (down 6).",
+        "excused": false
+      },
+      {
+        "id": "integration/imported-evidence-independent-http",
+        "kind": "uncounted",
+        "message": "Suite integration/imported-evidence-independent-http reported no assertion count; baseline needs at least 13.",
+        "excused": false
+      },
+      {
+        "id": "integration/imported-media-independent-probe",
+        "kind": "uncounted",
+        "message": "Suite integration/imported-media-independent-probe reported no assertion count; baseline needs at least 84.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-conflicts-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-conflicts-browser reported no assertion count; baseline needs at least 13.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-conflicts-http",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-conflicts-http reported no assertion count; baseline needs at least 48.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-conflicts-independent-authority",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-conflicts-independent-authority reported no assertion count; baseline needs at least 49.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-conflicts-independent-handoff",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-conflicts-independent-handoff reported no assertion count; baseline needs at least 50.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-conflicts-pressure-repair",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-conflicts-pressure-repair reported no assertion count; baseline needs at least 41.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-conflicts-transport-http",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-conflicts-transport-http reported no assertion count; baseline needs at least 325.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-retrieval-after-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-retrieval-after-browser reported no assertion count; baseline needs at least 30.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-retrieval-after-http",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-retrieval-after-http reported no assertion count; baseline needs at least 30.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-retrieval-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-retrieval-browser reported no assertion count; baseline needs at least 30.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-retrieval-http",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-retrieval-http reported no assertion count; baseline needs at least 30.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-retrieval-original-race-after",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-retrieval-original-race-after reported no assertion count; baseline needs at least 8.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-retrieval-service-independent-http",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-retrieval-service-independent-http reported no assertion count; baseline needs at least 38.",
+        "excused": false
+      },
+      {
+        "id": "integration/inbound-retrieval-service-repair-http",
+        "kind": "uncounted",
+        "message": "Suite integration/inbound-retrieval-service-repair-http reported no assertion count; baseline needs at least 30.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-figures-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-figures-browser reported no assertion count; baseline needs at least 15.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-figures-edition-http",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-figures-edition-http reported no assertion count; baseline needs at least 54.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-figures-http",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-figures-http reported no assertion count; baseline needs at least 72.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-figures-review-authority",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-figures-review-authority reported no assertion count; baseline needs at least 84.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-figures-review-submission",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-figures-review-submission reported no assertion count; baseline needs at least 26.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-figures-submission-http",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-figures-submission-http reported no assertion count; baseline needs at least 8.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-figures-submission-independent",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-figures-submission-independent reported no assertion count; baseline needs at least 8.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-governance-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-governance-browser reported no assertion count; baseline needs at least 20.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-governance-clock-http",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-governance-clock-http reported no assertion count; baseline needs at least 18.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-governance-http",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-governance-http reported no assertion count; baseline needs at least 61.",
+        "excused": false
+      },
+      {
+        "id": "integration/indicator-governance-independent-http",
+        "kind": "uncounted",
+        "message": "Suite integration/indicator-governance-independent-http reported no assertion count; baseline needs at least 17.",
+        "excused": false
+      },
+      {
+        "id": "integration/installed-programme-execution-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/installed-programme-execution-browser reported no assertion count; baseline needs at least 121.",
+        "excused": false
+      },
+      {
+        "id": "integration/installed-programme-execution-extra-http",
+        "kind": "uncounted",
+        "message": "Suite integration/installed-programme-execution-extra-http reported no assertion count; baseline needs at least 154.",
+        "excused": false
+      },
+      {
+        "id": "integration/installed-programme-execution-http",
+        "kind": "uncounted",
+        "message": "Suite integration/installed-programme-execution-http reported no assertion count; baseline needs at least 111.",
+        "excused": false
+      },
+      {
+        "id": "integration/mapping-conformance-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/mapping-conformance-browser reported no assertion count; baseline needs at least 21.",
+        "excused": false
+      },
+      {
+        "id": "integration/mapping-conformance-http",
+        "kind": "uncounted",
+        "message": "Suite integration/mapping-conformance-http reported no assertion count; baseline needs at least 91.",
+        "excused": false
+      },
+      {
+        "id": "integration/mapping-conformance-independent-http",
+        "kind": "uncounted",
+        "message": "Suite integration/mapping-conformance-independent-http reported no assertion count; baseline needs at least 108.",
+        "excused": false
+      },
+      {
+        "id": "integration/mapping-lifecycle-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/mapping-lifecycle-browser reported no assertion count; baseline needs at least 11.",
+        "excused": false
+      },
+      {
+        "id": "integration/mapping-lifecycle-http",
+        "kind": "uncounted",
+        "message": "Suite integration/mapping-lifecycle-http reported no assertion count; baseline needs at least 53.",
+        "excused": false
+      },
+      {
+        "id": "integration/mapping-lifecycle-review-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/mapping-lifecycle-review-browser reported no assertion count; baseline needs at least 12.",
+        "excused": false
+      },
+      {
+        "id": "integration/mapping-lifecycle-review-http",
+        "kind": "uncounted",
+        "message": "Suite integration/mapping-lifecycle-review-http reported no assertion count; baseline needs at least 73.",
+        "excused": false
+      },
+      {
+        "id": "integration/object-media-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/object-media-browser reported no assertion count; baseline needs at least 16.",
+        "excused": false
+      },
+      {
+        "id": "integration/object-media-budget-http",
+        "kind": "uncounted",
+        "message": "Suite integration/object-media-budget-http reported no assertion count; baseline needs at least 21.",
+        "excused": false
+      },
+      {
+        "id": "integration/object-media-http",
+        "kind": "uncounted",
+        "message": "Suite integration/object-media-http reported no assertion count; baseline needs at least 65.",
+        "excused": false
+      },
+      {
+        "id": "integration/object-media-independent-extra-http",
+        "kind": "uncounted",
+        "message": "Suite integration/object-media-independent-extra-http reported no assertion count; baseline needs at least 26.",
+        "excused": false
+      },
+      {
+        "id": "integration/object-media-independent-storage-boundary",
+        "kind": "uncounted",
+        "message": "Suite integration/object-media-independent-storage-boundary reported no assertion count; baseline needs at least 9.",
+        "excused": false
+      },
+      {
+        "id": "integration/object-media-legacy-regression",
+        "kind": "uncounted",
+        "message": "Suite integration/object-media-legacy-regression reported no assertion count; baseline needs at least 88.",
+        "excused": false
+      },
+      {
+        "id": "integration/object-media-native-boundary",
+        "kind": "uncounted",
+        "message": "Suite integration/object-media-native-boundary reported no assertion count; baseline needs at least 17.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-guided-author-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-guided-author-browser reported no assertion count; baseline needs at least 36.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-open-account-binding-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-open-account-binding-browser reported no assertion count; baseline needs at least 8.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-open-unsent-pruning-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-open-unsent-pruning-browser reported no assertion count; baseline needs at least 13.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-opens-auth-first-http",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-opens-auth-first-http reported no assertion count; baseline needs at least 13.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-opens-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-opens-browser reported no assertion count; baseline needs at least 49.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-opens-http",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-opens-http reported no assertion count; baseline needs at least 39.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-opens-transport-http",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-opens-transport-http reported no assertion count; baseline needs at least 170.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-programme-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-programme-browser reported no assertion count; baseline needs at least 17.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-sync-hash-cold-extra-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-sync-hash-cold-extra-browser reported no assertion count; baseline needs at least 55.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-sync-hash-device-browser",
+        "kind": "dropped",
+        "message": "Suite integration/offline-sync-hash-device-browser passed 0 assertion(s); baseline is 64 (down 64).",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-sync-hash-repair-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-sync-hash-repair-browser reported no assertion count; baseline needs at least 51.",
+        "excused": false
+      },
+      {
+        "id": "integration/operational-privacy-adverse-http",
+        "kind": "uncounted",
+        "message": "Suite integration/operational-privacy-adverse-http reported no assertion count; baseline needs at least 245.",
+        "excused": false
+      },
+      {
+        "id": "integration/operational-privacy-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/operational-privacy-browser reported no assertion count; baseline needs at least 51.",
+        "excused": false
+      },
+      {
+        "id": "integration/operational-privacy-extra-http",
+        "kind": "uncounted",
+        "message": "Suite integration/operational-privacy-extra-http reported no assertion count; baseline needs at least 478.",
+        "excused": false
+      },
+      {
+        "id": "integration/operational-privacy-http",
+        "kind": "uncounted",
+        "message": "Suite integration/operational-privacy-http reported no assertion count; baseline needs at least 79.",
+        "excused": false
+      },
+      {
+        "id": "integration/programme-raw-key-http",
+        "kind": "uncounted",
+        "message": "Suite integration/programme-raw-key-http reported no assertion count; baseline needs at least 115.",
+        "excused": false
+      },
+      {
+        "id": "integration/programme-raw-key-original-probe",
+        "kind": "uncounted",
+        "message": "Suite integration/programme-raw-key-original-probe reported no assertion count; baseline needs at least 65.",
+        "excused": false
+      },
+      {
+        "id": "integration/range-first-tap-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/range-first-tap-browser reported no assertion count; baseline needs at least 18.",
+        "excused": false
+      },
+      {
+        "id": "integration/range-protocol-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/range-protocol-browser reported no assertion count; baseline needs at least 27.",
+        "excused": false
+      },
+      {
+        "id": "integration/raw-key-independent-authority-http",
+        "kind": "uncounted",
+        "message": "Suite integration/raw-key-independent-authority-http reported no assertion count; baseline needs at least 161.",
+        "excused": false
+      },
+      {
+        "id": "integration/reconciliation-http",
+        "kind": "uncounted",
+        "message": "Suite integration/reconciliation-http reported no assertion count; baseline needs at least 16.",
+        "excused": false
+      },
+      {
+        "id": "integration/registration-device-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/registration-device-browser reported no assertion count; baseline needs at least 32.",
+        "excused": false
+      },
+      {
+        "id": "integration/registration-wire-receipt-http",
+        "kind": "uncounted",
+        "message": "Suite integration/registration-wire-receipt-http reported no assertion count; baseline needs at least 46.",
+        "excused": false
+      },
+      {
+        "id": "integration/reminder-optout-http",
+        "kind": "dropped",
+        "message": "Suite integration/reminder-optout-http passed 0 assertion(s); baseline is 55 (down 55).",
+        "excused": false
+      },
+      {
+        "id": "integration/report-portability-after-http",
+        "kind": "uncounted",
+        "message": "Suite integration/report-portability-after-http reported no assertion count; baseline needs at least 87.",
+        "excused": false
+      },
+      {
+        "id": "integration/report-portability-http",
+        "kind": "uncounted",
+        "message": "Suite integration/report-portability-http reported no assertion count; baseline needs at least 79.",
+        "excused": false
+      },
+      {
+        "id": "integration/reporting-completeness-repaired-account-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/reporting-completeness-repaired-account-browser reported no assertion count; baseline needs at least 14.",
+        "excused": false
+      },
+      {
+        "id": "integration/reporting-completeness-repaired-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/reporting-completeness-repaired-browser reported no assertion count; baseline needs at least 18.",
+        "excused": false
+      },
+      {
+        "id": "integration/reporting-completeness-repaired-http",
+        "kind": "uncounted",
+        "message": "Suite integration/reporting-completeness-repaired-http reported no assertion count; baseline needs at least 97.",
+        "excused": false
+      },
+      {
+        "id": "integration/service-identity-management",
+        "kind": "uncounted",
+        "message": "Suite integration/service-identity-management reported no assertion count; baseline needs at least 10.",
+        "excused": false
+      },
+      {
+        "id": "integration/sync-receipt-cold-scope-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/sync-receipt-cold-scope-browser reported no assertion count; baseline needs at least 19.",
+        "excused": false
+      },
+      {
+        "id": "integration/touch-units-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/touch-units-browser reported no assertion count; baseline needs at least 20.",
+        "excused": false
+      },
+      {
+        "id": "integration/verification-send-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/verification-send-browser reported no assertion count; baseline needs at least 127.",
+        "excused": false
+      },
+      {
+        "id": "integration/verification-send-extra-http",
+        "kind": "uncounted",
+        "message": "Suite integration/verification-send-extra-http reported no assertion count; baseline needs at least 181.",
+        "excused": false
+      },
+      {
+        "id": "integration/verification-send-http",
+        "kind": "uncounted",
+        "message": "Suite integration/verification-send-http reported no assertion count; baseline needs at least 118.",
+        "excused": false
+      },
+      {
+        "id": "integration/verification-send-legacy-http",
+        "kind": "uncounted",
+        "message": "Suite integration/verification-send-legacy-http reported no assertion count; baseline needs at least 173.",
+        "excused": false
+      },
+      {
+        "id": "integration/verification-send-uncertainty-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/verification-send-uncertainty-browser reported no assertion count; baseline needs at least 131.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-account-transition-review-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-account-transition-review-browser reported no assertion count; baseline needs at least 11.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-auth-first-http",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-auth-first-http reported no assertion count; baseline needs at least 17.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-browser reported no assertion count; baseline needs at least 12.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-continuation-adversarial-review",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-continuation-adversarial-review reported no assertion count; baseline needs at least 21.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-continuation-phone-review",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-continuation-phone-review reported no assertion count; baseline needs at least 13.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-field-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-field-browser reported no assertion count; baseline needs at least 12.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-field-continuation-http",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-field-continuation-http reported no assertion count; baseline needs at least 15.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-field-hooks-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-field-hooks-browser reported no assertion count; baseline needs at least 15.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-field-http",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-field-http reported no assertion count; baseline needs at least 13.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-field-identity-review",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-field-identity-review reported no assertion count; baseline needs at least 19.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-http",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-http reported no assertion count; baseline needs at least 32.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-ledger-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-ledger-browser reported no assertion count; baseline needs at least 11.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-ledger-http",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-ledger-http reported no assertion count; baseline needs at least 19.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-burden-transport-http",
+        "kind": "uncounted",
+        "message": "Suite integration/work-burden-transport-http reported no assertion count; baseline needs at least 325.",
+        "excused": false
+      },
+      {
+        "id": "integration/work-support-visibility-http",
+        "kind": "uncounted",
+        "message": "Suite integration/work-support-visibility-http reported no assertion count; baseline needs at least 23.",
+        "excused": false
+      },
+      {
+        "id": "integration/workspace-metadata-smoke",
+        "kind": "uncounted",
+        "message": "Suite integration/workspace-metadata-smoke reported no assertion count; baseline needs at least 20.",
+        "excused": false
+      },
+      {
+        "id": "smoke/app-back-browser",
+        "kind": "uncounted",
+        "message": "Suite smoke/app-back-browser reported no assertion count; baseline needs at least 11.",
+        "excused": false
+      },
+      {
+        "id": "smoke/reconciliation-ui",
+        "kind": "uncounted",
+        "message": "Suite smoke/reconciliation-ui reported no assertion count; baseline needs at least 10.",
+        "excused": false
+      },
+      {
+        "id": "smoke/reminder-optout-refresh-browser",
+        "kind": "uncounted",
+        "message": "Suite smoke/reminder-optout-refresh-browser reported no assertion count; baseline needs at least 13.",
+        "excused": false
+      },
+      {
+        "id": "ui/availability",
+        "kind": "uncounted",
+        "message": "Suite ui/availability reported no assertion count; baseline needs at least 11.",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 147,
+    "newSuites": []
+  },
+  "failures": [
+    {
+      "suite": "integration/app-offline-scope-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/asha-guided-capture-browser",
+      "exit": 1,
+      "count": 0,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/asha-guided-capture-conditional",
+      "exit": 1,
+      "count": 0,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/asha-guided-capture-legacy-range",
+      "exit": 1,
+      "count": 0,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/asha-guided-capture-uncertainty",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/auxiliary-read-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/clinical-source-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/clinical-source-dependency-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/clinical-source-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/clinical-source-identity-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/clinical-source-retrieval-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/clinical-source-retrieval-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/command-authority-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/composite-authority-repair-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/composite-measures-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/composite-measures-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/contact-import-independent-review",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/delta-read-audit-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/figure-impact-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/figure-impact-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/figure-impact-independent-extra-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/guided-home-browser",
+      "exit": 1,
+      "count": 0,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/guided-programme-reset-original-probe",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/guided-programme-reset-variants",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/guided-registration-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/guided-registration-overflow-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/guided-registration-root-independent-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/guided-repair-independent-probe",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/household-completion-authority-review",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/household-completion-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/household-completion-independent-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/household-reschedule-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/household-reschedule-independent-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/import-unit-parity-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/imported-evidence-browser",
+      "exit": 1,
+      "count": 0,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/imported-evidence-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/imported-evidence-independent-browser",
+      "exit": 1,
+      "count": 0,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/imported-evidence-independent-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/imported-media-independent-probe",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-conflicts-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-conflicts-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-conflicts-independent-authority",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-conflicts-independent-handoff",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-conflicts-pressure-repair",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-conflicts-transport-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-retrieval-after-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-retrieval-after-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-retrieval-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-retrieval-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-retrieval-original-race-after",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-retrieval-service-independent-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/inbound-retrieval-service-repair-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-figures-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-figures-edition-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-figures-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-figures-review-authority",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-figures-review-submission",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-figures-submission-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-figures-submission-independent",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-governance-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-governance-clock-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-governance-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/indicator-governance-independent-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/installed-programme-execution-extra-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/installed-programme-execution-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/installed-programme-execution-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/completeness-cold-extra-authority-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/completeness-cold-extra-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/composite-authority-independent-extra-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/contact-import-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/household-completion-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/report-portability-after-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/report-portability-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/mapping-lifecycle-review-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/app-offline-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-opens-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-programme-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/device-work-purge-failure-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/range-protocol-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/app-offline-review-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/touch-units-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/mapping-conformance-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/mapping-conformance-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/mapping-conformance-independent-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/mapping-lifecycle-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/mapping-lifecycle-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/mapping-lifecycle-review-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/device-work-browser",
+      "exit": 1,
+      "count": 0,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/object-media-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/object-media-budget-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/object-media-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/object-media-independent-extra-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/object-media-independent-storage-boundary",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/object-media-legacy-regression",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/object-media-native-boundary",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-guided-author-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-open-account-binding-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-open-unsent-pruning-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-opens-auth-first-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-opens-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-opens-transport-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-sync-hash-device-browser",
+      "exit": 1,
+      "count": 0,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-sync-hash-cold-extra-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/offline-sync-hash-repair-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/operational-privacy-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/operational-privacy-adverse-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/operational-privacy-extra-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/operational-privacy-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/programme-raw-key-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/programme-raw-key-original-probe",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/range-first-tap-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/raw-key-independent-authority-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/reconciliation-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/registration-device-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/registration-wire-receipt-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/reminder-optout-http",
+      "exit": 1,
+      "count": 0,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/reporting-completeness-repaired-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/reporting-completeness-repaired-account-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/reporting-completeness-repaired-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/service-identity-management",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/sync-receipt-cold-scope-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/verification-send-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/verification-send-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/verification-send-extra-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/verification-send-uncertainty-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/verification-send-legacy-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-account-transition-review-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-auth-first-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-continuation-adversarial-review",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-continuation-phone-review",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-field-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-field-continuation-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-field-hooks-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-field-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-field-identity-review",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-ledger-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-ledger-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-burden-transport-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/work-support-visibility-http",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "integration/workspace-metadata-smoke",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "smoke/reconciliation-ui",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "smoke/reminder-optout-refresh-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "smoke/app-back-browser",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    },
+    {
+      "suite": "ui/availability",
+      "exit": 1,
+      "count": null,
+      "reason": "exit code 1"
+    }
+  ],
+  "classification": "Restricted loopback/process environment failure; actual low/zero reportedassertions preserved, not productacceptance or fakepass. Original9secondstep skipped onfirststepfailure. Separate expresslyauthorizedownedattempt started aftercompletion, no sourcechange or blindCIrerun.",
+  "originalLogs": "full-configured-step-1.log; full-configured-launcher.log; current147per-suite restrictedlogs retained via rootreportreferences (runner subsequentownedlogs mayreplace workspaceper-suite names).",
+  "perSuiteRawLogsActuallyRetained": 138,
+  "perSuiteHashes": {
+    "integration__clinical-source-identity-http.log": "a118648350044f7c3a0eec41b12f875488909a3175fad823572d10204fea4258",
+    "integration__clinical-source-retrieval-browser.log": "f316c56a7b3b12b7ac0235461c5bde3432876d40863376ace2e6e8306761c0c4",
+    "integration__clinical-source-retrieval-http.log": "0cb64fb1e1c6ef3905ca6b7137a687eb1f7bf9d0580d64ffee312878726c52ea",
+    "integration__command-authority-http.log": "91be466d6bca45cb34fb92d7ea46e7662056da2528b8cd16bac86f1f782c27e7",
+    "integration__composite-authority-repair-http.log": "5ab507b2d8093020c82f4e6472508201b2f1354abe02a01d432d111fdaf2b1e8",
+    "integration__composite-measures-browser.log": "ed300a3c532bfd43aad75bf6a6eca0853311b06bdc4229f1784681ead336c956",
+    "integration__composite-measures-http.log": "ba03b37bb17058169a86f23c9b9f64ce9567b131ae834ea45178792b6b032d5f",
+    "integration__contact-import-independent-review.log": "24b3cdc6087168025aeedd198d6fc669a5f6e2b94cb7fc02786d8a1f7e60a45e",
+    "integration__delta-read-audit-http.log": "7cee3dd04b05ed41203db2380e60151781b6e44e0de7b790a02d429bfee56b6c",
+    "integration__figure-impact-browser.log": "aaa4940104c17536436453af04e62bab55e97770eb3ff2162518d247f640ae1e",
+    "integration__figure-impact-http.log": "ad9985f572b76d05b108bc4aaefe9969508e88f4c252437a872cbbcbc2d4b709",
+    "integration__figure-impact-independent-extra-http.log": "0f9a8ed8c0af6edafcdfd1c44335d48de1f694864ce7969165d9d23fab7c328f",
+    "integration__guided-home-browser.log": "3974a35ab3e49c19dd5460ac14f6a01f0a56489714973ff742e4e56f204785a0",
+    "integration__guided-programme-reset-original-probe.log": "d213abe60f5329e417234fd5aab252fdbb139d59b95110610448c74a3b83b3d3",
+    "integration__guided-programme-reset-variants.log": "d8bdc7973a544bc1a26866c0010602374dd07e4b93560ced49e9af8c734c75fe",
+    "integration__guided-registration-browser.log": "d11371f1ab3b34d80270d0bbb763001a70e138acc736e864253fd601af22599d",
+    "integration__guided-registration-overflow-browser.log": "780e519e928aad18b025a573b3240ad37a00fea557397c771fd68b7704543a48",
+    "integration__guided-registration-root-independent-browser.log": "434984832c7c42b44bf270e559bd1feb3bd8d84fe22fb5e375b22327c548fb83",
+    "integration__guided-repair-independent-probe.log": "92f61b37405caaad52ee9efb3a4d397cb7b171d25b64edf5d76a52ebb84f9a7c",
+    "integration__household-completion-authority-review.log": "dfefc28f100e6a2e019df75a65d5b43033dd45504eb9a6f2f6fb948ff00d6a71",
+    "integration__household-completion-http.log": "4032ce1a571546800e683cc7873994fda7338c3dad2a100a9ed844a97b581e86",
+    "integration__household-completion-independent-http.log": "ef17f02a1cbbe2362f3a9f011fdfcf65f2f8fc7a751a480c49969c5faa789c2b",
+    "integration__household-reschedule-http.log": "8b356baf06a2d2a0c78670d34c2e476570f9981bbe6d12d7089ae4b381f1ec74",
+    "integration__household-reschedule-independent-http.log": "e95280c37d7f83705ff0bd776e5b1520dcdbd5f0feffa789c45ea7cafda401c2",
+    "integration__import-unit-parity-browser.log": "73bb93b8da12ccd7ec76044330d7d64039d5c19ff62a412373fd3197a2e56ecf",
+    "integration__imported-evidence-browser.log": "977549fe04dcae3ca4aad05f8db69562d00622961d92b79740c308b91710f389",
+    "integration__imported-evidence-http.log": "05411b04730f2ea5adb6b78a5ed028316b33fef2da95f3e23c5f297a8f4f2c6a",
+    "integration__imported-evidence-independent-browser.log": "63169e4197b85562072d317c2c91646b2d94d58401ee1b13794d4a0272993da3",
+    "integration__imported-evidence-independent-http.log": "4ce7cde3197f20a4674a701410be7b77b4639b869ee87e03385b934c830cd424",
+    "integration__imported-media-independent-probe.log": "567a990484edfb12a00ed69f491e6bf8c3bde41b4d5728634f5f8afc7c7347d2",
+    "integration__inbound-conflicts-browser.log": "0ac4675f485c33b017713c351eb152e2d25b0cd1e97ce7427bf0dd390b7a6b45",
+    "integration__inbound-conflicts-http.log": "8a1960f5c275abd389d59df44b5931ac8cd190e593e2f6a5506d6e48d2002ea1",
+    "integration__inbound-conflicts-independent-authority.log": "57c1b0fdb0d3e0a9a6ba82fe41f0a0013e6d7622b24328d92f53c3b203f74794",
+    "integration__inbound-conflicts-independent-handoff.log": "68c78cd4f275c74819b2aa0c7feffadfce62a26e00a9558e02799627d2b854ae",
+    "integration__inbound-conflicts-pressure-repair.log": "8b2717440b525afed2a4c59a44f6e465a89c4b8999648e93259e868f3e7b9e32",
+    "integration__inbound-conflicts-transport-http.log": "a1b5186b90dbcc8fcd6032a62e21b781358ff0b76ae7846409a186d2c2d7d1b5",
+    "integration__inbound-retrieval-after-browser.log": "908334736a59ca982aebdec487e20c362a3ea9ef77ff473b753dc4cd31fd5d48",
+    "integration__inbound-retrieval-after-http.log": "73a972b77f5abf5ba387ef975f6122600d8490a933c5828a24f5471a24de9072",
+    "integration__inbound-retrieval-browser.log": "65e5b479f78201d800da458b8fad2ccfaab93205627d74ed3f400ddcf2a43ddb",
+    "integration__inbound-retrieval-http.log": "edb3483517b2d65e0bb5ac0333533f309b16f23039b3527302f4c1099cd6d419",
+    "integration__inbound-retrieval-original-race-after.log": "4f69103ef894b3500c5a40cbf320f9f31326185f4e501bacd85c909457686154",
+    "integration__inbound-retrieval-service-independent-http.log": "4d96d5e2a0f82e61a009802a660831696b9ae6afe1b0fe5a746d2c94df95778b",
+    "integration__inbound-retrieval-service-repair-http.log": "25a3442f8b9eabf9ac546eb68f3977f4c951976428fee55cabfa4e6e3745ad6b",
+    "integration__indicator-figures-browser.log": "fab718fa7e0ff348eed8d33d44af37f3a17263358649f519b8e7e0664a725853",
+    "integration__indicator-figures-edition-http.log": "a8a3c115b6caee942382c356b0e8dc639782c119da2deceeedbd231375bebb4c",
+    "integration__indicator-figures-http.log": "ad90a33a07586bcb1fd0a43288865ad569c0598a9e65b078ced82ae80f8a4b36",
+    "integration__indicator-figures-review-authority.log": "53ce1f88ca0ea450dac52366292b99b56ef55fc7b9f887cc55728e998b07d8e5",
+    "integration__indicator-figures-review-submission.log": "6ee05a33e6300a6f24fbb288fb0d7eccd979cbb25d4c6bfa034fa9be737f260d",
+    "integration__indicator-figures-submission-http.log": "bffc8bde987fb7f7c6d5e679811fe479cb7e432fa1a3ea19e70a341745a5d174",
+    "integration__indicator-figures-submission-independent.log": "9fb9709309cf69c0712bcae25b7788c68180025654f4f26964b8f3c2e3cc52cd",
+    "integration__indicator-governance-browser.log": "c7dd67cb866183e7b85fa31cedfa7974945e3722c91733ea07bb83908cd83562",
+    "integration__indicator-governance-clock-http.log": "a291c70660ca2b9ec5a170c057ea33356d21f18434b1420cd76d4a0afe17110b",
+    "integration__indicator-governance-http.log": "275546b2c75e087d57341e935cdfa2817145c8cabaf933353c3a537b71234cd7",
+    "integration__indicator-governance-independent-http.log": "47dc0184ddb4cb356b7048627d0307876a7ace212e1687b8cc639102d06d4755",
+    "integration__installed-programme-execution-extra-http.log": "a72b5fb8ea2177b3098a3d3d2e6041bccff24453929b9e29e8d36b593d82da02",
+    "integration__installed-programme-execution-http.log": "395a3a6118c0544050745622d0106ebf8af41395d140e70035a701e94f986586",
+    "integration__installed-programme-execution-browser.log": "2017c0bd6ef51192b0e92569308c39aee3e8fc189e3a6cba19802a7ef8517731",
+    "integration__completeness-cold-extra-authority-http.log": "1e9e6269b2239d0e3753716cf75ab20ae2eb34a76e5d7cce9fd728d9fb32b264",
+    "integration__completeness-cold-extra-browser.log": "e0078e7dd016d9bae1c5723681291e13a6396f14e6acbcdfc02dbf34b5cd6a46",
+    "integration__composite-authority-independent-extra-http.log": "34b0be6e522299738304e5c031600ecdcfb56b9fe179f9f3efef5b044311a500",
+    "integration__contact-import-http.log": "83ef88f0ebe1c3bd11e12412a8285fd76988a5c2ce2dfd4779061983624336a2",
+    "integration__household-completion-browser.log": "9afb00dabfc1ff0d60088c4a4fb0fafdf63146f893fc562d0ed2e92882a5076f",
+    "integration__report-portability-after-http.log": "8749a6207d8b328eb7dd4f3e8c1bf45f212ec4ff12f967de6bae2fe444792174",
+    "integration__report-portability-http.log": "64acdafafa42bf2d1bde8ef70120cf51bfd2ca7931f623beaf46458eb5df6f6b",
+    "integration__mapping-lifecycle-review-browser.log": "215e23aa6cf515ae93faef8e5bb61ea09cfdb9b409a9368fce4d4559ba68e88b",
+    "integration__app-offline-browser.log": "d8c4f7b5e1cae426a7e48d8a07585462738abfe327406102f6c70dfecb47533e",
+    "integration__offline-opens-browser.log": "baf6c625020aefff0a857dd5e82afc2caf9d900b8e1a01c39360cb1c9f01b341",
+    "integration__offline-programme-browser.log": "7d8176f50a3ec39089fa4846336961f8d3573b3164b473ae9273522ae16b3a0b",
+    "integration__device-work-purge-failure-browser.log": "a16ac9052212427536194a8f32e49ccba03016d689aea05927673dbc80a31d8c",
+    "integration__range-protocol-browser.log": "51c9f4af46d7d642e4f601f4e3db655a2f6009e8a4597d983459368e6b1f300c",
+    "integration__app-offline-review-browser.log": "50afbfc92110b1edcdc03a9489200738e0be59c8bc559132988e71e71a7fbc6e",
+    "integration__touch-units-browser.log": "dbfd42cfa2a6f4dc1aee50e1583617daa500a7f26d9db25de4899d87f51a13b4",
+    "integration__mapping-conformance-browser.log": "60767959cc1e4589862907bcaff858e062a07b5096455344ed2f291e17ea7004",
+    "integration__mapping-conformance-http.log": "286e8ac7b574d5c15a903d155e161d4daa04f9e196b11ac06148622873744cb5",
+    "integration__mapping-conformance-independent-http.log": "3aea88dfd2705a92d16924c9f70beaa7aeabcfe1d9500a06d10a3c8d8fa06f48",
+    "integration__mapping-lifecycle-browser.log": "f6bd56e8dd2b9fcb4d85dbfeb13afe6c69a37ceaff27cb1044114e147528aa23",
+    "integration__mapping-lifecycle-http.log": "903374b51480bb458244266fff68533e6bb493c0722970c65e1ecd4e1382f0ed",
+    "integration__mapping-lifecycle-review-http.log": "7b7cab47d29c6d20f444038ef1391f89376dddec64c26d1b35e9990d4c563392",
+    "integration__device-work-browser.log": "c012355344f8d5b51ba0dd5946e8ce55e1ff1a52fa9d3d392a3ed0b6c4bf0674",
+    "integration__object-media-browser.log": "912ca8c926786fb41aeae189486158a8e5306fcc9ffdbf9db541588a5ea5996a",
+    "integration__object-media-budget-http.log": "b81149cc0d5986504c1e8feccd2b907b147f15987505962125ce25b7af8de6c0",
+    "integration__object-media-http.log": "21b138637121397ca34f5f97abb68cc8706d969ac7af4ca7757f06f009be14df",
+    "integration__object-media-independent-extra-http.log": "94a874542d2e71fdbbfbb3d859dc6fda6e9cf3b4bba95f09704318b258273614",
+    "integration__object-media-independent-storage-boundary.log": "96da3692f8e69b3075a96d68f706ca19e21d2e53237a271bae20be6175e21ca9",
+    "integration__object-media-legacy-regression.log": "175fc2bd7faddeb2f8556c3fc6ece5d04ad7c72db2164bdf014d5c2443a5a474",
+    "integration__object-media-migration.log": "21fd4707e81b894b219ee02a4e38fe12a30a00bd769eec30468f63ba323387d9",
+    "integration__object-media-native-boundary.log": "76739a00eb6e0607c9324c0de419758e5e5dc00a2de167b0aa2478163f458817",
+    "integration__offline-guided-author-browser.log": "793a3e65728a410eff3c5716f471a5f40adc3f298f1e584dc75675360b2d5d0c",
+    "integration__offline-open-account-binding-browser.log": "a40a56430beff3e2996a1c2313f10c8fbcbf5432bb29def3001c74476bb8fedb",
+    "integration__offline-open-unsent-pruning-browser.log": "2eb3230eee8ba058354b753e6653e7cb58423faebb1724147a362fc6ab53e342",
+    "integration__offline-opens-auth-first-http.log": "270bb49948546a0f41a4970bce5b86caeb34b8c6d4e14b3c14fd8fd5f7a35568",
+    "integration__offline-opens-http.log": "977f57ec55f5ac5683e0e00d5d6b3400b4f47fa0fe5f60f3066bb419fba7d17c",
+    "integration__offline-opens-transport-http.log": "14301f5bb084c9bbc9b7937ac59dbddeb14f66e7fcaa382e5a1c3cb4b3009d34",
+    "integration__offline-sync-hash-device-browser.log": "90b7fb7144f81cf01e0e5c6f66c61bd11239a339966f3c206211275fd5023648",
+    "integration__offline-sync-hash-cold-extra-browser.log": "8889d721d8cdeb1b30ec3b1ab8bf5a21bbc7a196911b4fc0b01a8183c44c7e90",
+    "integration__offline-sync-hash-repair-browser.log": "9d8647bd4fa4a35f14af551caae194366e9b11c793fb3bc986763610ca622b1b",
+    "integration__operational-privacy-browser.log": "a98bb9c661b1ca175a40b32a7bacb870854b80328798eacc78a5282662a64632",
+    "integration__operational-privacy-adverse-http.log": "41db826a8ffdc8d67ba5dc89a553dadfc2032e0c6b8e5755f64243432b47a95b",
+    "integration__operational-privacy-extra-http.log": "946df9345ca85d7e5c0bb13f823d50ad66c2f25b9121634ad05c27bec43c35e3",
+    "integration__operational-privacy-http.log": "45b043ae682ff40d58bdb324765ac4e690d2dffea22ed61f6492d56ffb228957",
+    "integration__programme-raw-key-http.log": "bd57779fad5b7f16ace5b482fa32040d64f0ff1c0fad7eeb2e89cfa23f2dbd0f",
+    "integration__programme-raw-key-original-probe.log": "29891143ba6498c7d76d064d60fcd4a5dd78877c148570ad62808d2a1a66e061",
+    "integration__range-first-tap-browser.log": "cc37c586f9595a88af57b6c8b67f56d866e0a35e2c5d96f600ebc6c919d0af9a",
+    "integration__raw-key-independent-authority-http.log": "b322ace8e3dfeb58c53f6643727cde4751158f829f298b2f5fc358c323a05657",
+    "integration__reconciliation-http.log": "8904bbade6cf565966d2cd82a4736a08618b84cec321e8357436d286a6e840d4",
+    "integration__registration-device-browser.log": "93ab5a47d1c23a17aa8b4102352266e38846ac2e26a79a8c8ff2f296e03b7ab4",
+    "integration__registration-wire-receipt-http.log": "7c302b551f926a0ac24ef737b04ab7e986c31f5bb68fa38c7378d84f298bd4f6",
+    "integration__reminder-optout-http.log": "4330bf517b9d7544d2a1435c97e6b7a4eb0b021b76b9fe21e57c2b784852511c",
+    "integration__reporting-completeness-repaired-http.log": "42f16d1ae7fca53c2e7383614689b121907d3c22552bf14cb5264be7456deeab",
+    "integration__reporting-completeness-repaired-account-browser.log": "19ae0565d3f0bb6a7aea8ed3924bd867fb6c7be3711724e6152e00b3a6b3bca4",
+    "integration__reporting-completeness-repaired-browser.log": "1d93b4c03fe7a0b63cd2deeb0e23de1aa213f25eec6827987a07787fbf1ae155",
+    "integration__service-identity-management.log": "5dfd1be9c70f5039991f020a6fc6f341fe34def709d40ee4df8e1beac09c90e5",
+    "integration__sync-receipt-cold-scope-browser.log": "928a7b9b26b878c79448907a0965e982892bb139ce753904013174c364042d60",
+    "integration__verification-send-browser.log": "3e2f2496d173aa31be95aab7ab6afd15a6a9d0b201e0cb697ceaedb3e8513d0c",
+    "integration__verification-send-http.log": "f6ebb461386dc0f7950d45d6283dc884b807e73bed5b0d0e7184c53900c7892c",
+    "integration__verification-send-extra-http.log": "4196221b3a90627895590eb24ce0e234731619e8edfb733d52dfe7616b4535b2",
+    "integration__verification-send-uncertainty-browser.log": "29d873404baf66e4e8bf164d89ddc43e30a5aa3ef1e7f5a1d0712ad6887020cf",
+    "integration__verification-send-legacy-http.log": "e7c1b67cf2c8b6206353ce27f33c34f1fbd62204229e20f83d200b754e79f72d",
+    "integration__work-burden-account-transition-review-browser.log": "eb295919701bd5421e2db082210eb3729bff421f289d2b13bfea243347d99599",
+    "integration__work-burden-auth-first-http.log": "e8a18bb7a18e12d445e73ddd50edefaaae9a48ac1309ca5aa4729617bb20e4ee",
+    "integration__work-burden-browser.log": "6c146d272cacbffcb5883b982145ba25e3d8b671fed9719e6f403ed5ee230b25",
+    "integration__work-burden-continuation-adversarial-review.log": "c79380e7217d781c4524693fd6d665dbfe90b4e7128e328fe9d23a0d81de4ff9",
+    "integration__work-burden-continuation-phone-review.log": "3f7d85704f2bcc60523966fa0c1eb8268ceeec1b2805d2b5a84609395cd4e5f7",
+    "integration__work-burden-field-browser.log": "31f058b5b876c153d3d12030f8a5d954c0be519c080d588c7121141bb0560dbc",
+    "integration__work-burden-field-continuation-http.log": "3625d20f0915bc40b169ac8c8bbd3fc6afc2b73129ee4196ac0970a9f878b799",
+    "integration__work-burden-field-hooks-browser.log": "22f3333331a54a4a20c0b899b1d1405941f497a3d3ca400ccd96f093701a4dc3",
+    "integration__work-burden-field-http.log": "b8b79b92ac151c150eb2d37484a709b43c540035c271a097695e7914ba27c217",
+    "integration__work-burden-field-identity-review.log": "2e0886230e06341510ac43f2143f349b27b0f05e7458872acaf465e815a4ee44",
+    "integration__work-burden-http.log": "a9c0c12c0e0cdf6b183a037a330a7d04b5255dfb0d406ec51ac06085e464f8ca",
+    "integration__work-burden-ledger-browser.log": "ab0a9e07fe5894002c1d76cae869410a9e9abf4e27a47535186c51f76776bca4",
+    "integration__work-burden-ledger-http.log": "02b8953a5f518c5f326356e6ff5062aa54135f8154a2cf1e5cae05fa6d5e8ca8",
+    "integration__work-burden-transport-http.log": "9f6c87c9971d2c0944e8e6db760d7607f3a19046ae7fde11133c4e276f13f54e",
+    "integration__work-support-visibility-http.log": "5df4c5f78757d4947d48a875340dc5b441dea78c743ee1f49b045d2812c8a5d4",
+    "integration__workspace-metadata-smoke.log": "1382a65698f89eb0f26031801596904b5285735bddc1fd4a897a05c6c1dff7eb",
+    "smoke__reconciliation-ui.log": "f77f89c4deeee5cf406b8e001b673bf5ab76fd8e073e70f630513043f482232a",
+    "smoke__reminder-optout-refresh-browser.log": "748a73466f503701ee0df27946cae8dcc629979584f9e30065bb7a2129d7999b",
+    "smoke__app-back-browser.log": "330839e21ee4af3c35db06d1f608033dcede8ee6a86f03220ba3303e6376fc29",
+    "ui__availability.log": "5bfd8473c21688d92e58978c8ab851422577a583d9c5f3eccbf9810bd64ba8b1"
+  },
+  "rawRetentionLimit": "Copied only originaldefault-window logfiles stillunchanged; early owned-suite logs overwritten. Complete default runner stdout/summary preserved, not full147 individual-raw-logarchive."
+}
