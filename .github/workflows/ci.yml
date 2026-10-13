@@ -297,7 +297,11 @@ jobs:
                                'Canonical runner restores tracked test evidence: these restored files are not current-run evidence.',
                                'Installer and generated fixture data differences require explicit applicability review.']}
           (out / (phase + '.json')).write_text(json.dumps(record, indent=2) + '\n')
-          assert len(baseline['suites']) == 389, 'Original 389 guarded records must remain'
+          assert len(baseline['suites']) == 390, 'Original389 plus observed unit36 only'
+          original = {k:v for k,v in baseline['suites'].items() if k != 'unit/plan-review-contract'}
+          assert len(original) == 389
+          assert hashlib.sha256(json.dumps(original,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 objects changed'
+          assert baseline['suites']['unit/plan-review-contract'] == {'layer':'unit','file':'tests/plan-review-contract.mjs','minPassed':36}, 'Only actualunit36 is added'
           if phase == 'final':
               before = json.loads((out / 'before-install.json').read_text())
               assert before['baseline'] == baseline, 'Original baseline changed'

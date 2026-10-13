@@ -1,0 +1,47 @@
+{
+  "frozenAtUtc": "2026-10-12T16:37:38.865560+00:00",
+  "story": "SAHA-009 / APL-32 Explainable action review",
+  "technicalTask": "ENG-BR-UX-09 / APL-192",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "baseTree": "de4c664f32333eb6a82c9744d54db55dc2fd78c5",
+  "checkout": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012",
+  "branch": "feat/next50-explicit-action-review-20261012",
+  "ownedPort": 21461,
+  "ownedPaths": [
+    "app/plan-review/page.tsx",
+    "app/plan-review/plan-review.tsx",
+    "app/plan-review/plan-review.css",
+    "app/api/plan-review/route.ts",
+    "lib/saha/plan-review.ts",
+    "lib/saha/plan-review-server.ts",
+    "app/today/today.tsx",
+    "tests/plan-review-contract.mjs",
+    "tests/ui/plan-review.spec.mjs"
+  ],
+  "existingAuthoritativeProtocol": "preparePlan and approvePlan only; no proposePlan schema exists. Original activePlan bindsvisit/person/consent/connectorversions, exactplanid/payloadhash, approvedById and15minute expiry.",
+  "boundedOutcome": "Visible assigned ASHA reviews existing current confirmed visit, actual planpurpose/configured receivingdestination labels/reviewedfacts/payloads and revisions; can exclude a destination by explicitly preparing a fresh permitted bundle, then affirm and locallyapprove exactcurrenthash. No start/confirm visit, fact edit, execute/send/provider operation.",
+  "criteria": {
+    "C1": "Only active assigned ASHA, explicit currentorg/person/selectedexistingvisit, synthetic/training. Selector is notauthority; anonymous/foreign/role/purpose/revoked scopes refuse.",
+    "C2": "GET is scoped and audited; only selectedperson visit/currentplan and currenteligible connector metadata. No unrelated records, credentialbinding or partner secrets. Audit-delayed scope changes cannot disclose; original readguard+freshcontext used.",
+    "C3": "Actualpurpose, configuredreceivingdestination, exactreviewedfacts/payloads, revision/consent/connectorversions/state/hash/expiry are shown; unknown/malformed/inconsistent data unavailable, never empty/accepted.",
+    "C4": "Only original preparePlan/approvePlan delegated through bounded sameoriginJSON wrapper. Original identity/scope/purpose/signoff/dispute/source/consent/gate/CAS/audit/receipt untouched; expectedactor isintent notauthentication.",
+    "C5": "Checkboxexclusion invalidates currentconfirmation; prepare freshnewserverplan beforeapproving changedrecipientset. Only exact loadedplanid/hash with explicitreview affirmation canapprove.",
+    "C6": "Changedfact/record/consent/recipient/connector/purpose/assignment whileopen causesfreshreview or existing atomic refusal. No staleauthority/partialreceipt or automaticwrite retry.",
+    "C7": "Read/transportfailure/offline/hidden/unmount clearsprotecteddata andconfirmation; uncertainwrite isnotaccepted andonlyexplicitread follows, no resend/execute.",
+    "C8": "Approvalmeanslocalapprovalstate/realexpiry only, notexternalacceptance. No submission/providerrequest/clinicalpatientorencounterfact mutation fromreview/prepare/approve; plans/audit/receipts expectedonlyexplicitcommands.",
+    "C9": "Actual390x844 focus/labels/overflow/AXE; preserve failedruns/build/source/dependency/browser/cleanup custody.",
+    "C10": "Alloriginal389suiteguardobjects/minima/config/ninegoldens unchanged. FullcanonicalTC-BR-UX-09A/B/partnercomprehension/domain/formal/physical/hosting notclaimed fromsubset."
+  },
+  "plannedTests": [
+    "positiveexistingconfirmedvisit +purpose/receivinglabels/exactfacts/versions; excludeoneof2demo destinations, freshplanid/hash, explicitlocalapproval, noexecute/submission/clinicalfacts changes",
+    "staleoldhash afterfreshrecipientpreparation refuses409 atomic",
+    "owner changesselectedrecordversion/consent orpurpose beforeapproval: original409/403 no clinical/receipt sideeffect",
+    "assignmentrevoked/anonymous/foreignorg/mismatchedvisit/person refused withcleareddata",
+    "offline/unavailable read preservesnoempty/noacceptance; boundedlostapprovalreply remainsuncertain/readonly recovery",
+    "purehelper malformed/duplicate/missing/inconsistentprojection controls"
+  ],
+  "baselineSHA256": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0",
+  "canonicalFormalAcceptance": "Not run / unqualified; localengineeringwitness only",
+  "newProvidersDatabaseClinicalPolicyOrHosting": false,
+  "rootFinalSourceReviewAndPublicationRequired": true
+}

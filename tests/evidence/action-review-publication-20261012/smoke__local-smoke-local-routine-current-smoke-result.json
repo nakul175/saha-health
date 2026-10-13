@@ -1,0 +1,578 @@
+{
+  "suite": "Smoke (local)",
+  "layer": "smoke",
+  "passed": 32,
+  "failed": 0,
+  "skipped": 1,
+  "startedAt": "2026-10-12T17:16:26.300Z",
+  "completedAt": "2026-10-12T17:16:28.622Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "A smoke test: about 30 checks over the main paths, not the 4,599-assertion HTTP suite and not an acceptance test. No formal acceptance case is promoted by it.",
+    "One run of one built Worker (wrangler dev, local D1, synthetic data). It does not exercise the hosted Cloudflare deployment, real providers or a browser.",
+    "The visit flow uses the two demonstration destinations (simulator, no network): one answers \"accepted\" with a receipt, the other is the deliberate \"uncertain\" case. Nothing leaves the process.",
+    "The page check reads the server-rendered shell only. The sidebar environment banner is drawn by the browser after sign-in; the UI suite covers it."
+  ],
+  "measures": [
+    {
+      "label": "whole run, Worker start included (target 90 s)",
+      "value": 2.3,
+      "unit": "s",
+      "budget": 180,
+      "ok": true
+    }
+  ],
+  "checks": [
+    {
+      "label": "anonymous GET /api/workspace is refused: 401 with a sign-in message",
+      "ok": true,
+      "ms": 3
+    },
+    {
+      "label": "anonymous POST /api/commands is refused: 401 with a sign-in message",
+      "ok": true,
+      "ms": 4
+    },
+    {
+      "label": "a reserved fixture identity cannot sign in (401)",
+      "ok": true,
+      "ms": 2
+    },
+    {
+      "label": "anonymous page request is redirected to sign-in (307), not served the application",
+      "ok": true,
+      "ms": 22
+    },
+    {
+      "label": "page shell renders for a signed-in user: HTML, title, no-store, synthetic footer notice",
+      "ok": true,
+      "ms": 13
+    },
+    {
+      "label": "a new owner gets a home organisation, owner membership and six synthetic people in the default team",
+      "ok": true,
+      "ms": 14
+    },
+    {
+      "label": "the deployment is synthetic: workspace and /api/environment agree, external services off",
+      "ok": true,
+      "ms": 6
+    },
+    {
+      "label": "the demonstration clinical package installed itself: 7 governance entries, all active, usable, no issues",
+      "ok": true,
+      "ms": 6
+    },
+    {
+      "label": "the owner invites an ASHA and a supervisor by account code, and both join the same organisation",
+      "ok": true,
+      "ms": 106
+    },
+    {
+      "label": "an invitation cannot be reused, and another account cannot use it (403)",
+      "ok": true,
+      "ms": 13
+    },
+    {
+      "label": "the ASHA sees nobody until the owner assigns a person, then exactly that person",
+      "ok": true,
+      "ms": 26
+    },
+    {
+      "label": "the ASHA cannot start a visit or read the history of a person who is not assigned (403)",
+      "ok": true,
+      "ms": 13
+    },
+    {
+      "label": "the ASHA starts a visit: a draft, version 1, for the assigned person",
+      "ok": true,
+      "ms": 12
+    },
+    {
+      "label": "saving blood pressure 152/114 with the other required facts stores them exactly (version 2, still a draft)",
+      "ok": true,
+      "ms": 13
+    },
+    {
+      "label": "the clinical review gives the urgent danger-sign finding and routes it to the CHC/FRU",
+      "ok": true,
+      "ms": 5
+    },
+    {
+      "label": "confirming needs the patient check: none is 422, a stale one is 409; the right one confirms the visit",
+      "ok": true,
+      "ms": 32
+    },
+    {
+      "label": "the programme plan is prepared for both demonstration destinations, and cannot run before it is approved (409)",
+      "ok": true,
+      "ms": 27
+    },
+    {
+      "label": "approving and running the plan sends to the demonstration destinations; receipts exist, the lost response is \"uncertain\"",
+      "ok": true,
+      "ms": 25
+    },
+    {
+      "label": "running the plan again does not send again (still two submissions, one attempt each)",
+      "ok": true,
+      "ms": 10
+    },
+    {
+      "label": "the owner's audit trail records the whole visit under the ASHA's role",
+      "ok": true,
+      "ms": 9
+    },
+    {
+      "label": "the supervisor reads privacy-withheld operations, with owner detail and uncertified aggregate alerts withheld",
+      "ok": true,
+      "ms": 33
+    },
+    {
+      "label": "the supervisor and the ASHA are refused owner-only commands (403) and nothing is created",
+      "ok": true,
+      "ms": 56
+    },
+    {
+      "label": "a stranger is refused another organisation's workspace, patients, governance, FHIR and commands (403)",
+      "ok": true,
+      "ms": 27
+    },
+    {
+      "label": "the stranger's own home organisation is separate: different id, six synthetic people, none of the owner's visits",
+      "ok": true,
+      "ms": 15
+    },
+    {
+      "label": "all 62 GET routes in HTTP-ROUTES.csv refuse an anonymous caller (401)",
+      "ok": true,
+      "ms": 91
+    },
+    {
+      "label": "every GET route in HTTP-ROUTES.csv answers the owner with its declared contract (ASHA-only routes refuse; legacy routes succeed)",
+      "ok": true,
+      "ms": 441
+    },
+    {
+      "label": "Today returns only the assigned ASHA record and opens its exact read-only identity context",
+      "ok": true,
+      "ms": 11
+    },
+    {
+      "label": "Today refuses unassigned records, non-ASHA membership and a different organisation without any records",
+      "ok": true,
+      "ms": 13
+    },
+    {
+      "label": "Routine returns the assigned ASHA exact person and selected visit, with a durable access audit and no clinical mutation",
+      "ok": true,
+      "ms": 18
+    },
+    {
+      "label": "Routine missing/duplicate selectors and wrong person/role/tenant return error-only refusals",
+      "ok": true,
+      "ms": 26
+    },
+    {
+      "label": "GET /api/media/[id]",
+      "ok": null,
+      "skipped": "needs the id of an uploaded media file; this run uploads none"
+    },
+    {
+      "label": "the Worker logged no 5xx response and no unhandled workspace error during the run",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "whole run, Worker start included (target 90 s) within budget",
+      "ok": true
+    }
+  ],
+  "timings": {
+    "migrateMs": 554,
+    "workerStartMs": 589,
+    "totalSeconds": 2.3
+  },
+  "migrations": 33,
+  "workerVars": {},
+  "sweep": [
+    {
+      "route": "/api/abdm",
+      "path": "/api/abdm?personId=p_meena",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/action-plan",
+      "path": "/api/action-plan?personId=p_meena",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "route": "/api/aggregate-reports",
+      "path": "/api/aggregate-reports",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "route": "/api/alerts",
+      "path": "/api/alerts",
+      "status": 200,
+      "ms": 19
+    },
+    {
+      "route": "/api/anaemia-provider",
+      "path": "/api/anaemia-provider",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "route": "/api/audit/chain",
+      "path": "/api/audit/chain",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "route": "/api/audit",
+      "path": "/api/audit",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/availability",
+      "path": "/api/availability",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "route": "/api/caseload",
+      "path": "/api/caseload",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/clinical-sources",
+      "path": "/api/clinical-sources?entryId=e3f91bf7-fd54-4c75-b904-e59d57ebebd9&sha256=e81df59cfbac49abbf90032eaa71e8a8a286626c552527372c3938006b75f82a",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "route": "/api/continuity",
+      "path": "/api/continuity",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/data-exit",
+      "path": "/api/data-exit",
+      "status": 200,
+      "ms": 30
+    },
+    {
+      "route": "/api/delegations",
+      "path": "/api/delegations",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "route": "/api/environment",
+      "path": "/api/environment",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/exceptional",
+      "path": "/api/exceptional",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/exceptions",
+      "path": "/api/exceptions",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/expansion",
+      "path": "/api/expansion",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/facility-scope",
+      "path": "/api/facility-scope",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/fhir/[id]",
+      "path": "/api/fhir/0c07d1f7-f228-4f5a-ad6a-908ee314054d?organisationId=org_561b163fd838bb5c872f530690225ffb",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/fixture-migration",
+      "path": "/api/fixture-migration",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "route": "/api/frontline-providers",
+      "path": "/api/frontline-providers",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/governance",
+      "path": "/api/governance",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/history",
+      "path": "/api/history?personId=p_meena",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/household",
+      "path": "/api/household?personId=p_meena",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/identity-cases",
+      "path": "/api/identity-cases?personId=p_meena",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/imported-evidence",
+      "path": "/api/imported-evidence?personId=p_meena",
+      "status": 200,
+      "ms": 10
+    },
+    {
+      "route": "/api/inbound-conflicts",
+      "path": "/api/inbound-conflicts?personId=p_meena",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "route": "/api/incentive-claims",
+      "path": "/api/incentive-claims",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/indicator-figures",
+      "path": "/api/indicator-figures",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "route": "/api/indicators",
+      "path": "/api/indicators",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/installed-pack-transition",
+      "path": "/api/installed-pack-transition",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "route": "/api/installed-pack-work",
+      "path": "/api/installed-pack-work",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "route": "/api/media/[id]",
+      "path": "/api/media/0c07d1f7-f228-4f5a-ad6a-908ee314054d",
+      "status": 404,
+      "ms": 4
+    },
+    {
+      "route": "/api/media",
+      "path": "/api/media?visitId=0c07d1f7-f228-4f5a-ad6a-908ee314054d",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "route": "/api/notification-channel",
+      "path": "/api/notification-channel",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "route": "/api/operations",
+      "path": "/api/operations",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "route": "/api/outreach",
+      "path": "/api/outreach",
+      "status": 200,
+      "ms": 11
+    },
+    {
+      "route": "/api/pack-installations",
+      "path": "/api/pack-installations",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/patients/detail",
+      "path": "/api/patients/detail?personId=p_meena",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "route": "/api/patients",
+      "path": "/api/patients",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/pilot",
+      "path": "/api/pilot",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/plan-review",
+      "path": "/api/plan-review?personId=p_meena",
+      "status": 403,
+      "ms": 3
+    },
+    {
+      "route": "/api/programme-migration",
+      "path": "/api/programme-migration",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/provider-sandbox",
+      "path": "/api/provider-sandbox",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/purpose-scope",
+      "path": "/api/purpose-scope",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/reassignment",
+      "path": "/api/reassignment",
+      "status": 200,
+      "ms": 4
+    },
+    {
+      "route": "/api/referral-escalations",
+      "path": "/api/referral-escalations",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "route": "/api/referral-requests",
+      "path": "/api/referral-requests",
+      "status": 200,
+      "ms": 16
+    },
+    {
+      "route": "/api/reporting-completeness",
+      "path": "/api/reporting-completeness",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "route": "/api/retention",
+      "path": "/api/retention",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/rights",
+      "path": "/api/rights",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/routine-visit",
+      "path": "/api/routine-visit?personId=p_meena&visitId=0c07d1f7-f228-4f5a-ad6a-908ee314054d",
+      "status": 403,
+      "ms": 5
+    },
+    {
+      "route": "/api/today",
+      "path": "/api/today",
+      "status": 403,
+      "ms": 5
+    },
+    {
+      "route": "/api/trace",
+      "path": "/api/trace?visit=0c07d1f7-f228-4f5a-ad6a-908ee314054d",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "route": "/api/value-range-protocols",
+      "path": "/api/value-range-protocols",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/work-burden/attribution",
+      "path": "/api/work-burden/attribution",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "route": "/api/work-burden/policy",
+      "path": "/api/work-burden/policy",
+      "status": 200,
+      "ms": 6
+    },
+    {
+      "route": "/api/work-burden",
+      "path": "/api/work-burden",
+      "status": 200,
+      "ms": 7
+    },
+    {
+      "route": "/api/work-burden/support",
+      "path": "/api/work-burden/support?visitId=0c07d1f7-f228-4f5a-ad6a-908ee314054d",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "route": "/api/worker-activity",
+      "path": "/api/worker-activity",
+      "status": 200,
+      "ms": 5
+    },
+    {
+      "route": "/api/worklists",
+      "path": "/api/worklists",
+      "status": 200,
+      "ms": 8
+    },
+    {
+      "route": "/api/workspace",
+      "path": "/api/workspace",
+      "status": 200,
+      "ms": 6
+    }
+  ],
+  "skippedRoutes": [
+    {
+      "route": "/api/media/[id]",
+      "reason": "needs the id of an uploaded media file; this run uploads none"
+    }
+  ]
+}

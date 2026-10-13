@@ -1,0 +1,116 @@
+{
+  "startedAtUtc": "2026-10-12T16:51:49.216489+00:00",
+  "source": "22a271033eaa57e124a235fc615744928f1ac106",
+  "tree": "de4c664f32333eb6a82c9744d54db55dc2fd78c5",
+  "port": 21461,
+  "installer": false,
+  "sourceEdited": true,
+  "newFrontlineJourneyFixture": "tests/ui/plan-review.spec.mjs",
+  "mode": "candidate",
+  "originalGuardID": "ui/playwright.config",
+  "originalMinimum": 26,
+  "fullGuardRun": false,
+  "selectedCaseOnly": false,
+  "selectedActionReviewCasesOnly": true,
+  "canonicalBuildFresh": true,
+  "nativeCasesForecasted": false,
+  "observedUnitChecks": 36,
+  "diagnosticFixtureSHA256Before": "2ae3dce72661f39e971998b5e5dc45286893e896595fabdbb29297319791687e",
+  "command": [
+    "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/node_modules/@playwright/test/cli.js",
+    "test",
+    "tests/ui/plan-review.spec.mjs",
+    "--config",
+    "tests/ui/playwright.config.mjs",
+    "--project",
+    "desktop",
+    "--reporter=list,json,./tests/ui/support/reporter.mjs"
+  ],
+  "environmentStates": {
+    "CI": "true",
+    "SAHA_UI_PORT": "21461",
+    "SAHA_UI_BASE": "unset",
+    "providers": "off",
+    "synthetic": true
+  },
+  "sourceFilesBefore": 16962,
+  "dependencyRegularFilesBefore": 52299,
+  "browserExistingOnly": true,
+  "canonicalBuildCommand": [
+    "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "/Users/athena/.local/node/v24.21.0/lib/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "build"
+  ],
+  "buildPid": 73358,
+  "buildPgid": 73358,
+  "buildExitCode": 0,
+  "pid": 73422,
+  "pgid": 73422,
+  "cleanup": {
+    "atUtc": "2026-10-12T16:52:14.874620+00:00",
+    "groups": [
+      73358,
+      73422,
+      73444
+    ],
+    "knownPids": [
+      73358,
+      73378,
+      73422,
+      73431,
+      73432,
+      73438,
+      73439,
+      73440,
+      73441,
+      73444,
+      73445,
+      73446,
+      73454,
+      73477,
+      73502,
+      73518,
+      73522,
+      73544,
+      73575
+    ],
+    "remainingOwnedProcesses": [],
+    "portFree": true,
+    "statePreserved": true
+  },
+  "custody": {
+    "allTrackedSourceMapsEqual": true,
+    "dependencyFileMapsEqual": true,
+    "browserExecutableMapsEqual": true,
+    "trackedStatusAfter": "A  app/api/plan-review/route.ts\nA  app/plan-review/page.tsx\nA  app/plan-review/plan-review.css\nA  app/plan-review/plan-review.tsx\nM  app/today/today.tsx\nA  lib/saha/plan-review-server.ts\nA  lib/saha/plan-review.ts\nA  tests/plan-review-contract.mjs\nA  tests/ui/plan-review.spec.mjs\n",
+    "profileAfter": {
+      "present": false,
+      "sha256": null,
+      "effectiveProfile": "portable"
+    },
+    "allFreshCompiledFilesIncludingHiddenViteManifestsUnchanged": true,
+    "diagnosticFixtureSHA256After": "2ae3dce72661f39e971998b5e5dc45286893e896595fabdbb29297319791687e",
+    "diagnosticFixtureUnchanged": true,
+    "facadeLinksUnchanged": true
+  },
+  "ownedFacadeAfter": {
+    ".vite": {
+      "exists": true,
+      "symlink": false,
+      "files": 0
+    },
+    ".vite-temp": {
+      "exists": true,
+      "symlink": false,
+      "files": 0
+    }
+  },
+  "finishedAtUtc": "2026-10-12T16:52:18.637256+00:00",
+  "runnerExitCode": 0,
+  "executionFailure": null,
+  "cleanupFailure": null,
+  "newRuntimePassClaim": false,
+  "independentAdjudicationPending": true
+}

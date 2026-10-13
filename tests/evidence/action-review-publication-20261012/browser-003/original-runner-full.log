@@ -1,0 +1,23 @@
+
+Running 6 tests using 1 worker
+
+(node:73441) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:73441) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+  ✓  1 [desktop] › tests/ui/plan-review.spec.mjs:122:1 › assigned mobile worker excludes a destination and explicitly approves exact information without sending (2.1s)
+
+  ✓  2 [desktop] › tests/ui/plan-review.spec.mjs:194:1 › recipient change on the server refuses old approval atomically (1.7s)
+
+  ✓  3 [desktop] › tests/ui/plan-review.spec.mjs:238:1 › consent changes invalidate open confirmation without partial approval (879ms)
+
+  ✓  4 [desktop] › tests/ui/plan-review.spec.mjs:282:1 › assignment and purpose revocation clear protected review and refuse subsequent operations (1.1s)
+
+  ✓  5 [desktop] › tests/ui/plan-review.spec.mjs:340:1 › anonymous, foreign organisation, wrong person visit and execute command are refused (220ms)
+
+  ✓  6 [desktop] › tests/ui/plan-review.spec.mjs:399:1 › lost approval reply is recovered read only and offline clears confirmation (2.0s)
+
+  6 passed (9.6s)
+
+UI report: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-action-review-20261012/tests/reports/ui-result.json (6 passed, 0 failed, 0 skipped, 0 flaky; 3 screens scanned, 0 axe violations)

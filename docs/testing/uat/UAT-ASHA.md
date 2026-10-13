@@ -349,7 +349,7 @@ Guided forms and textual status cues exist.
 - **Catalogue:** Functional, fixture FX-UX-09, catalogue owner "QA with Frontline worker".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-UX; catalogue owner "QA with Frontline worker").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-UX-09: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Candidate ASHA action review (/plan-review; local approval only; deployment pending), Candidate ASHA Today (/today; assigned records; deployment pending). These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -367,7 +367,7 @@ Guided forms and textual status cues exist.
 
 <details><summary>What the build does today (assessment, current state of BR-UX-09)</summary>
 
-Destination selection and exact payload review precede approval.
+Destination selection and exact payload review precede approval. Bounded12October2026 increment: Explicit review of configured recipients, purpose, facts and proposed payload before local approval; see docs/current/next50/ACTION-REVIEW-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.
 
 </details>
 

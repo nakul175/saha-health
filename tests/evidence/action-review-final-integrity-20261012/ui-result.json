@@ -1,0 +1,210 @@
+{
+  "suite": "UI journeys, screenshot regression and accessibility (Playwright, Chromium)",
+  "layer": "ui",
+  "passed": 0,
+  "failed": 0,
+  "skipped": 35,
+  "startedAt": "2026-10-12T17:18:36.409Z",
+  "completedAt": "2026-10-12T17:18:36.410Z",
+  "durationMs": 0,
+  "environment": "local built Worker, local D1, synthetic data, headless Chromium (Playwright 1.56.1), axe-core 4.13.0",
+  "limits": [
+    "Desktop 1280x720 and phone 390x844 viewports in Chromium only; no Firefox or WebKit, no real phone, no screen reader.",
+    "Screenshot baselines were rendered on one machine; fonts on another host (for example GitHub ubuntu runners) can differ. Regenerate with --update-snapshots.",
+    "Axe finds a subset of accessibility failures; the Hindi text is a draft translation and no Devanagari font is installed on the machine that made the baselines, so no Hindi screenshot is compared."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "desktop · asha-visit.spec.mjs › ASHA visit with a danger sign: assistant, urgent finding, confirmation, programme plan and receipts",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · confirm-correct-hindi.spec.mjs › visit confirmation and the correction dialogs pass axe at desktop and phone widths",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · confirm-correct-hindi.spec.mjs › Hindi workspace screens pass axe at desktop and phone widths",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · confirm-correct-hindi.spec.mjs › visible Hindi phone Action-plan Refresh retains contrast when the scoped read completes",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · errors.spec.mjs › a stranger who opens another organisation is refused, with no patient data and no crash",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · errors.spec.mjs › an invitation code that does not exist is refused with a clear message",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · errors.spec.mjs › an address that is not a page shows a not-found page",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · frontline-sandbox.spec.mjs › frontline reader: third-party model code runs in an opaque-origin frame that cannot reach Saha",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · governance.spec.mjs › owner sees the demonstration protocols and the source library",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › the axe scan fails on inaccessible markup",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › an uncaught page error fails the journey",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › a console error fails the journey",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › an HTTP 5xx answer fails the journey",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › an allow-list entry that does not match does not hide the message",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks that must pass › an allow-list entry with a reason lets exactly that message through, and it is listed",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks that must pass › screenshot masks hide dates, receipt numbers and codes; unmasked, the same page differs",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · hindi.spec.mjs › Hindi: My work shows Hindi text with lang=\"hi\", the choice is saved, and English comes back",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · owner-setup.spec.mjs › owner sets a name, invites an ASHA by account code and assigns one person; the ASHA sees only that person",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · plan-review.spec.mjs › assigned mobile worker excludes a destination and explicitly approves exact information without sending",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · plan-review.spec.mjs › recipient change on the server refuses old approval atomically",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · plan-review.spec.mjs › consent changes invalidate open confirmation without partial approval",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · plan-review.spec.mjs › assignment and purpose revocation clear protected review and refuse subsequent operations",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · plan-review.spec.mjs › anonymous, foreign organisation, wrong person visit and execute command are refused",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · plan-review.spec.mjs › lost approval reply is recovered read only and offline clears confirmation",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · roles-safe-cohort-positive.spec.mjs › supervisor sees the destination-uncertain alert for six distinct authorised demo contributors",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · roles.spec.mjs › supervisor sees Operations and alerts and no administration menus; an ASHA menu is care work only",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · voice.spec.mjs › voice input: the browser speech service only after the notice; a number from speech; words added after notes; nothing saved until Save draft",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · voice.spec.mjs › voice input: with the browser speech service off and no on-device speech, the microphone says so and never listens",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "desktop · voice.spec.mjs › voice input: on-device speech needs no setting and no notice; Hindi is offered; it works inside a dialog",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "phone · app-first-phone.spec.mjs › app-first: tabs distinguish device sync, receipts and preserved visit review",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "phone · phone.spec.mjs › phone: the visit list and the visit form are usable at 390x844 with no sideways scroll",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "phone · phone.spec.mjs › phone: the clinical review, the review step and the receipts of a sent visit also fit the width",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "phone · voice.spec.mjs › voice input: the browser speech service only after the notice; a number from speech; words added after notes; nothing saved until Save draft",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "phone · voice.spec.mjs › voice input: with the browser speech service off and no on-device speech, the microphone says so and never listens",
+      "ok": null,
+      "skipped": "skipped"
+    },
+    {
+      "label": "phone · voice.spec.mjs › voice input: on-device speech needs no setting and no notice; Hindi is offered; it works inside a dialog",
+      "ok": null,
+      "skipped": "skipped"
+    }
+  ],
+  "flaky": [],
+  "projects": [
+    "desktop",
+    "phone"
+  ],
+  "workers": 1,
+  "retries": 0,
+  "screenshotBaselines": 9,
+  "accessibility": {
+    "screensScanned": 0,
+    "violationsFound": 0,
+    "blocking": 0,
+    "violations": []
+  },
+  "browserMessagesAllowed": [],
+  "playwrightStatus": "passed"
+}

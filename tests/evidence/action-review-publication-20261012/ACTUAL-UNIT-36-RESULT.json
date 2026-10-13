@@ -1,0 +1,196 @@
+{
+  "suite": "Bounded action-review projection and exact approval intent",
+  "layer": "unit",
+  "passed": 36,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T16:44:50.210Z",
+  "completedAt": "2026-10-12T16:44:50.246Z",
+  "environment": "Actual TypeScript projection and synthetic fixtures",
+  "limits": [
+    "No server authority, clinical, partner comprehension or external acceptance inferred."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "Only selected person confirmed visits enter the packet",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "Opening an index does not invent a selected visit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "A foreign selected visit refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Exclude imported visit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Exclude voidedAt visit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Exclude supersededBy visit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Drafts are not original confirmed review inputs",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Projection leaves source unchanged",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Exact recorded facts and answers survive projection",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Endpoint and credentials never appear in projection",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unrelated programmes and inactive destinations do not appear",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Duplicate destinations are unavailable rather than ambiguous",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Duplicate visit indices are unavailable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Review hash, purpose and exact versions are preserved",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unmarked changed record version refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unmarked changed consent version refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unmarked changed visit version refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unmarked changed destination version refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit stale packet is read-only and cannot approve",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Approval needs explicit affirmation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Approval needs current signed-in actor binding",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Excluding a recipient invalidates confirmation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Exact proposed bundle can form approval intent",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Cannot reapprove approved plan",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Cannot reapprove completed plan",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Cannot reapprove blocked plan",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown reviewed recipient refuses disclosure",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed approval hash is not accepted",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing required clinical facts are not empty defaults",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Approval state requires real actor and expiry",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Recipient equality ignores order without ignoring duplicates",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrapper permits only original prepare and approve commands",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrapper refuses executePlan",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrapper refuses startVisit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Wrapper refuses saveVisit",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown command fields refuse instead of smuggling overrides",
+      "ok": true,
+      "ms": 0
+    }
+  ]
+}
