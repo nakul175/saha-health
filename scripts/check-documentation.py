@@ -221,6 +221,18 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
             archive=(ROOT/binding['archivedSource']).resolve()
             require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical phone-source preimage')
             path=archive
+        # One exact historical ASHA guided-capture fixture preimage. The old
+        # execution manifest remains immutable while the current fixture is
+        # independently pinned by the current application baseline.
+        if str(manifest_path.relative_to(ROOT))=='tests/evidence/asha-guided-capture/manifest.json' and report=='tests/asha-guided-capture-browser.mjs' and path.is_file() and digest(path)!=expected:
+            binding=read_json('docs/verification/evidence-source-snapshot-asha-guided-reselection-20261013.json')
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound historical ASHA-guided manifest')
+            require(binding['sourcePath']==report and binding['originalManifestPin']=='sha256.tests/asha-guided-capture-browser.mjs' and binding['originalSourceSha256']==expected and isinstance(binding['originalSourceBytes'],int) and binding['originalSourceBytes']>0,'Unbound historical ASHA-guided source pin')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current ASHA-guided fixture is not independently pinned by the current baseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical ASHA-guided source preimage')
+            path=archive
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.
         # Report/evidence paths always remain checked in place and cannot use an archive.
