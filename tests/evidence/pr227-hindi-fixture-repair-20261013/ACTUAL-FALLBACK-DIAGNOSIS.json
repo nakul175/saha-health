@@ -1,0 +1,60 @@
+{
+  "atUtc": "2026-10-13T04:17:47.457092+00:00",
+  "remoteHead": "3a77675952aed900cb746783eae7cb21e043fe07",
+  "originalCI": {
+    "run": 38305745381,
+    "job": 114999243838,
+    "passedBeforeFail": 43,
+    "expectedMin": 48,
+    "failure": "Hindi picker20s timeout",
+    "finalDOMUnavailable": true
+  },
+  "unchangedDiagnosticPass": {
+    "file": "diagnostic-original-001/browser-result.json",
+    "passed": 48,
+    "notCIExoneration": true
+  },
+  "controlledSupportedFallback": {
+    "singleOriginalRead": "GET /api/workspace withoutorganisation during original targetmembership suspension",
+    "actualStatus": 200,
+    "observed": {
+      "trigger": "One original current-account implicit workspace read while targetmembership is suspended; no response substitution",
+      "status": 200,
+      "intendedOrg": "org_179e4244a96c8f2a19f86d5c890d4cec",
+      "actualOrg": "org_94957ba9c51197cfed947f3c2658a165",
+      "actualRole": "clinician",
+      "actualLanguage": "en",
+      "actor": "t-89529b55-asha"
+    },
+    "afterRestoreReloadWorkspace": {
+      "organisationId": "org_94957ba9c51197cfed947f3c2658a165",
+      "role": "clinician",
+      "membership": {
+        "userId": "t-89529b55-asha",
+        "displayName": "Synthetic ASHA",
+        "accountCode": "E2B555C8CD880E2B8616AB20",
+        "role": "clinician",
+        "isOwner": true,
+        "status": "active",
+        "version": 1,
+        "createdAt": "2026-10-13T04:16:11.973Z",
+        "teamIds": [
+          "default"
+        ],
+        "accountName": "Synthetic ASHA",
+        "nameSource": "account",
+        "nameVersion": 0,
+        "language": "en",
+        "languageVersion": 0
+      },
+      "actorId": "t-89529b55-asha"
+    },
+    "originalAssertionsReached": 43,
+    "samePickerTimeout": true,
+    "sourceUnchanged": true,
+    "portFree": true
+  },
+  "sourceCause": "server.activeOrg fallback when selected membershipinactive; accountactive_org_id persists alternateorg. Updating memberactive and setMyLanguage with explicitorg do notselectthatorg. Bare /app usesimplicitworkspace.",
+  "exactCIAttribution": "Unproved which implicit request/timing triggered fallback in originalCI; no fabricated environmental/flake diagnosis. This actualcontrolled reproduction proves the missingfixtureprecondition.",
+  "narrowRepair": "One original switchOrganisation command selects intended existingtarget after original membershiprestore and before unchanged setMyLanguage/Hindi capture assertions. No production/policy changes."
+}

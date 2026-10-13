@@ -12,6 +12,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
+HOUSEHOLD_SOURCE_PAIRS = {('tests/evidence/household-proxy-dangling-reference-20261012/manifest.json', 'tests/smoke/household-proxy-review-browser.mjs'), ('tests/evidence/household-proxy-readonly-repair-20261012/manifest.json', 'lib/saha/household-proxy-review.ts'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'lib/saha/household-proxy-review-server.ts'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'app/household-proxy-review/household-proxy-review.tsx'), ('tests/evidence/household-proxy-readonly-repair-20261012/manifest.json', 'tests/household-proxy-review-contract.mjs'), ('tests/evidence/household-proxy-dangling-reference-20261012/manifest.json', 'lib/saha/household-proxy-review.ts'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'tests/smoke/household-proxy-review-browser.mjs'), ('tests/evidence/household-proxy-dangling-reference-20261012/manifest.json', 'tests/household-proxy-review-contract.mjs'), ('tests/evidence/routine-current-source-integration-20261011/manifest.json', 'tests/nfr/authorisation-matrix-current.mjs'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'lib/saha/household-proxy-review.ts'), ('tests/evidence/household-proxy-readonly-repair-20261012/manifest.json', 'tests/smoke/household-proxy-review-browser.mjs'), ('tests/evidence/household-proxy-review-20261012/manifest.json', 'tests/household-proxy-review-contract.mjs')}
 errors = []
 checks = {}
 
@@ -196,6 +197,19 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
                 preimage=gzip.decompress(archive.read_bytes())
                 require(hashlib.sha256(preimage).hexdigest()==expected and len(preimage)==binding['bytes'],'Changed generated diagnostic preimage')
             continue
+        # Exact household historical source-only pairs; no actual report/golden/minimum substitution.
+        if (str(manifest_path.relative_to(ROOT)),report) in HOUSEHOLD_SOURCE_PAIRS and path.is_file() and digest(path)!=expected:
+            bindings=read_json('docs/verification/evidence-source-snapshot-household-20261012.json')['records']
+            require(len(bindings)==12 and {(v['originalManifest'],v['sourcePath']) for v in bindings}==HOUSEHOLD_SOURCE_PAIRS,'Changed household sourcepair registry')
+            matches=[v for v in bindings if v['originalManifest']==str(manifest_path.relative_to(ROOT)) and v['sourcePath']==report]
+            require(len(matches)==1,'Ambiguous historical household source pair')
+            binding=matches[0]
+            require(binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size and binding['originalSourceSha256']==expected,'Unbound original household source/manifest')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current household source must matchcurrentbaseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed household exactsourcepreimage/boundary')
+            path=archive
         # One bound historical test-source preimage: current test bytes remain checked by the current baseline.
         # This never substitutes for a test report, expected image, assertion count or current execution.
         if str(manifest_path.relative_to(ROOT))=='tests/evidence/guided-home/manifest.json' and report=='tests/ui/app-first-phone.spec.mjs' and path.is_file() and digest(path)!=expected:
@@ -206,6 +220,18 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
             require(current_pin==digest(path)==binding['currentSourceSha256'],'Current phone test source is not independently pinned by the current baseline')
             archive=(ROOT/binding['archivedSource']).resolve()
             require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical phone-source preimage')
+            path=archive
+        # One exact historical ASHA guided-capture fixture preimage. The old
+        # execution manifest remains immutable while the current fixture is
+        # independently pinned by the current application baseline.
+        if str(manifest_path.relative_to(ROOT))=='tests/evidence/asha-guided-capture/manifest.json' and report=='tests/asha-guided-capture-browser.mjs' and path.is_file() and digest(path)!=expected:
+            binding=read_json('docs/verification/evidence-source-snapshot-asha-guided-reselection-20261013.json')
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound historical ASHA-guided manifest')
+            require(binding['sourcePath']==report and binding['originalManifestPin']=='sha256.tests/asha-guided-capture-browser.mjs' and binding['originalSourceSha256']==expected and isinstance(binding['originalSourceBytes'],int) and binding['originalSourceBytes']>0,'Unbound historical ASHA-guided source pin')
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current ASHA-guided fixture is not independently pinned by the current baseline')
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical ASHA-guided source preimage')
             path=archive
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.

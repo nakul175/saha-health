@@ -1,0 +1,296 @@
+{
+  "suite": "Read-only household/proxy boundary review",
+  "layer": "unit",
+  "passed": 56,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-12T19:46:30.161Z",
+  "completedAt": "2026-10-12T19:46:30.870Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Original shareable and activeGrant semantics; names-only preview, no real clinical disclosure/consent/domain/formal acceptance."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "Opaque authoritative actor retains exact string",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "Relationship view contains no implicit recipient preview",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Explicit recipient matching original purpose includes permitted subject",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Same household without proxy confers no other subject name",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Household head relationship does not substitute for grant",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Different purpose omits other subject",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "expired grant is historical/unknown disclosure not permitted",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "revoked grant is historical/unknown disclosure not permitted",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "future grant is historical/unknown disclosure not permitted",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original evidence interval scope and sensitive classes preserved",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Current earliest expiry requires fresh view",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Future start requires fresh view at exact original start",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Sensitive class labels never include private items/history",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Outside assignment omitted with boolean only",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Out-of-scope recipient refuses",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Grant to invisible outside proxy exposes neither name nor reference",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Former household member is not selectable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Merged member is not projected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Current anchor membership required",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Recorded dangling household reference is unavailable not known-none and never mutated",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Missing household is explicit empty with no inferred grant",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed from is unavailable not active",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed expiresAt is unavailable not active",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Contradictory interval unavailable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No record identity coercion",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unknown recorded purpose refuses response",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Duplicate household identity refuses instead of counts",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Configured original programme scope narrows displayed people",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid manipulated query refuses personId=a&personId=b",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid manipulated query refuses personId=a&recipientId=a",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid manipulated query refuses personId=a&purpose=care-coordination",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid manipulated query refuses personId=a&actorId=other",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid manipulated query refuses personId=a&recipientId=a&purpose=invalid",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Invalid manipulated query refuses personId=a&recipientId=a&recipientId=b&purpose=care-coordination",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Valid explicit pair stays literal",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Read projection does not mutate original person household grants/history",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No implicit schema expansion/private clinical fields",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Foreign preview subjects are refused by response boundary",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Clear boundary original writer and API remain unchanged",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "No scheduled context is known empty not bootstrapped",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Valid affected future original transfer pins exact refresh clock",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Exact original effective instant is due/refused409 not applied",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Due earlier transfer remains unavailable without mutating state",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unaffected due transfer does not infer scope or force application",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original applied history does not revoke current recorded assignment",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original cancelled history does not revoke current recorded assignment",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original held pending resolution refuses409 without new action",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unbound original transfer row id unavailable503",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unbound original transfer row version unavailable503",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unbound original transfer row state unavailable503",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Unbound original transfer row team_id unavailable503",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Malformed transfer data unavailable rather than zero due",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Noncanonical effective clock unavailable rather than lexical admission",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Ambiguous repeated patient targets unavailable",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Original500 transfer history bound preserved",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "New reader imports no bootstrap/loadFor/scheduler operation",
+      "ok": true,
+      "ms": 0
+    }
+  ]
+}

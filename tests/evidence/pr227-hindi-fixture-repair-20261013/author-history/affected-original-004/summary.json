@@ -1,0 +1,205 @@
+{
+  "generatedAt": "2026-10-13T04:19:41.557Z",
+  "startedAt": "2026-10-13T04:19:39.380Z",
+  "command": "node scripts/test.mjs integration --only integration/asha-guided-capture-browser,integration/asha-guided-capture-conditional,integration/asha-guided-capture-legacy-range,integration/asha-guided-capture-uncertainty --fast --guard --report ../../outputs/saha-next50-20261012/pr227-hindi-fixture-repair/affected-original-004/summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "failed",
+      "suites": 4,
+      "passed": 0,
+      "failed": 3,
+      "skipped": 0,
+      "durationMs": 2010,
+      "failedSuites": 4
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 0,
+    "failed": 3,
+    "skipped": 0,
+    "failedSuites": 4,
+    "durationMs": 2177
+  },
+  "suites": [
+    {
+      "id": "integration/asha-guided-capture-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-browser.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 538,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/phone/browser-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__asha-guided-capture-browser.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-conditional",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-conditional.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 492,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/conditional-fact/result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__asha-guided-capture-conditional.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-legacy-range",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-legacy-range.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 492,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/legacy-range/first-activation-regression.json"
+      ],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__asha-guided-capture-legacy-range.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-uncertainty",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-uncertainty.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 488,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__asha-guided-capture-uncertainty.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "integration/asha-guided-capture-browser",
+        "kind": "dropped",
+        "message": "Suite integration/asha-guided-capture-browser passed 0 assertion(s); baseline is 48 (down 48).",
+        "excused": false
+      },
+      {
+        "id": "integration/asha-guided-capture-conditional",
+        "kind": "dropped",
+        "message": "Suite integration/asha-guided-capture-conditional passed 0 assertion(s); baseline is 11 (down 11).",
+        "excused": false
+      },
+      {
+        "id": "integration/asha-guided-capture-legacy-range",
+        "kind": "dropped",
+        "message": "Suite integration/asha-guided-capture-legacy-range passed 0 assertion(s); baseline is 18 (down 18).",
+        "excused": false
+      },
+      {
+        "id": "integration/asha-guided-capture-uncertainty",
+        "kind": "uncounted",
+        "message": "Suite integration/asha-guided-capture-uncertainty reported no assertion count; baseline needs at least 15.",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 4,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/asha-guided-capture/conditional-fact/result.json",
+      "tests/evidence/asha-guided-capture/legacy-range/first-activation-regression.json",
+      "tests/evidence/asha-guided-capture/phone/browser-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 67,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 17
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 636,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

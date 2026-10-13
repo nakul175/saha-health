@@ -1,0 +1,846 @@
+{
+  "PR": {
+    "url": "https://github.com/nakul175/saha-health/pull/227",
+    "number": 227,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "draft": true,
+    "body": "An assigned ASHA can open a minimal mobile household/proxy evidence screen from Today and inspect only permitted current relationships, recorded proxy evidence and purpose-limited name previews. The server retains authoritative identity, assignment, purpose and existing sharing predicates; it does not create households, grants, encounters, send records or run providers.\n\nReads use current bounded state and consistent final patient/assignment/operations proofs. Unknown accounts do not bootstrap data; due/held transfers refuse409 and corrupt transfer data refuses503 without applying the scheduler. A future assignment deadline clears protected content. Missing undefined household references remain known absence; unresolved or present malformed references refuse instead of becoming false known-none. Separate original Today remains responsible for scheduled transfer processing. Prior unwanted read mutations and malformed-reference failures are retained.\n\nValidation at source5dfab134 and final metadata3a776759:\n-60 pure checks independently repeated,60 actual backend/mobile checks,94 original guarded checks; all original60-table read phases unchanged except audit/metrics, no external provider.\n- Root current authorization64, route smoke32 plus1 inherited media skip, UAT tooling63, types, build and inherited lint1392 error ceiling pass (627 warnings; not clean lint).\n- Original389 guard objects/minima, whole7-job workflow, criteria/364 formal cases and goldens unchanged; only measured60unit/60native guarded suites and one additiveCIstep.\n-12 exact historical source-only bindings preserve immutable original manifests and preimages. Current1903 source pins are independently checked;291 archived compiled files are the measured author build, not a future commit build identity.\n- Root20 full-checker/5inlineCI refusal controls; different-agent source and final metadata reviews pass. Final metadata reviewer independently executes4checker refusals/5inline controls and verifies the corrected /today UAT start path. Prior wrong-path/stale-pack/hash failures retained.\n\nDevelopment subset of APL-39/SAHA016, taskAPL-199. Exact-head CI begins after publication. Full household/proxy creation, sharing, combined care, clinical/domain/human/physical/formal acceptance and hosting remain open. No whole-story completion, merge or deployed SHA is claimed.",
+    "title": "Assigned ASHA household and proxy evidence with nonmutating scope checks",
+    "base": "main",
+    "base_sha": "22a271033eaa57e124a235fc615744928f1ac106",
+    "head": "feat/next50-household-proxy-review-20261012",
+    "head_sha": "3a77675952aed900cb746783eae7cb21e043fe07",
+    "head_repo_id": 1389866001,
+    "head_repo_full_name": "nakul175/saha-health",
+    "merge_commit_sha": "9008fe2d71fa817bfe09b9391dfc757463d1432a",
+    "user": {
+      "login": "nakul175",
+      "name": "nakul175",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/166727458?v=4",
+      "id": 166727458
+    },
+    "requested_reviewers": null,
+    "requested_team_reviewers": null,
+    "diff": null,
+    "comments": null,
+    "created_at": "2026-10-12T20:40:25Z",
+    "updated_at": "2026-10-12T20:41:01Z",
+    "closed_at": null,
+    "merged_at": null,
+    "commits": 7,
+    "changed_files": 256,
+    "additions": 63801,
+    "deletions": 28,
+    "display_url": "https://github.com/nakul175/saha-health/pull/227",
+    "display_title": "Assigned ASHA household and proxy evidence with nonmutating scope checks"
+  },
+  "jobs": {
+    "jobs": [
+      {
+        "id": 114999243533,
+        "name": "availability-fixture-diagnostic",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38305745381,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Original documentation and requirements",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Original pinned install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Canonical build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Chromium",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Original eleven availability groups",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          }
+        ]
+      },
+      {
+        "id": 114999243777,
+        "name": "checks",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38305745381,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Documentation and requirements integrity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Test catalogue",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Install pinned dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Lint (ratchet against .lint-baseline.json)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Type check",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "D02 real synthetic Today journey",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "D03 routine capture and current-authority regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Supply-chain gate (SBOM and audit)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Exact assigned household and recorded proxy review",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "HTTP and database suite, restore drill",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Unit suites",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 32
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 33
+          }
+        ]
+      },
+      {
+        "id": 114999243808,
+        "name": "bounded-report-load",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38305745381,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Documentation and catalogue integrity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Install pinned dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Build actual candidate Worker",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Bounded pre-alert recovery contract",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Actual native runtime log observation control",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Original400-slot load and unchanged13-check guard",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          }
+        ]
+      },
+      {
+        "id": 114999243838,
+        "name": "regressions",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 38305745381,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install pinned dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Install Chromium for app-first regressions",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "App-first workflow and scope regressions",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 7
+          },
+          {
+            "name": "Smoke, security suites and UAT checks",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 17
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          }
+        ]
+      },
+      {
+        "id": 114999243844,
+        "name": "original-backend-nfr",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38305745381,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Verify current source and original catalogue",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Install pinned dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Build actual candidate Worker",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Original backend performance and no-inspector memory controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          }
+        ]
+      },
+      {
+        "id": 114999243846,
+        "name": "native-authorization-control",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38305745381,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Documentation and test catalogue",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Install pinned dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Build real current Worker",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Original authorization matrix and unchanged minimum",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Original reporting calendar timing control",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Install Chromium for original native phone controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Original installed-programme phone and device privacy controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          }
+        ]
+      },
+      {
+        "id": 114999243918,
+        "name": "original-missing-coverage",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38305745381,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Original documentation, requirements and catalogue",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Capture exact source before installation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Original pinned installation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Canonical current build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Official project-pinned Chromium and legacy toolchain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Authentic original synthetic legacy fixture producer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Ten original integration suites",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Original current-recipient HTTP producer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Original matching current-recipient scheduled test",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Actual original Playwright suite",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Verify actual thirteen-suite coverage and unchanged source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          }
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "artifacts": [
+      {
+        "id": 11773766361,
+        "name": "engineering-regression-evidence",
+        "size_in_bytes": 1145785,
+        "url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11773766361",
+        "archive_download_url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11773766361/zip",
+        "expired": false,
+        "created_at": "2026-10-12T21:06:23Z",
+        "expires_at": "2027-01-10T20:40:28Z",
+        "updated_at": "2026-10-12T21:06:23Z",
+        "digest": "sha256:4b50086b6dcf82542b1ee946583e167854c8ddd61bd2ff11ece0e6c766fd129d",
+        "workflow_run": {
+          "id": 38305745381,
+          "repository_id": 1389866001,
+          "head_repository_id": 1389866001,
+          "head_branch": "feat/next50-household-proxy-review-20261012",
+          "head_sha": "3a77675952aed900cb746783eae7cb21e043fe07"
+        }
+      },
+      {
+        "id": 11773556566,
+        "name": "engineering-evidence",
+        "size_in_bytes": 28687276,
+        "url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11773556566",
+        "archive_download_url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11773556566/zip",
+        "expired": false,
+        "created_at": "2026-10-12T21:04:42Z",
+        "expires_at": "2027-01-10T20:40:28Z",
+        "updated_at": "2026-10-12T21:04:42Z",
+        "digest": "sha256:cd9b26425be479b7bf7c7630ccbc64397d84788ddfa9d3ddf0e6e135dafd5bb7",
+        "workflow_run": {
+          "id": 38305745381,
+          "repository_id": 1389866001,
+          "head_repository_id": 1389866001,
+          "head_branch": "feat/next50-household-proxy-review-20261012",
+          "head_sha": "3a77675952aed900cb746783eae7cb21e043fe07"
+        }
+      },
+      {
+        "id": 11773001443,
+        "name": "availability-fixture-diagnostic-evidence",
+        "size_in_bytes": 850225,
+        "url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11773001443",
+        "archive_download_url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11773001443/zip",
+        "expired": false,
+        "created_at": "2026-10-12T20:42:45Z",
+        "expires_at": "2027-01-10T20:40:28Z",
+        "updated_at": "2026-10-12T20:42:45Z",
+        "digest": "sha256:9c94b236f41c64d7409cb1d00406ded88bf07fd2920ed2e59548f741898533cd",
+        "workflow_run": {
+          "id": 38305745381,
+          "repository_id": 1389866001,
+          "head_repository_id": 1389866001,
+          "head_branch": "feat/next50-household-proxy-review-20261012",
+          "head_sha": "3a77675952aed900cb746783eae7cb21e043fe07"
+        }
+      },
+      {
+        "id": 11772862849,
+        "name": "original-missing-coverage-evidence",
+        "size_in_bytes": 3622498,
+        "url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11772862849",
+        "archive_download_url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11772862849/zip",
+        "expired": false,
+        "created_at": "2026-10-12T20:52:16Z",
+        "expires_at": "2027-01-10T20:40:28Z",
+        "updated_at": "2026-10-12T20:52:16Z",
+        "digest": "sha256:5a145812888943177199e1aa234894b71d807cad9fce9e7dabe85eb7107d0485",
+        "workflow_run": {
+          "id": 38305745381,
+          "repository_id": 1389866001,
+          "head_repository_id": 1389866001,
+          "head_branch": "feat/next50-household-proxy-review-20261012",
+          "head_sha": "3a77675952aed900cb746783eae7cb21e043fe07"
+        }
+      },
+      {
+        "id": 11772801819,
+        "name": "native-authorization-current-evidence",
+        "size_in_bytes": 598751,
+        "url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11772801819",
+        "archive_download_url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11772801819/zip",
+        "expired": false,
+        "created_at": "2026-10-12T20:44:17Z",
+        "expires_at": "2027-01-10T20:40:28Z",
+        "updated_at": "2026-10-12T20:44:17Z",
+        "digest": "sha256:4b80b1b6f2bdafacf24c883f126267c524964974f7887aec0f059f7f24ff4321",
+        "workflow_run": {
+          "id": 38305745381,
+          "repository_id": 1389866001,
+          "head_repository_id": 1389866001,
+          "head_branch": "feat/next50-household-proxy-review-20261012",
+          "head_sha": "3a77675952aed900cb746783eae7cb21e043fe07"
+        }
+      },
+      {
+        "id": 11772631682,
+        "name": "bounded-report-load-evidence",
+        "size_in_bytes": 163577,
+        "url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11772631682",
+        "archive_download_url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11772631682/zip",
+        "expired": false,
+        "created_at": "2026-10-12T20:42:45Z",
+        "expires_at": "2027-01-10T20:40:28Z",
+        "updated_at": "2026-10-12T20:42:45Z",
+        "digest": "sha256:14f4793eb23395348cf356f0eab9420a71a5a89236f13ddf9acac9aea15f697f",
+        "workflow_run": {
+          "id": 38305745381,
+          "repository_id": 1389866001,
+          "head_repository_id": 1389866001,
+          "head_branch": "feat/next50-household-proxy-review-20261012",
+          "head_sha": "3a77675952aed900cb746783eae7cb21e043fe07"
+        }
+      },
+      {
+        "id": 11772208265,
+        "name": "original-backend-nfr-current-evidence",
+        "size_in_bytes": 124089,
+        "url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11772208265",
+        "archive_download_url": "https://api.github.com/repos/nakul175/saha-health/actions/artifacts/11772208265/zip",
+        "expired": false,
+        "created_at": "2026-10-12T20:45:10Z",
+        "expires_at": "2027-01-10T20:40:28Z",
+        "updated_at": "2026-10-12T20:45:10Z",
+        "digest": "sha256:195b2d99b2e743c89492dcbeb913842cf54b7c7c969f9f67213b547806d6d782",
+        "workflow_run": {
+          "id": 38305745381,
+          "repository_id": 1389866001,
+          "head_repository_id": 1389866001,
+          "head_branch": "feat/next50-household-proxy-review-20261012",
+          "head_sha": "3a77675952aed900cb746783eae7cb21e043fe07"
+        }
+      }
+    ]
+  },
+  "logScope": "Decoded text from native GitHub job logs. ZIP artifact bytes separately SHA verified."
+}

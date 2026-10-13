@@ -1,0 +1,9 @@
+import assert from 'node:assert/strict';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { resolve, join } from 'node:path';
+import { createServer } from 'node:net';
+import { runOwnedCommand } from '../../../work/saha-pr227-hindi-fixture-repair-20261013/tests/lib/routine-retention/containment.mjs';
+const cwd=resolve('work/saha-pr227-hindi-fixture-repair-20261013'),out=resolve('outputs/saha-next50-20261012/pr227-hindi-fixture-repair/affected-original-005');mkdirSync(out,{recursive:true});
+const args=['scripts/test.mjs','integration','--only','integration/asha-guided-capture-browser,integration/asha-guided-capture-conditional,integration/asha-guided-capture-legacy-range,integration/asha-guided-capture-uncertainty','--fast','--guard','--report',join(out,'summary.json')];
+const result=await runOwnedCommand(process.execPath,args,{cwd,env:{...process.env,SAHA_GUIDED_HOME_PORT:'21999',SAHA_TEST_PORT:'21999'},stdout:join(out,'stdout.log'),stderr:join(out,'stderr.log'),timeoutMs:300000,graceMs:10000,onSpawn:h=>writeFileSync(join(out,'registered-handle.json'),JSON.stringify(h,null,2)+'\n',{flag:'wx'})});writeFileSync(join(out,'owned-command.json'),JSON.stringify(result,null,2)+'\n');
+const probe=createServer();await new Promise((yes,no)=>{probe.once('error',no);probe.listen(21999,'127.0.0.1',()=>probe.close(e=>e?no(e):yes()));});writeFileSync(join(out,'cleanup.json'),JSON.stringify({port:21999,portFree:true,ownedCommand:result},null,2)+'\n');assert.equal(result.ok,true);

@@ -131,7 +131,12 @@ export async function loadNavigation() {
 // (a panel imported by another panel is hosted wherever that panel is). 'Person page' is a person's page opened from My work or People.
 const PERSON = 'Person page and visit';
 export const ROUTINE_CAPTURE_SCREEN = 'Candidate ASHA routine visit (Today > Review routine visit; deployment pending)';
+export const HOUSEHOLD_PROXY_SCREEN='Candidate assigned household/proxy evidence (/household-proxy-review; ASHA only; deployment pending)';
+export const TODAY_SCREEN='Today (/today; ASHA only)';
 export const PANEL_HOME = {
+  'app/today/today.tsx':[TODAY_SCREEN],
+  'app/household-proxy-review/page.tsx':[HOUSEHOLD_PROXY_SCREEN],
+  'app/household-proxy-review/household-proxy-review.tsx':[HOUSEHOLD_PROXY_SCREEN],
   'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/registration-guidance.tsx': ['My work', 'People'],
   'app/frontline-guidance.tsx': ['ASHA app Home (/app)'],

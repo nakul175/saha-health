@@ -417,7 +417,7 @@ Local registration and visits do not require ABHA, phone or biometrics.
 - **Catalogue:** Functional, fixture FX-ID-07, catalogue owner "QA with Deployment administrator and identity steward".
 - **Run as:** ASHA worker. Basis: household sharing previews and proxy records are used from a person's page by the worker who holds that person.
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-ID-07: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Candidate assigned household/proxy evidence (/household-proxy-review; ASHA only; deployment pending), Today (/today; ASHA only). These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -435,7 +435,7 @@ Local registration and visits do not require ABHA, phone or biometrics.
 
 <details><summary>What the build does today (assessment, current state of BR-ID-07)</summary>
 
-Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted.
+Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted. Bounded12October2026 increment: Review assigned household and recorded proxy evidence; see docs/current/next50/HOUSEHOLD-PROXY-REVIEW-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.
 
 </details>
 

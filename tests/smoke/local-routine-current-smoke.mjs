@@ -42,6 +42,7 @@ const SIGN_IN = /sign in/i;
 const recipes = (visitId, org) => ({
   '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/routine-visit': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
+  '/api/household-proxy-review': '?personId=p_meena',
   '/api/inbound-conflicts': '?personId=p_meena',
   '/api/imported-evidence': '?personId=p_meena',
   '/api/abdm': '?personId=p_meena', '/api/action-plan': '?personId=p_meena', '/api/history': '?personId=p_meena', '/api/household': '?personId=p_meena',
@@ -240,7 +241,7 @@ try {
     const bad = [];
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
-      if (route === '/api/today' || route === '/api/routine-visit') {
+      if (route === '/api/today' || route === '/api/routine-visit' || route === '/api/household-proxy-review') {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
         continue;

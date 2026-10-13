@@ -1,0 +1,617 @@
+{
+  "passed": 42,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Actual trusted opaque ASHA/org/assignedperson binding",
+    "Only scoped current household identities; outside scope boolean without name/ID/count",
+    "Opening relationship view never selects recipient or implies disclosure",
+    "Explicit current recipient+purpose permits self and actual proxy subject only",
+    "Household head cannot infer private member by household membership alone",
+    "Original relationship/evidence/purpose/expiry/classes stay separately recorded",
+    "Actual bounded metadata contains no clinicalhistory/workitems/contact/account identifiers",
+    "Actual nonmatching purpose omits other subject",
+    "Actual expired original grant no longer permits recipient subject",
+    "Actual revoked original grant no longer permits recipient subject",
+    "Actual future original grant no longer permits recipient subject",
+    "Actual malformed stored proxy interval is unavailable not consent",
+    "Actual anonymous refusal no protected names",
+    "Actual clinician refusal no protected names",
+    "Actual foreignorg refusal no protected names",
+    "Actual foreignaccount refusal no protected names",
+    "Actual changedactor refusal no protected names",
+    "Actual hiddenrecipient refusal no protected names",
+    "Actual doubleperson refusal no protected names",
+    "Actual partialpair refusal no protected names",
+    "Actual unknownpurpose refusal no protected names",
+    "Actual60-table readphase equality except original audit/metrics; no clinical/account/grant/history/receipt changes",
+    "Actual post-audit membership change refuses protected response",
+    "Actual post-audit assignment change refuses protected response",
+    "Actual post-audit proxyexpiry change refuses protected response",
+    "Actual post-audit household change refuses protected response",
+    "Actual post-audit purpose change refuses protected response",
+    "Actual audit failure refuses read instead of treating empty household as success",
+    "Actual Today link binds existing selectedrecord and leaves recipient unselected",
+    "Actual mobile explicit preview shows permitted subject and excludes ungranted subject",
+    "Actual phone390 accessibility zero violations",
+    "Actual phone390 no horizontal overflow and all controls44px",
+    "Actual200 read response discarded; projected data cleared with no empty-success substitution",
+    "Explicit freshGET recovery preserves all60table facts/receipts/grants/account data",
+    "Actual browser offline transition clears relationships and granted names",
+    "Actual pagehide clears protected metadata and selected preview",
+    "Actual original proxy expiry timer clears open view and requires new read",
+    "Actual late realGET after hidden boundary cannot restore protected metadata",
+    "Actual manipulated doublepersonURL refuses without selecting unrelatedrecord",
+    "All actual browserAPI GET-only; zero page errors/provider/external requests",
+    "Actual source/helpers/test/compiled custody unchanged during nativeexecution",
+    "Owned syntheticbackend disposed and loopbackportfree"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "url": "/api/today"
+    },
+    {
+      "method": "GET",
+      "url": "/api/today?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d&recipientId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d&purpose=care-coordination"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d&recipientId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d&purpose=care-coordination"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d&recipientId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d&purpose=care-coordination"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d"
+    },
+    {
+      "method": "GET",
+      "url": "/api/household-proxy-review?personId=eaa4fff3-a16f-4847-ba0b-9c55c1261b9d"
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "races": [
+    {
+      "label": "membership",
+      "status": 403,
+      "protectedReturned": false
+    },
+    {
+      "label": "assignment",
+      "status": 404,
+      "protectedReturned": false
+    },
+    {
+      "label": "proxyexpiry",
+      "status": 409,
+      "protectedReturned": false
+    },
+    {
+      "label": "household",
+      "status": 409,
+      "protectedReturned": false
+    },
+    {
+      "label": "purpose",
+      "status": 403,
+      "protectedReturned": false
+    }
+  ],
+  "beforeTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 9,
+      "sha256": "fcb62ed3c005e069dbee8f4a85f858e46058e9b711ab2ec1291115e1689451ab"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 163,
+      "sha256": "30431bce7488a2be11454ad7cea8b66b250c34de80a27f24fbbf3fd6755faffa"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 16,
+      "sha256": "d8d3af195a828de947d116e3937f9615491543223be8995da660bd87347655ba"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 3,
+      "sha256": "fcf844728bd29b52eb631087fc1791d548547a1631a32f1726a91d4e53d95d56"
+    },
+    "households": {
+      "rows": 1,
+      "sha256": "33d1f9ce9465cdf600b818e4b5fb57a003e564922afa7b4af32627114a4c16fb"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 18,
+      "sha256": "35e44f78908cece67cc43be2b0b6ae8f402f0057453a3c19bc8bec5d20d17d7b"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "aa979c4f4131ab5dc34b6f4b824e807e9169ead0430a9675d81200fd2fdca5b5"
+    },
+    "legacy_migrations": {
+      "rows": 3,
+      "sha256": "015153c64751830dc4f7fa75752fa643746bae3b641fdb97f04785cc5be8cdaa"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 10,
+      "sha256": "08d86364e9a36d6fda66cfa743f7793d9356020c207d59f4d35ee03f09323ea1"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 1,
+      "sha256": "2dfef6df3d4c23072c794637c1921558cd585df68a2578ae286949b34bf1cb70"
+    },
+    "organisations": {
+      "rows": 3,
+      "sha256": "638eb4d2562102fec1a8b5a34d32ee08405e7f2529a0581cfe4e9147b9c23f33"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 22,
+      "sha256": "2e04535b01e200effe52a118d0c8333ca72e498295e36674a127ba577a0e1b06"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 31,
+      "sha256": "76e98476e472a182413940475234cc48333e76d8879583d57723fe84dd6f2e9c"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 5,
+      "sha256": "dfea620b8a2732069c4051e43296e38913af2402390bdc2f0f36077a20e27414"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 10,
+      "sha256": "1afe7467e0432d27fbd1d31e92767a25440e33f3f7a8775906c232ec4194d57a"
+    },
+    "teams": {
+      "rows": 3,
+      "sha256": "a77e0c23c24f64967012106715dbc8320af3e8b06e035c4f6b1f611fc8e820e2"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "afterTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 9,
+      "sha256": "fcb62ed3c005e069dbee8f4a85f858e46058e9b711ab2ec1291115e1689451ab"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 169,
+      "sha256": "f8bd879adbe84317d13fa88e764a560aa1ef07eb7d78f5a875701e920d439922"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 16,
+      "sha256": "d8d3af195a828de947d116e3937f9615491543223be8995da660bd87347655ba"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 3,
+      "sha256": "fcf844728bd29b52eb631087fc1791d548547a1631a32f1726a91d4e53d95d56"
+    },
+    "households": {
+      "rows": 1,
+      "sha256": "33d1f9ce9465cdf600b818e4b5fb57a003e564922afa7b4af32627114a4c16fb"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 18,
+      "sha256": "35e44f78908cece67cc43be2b0b6ae8f402f0057453a3c19bc8bec5d20d17d7b"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "aa979c4f4131ab5dc34b6f4b824e807e9169ead0430a9675d81200fd2fdca5b5"
+    },
+    "legacy_migrations": {
+      "rows": 3,
+      "sha256": "015153c64751830dc4f7fa75752fa643746bae3b641fdb97f04785cc5be8cdaa"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 10,
+      "sha256": "08d86364e9a36d6fda66cfa743f7793d9356020c207d59f4d35ee03f09323ea1"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 1,
+      "sha256": "2dfef6df3d4c23072c794637c1921558cd585df68a2578ae286949b34bf1cb70"
+    },
+    "organisations": {
+      "rows": 3,
+      "sha256": "638eb4d2562102fec1a8b5a34d32ee08405e7f2529a0581cfe4e9147b9c23f33"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 22,
+      "sha256": "2e04535b01e200effe52a118d0c8333ca72e498295e36674a127ba577a0e1b06"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "record_revisions": {
+      "rows": 31,
+      "sha256": "76e98476e472a182413940475234cc48333e76d8879583d57723fe84dd6f2e9c"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 5,
+      "sha256": "dfea620b8a2732069c4051e43296e38913af2402390bdc2f0f36077a20e27414"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "team_members": {
+      "rows": 10,
+      "sha256": "1afe7467e0432d27fbd1d31e92767a25440e33f3f7a8775906c232ec4194d57a"
+    },
+    "teams": {
+      "rows": 3,
+      "sha256": "a77e0c23c24f64967012106715dbc8320af3e8b06e035c4f6b1f611fc8e820e2"
+    },
+    "visits": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "disposed": true,
+  "portFree": true,
+  "statePreservedOnFailure": null,
+  "completedAt": "2026-10-12T19:07:42.701Z",
+  "limits": "Assigned synthetic ASHA worker relationship metadata and original names-only proxy preview; no clinical/privatehistory disclosure/send/proxywriter/provider/newDB/account authority. Real hidden event uses explicit fixture document property, not OS physicaltab; expiry uses original timestamp.60table equality applies readphases only, fixture writes separate. Not fullstory/institutionalconsent/human/domain/clinical/formal/physical/hosting acceptance."
+}

@@ -128,6 +128,7 @@ export default function Today() {
           <button onClick={() => void load()}>Back to Today</button>
           <a href={'/routine-visit?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
             encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review routine visit</a>
+          <a href={'/household-proxy-review?personId=' + encodeURIComponent(record.id) + '&organisationId=' + encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review household and proxy boundaries</a>
         </>
       ) : (
         <>

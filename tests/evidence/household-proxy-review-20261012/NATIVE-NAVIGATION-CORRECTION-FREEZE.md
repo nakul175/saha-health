@@ -1,0 +1,2 @@
+Prospective 2026-10-12T19:06:58.654793+00:00
+Native004 actual28/1: Today new Next Link click leaves Today URL/content and real browser pageerror TypeError e is not a function; no household API requested. Fix only new navigation surfaces to standard full document anchors, preserving exact person/org URL and assigned APIs; no router policy/core or response substitutions. Rebuild/currentnative requires zero pageerrors and actual Today click. All failures preserved.
