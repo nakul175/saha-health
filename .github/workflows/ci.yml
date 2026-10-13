@@ -18,7 +18,10 @@ concurrency:
 jobs:
   checks:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # The complete guarded unit catalogue now runs for about 29 minutes and the
+    # immutable evidence artifact needs additional upload time. Keep the full
+    # catalogue and its minima intact; allow enough time to publish its receipt.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

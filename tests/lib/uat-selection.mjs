@@ -142,6 +142,7 @@ export const AMENDMENTS_SCREEN = 'Candidate ASHA traceable correction (/amendmen
 export const PLAN_REVIEW_SCREEN = 'Candidate ASHA action review (/plan-review; local approval only; deployment pending)';
 export const ASSISTANCE_SCREEN='Candidate ASHA own assistance status and cancellation (/assistance-control; no provider activation; deployment pending)';
 export const WORKFORCE_SCREEN='Candidate existing-owner workforce suspension (/workforce-status; no activation or institutional verification; deployment pending)';
+export const SELECTIVE_REUSE_SCREEN='Candidate permitted-reuse review (/selective-reuse; preview only; approval and sending remain separate)';
 export const PANEL_HOME = {
   'app/routine-visit/save-status.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/record-matching/page.tsx':[MATCHING_SCREEN],
@@ -158,6 +159,7 @@ export const PANEL_HOME = {
   'app/assistance-control/assistance-control.tsx':[ASSISTANCE_SCREEN],
   'app/workforce-status/page.tsx':[WORKFORCE_SCREEN],
   'app/workforce-status/workforce-status.tsx':[WORKFORCE_SCREEN],
+  'app/selective-reuse/screen.tsx':[SELECTIVE_REUSE_SCREEN],
   'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/resume-work/resume-work.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/resume-work/page.tsx': [ROUTINE_CAPTURE_SCREEN],

@@ -3,7 +3,8 @@
 
 Earlier baselines (for example application-r11-sha256.json) stay as historical evidence and are
 never rewritten. The new manifest covers the files of the previous current baseline that still
-exist plus any tracked runtime, migration, test or script files added since, and
+exist plus any tracked runtime, migration, test or script files added since. Deterministic
+coverage and UAT outputs that are reviewed with their generators are pinned explicitly, and
 docs/verification/current-baseline.json is pointed at it. check-documentation.py verifies the
 current baseline only.
 
@@ -18,6 +19,11 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 VERIFY = ROOT / 'docs/verification'
 RUNTIME = ('worker/', 'app/', 'android/', 'lib/', 'db/', 'drizzle/', 'public/', 'scripts/', 'tests/', 'components/', 'hooks/', 'build/', 'vendor/', 'examples/')
+GENERATED_DOCUMENTATION = (
+    'docs/testing/COVERAGE.md',
+    'docs/testing/coverage.csv',
+    'docs/testing/uat/UAT-OWNER.md',
+)
 
 slug, label = sys.argv[1], sys.argv[2]
 pointer = VERIFY / 'current-baseline.json'
@@ -25,6 +31,7 @@ previous = json.loads(pointer.read_text())['manifest'] if pointer.exists() else 
 files = set(json.loads((VERIFY / previous).read_text())['files'])
 tracked = subprocess.run(['git', 'ls-files'], cwd=ROOT, capture_output=True, text=True, check=True).stdout.split()
 files |= {f for f in tracked if f.startswith(RUNTIME) and not f.startswith('tests/evidence/')}
+files |= {f for f in GENERATED_DOCUMENTATION if f in tracked}
 files = sorted(f for f in files if (ROOT / f).is_file())
 manifest = {
     'baseline': label,
