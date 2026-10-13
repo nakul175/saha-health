@@ -131,8 +131,23 @@ export async function loadNavigation() {
 // (a panel imported by another panel is hosted wherever that panel is). 'Person page' is a person's page opened from My work or People.
 const PERSON = 'Person page and visit';
 export const ROUTINE_CAPTURE_SCREEN = 'Candidate ASHA routine visit (Today > Review routine visit; deployment pending)';
+export const TASK_ENTRY_SCREEN = 'Candidate deterministic task shortcuts (/task-entry; deployment pending)';
+export const PROGRAMME_STATUS_SCREEN = 'Candidate ASHA programme status (/programme-status; simulator evidence; deployment pending)';
+export const FRONTLINE_FOLLOWUP_SCREEN = 'Candidate planned follow-ups (Today > View planned follow-ups; publication/deployment pending)';
+export const HANDOVER_SCREEN = 'Candidate receiving ASHA handover (/handover; acknowledgement only; deployment pending)';
 export const PANEL_HOME = {
+  'app/routine-visit/save-status.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
+  'app/resume-work/resume-work.tsx': [ROUTINE_CAPTURE_SCREEN],
+  'app/resume-work/page.tsx': [ROUTINE_CAPTURE_SCREEN],
+  'app/task-entry/page.tsx': [TASK_ENTRY_SCREEN],
+  'app/task-entry/task-entry.tsx': [TASK_ENTRY_SCREEN],
+  'app/programme-status/page.tsx': [PROGRAMME_STATUS_SCREEN],
+  'app/programme-status/programme-status.tsx': [PROGRAMME_STATUS_SCREEN],
+  'app/follow-ups/follow-ups.tsx': [FRONTLINE_FOLLOWUP_SCREEN],
+  'app/follow-ups/page.tsx': [FRONTLINE_FOLLOWUP_SCREEN],
+  'app/handover/page.tsx': [HANDOVER_SCREEN],
+  'app/handover/handover.tsx': [HANDOVER_SCREEN],
   'app/registration-guidance.tsx': ['My work', 'People'],
   'app/frontline-guidance.tsx': ['ASHA app Home (/app)'],
   'app/inbound-conflicts-panel.tsx': [PERSON],

@@ -57,7 +57,7 @@ export async function executeDestinationEnrolment(db: D1Database, s: OrgState, c
     if(!de?.delivery||!prepared?.delivery||de.delivery.operationId!==prepared.delivery.operationId||de.payloadHash!==prepared.payloadHash||de.delivery.actorId!==u.userId)fail(409,'Enrolment checkpoint changed.');
     recheckDestination(latest,de,p);
     if(c.type==='lookupDestinationEnrolment'){if(de.state!=='uncertain')fail(409,'Receipt checkpoint changed.');return;}
-    enrolmentFor(latest,c.personId,c.version,c.enrolmentId,u,member);mockDestination(latest,de.destinationId,enrolmentProgramme(latest,e));
+    enrolmentFor(latest,c.personId,de.delivery.personVersion,c.enrolmentId,u,member);mockDestination(latest,de.destinationId,enrolmentProgramme(latest,e));
     if(await digest(enrolmentRequestBody(c.personId,e,enrolmentProgramme(latest,e)))!==de.payloadHash)fail(409,'Enrolment episode differs from its approved digest; nothing was sent.');if(de.state!=='requested'||de.delivery.expiresAt<=new Date().toISOString())fail(409,'Enrolment approval changed or expired.');
   }});await assertEnrolmentEnvelope(args[0],args[1]);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return deliver(i,...args);};
   if (c.type === 'activateDestinationEnrolment') return activate(db, s, c, u, m, key, hash);
@@ -73,6 +73,7 @@ export async function executeDestinationEnrolment(db: D1Database, s: OrgState, c
 
   if (!lookup) {
     // request path: validate, build the request body and record the checkpoint before calling the mock adapter.
+    const before = structuredClone(s);
     const target = requestTarget(s, c, u, m);
     destination = target.destination;
     if (de && de.attempts >= ENROLMENT_MAX_ATTEMPTS) fail(409, 'Attempt limit reached. Contact the destination; no further request is permitted.');
@@ -96,10 +97,12 @@ export async function executeDestinationEnrolment(db: D1Database, s: OrgState, c
     de.requestedBy = u.userId;
     de.attempts++;
     const operationId = uuid();
+    // The checkpoint itself changes the person. Pin the exact version persisted,
+    // while requestTarget above still validates the caller's original version.
+    p.version++;
     de.delivery = { key: e.id, actorId: u.userId, connectorVersion: destination.version, personVersion: p.version, expiresAt: new Date(Date.now() + 15 * 60000).toISOString(), operationId, startedAt: now, events: [] };
     deliveryEvent(de, 'Destination enrolment checkpoint saved before the request.');
     enrolmentAudit(s, u, m, 'requestDestinationEnrolment', e.id, `Destination enrolment requested at ${de.destinationName} for ${e.episodeLabel} (${e.packId}, programme ${target.programme}). Requested by ${u.displayName}; nothing is sent to a real partner (mock adapter).`, c.personId);
-    const before = structuredClone(s);
     await persist(db, before, s, u, c, key, hash, { enrolmentId: e.id, state: 'requested' });
     const body2: RequestBody = { ...body, key: e.id, payloadHash };
     let raw: unknown;
@@ -114,8 +117,9 @@ export async function executeDestinationEnrolment(db: D1Database, s: OrgState, c
   if (de.delivery && de.delivery.events.length >= ENROLMENT_EVENT_LIMIT) fail(409, 'Destination enrolment event limit reached. Investigate with the destination.');
   destination = recheckDestination(s, de, p);
   const operationId = uuid();
-  de.delivery = { ...de.delivery!, operationId, startedAt: new Date().toISOString() };
   const before = structuredClone(s);
+  p.version++;
+  de.delivery = { ...de.delivery!, personVersion: p.version, operationId, startedAt: new Date().toISOString() };
   deliveryEvent(de, 'Destination enrolment lookup reserved; no request is resent.');
   enrolmentAudit(s, u, m, 'lookupDestinationEnrolment', e.id, `Destination enrolment receipt lookup for ${e.episodeLabel} at ${de.destinationName}.`, c.personId);
   await persist(db, before, s, u, c, key, hash, { enrolmentId: e.id, state: de.state });
@@ -137,6 +141,11 @@ async function finish(db: D1Database, s: OrgState, c: any, u: Actor, m: Member, 
     if (de.delivery?.operationId !== operationId) return { enrolmentId, state: de.state, destinationReceipt: de.destinationReceipt, rejectionReason: de.rejectionReason };
     if (['accepted', 'rejected', 'active', 'retryable'].includes(de.state)) return { enrolmentId, state: de.state, destinationReceipt: de.destinationReceipt, rejectionReason: de.rejectionReason };
     const old = structuredClone(after);
+    // Only this operation's own version increment may advance its pin. A person
+    // change while in flight remains stale for lookup/activation; recording the
+    // historical outcome must not re-authorise that intervening change.
+    if (p.version === de.delivery!.personVersion) de.delivery!.personVersion = p.version + 1;
+    p.version++;
     if (raw === undefined) {
       transition(de, 'uncertain', u.userId, 'No matching definitive receipt was received. Look up this key before any resend.');
       deliveryEvent(de, 'No matching definitive receipt was received. Look up this key before any resend.');
@@ -148,7 +157,9 @@ async function finish(db: D1Database, s: OrgState, c: any, u: Actor, m: Member, 
       personId);
     const result = { enrolmentId, state: de.state, destinationReceipt: de.destinationReceipt, rejectionReason: de.rejectionReason };
     try {
-      await persist(db, old, after, u, { type: lookup ? 'lookupDestinationEnrolment' : 'requestDestinationEnrolment' }, lookup ? 'lookup_' + operationId : key, hash, result);
+      // Keep the caller's checkpoint receipt immutable. A separate deterministic
+      // internal result receipt records the outcome without overwriting that key.
+      await persist(db, old, after, u, { type: lookup ? 'lookupDestinationEnrolmentResult' : 'requestDestinationEnrolmentResult' }, 'enrolment_finish_' + operationId, hash, result);
       return result;
     } catch (e2) {
       if (!(e2 instanceof AppError && e2.status === 409) || n === 2) throw e2;

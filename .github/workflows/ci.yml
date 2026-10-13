@@ -51,6 +51,10 @@ jobs:
         run: node scripts/test.mjs integration smoke --only integration/routine-authority-http,integration/routine-organisation-http,integration/routine-attempt-browser,smoke/routine-visit-browser,integration/routine-telemetry-retention-http --fast --guard
       - name: Supply-chain gate (SBOM and audit)
         run: node scripts/security-gate.mjs
+      - name: Next-50 bounded integration regressions
+        env:
+          SAHA_TEST_PORT: '9493'
+        run: node scripts/test.mjs integration nfr smoke --only integration/routine-save-status-browser,nfr/identity-numeric-dates,smoke/task-entry-browser,smoke/programme-status-browser,smoke/handover-browser,smoke/resume-work-browser --fast --guard --report tests/reports/next50-208-216-ci-summary.json
       # Slice 11g (test review M7, H1): every suite runs through scripts/test.mjs. It builds the HTTP suite's local D1 in one
       # wrangler call (one process per migration failed 4 of 6 trials on a loaded machine), runs the restore drill on the
       # database the HTTP suite populated, and --guard fails when a suite disappears or reports fewer passed assertions than
@@ -297,7 +301,17 @@ jobs:
                                'Canonical runner restores tracked test evidence: these restored files are not current-run evidence.',
                                'Installer and generated fixture data differences require explicit applicability review.']}
           (out / (phase + '.json')).write_text(json.dumps(record, indent=2) + '\n')
-          assert len(baseline['suites']) == 389, 'Original 389 guarded records must remain'
+          additions = {
+              'integration/routine-save-status-browser', 'nfr/identity-numeric-dates',
+              'smoke/handover-browser', 'smoke/programme-status-browser', 'smoke/resume-work-browser', 'smoke/task-entry-browser',
+              'unit/capability-age-boundary-contract', 'unit/fact-author-effective-provenance-contract',
+              'unit/frontline-followup-contract', 'unit/handover-contract', 'unit/identity-numeric-dates-contract',
+              'unit/programme-status-contract', 'unit/resume-work-contract', 'unit/routine-save-status-contract',
+              'unit/task-entry-contract'
+          }
+          original = {name: value for name, value in baseline['suites'].items() if name not in additions}
+          assert len(original) == 389, 'Original 389 guarded records must remain'
+          assert len(baseline['suites']) == 404 and additions <= baseline['suites'].keys(), 'All and only the 15 integrated observed minima must be added'
           if phase == 'final':
               before = json.loads((out / 'before-install.json').read_text())
               assert before['baseline'] == baseline, 'Original baseline changed'

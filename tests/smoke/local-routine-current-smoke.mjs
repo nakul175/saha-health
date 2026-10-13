@@ -40,6 +40,8 @@ const need = (res, status, what) => assert.equal(res.status, status, `${what}: e
 const SIGN_IN = /sign in/i;
 // Query strings the GET routes need so that the owner (and an anonymous caller) reach the handler rather than a missing-parameter answer.
 const recipes = (visitId, org) => ({
+  '/api/programme-status': '?personId=p_meena',
+  '/api/handover': '?personId=p_meena',
   '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/routine-visit': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
   '/api/inbound-conflicts': '?personId=p_meena',
@@ -240,7 +242,7 @@ try {
     const bad = [];
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
-      if (route === '/api/today' || route === '/api/routine-visit') {
+      if (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover'].includes(route)) {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
         continue;
@@ -302,6 +304,18 @@ try {
       assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal has no protected content');
     }
   });
+  for (const [route, label, projection] of [['/api/programme-status', 'Programme status', 'episodes'], ['/api/handover', 'Receiving handover', 'work']]) {
+    await r.check(`${label} returns only the assigned ASHA record and refuses foreign scope or other roles`, async () => {
+      const result = await c.get(asha, `${route}?personId=p_meena`, org);
+      need(result, 200, `assigned ASHA ${label}`);
+      assert.equal(result.json.person.id, 'p_meena'); assert.equal(result.json.organisationId, org);
+      assert.equal(result.json.actorId, asha.id); assert.ok(Array.isArray(result.json[projection]));
+      for (const [who, query, statuses] of [[asha, '?personId=p_rajesh', [403, 404]], [owner, '?personId=p_meena', [403]], [supervisor, '?personId=p_meena', [403]], [stranger, '?personId=p_meena', [403]], [null, '?personId=p_meena', [401]]]) {
+        const refusal = await c.get(who, route + query, org);
+        assert.ok(statuses.includes(refusal.status)); assert.deepEqual(Object.keys(refusal.json).sort(), ['error']);
+      }
+    });
+  }
   for (const row of sweep) if (row.skipped) r.skip(`GET ${row.route}`, row.skipped);
   for (const route of gets.filter(x => x in unsuppliable)) r.skip(`GET ${route}`, unsuppliable[route]);
   await r.check('the Worker logged no 5xx response and no unhandled workspace error during the run', async () => {
