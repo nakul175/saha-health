@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "Opaque actor retained",
+    "Only selected configured weight field",
+    "Source note absent",
+    "Original allowlist exact",
+    "Unmapped field names carry no values",
+    "No writer/create command flag",
+    "Other destination allowlist excludes weight"
+  ],
+  "error": "ZodError: [\n  {\n    \"code\": \"too_small\",\n    \"minimum\": 1,\n    \"type\": \"array\",\n    \"inclusive\": true,\n    \"exact\": false,\n    \"message\": \"Array must contain at least 1 element(s)\",\n    \"path\": [\n      \"selected\",\n      \"mapping\"\n    ]\n  }\n]\n    at get error (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:39:31)\n    at ZodEffects.parse (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:114:22)\n    at Module.selectiveReuseProjection (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-selective-reuse-20261013/.selective-4Oh9gp/selective-reuse.js:87:34)\n    at project (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-selective-reuse-20261013/tests/selective-reuse-contract.mjs:3:2156)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-selective-reuse-20261013/tests/selective-reuse-contract.mjs:4:869"
+}

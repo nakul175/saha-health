@@ -1,0 +1,5 @@
+{
+  "originalSha256": "da278a132a32976a332360525aeb6da58e2d083ba785b3f669d7fd44592692f7",
+  "originalBytes": 967,
+  "text": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Corrupt stored complete plan digest must not claim original prepared-plan receipt\n+ actual - expected\n\n+ {\n+   commandHash: 'c3e369b58869e038750b3b893e82ca17d71a4c2ae6cf06e601df05aef4fb11b4',\n+   comparison: 'matches-current-selected-payload',\n+   id: 'plan',\n+   receiptKey: 'original-key',\n+   state: 'proposed'\n+ }\n- null\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-selective-reuse-20261013/tests/selective-reuse-planhash.tmp.mjs:5:991 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: {\n    id: 'plan',\n    state: 'proposed',\n    receiptKey: 'original-key',\n    commandHash: 'c3e369b58869e038750b3b893e82ca17d71a4c2ae6cf06e601df05aef4fb11b4',\n    comparison: 'matches-current-selected-payload'\n  },\n  expected: null,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.21.0\n"
+}

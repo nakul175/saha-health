@@ -1,0 +1,88 @@
+{
+  "atUtc": "2026-10-13T03:49:10.104668+00:00",
+  "authorOnly": true,
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "parent": "SAHA029/APL52/BR-DATA-10",
+  "task": "APL212/ENG-BR-DATA-10",
+  "sourcePins": {
+    "app/api/selective-reuse/route.ts": "100025aaf65bf5baa3707734ef780e70f6c6183bb029bf2cce7da353281805c7",
+    "app/selective-reuse/page.tsx": "a59e54220374c69ee971b8d0572bcaf924de9f2a1b1b56d7152297aa83b74ed2",
+    "app/selective-reuse/screen.tsx": "679c0d6b0e3f900efe5cc773f2c877c6932d54552fe819265e60cda7f24d34ea",
+    "app/selective-reuse/style.css": "c5bf2f77cff83bb6f7a12d72479bf12d91e87457083e769af7a19c70714017c8",
+    "lib/saha/selective-reuse.ts": "d33d9167976b61f45a097e65f34229f646f2cd8aa6b1dbee45760d00503624db",
+    "lib/saha/selective-reuse-server.ts": "3bf7cca5a48533d97324278ad624d0217b8442644d4ece5f75ad50750f6afafa",
+    "lib/saha/selective-reuse-read-guard.ts": "c27033d36dbc1114d0dc52697ee85200c52de8b5042af11a96ebbb1c06f8bdbd",
+    "tests/selective-reuse-contract.mjs": "5650fb817de11d2822a255889be6602ce002172d033878098a44f7361de1df2e",
+    "tests/lib/selective-reuse-native-runtime.mjs": "01a73121811439f721cb64f157f1f955367667f8da618a5379930ead8c853511",
+    "tests/lib/selective-reuse-browser-driver.mjs": "094e5d7b4cbb39dd7131f72c1155d1eff80f5688bca464b8c2282bde61c67f61",
+    "tests/smoke/selective-reuse-browser.mjs": "b253020c5172d1195bd41b13fe7c9090bc78204fa3ce2b196eb4352952857d9a"
+  },
+  "originalSourcePins": {
+    "lib/saha/core.ts": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+    "lib/saha/store.ts": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+    "lib/saha/server.ts": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+    "lib/saha/identity.ts": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+    "lib/saha/access.ts": "26f5fdc7fe7bedd29de9f07773e7d2e4d1ba1249503c8a27773f007219c32789",
+    "lib/saha/access-audit.ts": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a",
+    "lib/saha/purpose-scope.ts": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+    "lib/saha/mis.ts": "4fe3e6222f7a277de95aa15ab61acf2ebd395d180ee5eee5108f8dbaba47c6f6",
+    "lib/saha/adapter-operations.ts": "7b167b3bc3b06a937677317e69376fb87b3a63985ceb04ffaf565240a88ded1e",
+    "lib/saha/caseload.ts": "844e87ef2e719d70d9212e17171d9ff415361d35dd497b20ad4db5b597f6ee45",
+    "lib/saha/caseload-schedule.ts": "68e8864cb5b35cda05544c823285984bc2acff059f8be5c9a63ef5d666d06a53",
+    "tests/regression-baseline.json": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0"
+  },
+  "pure": {
+    "passed": 38,
+    "failed": 0,
+    "skipped": 0,
+    "file": "author-history/pure-004/result.json"
+  },
+  "native": {
+    "passed": 49,
+    "failed": 0,
+    "skipped": 0,
+    "file": "author-history/native-003/native/result.json"
+  },
+  "originalGuard": {
+    "suites": 4,
+    "passed": 103,
+    "failed": 0,
+    "guardPassed": true,
+    "file": "author-history/original-001/summary.json",
+    "applicability": "Original MIS45/operations14/purpose11/caseload33 suites and source inputs byte-exact main22a; measured before final typed/scope-only newadapter edits, original inputs unchanged. Not full formal or delivery acceptance."
+  },
+  "build": "author-history/build-004/stdout.log.lossless.json",
+  "types": "author-history/types-004/stdout.log.lossless.json",
+  "lint": "author-history/lint-002/stdout.log.lossless.json",
+  "catalogue": "author-history/catalogue-001/stdout.log.lossless.json",
+  "custody": {
+    "observedPins": 727,
+    "beforeAfterEqual": true,
+    "archive": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/selective-reuse/EXACT-SOURCE-AND-COMPILED-003.zip",
+    "sha256": "5981f8d2ab124752f8c3519bf47f7abe6fc97342e0e6cb5e69beba99e60d1bec",
+    "compiledEntries": 291,
+    "scope": "App/lib/dist and four own test drivers; all original migrations separately pinned. No full dependency/device/OS custody claim.",
+    "retainedPredecessorArchive": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/selective-reuse/EXACT-SOURCE-AND-COMPILED-002.zip",
+      "sha256": "06e9441b3bbc6d14380e09734e47f22445a7b67affe5c1aa74ba8b6f28eb3a54"
+    }
+  },
+  "cleanup": {
+    "atUtc": "2026-10-13T03:47:40.328Z",
+    "disposed": true,
+    "port": 21881,
+    "portFree": true,
+    "failed": false
+  },
+  "limits": [
+    "Explicit current assigned ASHA/normal-scope clinician reviews one original confirmed encounter plus exact existing destination/purpose; selected original configured measurement allowlist only. No extra patient/provider/database, model, clinical policy, approve, prepare, execute, submission or external call.",
+    "Original purposeRefusal/programme/normal care scope/exchangeConsent/mappingSchema/mappedPayload/assertMappingEffective/operationRefusal determine preview. Selected weight mapped to destinationA is excluded from destinationB without weightmapping; unapproved AI purpose withholds all values/allowlist/oldpayload and does not imply provider eligibility.",
+    "No new per-field destination/purpose policy invented. Fixed original vocabulary only; configured mapping/test states are existing recorded software metadata, not clinical/domain/partner approval or liveprovider authority. Full approved vocabulary/per-destination-domain policy remains open.",
+    "AI payloads are never constructed, even if current AI permission exists; original tool/capability/input/minimisation review remains separate. Unsupported notes mapping/correctionhistory are held because boundedreader cannot claim wider cross-patient privacy/ancestor receipt proof.",
+    "Original existing preparePlan receipt is optional current selectedpayload comparison only: actor/org/person/type/result/commandhash plus exact original complete plan.payloadHash and selectedpayload/currentversions. No new prepare wrapper duplicates PR219 or invents expectedcontext guard on original command which has none.",
+    "Current readState/originalidentity/scope/audit; raw organization/member/team/patient/visit/plans/AIresults/submissions/integration/operations/governance/originalreceipt/known-transfer all before/final proof. No bootstrap/due scheduler. Current futureexpiry clearsUI; due/held/corrupt queue refuses without writes. No stronger atomic guarantee after lastsnapshot.",
+    "Actual local fixture original registration/configuration/clinicalcapture/confirm/prepare commands are setup only; recorded active/mapping-test profile values are inertcontrolledsynthetic flags, never actualpartner probe/credentials/clinical approval. Newmobile executes GETonly; all60 readtables same exceptauditmetrics.",
+    "Old preparedpayload remainsstored whenpurpose/consentwithdrawn but readerwithholds all itsvalues/currentreceiptcomparison; no destructive correction/recall/permission invention. Currentauditraces/preparedreceipt/digest/malformedmapping/refusal and no-clinicalwrite proofs preserved.",
+    "Full formalcatalogue/human/domain/partner/device/offline/hosting/storydelivery gates remainopen.38pure/49native/103original are separate counts; source-only candidate needs genuine different-agent source review then rootmetadata/CI/publication."
+  ]
+}

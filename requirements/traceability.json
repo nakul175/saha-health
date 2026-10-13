@@ -1062,7 +1062,7 @@
       "sourceTextLine": 225,
       "implementation": "partial",
       "target": "R12",
-      "current": "Per-connector mapping allowlists, AI permission and scoped EHR permissions. Slice R09 added purpose-limited grants; slice 13a checks them at every data-flow checkpoint (plans, submissions, destination enrolment, identifier corrections, incentive claims, EHR and ABDM flows, assistant runs, anaemia and frontline providers, aggregate reports and indicator figures, household disclosure). Overnight access/recovery checkpoint (11 October 2026): final consistent Routine/Today access checks, bounded ACCESS append liveness, original-organisation dispatch and original-account exact-attempt recovery have scoped native/browser and final203-unit/API/restore evidence. See docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md and EVIDENCE-20261011-AUTHORITY.json. Current-head CI, complete applicable physical/reference-device NFR and hosted A10 remain pending; wider captured-member helper and formal acceptance are not closed. Integrated audit qualification (11 October 2026): current-membership append/postcheck and native excess-count witness pass fresh current305 full205/10791 guarded205; same-runtime canonical166/14529 passes guarded166 with one inherited media skip and excluded old13 unit fixture declared. All380 prior guard records remain exact. See docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md and EVIDENCE-20261011-AUDIT-GUARD.json for exact source/setup limits and saved Git receipts. Complete real UI/reference NFR02, originalNFR5, final-head CI, separate final review and A10 remain pending; physical/clinical/formal acceptance is unchanged.",
+      "current": "Per-connector mapping allowlists, AI permission and scoped EHR permissions. Slice R09 added purpose-limited grants; slice 13a checks them at every data-flow checkpoint (plans, submissions, destination enrolment, identifier corrections, incentive claims, EHR and ABDM flows, assistant runs, anaemia and frontline providers, aggregate reports and indicator figures, household disclosure). Overnight access/recovery checkpoint (11 October 2026): final consistent Routine/Today access checks, bounded ACCESS append liveness, original-organisation dispatch and original-account exact-attempt recovery have scoped native/browser and final203-unit/API/restore evidence. See docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md and EVIDENCE-20261011-AUTHORITY.json. Current-head CI, complete applicable physical/reference-device NFR and hosted A10 remain pending; wider captured-member helper and formal acceptance are not closed. Integrated audit qualification (11 October 2026): current-membership append/postcheck and native excess-count witness pass fresh current305 full205/10791 guarded205; same-runtime canonical166/14529 passes guarded166 with one inherited media skip and excluded old13 unit fixture declared. All380 prior guard records remain exact. See docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md and EVIDENCE-20261011-AUDIT-GUARD.json for exact source/setup limits and saved Git receipts. Complete real UI/reference NFR02, originalNFR5, final-head CI, separate final review and A10 remain pending; physical/clinical/formal acceptance is unchanged. Bounded13October2026 current-care selected mapped payload/allowlist and original own receipt review:44 pure/57 native/103 original; known mapping deadline/privacy collision corrections independently reviewed. See docs/current/next50/SELECTIVE-REUSE-20261013.md. Full per-field/domain/partner/physical/formal/hosting criteria remain open.",
       "remaining": "Approved purpose vocabulary and per-destination reuse policy; re-checking already prepared payloads when a grant changes.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1089,7 +1089,20 @@
         "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
         "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
         "docs/current/d03/BASELINE-IMPACT-20261011.md",
-        "docs/current/d03/EVIDENCE-20261011-BASELINE.json"
+        "docs/current/d03/EVIDENCE-20261011-BASELINE.json",
+        "app/api/selective-reuse/route.ts",
+        "app/selective-reuse/page.tsx",
+        "app/selective-reuse/screen.tsx",
+        "app/selective-reuse/style.css",
+        "lib/saha/selective-reuse.ts",
+        "lib/saha/selective-reuse-server.ts",
+        "lib/saha/selective-reuse-read-guard.ts",
+        "tests/selective-reuse-contract.mjs",
+        "tests/lib/selective-reuse-native-runtime.mjs",
+        "tests/lib/selective-reuse-browser-driver.mjs",
+        "tests/smoke/selective-reuse-browser.mjs",
+        "docs/current/next50/SELECTIVE-REUSE-20261013.md",
+        "tests/evidence/selective-reuse-publication-20261013/manifest.json"
       ],
       "automatedAcceptanceClaim": false
     },

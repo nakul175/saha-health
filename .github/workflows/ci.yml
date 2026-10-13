@@ -51,6 +51,11 @@ jobs:
         run: node scripts/test.mjs integration smoke --only integration/routine-authority-http,integration/routine-organisation-http,integration/routine-attempt-browser,smoke/routine-visit-browser,integration/routine-telemetry-retention-http --fast --guard
       - name: Supply-chain gate (SBOM and audit)
         run: node scripts/security-gate.mjs
+      - name: Current selected mapped payload and original receipt review
+        env:
+          SAHA_TEST_PORT: '21881'
+          SAHA_SELECTIVE_OWNED_OUTPUT: tests/reports/selective-reuse-ci
+        run: node scripts/test.mjs smoke --only smoke/selective-reuse-browser --fast --guard --report tests/reports/selective-reuse-ci-summary.json
       # Slice 11g (test review M7, H1): every suite runs through scripts/test.mjs. It builds the HTTP suite's local D1 in one
       # wrangler call (one process per migration failed 4 of 6 trials on a loaded machine), runs the restore drill on the
       # database the HTTP suite populated, and --guard fails when a suite disappears or reports fewer passed assertions than
@@ -297,7 +302,11 @@ jobs:
                                'Canonical runner restores tracked test evidence: these restored files are not current-run evidence.',
                                'Installer and generated fixture data differences require explicit applicability review.']}
           (out / (phase + '.json')).write_text(json.dumps(record, indent=2) + '\n')
-          assert len(baseline['suites']) == 389, 'Original 389 guarded records must remain'
+          additional = {"unit/selective-reuse-contract":{"layer":"unit","file":"tests/selective-reuse-contract.mjs","minPassed":44},"smoke/selective-reuse-browser":{"layer":"smoke","file":"tests/smoke/selective-reuse-browser.mjs","minPassed":57}}
+          original_suites = {k:v for k,v in baseline['suites'].items() if k not in additional}
+          assert len(original_suites) == 389, 'Original 389 guarded records must remain'
+          assert hashlib.sha256(json.dumps(original_suites,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 records/minima changed'
+          assert len(baseline['suites']) == 391 and all(baseline['suites'].get(k)==v for k,v in additional.items()), 'Only observed44 selective logic and57 native guards added'
           if phase == 'final':
               before = json.loads((out / 'before-install.json').read_text())
               assert before['baseline'] == baseline, 'Original baseline changed'

@@ -1,0 +1,28 @@
+{
+  "checks": [
+    "Opaque current worker default metadata only",
+    "All60 default read tables unchanged except audit/metrics",
+    "No patient fact/secret/endpoint before selection",
+    "Selected weight destination gets only original mapped weight",
+    "Unmapped temperature/notes not payload values",
+    "Second destination withoutweightmapping excludes approved weight",
+    "Unapproved AI purpose withholds all fact/payload values",
+    "Actual existing original preparePlan receipt revalidated for selected allowlist",
+    "Readback of existing prepared payload creates no plan/receipt/submission",
+    "Corrupt original complete plan hash never claimed current",
+    "Wrong original command receipt digest not claimed",
+    "Anonymous refuses",
+    "Unknown subject refuses without bootstrap",
+    "Closed selector refuses &personId=foreign",
+    "Closed selector refuses &execute=true",
+    "Closed selector refuses &purpose=prescribe",
+    "Foreign encounter refuses",
+    "Foreign destination refuses",
+    "Selective review has no POST or plan creation",
+    "Original account binding refuses mismatch",
+    "Already prepared payload withheld after current purpose withdrawal without mutation"
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: {\"error\":\"Current consent or membership source is unavailable.\"}\n\n503 !== 200\n\n    at read (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-selective-reuse-20261013/tests/lib/selective-reuse-browser-driver.mjs:7:231)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-selective-reuse-20261013/tests/lib/selective-reuse-browser-driver.mjs:11:958",
+  "external": [],
+  "errors": []
+}

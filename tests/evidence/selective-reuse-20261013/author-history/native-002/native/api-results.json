@@ -1,0 +1,979 @@
+[
+  {
+    "status": 200,
+    "chosen": {},
+    "value": {
+      "organisationId": "org_a0921cdf36c8ac8ecb32e223206ea8fd",
+      "actorId": "worker@example.invalid",
+      "personId": "907517a5-7fe2-47bd-bdd0-6799de7f3676",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+          "version": 3,
+          "date": "2026-10-13T03:11"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "3a954327-7883-474c-826b-9936fba5aa2e",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": null,
+      "readOnly": true
+    }
+  },
+  {
+    "status": 200,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+      "purpose": "programme-delivery"
+    },
+    "value": {
+      "organisationId": "org_a0921cdf36c8ac8ecb32e223206ea8fd",
+      "actorId": "worker@example.invalid",
+      "personId": "907517a5-7fe2-47bd-bdd0-6799de7f3676",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+          "version": 3,
+          "date": "2026-10-13T03:11"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "3a954327-7883-474c-826b-9936fba5aa2e",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+        "visitVersion": 3,
+        "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+        "purpose": "programme-delivery",
+        "state": "permitted-preview",
+        "reason": null,
+        "mapping": [
+          {
+            "source": "weight",
+            "target": "mass",
+            "required": true
+          }
+        ],
+        "excluded": [
+          "terminologyCode",
+          "weightSource",
+          "weightObservedAt",
+          "weightUnit",
+          "temperatureSource",
+          "temperatureObservedAt",
+          "temperatureUnit",
+          "systolicSource",
+          "systolicObservedAt",
+          "systolicUnit",
+          "diastolicSource",
+          "diastolicObservedAt",
+          "diastolicUnit",
+          "weeksSource",
+          "weeksObservedAt",
+          "weeksUnit",
+          "coughDaysSource",
+          "coughDaysObservedAt",
+          "coughDaysUnit",
+          "personId",
+          "visitId",
+          "date",
+          "source",
+          "systolic",
+          "diastolic",
+          "temperature",
+          "weeks",
+          "coughDays",
+          "notes"
+        ],
+        "payload": {
+          "contract": "saha-mis-v1",
+          "environment": "synthetic",
+          "operation": "submit",
+          "fields": {
+            "mass": "55"
+          }
+        },
+        "payloadHash": "78561ffe53b655d6cfaf8feafa3156c5b431ccc5b8a07cc88e7a8dc46c733e30",
+        "originalPlan": null
+      },
+      "readOnly": true
+    }
+  },
+  {
+    "status": 200,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+      "purpose": "programme-delivery"
+    },
+    "value": {
+      "organisationId": "org_a0921cdf36c8ac8ecb32e223206ea8fd",
+      "actorId": "worker@example.invalid",
+      "personId": "907517a5-7fe2-47bd-bdd0-6799de7f3676",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+          "version": 3,
+          "date": "2026-10-13T03:11"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "3a954327-7883-474c-826b-9936fba5aa2e",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+        "visitVersion": 3,
+        "destinationId": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+        "purpose": "programme-delivery",
+        "state": "permitted-preview",
+        "reason": null,
+        "mapping": [
+          {
+            "source": "temperature",
+            "target": "temp",
+            "required": true
+          }
+        ],
+        "excluded": [
+          "terminologyCode",
+          "weightSource",
+          "weightObservedAt",
+          "weightUnit",
+          "temperatureSource",
+          "temperatureObservedAt",
+          "temperatureUnit",
+          "systolicSource",
+          "systolicObservedAt",
+          "systolicUnit",
+          "diastolicSource",
+          "diastolicObservedAt",
+          "diastolicUnit",
+          "weeksSource",
+          "weeksObservedAt",
+          "weeksUnit",
+          "coughDaysSource",
+          "coughDaysObservedAt",
+          "coughDaysUnit",
+          "personId",
+          "visitId",
+          "date",
+          "source",
+          "systolic",
+          "diastolic",
+          "weight",
+          "weeks",
+          "coughDays",
+          "notes"
+        ],
+        "payload": {
+          "contract": "saha-mis-v1",
+          "environment": "synthetic",
+          "operation": "submit",
+          "fields": {
+            "temp": "37"
+          }
+        },
+        "payloadHash": "3f4f2c96e1e7c6610e9a9fb86c7e953996d1ca31180de7e4a76a1f161b14a842",
+        "originalPlan": null
+      },
+      "readOnly": true
+    }
+  },
+  {
+    "status": 200,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+      "purpose": "ai-assistance"
+    },
+    "value": {
+      "organisationId": "org_a0921cdf36c8ac8ecb32e223206ea8fd",
+      "actorId": "worker@example.invalid",
+      "personId": "907517a5-7fe2-47bd-bdd0-6799de7f3676",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+          "version": 3,
+          "date": "2026-10-13T03:11"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "3a954327-7883-474c-826b-9936fba5aa2e",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+        "visitVersion": 3,
+        "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+        "purpose": "ai-assistance",
+        "state": "withheld",
+        "reason": "The current original purpose grant does not permit this use. No fact or payload was disclosed.",
+        "mapping": [],
+        "excluded": [],
+        "payload": null,
+        "payloadHash": null,
+        "originalPlan": null
+      },
+      "readOnly": true
+    }
+  },
+  {
+    "status": 200,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+      "purpose": "programme-delivery"
+    },
+    "value": {
+      "organisationId": "org_a0921cdf36c8ac8ecb32e223206ea8fd",
+      "actorId": "worker@example.invalid",
+      "personId": "907517a5-7fe2-47bd-bdd0-6799de7f3676",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+          "version": 3,
+          "date": "2026-10-13T03:11"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "3a954327-7883-474c-826b-9936fba5aa2e",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+        "visitVersion": 3,
+        "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+        "purpose": "programme-delivery",
+        "state": "permitted-preview",
+        "reason": null,
+        "mapping": [
+          {
+            "source": "weight",
+            "target": "mass",
+            "required": true
+          }
+        ],
+        "excluded": [
+          "terminologyCode",
+          "weightSource",
+          "weightObservedAt",
+          "weightUnit",
+          "temperatureSource",
+          "temperatureObservedAt",
+          "temperatureUnit",
+          "systolicSource",
+          "systolicObservedAt",
+          "systolicUnit",
+          "diastolicSource",
+          "diastolicObservedAt",
+          "diastolicUnit",
+          "weeksSource",
+          "weeksObservedAt",
+          "weeksUnit",
+          "coughDaysSource",
+          "coughDaysObservedAt",
+          "coughDaysUnit",
+          "personId",
+          "visitId",
+          "date",
+          "source",
+          "systolic",
+          "diastolic",
+          "temperature",
+          "weeks",
+          "coughDays",
+          "notes"
+        ],
+        "payload": {
+          "contract": "saha-mis-v1",
+          "environment": "synthetic",
+          "operation": "submit",
+          "fields": {
+            "mass": "55"
+          }
+        },
+        "payloadHash": "78561ffe53b655d6cfaf8feafa3156c5b431ccc5b8a07cc88e7a8dc46c733e30",
+        "originalPlan": {
+          "id": "8d2c0021-1a8d-414f-8595-ed609ba804fb",
+          "state": "proposed",
+          "receiptKey": "52385101-83ab-47a3-81dc-8ac6714b4594",
+          "commandHash": "420f4f4a30e413107610435b93ee09cbc44f6fafab0970c5e707230a83f6bab7",
+          "comparison": "matches-current-selected-payload"
+        }
+      },
+      "readOnly": true
+    }
+  },
+  {
+    "status": 200,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+      "purpose": "programme-delivery"
+    },
+    "value": {
+      "organisationId": "org_a0921cdf36c8ac8ecb32e223206ea8fd",
+      "actorId": "worker@example.invalid",
+      "personId": "907517a5-7fe2-47bd-bdd0-6799de7f3676",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+          "version": 3,
+          "date": "2026-10-13T03:11"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "3a954327-7883-474c-826b-9936fba5aa2e",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+        "visitVersion": 3,
+        "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+        "purpose": "programme-delivery",
+        "state": "permitted-preview",
+        "reason": null,
+        "mapping": [
+          {
+            "source": "weight",
+            "target": "mass",
+            "required": true
+          }
+        ],
+        "excluded": [
+          "terminologyCode",
+          "weightSource",
+          "weightObservedAt",
+          "weightUnit",
+          "temperatureSource",
+          "temperatureObservedAt",
+          "temperatureUnit",
+          "systolicSource",
+          "systolicObservedAt",
+          "systolicUnit",
+          "diastolicSource",
+          "diastolicObservedAt",
+          "diastolicUnit",
+          "weeksSource",
+          "weeksObservedAt",
+          "weeksUnit",
+          "coughDaysSource",
+          "coughDaysObservedAt",
+          "coughDaysUnit",
+          "personId",
+          "visitId",
+          "date",
+          "source",
+          "systolic",
+          "diastolic",
+          "temperature",
+          "weeks",
+          "coughDays",
+          "notes"
+        ],
+        "payload": {
+          "contract": "saha-mis-v1",
+          "environment": "synthetic",
+          "operation": "submit",
+          "fields": {
+            "mass": "55"
+          }
+        },
+        "payloadHash": "78561ffe53b655d6cfaf8feafa3156c5b431ccc5b8a07cc88e7a8dc46c733e30",
+        "originalPlan": {
+          "id": "8d2c0021-1a8d-414f-8595-ed609ba804fb",
+          "state": "proposed",
+          "receiptKey": "52385101-83ab-47a3-81dc-8ac6714b4594",
+          "commandHash": "420f4f4a30e413107610435b93ee09cbc44f6fafab0970c5e707230a83f6bab7",
+          "comparison": "matches-current-selected-payload"
+        }
+      },
+      "readOnly": true
+    }
+  },
+  {
+    "status": 200,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+      "purpose": "programme-delivery"
+    },
+    "value": {
+      "organisationId": "org_a0921cdf36c8ac8ecb32e223206ea8fd",
+      "actorId": "worker@example.invalid",
+      "personId": "907517a5-7fe2-47bd-bdd0-6799de7f3676",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+          "version": 3,
+          "date": "2026-10-13T03:11"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "3a954327-7883-474c-826b-9936fba5aa2e",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+        "visitVersion": 3,
+        "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+        "purpose": "programme-delivery",
+        "state": "permitted-preview",
+        "reason": null,
+        "mapping": [
+          {
+            "source": "weight",
+            "target": "mass",
+            "required": true
+          }
+        ],
+        "excluded": [
+          "terminologyCode",
+          "weightSource",
+          "weightObservedAt",
+          "weightUnit",
+          "temperatureSource",
+          "temperatureObservedAt",
+          "temperatureUnit",
+          "systolicSource",
+          "systolicObservedAt",
+          "systolicUnit",
+          "diastolicSource",
+          "diastolicObservedAt",
+          "diastolicUnit",
+          "weeksSource",
+          "weeksObservedAt",
+          "weeksUnit",
+          "coughDaysSource",
+          "coughDaysObservedAt",
+          "coughDaysUnit",
+          "personId",
+          "visitId",
+          "date",
+          "source",
+          "systolic",
+          "diastolic",
+          "temperature",
+          "weeks",
+          "coughDays",
+          "notes"
+        ],
+        "payload": {
+          "contract": "saha-mis-v1",
+          "environment": "synthetic",
+          "operation": "submit",
+          "fields": {
+            "mass": "55"
+          }
+        },
+        "payloadHash": "78561ffe53b655d6cfaf8feafa3156c5b431ccc5b8a07cc88e7a8dc46c733e30",
+        "originalPlan": null
+      },
+      "readOnly": true
+    }
+  },
+  {
+    "status": 200,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+      "purpose": "programme-delivery"
+    },
+    "value": {
+      "organisationId": "org_a0921cdf36c8ac8ecb32e223206ea8fd",
+      "actorId": "worker@example.invalid",
+      "personId": "907517a5-7fe2-47bd-bdd0-6799de7f3676",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+          "version": 3,
+          "date": "2026-10-13T03:11"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "3a954327-7883-474c-826b-9936fba5aa2e",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+        "visitVersion": 3,
+        "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+        "purpose": "programme-delivery",
+        "state": "permitted-preview",
+        "reason": null,
+        "mapping": [
+          {
+            "source": "weight",
+            "target": "mass",
+            "required": true
+          }
+        ],
+        "excluded": [
+          "terminologyCode",
+          "weightSource",
+          "weightObservedAt",
+          "weightUnit",
+          "temperatureSource",
+          "temperatureObservedAt",
+          "temperatureUnit",
+          "systolicSource",
+          "systolicObservedAt",
+          "systolicUnit",
+          "diastolicSource",
+          "diastolicObservedAt",
+          "diastolicUnit",
+          "weeksSource",
+          "weeksObservedAt",
+          "weeksUnit",
+          "coughDaysSource",
+          "coughDaysObservedAt",
+          "coughDaysUnit",
+          "personId",
+          "visitId",
+          "date",
+          "source",
+          "systolic",
+          "diastolic",
+          "temperature",
+          "weeks",
+          "coughDays",
+          "notes"
+        ],
+        "payload": {
+          "contract": "saha-mis-v1",
+          "environment": "synthetic",
+          "operation": "submit",
+          "fields": {
+            "mass": "55"
+          }
+        },
+        "payloadHash": "78561ffe53b655d6cfaf8feafa3156c5b431ccc5b8a07cc88e7a8dc46c733e30",
+        "originalPlan": null
+      },
+      "readOnly": true
+    }
+  },
+  {
+    "status": 401,
+    "chosen": {},
+    "value": {
+      "error": "Sign in to use your workspace."
+    }
+  },
+  {
+    "status": 403,
+    "chosen": {},
+    "value": {
+      "error": "Your organisation membership is inactive or unavailable."
+    }
+  },
+  {
+    "status": 400,
+    "chosen": {},
+    "value": {
+      "error": "Choose exact current person, encounter, destination and original purpose."
+    }
+  },
+  {
+    "status": 400,
+    "chosen": {},
+    "value": {
+      "error": "Choose exact current person, encounter, destination and original purpose."
+    }
+  },
+  {
+    "status": 400,
+    "chosen": {},
+    "value": {
+      "error": "Choose exact current person, encounter, destination and original purpose."
+    }
+  },
+  {
+    "status": 404,
+    "chosen": {
+      "visitId": "foreign"
+    },
+    "value": {
+      "error": "Choose an exact current original confirmed encounter."
+    }
+  },
+  {
+    "status": 404,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "foreign",
+      "purpose": "programme-delivery"
+    },
+    "value": {
+      "error": "Choose one exact existing destination."
+    }
+  },
+  {
+    "status": 200,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+      "purpose": "programme-delivery"
+    },
+    "value": {
+      "organisationId": "org_a0921cdf36c8ac8ecb32e223206ea8fd",
+      "actorId": "worker@example.invalid",
+      "personId": "907517a5-7fe2-47bd-bdd0-6799de7f3676",
+      "refreshAt": null,
+      "visits": [
+        {
+          "id": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+          "version": 3,
+          "date": "2026-10-13T03:11"
+        }
+      ],
+      "destinations": [
+        {
+          "id": "3a954327-7883-474c-826b-9936fba5aa2e",
+          "name": "Synthetic weight destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "8571469e-f4bd-4faf-b392-d56ca83ba442",
+          "name": "Synthetic temperature destination",
+          "kind": "mis",
+          "version": 2
+        },
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "ai",
+          "version": 1
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "mis",
+          "version": 1
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "mis",
+          "version": 1
+        }
+      ],
+      "selected": {
+        "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+        "visitVersion": 3,
+        "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+        "purpose": "programme-delivery",
+        "state": "withheld",
+        "reason": "The current original purpose grant does not permit this use. No fact or payload was disclosed.",
+        "mapping": [],
+        "excluded": [],
+        "payload": null,
+        "payloadHash": null,
+        "originalPlan": null
+      },
+      "readOnly": true
+    }
+  },
+  {
+    "status": 503,
+    "chosen": {
+      "visitId": "a4c7ee77-6fdc-4974-b842-042534ad9ba9",
+      "destinationId": "3a954327-7883-474c-826b-9936fba5aa2e",
+      "purpose": "programme-delivery"
+    },
+    "value": {
+      "error": "Current consent or membership source is unavailable."
+    }
+  }
+]

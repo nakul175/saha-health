@@ -1,0 +1,175 @@
+{
+  "generatedAt": "2026-10-13T04:03:31.944Z",
+  "startedAt": "2026-10-13T04:03:28.680Z",
+  "command": "node scripts/test.mjs unit --only unit/mis-contract,unit/adapter-operations-contract,unit/purpose-scope-contract,unit/caseload-schedule-contract --fast --guard --report ../../outputs/saha-next50-20261012/selective-reuse/deadline-repair/original001.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 4,
+      "passed": 103,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3093,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 103,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 3264
+  },
+  "suites": [
+    {
+      "id": "unit/adapter-operations-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-adapter-operations-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 766,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__adapter-operations-contract.log"
+    },
+    {
+      "id": "unit/caseload-schedule-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-caseload-schedule-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 772,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__caseload-schedule-contract.log"
+    },
+    {
+      "id": "unit/mis-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-mis-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 776,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 20,
+      "reason": null,
+      "log": "tests/reports/logs/unit__mis-contract.log"
+    },
+    {
+      "id": "unit/purpose-scope-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-purpose-scope-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 779,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__purpose-scope-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 4,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/verification-programme-root-integration/fixtures/adapter-operations-contract/adapter-operations-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/caseload-schedule-contract/caseload-schedule-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/mis-contract/mis-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/purpose-scope-contract/purpose-scope-contract-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 42,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 638,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}
