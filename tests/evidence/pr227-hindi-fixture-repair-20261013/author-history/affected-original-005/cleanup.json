@@ -1,0 +1,37 @@
+{
+  "port": 21999,
+  "portFree": true,
+  "ownedCommand": {
+    "command": "/Users/athena/.local/node/v24.21.0/bin/node",
+    "args": [
+      "scripts/test.mjs",
+      "integration",
+      "--only",
+      "integration/asha-guided-capture-browser,integration/asha-guided-capture-conditional,integration/asha-guided-capture-legacy-range,integration/asha-guided-capture-uncertainty",
+      "--fast",
+      "--guard",
+      "--report",
+      "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/pr227-hindi-fixture-repair/affected-original-005/summary.json"
+    ],
+    "startedAt": "2026-10-13T04:20:25.317Z",
+    "pid": 84388,
+    "registeredGroup": 84388,
+    "cleanupScope": "registered own process group",
+    "timeoutMs": 300000,
+    "graceMs": 10000,
+    "timedOut": false,
+    "cancelled": false,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "cleanupErrors": [],
+    "signals": [],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": [],
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-13T04:20:50.180Z",
+    "ms": 24861.670000000002,
+    "ok": true
+  }
+}

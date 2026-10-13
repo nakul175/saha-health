@@ -1,0 +1,185 @@
+{
+  "generatedAt": "2026-10-13T04:20:50.137Z",
+  "startedAt": "2026-10-13T04:20:25.493Z",
+  "command": "node scripts/test.mjs integration --only integration/asha-guided-capture-browser,integration/asha-guided-capture-conditional,integration/asha-guided-capture-legacy-range,integration/asha-guided-capture-uncertainty --fast --guard --report /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/pr227-hindi-fixture-repair/affected-original-005/summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 4,
+      "passed": 92,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 24449,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 92,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 24644
+  },
+  "suites": [
+    {
+      "id": "integration/asha-guided-capture-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 13399,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/phone/browser-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__asha-guided-capture-browser.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-conditional",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-conditional.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5008,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/conditional-fact/result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__asha-guided-capture-conditional.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-legacy-range",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-legacy-range.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2603,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/legacy-range/first-activation-regression.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__asha-guided-capture-legacy-range.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-uncertainty",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-uncertainty.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3439,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/uncertainty/lost-ack.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__asha-guided-capture-uncertainty.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 4,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/asha-guided-capture/conditional-fact/conditional-fact.png",
+      "tests/evidence/asha-guided-capture/phone/phone-hindi.png",
+      "tests/evidence/asha-guided-capture/phone/phone-scope-refusal.png",
+      "tests/evidence/asha-guided-capture/phone/phone-temperature.png",
+      "tests/evidence/asha-guided-capture/uncertainty/lost-ack.json",
+      "tests/evidence/asha-guided-capture/uncertainty/lost-ack.png"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 67,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 17
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 636,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

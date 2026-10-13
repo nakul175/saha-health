@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
+import { resolve, join } from 'node:path';
+import { createHash } from 'node:crypto';
+import { createServer } from 'node:net';
+import { runOwnedCommand } from '../../../../work/saha-pr227-hindi-fixture-repair-20261013/tests/lib/routine-retention/containment.mjs';
+const cwd=resolve('work/saha-pr227-hindi-fixture-repair-20261013'),out=resolve('outputs/saha-next50-20261012/pr227-hindi-fixture-repair/diagnostic-original-001');
+const sha=b=>createHash('sha256').update(b).digest('hex'),pins=()=>{const fs=[],walk=p=>{for(const name of readdirSync(p)){const file=join(p,name);if(statSync(file).isDirectory())walk(file);else fs.push(file)}};for(const folder of ['app','lib','dist'])walk(join(cwd,folder));fs.push(join(cwd,'tests/asha-guided-capture-browser.mjs'));return Object.fromEntries(fs.sort().map(p=>[p.slice(cwd.length+1),sha(readFileSync(p))]));};
+const before=pins();writeFileSync(join(out,'before-source-compiled.json'),JSON.stringify(before,null,2)+'\n');
+const result=await runOwnedCommand(process.execPath,[join(out,'diagnostic.mjs')],{cwd,env:{...process.env,SAHA_GUIDED_HOME_PORT:'21999'},stdout:join(out,'stdout.log'),stderr:join(out,'stderr.log'),timeoutMs:180000,graceMs:10000,onSpawn:h=>writeFileSync(join(out,'registered-handle.json'),JSON.stringify(h,null,2)+'\n',{flag:'wx'})});
+writeFileSync(join(out,'owned-command.json'),JSON.stringify(result,null,2)+'\n');
+const after=pins();writeFileSync(join(out,'final-source-compiled.json'),JSON.stringify({before,after,equal:JSON.stringify(before)===JSON.stringify(after)},null,2)+'\n');
+const probe=createServer();await new Promise((yes,no)=>{probe.once('error',no);probe.listen(21999,'127.0.0.1',()=>probe.close(e=>e?no(e):yes()));});writeFileSync(join(out,'cleanup.json'),JSON.stringify({port:21999,portFree:true,ownedGroupResult:result,scope:'Owned scratch originalWorker helper stop plus outer registered descendant disposal; no foreign group/port'},null,2)+'\n');
+assert.equal(JSON.stringify(before),JSON.stringify(after));
+process.exitCode=result.ok?0:1;
