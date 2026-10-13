@@ -1,0 +1,21 @@
+{
+  "checks": [
+    "Opaque actor retained",
+    "Only selected configured weight field",
+    "Source note absent",
+    "Original allowlist exact",
+    "Unmapped field names carry no values",
+    "No writer/create command flag",
+    "Other destination allowlist excludes weight",
+    "Unapproved second purpose withholds all fields",
+    "Default metadata contains no facts/payload",
+    "Exact closed selector",
+    "Unsupported selector refuses personId=p&personId=x",
+    "Unsupported selector refuses personId=p&visitId=v&destinationId=weight-dest",
+    "Unsupported selector refuses personId=p&purpose=ai-assistance",
+    "Unsupported selector refuses personId=p&prompt=diagnose",
+    "Unsupported selector refuses personId=p&visitId=v&destinationId=weight-dest&purpose=prescribe",
+    "Existing exact original prepare receipt revalidated"
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: Corrupt stored complete plan digest must not claim original prepared-plan receipt\n+ actual - expected\n\n+ {\n+   commandHash: 'c3e369b58869e038750b3b893e82ca17d71a4c2ae6cf06e601df05aef4fb11b4',\n+   comparison: 'matches-current-selected-payload',\n+   id: 'plan',\n+   receiptKey: 'original-key',\n+   state: 'proposed'\n+ }\n- null\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-selective-reuse-20261013/tests/selective-reuse-planhash.tmp.mjs:5:991"
+}

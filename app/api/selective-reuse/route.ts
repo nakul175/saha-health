@@ -1,0 +1,1 @@
+import {selectiveReuseRead} from '@/lib/saha/selective-reuse-server';import {error} from '@/lib/saha/server';import {measured} from '@/lib/saha/monitoring';export const dynamic='force-dynamic';export async function GET(r:Request){return measured(r,'action-plan',async()=>{try{return await selectiveReuseRead(r);}catch(e){return error(e);}});}

@@ -1,0 +1,5 @@
+{
+  "atUtc": "2026-10-13T03:07:44.693642+00:00",
+  "actualFailure": "Pure001 called unapproved purpose; projection intentionally withheld every mapped value/allowlist, but response field reused original mappingSchema min1 and rejected [] instead of returning valid closed withholding.",
+  "correction": "New response accepts empty list only when withheld; original positive mappingSchema and actual source mapping minimum unchanged. Strengthen positive branch mapping nonempty. Preserve failure001, original checks/minima unchanged."
+}
