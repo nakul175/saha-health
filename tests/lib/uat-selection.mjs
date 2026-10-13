@@ -132,6 +132,9 @@ export async function loadNavigation() {
 const PERSON = 'Person page and visit';
 export const ROUTINE_CAPTURE_SCREEN = 'Candidate ASHA routine visit (Today > Review routine visit; deployment pending)';
 export const PANEL_HOME = {
+  // Source citation for direct read-only route; not a verified workspace entry click path.
+  'app/deployment-evidence-review/page.tsx': ['Clinical governance'],
+  'app/deployment-evidence-review/screen.tsx': ['Clinical governance'],
   'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/registration-guidance.tsx': ['My work', 'People'],
   'app/frontline-guidance.tsx': ['ASHA app Home (/app)'],

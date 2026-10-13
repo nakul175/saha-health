@@ -490,7 +490,7 @@ Versioned capability manifest records owner, model/task/context scope, support a
 - **Catalogue:** Functional, fixture FX-AI-03, catalogue owner "QA with AI governance owner".
 - **Run as:** Organisation owner / programme lead. Basis: requirement area default (BR-AI; catalogue owner "QA with AI governance owner").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-AI-03: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Clinical governance. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -508,7 +508,7 @@ Versioned capability manifest records owner, model/task/context scope, support a
 
 <details><summary>What the build does today (assessment, current state of BR-AI-03)</summary>
 
-Version-bound synthetic evaluation, separate clinical review and owner activation are persisted and checked at use. Independent anaemia demo remains outside clinical activation and carries clinicalUse:false; real model use is engineering-only.
+Version-bound synthetic evaluation, separate clinical review and owner activation are persisted and checked at use. Independent anaemia demo remains outside clinical activation and carries clinicalUse:false; real model use is engineering-only. Bounded SAHA054/APL77 read-only evidence review (13 October2026) separates current provider/model/corpus evidence, intended population and settings, original recorded review/localstate, and explicitly unrecorded regulatory/signed clinical deployment authorisation. Actual35 pure/40 local D1-mobile/171 original guarded checks and separate bounded root review pass; no model/provider invocation, approval or activation. See docs/current/deployment-evidence-review/QUALIFICATION-20261013.md. Full source-required clinical/regulatory/representative evidence, current-head CI and hosting remain open.
 
 </details>
 
