@@ -128,6 +128,16 @@ export default function Today() {
           <button onClick={() => void load()}>Back to Today</button>
           <a href={'/routine-visit?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
             encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review routine visit</a>
+          <a href={'/follow-ups?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
+            encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>View planned follow-ups</a>
+          <a href={'/record-matching?organisationId=' + encodeURIComponent(
+            view.kind === 'record' ? view.organisationId : '')}>Find an existing record</a>
+          <a href={'/fact-freshness?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
+            encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review original fact times</a>
+          <a href={'/plan-review?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
+            encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review proposed actions</a>
+          <a href={'/household-proxy-review?personId=' + encodeURIComponent(record.id) + '&organisationId=' + encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review household and proxy boundaries</a>
+          <a href={'/care-permissions?'+new URLSearchParams({organisationId:view.kind==='record'?view.organisationId:''})}>Review my care permissions</a>
         </>
       ) : (
         <>

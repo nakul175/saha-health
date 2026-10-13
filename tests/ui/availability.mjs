@@ -47,6 +47,18 @@ const finalDisable=async(page,panel,org)=>{
   const [response]=await pendingCommand,submitted=metadata(response.request());
   details.submitted=submitted;details.disableStatus=response.status();details.disableRequestId=response.headers()['x-saha-request-id']??null;details.phase='actual single disable response captured before assertions';writeJournal();
   assert.equal(response.status(),200);assert.equal(submitted.command.version,details.renderedReportVersion);assert.equal(submitted.command.reasonSHA256,details.reasonSHA256);assert.equal(submitted.command.reasonLength,details.reasonLength);assert.ok(details.disableRequestId);assert.equal(details.overflow,false);
+  // The command response proves persistence, but the form's automatic refresh
+  // can have been armed before that response and legitimately return the old
+  // enabled snapshot. Perform one explicit post-response refresh and bind the
+  // UI assertion to those exact response bodies; this is not a retry loop.
+  const disabledOperationResponse=page.waitForResponse(response=>{const value=metadata(response.request());return value?.path==='/api/operations'&&value.method==='GET';},{timeout:remaining()});
+  const disabledAvailabilityResponse=page.waitForResponse(response=>{const value=metadata(response.request());return value?.path==='/api/availability'&&value.method==='GET';},{timeout:remaining()});
+  const disabledPending=Promise.all([disabledOperationResponse,disabledAvailabilityResponse]);void disabledPending.catch(()=>{});
+  await page.locator('.operations-page > .page-heading').getByRole('button',{name:'Refresh',exact:true}).click({timeout:remaining()});
+  const [disabledOperation,disabledAvailability]=await disabledPending;
+  const disabledReport=await bounded(()=>disabledAvailability.json());
+  details.disabledRefreshStatus=disabledOperation.status();details.disabledAvailabilityStatus=disabledAvailability.status();details.disabledAvailabilityEnabled=disabledReport.enabled;details.phase='single post-response disabled refresh captured';writeJournal();
+  assert.equal(disabledOperation.status(),200);assert.equal(disabledAvailability.status(),200);assert.equal(disabledReport.enabled,false);
   return {remaining,stop,assertNoOverflow:()=>assert.equal(details.overflow,false)};
  }catch(error){details.phase='failed';details.errorName=error?.name??'Error';details.errorSHA256=hashText(String(error));writeJournal();stop();throw error;}
 };

@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-11",
+  "updatedAt": "2026-10-13",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -668,6 +668,16 @@
       "file": "tests/integration/routine-organisation-http.mjs",
       "minPassed": 52
     },
+    "integration/routine-save-status-browser": {
+      "layer": "integration",
+      "file": "tests/integration/routine-save-status-browser.mjs",
+      "minPassed": 20
+    },
+    "integration/routine-telemetry-retention-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-telemetry-retention-http.mjs",
+      "minPassed": 64
+    },
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-privacy-registration-current.mjs",
@@ -808,6 +818,11 @@
       "file": "tests/nfr/identity-hardening.mjs",
       "minPassed": 29
     },
+    "nfr/identity-numeric-dates": {
+      "layer": "nfr",
+      "file": "tests/nfr/identity-numeric-dates.mjs",
+      "minPassed": 47
+    },
     "nfr/load-burst": {
       "layer": "nfr",
       "file": "tests/nfr/load-burst.mjs",
@@ -828,40 +843,130 @@
       "file": "tests/recovery-drill.mjs",
       "minPassed": 21
     },
+    "smoke/amendments-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/amendments-browser.mjs",
+      "minPassed": 45
+    },
     "smoke/app-back-browser": {
       "layer": "smoke",
       "file": "tests/smoke/app-back-guided-browser.mjs",
       "minPassed": 11
+    },
+    "smoke/assistance-control-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/assistance-control-browser.mjs",
+      "minPassed": 46
+    },
+    "smoke/deployment-evidence-review-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/deployment-evidence-review-browser.mjs",
+      "minPassed": 40
+    },
+    "smoke/fact-freshness-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/fact-freshness-browser.mjs",
+      "minPassed": 49
+    },
+    "smoke/handover-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/handover-browser.mjs",
+      "minPassed": 40
     },
     "smoke/hosted-smoke": {
       "layer": "smoke",
       "file": "tests/smoke/hosted-smoke.mjs",
       "minPassed": 8
     },
+    "smoke/household-proxy-review-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/household-proxy-review-browser.mjs",
+      "minPassed": 60
+    },
+    "smoke/institution-roster-review-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/institution-roster-review-browser.mjs",
+      "minPassed": 55
+    },
+    "smoke/interface-language-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/interface-language-owned-browser.mjs",
+      "minPassed": 55
+    },
     "smoke/local-smoke": {
       "layer": "smoke",
       "file": "tests/smoke/local-smoke.mjs",
       "minPassed": 30
+    },
+    "smoke/observation-time-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/observation-time-browser.mjs",
+      "minPassed": 21
+    },
+    "smoke/own-care-permissions-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/own-care-permissions-browser.mjs",
+      "minPassed": 51
+    },
+    "smoke/programme-pack-review-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/programme-pack-review-browser.mjs",
+      "minPassed": 45
+    },
+    "smoke/programme-status-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/programme-status-browser.mjs",
+      "minPassed": 55
     },
     "smoke/reconciliation-ui": {
       "layer": "smoke",
       "file": "tests/reconciliation-ui.mjs",
       "minPassed": 10
     },
+    "smoke/record-matching-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/record-matching-browser.mjs",
+      "minPassed": 53
+    },
     "smoke/reminder-optout-refresh-browser": {
       "layer": "smoke",
       "file": "tests/reminder-optout-refresh-browser.mjs",
       "minPassed": 13
+    },
+    "smoke/resume-work-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/resume-work-browser.mjs",
+      "minPassed": 31
     },
     "smoke/routine-visit-browser": {
       "layer": "smoke",
       "file": "tests/smoke/routine-visit-browser.mjs",
       "minPassed": 244
     },
+    "smoke/selective-reuse-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/selective-reuse-browser.mjs",
+      "minPassed": 57
+    },
+    "smoke/service-authority-review-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/service-authority-review-browser.mjs",
+      "minPassed": 43
+    },
+    "smoke/task-entry-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/task-entry-browser.mjs",
+      "minPassed": 25
+    },
     "smoke/today-browser": {
       "layer": "smoke",
       "file": "tests/smoke/today-browser.mjs",
       "minPassed": 58
+    },
+    "smoke/workforce-status-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/workforce-status-browser.mjs",
+      "minPassed": 47
     },
     "uat/check-uat-register": {
       "layer": "uat",
@@ -973,6 +1078,11 @@
       "file": "tests/root-verification-current-alerts-contract.mjs",
       "minPassed": 25
     },
+    "unit/amendments-contract": {
+      "layer": "unit",
+      "file": "tests/amendments-contract.mjs",
+      "minPassed": 35
+    },
     "unit/anaemia-provider-contract": {
       "layer": "unit",
       "file": "tests/anaemia-provider-contract.mjs",
@@ -1012,6 +1122,11 @@
       "layer": "unit",
       "file": "tests/app-sw-review-contract.mjs",
       "minPassed": 16
+    },
+    "unit/assistance-control-contract": {
+      "layer": "unit",
+      "file": "tests/assistance-control-contract.mjs",
+      "minPassed": 46
     },
     "unit/atomic-abha-review-contract": {
       "layer": "unit",
@@ -1057,6 +1172,11 @@
       "layer": "unit",
       "file": "tests/bundle-provenance-contract.mjs",
       "minPassed": 50
+    },
+    "unit/capability-age-boundary-contract": {
+      "layer": "unit",
+      "file": "tests/capability-age-boundary-contract.mjs",
+      "minPassed": 24
     },
     "unit/capability-lifecycle-contract": {
       "layer": "unit",
@@ -1158,6 +1278,11 @@
       "file": "tests/root-verification-current-demonstration-contract.mjs",
       "minPassed": 52
     },
+    "unit/deployment-evidence-review-contract": {
+      "layer": "unit",
+      "file": "tests/deployment-evidence-review-contract.mjs",
+      "minPassed": 35
+    },
     "unit/destination-enrolment-contract": {
       "layer": "unit",
       "file": "tests/destination-enrolment-contract.mjs",
@@ -1217,6 +1342,16 @@
       "layer": "unit",
       "file": "tests/root-verification-current-facility-scope-contract.mjs",
       "minPassed": 38
+    },
+    "unit/fact-author-effective-provenance-contract": {
+      "layer": "unit",
+      "file": "tests/fact-author-effective-provenance-contract.mjs",
+      "minPassed": 16
+    },
+    "unit/fact-freshness-contract": {
+      "layer": "unit",
+      "file": "tests/fact-freshness-contract.mjs",
+      "minPassed": 51
     },
     "unit/fact-provenance-contract": {
       "layer": "unit",
@@ -1318,6 +1453,11 @@
       "file": "tests/fourth-review-fixes-contract.mjs",
       "minPassed": 32
     },
+    "unit/frontline-followup-contract": {
+      "layer": "unit",
+      "file": "tests/frontline-followup-contract.mjs",
+      "minPassed": 33
+    },
     "unit/frontline-provider-contract": {
       "layer": "unit",
       "file": "tests/frontline-provider-contract.mjs",
@@ -1328,6 +1468,11 @@
       "file": "tests/root-verification-current-governance-contract.mjs",
       "minPassed": 27
     },
+    "unit/handover-contract": {
+      "layer": "unit",
+      "file": "tests/handover-contract.mjs",
+      "minPassed": 22
+    },
     "unit/household-completion-contract": {
       "layer": "unit",
       "file": "tests/household-completion-contract.mjs",
@@ -1337,6 +1482,11 @@
       "layer": "unit",
       "file": "tests/root-verification-current-household-contract.mjs",
       "minPassed": 12
+    },
+    "unit/household-proxy-review-contract": {
+      "layer": "unit",
+      "file": "tests/household-proxy-review-contract.mjs",
+      "minPassed": 60
     },
     "unit/household-reschedule-contract": {
       "layer": "unit",
@@ -1362,6 +1512,11 @@
       "layer": "unit",
       "file": "tests/identity-contract.mjs",
       "minPassed": 19
+    },
+    "unit/identity-numeric-dates-contract": {
+      "layer": "unit",
+      "file": "tests/identity-numeric-dates-contract.mjs",
+      "minPassed": 20
     },
     "unit/import-unit-parity-contract": {
       "layer": "unit",
@@ -1422,6 +1577,16 @@
       "layer": "unit",
       "file": "tests/installed-programme-execution-repair-contract.mjs",
       "minPassed": 40
+    },
+    "unit/institution-roster-review-contract": {
+      "layer": "unit",
+      "file": "tests/institution-roster-review-contract.mjs",
+      "minPassed": 35
+    },
+    "unit/interface-language-contract": {
+      "layer": "unit",
+      "file": "tests/interface-language-contract.mjs",
+      "minPassed": 42
     },
     "unit/main-review-fixes-contract": {
       "layer": "unit",
@@ -1493,6 +1658,11 @@
       "file": "tests/object-media-independent-discard-contract.mjs",
       "minPassed": 8
     },
+    "unit/observation-time-contract": {
+      "layer": "unit",
+      "file": "tests/observation-time-contract.mjs",
+      "minPassed": 39
+    },
     "unit/offline-open-retirement-writer-contract": {
       "layer": "unit",
       "file": "tests/offline-open-retirement-writer-contract.mjs",
@@ -1543,6 +1713,11 @@
       "file": "tests/root-verification-current-outreach-contract.mjs",
       "minPassed": 55
     },
+    "unit/own-care-permissions-contract": {
+      "layer": "unit",
+      "file": "tests/own-care-permissions-contract.mjs",
+      "minPassed": 45
+    },
     "unit/pack-installation-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-pack-installation-contract.mjs",
@@ -1573,6 +1748,11 @@
       "file": "tests/root-verification-current-plan-dependencies-contract.mjs",
       "minPassed": 9
     },
+    "unit/plan-review-contract": {
+      "layer": "unit",
+      "file": "tests/plan-review-contract.mjs",
+      "minPassed": 36
+    },
     "unit/process-memory-contract": {
       "layer": "unit",
       "file": "tests/process-memory-contract.mjs",
@@ -1583,10 +1763,20 @@
       "file": "tests/root-verification-current-programme-migration-contract.mjs",
       "minPassed": 32
     },
+    "unit/programme-pack-review-contract": {
+      "layer": "unit",
+      "file": "tests/programme-pack-review-contract.mjs",
+      "minPassed": 40
+    },
     "unit/programme-raw-key-contract": {
       "layer": "unit",
       "file": "tests/programme-raw-key-contract.mjs",
       "minPassed": 94
+    },
+    "unit/programme-status-contract": {
+      "layer": "unit",
+      "file": "tests/programme-status-contract.mjs",
+      "minPassed": 31
     },
     "unit/provider-agent-decoded-contract": {
       "layer": "unit",
@@ -1693,6 +1883,11 @@
       "file": "tests/root-verification-current-record-import-contract.mjs",
       "minPassed": 49
     },
+    "unit/record-matching-contract": {
+      "layer": "unit",
+      "file": "tests/record-matching-contract.mjs",
+      "minPassed": 45
+    },
     "unit/referral-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-referral-contract.mjs",
@@ -1743,6 +1938,11 @@
       "file": "tests/root-verification-current-request-body-transport-contract.mjs",
       "minPassed": 8
     },
+    "unit/resume-work-contract": {
+      "layer": "unit",
+      "file": "tests/resume-work-contract.mjs",
+      "minPassed": 30
+    },
     "unit/retention-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-retention-contract.mjs",
@@ -1768,10 +1968,20 @@
       "file": "tests/root-verification-current-roster-contract.mjs",
       "minPassed": 13
     },
+    "unit/routine-conflict-contract": {
+      "layer": "unit",
+      "file": "tests/routine-conflict-contract.mjs",
+      "minPassed": 36
+    },
     "unit/routine-read-guard-contract": {
       "layer": "unit",
       "file": "tests/routine-read-guard-contract.mjs",
       "minPassed": 34
+    },
+    "unit/routine-save-status-contract": {
+      "layer": "unit",
+      "file": "tests/routine-save-status-contract.mjs",
+      "minPassed": 20
     },
     "unit/safe-logs-contract": {
       "layer": "unit",
@@ -1793,10 +2003,20 @@
       "file": "tests/security-audit-response-contract.mjs",
       "minPassed": 499
     },
+    "unit/selective-reuse-contract": {
+      "layer": "unit",
+      "file": "tests/selective-reuse-contract.mjs",
+      "minPassed": 44
+    },
     "unit/send-gate-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-send-gate-contract.mjs",
       "minPassed": 29
+    },
+    "unit/service-authority-review-contract": {
+      "layer": "unit",
+      "file": "tests/service-authority-review-contract.mjs",
+      "minPassed": 35
     },
     "unit/service-dispatch-contract": {
       "layer": "unit",
@@ -1842,6 +2062,11 @@
       "layer": "unit",
       "file": "tests/sync-receipt-projection.mjs",
       "minPassed": 89
+    },
+    "unit/task-entry-contract": {
+      "layer": "unit",
+      "file": "tests/task-entry-contract.mjs",
+      "minPassed": 36
     },
     "unit/task-limits-contract": {
       "layer": "unit",
@@ -1933,6 +2158,11 @@
       "file": "tests/root-verification-current-workforce-import-contract.mjs",
       "minPassed": 68
     },
+    "unit/workforce-status-contract": {
+      "layer": "unit",
+      "file": "tests/workforce-status-contract.mjs",
+      "minPassed": 48
+    },
     "unit/worklists-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-worklists-contract.mjs",
@@ -1942,11 +2172,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "integration/routine-telemetry-retention-http": {
-      "layer": "integration",
-      "file": "tests/integration/routine-telemetry-retention-http.mjs",
-      "minPassed": 64
     }
   },
   "log": [

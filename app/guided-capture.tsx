@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { useI18n } from './i18n';
-import { MEASURES, VALUE_FIELDS, factProvenance, measureValue, normaliseUnits, rangeProblem, selectionForVisit } from '@/lib/saha/fact-provenance';
+import { MEASURES, VALUE_FIELDS, factProvenance, measureValue, normaliseUnits, rangeProblem, selectionForVisit, validObservationMinute } from '@/lib/saha/fact-provenance';
 import type { Facts, Visit } from '@/lib/saha/types';
 import type { Measure } from '@/lib/saha/types';
 import './guided-capture.css';
@@ -11,10 +11,10 @@ export type CaptureStep={id:string;label:string};
 export type CaptureProblem={step:string;message:string};
 // Presentation warnings use the captured protocol; the original server save remains authoritative.
 export function captureProblems(f:Facts,v:Visit):CaptureProblem[]{
- const out:CaptureProblem[]=[];if(!f.date||!Number.isFinite(Date.parse(f.date+'Z'))||Date.parse(f.date+'Z')>Date.now()+300000)out.push({step:'time',message:'Select an observation time that is not in the future.'});
+ const out:CaptureProblem[]=[];if(!validObservationMinute(f.date)||Date.parse(f.date+'Z')>Date.now()+300000)out.push({step:'time',message:validObservationMinute(f.date)?'Select an observation time that is not in the future.':'Select a real observation date and time.'});
  if(!!f.systolic!==!!f.diastolic)out.push({step:'fact:bloodPressure',message:'Enter both blood pressure readings or leave both blank.'});
  for(const field of VALUE_FIELDS){if(f[field]&&!/^[0-9]+(\.[0-9]+)?$/.test(f[field]))out.push({step:factStep(field),message:field+': enter a positive number or leave blank.'});const only={...f,systolic:'',diastolic:'',weight:'',temperature:'',weeks:'',coughDays:'',[field]:f[field],unusual:f.unusual?.[field]!==undefined?{[field]:f.unusual[field]}:undefined};const issue=rangeProblem(only,undefined,selectionForVisit(v));if(issue)out.push({step:factStep(field),message:issue});}
- for(const m of MEASURES){const own=f.provenance?.[m];if(!own)continue;const value=measureValue(f,m),p=factProvenance(f,m),recorded=['measured','reported'].includes(p.source);if(!!value!==recorded)out.push({step:factStep(m),message:m+': choose measured/reported for a value, or a missing reason when blank.'});if(own.at&&(!value||Date.parse(own.at+'Z')>Date.now()+300000))out.push({step:factStep(m),message:m+': observation time must apply to a recorded value and cannot be in the future.'});}
+ for(const m of MEASURES){const own=f.provenance?.[m];if(!own)continue;const value=measureValue(f,m),p=factProvenance(f,m),recorded=['measured','reported'].includes(p.source);if(!!value!==recorded)out.push({step:factStep(m),message:m+': choose measured/reported for a value, or a missing reason when blank.'});if(own.at!==undefined&&(!validObservationMinute(own.at)||!value||Date.parse(own.at+'Z')>Date.now()+300000))out.push({step:factStep(m),message:m+(validObservationMinute(own.at)?': observation time must apply to a recorded value and cannot be in the future.':': select a real observation date and time for a recorded value.')});}
  const unit=normaliseUnits(f);if(unit.problem){const field=Object.keys(f.entered??{}).find(k=>unit.problem?.toLowerCase().includes(k.toLowerCase()))??Object.keys(f.entered??{})[0];out.push({step:factStep(field??'weight'),message:unit.problem});}return out;
 }
 const Context=createContext<{enabled:boolean;active:string;eligible:(s:CaptureStep[])=>void}|null>(null);

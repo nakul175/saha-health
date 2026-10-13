@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { suite } from '../lib/report.mjs';
 import { abs, toCsv, REGISTER_COLUMNS, REGISTER_PATH, readCsv } from '../lib/uat-data.mjs';
-import { buildUatModel, loadSeed, unmappedPanels, ROLES, ROLE_INFO, PANEL_HOME, BLOCKED_REQUIREMENTS, ROUTINE_CAPTURE_SCREEN } from '../lib/uat-selection.mjs';
+import { buildUatModel, loadSeed, unmappedPanels, ROLES, ROLE_INFO, PANEL_HOME, BLOCKED_REQUIREMENTS, ROUTINE_CAPTURE_SCREEN, FRONTLINE_FOLLOWUP_SCREEN, MATCHING_SCREEN, FRESHNESS_SCREEN, TODAY_SCREEN, AMENDMENTS_SCREEN, PLAN_REVIEW_SCREEN, ASSISTANCE_SCREEN, WORKFORCE_SCREEN } from '../lib/uat-selection.mjs';
 
 const OUT = 'docs/testing/uat';
 const CHECK = process.argv.includes('--check');
@@ -32,7 +32,7 @@ async function main() {
   const status = id => assessment.get(id).implementation;
 
   // ------------------------------------------------------------ one case
-  const visibleTo = role => new Set([...nav[role], 'Person page and visit', 'Alert bell (page header)', ...(role === 'ASHA' ? ['ASHA app Home (/app)', ROUTINE_CAPTURE_SCREEN] : [])]);
+  const visibleTo = role => new Set([...nav[role], ...(role === 'OWNER' ? [WORKFORCE_SCREEN] : []), 'Person page and visit', 'Alert bell (page header)', ...(role === 'ASHA' ? ['ASHA app Home (/app)', ROUTINE_CAPTURE_SCREEN, FRONTLINE_FOLLOWUP_SCREEN, MATCHING_SCREEN, FRESHNESS_SCREEN, TODAY_SCREEN, AMENDMENTS_SCREEN, PLAN_REVIEW_SCREEN, ASSISTANCE_SCREEN] : [])]);
   function startFrom(c, role) {
     const fallback = role ? 'Use this role\'s navigation, listed at the top of this script, and look for the screen that matches the requirement.' : 'Use the navigation of each role in the journey (plan section 6).';
     if (!c.screens.length) return `No screen is documented for ${c.tc.reqIds.join(', ')}: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. ${fallback}`;

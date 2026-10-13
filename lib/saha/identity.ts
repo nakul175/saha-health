@@ -81,7 +81,10 @@ export async function accessPrincipal(h: HeaderSource, config: IdentityConfig, d
     if (!valid) return null;
     const now = Math.floor((deps.now ?? Date.now)() / 1000), aud = Array.isArray(claims.aud) ? claims.aud : [claims.aud];
     if (claims.iss !== `https://${config.teamDomain}` || !aud.includes(config.audience)) return null;
-    if (typeof claims.exp !== 'number' || claims.exp + SKEW_S < now || (typeof claims.nbf === 'number' && claims.nbf - SKEW_S > now)) return null;
+    // JSON exponent overflow is a number (Infinity) in JavaScript. A signed but malformed
+    // validity claim must not bypass expiry or activation by failing its comparison.
+    if (typeof claims.exp !== 'number' || !Number.isFinite(claims.exp) || claims.exp + SKEW_S < now) return null;
+    if (claims.nbf !== undefined && (typeof claims.nbf !== 'number' || !Number.isFinite(claims.nbf) || claims.nbf - SKEW_S > now)) return null;
     if (typeof claims.sub !== 'string' || !claims.sub || typeof claims.email !== 'string' || !claims.email.includes('@')) return null;
     const name = typeof claims.name === 'string' && claims.name.trim() ? claims.name.trim().slice(0, 200) : null;
     return { userId: `access:${claims.sub}`, displayName: name ?? claims.email, email: claims.email, fullName: name, provider: 'cloudflare-access' };

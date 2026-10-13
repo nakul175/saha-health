@@ -6,6 +6,13 @@ const own=<T>(r:Record<string,T>|undefined|null,k:string):T|undefined=>r&&Object
 // the workspace UI and the FHIR exports. A recorded value is measured or reported; a blank measurement may say
 // why it is missing (not asked, declined, unknown, not applicable), which is never read as a normal finding.
 // Visits without per-measurement entries fall back to the visit-level source and observation time.
+// UTC observation minutes must name a real calendar minute, without Date.parse rollover.
+// Calendar validity is separate from the existing future-time and clinical range rules.
+export function validObservationMinute(value:unknown):value is string{
+ if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(value))return false;
+ const at=Date.parse(value+'Z');
+ return Number.isFinite(at)&&new Date(at).toISOString().slice(0,16)===value;
+}
 export const FACT_SOURCES=['measured','reported','not-asked','declined','unknown','not-applicable'] as const satisfies readonly FactSource[];
 export const RECORDED_SOURCES=['measured','reported'] as const satisfies readonly FactSource[];
 export const MISSING_SOURCES=['not-asked','declined','unknown','not-applicable'] as const satisfies readonly FactSource[];
@@ -26,7 +33,15 @@ export function provenanceText(value:unknown){if(!value||typeof value!=='object'
 // A measurement is present when it has a value or a per-measurement entry (for example a missing reason).
 export const AUTHOR_ROLE_LABEL:Record<Role,string>={asha:'ASHA worker',clinician:'Clinician',supervisor:'Supervisor',admin:'Administrator',provider:'Provider (sandbox)'};
 const present=(f:Facts|undefined,m:Measure)=>!!f&&(!!measureValue(f,m)||!!f.provenance?.[m]);
-const fingerprint=(f:Facts|undefined,m:Measure)=>f?JSON.stringify([m==='bloodPressure'?[f.systolic,f.diastolic]:f[m],f.provenance?.[m]??null]):'';
+const fingerprint=(f:Facts|undefined,m:Measure)=>{
+ if(!f)return '';
+ // A recorded measurement may inherit its source or time from the visit. A
+ // correction to that effective provenance changes the measurement even when
+ // its value and optional own entry stay equal. Missing reasons have no
+ // observation time, so unrelated visit edits must not reattribute them.
+ const effective=measureValue(f,m)?factProvenance(f,m):null;
+ return JSON.stringify([m==='bloodPressure'?[f.systolic,f.diastolic]:f[m],f.provenance?.[m]??null,effective?[effective.source,effective.at]:null]);
+};
 // The authors after a change of facts: a measurement whose value or entry changed is credited to the actor (the
 // authenticated server identity); an unchanged one keeps its recorded author, or none for older facts (never guessed);
 // a measurement that is no longer present has no author.

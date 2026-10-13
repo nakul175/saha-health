@@ -74,7 +74,7 @@ export function checkCapability(s:OrgState,m:Member,p:Person,provider:AgentProvi
  if(provider.mode==='local'&&(!registered||task==='review'))return null;
  const e=capabilityFor(s,provider.id);if(!e||e.spec.kind!=='capability'||!activeEntry(s,e))fail(409,'This provider needs a current, independently reviewed capability and passing evaluation.');const c=e.spec;
  if(c.model!==provider.model||c.agentVersion!==agentVersion)fail(409,'The approved model or agent version changed.');
- if(!c.teamIds.includes(p.teamId)||!c.roles.includes(m.role as any)||p.age<c.ageMin||p.age>c.ageMax||!c.languages.includes(context.language as any)||!c.settings.includes(context.setting as any)||!c.devices.includes(context.device as any)||!c.tasks.includes(task as any))fail(409,'This task, person or working context is outside the approved capability scope.');
+ if(!c.teamIds.includes(p.teamId)||!c.roles.includes(m.role as any)||typeof p.age!=='number'||!Number.isFinite(p.age)||p.age<c.ageMin||p.age>c.ageMax||!c.languages.includes(context.language as any)||!c.settings.includes(context.setting as any)||!c.devices.includes(context.device as any)||!c.tasks.includes(task as any))fail(409,'This task, person or working context is outside the approved capability scope.');
  return {id:e.id,version:e.version,manifestHash:e.manifestHash};
 }
 export function checkCapabilityBudget(s:OrgState,e:GovernanceEntry,excludeRunId?:string,now=new Date().toISOString()){

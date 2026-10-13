@@ -107,6 +107,13 @@ checks['historicalProductAssertions']=total
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
 snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
 source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
+integration_binding_path=ROOT/'docs/verification/integration-source-preimages-20261013.json'
+integration_bindings={}
+if integration_binding_path.exists():
+    for binding in read_json('docs/verification/integration-source-preimages-20261013.json').get('records',[]):
+        key=(binding.get('originalManifest'),binding.get('sourcePath'))
+        require(key not in integration_bindings,'Duplicate integration source binding: '+str(key))
+        integration_bindings[key]=binding
 for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json','evidence-source-snapshots-routine-retention.json','evidence-source-snapshots-refresh-contrast-20261012.json']:
     additional_index=ROOT/'docs/verification'/additional_name
     if additional_index.exists():
@@ -185,6 +192,20 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
     for report,meta in (entries or {}).items():
         path=(ROOT/report) if report.startswith(('tests/','docs/','lib/','app/','worker/','public/','db/','drizzle/','scripts/')) else manifest_path.parent/report
         expected=meta.get('sha256') if isinstance(meta,dict) else meta
+        # Exact historical-source bindings for this combined integration. These
+        # preserve author-time source bytes only; current source is independently
+        # pinned by the current baseline and evidence/results cannot use this path.
+        binding=integration_bindings.get((str(manifest_path.relative_to(ROOT)),report))
+        if binding and path.is_file() and digest(path)!=expected:
+            require(report.startswith(('tests/','lib/')) and not report.startswith('tests/evidence/'),'Invalid integration source binding scope: '+report)
+            require(binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Changed integration-bound author manifest: '+str(manifest_path.relative_to(ROOT)))
+            pinned_bytes=meta.get('bytes',binding['originalSourceBytes']) if isinstance(meta,dict) else binding['originalSourceBytes']
+            require(binding['originalSourceSha256']==expected and binding['originalSourceBytes']==pinned_bytes,'Changed integration-bound source pin: '+report)
+            current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current integration source is not pinned by the current baseline: '+report)
+            archive=(ROOT/binding['archivedSource']).resolve()
+            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed integration source preimage: '+report)
+            path=archive
         # One explicitly bound generated diagnostic preimage. It never substitutes for current application source or report evidence.
         if str(manifest_path.relative_to(ROOT))=='tests/evidence/alert-disclosure-before/manifest.json' and report=='dist/server/index.js':
             binding=read_json('tests/evidence/alert-disclosure-author/manifest.json')['archivedOriginalSource'][report]
