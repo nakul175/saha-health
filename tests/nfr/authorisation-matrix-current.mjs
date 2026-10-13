@@ -42,6 +42,10 @@ const ROUTE_PARAMS = {
   '/api/amendments': w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/plan-review': w => [{q:`?personId=${w.people.a2}`,kind:'person'}],
   '/api/assistance-control': w=>[{q:`?personId=${w.people.a2}&visitId=${w.visits.v2}`,kind:'person'}],
+  '/api/household-proxy-review': w=>[{q:`?personId=${w.people.a2}`,kind:'person'}],
+  '/api/interface-language': w=>[{q:`?personId=${w.people.a2}`,kind:'person'}],
+  '/api/selective-reuse': w=>[{q:`?personId=${w.people.a2}`,kind:'person'}],
+  '/api/programme-pack-review': ()=>[{q:'',kind:'plain',binding:true}],
   '/api/workforce-status': ()=>[{q:''}],
   '/api/today': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/routine-visit': w => [
@@ -66,7 +70,7 @@ const ROUTE_PARAMS = {
   '/api/fhir/[id]': w => [{ path: `/api/fhir/${w.visits.v2}`, q: `?organisationId=${w.org}`, kind: 'visit' }],
   '/api/media/[id]': w => [{ path: `/api/media/${w.mediaId}`, q: `?organisationId=${w.org}`, kind: 'media' }],
   // Routes with no resource parameter (or only optional filters): requested bare.
-  ...Object.fromEntries(['/api/work-burden/policy', '/api/work-burden', '/api/availability', '/api/value-range-protocols', '/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
+  ...Object.fromEntries(['/api/work-burden/policy', '/api/work-burden', '/api/availability', '/api/value-range-protocols', '/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/deployment-evidence-review', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/institution-roster-review', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/own-care-permissions', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/service-authority-review', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
 };
 const PRINCIPALS = ['anonymous', ...ROLES];
 const ABBR = { anonymous: 'anon', owner: 'owner', admin: 'admin', supervisor: 'super', asha1: 'asha1', asha2: 'asha2', clinician: 'clin', stranger: 'strngr' };
@@ -109,11 +113,11 @@ try {
   const cases = []; const unclassified = [];
   for (const { route } of ROUTES.filter(x => x.method === 'GET')) {
     const make = ROUTE_PARAMS[route]; if (!make) { unclassified.push(route); continue; }
-    for (const c of make(world)) cases.push({ route, path: (c.path ?? route) + c.q, kind: c.kind ?? 'plain', cells: {} });
+    for (const c of make(world)) cases.push({ route, path: (c.path ?? route) + c.q, kind: c.kind ?? 'plain', binding:c.binding??false, cells: {} });
   }
   for (const c of cases) {
     for (const p of PRINCIPALS) {
-      const res = await api.call(as(p), c.path, { org });
+      const res = await api.call(as(p), c.path, { org, headers:c.binding&&p!=='anonymous'?{'x-saha-operation-actor':who[p].id}:{} });
       const text = res.text, parsed = res.json;
       c.cells[p] = { status: res.status, bytes: text.length, ms: Math.round(res.ms), cache: res.headers.get('cache-control'),
         patientNames: found(text, world.patientNames), orgMarkers: found(text, markers.org), hidden: p === 'asha1' || p === 'asha2' ? found(text, hidden[p]) : [],
@@ -133,7 +137,7 @@ try {
   await r.check('route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)', () => none(unclassified, `unclassified GET routes: ${unclassified.join(', ')}`));
   await r.check(`grid is complete: ${cases.length} requests x ${PRINCIPALS.length} principals, every cell has a status`, () => { if (cases.length < 40) throw new Error(`only ${cases.length} cases`); none(violations((c, p) => (Number.isInteger(c.cells[p].status) ? '' : 'no status')), 'cells'); });
   // These explicit ASHA-only routes refuse the owner; all old legacy owner responses remain unchanged.
-  await r.check('control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
   for (const [route, label] of [['/api/programme-status', 'Programme status'], ['/api/handover', 'Receiving handover']]) {
     await r.check(`${label} permits only its assigned ASHA and refuses every other principal`, () => {
       const row = cases.find(c => c.route === route); assert.ok(row);

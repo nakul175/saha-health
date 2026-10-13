@@ -47,6 +47,9 @@ const recipes = (visitId, org) => ({
   '/api/amendments': '?personId=p_meena',
   '/api/plan-review': '?personId=p_meena',
   '/api/assistance-control': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
+  '/api/household-proxy-review': '?personId=p_meena',
+  '/api/interface-language': '?personId=p_meena',
+  '/api/selective-reuse': '?personId=p_meena',
   '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/routine-visit': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
   '/api/inbound-conflicts': '?personId=p_meena',
@@ -248,9 +251,14 @@ try {
     const bad = [];
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
-      if (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control'].includes(route)) {
+      if (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions'].includes(route)) {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
+        continue;
+      }
+      if(route==='/api/programme-pack-review'){
+        assert.equal(res.status,403,'programme pack review requires its explicit original-account binding header');
+        assert.deepEqual(Object.keys(res.json).sort(),['error'],'binding refusal carries no configuration payload');
         continue;
       }
       if (res.status >= 500) bad.push(`${res.status} ${route}`);
