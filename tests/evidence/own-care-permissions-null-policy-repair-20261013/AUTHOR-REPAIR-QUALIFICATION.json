@@ -1,0 +1,108 @@
+{
+  "author": "/root/next50_identity",
+  "atUtc": "2026-10-13T03:58:36.069440+00:00",
+  "authorOnly": true,
+  "predecessor": "ea62223d6b4bb41ba9fbd7601c8f2f8425e8f9a1",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "parent": "SAHA011/APL34/BR-ID02",
+  "task": "APL194/ENG-BR-ID02",
+  "sourcePins": {
+    "lib/saha/own-care-permissions.ts": "135cd6802bde5503a0362127729d0539eb65c36a7dc16857274060445e633a99",
+    "lib/saha/own-care-permissions-server.ts": "f9dc6065c655f6f55ffcb8264c03f03ae4d6fb477d3f52c2e896551906b5ca50",
+    "lib/saha/own-care-permissions-read-guard.ts": "d4bb436edcfa534bf38a0fe1de1982a72af128e3bb99eb8117fda22d6704e7d3",
+    "app/api/own-care-permissions/route.ts": "7ab1950e4e141abcf751d648fef6a60d7f12d1106560cae2c371ecda1b78980d",
+    "app/care-permissions/page.tsx": "9e8302926b39b807f7d3a903d08ad77b624c11dbd2ea2616c1808b193a4a9e33",
+    "app/care-permissions/screen.tsx": "b8df4f577b7a6dabad74767eb41225c7b6bb49a165041d23019dd5c973d47423",
+    "app/care-permissions/style.css": "94259d0c66390d32704b34c75cefabcfd3702e14d64ba5ac9773bc766bb5f76c",
+    "app/today/today.tsx": "e75d37711d3d99d51e13aae5517d488aeb1cd2b97a9afa427c4f23edc6ee2475",
+    "tests/own-care-permissions-contract.mjs": "49bb140b050418b1cbc4bd0fe169f766ee4c0dc6cc7d791d66785f0fbba6c71a",
+    "tests/lib/own-care-permissions-browser-driver.mjs": "aa9282131fb07d8e5453b6304c66bd307c9b8ebd25f23981e1d5dcd71c4fa850",
+    "tests/lib/own-care-permissions-native-runtime.mjs": "4fb88f2c1d279046dbd8781641adcdcff4acb52e673661b7127a83774df2e211",
+    "tests/smoke/own-care-permissions-browser.mjs": "c0f38e4bb4eaccc5a65e8dab485342a8b13ad48007226d8022a2cdb7d883b711"
+  },
+  "changedSourcePaths": [
+    "lib/saha/own-care-permissions.ts",
+    "tests/own-care-permissions-contract.mjs",
+    "tests/lib/own-care-permissions-browser-driver.mjs"
+  ],
+  "unchangedOtherSourcePins": {
+    "lib/saha/own-care-permissions-server.ts": "f9dc6065c655f6f55ffcb8264c03f03ae4d6fb477d3f52c2e896551906b5ca50",
+    "lib/saha/own-care-permissions-read-guard.ts": "d4bb436edcfa534bf38a0fe1de1982a72af128e3bb99eb8117fda22d6704e7d3",
+    "app/api/own-care-permissions/route.ts": "7ab1950e4e141abcf751d648fef6a60d7f12d1106560cae2c371ecda1b78980d",
+    "app/care-permissions/page.tsx": "9e8302926b39b807f7d3a903d08ad77b624c11dbd2ea2616c1808b193a4a9e33",
+    "app/care-permissions/screen.tsx": "b8df4f577b7a6dabad74767eb41225c7b6bb49a165041d23019dd5c973d47423",
+    "app/care-permissions/style.css": "94259d0c66390d32704b34c75cefabcfd3702e14d64ba5ac9773bc766bb5f76c",
+    "app/today/today.tsx": "e75d37711d3d99d51e13aae5517d488aeb1cd2b97a9afa427c4f23edc6ee2475",
+    "tests/lib/own-care-permissions-native-runtime.mjs": "4fb88f2c1d279046dbd8781641adcdcff4acb52e673661b7127a83774df2e211",
+    "tests/smoke/own-care-permissions-browser.mjs": "c0f38e4bb4eaccc5a65e8dab485342a8b13ad48007226d8022a2cdb7d883b711"
+  },
+  "originalSourcePins": {
+    "lib/saha/core.ts": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+    "lib/saha/store.ts": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+    "lib/saha/server.ts": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+    "lib/saha/identity.ts": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+    "lib/saha/access.ts": "26f5fdc7fe7bedd29de9f07773e7d2e4d1ba1249503c8a27773f007219c32789",
+    "lib/saha/access-audit.ts": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a",
+    "lib/saha/purpose-scope.ts": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+    "lib/saha/facility-scope.ts": "c86e12531afefecd667bff1f85b1f49142094b93902e969e3a06e9f5678c7775",
+    "lib/saha/caseload.ts": "844e87ef2e719d70d9212e17171d9ff415361d35dd497b20ad4db5b597f6ee45",
+    "tests/regression-baseline.json": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0"
+  },
+  "old55ArtifactFilesUnchanged": true,
+  "oldArtifactManifestSHA256": "4f399ae9f6039ffd8d0433d23c7da222f3c3c9892386385137d3ea5bbd1ea268",
+  "originalHeldReviewPreserved": "original-held-review/INDEPENDENT-SOURCE-REVIEW.json",
+  "pure": {
+    "passed": 45,
+    "failed": 0,
+    "skipped": 0,
+    "old41Retained": true,
+    "newNull503": 2,
+    "newUndefinedOtherPolicyPreserved": 2,
+    "file": "qualification-history/pure001/result.json"
+  },
+  "native": {
+    "passed": 51,
+    "failed": 0,
+    "skipped": 0,
+    "old45Retained": true,
+    "newNullHTTPNoMutation": 2,
+    "newPhoneClearing": 2,
+    "newGenuineAbsence": 2,
+    "file": "qualification-history/native002/native/result.json"
+  },
+  "originalGuard": {
+    "suites": 4,
+    "passed": 116,
+    "failed": 0,
+    "skipped": 0,
+    "guardPassed": true,
+    "file": "qualification-history/original001/summary.json"
+  },
+  "build": "qualification-history/build001/stdout.log.lossless.json",
+  "types": "qualification-history/types001/stdout.log.lossless.json",
+  "lint": "qualification-history/lint001/stdout.log.lossless.json",
+  "catalogue": "qualification-history/catalogue001/stdout.log.lossless.json",
+  "custody": {
+    "observedPins": 727,
+    "beforeAfterEqual": true,
+    "archive": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/own-care-permissions/null-policy-repair/EXACT-SOURCE-AND-COMPILED-REPAIR.zip",
+    "sha256": "207206569365c6f58c870e79b1c9ee6ac84b7aae7250a12b1083b368e163aa94",
+    "compiledEntries": 291,
+    "scope": "Current app/lib/dist and four own originaltestdrivers; no dependency/OS/hosting identity claim."
+  },
+  "cleanup": {
+    "atUtc": "2026-10-13T03:57:05.614Z",
+    "disposed": true,
+    "port": 21883,
+    "portFree": true,
+    "failed": false
+  },
+  "limits": [
+    "One production viewer-only predicate correction. Default original scope/grant state only on undefined; presentnull passes to existing strict validation and refuses503. No original policy/enforcement/default helper/writer/schema/role/directory or new permission change.",
+    "Current original41/45checks unchanged, plus4pure and6 actualnative controls. All55old artifacts and failed independentHOLD receipt remain byte-exact/historical. Earlier heldreview not relabeled as PASS.",
+    "Current actualstorednull GETs withhold every protected ownsummary, all60tables same exceptmetrics; phone clears priorview on503. Removing eitherfield stillreturns originaldefault and retains other validpolicy. Sourcefixture writes are separate controlled ownedD1 metadata setup, not clinical/adminpolicy approval.",
+    "Originalguard116/main22a389/core/migrations/goldens/patientrecords/history preserved. Existing draftPR206 prerequisite nevertouched. Newly changed helper/own tests only, no rootsharedmetadata/CI/Linear/push.",
+    "Inherited fullapplicationlint1392errors/628warnings remains oldscope limitation; newlychanged productionhelper passes targetedlint0errors/0warnings. Freshbuild/types/catalogue pass.",
+    "Whole scoped-permissions story/read-write-search-export-tool matrix/validateddirectory/physical/domain/formal/hosting remainopen. Current source is now authored by earlierreviewer; genuine different-person/agent re-review required before qualification/publication."
+  ]
+}

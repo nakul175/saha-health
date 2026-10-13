@@ -13,7 +13,8 @@ export function ownCarePermissionsProjection(s:OrgState,m:Member,actor:string,re
  if(m.userId!==actor||m.role!=='asha'||m.status!=='active')fail(403,'An active ASHA can review only their own recorded care restrictions.');
  if(!version.safeParse(m.version).success||!Array.isArray(m.teamIds)||m.teamIds.some(x=>!text.safeParse(x).success)||new Set(m.teamIds).size!==m.teamIds.length)fail(503,'Current membership context is unavailable.');
  if(s.operations!==undefined&&(!s.operations||typeof s.operations!=='object'||Array.isArray(s.operations)))fail(503,'Current recorded care policy is unavailable.');
- const parsed=scopeSchema.safeParse(s.operations?.accessScope??defaultAccessScope()),grants=z.array(grantSchema).safeParse(s.operations?.purposeGrants??[]);if(!parsed.success||!grants.success)fail(503,'Current recorded care policy is unavailable.');
+ const rawScope=s.operations?.accessScope,rawGrants=s.operations?.purposeGrants;
+ const parsed=scopeSchema.safeParse(rawScope===undefined?defaultAccessScope():rawScope),grants=z.array(grantSchema).safeParse(rawGrants===undefined?[]:rawGrants);if(!parsed.success||!grants.success)fail(503,'Current recorded care policy is unavailable.');
  const sc=parsed.data as AccessScope;if(new Set(sc.facilities.map(x=>x.id)).size!==sc.facilities.length||new Set(sc.localities.map(x=>x.id)).size!==sc.localities.length)fail(503,'Current location references are ambiguous.');
  const active=grants.data.filter(g=>g.memberId===actor&&!g.revokedAt);if(active.length>1)fail(503,'Current purpose restriction is ambiguous.');const g=active[0];
  const teams=m.teamIds.map(id=>{const found=s.teams.filter(t=>t.id===id);if(found.length!==1||!text.safeParse(found[0].name).success)fail(503,'Current team reference is unavailable.');return{id,name:found[0].name};});

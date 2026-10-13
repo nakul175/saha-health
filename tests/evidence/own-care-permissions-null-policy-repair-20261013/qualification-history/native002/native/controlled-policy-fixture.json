@@ -1,0 +1,68 @@
+{
+  "fixture": {
+    "version": 0,
+    "maintenance": false,
+    "reason": "",
+    "updatedAt": "2026-10-13T03:57:00.608Z",
+    "incidents": [],
+    "rates": null,
+    "accessScope": {
+      "version": 3,
+      "enforceFacility": true,
+      "enforceLocality": true,
+      "facilities": [
+        {
+          "id": "f-own",
+          "name": "Synthetic own facility",
+          "localityId": "l-own",
+          "createdAt": "2026-10-13T03:57:00.608Z"
+        },
+        {
+          "id": "f-private",
+          "name": "PRIVATE OTHER FACILITY",
+          "localityId": "l-private",
+          "createdAt": "2026-10-13T03:57:00.608Z"
+        }
+      ],
+      "localities": [
+        {
+          "id": "l-own",
+          "name": "Synthetic own locality",
+          "createdAt": "2026-10-13T03:57:00.608Z"
+        },
+        {
+          "id": "l-private",
+          "name": "PRIVATE OTHER LOCALITY",
+          "createdAt": "2026-10-13T03:57:00.608Z"
+        }
+      ],
+      "teamAssignments": {
+        "default": {
+          "facilityId": "f-own"
+        }
+      },
+      "memberAssignments": {
+        "foreign": {
+          "facilityId": "f-private"
+        }
+      },
+      "updatedAt": "2026-10-13T03:57:00.608Z",
+      "updatedBy": "worker@example.invalid"
+    },
+    "purposeGrants": [
+      {
+        "id": "permissions-own",
+        "memberId": "worker@example.invalid",
+        "programme": "General care",
+        "purposes": [
+          "reporting"
+        ],
+        "version": 1,
+        "setBy": "synthetic-owner",
+        "setAt": "2026-10-13T03:57:00.608Z",
+        "reason": "Controlled current policy fixture, no actual directory approval."
+      }
+    ]
+  },
+  "limits": "Configured metadata seeded on ownedD1 using original policy shape; not validated directory/clinical approval or new permission. Original create/assign/member commands used separately."
+}

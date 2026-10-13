@@ -1,0 +1,71 @@
+{
+  "reviewer": "/root/next50_identity",
+  "reviewedAtUtc": "2026-10-13T03:53:56.286114+00:00",
+  "sourceHead": "ea62223d6b4bb41ba9fbd7601c8f2f8425e8f9a1",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "verdict": "HOLD_P2_NESTED_NULL_POLICY_DEFAULTING",
+  "author": "/root/next50_programme",
+  "story": "SAHA011/APL34/BR-ID02",
+  "task": "APL194/ENG-BR-ID02",
+  "sourcePins": {
+    "lib/saha/own-care-permissions.ts": "ef1b59586c36371f4c5b087371bca52dd3cbfe1da85a859988be1961a271cbac",
+    "lib/saha/own-care-permissions-server.ts": "f9dc6065c655f6f55ffcb8264c03f03ae4d6fb477d3f52c2e896551906b5ca50",
+    "lib/saha/own-care-permissions-read-guard.ts": "d4bb436edcfa534bf38a0fe1de1982a72af128e3bb99eb8117fda22d6704e7d3",
+    "app/api/own-care-permissions/route.ts": "7ab1950e4e141abcf751d648fef6a60d7f12d1106560cae2c371ecda1b78980d",
+    "app/care-permissions/page.tsx": "9e8302926b39b807f7d3a903d08ad77b624c11dbd2ea2616c1808b193a4a9e33",
+    "app/care-permissions/screen.tsx": "b8df4f577b7a6dabad74767eb41225c7b6bb49a165041d23019dd5c973d47423",
+    "app/care-permissions/style.css": "94259d0c66390d32704b34c75cefabcfd3702e14d64ba5ac9773bc766bb5f76c",
+    "app/today/today.tsx": "e75d37711d3d99d51e13aae5517d488aeb1cd2b97a9afa427c4f23edc6ee2475",
+    "tests/own-care-permissions-contract.mjs": "e17229ccc3a09343c33febac6f1b4e73845dcf4aa8e778fdb5eff12a8100b474",
+    "tests/lib/own-care-permissions-browser-driver.mjs": "ac447bab1384f13522205a64f07b6c2b262b0693261d11ac297c58fbff5e8ea2",
+    "tests/lib/own-care-permissions-native-runtime.mjs": "4fb88f2c1d279046dbd8781641adcdcff4acb52e673661b7127a83774df2e211",
+    "tests/smoke/own-care-permissions-browser.mjs": "c0f38e4bb4eaccc5a65e8dab485342a8b13ad48007226d8022a2cdb7d883b711"
+  },
+  "results": {
+    "independentPureRepeated": 41,
+    "independentExactProductionCounterexamples": 2,
+    "artifactPinsRehashed": 55,
+    "runtimeSourceCompiledPinsRehashed": 727,
+    "compiledZIPEntriesRehashed": 291,
+    "nativeAuthorWitnessesInspected": 45,
+    "originalGuardedAssertionsInspected": 116,
+    "originalGuardedSuites": 4,
+    "original389ByteExact": true,
+    "nativeRerun": false,
+    "buildRerun": false
+  },
+  "findings": [
+    {
+      "priority": "P2",
+      "title": "Recorded null policy fields are presented as an absent unrestricted default",
+      "file": "lib/saha/own-care-permissions.ts",
+      "line": 13,
+      "observed": "accessScope??defaultAccessScope() and purposeGrants??[] erase present null before validating their object/array schema. Exact production projection returns scopeVersion0/facilityLocalityOff/emptyrefs/no narrowing for storedaccessScope:null, and no narrowing for storedpurposeGrants:null. The UI uses absent-policy wording rather than unavailable metadata.",
+      "criterion": "Frozen own-read strict raw policy shape and truthful recorded restriction summary. Typed source fields are optional objects/arrays, with undefined genuine absence; the new reader already refuses malformedfalse/rootnull/array and field types.",
+      "impact": "Truthfulness/quality defect in new own metadata display. No actual patient disclosure, permission/action bypass, writer/provider side effect or clinical consequence demonstrated. Original facility/access enforcement defaulting remains unchanged and is not claimed fixed.",
+      "recommendation": "Narrow new viewer validation: only undefined defaults; present null optional policy fields refuse503. Preserve genuine absence, all41pure/45native/116original guards, original policy/commands/minima. Add exact two pure adversarial cases plus actual native stored-null GET/error-clearing/read-custody controls under prospective freeze; different-author re-review.",
+      "evidence": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/own-care-permissions/independent-identity-review/nested-null-diagnosis/NESTED-NULL-POLICY-DIAGNOSIS.json"
+    }
+  ],
+  "otherwiseQualified": [
+    "Own activeASHA/currentopaqueactor/org-only GET, no member/person/action selector, clinicalrows, management writer, provider/model. Normal original ownteam/facility/locality/recordedprogramme/purpose reference semantics, unresolved directory names explicitlyunavailable notapproved.",
+    "Trustedidentity/readState emptywindow/no loadFor orbootstrap/scheduler; owncurrentmembership/team/rawoperations/source before/finalbatch and originalaccessaudit; known dueheldcorrupt/futurecontext clear/refuse. OriginalToday selectedlink only; no oldpolicy scope rewrite.",
+    "Current UI epoch/abort/actor binding/refresh/offline/pagehide/hidden/deadline/lateactual200 refusal inspected; default nullable purpose means recorded narrowing absent, not actionapproval, except nested-null finding above.",
+    "Actual native combined configuredpolicies, guessedrevokedTodayID404 withotherrecord stillvisible, ownmetadata/clinicalprivacy/error/audit/policyteamraces/zero outbound/readtables/AXE0/custody/cleanup evidence inspected; source/canonicalcontracts and original389 untouched."
+  ],
+  "limits": [
+    "Bounded own recordedrestriction metadata only, no whole BR-ID02 read/write/search/export/tool/facilitygeography directory/localitytransfer matrix acceptance. Existing nativeAPL194/PR206 prerequisite ownership preserved; newsource nottaskDone.",
+    "Native profile/role/directory fixtures are explicitly syntheticconfigured metadata, not validated directory/clinical/domain/human approval. No native rerun used to manufacture newfinding; nestednull exactproductionpure counterexamples only.",
+    "Current original enforcement also uses nullish defaults; finding is narrowly against new strict/truthful metadata reader. No broad policy rewrite or inferred additionalrecordauthority recommended.",
+    "Author lint retains1392 inheritederrors/628warnings versus618 baseline, ratchetpass; no lint0claim. Actualbuild byte archive binds measuredsource, not finalgitbuild/hosting equality.",
+    "Source remainsimmutable/unmodified; source review does not GitHubapprove or authorise publication. Rootmetadata/CI/domain/formal/hosting/fullstory gates remainopen."
+  ],
+  "evidence": {
+    "handoffSHA256": "de03e0937d4c0fa3acebcdf23ea16c75adfef33e483cad842d28e0a8ed931865",
+    "manifestSHA256": "4f399ae9f6039ffd8d0433d23c7da222f3c3c9892386385137d3ea5bbd1ea268",
+    "archiveSHA256": "c87758de6badfbcbbd726f228195cb2abb7a8b657e3d80efb9836070ba96c3fd",
+    "pureRepeatResult": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/own-care-permissions/independent-identity-review/pure-repeat/result.json",
+    "counterexamplesSHA256": "8b63984ea64e17f6cd9be1505c1ba2e759390fe4113ebcd99b2ae84984df1f7c",
+    "pureAttributionCorrection": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/own-care-permissions/independent-identity-review/PURE-OUTPUT-ATTRIBUTION.json"
+  }
+}
