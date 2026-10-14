@@ -1,0 +1,124 @@
+name: community-worker-baseline
+on:
+  pull_request:
+    paths:
+      - 'docs/current/community-worker-os/**'
+      - '.github/workflows/community-worker-baseline.yml'
+permissions:
+  contents: read
+concurrency:
+  group: community-worker-baseline-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 43f445acf4c54352cd2084e0bcd88bfbf605d757
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Preserve original source for authorised inspection
+        id: snapshot
+        run: |
+          mkdir -p /tmp/saha-baseline
+          git rev-parse HEAD > /tmp/saha-baseline/source-commit.txt
+          git archive --format=zip HEAD > /tmp/saha-baseline/source.zip
+          cp docs/verification/current-baseline.json /tmp/saha-baseline/
+          python3 - <<'PY'
+          import json, shutil
+          from pathlib import Path
+          p=Path('docs/verification')
+          name=json.loads((p/'current-baseline.json').read_text())['manifest']
+          shutil.copyfile(p/name,Path('/tmp/saha-baseline')/name)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: community-worker-source-baseline
+          path: /tmp/saha-baseline/
+          retention-days: 7
+      - name: Documentation and requirements
+        id: documentation
+        continue-on-error: true
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+      - name: Existing test catalogue
+        id: catalogue
+        continue-on-error: true
+        run: node scripts/test.mjs --check-catalogue
+      - name: Install pinned dependencies
+        id: dependencies
+        continue-on-error: true
+        run: npm run install:ci
+      - name: Lint ratchet
+        id: lint
+        if: steps.dependencies.outcome == 'success'
+        continue-on-error: true
+        run: npm run lint:baseline
+      - name: Type check
+        id: types
+        if: steps.dependencies.outcome == 'success'
+        continue-on-error: true
+        run: npm run typecheck
+      - name: Build original application
+        id: build
+        if: steps.dependencies.outcome == 'success'
+        continue-on-error: true
+        run: npm run build
+      - name: Existing security gate
+        id: security
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: node scripts/security-gate.mjs
+      - name: Existing unit suites
+        id: units
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: node scripts/test.mjs unit --fast --guard
+      - name: Existing HTTP and recovery suites
+        id: integration
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: node scripts/test.mjs integration resilience --only integration/run-api-smoke,resilience/recovery-drill --fast --guard
+      - name: Record actual outcomes
+        if: always()
+        env:
+          OUTCOMES: ${{ toJSON(steps) }}
+        run: |
+          python3 - <<'PY'
+          import os,json
+          from pathlib import Path
+          steps=json.loads(os.environ['OUTCOMES'])
+          keys=['snapshot','documentation','catalogue','dependencies','lint','types','build','security','units','integration']
+          result={k:steps.get(k,{}).get('outcome','not-run') for k in keys}
+          result['source']='43f445acf4c54352cd2084e0bcd88bfbf605d757'
+          result['boundary']='Original-source engineering baseline; no deployment, new-target or physical-device acceptance.'
+          Path('/tmp/saha-baseline/results.json').write_text(json.dumps(result,indent=2))
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
+              f.write('## Original-source baseline\n\n'+''.join('- '+k+': '+result[k]+'\n' for k in keys))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: community-worker-baseline-results
+          path: |
+            /tmp/saha-baseline/results.json
+            tests/reports/
+            dist/security-gate.json
+          retention-days: 7
+      - name: Fail when any required check did not pass
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json,sys
+          from pathlib import Path
+          p=Path('/tmp/saha-baseline/results.json')
+          if not p.exists(): sys.exit(1)
+          r=json.loads(p.read_text())
+          keys=['snapshot','documentation','catalogue','dependencies','lint','types','build','security','units','integration']
+          sys.exit(int(any(r.get(k)!='success' for k in keys)))
+          PY
