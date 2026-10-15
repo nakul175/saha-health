@@ -32,7 +32,7 @@ Run the 148 Functional and 12 End to end cases of [the test catalogue](../../cur
 | Performance or control | 28 | 0 | not in this pack |
 | **Total** | 364 | 158 | |
 
-Of the 146 functional cases, 14 rest on a requirement assessed **implemented-local** and 132 on one assessed **partial**. The assessment is in [requirements/assessment.tsv](../../../requirements/assessment.tsv).
+Of the 146 functional cases, 15 rest on a requirement assessed **implemented-local** and 131 on one assessed **partial**. The assessment is in [requirements/assessment.tsv](../../../requirements/assessment.tsv).
 
 ## 4. Entry criteria
 
@@ -177,7 +177,7 @@ Sign-off records that the run met the exit criteria for the scripts named. It do
 
 | Script | Cases | of which implemented-local | of which partial |
 | --- | ---: | ---: | ---: |
-| Organisation owner / programme lead | 53 | 2 | 51 |
+| Organisation owner / programme lead | 53 | 3 | 50 |
 | ASHA worker | 44 | 6 | 38 |
 | Supervisor | 13 | 1 | 12 |
 | Clinician | 29 | 5 | 24 |

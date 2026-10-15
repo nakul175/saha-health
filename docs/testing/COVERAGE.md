@@ -21,8 +21,8 @@ For each of the 176 requirements: its assessment status, the test files its evid
 
 | Status | Requirements |
 | --- | ---: |
-| implemented-local | 14 |
-| partial | 151 |
+| implemented-local | 15 |
+| partial | 150 |
 | not-built | 2 |
 | unverified | 9 |
 | **Total** | 176 |
@@ -92,7 +92,7 @@ An End to end case names several requirements and is counted under each, so that
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | BR-UX | 9 | 3 | 6 | 0 | 0 | 0 | 0 | 0 |
 | BR-ID | 10 | 1 | 9 | 0 | 0 | 1 | 1 | 0 |
-| BR-DATA | 12 | 1 | 11 | 0 | 0 | 0 | 3 | 0 |
+| BR-DATA | 12 | 2 | 10 | 0 | 0 | 0 | 3 | 0 |
 | BR-PROG | 8 | 0 | 8 | 0 | 0 | 0 | 0 | 0 |
 | BR-AG | 12 | 3 | 9 | 0 | 0 | 0 | 0 | 0 |
 | BR-AI | 12 | 0 | 12 | 0 | 0 | 0 | 1 | 0 |
@@ -1031,7 +1031,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-DATA-07 | partial | own | 9 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
 | BR-DATA-08 | partial | own | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
 | BR-DATA-09 | partial | own | 10 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
-| BR-DATA-10 | partial | own | 6 | 3 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-DATA-10 | implemented-local | own | 6 | 3 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-DATA-11 | partial | own | 15 | 6 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-DATA-12 | partial | own | 5 | 4 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-PROG-01 | partial | area | 1 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
