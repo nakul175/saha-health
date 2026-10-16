@@ -67,7 +67,10 @@ async function attach(d,file,purpose){const e=epoch,k=key;if(!file)return;if(d.s
  if(queuedBytes()+bytes.byteLength>MEDIA_DEVICE_BYTES)throw Error(`The device media queue is full (${MEDIA_DEVICE_BYTES/1048576} MB). Sync all, or discard items, before adding more. Nothing was added. / डिवाइस मीडिया कतार भरी है (${MEDIA_DEVICE_BYTES/1048576} MB)। पहले सिंक करें।`);
  const sha256=await hex(bytes);if((d.media??[]).some(x=>x.sha256===sha256))throw Error('This file is already attached. / यह फ़ाइल पहले से जुड़ी है।');
  const id=crypto.randomUUID();await writeMedia(id,await sealBytes(k,bytes));if(e!==epoch||!book){await deleteMedia(id).catch(()=>{});return;}
- (d.media??=[]).push({id,purpose,mime,size:bytes.byteLength,sha256,capturedAt:new Date().toISOString(),state:'queued'});
+ // Bind every queued item to the authority and custody facts that existed at capture. The
+ // server still makes the final decision; these fields let the device refuse before opening
+ // or transmitting the sealed bytes when consent or the signed grant has changed.
+ (d.media??=[]).push({id,purpose,mime,size:bytes.byteLength,sha256,capturedAt:new Date().toISOString(),state:'queued',quality:{state:'checked',sha256},authority:{consentVersion:d.packet.payload.consentVersion,expiresAt:d.packet.payload.expiresAt,purpose},retention:{state:'device-pending',rule:'delete-after-confirmed-upload-or-explicit-discard'}});
  try{await persist();}catch(err){d.media=d.media.filter(x=>x.id!==id);await deleteMedia(id).catch(()=>{});throw err;}status('Queued on this device, encrypted. It uploads after the draft syncs. / डिवाइस पर एन्क्रिप्टेड कतार में।');}
 // Slice 3e: photos are re-encoded on the device before queueing. Camera photos are usually several
 // megabytes, far above the 256 KB limit, so each photo is decoded, scaled to at most 1280 px on the long
@@ -96,15 +99,18 @@ async function record(d){if(recording){stopRecording();return;}
  r.onstop=()=>{stream.getTracks().forEach(t=>t.stop());recording=null;if(e!==epoch||!key){render();return;}const blob=new Blob(chunks,{type:type.split(';')[0]});const go=()=>busy?setTimeout(go,50):run(()=>attach(d,blob,'voice-note'));go();};
  r.start(1000);setTimeout(()=>{if(recording?.r===r&&r.state==='recording')r.stop();},RECORD_MAX_MS);status('Recording. Press Stop when done; it stops by itself at 60 seconds. / रिकॉर्डिंग जारी है।');}
 // Reasons an item must not be uploaded now; each routes it to review instead of sending it.
-function mediaBlock(p,s){
+function mediaBlock(p,s,item){
  if(Date.parse(p.expiresAt)<=Date.now())return 'The field grant expired before upload. Check the visit online, then discard this copy. / अपलोड से पहले अनुमति समाप्त हुई।';
  const patient=s.people.find(x=>x.id===p.personId);if(!patient||patient.mergedInto)return 'You no longer have access to this patient record. Discard this copy or ask your supervisor. / इस मरीज़ तक पहुँच नहीं है।';
+ if(!item.authority||!Number.isInteger(item.authority.consentVersion))return 'This older queued item has no verifiable permission snapshot. Review and recapture it; nothing was sent. / इस पुरानी कतार की अनुमति सत्यापित नहीं हो सकती।';
+ if(item.authority.consentVersion!==patient.consentVersion||p.consentVersion!==patient.consentVersion)return 'Permission changed after this media was queued. Review or discard it; nothing was sent. / मीडिया कतार में आने के बाद अनुमति बदल गई।';
+ if(item.authority.expiresAt!==p.expiresAt||item.authority.purpose!==item.purpose)return 'The queued media authority does not match its signed field grant. Review it; nothing was sent. / कतार की अनुमति हस्ताक्षरित फ़ील्ड अनुमति से मेल नहीं खाती।';
  const v=s.visits.find(x=>x.id===p.visitId);if(!v||v.state!=='draft'||v.voidedAt||v.supersededBy)return 'The visit is no longer a draft, so media cannot be added. Review it online. / विज़िट अब ड्राफ़्ट नहीं है।';
  return null;}
 async function uploadMedia(d,s){const e=epoch,k=key,p=d.packet.payload;await sweepMedia().catch(()=>{});if(e!==epoch)return 0;if(!(d.media??[]).some(x=>x.state==='queued'))return 0;
  if(!s){s=await loadWorkspace(p.organisationId);if(!s||e!==epoch)return 0;}if(s.user.userId!==p.userId)throw Error('Sign in as the worker who prepared this visit.');
  let sent=0;for(const item of d.media.filter(x=>x.state==='queued')){const earlierAttempt=Boolean(item.pending);
-  const why=mediaBlock(p,s);if(why){item.state='review';item.reason=why+(item.pending?' An earlier attempt may have reached the server; check the visit before discarding. / पिछला प्रयास सर्वर तक पहुँचा हो सकता है।':'');await persist();continue;}
+  const why=mediaBlock(p,s,item);if(why){item.state='review';item.reason=why+(item.pending?' An earlier attempt may have reached the server; check the visit before discarding. / पिछला प्रयास सर्वर तक पहुँचा हो सकता है।':'');await persist();continue;}
   const record=await readMedia(item.id);if(e!==epoch)return sent;let bytes=null;try{bytes=record&&await unsealBytes(k,record);}catch{}
   if(!bytes||await hex(bytes)!==item.sha256){item.state='review';item.reason='The device copy is missing or damaged. '+(earlierAttempt?'An earlier upload outcome is unknown; retain its receipt reference.':'Nothing was sent.')+' / डिवाइस प्रति क्षतिग्रस्त।';await persist();continue;}
   if(e!==epoch)return sent;item.pending=true;await persist();if(e!==epoch)return sent;let r;
@@ -112,7 +118,7 @@ async function uploadMedia(d,s){const e=epoch,k=key,p=d.packet.payload;await swe
   catch{reportDeviceFailure(book,'sync-transport').catch(()=>{});throw Error('Upload outcome not confirmed. Retry uses the same key. / अपलोड की पुष्टि नहीं हुई; उसी कुंजी से फिर करें।');}
   let j={};try{j=await r.json()}catch{}if(e!==epoch)return sent;
   // Only a response naming the stored media confirms the upload; anything else keeps the device copy and the pending key.
-  if(r.ok&&typeof j.mediaId==='string'&&j.mediaId){item.state='uploaded';item.mediaId=j.mediaId;item.uploadedAt=new Date().toISOString();delete item.pending;delete item.reason;await persist();await deleteMedia(item.id).catch(()=>{});sent++;touch();continue;}
+  if(r.ok&&typeof j.mediaId==='string'&&j.mediaId){item.state='uploaded';item.mediaId=j.mediaId;item.uploadedAt=new Date().toISOString();item.retention={...item.retention,state:'server-retained-device-deleted'};delete item.pending;delete item.reason;await persist();await deleteMedia(item.id).catch(()=>{});sent++;touch();continue;}
   if(r.ok)throw Error('Upload outcome not confirmed: the response did not name the stored file. Sign in again, then retry with the same key. / अपलोड की पुष्टि नहीं हुई।');
   if([400,403,404,409,410,413,415,422].includes(r.status)){item.state='review';item.reason=(j.error??`Refused (${r.status}).`)+(earlierAttempt?' An earlier upload outcome is unknown; retain its receipt reference.':' Nothing was added.')+' / ऑनलाइन जाँचें।';if(!earlierAttempt)delete item.pending;reportDeviceFailure(book,'sync-refused').catch(()=>{});await persist();continue;}
   throw Error((j.error??'Upload not confirmed.')+' Retry uses the same key. / उसी कुंजी से फिर करें।');}
