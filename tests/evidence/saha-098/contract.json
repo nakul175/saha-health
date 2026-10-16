@@ -1,0 +1,15 @@
+{
+  "storyId": "SAHA-098",
+  "passed": 10,
+  "failed": 0,
+  "profile": {
+    "allowanceBytes": 524288000,
+    "structuredLimit": 200,
+    "mediaLimit": 100,
+    "mediaItemMaxBytes": 4194304,
+    "warningBytes": 52428800,
+    "warningUseRatio": 0.8
+  },
+  "coverage": "Pure capacity and restart contract: 200 structured encounters, 100 media items at 4 MiB within 500 MiB; warning/refusal at browser pressure, unknown capacity, item/count overflow; all refusals preserve the original unsent book.",
+  "limits": "Synthetic local contract only; physical reference-device quota and restart acceptance remain separate."
+}

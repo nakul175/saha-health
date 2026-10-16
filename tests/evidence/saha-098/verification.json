@@ -1,0 +1,20 @@
+{
+  "storyId": "SAHA-098",
+  "completedAtUtc": "2026-10-16T11:29:00Z",
+  "results": {
+    "offlineCapacityContract": {"passed": 10, "failed": 0},
+    "fieldStorageWarnings": {"passed": 32, "failed": 0},
+    "fieldCapacity200Drafts": {"passed": 15, "failed": 0},
+    "fieldMediaCapacity100Items": {"passed": 30, "failed": 0},
+    "fieldRecovery": {"passed": 25, "failed": 0},
+    "fieldMediaQueue": {"passed": 117, "failed": 0},
+    "offlineAuthority": {"passed": 11, "failed": 0},
+    "fieldShellCurrent": {"passed": 12, "failed": 0},
+    "fieldShellCompatibility": {"passed": 12, "failed": 0},
+    "appShellReview": {"passed": 16, "failed": 0},
+    "typecheck": "passed",
+    "productionBuild": "passed"
+  },
+  "scope": "Synthetic local capacity, refusal, restart serialization, authority and shell-cache evidence. The device shows pending counts and refuses additions when an available StorageManager cannot provide durable measurable capacity, without mutating existing unsent work.",
+  "limits": "Physical reference-device quota, browser eviction behavior, formal QA/domain approval, CI, merge and observed deployment remain separate. Browsers without StorageManager retain the legacy warning path and require separate approved-device qualification."
+}
