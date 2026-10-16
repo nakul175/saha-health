@@ -6,8 +6,8 @@ import assert from 'node:assert/strict';import ts from 'typescript';import {read
 const dir=mkdtempSync(join(process.cwd(),'.agent-quality-contract-'));let passed=0;const check=fn=>{fn();passed++};
 const status=async(fn,code,pattern)=>{try{await fn();}catch(e){assert.equal(e.status,code,e.message);if(pattern)assert.match(e.message,pattern);passed++;return e;}assert.fail(`expected ${code}`);};
 try{
- for(const file of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'agent-provider', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
- const {localAssess,localExtract,validateOutput,conflictsFor,markConflicts,describeConflicts,agentApply,providers,AGENT_VERSION}=await import(pathToFileURL(join(dir,'agent.js')));
+ for(const file of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts')).map(x=>x.slice(0,-3)))writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ const {localAssess,assessInputQuality,localExtract,validateOutput,conflictsFor,markConflicts,describeConflicts,agentApply,providers,AGENT_VERSION}=await import(pathToFileURL(join(dir,'agent.js')));
  const {invokeAgent,OUTPUT_SCHEMA,INSTRUCTIONS}=await import(pathToFileURL(join(dir,'agent-provider.js'))),{EVALUATION_CASES,scoreEvaluation}=await import(pathToFileURL(join(dir,'evaluation.js'))),{actionPlan}=await import(pathToFileURL(join(dir,'action-plan.js')));
  const reason=x=>localAssess(x)?.reason??null;
 
@@ -15,12 +15,13 @@ try{
  check(()=>assert.equal(AGENT_VERSION,'saha-agent-1.2.0'));
  for(const x of ['weight 5? kg; BP 120/? mmHg','Weight [inaudible] kg','BP 1?0/80 mmHg','Temperature 3_7 C','Weight � kg'])check(()=>assert.equal(reason(x),'noisy_input',x));
  for(const x of ['Weight 130 pounds; temperature 100 F','Weight 130 lbs','Temperature 99.1 °F'])check(()=>assert.equal(reason(x),'unsupported_case',x));
- for(const x of ['Patient comfortable today, no complaints','Seen at home with her mother','No cough for 4 days','Weight not measured; BP unknown','Maybe weight 58 kg; temperature 37 C'])check(()=>assert.equal(reason(x),'insufficient_input',x));
+ for(const x of ['Patient comfortable today, no complaints','Seen at home with her mother','No cough for 4 days','Weight not measured; BP unknown'])check(()=>assert.equal(reason(x),'insufficient_input',x));
  check(()=>assert.equal(reason('वजन 58 किलोग्राम'),'unsupported_case'));
- for(const x of ['Weight 58 kg','Feeling better? Weight 58 kg'])check(()=>assert.equal(reason(x),null,x));
- const run=(input,extra={})=>({id:'quality-run',task:'extract',input,provider:{id:'local',mode:'local',model:'structured-parser-v2'},...extra});
+ for(const x of ['Weight 58 kg','Feeling better? Weight 58 kg','Maybe weight 58 kg; temperature 37 C'])check(()=>assert.equal(reason(x),null,x));
+ check(()=>{const q=assessInputQuality('Maybe weight 58 kg; temperature 37 C',{language:'en'});assert.equal(q.gates.find(x=>x.dimension==='uncertainty').state,'fail');assert.equal(q.assessment,null);assert.deepEqual(localExtract('Maybe weight 58 kg; temperature 37 C').proposals.map(x=>x.field),['temperature']);});
+ const run=(input,extra={})=>{const provider=extra.provider??{id:'local',version:2,mode:'local',model:'structured-parser-v2'};return {id:'quality-run',version:'saha-agent-1.2.0',versionPin:{format:'saha-ai-version-pin-v1',capability:null,provider:{id:provider.id,release:provider.version},modelRelease:provider.model,agentRelease:'saha-agent-1.2.0',prompt:{id:'documentary-evidence',version:'1.2.0'},tool:{contract:'saha-agent-v1',version:1},data:{inputSchema:'saha-documentary-evidence-input-v1',outputSchema:'saha-evidence-v1',version:1},evaluation:null},task:'extract',input,provider,...extra};};
  const noisy=await invokeAgent(run('weight 58 kg; BP 120/? mmHg'),{},{},[]);
- check(()=>{assert.deepEqual(noisy.output.proposals,[],'the legible weight is withheld too');assert.equal(noisy.output.assessment.status,'unable_to_assess');assert.equal(noisy.output.assessment.reason,'noisy_input');assert.match(noisy.message,/^Unable to assess: .*Re-enter.*not a normal or negative result/)});
+ check(()=>{assert.deepEqual(noisy.output.proposals,[],'the legible weight is withheld too');assert.equal(noisy.output.assessment.status,'unable_to_assess');assert.equal(noisy.output.assessment.reason,'noisy_input');assert.match(noisy.message,/^Unable to assess: .*Repeat the capture.*not a normal or negative result/)});
  const empty=await invokeAgent(run('Weight not measured; BP unknown'),{},{},[]);
  check(()=>{assert.equal(empty.output.assessment.reason,'insufficient_input','a stated absence is not converted into a negative result');assert.match(empty.message,/structured capture/)});
  const summary=await invokeAgent(run('Patient comfortable today',{task:'summary'}),{},{},[]);check(()=>assert.equal(summary.output.assessment,undefined,'only extraction checks measurement quality'));
@@ -35,13 +36,13 @@ try{
  check(()=>{assert.ok(OUTPUT_SCHEMA.required.includes('assessment'));assert.deepEqual(OUTPUT_SCHEMA.properties.assessment.anyOf[1].properties.reason.enum,['insufficient_input','noisy_input','unsupported_case']);assert.match(INSTRUCTIONS,/unable_to_assess/);assert.match(INSTRUCTIONS,/Never report an unreadable measurement as absent or normal/)});
  const integration={id:'custom',version:2,status:'active',endpoint:'https://provider.example/agent',credentialBinding:'SAHA_CUSTOM',agentContract:{version:1,model:'example-v1'}},runtime={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_CUSTOM:'test',SAHA_ALLOWED_ORIGINS:'https://provider.example'};
  const custom=await invokeAgent(run('Cough recording, heavy background noise',{provider:{id:'custom',version:2,mode:'http',model:'example-v1'}}),{},runtime,[integration],async()=>Response.json({proposals:[],highlights:[],assessment:{...unable,detail:'Recording too noisy to assess.'}}));
- check(()=>{assert.equal(custom.output.assessment.reason,'noisy_input');assert.match(custom.message,/Recording too noisy to assess/)});
+ check(()=>{assert.equal(custom.output.assessment.reason,'noisy_input');assert.match(custom.message,/input is marked noisy.*Repeat the capture/i)});
  await status(()=>invokeAgent(run('Weight 58 kg',{provider:{id:'custom',version:2,mode:'http',model:'example-v1'}}),{},runtime,[integration],async()=>Response.json({proposals:[proposal],highlights:[],assessment:unable})),502,/must not propose values/);
 
  // The synthetic corpus still passes in English; the noisy and unsupported cases are now explicit.
  const cases=EVALUATION_CASES.filter(c=>c.language==='en'),results=[];for(const c of cases){const r=await invokeAgent(run(c.input),{},{},[]);results.push({caseId:c.id,state:'completed',output:r.output});}
  check(()=>{const m=scoreEvaluation(cases,results);assert.equal(m.passed,true);assert.equal(m.criticalFailures,0)});
- check(()=>assert.deepEqual(results.filter(r=>r.output.assessment).map(r=>[r.caseId,r.output.assessment.reason]),[['unsupported-unit','unsupported_case'],['noise','noisy_input']]));
+ check(()=>assert.deepEqual(results.filter(r=>r.output.assessment).map(r=>[r.caseId,r.output.assessment.reason]),[['negated','insufficient_input'],['example','insufficient_input'],['injection','insufficient_input'],['unsupported-unit','unsupported_case'],['unknown','insufficient_input'],['noise','noisy_input']]));
 
  // Conflicts with recorded facts and between open results on the same visit version.
  const now=new Date().toISOString();

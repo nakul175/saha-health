@@ -9,7 +9,7 @@ let passed=0;
 const check=fn=>{fn();passed++};
 const rejects=async(fn,pattern)=>{await assert.rejects(fn,pattern);passed++};
 try{
- for(const file of readdirSync('lib/saha').filter(x=>x.endsWith('.ts'))){
+ for(const file of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts'))){
   const source=readFileSync(join('lib/saha',file),'utf8');
   const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");
   writeFileSync(join(dir,file.replace(/\.ts$/,'.js')),code);
@@ -19,7 +19,8 @@ try{
  const input='weight 58 kg';
  const output={proposals:[{field:'weight',value:'58',quote:input,start:0,end:input.length}],highlights:[]};
  const provider={id:'custom',name:'Synthetic provider',mode:'http',model:'fixture-v1',version:4,available:true,reason:'fixture'};
- const run={id:'req-056',version:A.AGENT_VERSION,task:'extract',input,provider};
+ const versionPin={format:'saha-ai-version-pin-v1',capability:null,provider:{id:'custom',release:4},modelRelease:'fixture-v1',agentRelease:A.AGENT_VERSION,prompt:{id:'documentary-evidence',version:'1.2.0'},tool:{contract:'saha-agent-v1',version:1},data:{inputSchema:'saha-documentary-evidence-input-v1',outputSchema:'saha-evidence-v1',version:1},evaluation:null};
+ const run={id:'req-056',version:A.AGENT_VERSION,versionPin,task:'extract',input,provider};
  const integration={id:'custom',name:'Synthetic provider',kind:'ai',mode:'http',status:'active',version:4,endpoint:'https://provider.example/agent',credentialBinding:'SAHA_FIXTURE',agentContract:{version:1,model:'fixture-v1'},programmes:[],description:'fixture'};
  const runtime={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_ALLOWED_ORIGINS:'https://provider.example',SAHA_FIXTURE:'not-a-real-secret'};
 

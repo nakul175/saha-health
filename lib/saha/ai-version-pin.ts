@@ -1,7 +1,9 @@
 import type { AgentProvider } from './agent';
 import type { OrgState } from './types';
 import { entryFor } from './governance';
-import { DATA_RELEASE, PROMPT_RELEASE, TOOL_RELEASE } from './ai-version-releases';
+export const PROMPT_RELEASE={id:'documentary-evidence',version:'1.2.0'} as const;
+export const TOOL_RELEASE={contract:'saha-agent-v1',version:1} as const;
+export const DATA_RELEASE={inputSchema:'saha-documentary-evidence-input-v1',outputSchema:'saha-evidence-v1',version:1} as const;
 
 /**
  * Immutable release identity attached to every assistant request.  The fields are
@@ -20,7 +22,6 @@ export type AIVersionPin = {
   evaluation: { id: string; corpusVersion: string; corpusHash: string; manifestHash: string } | null;
 };
 
-export { DATA_RELEASE, PROMPT_RELEASE, TOOL_RELEASE } from './ai-version-releases';
 
 export function versionPin(
   s: OrgState,

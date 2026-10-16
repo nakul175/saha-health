@@ -2,6 +2,7 @@ import type { OrgState, Visit } from './types';
 import type { AgentRun } from './agent';
 import type { GovernanceEntry } from './governance';
 import { fail } from './core';
+import { DATA_RELEASE, PROMPT_RELEASE, TOOL_RELEASE } from './ai-version-pin';
 
 export const EXPERIMENTAL_OUTPUT_USES=['trial','shadow','training','synthetic-evaluation'] as const;
 export type ExperimentalOutputUse=typeof EXPERIMENTAL_OUTPUT_USES[number];

@@ -34,7 +34,8 @@ const good=report('Weight 58 kg; BP 120/80 mmHg');
 check(()=>assert.equal(good.assessment,null));
 check(()=>assert.ok(good.gates.every(g=>g.state==='pass')));
 
-const run=(input,extra={})=>({id:'quality-gate-run',task:'extract',input,context:{language:'en',setting:'community',device:'browser'},provider:{id:'custom',version:2,mode:'http',model:'example-v1'},...extra});
+const versionPin={format:'saha-ai-version-pin-v1',capability:null,provider:{id:'custom',release:2},modelRelease:'example-v1',agentRelease:'saha-agent-1.2.0',prompt:{id:'documentary-evidence',version:'1.2.0'},tool:{contract:'saha-agent-v1',version:1},data:{inputSchema:'saha-documentary-evidence-input-v1',outputSchema:'saha-evidence-v1',version:1},evaluation:null};
+const run=(input,extra={})=>({id:'quality-gate-run',version:'saha-agent-1.2.0',versionPin,task:'extract',input,context:{language:'en',setting:'community',device:'browser'},provider:{id:'custom',version:2,mode:'http',model:'example-v1'},...extra});
 const integration={id:'custom',version:2,status:'active',endpoint:'https://provider.example/agent',credentialBinding:'SAHA_CUSTOM',agentContract:{version:1,model:'example-v1'}};
 const runtime={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_CUSTOM:'synthetic-test-key',SAHA_ALLOWED_ORIGINS:'https://provider.example'};
 let calls=0;

@@ -6,7 +6,7 @@ import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.capability-eligibility-'));let passed=0;
 const check=(label,fn)=>{fn();passed++;};
 try{
-  for(const name of readdirSync('lib/saha').filter(x=>x.endsWith('.ts'))){const file=name.slice(0,-3);writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${name}`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));}
+  for(const name of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts'))){const file=name.slice(0,-3);writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${name}`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));}
   const {capabilityEligibility,rankEligibleCapabilities,governanceSpec}=await import(pathToFileURL(join(dir,'governance.js')));
   const {agentApply,AGENT_VERSION}=await import(pathToFileURL(join(dir,'agent.js')));
   const now=new Date().toISOString(),today=now.slice(0,10),later=new Date(Date.now()+86400000).toISOString().slice(0,10);
@@ -21,7 +21,7 @@ try{
   const entry=(id,p,languages)=>({id,revision:1,version:1,spec:spec(p,languages),manifestHash:`hash-${id}`,createdBy:'owner',createdAt:now,state:'active',history:[],review:{by:'reviewer',memberVersion:1,ownerVersion:1,authorVersion:1,at:now,reference:'SYNTHETIC',findings:'Synthetic pass.',dependencyStamp:'[]',evaluationId:`evaluation-${id}`}});
   const a=entry('approved-entry',approved,['en']),c=entry('cheap-entry',cheap,['hi']);
   check('legacy capability declarations receive explicit current routing defaults',()=>{const parsed=governanceSpec.parse({...a.spec,jurisdictions:undefined,connectivity:undefined,minimumInputQuality:undefined});assert.deepEqual(parsed.jurisdictions,['IN']);assert.deepEqual(parsed.connectivity,['online']);assert.equal(parsed.minimumInputQuality,'adequate');});
-  const state={organisation:{id:'org',name:'Synthetic',revision:1,createdAt:now},members:[owner,reviewer,worker],teams:[{id:'team',name:'Team',createdAt:now}],invitations:[],workspace:{people:[person],visits:[visit],referrals:[],audit:[],role:'asha',integrations:[],submissions:[],receipts:{}},governance:{entries:[a,c],evaluations:[a,c].map(e=>({id:e.review.evaluationId,manifestHash:e.manifestHash,state:'completed',metrics:{passed:true}})),safety:[]}};
+  const state={organisation:{id:'org',name:'Synthetic',revision:1,createdAt:now},members:[owner,reviewer,worker],teams:[{id:'team',name:'Team',createdAt:now}],invitations:[],workspace:{people:[person],visits:[visit],referrals:[],audit:[],role:'asha',integrations:[],submissions:[],receipts:{}},governance:{entries:[a,c],evaluations:[a,c].map(e=>({id:e.review.evaluationId,entryId:e.id,corpusVersion:'fixture-v1',corpusHash:'fixture-corpus-'+e.id,manifestHash:e.manifestHash,state:'completed',metrics:{passed:true}})),safety:[]}};
   const context={language:'en',setting:'community',device:'browser',jurisdiction:'IN',connectivity:'online',inputQuality:'adequate',intendedUse:'documentary-evidence'};
   check('approved candidate eligible',()=>assert.equal(capabilityEligibility(state,worker,person,approved,'extract',context,AGENT_VERSION).eligible,true));
   check('cheaper incompatible language excluded with reason',()=>assert.deepEqual(capabilityEligibility(state,worker,person,cheap,'extract',context,AGENT_VERSION).exclusions.map(x=>x.code),['language']));

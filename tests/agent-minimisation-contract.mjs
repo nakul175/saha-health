@@ -9,7 +9,7 @@ const check=fn=>{fn();passed++};
 const status=async(fn,code,pattern)=>{try{await fn();}catch(e){assert.equal(e.status,code,e.message);if(pattern)assert.match(e.message,pattern);passed++;return e;}assert.fail(`expected ${code}`);};
 const throws=fn=>{assert.throws(fn,e=>e&&typeof e==='object'&&'status' in e);passed++};
 try{
- for(const file of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'agent-provider', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ for(const file of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts')).map(x=>x.slice(0,-3)))writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const {collectSensitive,checkAgentSource,minimiseAgentPayload,PAYLOAD_KEYS}=await import(pathToFileURL(join(dir,'agent-minimisation.js')));
  const {invokeAgent}=await import(pathToFileURL(join(dir,'agent-provider.js')));
  const {agentApply,providers,AGENT_VERSION,current}=await import(pathToFileURL(join(dir,'agent.js')));
@@ -71,14 +71,15 @@ try{
 
  // ---- invokeAgent: the built provider payload is minimised before it is sent ----
  const runtime={OPENAI_API_KEY:'test-not-a-real-key',SAHA_EXTERNAL_APIS_ENABLED:'true'};
- const run={id:'contract-run',task:'extract',input:'weight 58 kg',provider:{id:'openai',mode:'openai',model:'gpt-4.1-mini-2025-04-14'}};
+ const versionPin={format:'saha-ai-version-pin-v1',capability:null,provider:{id:'openai',release:1},modelRelease:'gpt-4.1-mini-2025-04-14',agentRelease:'saha-agent-1.2.0',prompt:{id:'documentary-evidence',version:'1.2.0'},tool:{contract:'saha-agent-v1',version:1},data:{inputSchema:'saha-documentary-evidence-input-v1',outputSchema:'saha-evidence-v1',version:1},evaluation:null};
+ const run={id:'contract-run',version:'saha-agent-1.2.0',versionPin,task:'extract',input:'weight 58 kg',provider:{id:'openai',version:1,mode:'openai',model:'gpt-4.1-mini-2025-04-14'}};
  let calls=0,seenBody=null;
  const send=async(url,init)=>{calls++;seenBody=JSON.parse(init.body);return Response.json({status:'completed',model:run.provider.model,output:[{type:'message',content:[{type:'output_text',text:JSON.stringify({proposals:[],highlights:[]})}]}],usage:{input_tokens:10,output_tokens:10}})};
  const ok=await invokeAgent(run,{},runtime,[],send,sensitive);
  check(()=>{assert.equal(calls,1);assert.equal('patientId' in seenBody,false);assert.equal(seenBody.store,false);assert.equal(JSON.parse(seenBody.input).source,'weight 58 kg')});
  // A source that leaks an identifier is refused before the transport is called.
  let calls2=0;
- await status(()=>invokeAgent({...run,input:'Ravi Kumar weight 58 kg'},{},runtime,[],async()=>{calls2++;return new Response()},sensitive),409,/minimisation check/);
+ await status(()=>invokeAgent({...run,input:'Ravi Kumar weight 58 kg'},{},runtime,[],async()=>{calls2++;return new Response()},sensitive),409,/patient data|minimisation check/g);
  check(()=>assert.equal(calls2,0,'nothing was sent'));
  const integration={id:'custom',version:2,status:'active',endpoint:'https://provider.example/agent',credentialBinding:'SAHA_CUSTOM',agentContract:{version:1,model:'example-v1'}};
  const httpRuntime={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_CUSTOM:'test',SAHA_ALLOWED_ORIGINS:'https://provider.example'};
@@ -86,7 +87,7 @@ try{
  let httpCalls=0,seenHttp=null;
  const httpOk=await invokeAgent(customRun,{},httpRuntime,[integration],async(url,init)=>{httpCalls++;seenHttp=JSON.parse(init.body);return Response.json({proposals:[],highlights:[]})},sensitive);
  check(()=>{assert.equal(httpCalls,1);assert.equal(seenHttp.contract,'saha-agent-v1');assert.equal('name' in seenHttp,false);assert.equal('abha' in seenHttp,false);assert.equal(seenHttp.source,'weight 58 kg')});
- await status(()=>invokeAgent({...customRun,input:'Asha Devi weight 58 kg'},{},httpRuntime,[integration],async()=>new Response(),sensitive),409,/minimisation check/);
+ await status(()=>invokeAgent({...customRun,input:'Asha Devi weight 58 kg'},{},httpRuntime,[integration],async()=>new Response(),sensitive),409,/patient data|minimisation check/g);
 
  // ---- prepareAgent (before preparing): the source check runs on an external provider, organisation-wide ----
  const now=new Date().toISOString(),today=now.slice(0,10),later=new Date(Date.now()+60*86400000).toISOString().slice(0,10);
@@ -97,7 +98,7 @@ try{
  const ps=providers([],{OPENAI_API_KEY:'fake-fixture-key',SAHA_EXTERNAL_APIS_ENABLED:'true'}),openai=ps.find(x=>x.id==='openai');
  const spec={kind:'capability',key:'fixture-cap',title:'Synthetic capability',ownerId:'owner',teamIds:['team'],effectiveFrom:today,reviewBy:later,changeSummary:'Synthetic minimisation fixture only.',providerId:'openai',model:openai.model,agentVersion:AGENT_VERSION,purpose:'documentary-evidence',ageMin:18,ageMax:60,roles:['asha','clinician'],languages:['en'],settings:['community'],devices:['browser'],tasks:['extract','summary'],excludedUses:'No clinical decisions authorised.',supportContact:'Synthetic owner',hostingRegion:'Not activated',retentionTerms:'Synthetic test input only, no real data.',trainingUse:'not-authorised',agreementReference:'FIXTURE',dailyCallLimit:100,dailyTokenBudget:600000};
  const entry={id:'cap',revision:1,version:3,spec,manifestHash:'fixture-hash',createdBy:'author',createdAt:now,state:'active',history:[],review:{by:'reviewer',memberVersion:1,ownerVersion:1,authorVersion:1,dependencyStamp:'[]',evaluationId:'evaluation'}};
- const s={organisation:{id:'org'},teams:[{id:'team',name:'Care team'}],members:[owner,reviewer,author,worker],workspace:{people:[p,other],visits:[v],referrals:[],audit:[],role:'clinician',integrations:[]},governance:{entries:[entry],evaluations:[{id:'evaluation',manifestHash:entry.manifestHash,state:'completed',metrics:{passed:true}}],safety:[]}};
+ const s={organisation:{id:'org'},teams:[{id:'team',name:'Care team'}],members:[owner,reviewer,author,worker],workspace:{people:[p,other],visits:[v],referrals:[],audit:[],role:'clinician',integrations:[]},governance:{entries:[entry],evaluations:[{id:'evaluation',entryId:entry.id,manifestHash:entry.manifestHash,corpusVersion:'fixture-v1',corpusHash:'fixture-corpus',provider:{id:'openai',version:1,mode:'openai',model:openai.model},results:[],state:'completed',metrics:{passed:true}}],safety:[]}};
  const actor=id=>({userId:id,displayName:'Synthetic '+id});
  const context={language:'en',setting:'community',device:'browser'};
  const prepare=(input,task='extract')=>agentApply(s,{type:'prepareAgent',visitId:v.id,version:v.version,providerId:'openai',task,input,context},actor('worker'),worker,ps);

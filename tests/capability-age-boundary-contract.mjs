@@ -9,7 +9,7 @@ const output = process.env.SAHA_AGE_REPORT ?? 'tests/reports/capability-age-boun
 let failure;
 const check = (name, fn) => { fn(); checks.push(name); };
 try {
-  for (const file of readdirSync('lib/saha').filter(f => f.endsWith('.ts')))
+  for (const file of (await import('node:fs')).readdirSync('lib/saha').filter(f => f.endsWith('.ts')))
     writeFileSync(join(dir, file.replace(/\.ts$/, '.js')), ts.transpileModule(readFileSync('lib/saha/' + file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const { checkCapability } = await import(pathToFileURL(join(dir, 'governance.js')).href);
   const { agentApply, AGENT_VERSION } = await import(pathToFileURL(join(dir, 'agent.js')).href);
@@ -25,7 +25,7 @@ try {
   const context = { language: 'en', setting: 'community', device: 'browser' };
   const spec = { kind: 'capability', key: 'fixture-cap', title: 'Synthetic capability', ownerId: owner.userId, teamIds: ['team'], effectiveFrom: today, reviewBy: tomorrow, changeSummary: 'Synthetic fixture only.', providerId: provider.id, model: provider.model, agentVersion: AGENT_VERSION, purpose: 'documentary-evidence', ageMin: 18, ageMax: 60, roles: ['asha', 'clinician'], languages: ['en'], settings: ['community'], devices: ['browser'], tasks: ['extract', 'summary'], excludedUses: 'No clinical decisions authorised.', supportContact: 'Synthetic owner', hostingRegion: 'No external invocation', retentionTerms: 'Synthetic fixture only.', trainingUse: 'not-authorised', agreementReference: 'FIXTURE-NOT-APPROVAL', dailyCallLimit: 2, dailyTokenBudget: 12000 };
   const entry = { id: 'synthetic-cap', revision: 1, version: 3, spec, manifestHash: 'fixture-hash', createdBy: owner.userId, createdAt: now, state: 'active', history: [], review: { by: reviewer.userId, memberVersion: 1, ownerVersion: 1, authorVersion: 1, dependencyStamp: '[]', evaluationId: 'fixture-evaluation' } };
-  const state = { members: [owner, reviewer, member], workspace: { people: [person], visits: [visit], referrals: [], audit: [], role: 'asha', integrations: [] }, governance: { entries: [entry], evaluations: [{ id: 'fixture-evaluation', manifestHash: entry.manifestHash, state: 'completed', metrics: { passed: true } }], safety: [] } };
+  const state = { organisation:{id:'org'}, members: [owner, reviewer, member], workspace: { people: [person], visits: [visit], referrals: [], audit: [], role: 'asha', integrations: [] }, governance: { entries: [entry], evaluations: [{ id: 'fixture-evaluation', entryId:entry.id, corpusVersion:'fixture-v1', corpusHash:'fixture-corpus', manifestHash: entry.manifestHash, state: 'completed', metrics: { passed: true } }], safety: [] } };
   for (const age of [18, 32, 60]) check('Explicit in-range age ' + age + ' retains declared eligibility', () => assert.equal(checkCapability(state, member, { ...person, age }, provider, 'extract', context, AGENT_VERSION).id, entry.id));
   for (const age of [17, 61]) check('Explicit outside-range age ' + age + ' remains refused', () => assert.throws(() => checkCapability(state, member, { ...person, age }, provider, 'extract', context, AGENT_VERSION), /outside/));
   const malformed = [[undefined, 'unknown'], [NaN, 'NaN'], [Infinity, 'positive infinity'], [-Infinity, 'negative infinity'], ['32', 'numeric text'], ['unknown', 'text'], [null, 'null'], [{}, 'object']];
