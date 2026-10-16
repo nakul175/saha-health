@@ -18,8 +18,9 @@ import type { Member, OrgState } from './types';
 // when the manifest declares a reviewed mapping (migratesFrom, renamedFrom). Installed packs are synthetic configuration:
 // a governance review here is not clinical approval of the content.
 export const MANIFEST_FORMAT='saha-pack-manifest-1';
+export const COMPLETE_MANIFEST_FORMAT='saha-pack-manifest-2';
 export const MAX_MANIFEST_CHARS=8000,MAX_INSTALLATIONS=12;
-export const NOT_CLINICALLY_APPROVED='Installed packs are synthetic configuration. Review and activation here are a governance check of structure and conflicts; they are not clinical approval of the content.';
+export const NOT_CLINICALLY_APPROVED='Installed packs are synthetic configuration. A legacy structural review is not clinical approval. A complete v2 pack separately binds named business and clinical approvals to its exact manifest; neither is production or formal acceptance.';
 const PROGRAMMES=['Maternal care','Chronic care','TB screening','Child health','General care'] as const;
 // A measurement question captures a shared visit fact; its id is the fact key and its unit is fixed.
 export const FACT_UNITS={weight:'kg',systolic:'mmHg',diastolic:'mmHg',temperature:'°C',weeks:'weeks',coughDays:'days'} as const;
@@ -33,18 +34,31 @@ const rule=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),label,conditi
 const condition=rule.shape.condition;
 const completionRule=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),label,requiredQuestions:z.array(qid).min(1).max(25).refine(x=>new Set(x).size===x.length,'List completion questions once.'),when:condition.optional()}).strict();
 const referralNeed=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),need:z.enum(NEED_IDS),needLabel:z.string().trim().min(3).max(100).optional(),compatibilityKey:z.string().regex(/^[a-z][a-z0-9-]{2,79}$/).nullable(),urgency:z.enum(['routine','urgent','emergency']),when:condition.optional()}).strict().refine(x=>(x.need==='other')===!!x.needLabel,'Name only the other need.');
-export const packManifestSchema=z.object({format:z.literal(MANIFEST_FORMAT),id:z.string().regex(/^[a-z][a-z0-9_]{1,31}$/,'Pack ids are 2–32 lower-case letters, digits or underscores.'),version:z.number().int().min(1).max(999),name:z.string().trim().min(3).max(80),programme:z.enum(PROGRAMMES),purpose:z.string().trim().min(10).max(300),
- questions:z.array(question).min(1).max(25),completionRules:z.array(completionRule).max(10).optional(),referralNeeds:z.array(referralNeed).max(10).optional(),schedule:z.object({followUpWithinDays:z.number().int().min(1).max(365),note:z.string().trim().max(300).optional()}).strict().optional(),escalation:z.array(rule).max(10).optional(),migratesFrom:z.array(z.number().int().min(1).max(999)).max(10).optional(),changeNote:z.string().trim().min(10).max(300)}).strict();
+const completeDefinition=z.object({
+ population:z.object({description:z.string().trim().min(10).max(300),eligibility:z.array(z.string().trim().min(3).max(200)).min(1).max(20)}).strict(),
+ mandatoryEvidence:z.array(z.string().trim().min(3).max(160)).min(1).max(20),
+ authorisedRoles:z.array(z.enum(['asha','clinician','admin'])).min(1).max(3).refine(x=>new Set(x).size===x.length,'List each authorised role once.'),
+ workflowStates:z.array(z.object({id:z.string().regex(/^[a-z][a-z0-9_-]{1,39}$/),label:z.string().trim().min(3).max(100),terminal:z.boolean()}).strict()).min(2).max(12),
+ destinationMappings:z.array(z.object({id:z.string().regex(/^[a-z][a-z0-9_-]{1,39}$/),label:z.string().trim().min(3).max(100),destinationType:z.enum(['referral','registration','report']),requiresApproval:z.literal(true)}).strict()).max(20),
+ indicators:z.array(z.object({id:z.string().regex(/^[a-z][a-z0-9_-]{1,39}$/),label:z.string().trim().min(3).max(100),numerator:z.string().trim().min(3).max(200),denominator:z.string().trim().min(3).max(200)}).strict()).min(1).max(20),
+ approvals:z.object({business:z.literal(true),clinical:z.literal(true)}).strict(),
+ effectiveFrom:z.string().datetime(),
+}).strict();
+export const packManifestSchema=z.object({format:z.enum([MANIFEST_FORMAT,COMPLETE_MANIFEST_FORMAT]),id:z.string().regex(/^[a-z][a-z0-9_]{1,31}$/,'Pack ids are 2–32 lower-case letters, digits or underscores.'),version:z.number().int().min(1).max(999),name:z.string().trim().min(3).max(80),programme:z.enum(PROGRAMMES),purpose:z.string().trim().min(10).max(300),
+ questions:z.array(question).min(1).max(25),completionRules:z.array(completionRule).max(10).optional(),referralNeeds:z.array(referralNeed).max(10).optional(),schedule:z.object({followUpWithinDays:z.number().int().min(1).max(365),note:z.string().trim().max(300).optional()}).strict().optional(),escalation:z.array(rule).max(10).optional(),migratesFrom:z.array(z.number().int().min(1).max(999)).max(10).optional(),governance:completeDefinition.optional(),changeNote:z.string().trim().min(10).max(300)}).strict().superRefine((x,c)=>{
+ if(x.format===COMPLETE_MANIFEST_FORMAT&&!x.governance)c.addIssue({code:'custom',path:['governance'],message:'A complete programme pack must define population, eligibility, evidence, roles, workflow states, destinations, indicators, approvals and its effective date.'});
+ if(x.format===MANIFEST_FORMAT&&x.governance)c.addIssue({code:'custom',path:['governance'],message:`Use ${COMPLETE_MANIFEST_FORMAT} for a complete governed definition.`});
+});
 export type PackManifest=z.infer<typeof packManifestSchema>;
 export type InstallState='staged'|'approved'|'rejected'|'active'|'retired';
 export type InstalledPack={id:string;packId:string;version:number;state:InstallState;manifest:PackManifest;manifestHash:string;pack:Pack;stagedBy:string;stagedAt:string;reason:string;
- review?:{by:string;memberVersion:number;at:string;decision:'approve'|'reject';reason:string};activatedAt?:string;activatedBy?:string;retiredAt?:string;retiredBy?:string;history:{state:InstallState;at:string;by:string;reason:string}[]};
+ review?:{by:string;memberVersion:number;at:string;decision:'approve'|'reject';reason:string;approval?:'clinical'};businessApproval?:{by:string;memberVersion:number;at:string;reason:string};activatedAt?:string;activatedBy?:string;retiredAt?:string;retiredBy?:string;history:{state:InstallState;at:string;by:string;reason:string}[]};
 const reason=z.string().trim().min(10,'Explain the reason in at least 10 characters.').max(500);
 const iid=z.string().min(1).max(100),hash=z.string().regex(/^[0-9a-f]{64}$/);
 export const packInstallationSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('packInstallStage'),manifest:z.unknown().refine(x=>x!==undefined&&JSON.stringify(x).length<=MAX_MANIFEST_CHARS,`Upload a pack manifest of at most ${MAX_MANIFEST_CHARS.toLocaleString('en')} characters.`),reason}).strict(),
- z.object({type:z.literal('packInstallReview'),installationId:iid,manifestHash:hash,decision:z.enum(['approve','reject']),reason}).strict(),
- z.object({type:z.literal('packInstallActivate'),installationId:iid,manifestHash:hash,reason}).strict(),
+ z.object({type:z.literal('packInstallReview'),installationId:iid,manifestHash:hash,decision:z.enum(['approve','reject']),approval:z.literal('clinical').optional(),reason}).strict(),
+ z.object({type:z.literal('packInstallActivate'),installationId:iid,manifestHash:hash,businessApproval:z.literal(true).optional(),reason}).strict(),
  z.object({type:z.literal('packInstallRetire'),installationId:iid,reason}).strict(),
 ]);
 const TYPES=new Set(['packInstallStage','packInstallReview','packInstallActivate','packInstallRetire']);
@@ -87,6 +101,14 @@ export function manifestIssues(x:PackManifest){
   else if(!q.options?.includes(v))issues.push(`Escalation rule ${r.id} compares ${q.id} with a value it does not offer.`);
  }
  const from=x.migratesFrom??[];if(new Set(from).size!==from.length)issues.push('migratesFrom repeats a version.');if(from.some(v=>v>=x.version))issues.push('migratesFrom can only name earlier versions.');
+ if(x.format===COMPLETE_MANIFEST_FORMAT){
+  const g=x.governance;if(!g)issues.push('Complete programme governance is missing.');else{
+   const duplicate=(values:string[],label:string)=>{if(new Set(values).size!==values.length)issues.push(`${label} repeats an id.`);};
+   duplicate(g.workflowStates.map(v=>v.id),'Workflow states');duplicate(g.destinationMappings.map(v=>v.id),'Destination mappings');duplicate(g.indicators.map(v=>v.id),'Indicators');
+   if(!g.workflowStates.some(v=>!v.terminal)||!g.workflowStates.some(v=>v.terminal))issues.push('Workflow states must define both an active and a terminal state.');
+   if(new Date(g.effectiveFrom).toString()==='Invalid Date')issues.push('The effective date is invalid.');
+  }
+ }
  return issues;
 }
 const opText={gte:'at or above',lte:'at or below',eq:'is',missing:'is not recorded'} as const;
@@ -127,7 +149,7 @@ export async function applyPackInstallation(s:OrgState,input:unknown,u:Actor,m:M
   if(!r.success)fail(422,'The pack manifest is invalid: '+r.error.issues.slice(0,6).map(i=>`${i.path.join('.')||'manifest'}: ${i.message}`).join('; '));
   const x=r.data,issues=manifestIssues(x);if(issues.length)fail(422,'The pack manifest is invalid: '+issues.slice(0,6).join(' '));
   if(list.length>=MAX_INSTALLATIONS)fail(422,`This release keeps at most ${MAX_INSTALLATIONS} pack installations per organisation.`);
-  const id=uuid(),manifestHash=await digest({format:MANIFEST_FORMAT,manifest:x}),pack=packFromManifest(x,id,manifestHash);
+  const id=uuid(),manifestHash=await digest({format:x.format,manifest:x}),pack=packFromManifest(x,id,manifestHash);
   const clash=conflicts(s,pack);if(clash.length)fail(409,'The pack conflicts with the catalogue: '+clash.slice(0,6).join(' '));
   list.push({id,packId:x.id,version:x.version,state:'staged',manifest:x,manifestHash,pack,stagedBy:u.userId,stagedAt:now,reason:c.reason,history:[{state:'staged',at:now,by:u.userId,reason:c.reason}]});
   record(s,u,m,c.type,s.organisation.id,`Programme pack ${x.id} v${x.version} staged for review (installation ${id}, manifest ${manifestHash}): ${x.questions.length} questions, ${x.escalation?.length??0} escalation rules${x.migratesFrom?.length?`, reviewed mapping from v${x.migratesFrom.join(', v')}`:''}. Not clinically approved. Reason: ${c.reason}`,now);
@@ -137,17 +159,25 @@ export async function applyPackInstallation(s:OrgState,input:unknown,u:Actor,m:M
  if(c.type==='packInstallReview'){
   if(!['staged','approved'].includes(x.state))fail(409,'Only a staged or approved, not yet active, pack can be reviewed.');
   if(c.manifestHash!==x.manifestHash)fail(409,'The manifest you reviewed is not the staged one. Reload and review again.');
-  const state=c.decision==='approve'?'approved':'rejected';x.review={by:u.userId,memberVersion:m.version,at:now,decision:c.decision,reason:c.reason};x.state=state;x.history.push({state,at:now,by:u.userId,reason:c.reason});
-  record(s,u,m,c.type,s.organisation.id,`Programme pack ${x.packId} v${x.version} ${state} by an independent clinician reviewer (installation ${x.id}, manifest ${x.manifestHash}). A governance review, not clinical approval. Reason: ${c.reason}`,now);
+  if(x.manifest.format===COMPLETE_MANIFEST_FORMAT&&c.decision==='approve'&&c.approval!=='clinical')fail(422,'A complete pack needs an explicit named clinical approval of the exact manifest.');
+  const state=c.decision==='approve'?'approved':'rejected';x.review={by:u.userId,memberVersion:m.version,at:now,decision:c.decision,reason:c.reason,...(c.approval?{approval:c.approval}:{})};x.state=state;x.history.push({state,at:now,by:u.userId,reason:c.reason});
+  record(s,u,m,c.type,s.organisation.id,`Programme pack ${x.packId} v${x.version} ${state} by an independent clinician reviewer (installation ${x.id}, manifest ${x.manifestHash}). ${c.approval==='clinical'?'Named clinical approval recorded for this exact version.':'Legacy structural governance review; not clinical approval.'} Reason: ${c.reason}`,now);
   return {installationId:x.id,state};
  }
  if(c.type==='packInstallActivate'){
   if(x.state!=='approved')fail(409,'Only an approved pack can be activated.');if(c.manifestHash!==x.manifestHash)fail(409,'The manifest changed since you reviewed it.');
+  // The v1 format is retained solely so existing installations and their pinned encounter history remain readable.
+  // New activation is a state transition, so it must cross the complete-definition cutover. We deliberately do not
+  // mutate, re-hash or retire an already-active v1 record: replacing history would break encounter provenance.
+  if(x.manifest.format!==COMPLETE_MANIFEST_FORMAT)fail(409,`Legacy ${MANIFEST_FORMAT} packs are read-only after the programme-governance cutover. Stage a new ${COMPLETE_MANIFEST_FORMAT} version with the complete definition and exact named approvals; existing history remains available.`);
   const rv=s.members.find(y=>y.userId===x.review?.by);if(!rv||!mayReview(rv,x)||rv.version!==x.review!.memberVersion)fail(409,'The reviewer\'s authority changed since the review. Ask a clinician to review it again.');
+  if(x.review?.approval!=='clinical')fail(409,'Named clinical approval is missing for this exact pack version.');
+  if(c.businessApproval!==true)fail(422,'Activation needs an explicit named business approval of the exact manifest.');
+  if(new Date(x.manifest.governance!.effectiveFrom).getTime()>new Date(now).getTime())fail(409,'This pack is not yet within its declared effective period.');
   const clash=conflicts(s,x.pack,x.id,true);if(clash.length)fail(409,'The pack now conflicts with the catalogue: '+clash.slice(0,6).join(' '));
-  x.state='active';x.activatedAt=now;x.activatedBy=u.userId;x.history.push({state:'active',at:now,by:u.userId,reason:c.reason});
+  x.state='active';x.activatedAt=now;x.activatedBy=u.userId;if(c.businessApproval)x.businessApproval={by:u.userId,memberVersion:m.version,at:now,reason:c.reason};x.history.push({state:'active',at:now,by:u.userId,reason:c.reason});
   const compiled=PACKS.some(p=>p.id===x.packId),earlier=enrollablePacks(s).filter(p=>p.id===x.packId&&p.version<x.version).length;
-  record(s,u,m,c.type,s.organisation.id,`Programme pack ${x.packId} v${x.version} activated (installation ${x.id}, manifest ${x.manifestHash}). ${earlier?`Open episodes on earlier versions stay where they are until a reviewed migration moves them; new episodes keep opening on the adopted version until an owner applies one.`:`New episodes can now open on v${x.version}.`}${compiled?'':' New installed pack.'} Not clinically approved. Reason: ${c.reason}`,now);
+  record(s,u,m,c.type,s.organisation.id,`Programme pack ${x.packId} v${x.version} activated (installation ${x.id}, manifest ${x.manifestHash}). ${earlier?`Open episodes on earlier versions stay where they are until a reviewed migration moves them; new episodes keep opening on the adopted version until an owner applies one.`:`New episodes can now open on v${x.version}.`}${compiled?'':' New installed pack.'} Named business and clinical approvals are bound to this exact version. Reason: ${c.reason}`,now);
   return {installationId:x.id,state:'active',packId:x.packId,version:x.version,migrationAvailable:earlier>0};
  }
  if(x.state==='retired'||x.state==='rejected')fail(409,'This pack installation is already closed.');
