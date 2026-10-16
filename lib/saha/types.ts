@@ -24,6 +24,7 @@ import type { EhrConfig, EhrState } from './ehr';
 import type { MisConfig, Delivery } from './mis';
 import type { AdapterOperations, Refusal } from './adapter-operations';
 import type { AgentRun, AgentProvider } from './agent';
+import type { AgentReleaseControl } from './agent-release-control';
 import type { Enrolment, FollowUp, ProgrammeCapture } from './programmes';
 import type { FieldRegistration, ReferralRequest } from './field-registration';
 import type { PackRequest, ReferralNeed } from './referral-needs';
@@ -131,7 +132,7 @@ export type Member = {userId:string;displayName:string;accountCode:string;role:R
 export type Team = {id:string;name:string;createdAt:string};
 export type Invitation = {id:string;accountCode:string;label:string;role:Role;teamIds:string[];status:'pending'|'accepted'|'revoked';expiresAt:string;createdBy:string;createdAt:string;tokenHash?:string;acceptedBy?:string};
 export type Organisation = {id:string;name:string;revision:number;createdAt:string;patientRevision?:number};
-export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Expansion[];pilot?:Pilot;operations?:Operations;organisation:Organisation;members:Member[];teams:Team[];invitations:Invitation[];workspace:Workspace;
+export type OrgState = {agentReleases?:AgentReleaseControl;governance?:Governance;outreach?:Outreach;expansions?:Expansion[];pilot?:Pilot;operations?:Operations;organisation:Organisation;members:Member[];teams:Team[];invitations:Invitation[];workspace:Workspace;
  // Slice 0a: per-patient concurrency counters as loaded, and the patient ids loaded when the
  // state is a patient partition rather than the whole organisation.
  patientRevs?:Record<string,number>;partition?:string[];
