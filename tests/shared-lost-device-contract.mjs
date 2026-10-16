@@ -20,7 +20,7 @@ for(const status of [401,403,404,410]){await assert.rejects(appValidateOnlineBoo
 await assert.rejects(appValidateOnlineBook(book(),async()=>{throw new TypeError('offline')},true));passed++;
 const raced=book();let release;const gate=new Promise(r=>release=r);const first=appValidateOnlineBook(raced,async path=>{if(path==='/api/workspace'){await gate;return response(workspace())}return response(detail())},true);const switched=appValidateOnlineBook(raced,async()=>response(workspace('worker-b')),true);await assert.rejects(switched,/another account/);release();await first;passed++;
 const app=readFileSync('public/field/app.js','utf8');
-check(()=>assert.match(app,/if\(navigator\.onLine&&value\.userId\)await appValidateOnlineBook\(value,fetch,true\)/));
+check(()=>assert.match(app,/if\(navigator\.onLine&&value\.userId\)await appValidateOnlineBook\(value,fetch,privacyReviewRequired\(\)\)/));
 check(()=>assert.match(app,/if\(!grantCurrent\(p,book\.userId\)\)\{el\.append\(node\('h2','Visit access expired'/));
 check(()=>assert.match(app,/document\.addEventListener\('visibilitychange',\(\)=>\{if\(document\.hidden\)lock\(\)\}\)/));
 check(()=>assert.match(app,/window\.addEventListener\('pagehide',lock\)/));
