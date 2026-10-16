@@ -124,6 +124,22 @@ try{
   const found=await as('sup',{type:'lookupAggregateReport',reportId:r.reportId},spy());assert.equal(found.state,'accepted');assert.equal(calls.length,2);assert.equal(calls[1].body.operation,'lookup');assert.equal(calls[1].body.key,r.reportId);
   assert.equal(report(r.reportId).attempts,1,'a lookup is not a send');assert.match(report(r.reportId).message,/by lookup; the report was not sent again/);
  });
+ // SAHA-075: an uncertain result must survive a process restart with the original logical identity and payload
+ // fingerprint. A malformed or changed-payload receipt cannot close it, and recovery never invokes the send path.
+ await check('durable duplicate-safe recovery after restart',async()=>{
+  const r=await as('own',prep({destinationId:'agg-lost',teamIds:['t1']}));await as('sup',{type:'approveAggregateReport',reportId:r.reportId,payloadSha256:report(r.reportId).payloadSha256});
+  calls.length=0;await as('own',{type:'sendAggregateReport',reportId:r.reportId},spy());
+  const beforeRestart=structuredClone(store.saved),original=report(r.reportId),identity=original.id,fingerprint=original.payloadSha256;
+  assert.equal(original.state,'uncertain');assert.equal(original.attempts,1);assert.ok(original.payload,'the original payload remains available while unresolved');
+  store.setup(beforeRestart);assert.equal(report(identity).payloadSha256,fingerprint);assert.equal(report(identity).attempts,1);
+  const changed=async()=>({contract:D.AGGREGATE_CONTRACT,key:identity,payloadHash:'f'.repeat(64),status:'accepted',receipt:'WRONG-PAYLOAD'});
+  const unresolved=await as('sup',{type:'lookupAggregateReport',reportId:identity},spy(changed));assert.equal(unresolved.state,'uncertain');assert.equal(report(identity).receipt,undefined);assert.equal(report(identity).attempts,1);
+  const malformed=async()=>({contract:D.AGGREGATE_CONTRACT,key:identity,payloadHash:fingerprint,status:'accepted'});
+  const stillUnresolved=await as('sup',{type:'lookupAggregateReport',reportId:identity},spy(malformed));assert.equal(stillUnresolved.state,'uncertain');assert.equal(report(identity).attempts,1);
+  const found=await as('sup',{type:'lookupAggregateReport',reportId:identity},spy());assert.equal(found.state,'accepted');assert.equal(report(identity).attempts,1);
+  assert.equal(calls.filter(x=>x.body.operation!=='lookup').length,1,'the logical action is sent exactly once');
+  assert.ok(calls.filter(x=>x.body.operation==='lookup').every(x=>x.body.key===identity&&x.body.payloadHash===fingerprint),'every recovery lookup keeps the original identity and fingerprint');
+ });
  // 7. Withdrawn inside the checkpoint: nothing sent, attempt released, closed with the refusal.
  await check('operation withdrawn inside the checkpoint',async()=>{
   store.setup(fresh());L.resetLedger();

@@ -176,7 +176,11 @@ export function approveReport(s:OrgState,c:Extract<AggregateCommand,{type:'appro
 }
 export function reportEvent(r:AggregateReport,at:string,detail:string){r.updatedAt=at;r.message=detail;r.events.push({at,state:r.state,detail});}
 // ---- the demonstration destination ----
-export const aggregateReceiptSchema=z.object({contract:z.literal(AGGREGATE_CONTRACT),key:id,payloadHash:z.string().regex(/^[a-f0-9]{64}$/),status:z.enum(['accepted','rejected','pending','not_found']),receipt:z.string().min(1).max(200).optional()}).strict();
+export const aggregateReceiptSchema=z.object({contract:z.literal(AGGREGATE_CONTRACT),key:id,payloadHash:z.string().regex(/^[a-f0-9]{64}$/),status:z.enum(['accepted','rejected','pending','not_found']),receipt:z.string().min(1).max(200).optional()}).strict().superRefine((x,ctx)=>{
+ // SAHA-075 / BR-INT-04: a bare "accepted" assertion is not authoritative evidence. Without the destination's
+ // receipt the outcome remains uncertain and must be reconciled; it must never be promoted to accepted or retried.
+ if(x.status==='accepted'&&!x.receipt)ctx.addIssue({code:z.ZodIssueCode.custom,path:['receipt'],message:'An accepted destination result must include its receipt.'});
+});
 export type AggregateTransport=(i:Integration,body:any,key:string)=>Promise<unknown>;
 // A deterministic in-process simulator. A destination with behaviour "uncertain" stores the report but its response
 // is lost on the first send; a lookup then finds the receipt without the report being sent again.
