@@ -199,7 +199,8 @@ for case in cases:
 emit('docs/current/TEST-CATALOGUE.csv',csv_text([fields+['currentFormalExecution','relatedRequirementAssessment','relatedEvidenceContext','evidenceLimit']]+extended))
 
 executions = []
-for path in sorted((ROOT/'tests').glob('*-result.json')):
+r11_execution_reports = ['agent-contract-result.json', 'continuity-contract-result.json', 'ehr-contract-result.json', 'ehr-execution-result.json', 'field-client-result.json', 'field-contract-result.json', 'field-shell-result.json', 'governance-contract-result.json', 'latest-result.json', 'mis-contract-result.json', 'mis-delivery-result.json', 'operations-contract-result.json', 'operations-load-result.json', 'outreach-contract-result.json', 'pilot-contract-result.json', 'recovery-result.json']
+for path in [ROOT/'tests'/name for name in r11_execution_reports]:
     result = json.loads(path.read_text())
     script = {'latest-result.json':'run-api-smoke.mjs','recovery-result.json':'recovery-drill.mjs',
               'operations-load-result.json':'run-api-smoke.mjs'}.get(path.name,path.name.replace('-result.json','.mjs'))
