@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { fail, person, uuid } from './core';
 import { assertPatientDocumentNotes, assertOutboundPrivacy, fhirDocument } from './fhir-document';
 import { validateOutbound, type ValidationStamp } from './fhir-validate';
-import { abdmConfig, abdmOperation, consentAllows, effective } from './abdm';
+import { abdmOperation, consentAllows, effective, requireAbdmCapability } from './abdm';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 
@@ -61,9 +61,9 @@ export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,no
  const parsed=transferSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeTransfer(s,m,c);
  abdmOperation(s,c.type);
  const w=s.workspace,p=person(w,c.personId);if(p.version!==c.version)fail(409,'Patient changed. Refresh before continuing.');
- const cfg=abdmConfig(s);let detail='',result:any={ok:true};
+ let detail='',result:any={ok:true};
  if(c.type==='abdmCareContextLink'){
-  if(!cfg?.modules.hip||!cfg.approvals.some(a=>a.module==='hip'))fail(409,'The ABDM HIP module is not enabled with a recorded approval for this organisation.');
+  requireAbdmCapability(s,'hip','hip.publish');
   if(p.abha?.state!=='linked')fail(409,'Link an ABHA before linking care contexts.');
   const added:CareContext[]=[];for(const vid of c.visitIds){const v=w.visits.find(x=>x.id===vid&&x.personId===p.id);if(!v||v.state!=='confirmed'||v.voidedAt||v.supersededBy)fail(422,'Choose current confirmed visits of this patient.');
    if((p.careContexts??[]).some(x=>x.visitId===vid&&x.abhaNumber===p.abha!.number))continue;
@@ -72,7 +72,7 @@ export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,no
   (p.careContexts??=[]).push(...added);detail=`${added.length} care context${added.length>1?'s':''} linked to the ABHA on the mock gateway (HIP).`;result={linked:added.length};
  }
  else if(c.type==='abdmFetch'){
-  if(!cfg?.modules.hiu||!cfg.approvals.some(a=>a.module==='hiu'))fail(409,'The ABDM HIU module is not enabled with a recorded approval for this organisation.');
+  requireAbdmCapability(s,'hiu','hiu.retrieve');
   const consent=(p.abdmConsents??[]).find(x=>x.id===c.consentId);if(!consent)fail(404,'Consent artefact not found.');if(effective(consent,now)!=='GRANTED')fail(409,`Consent is ${effective(consent,now)}; nothing can be fetched.`);
   if((p.abdmTransfers??[]).length>=100)fail(422,'Transfer history limit reached for this patient.');
   const hiu=await pair(),nonce=crypto.getRandomValues(new Uint8Array(32));
