@@ -1,0 +1,25 @@
+{
+  "storyId": "SAHA-096",
+  "contract": "APL-119",
+  "contractSha256": "32d262d5f70b6d85767021a74606c37c9cb17d98f1ac935ad0673c8b0fbb7a69",
+  "result": "passed",
+  "completedAt": "2026-10-16T11:11:06.791Z",
+  "scope": "Local synthetic execution-boundary checks only; no provider, hosted, clinical or formal acceptance claim.",
+  "change": "Legacy unbound external dispatches now retain a second fresh authority, patient-scope, purpose, maintenance, target and domain revalidation after audit and immediately before invocation.",
+  "checks": [
+    {"command": "node tests/service-dispatch-contract.mjs", "passed": 102, "failed": 0},
+    {"command": "node tests/anaemia-provider-contract.mjs", "passed": 58, "failed": 0},
+    {"command": "node tests/frontline-provider-contract.mjs", "passed": 109, "failed": 0},
+    {"command": "npm run typecheck", "passed": true},
+    {"command": "npm run build", "passed": true}
+  ],
+  "retainedFailure": {
+    "command": "node tests/agent-contract.mjs",
+    "reason": "Inherited standalone transpiler omitted installed-transition-authority.js; no product assertion ran or failed.",
+    "countedAsStoryFailure": false
+  },
+  "formalAcceptance": false,
+  "ciPassed": false,
+  "merged": false,
+  "observedDeployed": false
+}
