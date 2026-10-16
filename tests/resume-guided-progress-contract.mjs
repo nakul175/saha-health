@@ -20,6 +20,6 @@ assert.throws(()=>checkpointGuidedStep(foreign,second,'notes'),/does not belong/
 clearPreparedTask(book,first);check(restoredPreparedTask(book)===null,'removing the selected prepared task clears its pointer');
 const source=readFileSync(new URL('../public/field/app.js',import.meta.url),'utf8');
 check(source.includes('restoredPreparedTask(book)??book.drafts[0]'),'unlock prefers the validated durable task');
-check(source.includes('await persist();if(e!==epoch||book!==value)return;deviceTab=\'patient\''),'task selection is committed before it is presented');
+check(source.includes('selected=restoredPreparedTask(book)??book.drafts[0]?.packet.payload.leaseId??null;await persist();appScopePending=false'),'restored task selection is committed before the notebook is presented');
 check(!readFileSync(new URL('../public/field/guided-progress.js',import.meta.url),'utf8').match(/fetch\s*\(/),'restoration cannot transmit or retry an uncertain operation');
 console.log(JSON.stringify({passed,failed:0,scope:'SAHA-007 durable guided task/step identity, field and pending-receipt preservation, stale grant and cross-account refusal'}));
