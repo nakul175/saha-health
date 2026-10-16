@@ -99,7 +99,7 @@ try{
   store.setup(s,(saved,c)=>{if(c.type==='sendSubmission'&&!withdrawn){withdrawn=true;saved.workspace.integrations[0].operations=setting(['update','lookup']);}});calls=0;
   const r=await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k4','h',env,transport);
   const sub=store.saved.workspace.submissions[0];
-  assert.equal(calls,0,'no request after the withdrawal');assert.equal(r.refused,true);assert.equal(sub.state,'cancelled');assert.equal(sub.attempts,0,'reserved attempt released');
+  assert.equal(calls,0,'no request after the withdrawal');assert.equal(r.refused,true);assert.equal(sub.state,'cancelled');assert.equal(sub.attempts,0,'reserved attempt released');assert.deepEqual(sub.attemptLog,[],'a checkpoint stopped before transport is not recorded as an attempted external write');
   assert.deepEqual([sub.refusal.operation,sub.refusal.stage,sub.refusal.settingVersion],['create','checkpoint',1]);
   assert.deepEqual(sub.delivery.events.map(e=>e.state),['sending','cancelled']);assert.equal(sub.delivery.events[1].ref.command,'adapterOperationRefused');assert.match(sub.delivery.events[1].detail,/withdrawn after the checkpoint and before the request, so nothing was sent/);
   // Replaying the original command key finds a closed delivery and sends nothing.
@@ -107,7 +107,7 @@ try{
  });
  await check('MIS default setting still sends',async()=>{
   const s=misState('queued');store.setup(s);calls=0;
-  const r=await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k5','h',env,transport);assert.equal(calls,1);assert.equal(r.state,'accepted');assert.equal(store.saved.workspace.submissions[0].refusal,undefined);
+  const r=await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k5','h',env,transport),sub=store.saved.workspace.submissions[0];assert.equal(calls,1);assert.equal(r.state,'accepted');assert.equal(sub.refusal,undefined);assert.deepEqual({destination:sub.attemptLog[0].destination.name,version:sub.attemptLog[0].submittedVersion,actor:sub.attemptLog[0].initiatingAuthority.actorId,status:sub.attemptLog[0].status,receipt:sub.attemptLog[0].receipt},{destination:'Programme MIS',version:1,actor:'worker',status:'accepted',receipt:'PARTNER-1'});
  });
  await check('MIS receipt lookup refused before and inside the checkpoint',async()=>{
   const s=misState('uncertain',setting(['create','update']));store.setup(s);calls=0;

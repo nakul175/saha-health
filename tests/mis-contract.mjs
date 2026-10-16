@@ -29,6 +29,7 @@ try{
  const receipt={contract:'saha-mis-v1',key:'sub',payloadHash:base.payloadHash,status:'accepted',receipt:'PARTNER-1'};
  let sub=structuredClone(base);applyReceipt(sub,receipt);check(()=>assert.equal(sub.state,'accepted'));applyReceipt(sub,receipt);check(()=>assert.equal(sub.delivery.events.length,1));
  check(()=>assert.throws(()=>applyReceipt(sub,{...receipt,status:'rejected'}),/conflicting/));
+ sub=structuredClone(base);applyReceipt(sub,{...receipt,status:'rejected',receipt:undefined,error:'Destination validation rejected the synthetic record.'});check(()=>{assert.equal(sub.state,'rejected');assert.equal(sub.destinationOutcome.status,'rejected');assert.match(sub.destinationOutcome.error,/validation rejected/);assert.match(sub.message,/validation rejected/)});
  check(()=>assert.throws(()=>applyReceipt(structuredClone(base),{...receipt,key:'wrong'}),/match/));
  check(()=>assert.throws(()=>applyReceipt(structuredClone(base),{...receipt,receipt:undefined}),/require/));
  check(()=>assert.throws(()=>applyReceipt(structuredClone(base),{...receipt,status:'not_found'}),/lookup/));
