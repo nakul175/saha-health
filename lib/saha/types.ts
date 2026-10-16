@@ -156,4 +156,8 @@ export const emptyFacts=():Facts=>({date:new Date().toISOString().slice(0,16),sy
 
 // Slice 10i: imported visits are read-only history (lib/saha/imported-visits.ts). A record opens on its latest visit recorded in Saha, never an imported one.
 export const isImported=(v:{imported?:unknown}|undefined|null)=>!!v?.imported;
-export const latestOwnVisitId=(visits:Pick<Visit,'id'|'personId'|'imported'>[],personId:string)=>visits.filter(v=>v.personId===personId&&!v.imported).at(-1)?.id??null;
+type VisitEntry = Pick<Visit,'id'|'personId'|'state'|'imported'|'voidedAt'|'supersededBy'>;
+export const activeDraftFor=(visits:VisitEntry[],personId:string)=>visits.find(v=>v.personId===personId&&!v.imported&&v.state==='draft'&&!v.voidedAt&&!v.supersededBy)??null;
+// Entering a task must resume its durable draft even if a newer confirmed/imported record is also present.
+// This mirrors core.startVisit, which reuses the active draft instead of silently creating a duplicate.
+export const latestOwnVisitId=(visits:VisitEntry[],personId:string)=>activeDraftFor(visits,personId)?.id??visits.filter(v=>v.personId===personId&&!v.imported).at(-1)?.id??null;
