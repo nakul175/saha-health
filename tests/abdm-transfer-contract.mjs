@@ -58,8 +58,14 @@ try {
   const hiu = await pair(), nonce = crypto.getRandomValues(new Uint8Array(32));
   const payload = await t.mockHip(P(), s, cid, { publicKey: b64(await crypto.subtle.exportKey('raw', hiu.publicKey)), nonce: b64(nonce) }, now);
   check(() => { assert.equal(payload.entries.length, 1); assert.doesNotMatch(Buffer.from(payload.entries[0].content, 'base64').toString('latin1'), /Transfer Synthetic/, 'content is encrypted'); });
-  const ok = await t.receive(hiu.privateKey, nonce, payload);
-  check(() => assert.equal(ok[0].bundle.resourceType, 'Bundle'));
+  const ok = await t.receive(hiu.privateKey, nonce, payload, 'p1', []);
+  check(() => { assert.equal(ok[0].bundle.resourceType, 'Bundle'); assert.equal(ok[0].source, 'External health-information provider'); assert.match(ok[0].effectiveDate, /^2026-05-01/); assert.equal(ok[0].patientId, 'p1'); assert.ok(ok[0].observations.some(o => o.code === '29463-7')); assert.equal(ok[0].quarantineReason, undefined); });
+  const wrong = await t.receive(hiu.privateKey, nonce, payload, 'another-patient', []);
+  check(() => { assert.match(wrong[0].quarantineReason, /patient does not match/); assert.equal(wrong[0].observations.length > 0, true, 'metadata is available for accountable reconciliation'); });
+  const duplicate = await t.receive(hiu.privateKey, nonce, payload, 'p1', [{ checksum: payload.entries[0].checksum, documentIdentifier: ok[0].documentIdentifier }]);
+  check(() => assert.equal(duplicate[0].quarantineReason, 'Duplicate received document.'));
+  const conflict = await t.receive(hiu.privateKey, nonce, payload, 'p1', [{ checksum: 'different', documentIdentifier: ok[0].documentIdentifier, careContextId: 'other', hiType: 'OPConsultation', recordDate: '2026-01-01' }]);
+  check(() => assert.equal(conflict[0].quarantineReason, 'Conflicting version of an existing external document.'));
   const other = await pair();
   await rejects(() => t.receive(other.privateKey, nonce, payload), 502);
   const flipped = Buffer.from(payload.entries[0].content, 'base64'); flipped[5] ^= 1;
@@ -74,7 +80,9 @@ try {
   const rid = P().abdmReceived[0].id;
   check(() => assert.equal(t.transferSchema.safeParse({ type: 'abdmReceivedReview', personId: 'p1', version: 1, recordId: rid, decision: 'accepted', note: 'ok' }).success, false, 'a review note is required'));
   await run('doc', { type: 'abdmReceivedReview', personId: 'p1', version: P().version, recordId: rid, decision: 'accepted', note: 'Matches the patient and date' });
-  check(() => { assert.equal(P().abdmReceived[0].state, 'accepted'); assert.equal(P().abdmReceived[0].reviewedBy, 'doc'); });
+  check(() => { assert.equal(P().abdmReceived[0].state, 'accepted'); assert.equal(P().abdmReceived[0].reviewedBy, 'doc'); const shown=A.abdmView(s,P(),{},now).received[0]; assert.equal(shown.source,'External health-information provider'); assert.match(shown.effectiveDate,/^2026-05-01/); assert.ok(shown.observations.some(o=>o.code==='29463-7'),'accepted external facts are shown separately'); assert.equal(s.workspace.visits[0].facts.weight,'60','local observation is never overwritten'); });
+  const duplicateFetch=await run('doc',{type:'abdmFetch',personId:'p1',version:P().version,consentId:cid});
+  check(()=>{assert.equal(duplicateFetch.quarantined,1);const q=P().abdmReceived.at(-1);assert.equal(q.state,'quarantined');assert.equal(q.bundle,null,'quarantined payload is withheld');assert.match(q.quarantineReason,/Duplicate/);assert.equal(s.workspace.visits[0].facts.weight,'60');});
   await rejects(() => run('doc', { type: 'abdmReceivedReview', personId: 'p1', version: P().version, recordId: rid, decision: 'rejected', note: 'Second review attempt' }), 409);
   abdm('asha', { type: 'abhaUnlink', personId: 'p1', version: P().version, reason: 'Wrong ABHA recorded earlier' });
   await rejects(() => run('doc', { type: 'abdmFetch', personId: 'p1', version: P().version, consentId: cid }), 409);
