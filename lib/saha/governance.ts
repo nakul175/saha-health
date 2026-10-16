@@ -17,6 +17,22 @@ const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>Number.isFinite(Dat
 const unique=(v:string[])=>new Set(v).size===v.length;
 const teamIds=z.array(id).min(1).max(20).refine(unique),roles=z.array(z.enum(['asha','clinician'])).min(1).max(2).refine(unique);
 const programme=z.enum(['General care','Maternal care','TB screening','Chronic care','Child health']);
+const capabilityRegistrationDetails=z.object({
+ manifestVersion:z.string().regex(/^v[1-9]\d*\.\d+\.\d+$/),
+ intendedUse:text,
+ inputContract:text,
+ outputContract:text,
+ providerContract:id,
+ modelContract:id,
+ toolContracts:z.array(id).max(10).refine(unique),
+ permittedData:z.array(z.enum(['encounter-text','documentary-observations','language','task-context'])).min(1).max(4).refine(unique),
+ population:text,
+ limitations:text,
+ safetyFallback:text,
+ evaluationEvidence:id,
+ approvalVersion:id,
+ incidentOwnerId:id
+}).strict();
 const common={key:z.string().regex(/^[a-z][a-z0-9-]{2,60}$/),title:id,ownerId:id,teamIds,effectiveFrom:date,reviewBy:date,changeSummary:text};
 const conditions=z.object({field:z.enum(['systolic','diastolic','weight','temperature','weeks','coughDays','workerConcern']),operator:z.enum(['gte','lte','eq','missing']),value:z.string().trim().max(30)}).strict();
 export const ruleSchema=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),label:id,condition:conditions,urgency:z.enum(['review','urgent_review']),action:text,serviceId:id}).strict();
@@ -26,7 +42,7 @@ export const governanceSpec=z.discriminatedUnion('kind',[
  z.object({...common,kind:z.literal('protocol'),programme,ageMin:z.number().int().min(0).max(120),ageMax:z.number().int().min(0).max(120),roles,sourceIds:z.array(id).min(1).max(5).refine(unique),maxObservationAgeHours:z.number().int().min(1).max(720),rules:z.array(ruleSchema).min(1).max(12),transition:z.literal('new-reviews-only')}).strict(),
  z.object({...common,kind:z.literal('capability'),providerId:id,model:id,agentVersion:id,purpose:z.literal('documentary-evidence'),ageMin:z.number().int().min(0).max(120),ageMax:z.number().int().min(0).max(120),roles,languages:z.array(z.enum(['en','hi'])).min(1).max(2).refine(unique),settings:z.array(z.enum(['community','facility'])).min(1).max(2).refine(unique),devices:z.array(z.literal('browser')).length(1),tasks:z.array(z.enum(['extract','summary'])).min(1).max(2).refine(unique),jurisdictions:z.array(z.literal('IN')).length(1).default(['IN']),connectivity:z.array(z.literal('online')).length(1).default(['online']),minimumInputQuality:z.literal('adequate').default('adequate'),excludedUses:text,supportContact:id,hostingRegion:id,retentionTerms:text,trainingUse:z.literal('not-authorised'),agreementReference:id,dailyCallLimit:z.number().int().min(1).max(100),dailyTokenBudget:z.number().int().min(6000).max(600000),
   // Slice 5e: optional task limits, bound into the manifest and reviewed with the revision.
-  taskTimeLimitMinutes:z.number().int().min(1).max(240).optional(),taskAttemptLimit:z.number().int().min(1).max(5).optional()}).strict()
+  taskTimeLimitMinutes:z.number().int().min(1).max(240).optional(),taskAttemptLimit:z.number().int().min(1).max(5).optional(),registration:capabilityRegistrationDetails.optional()}).strict()
 ]);
 export type GovernanceSpec=z.infer<typeof governanceSpec>;
 export type GovernanceEntry={id:string;revision:number;version:number;spec:GovernanceSpec;manifestHash:string;createdBy:string;createdAt:string;replacesId?:string;replacedBy?:string;origin?:ProposalOrigin;state:'draft'|'reviewed'|'active'|'suspended'|'retired';review?:{by:string;memberVersion:number;ownerVersion:number;authorVersion:number;at:string;reference:string;findings:string;dependencyStamp:string;evaluationId?:string};history:{at:string;by:string;state:string;reason:string}[]};
