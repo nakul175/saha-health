@@ -6,6 +6,7 @@ import { questions, unresolved } from './programmes';
 import { measureOf, rangeProblem, rangeContextProblem, selectionForVisit } from './fact-provenance';
 import { normallyAllowed } from './access';
 import { checkAgentSource } from './agent-minimisation';
+import { modelReasonContext } from './reason-codes';
 import type { Actor } from './store';
 import type { AssistanceExecution } from './assistance-executor';
 import type { Facts, OrgState, Member, Visit, Integration, TraceStep } from './types';
@@ -40,6 +41,7 @@ export const agentSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('enableAgentContract'),integrationId:id,version:ver,model:z.string().trim().min(1).max(120)}).strict()
 ]);
 export type AgentCommand=z.infer<typeof agentSchema>;
+export function agentSummarySource(v:Pick<Visit,'facts'|'programmeCapture'>):string{return [...Object.entries(v.facts).filter(([,value])=>typeof value==='string'&&value).map(([key,value])=>`${key}: ${value}`),...Object.entries(v.programmeCapture?.answers??{}).map(([key,value])=>`${key}: ${value}`),...modelReasonContext(v.facts,v.programmeCapture?.absence)].join('\n');}
 export function providers(integrations:Integration[],runtime:Record<string,string|undefined>):AgentProvider[]{
  const openai=runtime.SAHA_EXTERNAL_APIS_ENABLED==='true'&&!!runtime.OPENAI_API_KEY;
  return [{id:'local',name:'Local record assistant',mode:'local',model:'structured-parser-v2',version:2,available:true,reason:'Rules only; no language model or external data transfer.'},{id:'openai',name:'OpenAI extraction & evidence',mode:'openai',model:'gpt-4.1-mini-2025-04-14',version:1,available:openai,reason:openai?'Configured · synthetic records only':'Live model unavailable: server API key and external API switch required.'},...integrations.filter(i=>i.kind==='ai'&&i.mode==='http'&&i.agentContract).map(i=>{let allowed=false;try{allowed=(runtime.SAHA_ALLOWED_ORIGINS??'').split(',').map(x=>x.trim()).includes(new URL(i.endpoint!).origin)}catch{}const ready=i.status==='active'&&runtime.SAHA_EXTERNAL_APIS_ENABLED==='true'&&!!runtime[i.credentialBinding!]&&allowed;return {id:i.id,name:i.name,mode:'http' as const,model:i.agentContract!.model,version:i.version,available:ready,reason:ready?'Configured · Saha agent contract v1':'Suspended or missing approved origin / server credential.'}})];
@@ -55,7 +57,7 @@ export async function agentApply(s:OrgState,input:unknown,u:Actor,m:Member,ps:Ag
   if(c.task==='extract'&&v.state!=='draft')fail(409,'Extraction requires a draft visit.');if(c.task==='review'&&provider.id!=='local')fail(422,'Programme review uses the local requirements engine.');
   if(c.task==='extract'&&c.input.length<5)fail(422,'Enter at least 5 characters of synthetic visit notes.');
   if(v.agentRuns.length>=30)fail(429,'This visit reached the 30-request limit. Continue with structured capture.');const recent=s.workspace.visits.flatMap(v=>v.agentRuns??[]).filter(r=>r.actorId===u.userId&&r.createdAt.slice(0,10)===new Date().toISOString().slice(0,10));if(recent.length>=60)fail(429,'Daily assistant limit reached for this organisation.');
-  const source=c.task==='extract'?c.input:c.task==='summary'?[...Object.entries(v.facts).filter(([,value])=>typeof value==='string'&&value).map(([key,value])=>`${key}: ${value}`),...Object.entries(v.programmeCapture?.answers??{}).map(([key,value])=>`${key}: ${value}`)].join('\n'):JSON.stringify(unresolved(v).map(q=>q.label));
+  const source=c.task==='extract'?c.input:c.task==='summary'?agentSummarySource(v):JSON.stringify(unresolved(v).map(q=>q.label));
   if(provider.mode!=='local'&&(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(source)||(source.match(/\+?\d[\d ()-]{8,}\d/g)??[]).some(x=>x.replace(/\D/g,'').length>=10)||[p.name,p.village].filter(x=>x.length>=3).some(x=>source.toLowerCase().includes(x.toLowerCase()))))fail(422,'Remove names, village names, contact details and identifiers from the external AI source before preparing it. This check is a safeguard, not a de-identification guarantee.');
   // Slice R42: comprehensive minimisation — refuse any patient identifier, name, village, ABHA or crosswalk
   // identifier anywhere in the organisation (not only this patient) before the request is prepared.

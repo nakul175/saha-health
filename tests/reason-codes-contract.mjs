@@ -86,6 +86,13 @@ try {
   // 8. Summary reason-codes line (the existing free-text summary is unchanged).
   check(() => assert.equal(R.summaryReasonCodes({ provenance: { weight: { source: 'reported' } } }), ''));
   check(() => assert.equal(R.summaryReasonCodes({ provenance: { temperature: { source: 'declined' } } }), 'Reason codes (saha-reason-codes-1.0.0): temperature=declined (refused).'));
+  check(() => assert.deepEqual(R.modelReasonContext({ provenance: { weight: { source: 'reported' }, temperature: { source: 'declined' }, weeks: { source: 'unknown' } } }, { cough: 'Not measured', consent: 'Declined' }), [
+    'measurement temperature: declined [refused]',
+    'measurement weeks: unknown [uncertain]',
+    'programme consent: declined [refused]',
+    'programme cough: not-asked [missing]',
+  ]));
+  check(() => assert.deepEqual(R.modelReasonContext({ provenance: { weight: { source: 'reported' } } }, {}), []));
 
   // 9. The mapping applies to the real downstream resources.
   const hour = 3600000, minute = t => new Date(t).toISOString().slice(0, 16);
