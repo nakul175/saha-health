@@ -46,6 +46,8 @@ export const CATALOGUE = {
   'common.voice.otherNumbers': ['also heard {numbers}; only the first number is used', 'यह भी सुना: {numbers}; केवल पहली संख्या ली जाएगी'],
   'common.voice.noNumber': ['No number was heard. Type it, or try again.', 'कोई संख्या नहीं सुनी गई। उसे टाइप करें या फिर से कोशिश करें।'],
   'common.voice.insert': ['Insert', 'डालें'],
+  'common.voice.playback': ['Play recording', 'रिकॉर्डिंग सुनें'],
+  'common.voice.discard': ['Discard recording', 'रिकॉर्डिंग हटाएँ'],
   'common.voice.again': ['Try again', 'फिर से कोशिश करें'],
   'common.voice.cancel': ['Cancel', 'रद्द करें'],
   'common.voice.check': ['Check the text before you insert it. Nothing is saved until you save the form.', 'डालने से पहले पाठ जाँचें। फ़ॉर्म सहेजने तक कुछ भी सहेजा नहीं जाता।'],
