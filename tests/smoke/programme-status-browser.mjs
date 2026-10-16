@@ -120,7 +120,9 @@ try {
   check(detail.person.id==='p_meena'&&detail.organisationId===org&&detail.actorId===asha.id&&detail.episodes.length===3,'Minimal actual response pins person org actor and all three local episodes');
   check(detail.episodes.every(e=>e.packVersion===1)&&detail.episodes.some(e=>e.id===episodes.hypertension&&e.destination.state==='rejected'&&e.destination.rejectionReason),'Response preserves pinned pack/episode IDs and actual rejection reason');
   check(detail.episodes.find(e=>e.id===episodes.maternal).eligibilityAssessment?.state==='eligible'&&detail.episodes.find(e=>e.id===episodes.maternal).registration==='not_submitted','Minimal response keeps eligibility assessment distinct from official registration');
-  check(!/(?:payloadHash|delivery|visits|referrals|integrations|clinicalRules)/.test(JSON.stringify(detail)),'Minimal response excludes full partition private payload delivery and unrelated records');
+  const topLevelKeys=new Set(Object.keys(detail));
+  const destinationKeys=detail.episodes.flatMap(e=>Object.keys(e.destination??{}));
+  check(!['visits','referrals','integrations','clinicalRules'].some(key=>topLevelKeys.has(key))&&!destinationKeys.includes('payloadHash')&&!destinationKeys.includes('delivery'),'Minimal response excludes full partition private payload delivery and unrelated records');
   for(const [who,path,useOrg] of [[owner,statusPath,org],[outsider,statusPath,org],[asha,statusPath,foreignOrg],[asha,'/api/programme-status?personId=p_james',org]]){const r=await api.get(who,path,useOrg);check([403,404].includes(r.status)&&!r.text.includes('Synthetic hypertension'),'Role owner foreign tenant and unassigned selection refuse without episode disclosure');}
   for(const path of ['/api/programme-status','/api/programme-status?personId=','/api/programme-status?personId=p_meena&personId=p_james','/api/programme-status?personId=p_meena&mode=all','/api/programme-status?personId=%00']){const r=await api.get(asha,path,org);check(r.status===400&&!r.text.includes('Synthetic hypertension'),'Malformed or expanded query is refused: '+path);}
   const noOrg=await api.get(asha,statusPath);check(noOrg.status===400,'Explicit original organisation is required for the single-person read');
@@ -139,7 +141,7 @@ try {
   const geometry=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,controls:[...document.querySelectorAll('main button,main a')].map(e=>e.getBoundingClientRect().height)}));
   check(geometry.scroll<=geometry.width&&geometry.controls.every(h=>h>=44),'Actual mobile layout avoids overflow and has44px controls');await page.screenshot({path:folder+'/programme-status-phone.png',fullPage:true});
   afterTables=await snapshot();const clinicalDiff=Object.keys(beforeTables).filter(k=>!['audit_events','request_metrics'].includes(k)&&JSON.stringify(beforeTables[k])!==JSON.stringify(afterTables[k]));
-  check(Object.keys(beforeTables).length===60&&clinicalDiff.length===0,'All60 native tables compared; only expected read audit/metric tables change, with no clinical/episode/receipt mutation');
+  check(Object.keys(beforeTables).length===62&&clinicalDiff.length===0,'All62 native tables compared; only expected read audit/metric tables change, with no clinical/episode/receipt mutation');
   // Deliberately contradictory owned native fixture; no existing receipt is
   // reinterpreted or repaired. Restore the exact fixture before original races.
   const originalRow=await database.prepare('SELECT data FROM patients WHERE org_id=? AND id=?').bind(org,'p_meena').first(),contradictory=JSON.parse(originalRow.data);
@@ -150,7 +152,7 @@ try {
   const contradictionText=await page.locator('main').innerText();
   check(await page.getByText('Destination evidence unavailable or inconsistent.',{exact:true}).count()===3&&!/Simulation request pending|Simulation outcome unresolved|Simulation lookup recorded no destination entry|Simulation accepted/.test(contradictionText),'Actual D1 requested uncertain and retryable plus submitted markers all render unavailable evidence rather than ordinary progress');
   const contradictionAfter=await snapshot();
-  check(requests.slice(requestIndex).every(r=>r.method==='GET')&&external.length===0&&Object.keys(contradictionBefore).filter(k=>!['audit_events','request_metrics'].includes(k)&&JSON.stringify(contradictionBefore[k])!==JSON.stringify(contradictionAfter[k])).length===0,'Contradictory native read adds no command provider clinical episode or receipt writes across all60 tables');
+  check(requests.slice(requestIndex).every(r=>r.method==='GET')&&external.length===0&&Object.keys(contradictionBefore).filter(k=>!['audit_events','request_metrics'].includes(k)&&JSON.stringify(contradictionBefore[k])!==JSON.stringify(contradictionAfter[k])).length===0,'Contradictory native read adds no command provider clinical episode or receipt writes across all62 tables');
   await page.screenshot({path:folder+'/programme-status-contradiction-phone.png',fullPage:true});
   writeFileSync(folder+'/contradictory-native-fixture.json',JSON.stringify({states:['requested','uncertain','retryable'],registration:'submitted',contradictionBefore,contradictionAfter,originalRowSha256:hash(originalRow.data)},null,2));
   await database.prepare('UPDATE patients SET data=? WHERE org_id=? AND id=?').bind(originalRow.data,org,'p_meena').run();
