@@ -34,6 +34,10 @@ try {
     ok(await api.command(actor, { type: 'joinOrganisation', token: invite.result.token }));
   }
   const file = globSync(state + '/**/*.sqlite').find(path => !path.includes('cache')); assert.ok(file); sql = new DatabaseSync(file);
+  // The Worker and this fault-injection connection intentionally share the native D1
+  // database. Wait for a bounded in-flight Worker transaction instead of turning normal
+  // SQLite writer contention into a fixture setup failure.
+  sql.exec('PRAGMA busy_timeout=10000');
   const member = actor => sql.prepare('SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?').get(org, actor.id);
   const active = async actor => {
     const current = member(actor);

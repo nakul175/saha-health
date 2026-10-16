@@ -166,7 +166,12 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // Other tables are read page by page, not in one transaction: records changed during the export may
   // appear in their newer state.
   const chain = await verifyChain(db, orgId, undefined, input.now), cut = await chainHead(db, orgId);
-  for (const spec of TABLES) data[spec.table] = await readAll(db, spec, orgId);
+  // These reads are independent and the export already documents that they are not one
+  // transactional snapshot. Starting them together avoids serialising one D1 round trip
+  // per table as the portable schema grows, while preserving TABLES order below when the
+  // archive is assembled.
+  const tableRows = await Promise.all(TABLES.map(spec => readAll(db, spec, orgId)));
+  for (let i = 0; i < TABLES.length; i++) data[TABLES[i].table] = tableRows[i];
   // Actor ownership and today's scope cannot certify a historical clinical aggregate.
   // Filter before any row/withheld/other-member/column totals; do not expose an omitted count.
   const protectedAlertSubjects=new Set<string>(),protectedAlertAuditIds=new Set<string>();
