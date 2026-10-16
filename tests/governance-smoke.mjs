@@ -41,7 +41,7 @@ export async function governanceSmoke({get,post,check,accounts,org,sql}){
  await post(o,{type:'runEvaluationCase',evaluationId:prepared.evaluationId,caseId:prepared.caseIds[1]},409);
  const first={type:'runEvaluationCase',evaluationId:prepared.evaluationId,caseId:prepared.caseIds[0]},key=crypto.randomUUID();await post(o,first,200,key);await post(o,first,200,key);await post(o,first);
  for(const caseId of prepared.caseIds.slice(1))await post(o,{type:'runEvaluationCase',evaluationId:prepared.evaluationId,caseId});
- g=await read(o);const ev=g.evaluations.find(e=>e.id===prepared.evaluationId);check(()=>{assert.equal(ev.state,'completed');assert.equal(ev.results.length,16);assert.equal(ev.metrics.passed,true);assert.equal(ev.metrics.precision,1);assert.equal(ev.metrics.recall,1);assert.equal(ev.metrics.criticalFailures,0)});
+ g=await read(o);const ev=g.evaluations.find(e=>e.id===prepared.evaluationId);check(()=>{assert.equal(prepared.caseIds.length,18);assert.equal(ev.state,'completed');assert.equal(ev.results.length,prepared.caseIds.length);assert.equal(ev.metrics.passed,true);assert.equal(ev.metrics.precision,1);assert.equal(ev.metrics.recall,1);assert.equal(ev.metrics.criticalFailures,0)});
  await reviewActivate(capId,prepared.evaluationId);
  await get(w,'/api/workspace',200,org);p=w.state.people.find(p=>p.id===personId);if(!p.aiConsent)await post(w,{type:'setConsent',personId,version:p.version,purpose:'ai',active:true});
  const prepare={type:'prepareAgent',visitId,version:v().version,providerId:'local',task:'extract',input:'weight 58 kg',context:{language:'en',setting:'community',device:'browser'}};
@@ -58,12 +58,12 @@ export async function governanceSmoke({get,post,check,accounts,org,sql}){
  await post(o,{type:'resolveSafety',caseId:safetyId,version:1,reason:'Only the named owner can resolve this concern.',reference:'TEST'},403);
  await post(c,{type:'resolveSafety',caseId:safetyId,version:1,reason:'Synthetic output retained and capability held for reassessment.',reference:'SYNTHETIC-RESOLUTION'});
  await post(c,{type:'resolveSafety',caseId:safetyId,version:2,reason:'Closed cases cannot be overwritten.',reference:'TEST'},409);
- // New immutable capability revision broadens language; it must not inherit approval.
+ // New immutable capability revision broadens language; current Hindi fixtures may pass, but the revision must not inherit approval.
  const hiId=(await post(o,{type:'createGovernance',spec:{...capability,languages:['en','hi'],changeSummary:'Test Hindi scope without claiming Hindi support.'},replacesId:capId})).result.entryId;
  const hi=(await post(o,{type:'prepareEvaluation',entryId:hiId,version:1})).result;for(const caseId of hi.caseIds)await post(o,{type:'runEvaluationCase',evaluationId:hi.evaluationId,caseId});
- g=await read(o);check(()=>{const ev=g.evaluations.find(e=>e.id===hi.evaluationId);assert.equal(ev.metrics.passed,false);assert.equal(ev.metrics.byLanguage.find(l=>l.language==='hi').recall,0)});
- await post(c,{type:'reviewGovernance',entryId:hiId,version:1,reference:'TEST',findings:'Failed language evaluation must reject review.',evaluationId:hi.evaluationId},409);
- const cancelled=(await post(o,{type:'prepareEvaluation',entryId:hiId,version:1})).result;await post(o,{type:'cancelEvaluation',evaluationId:cancelled.evaluationId,reason:'Stop before any synthetic provider invocation.'});await post(o,{type:'runEvaluationCase',evaluationId:cancelled.evaluationId,caseId:cancelled.caseIds[0]},409);
+ g=await read(o);check(()=>{const entry=g.entries.find(e=>e.id===hiId),ev=g.evaluations.find(e=>e.id===hi.evaluationId);assert.equal(hi.caseIds.length,21);assert.equal(ev.metrics.passed,true);assert.equal(ev.metrics.byLanguage.find(l=>l.language==='hi').recall,1);assert.equal(entry.state,'draft');assert.equal(entry.review,undefined)});
+ await reviewActivate(hiId,hi.evaluationId);
+ const currentHi=(await read(o)).entries.find(e=>e.id===hiId),cancelled=(await post(o,{type:'prepareEvaluation',entryId:hiId,version:currentHi.version})).result;await post(o,{type:'cancelEvaluation',evaluationId:cancelled.evaluationId,reason:'Stop before any synthetic provider invocation.'});await post(o,{type:'runEvaluationCase',evaluationId:cancelled.evaluationId,caseId:cancelled.caseIds[0]},409);
  await get(w,'/api/workspace',200,org);await post(w,{type:'saveVisit',visitId,version:v().version,facts:{...v().facts,notes:'Synthetic visit supporting directory referral testing.'}});await post(w,{type:'confirmVisit',visitId,version:v().version});
  const serviceEntry=(await read(o)).entries.find(e=>e.id===serviceId);const referralId=(await post(w,{type:'createDirectoryReferral',visitId,version:v().version,serviceId,serviceVersion:serviceEntry.version,reason:'Synthetic source-backed referral rehearsal.'})).result.referralId;
  check(()=>{const r=w.state.referrals.find(r=>r.id===referralId);assert.equal(r.directory.revision,1);assert.equal(r.directory.contactRoute,'SIMULATED-DESK');assert.equal(r.state,'draft')});
