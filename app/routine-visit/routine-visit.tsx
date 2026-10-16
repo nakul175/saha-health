@@ -278,6 +278,7 @@ export default function RoutineVisit() {
         <p>{context.person.age} years · {context.person.sex} · Person version {context.person.version}</p>
         {visit && <p>Visit {visit.id} · version {visit.version} · {visit.voidedAt ? 'Voided encounter on server' : visit.supersededBy ? 'Superseded encounter on server' : visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p>}
       </section>
+      {visit && !visit.voidedAt && !visit.supersededBy && <a aria-disabled={busy || uncertain || dirty} href={'/disagreement-review?'+new URLSearchParams({organisationId:context.organisationId,personId:context.person.id,visitId:visit.id})} onClick={event => { if (busy || uncertain || dirty || inFlight.current || attempt.current) event.preventDefault(); }}>Review separate extraction results</a>}
       <RoutineSaveStatus visit={visit ?? null} dirty={dirty} busy={busy} uncertain={uncertain}/>
       {!visit ? <button disabled={busy || uncertain} onClick={() => void send({ type: 'startVisit', personId: context.person.id }, 'Server draft started or resumed and read back.')}>Start or resume routine draft</button> : facts &&
       <div lang={displayLanguage}><GuidedCapture enabled={true} identity={context.person.name + ' · ' + context.person.id} problems={problems}
