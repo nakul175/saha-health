@@ -1,6 +1,6 @@
 import { fail } from './core';
 import { openPatientWork } from './continuity';
-import { own, questions, followUpOpen } from './programmes';
+import { ABSENCE, own, questions, followUpOpen } from './programmes';
 import { PROGRAMMES, type Member, type OrgState, type Person, type Programme } from './types';
 
 // Slice 6d: a versioned indicator registry, cohort queries with small-cell suppression, and a
@@ -13,15 +13,16 @@ const visitsOf=(c:Ctx,p:Person)=>c.s.workspace.visits.filter(v=>v.personId===p.i
 const inWindow=(c:Ctx,t?:string)=>!!t&&t>=c.since&&t<=c.until;
 // Slice 2a: reuse metering, reproducible from stored visits. A question shared by N programme packs in
 // one visit is N-1 reuse opportunities; answering it once reuses it for all N; an absence reason blocks it.
-export function reuseOf(v:{facts:Record<string,any>;programmeCapture?:any}){const c=v.programmeCapture;let opportunities=0,reused=0,blocked=0;if(!c)return {opportunities,reused,blocked};
- for(const q of questions(c)){const k=q.programmes.length-1;if(k<=0)continue;opportunities+=k;const value=q.fact?v.facts[q.fact]:own(c.answers,q.id);if(String(value??'').trim())reused+=k;else if(own(c.absence,q.id))blocked+=k;}
- return {opportunities,reused,blocked};}
+export function reuseOf(v:{facts:Record<string,any>;programmeCapture?:any}){const c=v.programmeCapture,blockedBy=Object.fromEntries(ABSENCE.map(x=>[x,0])) as Record<typeof ABSENCE[number],number>;let opportunities=0,reused=0,blocked=0,unresolved=0;if(!c)return {opportunities,reused,blocked,unresolved,blockedBy};
+ const current=new Map(questions(c).map(q=>[q.id,q])),snapshot=Array.isArray(c.reuseOpportunities)?c.reuseOpportunities:questions(c).filter(q=>q.programmes.length>1).map(q=>({questionId:q.id,links:q.programmes.length-1}));
+ for(const o of snapshot){const k=Number(o.links);if(!Number.isInteger(k)||k<1)continue;opportunities+=k;const q=current.get(String(o.questionId)),value=q?.fact?v.facts[q.fact]:own(c.answers,String(o.questionId)),reason=own(c.absence,String(o.questionId));if(String(value??'').trim())reused+=k;else if(ABSENCE.includes(reason as any)){blocked+=k;blockedBy[reason as typeof ABSENCE[number]]+=k;}else unresolved+=k;}
+ return {opportunities,reused,blocked,unresolved,blockedBy};}
 const confirmedIn=(c:Ctx,p:Person)=>visitsOf(c,p).filter(v=>v.state==='confirmed'&&inWindow(c,v.confirmedAt??v.createdAt));
 const signature=(v:{facts:Record<string,any>})=>[String(v.facts.date??'').slice(0,10),v.facts.weight,v.facts.systolic,v.facts.diastolic,v.facts.temperature].join('|');
 // Slice 6s: the computation vocabulary. Every definition, built-in or owner-maintained, is a numerator
 // and optional denominator drawn from these per-patient measures, cohort filters from a fixed list and
 // exclusions from a fixed list. Bounded versioned calculations can combine these measures; free field access is refused.
-export type MeasureId='patients'|'patients-seen'|'visits-confirmed'|'followups-open'|'followups-overdue'|'referrals-created'|'referrals-completed'|'maternal-episodes-active'|'open-work-unowned'|'submissions-unresolved'|'reuse-opportunities'|'reuse-served'|'reuse-blocked'|'repeat-entries'|'corrections'|'identity-provisional';
+export type MeasureId='patients'|'patients-seen'|'visits-confirmed'|'followups-open'|'followups-overdue'|'referrals-created'|'referrals-completed'|'maternal-episodes-active'|'open-work-unowned'|'submissions-unresolved'|'reuse-opportunities'|'reuse-served'|'reuse-blocked'|'reuse-blocked-unknown'|'reuse-blocked-not-measured'|'reuse-blocked-declined'|'reuse-blocked-unable'|'repeat-entries'|'corrections'|'identity-provisional';
 type Measure={id:MeasureId;label:string;sources:string[];count:(c:Ctx,p:Person)=>number};
 export const MEASURES:Measure[]=[
  {id:'patients',label:'Patients in the cohort',sources:['patients'],count:()=>1},
@@ -37,6 +38,10 @@ export const MEASURES:Measure[]=[
  {id:'reuse-opportunities',label:'Reuse opportunities: programme links beyond the first for questions shared by several packs in a confirmed visit',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).opportunities,0)},
  {id:'reuse-served',label:'Programme links served by one shared answer beyond the first',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).reused,0)},
  {id:'reuse-blocked',label:'Reuse opportunities where the shared answer was recorded as unknown, declined, not measured or unobtainable',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blocked,0)},
+ {id:'reuse-blocked-unknown',label:'Blocked reuse links recorded as unknown',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blockedBy.Unknown,0)},
+ {id:'reuse-blocked-not-measured',label:'Blocked reuse links recorded as not measured',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blockedBy['Not measured'],0)},
+ {id:'reuse-blocked-declined',label:'Blocked reuse links recorded as declined',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blockedBy.Declined,0)},
+ {id:'reuse-blocked-unable',label:'Blocked reuse links recorded as unable to obtain',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blockedBy['Unable to obtain'],0)},
  {id:'repeat-entries',label:'Confirmed visits repeating the date and core measurements of an earlier confirmed visit for the same person',sources:['visits'],count:(c,p)=>{const all=visitsOf(c,p).filter(v=>v.state==='confirmed').sort((a,b)=>(a.confirmedAt??a.createdAt).localeCompare(b.confirmedAt??b.createdAt));const seen=new Set<string>();let n=0;for(const v of all){const k=signature(v);if(seen.has(k)&&inWindow(c,v.confirmedAt??v.createdAt))n++;seen.add(k);}return n;}},
  {id:'corrections',label:'Correction drafts started and visits marked wrong-patient in the window',sources:['visits'],count:(c,p)=>c.s.workspace.visits.filter(v=>v.personId===p.id&&((v.amendsVisitId&&inWindow(c,v.createdAt))||inWindow(c,v.voidedAt))).length},
  {id:'identity-provisional',label:'Patients whose identity review is provisional today',sources:['patients'],count:(_c,p)=>p.identityReview?.state==='provisional'&&!p.mergedInto?1:0},
@@ -88,6 +93,10 @@ const BUILT_IN=[
  b('submissions-unresolved','Unresolved programme submissions','count','submissions-unresolved',null,'Accepted, rejected and cancelled','Data manager','Daily',['submission','submissions','unresolved','uncertain','programme record','mis']),
  b('reuse-shared-answers','Shared answers reused across programmes','proportion','reuse-served','reuse-opportunities','Voided and superseded visits; visits with one pack','Programme manager','Monthly',['reuse','reused','shared','re-entry','duplication']),
  b('reuse-blocked','Reuse blocked by a missing shared answer','count','reuse-blocked',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','missing answer','absence']),
+ b('reuse-blocked-unknown','Reuse blocked: unknown','count','reuse-blocked-unknown',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','unknown','reuse reason']),
+ b('reuse-blocked-not-measured','Reuse blocked: not measured','count','reuse-blocked-not-measured',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','not measured','reuse reason']),
+ b('reuse-blocked-declined','Reuse blocked: declined','count','reuse-blocked-declined',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','declined','reuse reason']),
+ b('reuse-blocked-unable','Reuse blocked: unable to obtain','count','reuse-blocked-unable',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','unable to obtain','reuse reason']),
  b('repeat-entry','Possible repeated entries','count','repeat-entries',null,'Voided and superseded visits','Data manager','Monthly',['repeat','repeated','duplicate entry','entered twice','double entry']),
  b('corrections','Visit corrections','count','corrections',null,'None','Data manager','Monthly',['correction','corrections','amended','voided','wrong patient']),
  b('identity-provisional','Provisional identities','count','identity-provisional',null,'Merged records','Identity steward','Weekly',['identity','provisional','duplicate','unverified']),
@@ -137,7 +146,7 @@ export type Series={key:string;f:Record<string,string>;cells:Record<string,numbe
  // Slice 6ad (ninth review, finding 2): the window end, set by an aggregate report for a period that ended in the past.
  u?:string};
 // Slice 6aa: measures counted over the query window; the others describe today and do not depend on it.
-const PRIMITIVE_WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','reuse-opportunities','reuse-served','reuse-blocked','repeat-entries','corrections']);
+const PRIMITIVE_WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','reuse-opportunities','reuse-served','reuse-blocked','reuse-blocked-unknown','reuse-blocked-not-measured','reuse-blocked-declined','reuse-blocked-unable','repeat-entries','corrections']);
 export const WINDOWED=new class extends Set<string>{has(id:string){if(PRIMITIVE_WINDOWED.has(id as MeasureId))return true;if(MEASURE_IDS.includes(id as MeasureId))return false;return expressionLeaves(referenceExpression(id)!).some(x=>PRIMITIVE_WINDOWED.has(x));}}(PRIMITIVE_WINDOWED);
 // A person's value of one measure over the window starting at `since` (ISO) and ending now.
 // Slice 6ad: `now` is the window end (and the moment a measure describing today is counted at).
