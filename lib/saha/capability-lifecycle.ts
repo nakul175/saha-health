@@ -64,15 +64,15 @@ export const impactSummary=(c:Record<RequiredAction,number>)=>{const parts=[c.ca
 // Slice 5g (BR-AI-07): provider and model history per capability key. Each revision pins one provider, model and
 // agent version; a new revision may change them, and each change went through its own evaluation, independent
 // review and owner activation. Derived on read; counts only, no patient detail.
-export type HistoryChange='provider'|'model'|'agent-version';
+export type HistoryChange='provider'|'model'|'agent-version'|'capability'|'prompt'|'tool'|'data'|'evaluation';
 export function providerHistory(s:OrgState,key:string){
  const revs=entries(s).filter(e=>e.spec.kind==='capability'&&e.spec.key===key).sort((a,b)=>a.revision-b.revision);
  return revs.map((e,i)=>{
   const spec=e.spec as Extract<GovernanceEntry['spec'],{kind:'capability'}>,prev=i?revs[i-1].spec as typeof spec:null;
   const activatedAt=e.history.find(h=>h.state==='active')?.at??null,endedAt=e.state==='active'||!activatedAt?null:e.history.filter(h=>h.at>=activatedAt&&['suspended','retired'].includes(h.state)).at(-1)?.at??null;
   const changes:HistoryChange[]=prev?([prev.providerId!==spec.providerId&&'provider',prev.model!==spec.model&&'model',prev.agentVersion!==spec.agentVersion&&'agent-version'].filter(Boolean) as HistoryChange[]):[];
-  const usage=capabilityUsage(s.workspace.visits,e);
-  return {entryId:e.id,revision:e.revision,providerId:spec.providerId,model:spec.model,agentVersion:spec.agentVersion,state:e.state,stage:lifecycleStage(s,e).stage,reviewedAt:e.review?.at??null,activatedAt,endedAt,changes,requests:usage.total,lastUsedAt:usage.lastUsedAt};
+  const usage=capabilityUsage(s.workspace.visits,e),evaluation=e.review?.evaluationId?(s.governance?.evaluations??[]).find(x=>x.id===e.review!.evaluationId):undefined;
+  return {entryId:e.id,revision:e.revision,capabilityManifestHash:e.manifestHash,providerId:spec.providerId,providerRelease:s.workspace.integrations.find(x=>x.id===spec.providerId)?.version??(spec.providerId==='local'?2:null),model:spec.model,agentVersion:spec.agentVersion,prompt:PROMPT_RELEASE,tool:TOOL_RELEASE,data:DATA_RELEASE,evaluation:evaluation?{id:evaluation.id,corpusVersion:evaluation.corpusVersion,corpusHash:evaluation.corpusHash,manifestHash:evaluation.manifestHash}:null,state:e.state,stage:lifecycleStage(s,e).stage,reviewedAt:e.review?.at??null,activatedAt,endedAt,changes,requests:usage.total,lastUsedAt:usage.lastUsedAt};
  });
 }
 export function capabilityHistories(s:OrgState,keys?:Set<string>){
