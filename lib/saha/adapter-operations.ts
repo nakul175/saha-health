@@ -24,6 +24,12 @@ export type GovernedKind='mis'|'ehr'|'abdm';
 export type OperationSetting={version:number;allowed:AdapterOperation[];aggregateOnly:boolean;setBy:string;setAt:string;reason:string};
 export type AdapterOperations=OperationSetting&{history:OperationSetting[]};
 export type Refusal={operation:AdapterOperation;settingVersion:number;aggregateOnly:boolean;stage:'before-send'|'checkpoint';at:string};
+export const CONNECTOR_PERMISSIONS=['search','read','create','amend','delete','export','status'] as const;
+export type ConnectorPermission=typeof CONNECTOR_PERMISSIONS[number];
+export type ConnectorPermissionSetting={version:number;allowed:ConnectorPermission[];setBy:string;setAt:string;reason:string};
+export type ConnectorPermissions=ConnectorPermissionSetting&{history:ConnectorPermissionSetting[]};
+export const CONNECTOR_PERMISSION_LABEL:Record<ConnectorPermission,string>={search:'Search',read:'Read',create:'Create',amend:'Amend',delete:'Delete',export:'Export',status:'Status lookup'};
+export const CONNECTOR_PERMISSION_PATH:Record<ConnectorPermission,string>={search:'No active partner search path in this release; use the separately approved partner process.',read:'Receive records through the connector when its read contract is configured.',create:'Send a new patient-level record.',amend:'Send a correction to a record already accepted by the destination.',delete:'Send a supported unlink or void operation.',export:'No active bulk export path in this release; use the separately approved partner process.',status:'Look up a delivery or publication receipt without sending the record again.'};
 export const OPERATIONS_POLICY_VERSION='1.0.0';
 export const HISTORY_LIMIT=20;
 export const LABEL:Record<AdapterOperation,string>={create:'Create',update:'Update',delete:'Delete or void',lookup:'Lookup',aggregate:'Aggregate reports'};
@@ -50,6 +56,8 @@ export function operationRefusal(i:Integration,op:AdapterOperation,carries:Carri
  if(!governed(i))return null;const o=operationsOf(i);
  const profile=i.profile;if(profile?.readiness==='unverified')return `${i.name} has no tested connector profile; ${op} remains unavailable.`;
  if(profile&&!profile.operations.includes(op))return `${i.name} does not declare ${op} in connector profile version ${profile.version}.`;
+ const permission:ConnectorPermission|undefined=op==='update'?'amend':op==='lookup'?'status':op==='aggregate'?undefined:op;
+ if(permission&&i.connectorPermissions&&!i.connectorPermissions.allowed.includes(permission))return `${i.name} is not permitted to ${CONNECTOR_PERMISSION_LABEL[permission].toLowerCase()} (connector permission version ${i.connectorPermissions.version}).`;
  if(carries==='patient'&&o.aggregateOnly)return `${i.name} is an aggregate-only destination: it may receive aggregate reports only, never a patient-level record.`;
  if(!o.allowed.includes(op))return `${i.name} is not permitted to ${VERB[op]} (operation setting version ${o.version}).`;
  return null;
@@ -62,6 +70,21 @@ const id=z.string().min(1).max(200);
 export const adapterOperationsSchema=z.object({type:z.literal('setAdapterOperations'),integrationId:id,version:z.number().int().min(0),allowed:z.array(z.enum(ADAPTER_OPERATIONS)).max(ADAPTER_OPERATIONS.length).refine(x=>new Set(x).size===x.length,'List each operation once.'),aggregateOnly:z.boolean(),reason:z.string().trim().min(5).max(500)}).strict()
  .refine(c=>!c.aggregateOnly||(c.allowed.includes('aggregate')&&!c.allowed.some(x=>['create','update','delete'].includes(x))),'An aggregate-only destination allows aggregate reports and may allow lookups, but never create, update or delete.');
 export type AdapterOperationsCommand=z.infer<typeof adapterOperationsSchema>;
+export const connectorPermissionsSchema=z.object({type:z.literal('setConnectorPermissions'),integrationId:id,version:z.number().int().min(0),allowed:z.array(z.enum(CONNECTOR_PERMISSIONS)).max(CONNECTOR_PERMISSIONS.length).refine(x=>new Set(x).size===x.length,'List each permission once.'),reason:z.string().trim().min(5).max(500)}).strict();
+export const connectorPermissionsOf=(i:Integration):{version:number;allowed:ConnectorPermission[];explicit:boolean}=>i.connectorPermissions?{version:i.connectorPermissions.version,allowed:CONNECTOR_PERMISSIONS.filter(x=>i.connectorPermissions!.allowed.includes(x)),explicit:true}:{version:0,allowed:[],explicit:false};
+export function applyConnectorPermissions(s:OrgState,input:unknown,u:Actor,m:Member,fail:(status:number,message:string)=>never,uuid:()=>string,now=new Date().toISOString()){
+ if((input as any)?.type!=='setConnectorPermissions')return null;
+ if(!m.isOwner)fail(403,'Only an organisation owner can change connector permissions.');
+ const parsed=connectorPermissionsSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid connector permission setting.');const c=parsed.data!;
+ const target=s.workspace.integrations.find(x=>x.id===c.integrationId);if(!target||!governed(target))fail(422,'Choose a programme, EHR or ABDM connection.');
+ const current=connectorPermissionsOf(target);if(current.version!==c.version)fail(409,'The connector permission setting changed. Refresh and review it again.');
+ const allowed=CONNECTOR_PERMISSIONS.filter(x=>c.allowed.includes(x));if(allowed.join()===current.allowed.join())fail(409,'Nothing changed.');
+ const prior:ConnectorPermissionSetting[]=target.connectorPermissions?[...target.connectorPermissions.history,{version:target.connectorPermissions.version,allowed:target.connectorPermissions.allowed,setBy:target.connectorPermissions.setBy,setAt:target.connectorPermissions.setAt,reason:target.connectorPermissions.reason}]:[];
+ target.connectorPermissions={version:current.version+1,allowed,setBy:u.userId,setAt:now,reason:c.reason,history:prior.slice(-HISTORY_LIMIT)};
+ const list=allowed.length?allowed.map(x=>CONNECTOR_PERMISSION_LABEL[x].toLowerCase()).join(', '):'none';
+ s.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:'setConnectorPermissions',subject:target.id,detail:`${target.name}: connector permissions set independently to ${list} (version ${target.connectorPermissions.version}). Read authority does not grant create, amend, delete or export authority. Unsupported operations require a separate approved process. Reason: ${c.reason}`});
+ return {integrationId:target.id,version:target.connectorPermissions.version,allowed};
+}
 // Returns null when the input is not this slice's command. Errors are thrown through `fail` supplied by the caller.
 export function applyAdapterOperations(s:OrgState,input:unknown,u:Actor,m:Member,fail:(status:number,message:string)=>never,uuid:()=>string,now=new Date().toISOString()){
  if((input as any)?.type!=='setAdapterOperations')return null;
