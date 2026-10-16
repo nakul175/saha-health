@@ -15,13 +15,14 @@ try{
  check(()=>assert.equal(AGENT_VERSION,'saha-agent-1.2.0'));
  for(const x of ['weight 5? kg; BP 120/? mmHg','Weight [inaudible] kg','BP 1?0/80 mmHg','Temperature 3_7 C','Weight � kg'])check(()=>assert.equal(reason(x),'noisy_input',x));
  for(const x of ['Weight 130 pounds; temperature 100 F','Weight 130 lbs','Temperature 99.1 °F'])check(()=>assert.equal(reason(x),'unsupported_case',x));
- for(const x of ['Patient comfortable today, no complaints','Seen at home with her mother'])check(()=>assert.equal(reason(x),'insufficient_input',x));
- for(const x of ['Weight 58 kg','No cough for 4 days','Weight not measured; BP unknown','वजन 58 किलोग्राम','Maybe weight 58 kg; temperature 37 C','Feeling better? Weight 58 kg'])check(()=>assert.equal(reason(x),null,x));
+ for(const x of ['Patient comfortable today, no complaints','Seen at home with her mother','No cough for 4 days','Weight not measured; BP unknown','Maybe weight 58 kg; temperature 37 C'])check(()=>assert.equal(reason(x),'insufficient_input',x));
+ check(()=>assert.equal(reason('वजन 58 किलोग्राम'),'unsupported_case'));
+ for(const x of ['Weight 58 kg','Feeling better? Weight 58 kg'])check(()=>assert.equal(reason(x),null,x));
  const run=(input,extra={})=>({id:'quality-run',task:'extract',input,provider:{id:'local',mode:'local',model:'structured-parser-v2'},...extra});
  const noisy=await invokeAgent(run('weight 58 kg; BP 120/? mmHg'),{},{},[]);
  check(()=>{assert.deepEqual(noisy.output.proposals,[],'the legible weight is withheld too');assert.equal(noisy.output.assessment.status,'unable_to_assess');assert.equal(noisy.output.assessment.reason,'noisy_input');assert.match(noisy.message,/^Unable to assess: .*Re-enter.*not a normal or negative result/)});
  const empty=await invokeAgent(run('Weight not measured; BP unknown'),{},{},[]);
- check(()=>{assert.equal(empty.output.assessment,undefined,'a stated absence is assessed');assert.match(empty.message,/No unambiguous values/)});
+ check(()=>{assert.equal(empty.output.assessment.reason,'insufficient_input','a stated absence is not converted into a negative result');assert.match(empty.message,/structured capture/)});
  const summary=await invokeAgent(run('Patient comfortable today',{task:'summary'}),{},{},[]);check(()=>assert.equal(summary.output.assessment,undefined,'only extraction checks measurement quality'));
 
  // The output contract: an unable-to-assess answer carries no values; null is accepted from strict JSON providers.

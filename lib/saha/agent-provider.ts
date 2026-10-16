@@ -18,9 +18,13 @@ export function readOpenAI(raw:any,model:string):{raw:unknown;usage:{inputTokens
 export async function invokeAgent(r:AgentRun,v:Visit,runtime:Record<string,string|undefined>,integrations:Integration[],send:typeof fetch=fetch,sensitive:Set<string>=new Set()){
  validateInvocationContract(r);
  if(r.task==='review')return {output:{proposals:[],highlights:[]},warnings:unresolved(v).map(q=>'Missing programme evidence: '+q.label),message:unresolved(v).length?'Unresolved evidence requires answers or explicit absence reasons.':'Saved programme evidence has no unresolved requirements. This is not clinical clearance.'};
+ const inputQuality=r.task==='extract'?assessInputQuality(r.input,r.context??{language:'en'},['en']):undefined;
+ // Quality refusal happens before provider selection or transport. Structured capture remains available and
+ // no empty/negative/low-risk clinical result is inferred from unusable input.
+ if(inputQuality?.assessment){const a=inputQuality.assessment;return {inputQuality,output:{proposals:[],highlights:[],assessment:a},warnings:[],message:`Unable to assess: ${a.detail} ${a.retry} Continue with structured capture. No value was produced; this is not a normal or negative result.`};}
  let raw:unknown,usage:{inputTokens:number;outputTokens:number}|undefined;
  if(r.provider.mode==='local'){
-  if(r.task==='extract'){const assessment=localAssess(r.input);raw=assessment?{proposals:[],highlights:[],assessment}:localExtract(r.input);}else {const quote=r.input.slice(0,600);raw={proposals:[],highlights:quote?[{quote,start:0,end:quote.length}]:[]};}
+  if(r.task==='extract'){raw=localExtract(r.input);}else {const quote=r.input.slice(0,600);raw={proposals:[],highlights:quote?[{quote,start:0,end:quote.length}]:[]};}
  }else{
   if(runtime.SAHA_EXTERNAL_APIS_ENABLED!=='true')fail(409,'External AI services are disabled.');let endpoint:string,key:string,body:any;
   if(r.provider.mode==='openai'){

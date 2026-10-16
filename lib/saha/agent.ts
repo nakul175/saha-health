@@ -20,6 +20,10 @@ export type Proposal=Evidence&{field:AgentField;value:string};
 // Slice 5c (BR-AI-06): a provider that cannot assess its input says so explicitly and proposes nothing.
 export const ASSESSMENT_REASONS=['insufficient_input','noisy_input','unsupported_case'] as const;
 export type AgentAssessment={status:'unable_to_assess';reason:typeof ASSESSMENT_REASONS[number];detail:string;retry:string};
+export const INPUT_QUALITY_DIMENSIONS=['field_support','language_support','signal_noise','required_input','uncertainty'] as const;
+export type InputQualityDimension=typeof INPUT_QUALITY_DIMENSIONS[number];
+export type InputQualityGate={dimension:InputQualityDimension;state:'pass'|'fail';detail:string};
+export type InputQualityReport={version:'saha-input-quality-1';gates:InputQualityGate[];assessment:AgentAssessment|null;fallback:'structured_capture'};
 export const ASSESSMENT_LABEL:Record<AgentAssessment['reason'],string>={insufficient_input:'Insufficient input',noisy_input:'Noisy or illegible input',unsupported_case:'Unsupported case'};
 export type AgentOutput={proposals:Proposal[];highlights:Evidence[];assessment?:AgentAssessment};
 // Slice 5c (BR-AG-08): a proposed value that differs from a recorded fact or from another open request on the same visit version.
@@ -119,12 +123,33 @@ export function validateOutput(raw:unknown,input:string,task:AgentRun['task']):{
 // measurement, an unsupported unit, or a note without any supported measurement is reported as unable to
 // assess, with no values, rather than as an empty or normal result. The whole note is withheld, not only a clause.
 const MEASUREMENT=/\b(?:weight|temp|temperature|BP|blood pressure|cough|gestational age|pregnancy)\b|वजन|तापमान|रक्तचाप/i;
-export function localAssess(input:string):AgentAssessment|null{
- if(/\[(?:inaudible|unclear|illegible)\]|\uFFFD/i.test(input)||[...input.matchAll(/[^;\n]+/g)].some(m=>MEASUREMENT.test(m[0])&&/\d\s*\?|\?\s*\d|\/\s*\?|\d_|_\d/.test(m[0])))return {status:'unable_to_assess',reason:'noisy_input',detail:'Part of a measurement is unreadable or marked as unclear.',retry:'Re-enter the measurement clearly, or record it manually from the device or card.'};
- if(/\d+(?:\.\d+)?\s*(?:pounds?|lbs?\b|°\s*F\b|F\b|fahrenheit|inch(?:es)?\b)/i.test(input))return {status:'unable_to_assess',reason:'unsupported_case',detail:'A measurement uses a unit this capability does not support (pounds or Fahrenheit, for example).',retry:'Record the measurement manually in kg, °C or mmHg; do not convert it inside the note.'};
- if(!MEASUREMENT.test(input))return {status:'unable_to_assess',reason:'insufficient_input',detail:'The note does not mention a supported measurement.',retry:'Add the current measurement with its unit, or record it manually.'};
- return null;
+const UNSUPPORTED_FIELD=/\b(?:pulse|heart rate|spo2|oxygen saturation|glucose|blood sugar|haemoglobin|hemoglobin|respiratory rate)\b/i;
+const UNCERTAIN_MEASUREMENT=/\b(?:maybe|possibly|uncertain|approximately|about|around|guess(?:ed)?|not sure)\b/i;
+const noisy=(input:string)=>/\[(?:inaudible|unclear|illegible|noise)\]|\uFFFD|\b(?:heavy )?(?:background )?noise\b/i.test(input)||[...input.matchAll(/[^;\n]+/g)].some(m=>MEASUREMENT.test(m[0])&&/\d\s*\?|\?\s*\d|\/\s*\?|\d_|_\d/.test(m[0]));
+const assessment=(reason:AgentAssessment['reason'],detail:string,retry:string):AgentAssessment=>({status:'unable_to_assess',reason,detail,retry});
+/** Deterministic preflight. A failed gate always selects structured capture and never emits a clinical value. */
+export function assessInputQuality(input:string,context:{language:string},supportedLanguages:readonly string[]=['en']):InputQualityReport{
+ const devanagari=/[\u0900-\u097f]/.test(input),latin=/[A-Za-z]/.test(input),declared=context.language;
+ const languageOk=supportedLanguages.includes(declared)&&!(declared==='en'&&devanagari)&&!(declared==='hi'&&latin&&!devanagari);
+ const fieldOk=!UNSUPPORTED_FIELD.test(input)&&!(/\d+(?:\.\d+)?\s*(?:pounds?|lbs?\b|°\s*F\b|F\b|fahrenheit|inch(?:es)?\b)/i.test(input));
+ const noiseOk=!noisy(input),uncertaintyOk=!(MEASUREMENT.test(input)&&UNCERTAIN_MEASUREMENT.test(input));
+ const parsed=localExtract(input).proposals,requiredOk=MEASUREMENT.test(input)&&parsed.length>0&&!( /\b(?:BP|blood pressure)\b/i.test(input)&&!(/\b(?:BP|blood pressure)\s*(?:is|:|=)?\s*\d+(?:\.\d+)?\s*\/\s*\d+(?:\.\d+)?(?:\s*mmHg)?\b/i.test(input)) );
+ const gates:InputQualityGate[]=[
+  {dimension:'field_support',state:fieldOk?'pass':'fail',detail:fieldOk?'Only supported measurement fields and units detected.':'The note contains an unsupported measurement field or unit.'},
+  {dimension:'language_support',state:languageOk?'pass':'fail',detail:languageOk?`Declared ${declared} input matches this capability.`:`Declared ${declared} input is not supported by this capability or does not match the detected script.`},
+  {dimension:'signal_noise',state:noiseOk?'pass':'fail',detail:noiseOk?'No explicit unreadable or noisy signal marker detected.':'The input is marked noisy, unreadable or incomplete.'},
+  {dimension:'required_input',state:requiredOk?'pass':'fail',detail:requiredOk?'At least one complete supported measurement with its unit is present.':'A complete supported measurement and required unit are missing.'},
+  {dimension:'uncertainty',state:uncertaintyOk?'pass':'fail',detail:uncertaintyOk?'No uncertain measurement wording detected.':'A measurement is qualified as uncertain and cannot be converted into a value.'}
+ ];
+ let result:AgentAssessment|null=null;
+ if(!noiseOk)result=assessment('noisy_input',gates[2].detail,'Repeat the capture using the approved instructions, or record a verified measurement manually.');
+ else if(!languageOk)result=assessment('unsupported_case',gates[1].detail,'Choose a capability approved for this language, or continue with structured capture.');
+ else if(!fieldOk)result=assessment('unsupported_case',gates[0].detail,'Use a capability approved for that field and unit, or record it manually without converting it here.');
+ else if(!uncertaintyOk)result=assessment('insufficient_input',gates[4].detail,'Verify the measurement from the source, or leave it unset and continue with structured capture.');
+ else if(!requiredOk)result=assessment('insufficient_input',gates[3].detail,'Add a complete current measurement with its supported unit, or record it manually.');
+ return {version:'saha-input-quality-1',gates,assessment:result,fallback:'structured_capture'};
 }
+export function localAssess(input:string):AgentAssessment|null{return assessInputQuality(input,{language:'en'}).assessment;}
 // Slice 5c (BR-AG-08): conflicts are shown as such; nothing is averaged or combined.
 export function conflictsFor(v:Visit,r:AgentRun):AgentConflict[]{
  if(r.task!=='extract'||!r.output||r.assessment)return [];const out:AgentConflict[]=[];
