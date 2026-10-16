@@ -37,9 +37,10 @@ async function context(actor: Actor, org: string, id: string, visitId?: string) 
 }
 function environment() {if(!['synthetic','training'].includes(environmentOf(runtime()).name)) fail(409,'Action review requires a synthetic or training workspace.');}
 export async function planReviewRead(request: Request) {
-  environment(); const actor=await identity(),org=organisation(request),q=new URL(request.url).searchParams;
+  environment(); const org=organisation(request),q=new URL(request.url).searchParams;
   if([...q.keys()].some(k=>!['personId','visitId'].includes(k))||q.getAll('personId').length!==1||q.getAll('visitId').length>1) fail(400,'Choose one person and at most one visit.');
   const id=patientId(q.get('personId')),v=q.has('visitId')?patientId(q.get('visitId')):undefined;
+  const actor=await identity();
   return response(await context(actor,org,id,v),actor,org);
 }
 export async function planReviewWrite(request: Request) {
