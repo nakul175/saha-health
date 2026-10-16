@@ -394,7 +394,7 @@ export function tar(files: { path: string; bytes: Uint8Array }[], mtime: number)
 
 // Exact immutable/new-source basis, excluding export audit rows and org revision changed by this read.
 const COMPLETENESS_BASIS_TABLES=['reporting_calendars','reporting_calendar_events','reporting_coverage','reporting_completeness_receipts','reporting_completeness_snapshots','integrations','memberships','patients','operations'];
-export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const rows=[];for(const table of COMPLETENESS_BASIS_TABLES){const spec=TABLES.find(s=>s.table===table)!;rows.push({table,rows:await readAll(db,spec,orgId)});}return digest(rows);}
+export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const rows=await Promise.all(COMPLETENESS_BASIS_TABLES.map(async table=>{const spec=TABLES.find(s=>s.table===table)!;return {table,rows:await readAll(db,spec,orgId)};}));return digest(rows);}
 
 // Database columns are authoritative; JSON keeps programme/facility/locality policy fields.
 function storedExportPerson(r:Row){return {...JSON.parse(String(r.data)),id:String(r.id),teamId:String(r.team_id),assignedTo:r.assigned_to} as import('./types').Person;}
