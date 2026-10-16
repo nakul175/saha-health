@@ -40,6 +40,10 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def assert_equal_lengths(left, right):
+    assert len(left) == len(right), 'paired documentation inputs have different lengths'
+
+
 def relative(path):
     return path.relative_to(ROOT).as_posix()
 
@@ -199,7 +203,17 @@ for case in cases:
 emit('docs/current/TEST-CATALOGUE.csv',csv_text([fields+['currentFormalExecution','relatedRequirementAssessment','relatedEvidenceContext','evidenceLimit']]+extended))
 
 executions = []
-for path in sorted((ROOT/'tests').glob('*-result.json')):
+R11_EXECUTION_REPORTS={
+    'agent-contract-result.json', 'continuity-contract-result.json',
+    'ehr-contract-result.json', 'ehr-execution-result.json',
+    'field-client-result.json', 'field-contract-result.json',
+    'field-shell-result.json', 'governance-contract-result.json',
+    'latest-result.json', 'mis-contract-result.json',
+    'mis-delivery-result.json', 'operations-contract-result.json',
+    'operations-load-result.json', 'outreach-contract-result.json',
+    'pilot-contract-result.json', 'recovery-result.json',
+}
+for path in sorted(path for path in (ROOT/'tests').glob('*-result.json') if path.name in R11_EXECUTION_REPORTS):
     result = json.loads(path.read_text())
     script = {'latest-result.json':'run-api-smoke.mjs','recovery-result.json':'recovery-drill.mjs',
               'operations-load-result.json':'run-api-smoke.mjs'}.get(path.name,path.name.replace('-result.json','.mjs'))
@@ -238,7 +252,8 @@ mapping = [
  ('app/governance-panel.tsx','Named safety cases and capability holds','Full privacy rights/case workflow and professional acceptance pending'),
  ('app/operations-panel.tsx','Incidents, maintenance and safe diagnostics','Hosted operations, release approvals and recovery pending')]
 screen_rows=[]
-for screen, current in zip(screens,mapping,strict=True):
+assert len(screens) == len(mapping), 'screen and implementation mapping lengths differ'
+for screen, current in zip(screens,mapping):
     screen_rows.append(screen+list(current)+['Partial; target contract not fully accepted'])
 emit('docs/current/SCREEN-COVERAGE.csv',csv_text([['id','designTitle','designActor','designPurpose','designFields','designActions','designGuard','currentSource','currentSurface','remaining','status']]+screen_rows))
 workspace=(ROOT/'app/workspace.tsx').read_text()
@@ -282,7 +297,7 @@ emit('docs/current/ARCHITECTURE-DECISIONS.md','# Architecture decision reconcili
      'All twelve original ADRs are preserved as design proposals. The R11 column records source-observed implementation, '
      'not retrospective approval of a proposal or a new institutional decision.\n\n'
      '| ADR | Original choice | R11 disposition |\n| --- | --- | --- |\n'
-     +''.join(f'| [{a[0]}](../history/v1.0/engineering/adrs/{a[0]}.md) | {md(a[2])} | {md(s)} |\n' for a,s in zip(adrs,adr_status,strict=True))
+     +(assert_equal_lengths(adrs, adr_status) or ''.join(f'| [{a[0]}](../history/v1.0/engineering/adrs/{a[0]}.md) | {md(a[2])} | {md(s)} |\n' for a,s in zip(adrs,adr_status)))
      +'\nMaterial choices still requiring review are persistence/scale, native versus browser field custody, institutional identity, '
      'sensitive-data separation, real provider/partner contracts and hosted recovery. Record a new dated decision with options, '
      'evidence, owner and consequences when one is made; never rewrite the historical proposal as if it had been accepted.\n')

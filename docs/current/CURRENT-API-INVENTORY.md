@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **123 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **130 HTTP method/route pairs** and **254 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -19,6 +19,8 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | POST | `/api/assistance-control` | [app/api/assistance-control/route.ts](../../app/api/assistance-control/route.ts) |
 | GET | `/api/audit/chain` | [app/api/audit/chain/route.ts](../../app/api/audit/chain/route.ts) |
 | GET | `/api/audit` | [app/api/audit/route.ts](../../app/api/audit/route.ts) |
+| GET | `/api/authentication-recovery` | [app/api/authentication-recovery/route.ts](../../app/api/authentication-recovery/route.ts) |
+| POST | `/api/authentication-recovery` | [app/api/authentication-recovery/route.ts](../../app/api/authentication-recovery/route.ts) |
 | GET | `/api/availability` | [app/api/availability/route.ts](../../app/api/availability/route.ts) |
 | POST | `/api/availability` | [app/api/availability/route.ts](../../app/api/availability/route.ts) |
 | GET | `/api/caseload` | [app/api/caseload/route.ts](../../app/api/caseload/route.ts) |
@@ -68,6 +70,8 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | POST | `/api/institution-roster-review` | [app/api/institution-roster-review/route.ts](../../app/api/institution-roster-review/route.ts) |
 | GET | `/api/interface-language` | [app/api/interface-language/route.ts](../../app/api/interface-language/route.ts) |
 | POST | `/api/interface-language` | [app/api/interface-language/route.ts](../../app/api/interface-language/route.ts) |
+| GET | `/api/local-registration` | [app/api/local-registration/route.ts](../../app/api/local-registration/route.ts) |
+| POST | `/api/local-registration` | [app/api/local-registration/route.ts](../../app/api/local-registration/route.ts) |
 | GET | `/api/media/[id]` | [app/api/media/[id]/route.ts](../../app/api/media/[id]/route.ts) |
 | DELETE | `/api/media/[id]` | [app/api/media/[id]/route.ts](../../app/api/media/[id]/route.ts) |
 | POST | `/api/media` | [app/api/media/route.ts](../../app/api/media/route.ts) |
@@ -105,12 +109,15 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | GET | `/api/reporting-completeness` | [app/api/reporting-completeness/route.ts](../../app/api/reporting-completeness/route.ts) |
 | POST | `/api/reporting-completeness` | [app/api/reporting-completeness/route.ts](../../app/api/reporting-completeness/route.ts) |
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
+| GET | `/api/reuse-measurements` | [app/api/reuse-measurements/route.ts](../../app/api/reuse-measurements/route.ts) |
+| POST | `/api/reuse-measurements` | [app/api/reuse-measurements/route.ts](../../app/api/reuse-measurements/route.ts) |
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |
 | GET | `/api/routine-visit` | [app/api/routine-visit/route.ts](../../app/api/routine-visit/route.ts) |
 | POST | `/api/routine-visit` | [app/api/routine-visit/route.ts](../../app/api/routine-visit/route.ts) |
 | GET | `/api/selective-reuse` | [app/api/selective-reuse/route.ts](../../app/api/selective-reuse/route.ts) |
 | GET | `/api/service-authority-review` | [app/api/service-authority-review/route.ts](../../app/api/service-authority-review/route.ts) |
+| GET | `/api/shared-question-review` | [app/api/shared-question-review/route.ts](../../app/api/shared-question-review/route.ts) |
 | GET | `/api/today` | [app/api/today/route.ts](../../app/api/today/route.ts) |
 | GET | `/api/trace` | [app/api/trace/route.ts](../../app/api/trace/route.ts) |
 | GET | `/api/value-range-protocols` | [app/api/value-range-protocols/route.ts](../../app/api/value-range-protocols/route.ts) |
