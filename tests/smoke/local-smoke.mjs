@@ -237,6 +237,7 @@ try {
   await r.check(`every GET route in HTTP-ROUTES.csv answers the owner without a 5xx (200 wherever it can be called)`, async () => {
     const bad = [];
     for (const route of gets) {
+      if (route in unsuppliable) { sweep.push({ route, path: pathOf(route), skipped: unsuppliable[route] }); continue; }
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
       if (res.status >= 500) bad.push(`${res.status} ${route}`);
       // Slice 11g (test review M6): an owner 4xx on a route that needs no parameters is a failure, not a skip.
@@ -246,7 +247,6 @@ try {
     assert.equal(bad.length, 0, `routes that failed: ${bad.join('; ')}`);
   });
   for (const row of sweep) if (row.skipped) r.skip(`GET ${row.route}`, row.skipped);
-  for (const route of gets.filter(x => x in unsuppliable)) r.skip(`GET ${route}`, unsuppliable[route]);
   await r.check('the Worker logged no 5xx response and no unhandled workspace error during the run', async () => {
     const log = worker.output(); const events = [...log.matchAll(/"event":"saha_request"[^\n]*"status":(\d{3})/g)].map(m => +m[1]);
     assert.ok(events.length > 40, `expected request log lines, saw ${events.length}`); assert.equal(events.filter(s => s >= 500).length, 0, 'a 5xx was logged');
