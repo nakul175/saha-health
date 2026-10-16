@@ -36,7 +36,7 @@ export const PATIENT_COMMANDS = new Set<string>([
   // unsent programme delivery cancellation
   'cancelSubmission',
   // slice 2b: visit media attach and draft removal
-  'attachMedia', 'removeMedia',
+  'attachMedia', 'reviewMedia', 'removeMedia',
   // slice 2e: clinician verification of one measurement on a confirmed visit
   'verifyFact',
   // slice 2g: clinician review of notes and programme answers, and supervisor sign-off of one confirmed visit
