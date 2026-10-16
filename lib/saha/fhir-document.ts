@@ -35,7 +35,8 @@ export function overrideExtension(v:Visit,field:ValueField):{url:string;extensio
 // Build a Provenance resource over the given targets with the resolved agents. Each agent carries its own
 // recorded time; the verifier agent also carries its verification state and, for a dispute, the reason.
 export function buildProvenance(targets:string[],agents:FHIRResolvedAgent[],id:string,recorded:string):Record<string,unknown>{return {resourceType:'Provenance',id,target:targets.map(reference=>({reference})),recorded,agent:agents.map(a=>{const ext:unknown[]=[{url:FHIR_RECORDED_AT_EXTENSION,valueDateTime:a.at}];if(a.type==='verifier')ext.push({url:FHIR_VERIFICATION_EXTENSION,valueCode:a.state??'verified'},...(a.reason?[{url:'reason',valueString:a.reason}]:[]));return {type:{coding:[{system:FHIR_PARTICIPANT_SYSTEM,code:a.type,display:FHIR_AGENT_LABEL[a.type]}]},role:[{coding:[{system:FHIR_ROLE_SYSTEM,code:a.role,display:AUTHOR_ROLE_LABEL[a.role]??a.role}]}],who:a.who,extension:ext};})};}
-export function fhirDocument(p:Person,v:Visit,organisation:string,author:string,documentId=uuid(),patientId=p.id.replace(/_/g,'-')){
+export type DocumentAttribution={facility:{system:'HFR'|'destination';identifier:string};professional:{system:'HPR'|'destination';identifier:string;role:'asha'|'clinician'}};
+export function fhirDocument(p:Person,v:Visit,organisation:string,author:string,documentId=uuid(),patientId=p.id.replace(/_/g,'-'),attribution?:DocumentAttribution){
  const ref=()=>`urn:uuid:${uuid()}`,patientRef=ref(),encounterRef=ref(),orgRef=ref(),authorRef=ref(),compositionRef=ref();
  const date=new Date(v.facts.date+'Z').toISOString(),entries:any[]=[];
  const put=(fullUrl:string,resource:any)=>entries.push({fullUrl,resource});
@@ -56,7 +57,7 @@ export function fhirDocument(p:Person,v:Visit,organisation:string,author:string,
  const composition={resourceType:'Composition',id:documentId,status:'final',type:{text:'Community visit record'},subject:{reference:patientRef},encounter:{reference:encounterRef},date,author:[{reference:authorRef}],title:'Synthetic community visit record',custodian:{reference:orgRef},section:[{title:'Recorded observations',text:{status:'generated',div:narrative},...(observations.length?{entry:observations.map(reference=>({reference}))}:{})}]};
  put(patientRef,{resourceType:'Patient',id:patientId,name:[{text:p.name}],gender:p.sex==='Female'?'female':p.sex==='Male'?'male':p.sex==='Other'?'other':'unknown'});
  put(encounterRef,{resourceType:'Encounter',id:uuid(),status:'finished',class:{system:'http://terminology.hl7.org/CodeSystem/v3-ActCode',code:'HH'},subject:{reference:patientRef},period:{start:date}});
- put(orgRef,{resourceType:'Organization',id:uuid(),name:organisation});put(authorRef,{resourceType:'Practitioner',id:uuid(),name:[{text:author}]});
+ put(orgRef,{resourceType:'Organization',id:uuid(),name:organisation,...(attribution?{identifier:[{system:attribution.facility.system==='HFR'?'https://facility.ndhm.gov.in':'urn:saha:destination:facility',value:attribution.facility.identifier}]}:{})});put(authorRef,{resourceType:'Practitioner',id:uuid(),name:[{text:author}],...(attribution?{identifier:[{system:attribution.professional.system==='HPR'?'https://hprid.ndhm.gov.in':'urn:saha:destination:professional',value:attribution.professional.identifier}],qualification:[{code:{text:attribution.professional.role}}]}:{})});
  // Slice r21: a visit-level Provenance for the supervisor sign-off, when one applies to this visit.
  const signer=signOffAgent(v);
  if(signer)put(ref(),buildProvenance([compositionRef],resolveAgents([signer]),uuid(),new Date().toISOString()));
