@@ -15,7 +15,7 @@ export async function programmeMigrationRead(request:Request){
  // Slice 6w (fifth review, finding 5): only an owner sees organisation-wide counts and every batch. A clinician
  // sees counts within their care scope (no out-of-scope count) and only the batches they applied, without the
  // organisation-wide examined and out-of-scope counts.
- const shown=m.isOwner?plans:plans.map(p=>({...p,examined:p.candidates.length+p.blocked.length,outOfScope:null,scopeOnly:true}));
+ const shown=m.isOwner?plans:plans.map(p=>({...p,examined:p.candidates.length+p.blocked.length,outOfScope:null,changeControl:{...p.changeControl,affectedPopulation:{...p.changeControl.affectedPopulation,outOfScope:null}},scopeOnly:true}));
  const batches=(s.operations?.programmeMigrations??[]).filter(b=>m.isOwner||b.by===u.userId).map(b=>m.isOwner?b:{...b,examined:null,outOfScope:null,scopeOnly:true});
  return json({catalogue,plans:shown,batches,canAdopt:m.isOwner,scopeOnly:!m.isOwner,generatedAt:new Date().toISOString()});
 }

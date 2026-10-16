@@ -61,9 +61,14 @@ export async function planProgrammeMigration(s:OrgState,m:Member,id:PackId){
  const fromVersions=[...new Set([...mine.map(x=>x.e.packVersion),...(adopted<targetVersion?[adopted]:[])])].sort((a,b)=>a-b);
  const changes=fromVersions.map(v=>packAt(id,v,s)).filter((x):x is Pack=>!!x).map(from=>packChanges(from,target));
  const adopts=m.isOwner&&adopted<targetVersion;
- const planHash=await digest({migration:MIGRATION,packId:id,targetVersion,adopted,adopts,candidates:candidates.map(c=>[c.personId,c.enrolmentId,c.version,c.fromVersion]),blocked:blocked.map(b=>[b.personId,b.enrolmentId,b.version,b.code])});
+ // The effective date is deliberately the reviewed apply timestamp, rather than an
+ // unreviewed date embedded in a pack. The affected population and transition rule
+ // are derived from the exact current open-case set, so a changed assignment,
+ // restriction, record version or open visit makes the reviewed plan stale.
+ const changeControl={effectiveDate:'When this reviewed dry run is applied',affectedPopulation:{inScope:mine.length,candidates:candidates.length,manualAction:blocked.length,outOfScope:episodes.length-mine.length},transitionRule:{kind:'reviewed-open-case-migration',fromVersions,toVersion:targetVersion,keepsHistoricalActions:true,blocksOpenVisits:true,requiresExactPlan:true}} as const;
+ const planHash=await digest({migration:MIGRATION,packId:id,targetVersion,adopted,adopts,changeControl,candidates:candidates.map(c=>[c.personId,c.enrolmentId,c.version,c.fromVersion]),blocked:blocked.map(b=>[b.personId,b.enrolmentId,b.version,b.code])});
  return {migration:MIGRATION,packId:id,name:target.name,targetVersion,adoptedVersion:adopted,adopts,adoptionNote:adopted>=targetVersion?`New episodes already open on v${targetVersion}.`:adopts?`Applying also opens new episodes on v${targetVersion}.`:`New episodes keep opening on v${adopted} until an owner applies a migration of this pack.`,
-  examined:episodes.length,changes,candidates,blocked,outOfScope:episodes.length-mine.length,planHash};
+  examined:episodes.length,changeControl,changes,candidates,blocked,outOfScope:episodes.length-mine.length,planHash};
 }
 // Packs with a newer version than their adopted version or than any open episode.
 export function migratablePacks(s:OrgState):PackId[]{return packIds(s).filter(id=>{const t=latestVersion(id,s);return adoptedVersion(s,id)<t||s.workspace.people.some(p=>(p.enrolments??[]).some(e=>e.packId===id&&e.state==='active'&&e.packVersion<t));});}
