@@ -2,6 +2,7 @@ import { fail } from './core';
 import { allowed } from './access';
 import { href, REQUEST_WAIT_HOURS } from './exceptions';
 import type { Member, OrgState, Visit } from './types';
+import { clinicalAuthority } from './operations';
 
 // Slice 3i: every open field referral request (slice 3g, decided in slice 3h) in the viewer's care scope,
 // computed on read. Clinicians decide; supervisors and owners with a care role watch the queue. Scope is access.ts, as for the exception queue (6i) and the action plan (4b).
@@ -40,7 +41,7 @@ export function referralRequestQueue(s: OrgState, m: Member, now = new Date().to
       visitId: v.id, patient: { id: p.id, name: p.name, village: p.village }, requestedBy: members.get(r.requestedBy)?.displayName ?? 'Former member',
       requestedAt: r.requestedAt, capturedAt: r.capturedAt, facility: r.facility, reason: r.reason,
       visit: { state: v.state, date: v.facts?.date || v.createdAt }, concern: v.clinicalConcern?.value ?? null, ageHours,
-      longWaiting: ageHours >= REQUEST_WAIT_HOURS, canDecide: m.role === 'clinician' && !blocker, blocker,
+      longWaiting: ageHours >= REQUEST_WAIT_HOURS, canDecide: clinicalAuthority(s,m,'referral-order',p.teamId,now) && !blocker, blocker,
       link: { personId: p.id, visitId: v.id, href: href(p.id, v.id) },
     });
   }
@@ -48,8 +49,8 @@ export function referralRequestQueue(s: OrgState, m: Member, now = new Date().to
   items.sort((a, b) => Number(b.concern === 'yes') - Number(a.concern === 'yes') || (a.requestedAt < b.requestedAt ? -1 : a.requestedAt > b.requestedAt ? 1 : a.visitId < b.visitId ? -1 : 1));
   return {
     rulesVersion: REQUEST_QUEUE_VERSION, waitHours: REQUEST_WAIT_HOURS, total: items.length, longWaiting: items.filter(i => i.longWaiting).length,
-    awaitingConfirmation: items.filter(i => i.visit.state !== 'confirmed').length, canDecide: m.role === 'clinician',
-    scope: m.role === 'clinician' ? 'Open field referral requests for patients in your care scope, including current emergency access.' : 'Open field referral requests for patients in the teams you supervise or belong to. A clinician decides each request.',
+    awaitingConfirmation: items.filter(i => i.visit.state !== 'confirmed').length, canDecide: items.some(i=>i.canDecide),
+    scope: m.role === 'clinician' ? 'Open field referral requests in your care scope. Ordering requires current verified professional authority for the patient team.' : 'Open field referral requests for patients in the teams you supervise or belong to. A clinician with verified professional authority decides each request.',
     items: items.slice(0, MAX_REQUESTS), truncated: items.length > MAX_REQUESTS,
   };
 }

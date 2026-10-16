@@ -71,5 +71,5 @@ async function operationsReadAttempt(request:Request,u:Awaited<ReturnType<typeof
 // holds 10c incentive claims (patient ids, evidence visit ids) and every later slice's records, each with its own scoped route.
 // Operators (owners and administrators) receive only the fields the Operations screen shows, plus the 10d staff-id map
 // (member identifiers kept for the people who manage members; no patient data).
-export const OPERATOR_FIELDS=['version','maintenance','reason','updatedAt','incidents','rates','budgets','staffIds'] as const;
+export const OPERATOR_FIELDS=['version','maintenance','reason','updatedAt','incidents','rates','budgets','staffIds','clinicalAuthorities'] as const;
 export const withoutReleases=(ops:any)=>Object.fromEntries(OPERATOR_FIELDS.filter(k=>ops&&k in ops).map(k=>[k,ops[k]]));
