@@ -61,6 +61,14 @@ try{
  // The local rules capability is never charged or refused on cost.
  check(()=>assert.doesNotThrow(()=>budget.checkMonthlyBudget(s,localEntry)));
 
+ // A checkpointed synthetic evaluation reserves the same provider allowance and
+ // recorded evaluation usage settles it. It cannot bypass the capability cap.
+ const evalRates={input:100,output:200,at:now},evState={...s,workspace:{...s.workspace,visits:[]},operations:{...s.operations,rates:evalRates,budgets:[{capabilityKey:'fixture-cap',monthlyUsd:1.5}]},governance:{...s.governance,evaluations:[{id:'metered-evaluation',entryId:'cap',provider,manifestHash:entry.manifestHash,results:[{caseId:'running',state:'running',startedAt:now}]}]}};
+ check(()=>assert.deepEqual(budget.capabilitySpend(evState,'fixture-cap',evalRates,now),{month:now.slice(0,7),spentUsd:0,reservedUsd:1.2,runs:1,missingUsage:1}));
+ await status(()=>budget.checkMonthlyBudget(evState,entry),429,/monthly cost budget/);
+ evState.governance.evaluations[0].results[0]={caseId:'done',state:'completed',startedAt:now,usage:{inputTokens:6000,outputTokens:3000}};
+ check(()=>assert.deepEqual(budget.capabilitySpend(evState,'fixture-cap',evalRates,now),{month:now.slice(0,7),spentUsd:1.2,reservedUsd:0,runs:1,missingUsage:0}));
+
  // Cancelling an unsent request releases its reservation.
  await agentApply(s,{type:'cancelAgent',visitId:v.id,runId:second.runId},actor('worker'),worker,[provider,local]);
  check(()=>{const r=budget.budgetView(s,now)[0];assert.equal(r.reservedUsd,1.2);assert.equal(r.state,'within');});

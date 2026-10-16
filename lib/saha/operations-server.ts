@@ -14,6 +14,7 @@ import { alertsFor, ALERT_RULES_VERSION } from './alerts';
 import { evaluateIfDue } from './alert-delivery-server';
 import { BUDGET_NOTICE, budgetView } from './ai-budget';
 import { invoiceAlertInputs, invoiceView } from './ai-invoice';
+import { costLedger } from './ai-cost-ledger';
 const currentMonth=()=>new Date().toISOString().slice(0,7);
 const REPORT_SOURCE_CHANGED='Reporting authority or source changed while the report was released. Refresh before viewing it.';
 // Only this private pre-alert marker permits bounded recomputation. Post-alert conflicts remain final refusals.
