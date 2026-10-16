@@ -5,9 +5,10 @@ import { digest, fail, uuid } from './core';
 import { allowed, normallyAllowed } from './access';
 import { environmentOf } from './environment';
 import { csvBytes, importsInto, MAX_CSV, MAX_ROWS, mayImport, parseCsv } from './patient-import';
-import { catalogueOf, enrollableAt } from './programmes';
-import { currentIdentifiers } from './types';
+import { catalogueOf, enrollableAt, packAt } from './programmes';
+import { currentIdentifiers, identifierRef } from './types';
 import { VISIT_COLUMNS, VISIT_REFUSED, applyVisitRows, fileDigest, mayImportVisits, planVisitRows } from './visit-import';
+import { defaultOperations, type LegacyImportBatch } from './operations';
 import type { Member, OrgState, Person } from './types';
 import type { Actor } from './store';
 // Slice 2h: controlled import of programme enrolments and external identifiers for existing people (BR-DATA-11), on
@@ -41,6 +42,7 @@ const csv=z.string().min(1,'Paste or choose a CSV file.').max(MAX_CSV,tooLarge).
 export const recordImportInput=z.object({kind:z.enum(KINDS),csv}).strict();
 export const recordImportSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('recordImportContactsReverse'),batchId:z.string().min(1).max(100),planHash:z.string().regex(/^[0-9a-f]{64}$/),reason}).strict(),
+ z.object({type:z.literal('recordImportReverse'),kind:z.enum(['enrolments','identifiers']),batchId:z.string().min(1).max(100),planHash:z.string().regex(/^[0-9a-f]{64}$/),reason}).strict(),
  z.object({type:z.literal('recordImportApply'),kind:z.enum(KINDS),csv,planHash:z.string().regex(/^[0-9a-f]{64}$/),reason}).strict(),
 ]);
 export type RecordRow={row:number;status:'accepted'|'rejected';reasons:string[];personId?:string;version?:number;conflict?:{personId:string;version:number};duplicateOf?:{visitId:string}};
@@ -72,11 +74,11 @@ export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:
  if(!(kind==='visits'?mayImportVisits(m):mayImport(s,m,now)))fail(403,kind==='visits'?VISIT_REFUSED:'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');
  const table=parseCsv(text);if(!table.length)fail(422,'The CSV is empty.');const h=header(kind,table);
  const body=table.slice(1);if(!body.length)fail(422,'The CSV has a header but no rows.');if(body.length>MAX_ROWS)fail(422,`At most ${MAX_ROWS} rows per import; this file has ${body.length}.`);
- if(kind==='contacts'){const plan=await planContactRows(s,m,h,body,text,envName,now,ref=>resolvePerson(s,m,ref,now,p=>normallyAllowed(m,p)&&importsInto(s,m,p.teamId,now)));return {import:RECORD_IMPORT,kind,environment:envName,...plan};}
+ if(kind==='contacts'){const plan=await planContactRows(s,m,h,body,text,envName,now,ref=>resolvePerson(s,m,ref,now,p=>normallyAllowed(m,p)&&importsInto(s,m,p.teamId,now)));return {import:RECORD_IMPORT,kind,environment:envName,...plan,quality:{sourceRows:body.length,parsedRows:plan.counts.rows,accepted:plan.counts.accepted,rejected:plan.counts.rejected,duplicateCandidates:plan.rows.filter(r=>r.reasons.some(x=>/already|same person|duplicate/i.test(x))).length,merged:0}};}
  if(kind==='visits'){
   // Slice 10i: visits are resolved within the importer's normal care scope only (no emergency access, no owner widening).
   const plan=await planVisitRows(s,m,h,body,envName,now,await fileDigest(text),ref=>resolvePerson(s,m,ref,now,p=>normallyAllowed(m,p)&&m.teamIds.includes(p.teamId)));
-  return {import:RECORD_IMPORT,kind,environment:envName,counts:plan.counts,rows:plan.rows as RecordRow[],planHash:plan.planHash,accepted:plan.accepted,fileDigest:plan.fileDigest,notice:plan.notice};
+  return {import:RECORD_IMPORT,kind,environment:envName,counts:plan.counts,quality:{sourceRows:body.length,parsedRows:plan.counts.rows,accepted:plan.counts.accepted,rejected:plan.counts.rejected,duplicateCandidates:plan.rows.filter(r=>r.reasons.some(x=>/already|overlap|duplicate/i.test(x))).length,merged:0},rows:plan.rows as RecordRow[],planHash:plan.planHash,accepted:plan.accepted,fileDigest:plan.fileDigest,notice:plan.notice};
  }
  const col=(r:string[],c:string)=>(r[h.indexOf(c)]??'').trim();
  const rows:RecordRow[]=[],accepted:Accepted[]=[],teams=new Set<string>();
@@ -125,15 +127,38 @@ export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:
  const records=s.workspace.people.filter(p=>teams.has(p.teamId)&&allowed(m,p,now)).map(p=>[p.id,p.version]).sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
  const planHash=await digest({import:RECORD_IMPORT,kind,environment:envName,importer:m.userId,rows:rows.map(r=>[r.row,r.status,r.personId??null,r.version??null,r.conflict??null,r.reasons]),accepted,records});
  const counts={rows:rows.length,accepted:accepted.length,rejected:rows.length-accepted.length};
- return {import:RECORD_IMPORT,kind,environment:envName,counts,rows,planHash,accepted,notice:'Row numbers, record ids, versions, counts and reasons only. Rejected rows are never applied.'};
+ const quality={sourceRows:body.length,parsedRows:rows.length,accepted:accepted.length,rejected:rows.length-accepted.length,duplicateCandidates:rows.filter(r=>r.reasons.some(x=>/already|same person|duplicate/i.test(x))).length,merged:0};
+ return {import:RECORD_IMPORT,kind,environment:envName,counts,quality,rows,planHash,accepted,notice:'Row numbers, record ids, versions, counts and reasons only. Rejected rows are never applied. Duplicate candidates are review items; this import never merges records.'};
 }
 // The dry run as returned over HTTP: the parsed rows (labels and identifier values) stay on the server.
 export const publicRecordPlan=({accepted,...plan}:Awaited<ReturnType<typeof planRecordImport>>)=>plan;
-export function authorizeRecordImport(s:OrgState,m:Member,c:any){if(c?.type==='recordImportContactsReverse'){contactBatch(s,m,c.batchId);return;}if(c?.type!=='recordImportApply')return;if(c.kind==='contacts'){authorizeContactImport(s,m);const batches=new Set(s.workspace.people.flatMap(p=>(p.importedContacts??[]).filter(e=>e.planHash===c.planHash&&e.by===m.userId).map(e=>e.batchId)));for(const batchId of batches)contactBatch(s,m,batchId);return;}if(c.kind==='visits'){if(!mayImportVisits(m))fail(403,VISIT_REFUSED);return;}if(!mayImport(s,m))fail(403,'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');}
+export function authorizeRecordImport(s:OrgState,m:Member,c:any){if(c?.type==='recordImportContactsReverse'){contactBatch(s,m,c.batchId);return;}if(c?.type==='recordImportReverse'){legacyImportBatch(s,m,c.kind,c.batchId);return;}if(c?.type!=='recordImportApply')return;if(c.kind==='contacts'){authorizeContactImport(s,m);const batches=new Set(s.workspace.people.flatMap(p=>(p.importedContacts??[]).filter(e=>e.planHash===c.planHash&&e.by===m.userId).map(e=>e.batchId)));for(const batchId of batches)contactBatch(s,m,batchId);return;}if(c.kind==='visits'){if(!mayImportVisits(m))fail(403,VISIT_REFUSED);return;}if(!mayImport(s,m))fail(403,'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');}
+
+export function legacyImportBatch(s:OrgState,m:Member,kind:'enrolments'|'identifiers',batchId:string){
+ if(!mayImport(s,m))fail(403,'Current supervised care-team import authority is required.');
+ const batch=s.operations?.legacyImportBatches?.find(b=>b.id===batchId&&b.kind===kind);if(!batch)fail(404,'Legacy import batch not found.');
+ const records=s.workspace.people.filter(p=>kind==='enrolments'?(p.enrolments??[]).some(e=>e.imported?.batchId===batchId):(p.identifiers??[]).some(e=>e.imported?.batchId===batchId));
+ if(!records.length)fail(409,'This batch has no retained source lineage.');
+ for(const p of records)if(p.mergedInto||!importsInto(s,m,p.teamId)||!normallyAllowed(m,p))fail(403,'Current supervised care access to every batch record is required.');
+ return {batch,records};
+}
+export async function planLegacyImportReversal(s:OrgState,m:Member,kind:'enrolments'|'identifiers',batchId:string,envName:string){
+ const {batch,records}=legacyImportBatch(s,m,kind,batchId);if(batch.reversal)fail(409,'This batch already has a recorded reversal.');const rows:{personId:string;version:number;row:number;entry:string}[]=[];
+ for(const p of records)if(kind==='enrolments')for(const e of p.enrolments??[]){if(e.imported?.batchId!==batchId)continue;if(e.imported.reversal||e.state!=='active'||e.registration!=='not_submitted'||(p.followUps??[]).some(f=>f.enrolmentId===e.id)||(s.workspace.visits??[]).some(v=>v.personId===p.id&&v.programmeCapture?.packs.some(x=>x.enrolmentId===e.id)))fail(409,'An imported enrolment changed or gained dependent work. Review it individually; batch reversal cannot overwrite current care records.');rows.push({personId:p.id,version:p.version,row:e.imported.row,entry:e.id});}
+ else for(const e of p.identifiers??[]){if(e.imported?.batchId!==batchId)continue;const ref=identifierRef(e);if(e.kind||currentIdentifiers(p).every(x=>identifierRef(x)!==ref))fail(409,'An imported identifier was corrected or withdrawn. Review it individually; batch reversal cannot overwrite identity history.');rows.push({personId:p.id,version:p.version,row:e.imported.row,entry:ref});}
+ const planHash=await digest({import:'record-import-reversal-v1',kind,batchId,environment:envName,importer:m.userId,rows,batch:{planHash:batch.planHash,accepted:batch.accepted}});
+ return {kind:`${kind}-reversal`,batchId,rows,counts:{rows:rows.length,accepted:rows.length,rejected:0,merged:0},planHash,notice:'Reversal changes only unchanged imported entries. Original source lineage and the reversal decision remain append-only.'};
+}
+export async function applyLegacyImportReversal(s:OrgState,m:Member,u:Actor,c:{kind:'enrolments'|'identifiers';batchId:string;planHash:string;reason:string},envName:string,now:string){
+ const plan=await planLegacyImportReversal(s,m,c.kind,c.batchId,envName);if(plan.planHash!==c.planHash)fail(409,'Batch records changed. Review a new reversal dry run.');const {batch,records}=legacyImportBatch(s,m,c.kind,c.batchId);
+ for(const p of records){if(c.kind==='enrolments'){for(const e of p.enrolments??[])if(e.imported?.batchId===c.batchId){e.state='closed';e.closedAt=now;e.outcome='Imported batch reversed';e.imported.reversal={at:now,by:u.userId,reason:c.reason,planHash:plan.planHash};}const removable=new Set((p.enrolments??[]).filter(e=>e.imported?.batchId===c.batchId&&e.imported.programmeAdded).map(e=>packAt(e.packId,e.packVersion,s)?.programme).filter((x):x is NonNullable<typeof x>=>!!x)),active=new Set((p.enrolments??[]).filter(e=>e.state==='active').map(e=>packAt(e.packId,e.packVersion,s)?.programme));p.programmes=p.programmes.filter(x=>!removable.has(x)||active.has(x));}else for(const e of (p.identifiers??[]).filter(e=>e.imported?.batchId===c.batchId)){p.identifiers!.push({issuer:e.issuer,value:e.value,verified:false,recordedAt:now,recordedBy:u.userId,source:'crosswalk',id:uuid(),kind:'withdraw',corrects:identifierRef(e),origin:'programme-system',verification:'unverified',reason:c.reason});}p.version++;}
+ batch.reversal={at:now,by:u.userId,reason:c.reason,planHash:plan.planHash,reversed:plan.rows.length};s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'recordImportReverse',subject:s.organisation.id,detail:`Legacy ${c.kind} import batch ${c.batchId} reversed under reviewed plan ${plan.planHash}; ${plan.rows.length} unchanged entries reversed; source lineage retained. Reason: ${c.reason}`});return {batchId:c.batchId,kind:`${c.kind}-reversal`,counts:{...plan.counts,applied:plan.rows.length,records:records.length},rows:plan.rows.map(x=>x.row)};
+}
 export async function applyRecordImport(s:OrgState,input:unknown,u:Actor,m:Member,env:Record<string,string|undefined>,now=new Date().toISOString()):Promise<any|null>{
  const parsed=recordImportSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeRecordImport(s,m,c);
  const e=environmentOf(env);if(e.name==='misconfigured')fail(409,'The environment is not configured correctly. Imports are refused until it is corrected.');
  if(c.type==='recordImportContactsReverse')return applyContactReversal(s,m,u,c,e.name,now);
+ if(c.type==='recordImportReverse')return applyLegacyImportReversal(s,m,u,c,e.name,now);
  const plan=await planRecordImport(s,m,c.kind,c.csv,e.name,now);
  if(plan.planHash!==c.planHash)fail(409,'The file or the records changed since the dry run. Run the dry run again and review it before applying.');
  if(!plan.accepted.length)fail(409,'The dry run has no rows to apply.');
@@ -145,13 +170,14 @@ export async function applyRecordImport(s:OrgState,input:unknown,u:Actor,m:Membe
   const p=w.people.find(x=>x.id===a.personId)!;importsInto(s,m,p.teamId,now,true);people.add(p.id);
   if(a.kind==='enrolments'){
    const pack=enrollableAt(a.packId,a.packVersion,s)!;p.enrolments??=[];p.followUps??=[];
-   p.enrolments.push({id:uuid(),packId:pack.id,packVersion:pack.version,state:'active',episodeLabel:a.episodeLabel,startDate:a.startDate,createdAt:now,createdBy:u.userId,registration:'not_submitted',imported:{...lineage(a.row),at:now,by:u.userId}});
-   if(!p.programmes.includes(pack.programme))p.programmes.push(pack.programme);
+   const programmeAdded=!p.programmes.includes(pack.programme);p.enrolments.push({id:uuid(),packId:pack.id,packVersion:pack.version,state:'active',episodeLabel:a.episodeLabel,startDate:a.startDate,createdAt:now,createdBy:u.userId,registration:'not_submitted',imported:{...lineage(a.row),at:now,by:u.userId,programmeAdded}});
+   if(programmeAdded)p.programmes.push(pack.programme);
    for(const v of w.visits.filter(v=>v.personId===p.id))if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';
   }else{p.identifiers??=[];p.identifiers.push({issuer:a.issuer,value:a.value,verified:false,recordedAt:now,recordedBy:u.userId,source:'import',imported:lineage(a.row)});}
  }
  const k=plan.counts,what=c.kind==='enrolments'?'episodes opened (official registration not submitted)':'identifiers recorded (not verified with the issuer)';
+ const duplicateCandidates=plan.rows.filter(r=>r.reasons.some(x=>/already|same person|duplicate/i.test(x))).length,ops=s.operations??=defaultOperations(),batches=ops.legacyImportBatches??=[];if(batches.length>=100)fail(422,'Legacy import batch history limit reached.');const batch:LegacyImportBatch={id:batchId,kind:c.kind,planHash:plan.planHash,at:now,by:u.userId,reason:c.reason,sourceRows:k.rows,parsedRows:k.rows,accepted:plan.accepted.length,rejected:k.rejected,duplicateCandidates,merged:0};batches.push(batch);
  w.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:s.organisation.id,detail:`Import ${RECORD_IMPORT} (${c.kind}) batch ${batchId} applied from dry run ${plan.planHash}: ${k.rows} rows, ${plan.accepted.length} ${what} on ${people.size} record${people.size===1?'':'s'}, ${k.rejected} rejected. Reason: ${c.reason}`});
  // Counts and row numbers only: a replay by key returns no record ids.
- return {batchId,kind:c.kind,counts:{...k,applied:plan.accepted.length,records:people.size},rows:plan.accepted.map(a=>a.row)};
+ return {batchId,kind:c.kind,counts:{...k,source:k.rows,parsed:k.rows,duplicates:duplicateCandidates,merged:0,applied:plan.accepted.length,records:people.size},rows:plan.accepted.map(a=>a.row),reversible:true};
 }
