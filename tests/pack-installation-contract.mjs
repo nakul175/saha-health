@@ -49,6 +49,7 @@ try {
   const child = () => ({ format: 'saha-pack-manifest-1', id: 'child_growth', version: 1, name: 'Child growth check', programme: 'Child health', purpose: 'Record a synthetic child growth check and a reported feeding concern.',
     questions: [{ id: 'weight', label: 'Weight', fact: 'weight', unit: 'kg', required: true }, { id: 'feeding_concern', label: 'Does the carer report a feeding concern?', options: ['Yes', 'No'], required: true }, { id: 'feeding_days', label: 'Days with the concern, reported', options: ['1-3', '4 or more'], when: { id: 'feeding_concern', value: 'Yes' }, required: false }],
     schedule: { followUpWithinDays: 30, note: 'illustrative' }, escalation: [{ id: 'feeding-concern', label: 'Reported feeding concern', condition: { questionId: 'feeding_concern', operator: 'eq', value: 'Yes' }, urgency: 'review' }, { id: 'low-weight', label: 'Low weight', condition: { questionId: 'weight', operator: 'lte', value: '7.5' }, urgency: 'urgent_review' }],
+    adoption: { identityReuse: 'organisation-person', observationReuse: ['weight'], roleBoundaries: [{ role: 'asha', actions: ['capture'] }, { role: 'clinician', actions: ['review'] }], destinationRules: [{ destinationId: 'child_registry', mappingVersion: 'synthetic-v1', readiness: 'ready', rule: 'Owner-approved synthetic routing only; no automatic send.' }], workflowReadiness: { status: 'ready', evidenceRef: 'SYNTH-WORKFLOW-001' } },
     changeNote: 'Synthetic illustrative pack for the installation workflow; not clinically approved.' });
   const maternal3 = () => { const v2 = P.packAt('maternal', 2); return { format: 'saha-pack-manifest-1', id: 'maternal', version: 3, name: 'Maternal care', programme: 'Maternal care', purpose: v2.purpose,
     questions: [...v2.questions.filter(q => q.id !== 'appointment_discussed').map(({ renamedFrom, ...q }) => q), { id: 'next_appointment_discussed', renamedFrom: 'appointment_discussed', label: 'Was the next care appointment discussed?', options: ['Yes', 'No'], required: true }, { id: 'birth_plan_discussed', label: 'Was a birth plan discussed?', options: ['Yes', 'No'], required: false }],
@@ -88,6 +89,9 @@ try {
   const inst = () => s.operations.installedPacks.find(x => x.id === staged.installationId);
   check(() => { assert.equal(staged.state, 'staged'); assert.match(staged.manifestHash, /^[0-9a-f]{64}$/); assert.equal(inst().pack.installed.installationId, staged.installationId); assert.match(inst().pack.escalation, /Low weight: weight at or below 7.5 → urgent clinician review/); assert.match(inst().pack.schedule, /within 30 days.*nothing is scheduled automatically/); assert.match(s.workspace.audit.at(-1).detail, /staged for review.*Not clinically approved/); });
   await rejects(() => I.applyPackInstallation(s, stage(child()), actor, owner, now), /already in the catalogue or awaiting review/);
+  await rejects(() => I.applyPackInstallation(makeState('org_missing_adoption'),stage((({adoption,...rest})=>rest)(child())),actor,owner,now),/must declare identity and observation reuse/);
+  await rejects(() => I.applyPackInstallation(makeState('org_bad_reuse'),stage({...child(),adoption:{...child().adoption,observationReuse:['temperature']}}),actor,owner,now),/Observation reuse temperature/);
+
   // Nothing opens on a staged pack.
   await rejects(async () => C.programmeApply(s, { type: 'enrolProgramme', personId: 'p_meena', version: 1, packId: 'child_growth', episodeLabel: 'Synthetic child episode', startDate: null }, actor, owner), /Choose an available programme pack/);
   const review = (decision, extra = {}) => ({ type: 'packInstallReview', installationId: staged.installationId, manifestHash: staged.manifestHash, decision, reason: 'Structure and conflicts checked on synthetic data', ...extra });
@@ -96,14 +100,28 @@ try {
   check(() => { assert.throws(() => I.authorizePackInstallation(s, owner, review('approve')), /different person/); assert.throws(() => I.authorizePackInstallation(s, reviewer, { type: 'packInstallActivate', installationId: staged.installationId, manifestHash: staged.manifestHash, reason: 'Activate the reviewed pack' }), /An organisation owner/); assert.doesNotThrow(() => I.authorizePackInstallation(s, reviewer, review('approve'))); assert.doesNotThrow(() => I.authorizePackInstallation(s, asha, { type: 'other' })); });
   await rejects(() => I.applyPackInstallation(s, review('approve', { manifestHash: 'a'.repeat(64) }), reviewerActor, reviewer, now), /not the staged one/);
   const retire = (x, reason = 'Withdraw the synthetic version after review') => ({ type: 'packInstallRetire', installationId: x.installationId, reason });
+  const approveKind=(x,kind,reference=`SYNTH-${kind.toUpperCase()}-001`)=>({type:'packInstallApproval',installationId:x.installationId,manifestHash:x.manifestHash,kind,reference});
   const activate = (x, extra = {}) => ({ type: 'packInstallActivate', installationId: x.installationId, manifestHash: x.manifestHash, reason: 'Activate the reviewed synthetic pack', ...extra });
   await rejects(() => I.applyPackInstallation(s, activate(staged), actor, owner, now), /Only an approved pack/);
   const approved = await I.applyPackInstallation(s, review('approve'), reviewerActor, reviewer, now);
   check(() => { assert.equal(approved.state, 'approved'); assert.deepEqual(inst().history.map(h => h.state), ['staged', 'approved']); assert.equal(inst().review.by, 'clin2'); });
+  await rejects(() => I.applyPackInstallation(s,activate(staged),actor,owner,now),/still needs buyer approval/);
+  await rejects(() => I.applyPackInstallation(s,{...approveKind(staged,'buyer'),manifestHash:'a'.repeat(64)},actor,owner,now),/not for the staged manifest/);
+
+  await I.applyPackInstallation(s,approveKind(staged,'buyer'),actor,owner,now);
+  await I.applyPackInstallation(s,approveKind(staged,'clinical'),reviewerActor,reviewer,now);
+  await I.applyPackInstallation(s,approveKind(staged,'workflow'),actor,owner,now);
   // The reviewer's authority is checked again at activation.
   const demoted = structuredClone(s); demoted.members.find(m => m.userId === 'clin2').version = 2;
   await rejects(() => I.applyPackInstallation(demoted, activate(staged), actor, owner, now), /reviewer's authority changed/);
   await rejects(() => I.applyPackInstallation(s, activate(staged), reviewerActor, reviewer, now), /An organisation owner/);
+  await rejects(() => I.applyPackInstallation(s,approveKind(staged,'buyer'),actor,owner,now),/already recorded/);
+  const held=makeState('org_not_ready'),heldManifest={...child(),id:'child_held',adoption:{...child().adoption,destinationRules:child().adoption.destinationRules.map(d=>({...d,readiness:'not_ready'}))}};
+  const heldStage=await I.applyPackInstallation(held,stage(heldManifest),actor,owner,now);
+  await I.applyPackInstallation(held,{type:'packInstallReview',installationId:heldStage.installationId,manifestHash:heldStage.manifestHash,decision:'approve',reason:'Synthetic structure independently reviewed'},reviewerActor,reviewer,now);
+  for(const [kind,a,m] of [['buyer',actor,owner],['clinical',reviewerActor,reviewer],['workflow',actor,owner]])await I.applyPackInstallation(held,{type:'packInstallApproval',installationId:heldStage.installationId,manifestHash:heldStage.manifestHash,kind,reference:`SYNTH-${kind}-HELD`},a,m,now);
+  await rejects(()=>I.applyPackInstallation(held,activate(heldStage),actor,owner,now),/every declared destination must be ready/);
+
   const activated = await I.applyPackInstallation(s, activate(staged), actor, owner, now);
   check(() => { assert.deepEqual([activated.state, activated.migrationAvailable], ['active', false]); assert.deepEqual(inst().history.map(h => h.state), ['staged', 'approved', 'active']); assert.ok(P.packIds(s).includes('child_growth')); assert.equal(P.adoptedVersion(s, 'child_growth'), 1); assert.equal(P.adoptedVersion({}, 'child_growth'), 0); assert.match(s.workspace.audit.at(-1).detail, /activated.*New episodes can now open on v1/); });
 
@@ -168,11 +186,14 @@ try {
   const commit = async (c, a = actor, m = owner) => { const before = await load(), next = structuredClone(before); const result = await I.applyPackInstallation(next, c, a, m); await store.persist(d1, before, next, a, c, crypto.randomUUID(), 'hash', result); return result; };
   const bStaged = await commit(stage(child()));
   await commit({ type: 'packInstallReview', installationId: bStaged.installationId, manifestHash: bStaged.manifestHash, decision: 'approve', reason: 'Structure and conflicts checked on synthetic data' }, reviewerActor, reviewer);
+  await commit(approveKind(bStaged,'buyer'));
+  await commit(approveKind(bStaged,'clinical'),reviewerActor,reviewer);
+  await commit(approveKind(bStaged,'workflow'));
   await commit(activate(bStaged));
   const persisted = await load();
   check(() => { const x = persisted.operations.installedPacks[0]; assert.equal(x.state, 'active'); assert.deepEqual(x.history.map(h => h.state), ['staged', 'approved', 'active']); assert.ok(P.enrollableAt('child_growth', 1, persisted)); });
   const v = await chain.verifyChain(d1, B);
-  check(() => { assert.equal(v.status, 'intact'); assert.deepEqual(d1.db.prepare("SELECT action FROM audit_events WHERE org_id=? AND action LIKE 'packInstall%' ORDER BY rowid").all(B).map(r => r.action), ['packInstallStage', 'packInstallReview', 'packInstallActivate']); });
+  check(() => { assert.equal(v.status, 'intact'); assert.deepEqual(d1.db.prepare("SELECT action FROM audit_events WHERE org_id=? AND action LIKE 'packInstall%' ORDER BY rowid").all(B).map(r => r.action), ['packInstallStage', 'packInstallReview', 'packInstallApproval', 'packInstallApproval', 'packInstallApproval', 'packInstallActivate']); });
 
   const result = { suite: 'pack installation contract (slice 4f)', passed, completedAt: new Date().toISOString() };
   writeFileSync('tests/pack-installation-contract-result.json', JSON.stringify(result, null, 2) + '\n');

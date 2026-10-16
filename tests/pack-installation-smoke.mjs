@@ -18,7 +18,7 @@ export async function packInstallationSmoke({ get, post, check, accounts, org, s
   check(() => { assert.equal(view.canStage, true); assert.equal(view.installations.length, 0); assert.match(view.notice, /not clinical approval/); assert.equal(view.limits.manifestCharacters, 8000); });
   const manifest = { format: 'saha-pack-manifest-1', id: 'child_growth', version: 1, name: 'Child growth check', programme: 'Child health', purpose: 'Record a synthetic child growth check and a reported feeding concern.',
     questions: [{ id: 'weight', label: 'Weight', fact: 'weight', unit: 'kg', required: true }, { id: 'feeding_concern', label: 'Does the carer report a feeding concern?', options: ['Yes', 'No'], required: true }],
-    schedule: { followUpWithinDays: 30 }, escalation: [{ id: 'feeding-concern', label: 'Reported feeding concern', condition: { questionId: 'feeding_concern', operator: 'eq', value: 'Yes' }, urgency: 'review' }], changeNote: 'Synthetic illustrative pack for the installation smoke; not clinically approved.' };
+    schedule: { followUpWithinDays: 30 }, adoption: { identityReuse: 'organisation-person', observationReuse: ['weight'], roleBoundaries: [{ role: 'asha', actions: ['capture'] }, { role: 'clinician', actions: ['review'] }], destinationRules: [{ destinationId: 'child_registry', mappingVersion: 'synthetic-v1', readiness: 'ready', rule: 'Owner-approved synthetic routing only; no automatic send.' }], workflowReadiness: { status: 'ready', evidenceRef: 'SYNTH-WORKFLOW-001' } }, escalation: [{ id: 'feeding-concern', label: 'Reported feeding concern', condition: { questionId: 'feeding_concern', operator: 'eq', value: 'Yes' }, urgency: 'review' }], changeNote: 'Synthetic illustrative pack for the installation smoke; not clinically approved.' };
   const stage = (m, reason = 'Stage a synthetic child growth pack') => ({ type: 'packInstallStage', manifest: m, reason });
   // Invalid manifests are refused with the reason; nothing is staged.
   const bad = await post(o, stage({ ...manifest, questions: [{ ...manifest.questions[0], unit: 'g' }, manifest.questions[1]] }), 422, undefined, mine);
@@ -41,6 +41,8 @@ export async function packInstallationSmoke({ get, post, check, accounts, org, s
   await enrol('p_meena', 422);
   await post(rv, review(), 200, undefined, mine);
   await enrol('p_meena', 422);
+  const approve=(kind,reference=`SYNTH-${kind.toUpperCase()}-001`)=>({type:'packInstallApproval',installationId:staged.installationId,manifestHash:staged.manifestHash,kind,reference});
+  await post(o,approve('buyer'),200,undefined,mine); await post(rv,approve('clinical'),200,undefined,mine); await post(o,approve('workflow'),200,undefined,mine);
   const activate = { type: 'packInstallActivate', installationId: staged.installationId, manifestHash: staged.manifestHash, reason: 'Activate the reviewed synthetic pack' };
   await post(rv, activate, 403, undefined, mine);
   await post(o, activate, 200, undefined, mine);
@@ -57,7 +59,7 @@ export async function packInstallationSmoke({ get, post, check, accounts, org, s
   await enrol('p_aarav', 422);
   view = await read(o);
   check(() => { const i = view.installations[0]; assert.deepEqual(i.history.map(h => h.state), ['staged', 'approved', 'active', 'retired']); assert.equal(i.openEpisodes, 1); assert.equal(person('p_meena').enrolments.find(e => e.packId === 'child_growth').state, 'active'); assert.equal(JSON.stringify(view).includes('Meena'), false, 'no patient names in the read'); });
-  check(() => assert.deepEqual(sql.prepare("SELECT action FROM audit_events WHERE org_id=? AND action LIKE 'packInstall%' ORDER BY at, rowid").all(mine).map(r => r.action), ['packInstallStage', 'packInstallReview', 'packInstallActivate', 'packInstallRetire']));
+  check(() => assert.deepEqual(sql.prepare("SELECT action FROM audit_events WHERE org_id=? AND action LIKE 'packInstall%' ORDER BY at, rowid").all(mine).map(r => r.action), ['packInstallStage', 'packInstallReview', 'packInstallApproval', 'packInstallApproval', 'packInstallApproval', 'packInstallActivate', 'packInstallRetire']));
   const chain = await (await fetch(`${base}/api/audit/chain`, { headers: { ...o.headers, 'x-saha-organisation': mine } })).json();
   check(() => assert.equal(chain.status, 'intact'));
   return { mine };

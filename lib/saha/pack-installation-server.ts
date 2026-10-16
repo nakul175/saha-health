@@ -12,12 +12,12 @@ export async function packInstallationRead(request:Request){
  if(!mayReadInstallations(m))fail(403,'Only an organisation owner or a clinician can view programme pack installations.');
  const name=(id?:string)=>id?s.members.find(x=>x.userId===id)?.displayName??'Former member':null;
  const installations=[...installationsOf(s)].reverse().map(x=>({id:x.id,packId:x.packId,version:x.version,state:x.state,name:x.pack.name,programme:x.pack.programme,purpose:x.pack.purpose,manifestHash:x.manifestHash,
-  questions:x.pack.questions,schedule:x.pack.schedule??null,escalation:x.pack.escalation??null,escalationRules:x.manifest.escalation??[],migratesFrom:x.pack.migratesFrom??[],changeNote:x.pack.changeNote??null,
+  questions:x.pack.questions,adoption:x.manifest.adoption??null,approvals:(x.approvals??[]).map(a=>({kind:a.kind,by:name(a.by),at:a.at,manifestHash:a.manifestHash,reference:a.reference})),schedule:x.pack.schedule??null,escalation:x.pack.escalation??null,escalationRules:x.manifest.escalation??[],migratesFrom:x.pack.migratesFrom??[],changeNote:x.pack.changeNote??null,
   stagedBy:name(x.stagedBy),stagedAt:x.stagedAt,reason:x.reason,review:x.review?{by:name(x.review.by),at:x.review.at,decision:x.review.decision,reason:x.review.reason}:null,activatedAt:x.activatedAt??null,retiredAt:x.retiredAt??null,
   history:x.history.map(h=>({state:h.state,at:h.at,by:name(h.by),reason:h.reason})),
   changes:(x.pack.migratesFrom??[]).map(v=>packAt(x.packId,v,s)).filter(p=>!!p).map(p=>packChanges(p!,x.pack)),
   conflicts:['staged','approved'].includes(x.state)?conflicts(s,x.pack,x.id,x.state==='approved'):[],openEpisodes:openEpisodesOn(s,x.packId,x.version),
-  canReview:['staged','approved'].includes(x.state)&&mayReview(m,x),canActivate:m.isOwner&&x.state==='approved',canRetire:m.isOwner&&['staged','approved','active'].includes(x.state),uploadedByYou:x.stagedBy===u.userId}));
+  canApproveBuyer:['staged','approved'].includes(x.state)&&m.isOwner&&!(x.approvals??[]).some(a=>a.kind==='buyer'),canApproveClinical:['staged','approved'].includes(x.state)&&mayReview(m,x)&&!(x.approvals??[]).some(a=>a.kind==='clinical'),canApproveWorkflow:['staged','approved'].includes(x.state)&&m.isOwner&&!(x.approvals??[]).some(a=>a.kind==='workflow'),canReview:['staged','approved'].includes(x.state)&&mayReview(m,x),canActivate:m.isOwner&&x.state==='approved',canRetire:m.isOwner&&['staged','approved','active'].includes(x.state),uploadedByYou:x.stagedBy===u.userId}));
  return json({notice:NOT_CLINICALLY_APPROVED,format:MANIFEST_FORMAT,limits:{manifestCharacters:MAX_MANIFEST_CHARS,installations:MAX_INSTALLATIONS},factUnits:FACT_UNITS,canStage:m.isOwner,installations,generatedAt:new Date().toISOString()});
 }
 
