@@ -169,7 +169,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const state=await readState(db(),invite.org_id),before=structuredClone(state),now=new Date().toISOString();
   const tokenHash=await digest(c.token),inv=state.invitations.find(x=>x.tokenHash===tokenHash);
   if(!inv||inv.status!=='pending'||inv.expiresAt<=now||inv.accountCode!==await accountCode(u.userId))fail(403,'This invitation is expired, used, revoked or belongs to another account.');
-  validTeams(state,inv.teamIds,inv.role);let member=state.members.find(m=>m.userId===u.userId);if(member?.status==='active')fail(409,'You are already a member of this organisation.');
+  validTeams(state,inv.teamIds,inv.role);const member=state.members.find(m=>m.userId===u.userId);if(member?.status==='active')fail(409,'You are already a member of this organisation.');
   const next={userId:u.userId,displayName:u.displayName,accountCode:await accountCode(u.userId),role:inv.role,isOwner:false,status:'active' as const,version:(member?.version??0)+1,teamIds:inv.teamIds,createdAt:member?.createdAt??now};if(member)Object.assign(member,next);else state.members.push(next);inv.status='accepted';inv.acceptedBy=u.userId;
   state.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:inv.role,action:'acceptInvite',subject:inv.id,detail:'Account-bound invitation accepted. Membership activated.'});
   await persist(db(),before,state,u,c,key,hash,{organisationId:invite.org_id},[],true);return {result:{organisationId:invite.org_id},snapshot:await viewerSnapshot(request,u,invite.org_id)};
