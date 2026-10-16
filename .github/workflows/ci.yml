@@ -354,12 +354,25 @@ jobs:
               'smoke/observation-time-browser', 'smoke/record-matching-browser', 'smoke/workforce-status-browser',
               'unit/amendments-contract', 'unit/assistance-control-contract', 'unit/fact-freshness-contract',
               'unit/observation-time-contract', 'unit/plan-review-contract', 'unit/record-matching-contract',
-              'unit/routine-conflict-contract', 'unit/workforce-status-contract'
+              'unit/routine-conflict-contract', 'unit/workforce-status-contract',
+              'smoke/identity-link-review-browser',
+              'unit/action-authority-contract', 'unit/agent-contract-validation',
+              'unit/agent-explanation-contract', 'unit/agent-release-control-contract',
+              'unit/ai-cost-ledger-contract', 'unit/ai-version-pin-contract',
+              'unit/approved-execution-contract', 'unit/approved-source-library-contract',
+              'unit/capability-eligibility-contract', 'unit/capability-registration-contract',
+              'unit/capability-safety-suspension-contract', 'unit/clinical-continuity-contract',
+              'unit/disagreement-contract', 'unit/durable-progress-contract',
+              'unit/identity-link-review-contract', 'unit/input-quality-gates-contract',
+              'unit/language-resource-qualification-contract', 'unit/mapping-authority-contract',
+              'unit/multi-provider-result-history-contract', 'unit/organisational-federation-contract',
+              'unit/programme-manager-analysis-contract', 'unit/provider-invocation-contract',
+              'unit/saha-027-media-review-contract', 'unit/saha-062-local-completion'
           }
           original = {name: value for name, value in baseline['suites'].items() if name not in additions}
           assert len(original) == 389, 'Original 389 guarded records must remain'
           assert hashlib.sha256(json.dumps(original,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 objects/minima changed'
-          assert len(baseline['suites']) == 434 and additions <= baseline['suites'].keys(), 'All and only the 45 integrated observed minima must be added'
+          assert len(baseline['suites']) == 459 and additions <= baseline['suites'].keys(), 'All and only the 70 integrated observed minima must be added'
           if phase == 'final':
               before = json.loads((out / 'before-install.json').read_text())
               assert before['baseline'] == baseline, 'Original baseline changed'
