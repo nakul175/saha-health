@@ -7,6 +7,7 @@ import { patientId } from './patient-directory';
 import { recordAccess, accessRoute } from './access-audit';
 import { boundedJsonBody } from './request-body';
 import { routineVisit, type RoutineContext, type RoutineStaleRefusal } from './routine-visit';
+import { visitLifecycle } from './lifecycle-status';
 import { assertAssignedRead } from './routine-read-guard';
 
 const operation = z.object({ personId: z.string(), command: z.record(z.unknown()) }).strict();
@@ -49,7 +50,8 @@ async function context(request: Request, id: string, selected?: string,
     ? { id: visit.id, personId: id, currentDraft: !selected } : undefined);
   return { organisationId: state.organisation.id,
     person: { id: person.id, name: person.name, village: person.village, age: person.age, sex: person.sex, version: person.version },
-    visit: visit ? routineVisit(visit) : null };
+    visit: visit ? routineVisit(visit) : null,
+    lifecycle: visitLifecycle(visit ?? null, visit ? state.workspace.submissions.filter(item => item.personId === id) : []) };
 }
 
 export async function routineRead(request: Request) {

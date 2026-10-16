@@ -5,8 +5,9 @@ export type RoutineSaveStatusInput = {
   dirty: boolean;
   busy: boolean;
   uncertain: boolean;
+  lifecycle?: VisitLifecycle;
 };
-export function routineSaveStatus({ visit, dirty, busy, uncertain }: RoutineSaveStatusInput) {
+export function routineSaveStatus({ visit, dirty, busy, uncertain, lifecycle }: RoutineSaveStatusInput) {
   const entries = uncertain
     ? 'Write outcome unresolved. Check the original attempt before another save.'
     : busy ? 'Operation in progress. Wait for the server result.'
@@ -21,5 +22,7 @@ export function routineSaveStatus({ visit, dirty, busy, uncertain }: RoutineSave
     record,
     device: 'This screen does not save a durable copy on this device.',
     destination: 'Destination status is not loaded by this screen. No submission or acceptance is claimed.',
+    ...(lifecycle ? { lifecycle } : {}),
   };
 }
+import type { VisitLifecycle } from './lifecycle-status';

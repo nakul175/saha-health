@@ -1,7 +1,8 @@
 import type { Person, Visit } from './types';
+import type { VisitLifecycle } from './lifecycle-status';
 
 export type RoutinePerson = Pick<Person, 'id' | 'name' | 'village' | 'age' | 'sex' | 'version'>;
-export type RoutineContext = { organisationId: string; person: RoutinePerson; visit: Visit | null };
+export type RoutineContext = { organisationId: string; person: RoutinePerson; visit: Visit | null; lifecycle: VisitLifecycle };
 export type RoutineStaleRefusal = {
   outcome: 'not-applied-stale-version'; key: string; organisationId: string; personId: string;
   visitId: string; expectedVersion: number; currentVersion: number;

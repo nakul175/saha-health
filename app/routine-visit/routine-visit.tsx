@@ -278,7 +278,7 @@ export default function RoutineVisit() {
         <p>{context.person.age} years · {context.person.sex} · Person version {context.person.version}</p>
         {visit && <p>Visit {visit.id} · version {visit.version} · {visit.voidedAt ? 'Voided encounter on server' : visit.supersededBy ? 'Superseded encounter on server' : visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p>}
       </section>
-      <RoutineSaveStatus visit={visit ?? null} dirty={dirty} busy={busy} uncertain={uncertain}/>
+      <RoutineSaveStatus visit={visit ?? null} dirty={dirty} busy={busy} uncertain={uncertain} lifecycle={context?.lifecycle}/>
       {!visit ? <button disabled={busy || uncertain} onClick={() => void send({ type: 'startVisit', personId: context.person.id }, 'Server draft started or resumed and read back.')}>Start or resume routine draft</button> : facts &&
       <div lang={displayLanguage}><GuidedCapture enabled={true} identity={context.person.name + ' · ' + context.person.id} problems={problems}
         steps={[{id:'time',label:'Observation time'},...MEASURES.map(measure => ({id:factStep(measure),label:measure})),{id:'notes',label:'Visit notes'},{id:'review',label:'Review and save'}]}>
