@@ -12,12 +12,12 @@ try{
  for(const file of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'agent-provider', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const {collectSensitive,checkAgentSource,minimiseAgentPayload,PAYLOAD_KEYS}=await import(pathToFileURL(join(dir,'agent-minimisation.js')));
  const {invokeAgent}=await import(pathToFileURL(join(dir,'agent-provider.js')));
- const {agentApply,providers,AGENT_VERSION}=await import(pathToFileURL(join(dir,'agent.js')));
+ const {agentApply,providers,AGENT_VERSION,current}=await import(pathToFileURL(join(dir,'agent.js')));
 
  // ---- collectSensitive: the comprehensive identifier set, across the whole organisation ----
  const org={workspace:{people:[
   {id:'p1',name:'Ravi Kumar',village:'Shivpuri',abha:{number:'12-3456-7890-1234',address:'ravi.kumar@abdm'},identifiers:[{issuer:'RCH',value:'1234567890123456'}]},
-  {id:'p2',name:'Asha Devi',village:'Rampur',identifiers:[{issuer:'Ni-kshay',value:'NI-98765'}]}
+  {id:'patient-other-002',name:'Asha Devi',village:'Rampur',identifiers:[{issuer:'Ni-kshay',value:'NI-98765'}]}
  ],visits:[{id:'visit-1',personId:'p1'}]}};
  const sensitive=collectSensitive(org);
  check(()=>assert.ok(sensitive.has('ravi kumar'),'own name'));
@@ -27,6 +27,7 @@ try{
  check(()=>assert.ok(sensitive.has('ravi.kumar@abdm'),'ABHA address'));
  check(()=>assert.ok(sensitive.has('1234567890123456'),'crosswalk identifier'));
  check(()=>assert.ok(sensitive.has('asha devi'),'another patient name'));
+ check(()=>assert.ok(sensitive.has('patient-other-002'),'another patient record id'));
  check(()=>assert.ok(sensitive.has('rampur'),'another patient village'));
  check(()=>assert.ok(!sensitive.has('p1'),'internal record id is not collected'));
  check(()=>assert.ok(!sensitive.has('visit-1'),'internal visit id is not collected'));
@@ -39,6 +40,7 @@ try{
  throws(()=>checkAgentSource('contact ravi.kumar@abdm',org));
  throws(()=>checkAgentSource('RCH 1234567890123456',org));
  throws(()=>checkAgentSource('Asha Devi seen at home',org));
+ throws(()=>checkAgentSource('retrieve patient-other-002',org));
  throws(()=>checkAgentSource('travelled from Rampur village',org));
  let caught;try{checkAgentSource('Ravi Kumar weight 58 kg',org)}catch(e){caught=e}
  check(()=>assert.equal(caught.status,422));
@@ -90,18 +92,28 @@ try{
  const now=new Date().toISOString(),today=now.slice(0,10),later=new Date(Date.now()+60*86400000).toISOString().slice(0,10);
  const owner={userId:'owner',displayName:'Synthetic owner',role:'clinician',status:'active',teamIds:['team'],version:1,isOwner:true},reviewer={...owner,userId:'reviewer',isOwner:false},author={...owner,userId:'author',isOwner:false},worker={...owner,userId:'worker',isOwner:false};
  const p={id:'patient',name:'Synthetic Subject',village:'Test village',version:1,consentVersion:1,aiConsent:true,teamId:'team',assignedTo:'worker',assigned:true,age:32,programmes:['General care']};
- const other={id:'p2',name:'Crosspatient Name',village:'Othervillage'};
- const v={id:'visit',personId:p.id,version:3,recordVersion:1,state:'draft',facts:{date:now.slice(0,16),systolic:'',diastolic:'',weight:'',temperature:'',weeks:'',coughDays:'',notes:'',source:'measured'},agentRuns:[]};
+ const other={id:'patient-other-002',name:'Crosspatient Name',village:'Othervillage'};
+ const v={id:'visit',personId:p.id,version:3,recordVersion:1,state:'draft',facts:{date:now.slice(0,16),systolic:'120',diastolic:'80',weight:'58',temperature:'',weeks:'',coughDays:'',notes:'PRIVATE FREE TEXT MUST NOT BE SUMMARISED',source:'measured'},programmeCapture:{answers:{privateAnswer:'PRIVATE PROGRAMME ANSWER'}},agentRuns:[]};
  const ps=providers([],{OPENAI_API_KEY:'fake-fixture-key',SAHA_EXTERNAL_APIS_ENABLED:'true'}),openai=ps.find(x=>x.id==='openai');
  const spec={kind:'capability',key:'fixture-cap',title:'Synthetic capability',ownerId:'owner',teamIds:['team'],effectiveFrom:today,reviewBy:later,changeSummary:'Synthetic minimisation fixture only.',providerId:'openai',model:openai.model,agentVersion:AGENT_VERSION,purpose:'documentary-evidence',ageMin:18,ageMax:60,roles:['asha','clinician'],languages:['en'],settings:['community'],devices:['browser'],tasks:['extract','summary'],excludedUses:'No clinical decisions authorised.',supportContact:'Synthetic owner',hostingRegion:'Not activated',retentionTerms:'Synthetic test input only, no real data.',trainingUse:'not-authorised',agreementReference:'FIXTURE',dailyCallLimit:100,dailyTokenBudget:600000};
  const entry={id:'cap',revision:1,version:3,spec,manifestHash:'fixture-hash',createdBy:'author',createdAt:now,state:'active',history:[],review:{by:'reviewer',memberVersion:1,ownerVersion:1,authorVersion:1,dependencyStamp:'[]',evaluationId:'evaluation'}};
  const s={organisation:{id:'org'},teams:[{id:'team',name:'Care team'}],members:[owner,reviewer,author,worker],workspace:{people:[p,other],visits:[v],referrals:[],audit:[],role:'clinician',integrations:[]},governance:{entries:[entry],evaluations:[{id:'evaluation',manifestHash:entry.manifestHash,state:'completed',metrics:{passed:true}}],safety:[]}};
  const actor=id=>({userId:id,displayName:'Synthetic '+id});
  const context={language:'en',setting:'community',device:'browser'};
- const prepare=input=>agentApply(s,{type:'prepareAgent',visitId:v.id,version:v.version,providerId:'openai',task:'extract',input,context},actor('worker'),worker,ps);
+ const prepare=(input,task='extract')=>agentApply(s,{type:'prepareAgent',visitId:v.id,version:v.version,providerId:'openai',task,input,context},actor('worker'),worker,ps);
  const cleanRunId=(await prepare('Weight 58 kg')).runId;
  check(()=>assert.ok(cleanRunId,'clean source prepares'));
  await status(()=>prepare('Crosspatient Name weight 58 kg'),422,/cannot be removed/);
+ await status(()=>prepare('retrieve patient-other-002 measurements'),422,/cannot be removed/);
+ const cleanRun=v.agentRuns.find(x=>x.id===cleanRunId);
+ check(()=>assert.deepEqual(cleanRun.taskScope,{tenantId:'org',personId:'patient',encounterId:'visit',purpose:'documentary-evidence',policyVersion:'fixture-hash',fields:['source.numeric-observations'],key:'org|patient|visit|documentary-evidence|fixture-hash'}));
+ check(()=>assert.match(cleanRun.steps[0].detail,/purpose, policy/));
+ const summaryId=(await prepare('ignored for summary','summary')).runId,summary=v.agentRuns.find(x=>x.id===summaryId);
+ check(()=>{assert.deepEqual(summary.taskScope.fields,['facts.date','facts.systolic','facts.diastolic','facts.weight','facts.temperature','facts.weeks','facts.coughDays']);assert.match(summary.input,/systolic: 120/);assert.doesNotMatch(summary.input,/PRIVATE|notes|source/)});
+ const originalPurpose=cleanRun.taskScope.purpose;cleanRun.taskScope.purpose='changed-purpose';
+ await status(async()=>current(s,v,cleanRun,worker,actor('worker'),ps),409,/authorised task scope changed/);
+ cleanRun.taskScope.purpose=originalPurpose;
+ check(()=>assert.equal(current(s,v,cleanRun,worker,actor('worker'),ps),p,'unchanged scope remains current'));
 
  writeFileSync('tests/agent-minimisation-contract-result.json',JSON.stringify({passed,suite:'agent-minimisation-contract',liveProviderTested:false,completedAt:new Date().toISOString(),coverage:'Comprehensive AI provider payload minimisation: the organisation-wide sensitive set (names, villages, ABHA, crosswalk identifiers); the source check refusing before preparation and inside the checkpoint; the payload allowlist strip and refusal for both OpenAI and HTTP provider shapes; the wired prepareAgent refusal on a cross-patient name.'},null,2)+'\n');
  console.log(JSON.stringify({passed,suite:'agent-minimisation-contract'}));

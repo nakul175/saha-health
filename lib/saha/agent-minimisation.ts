@@ -29,12 +29,17 @@ export function collectSensitive(s: OrgState): Set<string> {
   const set = new Set<string>();
   const add = (v: unknown) => { if (typeof v === 'string') { const t = v.trim().toLowerCase(); if (t) set.add(t); } };
   for (const p of s.workspace.people ?? []) {
+    // Stable record identifiers are task-bound server context, not provider input. Keep a short-id floor to
+    // avoid treating ordinary prose such as "p1" as an identifier while still refusing UUIDs and realistic
+    // synthetic ids used by cross-person prompts.
+    if (p.id.trim().length >= 8) add(p.id);
     if (p.name.trim().length >= 3) add(p.name);
     if (p.village.trim().length >= 3) add(p.village);
     if (p.abha?.number) { add(p.abha.number); add(p.abha.number.replace(/-/g, '')); }
     if (p.abha?.address) add(p.abha.address);
     for (const id of currentIdentifiers(p)) add(id.value);
   }
+  for (const v of s.workspace.visits ?? []) if (v.id.trim().length >= 8) add(v.id);
   return set;
 }
 
