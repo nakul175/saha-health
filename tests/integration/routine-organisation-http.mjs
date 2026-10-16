@@ -80,7 +80,7 @@ try {
     finally { dropSwitch(trigger); }
     await check(activeOrg() === orgB, 'Omitted GET actual ' + timing + ' audit fault changes account active selector to B');
     await check(response.status === 200 && response.json?.organisationId === orgA && response.json?.person?.id === 'p_meena' && response.json?.visit === null, 'Omitted GET ' + timing + ' returns originally audited A person projection without fallback to B');
-    await check(Object.keys(response.json ?? {}).sort().join(',') === 'organisationId,person,visit', 'Omitted GET ' + timing + ' keeps exact bounded one-person response shape');
+    await check(Object.keys(response.json ?? {}).sort().join(',') === 'lifecycle,organisationId,person,visit' && response.json.lifecycle?.local === 'not-started' && response.json.lifecycle?.server === 'not-saved', 'Omitted GET ' + timing + ' keeps exact bounded one-person response and lifecycle shape');
     await check(clinical(orgA) === beforeA && clinical(orgB) === beforeB, 'Omitted GET ' + timing + ' has no clinical mutation in either organisation');
     await check(audit().some(row => !previousAudit.some(old => old.org_id === row.org_id && old.id === row.id) && row.org_id === orgA && row.actor_id === asha.id && row.action === 'viewPatientRecord'), 'Omitted GET ' + timing + ' durably audits actual A read');
     await privacy(response, 'Omitted GET ' + timing); await preservePrefix(previousAudit, 'Omitted GET ' + timing);
