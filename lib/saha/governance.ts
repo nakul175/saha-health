@@ -156,6 +156,14 @@ export async function applyGovernance(s:OrgState,input:unknown,u:Actor,m:Member,
  if(c.type==='createDirectoryReferral'){
   if(v.state!=='confirmed'||p.identityReview?.state==='provisional')fail(409,'A current confirmed visit and resolved identity are required.');const e=entryFor(s,c.serviceId);if(e.spec.kind!=='service'||e.version!==c.serviceVersion||!activeEntry(s,e,now)||!e.spec.teamIds.includes(p.teamId))fail(409,'The selected service is stale or unavailable. Ask the supervisor for a verified alternative.');const r={id:uuid(),personId:p.id,visitId:v.id,facility:e.spec.title,reason:c.reason,state:'draft' as const,version:1,createdAt:now,directory:{entryId:e.id,manifestHash:e.manifestHash,revision:e.revision,contactRoute:e.spec.contactRoute,location:e.spec.location,verifiedOn:e.spec.verifiedOn,reviewBy:e.spec.reviewBy}};s.workspace.referrals.push(r);event(s,u,m,c.type,r.id,'Referral prepared from reviewed directory; no facility contacted.',p.id);return {referralId:r.id};
  }
- if(c.type==='reviewAgentResult'){const r=v.agentRuns?.find(r=>r.id===c.runId);if(!r||!['review','applied'].includes(r.status)||r.reviewDecision)fail(409,'Choose a result awaiting a human decision.');if(c.decision==='override')clinical(s,m,p);r.reviewDecision={by:u.userId,at:now,decision:c.decision,reason:c.reason,reference:c.reference};if(c.decision!=='accepted'&&r.status==='review')r.status='cancelled';}
+ if(c.type==='reviewAgentResult'){
+  const r=v.agentRuns?.find(r=>r.id===c.runId);if(!r||!['review','applied'].includes(r.status)||r.reviewDecision)fail(409,'Choose a result awaiting a human decision.');
+  if(!normallyAllowed(m,p))fail(403,'Current patient care scope is required to review this result.');
+  if(c.decision==='override')clinical(s,m,p);
+  // Bind the accountable human decision to the exact, still-retained provider result. This fingerprint feeds
+  // subsequent quality review without copying the model output into the human decision or authorising training.
+  const decision={by:u.userId,byName:u.displayName,role:m.role,accountCode:m.accountCode,memberVersion:m.version,at:now,decision:c.decision,reason:c.reason,reference:c.reference,evidence:{runId:r.id,inputHash:r.inputHash,providerId:r.provider.id,providerModel:r.provider.model,providerVersion:r.provider.version,agentVersion:r.version,visitVersion:r.visitVersion,personVersion:r.personVersion,consentVersion:r.consentVersion,...(r.governance?{governance:structuredClone(r.governance)}:{}),outputHash:await digest(r.output??null)},trainingUse:'not-authorised' as const};
+  r.reviewDecision=decision;(r.reviewHistory??=[]).push(structuredClone(decision));if(c.decision!=='accepted'&&r.status==='review')r.status='cancelled';
+ }
  event(s,u,m,c.type,v.id,'Human action and evidence reference recorded; source results retained.',p.id);return {ok:true};
 }
