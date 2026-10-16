@@ -67,7 +67,7 @@ export function operationRefusal(i:Integration,op:AdapterOperation,carries:Carri
 }
 export function refusalOf(i:Integration,op:AdapterOperation,stage:Refusal['stage'],now=new Date().toISOString()):Refusal{const o=operationsOf(i);return {operation:op,settingVersion:o.version,aggregateOnly:o.aggregateOnly,stage,at:now};}
 // MIS payloads say whether they create a record or correct an accepted one.
-export const misOperation=(payload:any):AdapterOperation=>payload?.operation==='correct'?'update':'create';
+export const misOperation=(payload:unknown):AdapterOperation=>(payload as {operation?:unknown}|null)?.operation==='correct'?'update':'create';
 
 const id=z.string().min(1).max(200);
 export const adapterOperationsSchema=z.object({type:z.literal('setAdapterOperations'),integrationId:id,version:z.number().int().min(0),allowed:z.array(z.enum(ADAPTER_OPERATIONS)).max(ADAPTER_OPERATIONS.length).refine(x=>new Set(x).size===x.length,'List each operation once.'),aggregateOnly:z.boolean(),aggregateFields:z.array(z.enum(AGGREGATE_FIELDS)).max(AGGREGATE_FIELDS.length).refine(x=>new Set(x).size===x.length,'List each aggregate field once.').optional(),reason:z.string().trim().min(5).max(500)}).strict()
@@ -76,7 +76,7 @@ export type AdapterOperationsCommand=z.infer<typeof adapterOperationsSchema>;
 export const connectorPermissionsSchema=z.object({type:z.literal('setConnectorPermissions'),integrationId:id,version:z.number().int().min(0),allowed:z.array(z.enum(CONNECTOR_PERMISSIONS)).max(CONNECTOR_PERMISSIONS.length).refine(x=>new Set(x).size===x.length,'List each permission once.'),reason:z.string().trim().min(5).max(500)}).strict();
 export const connectorPermissionsOf=(i:Integration):{version:number;allowed:ConnectorPermission[];explicit:boolean}=>i.connectorPermissions?{version:i.connectorPermissions.version,allowed:CONNECTOR_PERMISSIONS.filter(x=>i.connectorPermissions!.allowed.includes(x)),explicit:true}:{version:0,allowed:[],explicit:false};
 export function applyConnectorPermissions(s:OrgState,input:unknown,u:Actor,m:Member,fail:(status:number,message:string)=>never,uuid:()=>string,now=new Date().toISOString()){
- if((input as any)?.type!=='setConnectorPermissions')return null;
+ if((input as {type?:unknown}|null)?.type!=='setConnectorPermissions')return null;
  if(!m.isOwner)fail(403,'Only an organisation owner can change connector permissions.');
  const parsed=connectorPermissionsSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid connector permission setting.');const c=parsed.data!;
  const target=s.workspace.integrations.find(x=>x.id===c.integrationId);if(!target||!governed(target))fail(422,'Choose a programme, EHR or ABDM connection.');
@@ -90,7 +90,7 @@ export function applyConnectorPermissions(s:OrgState,input:unknown,u:Actor,m:Mem
 }
 // Returns null when the input is not this slice's command. Errors are thrown through `fail` supplied by the caller.
 export function applyAdapterOperations(s:OrgState,input:unknown,u:Actor,m:Member,fail:(status:number,message:string)=>never,uuid:()=>string,now=new Date().toISOString()){
- if((input as any)?.type!=='setAdapterOperations')return null;
+ if((input as {type?:unknown}|null)?.type!=='setAdapterOperations')return null;
  if(!m.isOwner)fail(403,'Only an organisation owner can change the operations a connection may perform.');
  const parsed=adapterOperationsSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid operation setting.');const c=parsed.data!;
  const i=s.workspace.integrations.find(x=>x.id===c.integrationId);if(!i||!governed(i))fail(422,'Choose a programme, EHR or ABDM connection.');const target=i!;

@@ -199,7 +199,7 @@ try {
 
   // 12. The client opens a record only after the server has recorded the open (blocking, online) and says so when it cannot.
   const ws = src('app/workspace.tsx');
-  check(() => { assert.match(ws, /const markOpened=async\(pid:string,source:string\):Promise<boolean>/); assert.match(ws, /const openPerson=async\(p:Person,source='other'\)=>\{if\(!await markOpened\(p\.id,source\)\)return;setSelected\(p\.id\)/); assert.match(ws, /if\(known&&!await markOpened\(pid,'link'\)\)return;/); assert.match(ws, /not in the organisation audit log/); });
+  check(() => { assert.match(ws, /const markOpened=async\(pid:string,source:string\):Promise<boolean>/); assert.match(ws, /const openPersonNow=async\(p:Person,source='other'\)=>\{if\(!await markOpened\(p\.id,source\)\)return;setSelected\(p\.id\)/); assert.match(ws, /if\(known&&!await markOpened\(pid,'link'\)\)return;/); assert.match(ws, /not in the organisation audit log/); });
 
   v = await chain.verifyChain(d1, A);
   check(() => { assert.equal(v.status, 'intact'); assert.equal(v.firstBreak, null); });

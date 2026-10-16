@@ -75,7 +75,7 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
    add({id:'safety-case:'+c.id,kind:'safety-case',severity:'critical',what:`Open clinical safety case (${c.kind.replace(/-/g,' ')})`,since:c.createdAt,owner:name(c.ownerId)??`Clinicians of ${team(p)}`,recovery:'The clinical owner reviews the evidence in Clinical governance and resolves or reassigns the case.'},c.visitId);
   // Escalated referrals (slice 4a rules).
   for(const r of refs.get(p.id)??[]){
-   const e=escalation(r as any,activeOwner(s,r,p),now);if(e.level!=='escalated')continue;
+   const e=escalation(r,activeOwner(s,r,p),now);if(e.level!=='escalated')continue;
    add({id:'referral-overdue:'+r.id,kind:'referral-overdue',severity:(r.urgency??'routine')==='emergency'?'critical':'high',what:`Referral to ${r.facility}: ${e.reasons.join('; ')}`,since:r.due&&r.due<today?r.due+'T00:00:00.000Z':r.events?.at(-1)?.occurredAt??r.createdAt,
     owner:activeOwner(s,r,p)?name(r.ownerId)!:`Supervisors of ${team(p)}`,recovery:'Record the next referral event with evidence, a reasoned delay, or assign an owner from the patient\'s action plan.'},r.visitId);
   }

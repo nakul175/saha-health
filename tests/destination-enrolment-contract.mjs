@@ -16,6 +16,7 @@ try {
     const code = ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'");
     writeFileSync(join(dir, f + '.js'), code);
   }
+  writeFileSync(join(dir, 'access-audit.js'), `export async function recordAccess(){}`);
   // Injectable persistence models the same compare-and-swap boundary; the API suite separately runs the real D1 path.
   writeFileSync(join(dir, 'store.js'), `import {AppError} from './core.js';
 export let saved; export let failNextFinish = false;

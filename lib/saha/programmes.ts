@@ -1,6 +1,10 @@
-import {transitionEffectVerified,transitionReplacementVerified} from './installed-transition-authority';
 import type {PackCondition,CompletionContract} from './programme-completion';
 import type { Facts, Programme, Visit } from './types';
+const transitionVerifiedState=new WeakMap<object,Set<string>>();
+const transitionEffectsState=new WeakMap<object,Map<string,any[]>>();
+export function registerTransitionAuthority(s:object,verified:Set<string>,effects:Map<string,any[]>){transitionVerifiedState.set(s,verified);transitionEffectsState.set(s,effects);}
+export function transitionEffectVerified(s:object,t:any,marker:any,taskId:string){return transitionVerifiedState.get(s)?.has(JSON.stringify(t))===true&&transitionEffectsState.get(s)?.get(t.id)?.some(e=>e.personId===marker.personId&&e.teamId===marker.teamId&&e.originalId===taskId&&e.replacementId===marker.replacementId&&e.originalHash===marker.originalHash&&e.eventId===marker.eventId)===true;}
+export function transitionReplacementVerified(s:any,task:any,personId:string){const o=task.transitionOrigin;if(!o)return false;const t=(s.operations?.installedTransitions??[]).find((x:any)=>x.id===o.transitionId);return !!t&&transitionVerifiedState.get(s)?.has(JSON.stringify(t))===true&&o.personId===personId&&o.teamId===t.teamId&&o.declarationHash===t.hash&&o.installationId===t.toId&&o.manifestHash===t.toHash&&transitionEffectsState.get(s)?.get(t.id)?.some(e=>e.personId===personId&&e.replacementId===task.id&&e.originalId===o.originalId&&e.originalHash===o.originalHash&&e.eventId===o.eventId&&e.sourceOccurrenceId===o.sourceOccurrenceId)===true;}
 // Slice 4f: pack ids are slugs. The three compiled packs keep their ids; an owner may install further packs (and
 // further versions of these) at runtime through the governed installation path in pack-installation.ts.
 export type PackId=string;

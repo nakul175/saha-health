@@ -1,0 +1,18 @@
+diff a/lib/saha/platform.ts b/lib/saha/platform.ts	(rejected hunks)
+@@ -48,7 +48,7 @@ import { fieldRegistrationSchema } from './field-registration';
+ import { referralRequestSchema } from './referral-request';
+ import { ehrSchema } from './ehr';
+ import { misSchema } from './mis';
+-import { adapterOperationsSchema } from './adapter-operations';
++import { adapterOperationsSchema, connectorPermissionsSchema } from './adapter-operations';
+ import { aggregateSchema } from './aggregate-delivery';
+ import { incentiveSchema } from './incentives';
+ import { agentSchema } from './agent';
+@@ -116,6 +116,7 @@ export const platformSchema=z.discriminatedUnion('type',[
+  ...referralRequestSchema.options,
+  ...misSchema.options,
+  adapterOperationsSchema.innerType(),
++ connectorPermissionsSchema,
+  ...aggregateSchema.options,
+  // Slice 10c: synthetic worker incentive claims (lib/saha/incentives.ts).
+  ...incentiveSchema.options,

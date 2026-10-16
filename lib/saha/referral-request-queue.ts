@@ -20,7 +20,7 @@ export type RequestItem = {
 // Open requests: undecided, on a current visit (not voided or superseded by a correction).
 export function openRequests(s: OrgState) {
   const out: { v: Visit & { referralRequest: NonNullable<Visit['referralRequest']> } }[] = [];
-  for (const v of s.workspace.visits) if (v.referralRequest && !v.referralRequest.decision && !v.voidedAt && !v.supersededBy) out.push({ v: v as any });
+  for (const v of s.workspace.visits) if (v.referralRequest && !v.referralRequest.decision && !v.voidedAt && !v.supersededBy) out.push({ v: v as Visit & { referralRequest: NonNullable<Visit['referralRequest']> } });
   return out;
 }
 

@@ -95,7 +95,7 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
  await persist(db,before,s,u,c,key,hash,{reportId:r.id,state:r.state});
  // Inside the checkpoint, on a fresh read: the operation, the stored payload, and (for a send) the destination's release ledger.
  let withdrawn:string|null=null,refusal:(Refusal&{reason?:string})|undefined,check:ReturnType<typeof minimisationCheck>|undefined;
- {const latest=await readState(db,s.organisation.id),li=latest.workspace.integrations.find(x=>x.id===r.destinationId),stored=latest.operations&&((latest.operations as any).aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id);
+ {const latest=await readState(db,s.organisation.id),li=latest.workspace.integrations.find(x=>x.id===r.destinationId),stored=latest.operations&&((latest.operations as (typeof latest.operations & {aggregateReports?:AggregateReport[]})|undefined)?.aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id);
   if(!li)withdrawn='The destination connection no longer exists.';
   else if(lookup){withdrawn=operationRefusal(li,'lookup','none');if(withdrawn)refusal=refusalOf(li,'lookup','checkpoint');}
   // Slice 6ad (ninth review, finding 7): the checkpoint also re-checks operating mode, as an EHR publication does.
@@ -109,7 +109,7 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
    if(withdrawn&&!refusal&&li)refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'differencing'};}}
  let raw:unknown;if(!withdrawn)try{raw=await transport(i!,lookup?{contract:'saha-aggregate-v1',operation:'lookup',key:r.id,payloadHash:r.payloadSha256}:r.payload,lookup?'lookup_'+operationId:r.id);}catch(e){if(e&&typeof e==='object'&&'serviceRefusal' in e)withdrawn=e instanceof Error?e.message:'Service authority unavailable.';}
  for(let n=0;n<3;n++){
-  const after=await readState(db,s.organisation.id),old=structuredClone(after),target=((after.operations as any)?.aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id) as AggregateReport|undefined,at=new Date().toISOString();
+  const after=await readState(db,s.organisation.id),old=structuredClone(after),target=((after.operations as (typeof after.operations & {aggregateReports?:AggregateReport[]})|undefined)?.aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id) as AggregateReport|undefined,at=new Date().toISOString();
   if(!target)fail(409,'The report checkpoint is unavailable.');
   if(target!.operationId!==operationId||['accepted','rejected','cancelled'].includes(target!.state)){
    // Slice 6ad (ninth review, finding 6): an answer that arrives after a lookup took over, or after the report closed,

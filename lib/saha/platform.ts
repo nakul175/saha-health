@@ -160,10 +160,10 @@ export function validTeams(state:OrgState,ids:string[],r:Role){if(r!=='admin'&&!
 // Slice 2j: the audit line names how many downstream tasks were created and how many need a person.
 const taskSummary=(t:{state:string}[])=>`${t.length} downstream output${t.length===1?'':'s'} recorded as correction tasks (${t.filter(x=>x.state==='open').length} open).`;
 function clinical(member:Member){if(!['asha','clinician'].includes(member.role))fail(403,'A care role is required for this action.');}
-export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:Member):Promise<{handled:boolean;result?:any}>{
+export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:Member):Promise<{handled:boolean;result?:unknown}>{
  const programmeResult=programmeApply(state,c,u,m);if(programmeResult)return {handled:true,result:programmeResult};
  const factReuseResult=applyFactReuse(state,c,u,m);if(factReuseResult)return {handled:true,result:factReuseResult};
- const w=state.workspace,now=new Date().toISOString();let subject=state.organisation.id,detail='',patientId:string|undefined,result:any={ok:true};
+ const w=state.workspace,now=new Date().toISOString();let subject=state.organisation.id,detail='',patientId:string|undefined,result:unknown={ok:true};
  switch(c.type){
  case 'renameOrganisation':manage(m);if(c.version!==state.organisation.revision)fail(409,'Organisation settings changed. Refresh and try again.');state.organisation.name=c.name;detail='Organisation name updated.';break;
  case 'setMyDisplayName':{const ops=state.operations??=defaultOperations(),names=ops.memberNames??={},own=names[u.userId],version=own?.version??0;if(c.version!==version)fail(409,'Your name in this organisation changed. Refresh and try again.');const me=state.members.find(x=>x.userId===u.userId)!,prior=me.displayName;if(c.name===prior&&me.nameSource==='self')fail(422,'This is already your name in this organisation.');if(Object.keys(names).length>=2000&&!own)fail(422,'Display name limit reached for this organisation.');names[u.userId]={name:c.name,version:version+1,at:now};Object.assign(me,{displayName:c.name,nameSource:'self',nameVersion:version+1});subject=u.userId;detail=`Display name in this organisation changed from "${prior}" to "${c.name}". Sign-in identity and access unchanged.`;result={name:c.name,version:version+1};break;}
