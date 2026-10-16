@@ -26,6 +26,7 @@ export const DYNAMIC_TEXT = [
   /\b\d{1,2}\/\d{1,2}\/20\d\d/,                          // 10/3/2026, 8:03:28 AM
   /\b(SIM|AGG|MIS|EHR)-[0-9A-F]{6,}/,                    // receipt numbers
   /\b[0-9A-F]{24}\b/,                                    // account codes
+  /\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b/i, // generated record and visit UUIDs
 ];
 
 class Lab {
