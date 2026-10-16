@@ -6,6 +6,7 @@ import { FIELDS, FIELD_LABEL, localAssess, localExtract, validateOutput, type Ag
 import { normallyAllowed } from './access';
 import type { Actor } from './store';
 import type { Member, OrgState, Person, Visit } from './types';
+import { capabilityOutputContext, type CapabilityOutputContext } from './capability-lifecycle';
 // Slice 5f (BR-AI-04, BR-AI-10): shadow operation of a reviewed capability revision.
 //
 // An owner or clinician governance manager puts a reviewed (not yet active) capability revision into shadow
@@ -25,7 +26,7 @@ export const OUTCOMES: ShadowOutcome[] = ['agreement', 'disagreement', 'missing'
 export const NOT_RUN = ['consent', 'restricted', 'outside-scope', 'no-source', 'budget', 'external-provider'] as const;
 export type NotRunReason = typeof NOT_RUN[number];
 export const NOT_RUN_LABEL: Record<NotRunReason, string> = { consent: 'AI permission not current', restricted: 'Processing restricted', 'outside-scope': 'Outside the capability age range', 'no-source': 'No recorded visit note', budget: 'Monthly budget reached', 'external-provider': 'External provider not called in shadow' };
-export type ShadowResult = { visitId: string; personId: string; visitVersion: number; at: string; status: 'compared' | 'unable' | 'not-run'; reason?: NotRunReason; output?: AgentOutput; fields?: { field: AgentField; shadow: string | null; confirmed: string | null; outcome: ShadowOutcome }[] };
+export type ShadowResult = { visitId: string; personId: string; visitVersion: number; at: string; outputContext?: CapabilityOutputContext; status: 'compared' | 'unable' | 'not-run'; reason?: NotRunReason; output?: AgentOutput; fields?: { field: AgentField; shadow: string | null; confirmed: string | null; outcome: ShadowOutcome }[] };
 export type Shadow = { id: string; entryId: string; revision: number; manifestHash: string; key: string; scope: 'organisation' | 'teams'; teamIds: string[]; startedAt: string; until: string; startedBy: string; reason: string; state: 'active' | 'stopped'; version: number; stoppedAt?: string; stoppedBy?: string; stopReason?: string; results: ShadowResult[] };
 const id = z.string().trim().min(1).max(200), text = z.string().trim().min(10).max(1000), day = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 export const shadowSchema = z.discriminatedUnion('type', [
@@ -139,9 +140,10 @@ export function applyShadow(s: OrgState, input: unknown, u: Actor, m: Member, no
   const batch = pending.slice(0, Math.min(SHADOW_BATCH, MAX_RESULTS - sh.results.length)), counts = { compared: 0, unable: 0, notRun: 0 };
   for (const v of batch) {
     const p = s.workspace.people.find(x => x.id === v.personId)!, reason = notRunReason(s, e, p, v, now);
-    if (reason) { sh.results.push({ visitId: v.id, personId: p.id, visitVersion: v.version, at: now, status: 'not-run', reason }); counts.notRun++; continue; }
+    const outputContext = capabilityOutputContext(s, e, 'shadow');
+    if (reason) { sh.results.push({ visitId: v.id, personId: p.id, visitVersion: v.version, at: now, outputContext, status: 'not-run', reason }); counts.notRun++; continue; }
     const output = runLocal(v.facts.notes);
-    sh.results.push({ visitId: v.id, personId: p.id, visitVersion: v.version, at: now, status: output.assessment ? 'unable' : 'compared', output, fields: compare(v, output) });
+    sh.results.push({ visitId: v.id, personId: p.id, visitVersion: v.version, at: now, outputContext, status: output.assessment ? 'unable' : 'compared', output, fields: compare(v, output) });
     if (output.assessment) counts.unable++; else counts.compared++;
   }
   sh.version++;

@@ -1,6 +1,24 @@
 import type { OrgState, Visit } from './types';
 import type { AgentRun } from './agent';
 import type { GovernanceEntry } from './governance';
+import { fail } from './core';
+
+export const EXPERIMENTAL_OUTPUT_USES=['trial','shadow','training','synthetic-evaluation'] as const;
+export type ExperimentalOutputUse=typeof EXPERIMENTAL_OUTPUT_USES[number];
+export type CapabilityOutputUse='operational'|ExperimentalOutputUse;
+export type CapabilityOutputContext={use:CapabilityOutputUse;organisationId:string;entryId:string;entryVersion:number;revision:number;manifestHash:string};
+// Every result carries its exact deployment and immutable package version. Experimental evidence shares the
+// envelope for reproducibility, but can never pass the operational boundary below.
+export function capabilityOutputContext(s:OrgState,e:GovernanceEntry,use:CapabilityOutputUse):CapabilityOutputContext{return {use,organisationId:s.organisation.id,entryId:e.id,entryVersion:e.version,revision:e.revision,manifestHash:e.manifestHash};}
+// The only boundary that permits a capability output to influence a clinical draft.
+export function assertOperationalCapabilityOutput(s:OrgState,c:CapabilityOutputContext,now=new Date().toISOString()){
+ if(c.use!=='operational')fail(409,`${c.use} capability output is evaluation evidence only and cannot influence care.`);
+ if(c.organisationId!==s.organisation.id)fail(403,'Capability output belongs to another deployment.');
+ const e=entries(s).find(x=>x.id===c.entryId);if(!e)fail(404,'Capability output package not found.');
+ if(e.spec.kind!=='capability'||e.version!==c.entryVersion||e.revision!==c.revision||e.manifestHash!==c.manifestHash)fail(409,'Capability output version is stale. Prepare a fresh request.');
+ if(e.state!=='active')fail(409,e.state==='suspended'?'Capability is suspended; new use and clinical application are blocked.':'Capability is not active for this deployment.');
+ if(e.spec.effectiveFrom>now.slice(0,10)||e.spec.reviewBy<now.slice(0,10))fail(409,'Capability deployment dates are no longer current.');return e;
+}
 // Slice 5d (BR-AI-04): the BRD lifecycle vocabulary derived from governance packages, which runs used which
 // package version, and the in-progress work a suspended, retired or replaced capability leaves behind.
 // Everything here is computed on read from records that already exist; nothing is copied or changed.
