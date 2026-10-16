@@ -42,7 +42,7 @@ export const COMMAND_PURPOSE: Readonly<Record<string, AccessPurpose>> = {
   requestDestinationEnrolment: 'programme-delivery', activateDestinationEnrolment: 'programme-delivery',
   prepareIdentifierCorrection: 'programme-delivery', approveIdentifierCorrection: 'programme-delivery', sendIdentifierCorrection: 'programme-delivery',
   prepareIncentiveClaim: 'programme-delivery', prepareIncentiveCorrection: 'programme-delivery',
-  prepareEhrPublish: 'care-coordination', executeEhrPublish: 'care-coordination', retrieveEhrDocument: 'care-coordination', importEhrDocument: 'care-coordination',
+  prepareEhrPublish: 'care-coordination', executeEhrPublish: 'care-coordination', retrieveEhrDocument: 'care-coordination', importEhrDocument: 'care-coordination', recordEhrConflictResolution: 'care-coordination',
   linkEhr: 'care-coordination', grantEhrPermission: 'care-coordination', abdmConsentRequest: 'care-coordination', abdmCareContextLink: 'care-coordination', abdmFetch: 'care-coordination',
   prepareAgent: 'ai-assistance', executeAgent: 'ai-assistance', applyAgent: 'ai-assistance',
   prepareAggregateReport: 'reporting', approveAggregateReport: 'reporting', sendAggregateReport: 'reporting',
