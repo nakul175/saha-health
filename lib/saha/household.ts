@@ -50,7 +50,33 @@ export function sensitiveClasses(p: Person): Sensitive[] {
   ];
 }
 
-export const activeGrant = (g: ProxyGrant, now: string) => !g.revokedAt && g.from <= now && g.expiresAt > now;
+const instant = (value: string) => {
+  const parsed = Date.parse(value);
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
+// Authority clocks are compared as instants rather than strings.  ISO 8601 permits equivalent
+// offsets with different lexical ordering; a lexical comparison could otherwise admit a grant
+// before it starts or retain one after it expires.
+export const activeGrant = (g: ProxyGrant, now: string) => {
+  const at = instant(now), from = instant(g.from), until = instant(g.expiresAt);
+  return !g.revokedAt && at !== null && from !== null && until !== null && from < until && from <= at && at < until;
+};
+
+export function householdAuthorityRefreshAt(h: Household, s: OrgState, now: string) {
+  const at = instant(now);
+  if (at === null) return null;
+  const boundaries = current(h).flatMap(member => {
+    const p = s.workspace.people.find(person => person.id === member.personId);
+    return (p?.proxies ?? []).flatMap(grant => {
+      if (grant.revokedAt) return [];
+      const from = instant(grant.from), until = instant(grant.expiresAt);
+      if (from === null || until === null || from >= until) return [];
+      return [from, until].filter(value => value > at);
+    });
+  });
+  return boundaries.length ? new Date(Math.min(...boundaries)).toISOString() : null;
+}
 
 type Item = { kind: 'follow-up' | 'visit' | 'referral'; title: string; due: string | null; classes: Sensitive[] };
 // Open work for one person, each item tagged with the sensitive classes it would reveal.
@@ -130,6 +156,8 @@ export function applyHousehold(s: OrgState, input: unknown, u: Actor, m: Member,
     if (p.version !== c.version) fail(409, 'Patient details changed. Refresh before recording a proxy.');
     if (c.proxyPersonId === p.id) fail(422, 'A person cannot be their own proxy.');
     if (!w.people.some(q => q.id === c.proxyPersonId)) fail(404, 'The proxy must be a registered person in this organisation.');
+    const applicable = new Set(sensitiveClasses(p));
+    if (c.classes.some(value => !applicable.has(value))) fail(422, 'Choose only sensitive classes currently recorded for this person.');
     const days = (Date.parse(c.expiresAt) - Date.parse(now)) / 86400000;
     if (days <= 0 || days > MAX_DAYS) fail(422, 'Set an expiry in the future and within 365 days.');
     const grants = p.proxies ??= [];
@@ -162,6 +190,7 @@ export function householdView(s: OrgState, m: Member, p: Person, recipientId: st
     household: { id: h.id, version: h.version, label: h.label, teamId: h.teamId },
     members: visible.map(({ x, q }) => ({ personId: q!.id, name: q!.name, age: q!.age, version: q!.version, relationship: x.relationship, from: x.from, sensitive: sensitiveClasses(q!), openItems: openItems(s, q!).length, proxies: (q!.proxies ?? []).map(g => ({ ...g, active: activeGrant(g, now), proxyName: s.workspace.people.find(r => r.id === g.proxyPersonId && allowed(m, r))?.name ?? 'Person not shown in this household view' })) })),
     outsideScope: members.length - visible.length,
+    refreshAt: householdAuthorityRefreshAt(h, s, now),
     shareable: recipient ? shareable(s, h, recipient, purpose, now, q => allowed(m, q)) : null,
     boundary: 'Household membership grants no staff access and no disclosure. Sharing with a member needs a current proxy grant on each subject.',
   };
