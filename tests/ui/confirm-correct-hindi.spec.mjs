@@ -86,20 +86,22 @@ test('Hindi workspace screens pass axe at desktop and phone widths', async ({ la
 
       await test.step('the patient page in Hindi', async () => {
         await openPatient(page);
-        const panel = page.locator('.clinical-panel').first();
+        const panel = page.locator('.clinical-panel').filter({ hasText: 'Urgent review' }).first();
         await panel.scrollIntoViewIfNeeded();
-        await expect(panel).toContainText('तत्काल समीक्षा · Urgent review');               // the danger sign is never Hindi-only
+        // Safety-critical Hindi is still unqualified, so the reviewed English
+        // fallback must remain explicit rather than presenting draft clinical text.
+        await expect(panel.locator('.protocol-finding.urgent .tag')).toHaveText('Urgent review');
         await lab.scan(page, `ASHA · patient page (Hindi) · ${label}`);
       });
 
       await test.step('review & act in Hindi', async () => {
-        await page.getByRole('tab', { name: /समीक्षा और कार्रवाई/ }).click();
-        await expect(page.getByText('पुष्ट तथ्य')).toBeVisible();
+        await page.getByRole('tab', { name: /Review & act/ }).click();
+        await expect(page.getByText('Confirmed facts')).toBeVisible();
         await lab.scan(page, `ASHA · review & act (Hindi) · ${label}`);
       });
 
       await test.step('receipts in Hindi', async () => {
-        await page.getByRole('tab', { name: /रसीदें/ }).click();
+        await page.getByRole('tab', { name: /Receipts/ }).click();
         await expect(page.locator('.receipt-row')).toHaveCount(2);
         await lab.scan(page, `ASHA · receipts (Hindi) · ${label}`);
       });
