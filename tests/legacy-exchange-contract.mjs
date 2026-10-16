@@ -10,7 +10,7 @@ const check = async (name, fn) => { try { await fn(); passed++; } catch (e) { fa
 const rejects = async (fn, status, re) => { let error; try { await fn(); } catch (e) { error = e; } assert.ok(error, 'expected refusal'); assert.equal(error.status, status); assert.match(error.message, re); };
 
 try {
-  for (const source of ['core', 'types', 'programmes', 'adapter-operations', 'mis', 'fact-provenance', 'legacy-exchange']) {
+  for (const source of ['core', 'types', 'programmes','installed-transition-authority', 'adapter-operations', 'mis', 'fact-provenance', 'legacy-exchange']) {
     const js = ts.transpileModule(readFileSync(`lib/saha/${source}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'");
     writeFileSync(join(dir, `${source}.js`), js);
   }

@@ -82,9 +82,9 @@ try{
  });
  await check('prelookup validation preserves role, version and already-linked denials',async()=>{
   const m={role:'asha',userId:'asha'},p={id:'p',assigned:true,version:1,abha:{state:'linked'}},s={workspace:{role:'asha',people:[p],integrations:[{kind:'abdm',abdm:{environment:'mock',modules:{abha:true},approvals:[{module:'abha'}]}}]}};
-  assert.throws(()=>B.validateAbhaLink(s,{type:'abhaLink',personId:'p',version:2},m),e=>e.status===409);
-  assert.throws(()=>B.validateAbhaLink(s,{type:'abhaLink',personId:'p',version:1},m),e=>e.status===409);
-  assert.throws(()=>B.validateAbhaLink(s,{type:'abhaLink',personId:'p',version:1},{role:'admin'}),e=>e.status===403);
+  assert.throws(()=>B.validateAbhaLink(s,{type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:'p',version:2},m),e=>e.status===409);
+  assert.throws(()=>B.validateAbhaLink(s,{type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:'p',version:1},m),e=>e.status===409);
+  assert.throws(()=>B.validateAbhaLink(s,{type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:'p',version:1},{role:'admin'}),e=>e.status===403);
  });
  await check('server reserves before apply and refuses retries with the generic message',async()=>{
   const src=readFileSync('lib/saha/server.ts','utf8'),a=src.indexOf('async function abdmWithStewardReview'),b=src.indexOf('async function dispatchCommand',a),f=src.slice(a,b);

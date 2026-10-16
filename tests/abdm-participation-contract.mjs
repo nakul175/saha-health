@@ -10,7 +10,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const x = await import(pathToFileURL(join(dir, 'abdm.js')));
   const now = '2026-09-30T06:00:00.000Z', later = '2026-11-15T00:00:00.000Z';
@@ -26,7 +26,7 @@ try {
     roles: ['abha', 'hiu', 'consented-exchange'], approvedOperations: ['abha.link', 'abha.unlink', 'consent.request', 'consent.revoke'],
     clientCredentialBinding: 'vault-binding:test-only-no-secret', responsibleOwnerId: 'own', responsibleOwnerEvidence: 'Synthetic approval register APL-106',
     reason: 'Synthetic ABDM participation declaration', ...over });
-  const link = () => ({ type: 'abhaLink', personId: 'p1', version: P('p1').version, abhaNumber: '91-1234-5678-9012', otp: x.MOCK_OTP });
+  const link = () => ({ type:'abhaLink', demographicMatch:'matched', confirmed:true, personId: 'p1', version: P('p1').version, abhaNumber: '91-1234-5678-9012', demographicMatch:'matched', confirmed:true, otp: x.MOCK_OTP });
   check(() => status(() => run('doc', config()), 403));
   check(() => status(() => run('own', config({ environment: 'sandbox' })), 409));
   check(() => status(() => run('own', config({ roles: ['abha', 'hiu'], approvedOperations: ['consent.request'] })), 422));

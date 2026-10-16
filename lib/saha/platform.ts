@@ -30,7 +30,6 @@ import { workforceImportSchema } from './workforce-import';
 import { abdmSchema } from './abdm';
 import { transferSchema } from './abdm-transfer';
 import { governanceSchema } from './governance';
-import { modelQualitySchema } from './model-quality';
 import { evaluationSchema } from './evaluation';
 import { sandboxSchema } from './provider-sandbox';
 import { continuitySchema, transferPatientWork } from './continuity';
@@ -53,7 +52,6 @@ import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
 import { adapterOperationsSchema } from './adapter-operations';
 import { integrationReadinessSchema } from './integration-readiness';
-import { adapterOperationsSchema, connectorPermissionsSchema } from './adapter-operations';
 import { aggregateSchema } from './aggregate-delivery';
 import { incentiveSchema } from './incentives';
 import { agentSchema } from './agent';
@@ -103,7 +101,6 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...abdmSchema.options,
  ...transferSchema.options,
  ...governanceSchema.options,
- ...modelQualitySchema.options,
  ...evaluationSchema.options,
  ...sandboxSchema.options,
  ...shadowSchema.options,
@@ -126,7 +123,6 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...misSchema.options,
  adapterOperationsSchema.innerType(),
  ...integrationReadinessSchema.options,
- connectorPermissionsSchema,
  ...aggregateSchema.options,
  // Slice 10c: synthetic worker incentive claims (lib/saha/incentives.ts).
  ...incentiveSchema.options,

@@ -32,7 +32,7 @@ export async function consentSmoke({get,post,check,accounts,org,sql}){
  const grant={type:'grantEhrPermission',personId:pid,linkId,direction:'write',purpose:'care-coordination',from:'2026-09-01T00:00:00.000Z',to:new Date().toISOString(),expiresAt:new Date(Date.now()+86400000).toISOString()};
  const permissionId=(await post(o,grant)).result.permissionId;
  // ABDM (mock): ABHA, a linked care context, one granted consent with a completed fetch and one still requested.
- await post(o,{type:'abhaLink',personId:pid,version:person(pid).version,abhaNumber:`55-1122-${String(Math.floor(Math.random()*9000)+1000)}-${String(Date.now()).slice(-4)}`,demographicMatch:'matched',confirmed:true,otp:'123456'});
+ await post(o,{type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:pid,version:person(pid).version,abhaNumber:`55-1122-${String(Math.floor(Math.random()*9000)+1000)}-${String(Date.now()).slice(-4)}`,demographicMatch:'matched',confirmed:true,otp:'123456'});
  await post(o,{type:'abdmCareContextLink',personId:pid,version:person(pid).version,visitIds:[v1]});
  const today=new Date().toISOString().slice(0,10),request=()=>({type:'abdmConsentRequest',personId:pid,version:person(pid).version,purpose:'CAREMGT',hiTypes:['OPConsultation'],from:'2026-01-01',to:today,expiresAt:new Date(Date.now()+10*86400000).toISOString()});
  const granted=(await post(o,request())).result.consentId;await post(o,{type:'abdmConsentDecide',personId:pid,consentId:granted,decision:'GRANTED'});

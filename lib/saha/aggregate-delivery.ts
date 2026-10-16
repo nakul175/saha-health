@@ -144,31 +144,21 @@ const ALLOWED_KEYS=new Set(['contract','environment','operation','report','id','
 export const PATIENT_FIELDS=['personId','patientId','visitId','name','fullName','abha','abhaNumber','abhaAddress','phone','mobile','address','dob','dateOfBirth','age','sex','facts','notes','identifier','identifiers','externalId','consent','visits','people'];
 const small=(x:unknown)=>typeof x==='number'&&x>0&&x<MIN_CELL;
 // Refuses a payload carrying any patient-level field or identifier value, or any released cell from 1 to 4.
-export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationCheck['stage'],at:string):MinimisationCheck{
+export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationCheck['stage'],at:string,destination?:Integration):MinimisationCheck{
  const normalize=(x:string)=>x.normalize('NFKC').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'').replace(/\s+/g,' ').trim().toLowerCase();const problems:string[]=[],ids=new Set<string>();let fields=0,cells=0;
+ const destinationFields=destination?aggregateFieldsOf(destination):null,destinationAllowed=destinationFields?new Set(destinationFields.fields):null;
  for(const p of s.workspace.people??[]){for(const v of [p.id,p.name,p.abha?.number,p.abha?.address,...(p.identifiers??[]).map(x=>x.value)])if(typeof v==='string'&&v.trim().length>=3)ids.add(normalize(v));}
  for(const v of s.workspace.visits??[])ids.add(normalize(v.id));
  const walk=(x:unknown,path:string,depth=0)=>{if(depth>20){problems.push('Aggregate nesting exceeds the mapped contract.');return;}
   if(Array.isArray(x)){x.forEach((y,i)=>walk(y,`${path}[${i}]`,depth+1));return;}
-  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" is not permitted.`);else if(!ALLOWED_KEYS.has(k))problems.push('An unexpected field is not part of the aggregate contract.');walk(v,path?`${path}.${k}`:k,depth+1);}return;}
+  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" is not permitted.`);else if(!ALLOWED_KEYS.has(k))problems.push('An unexpected field is not part of the aggregate contract.');else if(destinationAllowed&&!destinationAllowed.has(k as any))problems.push(`Field "${k}" is not authorised by ${destination!.name}'s destination allowlist (version ${destinationFields!.version}).`);walk(v,path?`${path}.${k}`:k,depth+1);}return;}
   if(typeof x==='string'&&ids.has(normalize(x)))problems.push('A value matches a patient identifier, name or ABHA number.');
-export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationCheck['stage'],at:string,destination?:Integration):MinimisationCheck{
- const problems:string[]=[],ids=new Set<string>();let fields=0,cells=0;
- const destinationFields=destination?aggregateFieldsOf(destination):null,destinationAllowed=destinationFields?new Set(destinationFields.fields):null;
- for(const p of s.workspace.people??[]){for(const v of [p.id,p.name,p.abha?.number,p.abha?.address,...(p.identifiers??[]).map(x=>x.value)])if(typeof v==='string'&&v.trim().length>=3)ids.add(v.trim().toLowerCase());}
- for(const v of s.workspace.visits??[])ids.add(v.id.toLowerCase());
- const walk=(x:unknown,path:string)=>{
-  if(Array.isArray(x)){x.forEach((y,i)=>walk(y,`${path}[${i}]`));return;}
-  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" at ${path||'top level'}.`);else if(!ALLOWED_KEYS.has(k))problems.push(`Field "${k}" is not part of the aggregate contract.`);else if(destinationAllowed&&!destinationAllowed.has(k as any))problems.push(`Field "${k}" is not authorised by ${destination!.name}'s destination allowlist (version ${destinationFields!.version}).`);walk(v,path?`${path}.${k}`:k);}return;}
-  if(typeof x==='string'&&ids.has(x.trim().toLowerCase()))problems.push(`A value at ${path} matches a patient identifier, name or ABHA number.`);
  };
  walk(payload,'');if(!aggregateEnvelopeSchema.safeParse(payload).success)problems.push('Aggregate envelope differs from its mapped path contract.');
  for(const b of (Array.isArray((payload as any)?.blocks)?(payload as any).blocks:[]) as any[])for(const c of (Array.isArray(b?.cells)?b.cells:[]) as any[]){cells++;
   if(c?.suppressed){if([c.value,c.numerator,c.denominator].some(v=>v!==null))problems.push('A suppressed cell carries a value.');continue;}
   const parts=[c?.numerator,c?.denominator,b?.unit==='count'?c?.value:null,b?.unit==='proportion'&&typeof c?.denominator==='number'&&typeof c?.numerator==='number'?c.denominator-c.numerator:null];
   if(parts.some(small))problems.push(`A released cell is below the suppression threshold of ${MIN_CELL}.`);}
- return {at,stage,passed:problems.length===0,fields,cells,problems:[...new Set(problems)].slice(0,20)};
-  if(parts.some(small))problems.push(`A released cell in ${b.indicator} v${b.version} (${b.team}) is below the suppression threshold of ${MIN_CELL}.`);}
  return {at,stage,passed:problems.length===0,fields,cells,problems:[...new Set(problems)].slice(0,20),...(destinationFields?{destinationAllowlistVersion:destinationFields.version,destinationAllowlistExplicit:destinationFields.explicit}:{})};
 }
 // ---- approval ----

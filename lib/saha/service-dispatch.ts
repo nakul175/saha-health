@@ -6,7 +6,7 @@ import {recordAccess} from './access-audit';
 import {frontlineAgreement,independentTargets,requireServiceIdentity} from './service-identity';
 import type {OrgState,Member} from './types';
 import type {AccessPurpose} from './purpose-scope';
-export type DispatchContext={intent:'send'|'lookup'|'probe';purpose?:AccessPurpose;authorize?:(state:OrgState,member:Member)=>void|Promise<void>};
+export type DispatchContext={intent:'send'|'lookup'|'probe';purpose?:AccessPurpose;authorize?:(state:OrgState,member:Member)=>void|Promise<void>;auditAlreadyRecorded?:boolean};
 // Opt-in authority. A binding cannot be removed/replaced between preparation and dispatch
 // to bypass a revocation. Completed receipts remain evidence and never trigger dispatch.
 export async function serviceDispatch(db:D1Database,s:OrgState,u:Actor,m:Member,targetId:string,personId:string|null=null,context?:DispatchContext){
@@ -24,7 +24,7 @@ export async function serviceDispatch(db:D1Database,s:OrgState,u:Actor,m:Member,
  if(i&&!targetAvailable(i,context?.intent==='probe'))fail(403,'Service target is no longer active. Nothing was sent.');
  assertTarget(s,fresh,targetId,context?.intent==='probe');
  const si=legacyUnbound?undefined:requireServiceIdentity(fresh,bound!,kind,targetId);
- await recordAccess(db,fresh,u,member,{action:'externalRequest',subject:targetId,personId,detail:si?`Service dispatch authorised: initiating human ${u.userId}; service ${si.id}; target ${targetId}; accountable owner ${si.ownerId}; expires ${si.expiresAt}.`:`Legacy unbound service dispatch revalidated: initiating human ${u.userId}; target ${targetId}. No managed service identity is claimed.`});
+ if(!context?.auditAlreadyRecorded)await recordAccess(db,fresh,u,member,{action:'externalRequest',subject:targetId,personId,detail:si?`Service dispatch authorised: initiating human ${u.userId}; service ${si.id}; target ${targetId}; accountable owner ${si.ownerId}; expires ${si.expiresAt}.`:`Legacy unbound service dispatch revalidated: initiating human ${u.userId}; target ${targetId}. No managed service identity is claimed.`});
  const checkpoint=await readState(db,s.organisation.id),current=scope(checkpoint,u.userId);
  if(checkpoint.operations?.serviceBindings?.[targetId]!==expected||current.version!==m.version||current.role!==m.role)fail(403,'Service or initiating human authority changed during audit. Nothing was sent.');
  await domain(checkpoint,current);

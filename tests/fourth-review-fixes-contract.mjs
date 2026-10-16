@@ -197,7 +197,7 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
     const mine = P_('mine', { assignedTo: 'asha' }), theirs = P_('theirs', { assignedTo: 'other', abha: { state: 'linked', number: '91-1234-5678-9012', at: now, by: 'x', history: [] } });
     const mk = () => { const s = { organisation: { id: 'o' }, members: [own, asha], teams: [{ id: 't1' }], workspace: { people: [structuredClone(mine), structuredClone(theirs)], visits: [], referrals: [], submissions: [], integrations: [], audit: [] } };
       B.applyAbdm(s, { type: 'abdmConfigure', environment: 'mock', modules: { abha: true, hip: false, hiu: false }, facilityId: 'FAC-SYNTH', approvals: [{ module: 'abha', reference: 'APPROVAL-SYNTH' }], reason: 'Synthetic mock gateway configuration' }, { userId: 'own', displayName: 'Owner' }, own, now); return s; };
-    const link = { type: 'abhaLink', personId: 'mine', version: 1, abhaNumber: '91-1234-5678-9012', demographicMatch:'matched',confirmed:true,otp: B.MOCK_OTP };
+    const link = { type:'abhaLink', demographicMatch:'matched', confirmed:true, personId: 'mine', version: 1, abhaNumber: '91-1234-5678-9012', demographicMatch:'matched',confirmed:true,otp: B.MOCK_OTP };
     const s1 = mk(); visible(s1, asha);
     // Slice 6z (sixth review): the 6u refusal used its own status (409) and text, which still told the requester the number
     // is held elsewhere. It is now the ordinary link refusal (422, the gateway-refusal text); the status below changed for that.

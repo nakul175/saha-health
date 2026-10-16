@@ -14,7 +14,6 @@ export const fieldSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('prepareFieldVisit'),personId:id,version:ver}).strict(),
  z.object({type:z.literal('revokeFieldLease'),personId:id,leaseId:id}).strict(),
  z.object({type:z.literal('syncFieldVisit'),personId:id,leaseId:id,packageHash:z.string().length(64),offlineWorkHash:z.string().regex(/^[0-9a-f]{64}$/).optional(),facts:factsSchema,answers:programmeRecord(z.string().max(500)),absence:programmeRecord(z.enum(ABSENCE))}).strict(),
- z.object({type:z.literal('syncFieldVisit'),personId:id,leaseId:id,packageHash:z.string().length(64),offlineWorkHash:z.string().regex(/^[0-9a-f]{64}$/).optional(),facts:factsSchema,answers:z.record(z.string(),z.string().max(500)),absence:z.record(z.string(),z.enum(ABSENCE))}).strict(),
  z.object({type:z.literal('assignReferral'),referralId:id,version:ver,ownerId:id,due:z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>!isNaN(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x),urgency:z.enum(URGENCIES).optional(),reason:note}).strict(),
  z.object({type:z.literal('recordReferralEvent'),referralId:id,version:ver,event:z.enum(REFERRAL_EVENTS as [string,...string[]]),appointmentAt:z.string().datetime().optional(),outcomeCode:z.enum(REFERRAL_OUTCOMES).optional(),note,source:z.enum(['worker-observed','facility-reported','patient-reported']),evidenceReference:z.string().trim().min(3).max(200),occurredAt:z.string().datetime(),confirmed:z.literal(true)}).strict()
 ]);
@@ -60,11 +59,6 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
    const bytes=new TextEncoder().encode(JSON.stringify(payload));const signature=Array.from(new Uint8Array(await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},keys.privateKey,bytes)));
    const packet={payload,signature,publicKey:await crypto.subtle.exportKey('jwk',keys.publicKey)};lease.packageHash=await digest(packet);p.fieldLeases.push(lease);
    result={packet,packageHash:lease.packageHash};detail='Signed 24-hour field grant issued for one patient and draft; prepared documentary task/guidance v1 hash '+offlineWork.hash+'; clinical approval pending; no offline confirmation or external delivery.';
-   const payload={schema:1,offlineWork,leaseId:lease.id,userId:u.userId,organisationId:state.organisation.id,personId:p.id,personName:p.name,identityHash:lease.identityHash,visitId:v.id,visitVersion:v.version,expiresAt:lease.expiresAt,issuedAt:now,facts:v.facts,programmeCapture:v.programmeCapture??null};
-   const keys=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
-   const bytes=new TextEncoder().encode(JSON.stringify(payload));const signature=Array.from(new Uint8Array(await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},keys.privateKey,bytes)));
-   const packet={payload,signature,publicKey:await crypto.subtle.exportKey('jwk',keys.publicKey)};lease.packageHash=await digest(packet);p.fieldLeases.push(lease);
-   result={packet,packageHash:lease.packageHash};detail='Signed 24-hour field grant issued for one patient and draft; bounded offline work hash '+offlineWork.hash+'; cloud AI unavailable offline; no offline confirmation or external delivery.';
   }else{
    const l=p.fieldLeases.find(x=>x.id===c.leaseId);if(!l)fail(404,'Field grant not found.');
    if(l.actorId!==u.userId&&!m.isOwner)fail(403,'This field grant belongs to another worker.');
@@ -79,11 +73,6 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
     if(v.programmeCapture?.packs.length)programmeApply(state,{type:'saveProgrammeAnswers',visitId:v.id,version:v.version,answers:c.answers,absence:c.absence},u,m);
     else if(Object.keys(c.answers).length||Object.keys(c.absence).length)fail(422,'This visit has no programme questions.');
     l.status='synced';v.fieldSync={leaseId:l.id,at:now};result={visitId:v.id,version:v.version,leaseId:l.id};detail='Encrypted field draft synced as an unconfirmed visit. Current access, identity, grant and visit version checked.'+(l.offlineWorkHash?' Prepared documentary task/guidance hash '+l.offlineWorkHash+' and active episode versions checked.':'');
-    if(l.offlineWorkHash){if(c.offlineWorkHash!==undefined&&c.offlineWorkHash!==l.offlineWorkHash)fail(409,'Prepared task descriptor changed. Reconcile this grant online.');let currentHash:string;try{currentHash=await digest(offlineWorkFor(v.programmeCapture))}catch{fail(409,'Prepared programme guidance is unavailable. Reconcile online.');}if(currentHash!==l.offlineWorkHash)fail(409,'Prepared programme guidance changed. Reconcile this grant online.');for(const item of v.programmeCapture?.packs??[])if(!p.enrolments?.some(e=>e.id===item.enrolmentId&&e.state==='active'&&e.packId===item.pack.id&&e.packVersion===item.pack.version))fail(409,'Prepared programme episode changed or closed. Review online.');}
-    await apply(w,{type:'saveVisit',visitId:v.id,version:v.version,facts:c.facts},u.userId,{call:async()=>fail(409,'External calls unavailable')},now);
-    if(v.programmeCapture?.packs.length)programmeApply(state,{type:'saveProgrammeAnswers',visitId:v.id,version:v.version,answers:c.answers,absence:c.absence},u,m);
-    else if(Object.keys(c.answers).length||Object.keys(c.absence).length)fail(422,'This visit has no programme questions.');
-    l.status='synced';v.fieldSync={leaseId:l.id,at:now};result={visitId:v.id,version:v.version,leaseId:l.id};detail='Encrypted field draft synced as an unconfirmed visit. Current access, identity, grant, visit version and signed offline work checked.';
    }
   }
  }

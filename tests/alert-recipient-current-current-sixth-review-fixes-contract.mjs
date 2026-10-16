@@ -61,7 +61,7 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
 
   // 1. Reserved question ids.
   {
-    const P = await load('pack-installation'), G = await load('programmes'), C = await load('programme-commands'), F = await load('fact-provenance'), I = await load('indicators');
+    const P = await load('pack-installation'), G = await load('programmes','installed-transition-authority'), C = await load('programme-commands'), F = await load('fact-provenance'), I = await load('indicators');
     const manifest = qid => ({ format: 'saha-pack-manifest-1', id: 'childcare', version: 1, name: 'Child care', programme: 'Child health', purpose: 'Synthetic child health checks.', changeNote: 'First synthetic version.', questions: [{ id: qid, label: 'Danger signs present?', required: true, options: ['Yes', 'No'] }] });
     for (const id of ['constructor', 'toString', 'valueOf', 'hasOwnProperty', 'isPrototypeOf', 'toLocaleString', 'propertyIsEnumerable'])
       check(`1 the manifest schema refuses question id ${id}`, () => assert.equal(P.packManifestSchema.safeParse(manifest(id)).success, false));
@@ -173,7 +173,7 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
     const mk = (theirs = true) => { const s = { organisation: { id: 'o' }, members: [own, asha], teams: [{ id: 't1' }], workspace: { people: [P_('mine', { assignedTo: 'asha' }), P_('theirs', { assignedTo: 'other', ...(theirs ? { abha: { state: 'linked', number: '91-1234-5678-9012', at: now, by: 'x', history: [] } } : {}) })], visits: [], referrals: [], submissions: [], integrations: [], audit: [] } };
       B.applyAbdm(s, { type: 'abdmConfigure', environment: 'mock', modules: { abha: true, hip: false, hiu: false }, facilityId: 'FAC-SYNTH', approvals: [{ module: 'abha', reference: 'APPROVAL-SYNTH' }], reason: 'Synthetic mock gateway configuration' }, { userId: 'own', displayName: 'Owner' }, own, now);
       for (const p of s.workspace.people) p.assigned = AC.allowed(asha, p); return s; };
-    const link = { type: 'abhaLink', personId: 'mine', version: 1, abhaNumber: '91-1234-5678-9012', otp: B.MOCK_OTP };
+    const link = { type:'abhaLink', demographicMatch:'matched', confirmed:true, personId: 'mine', version: 1, abhaNumber: '91-1234-5678-9012', otp: B.MOCK_OTP };
     const held = thrown(() => B.applyAbdm(mk(), link, { userId: 'asha', displayName: 'ASHA' }, asha, now));
     const badOtp = thrown(() => B.applyAbdm(mk(false), { ...link, otp: '000000' }, { userId: 'asha', displayName: 'ASHA' }, asha, now));
     check('5 the out-of-scope refusal has the same status and text as a gateway refusal', () => { assert.equal(held.status, badOtp.status); assert.equal(held.message, badOtp.message); assert.equal(held.message, B.LINK_REFUSED); });

@@ -156,7 +156,7 @@ async function recordReleases(db:D1Database,s:OrgState,releases:Candidate[],at:s
  return 'many indicator releases were being recorded at once, so this release could not be recorded.';
 }
 export async function executeAggregate(db:D1Database,s:OrgState,c:AggregateCommand,u:Actor,m:Member,key:string,hash:string,transport:AggregateTransport=demoAggregateTransport){
- let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,null,{intent:c.type==='lookupAggregateReport'?'lookup':'send',purpose:'reporting',authorize:(latest,member)=>{
+ let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,null,{intent:c.type==='lookupAggregateReport'?'lookup':'send',purpose:'reporting',auditAlreadyRecorded:true,authorize:(latest,member)=>{
    if(!('reportId' in c))fail(422,'Unsupported report request.');const prepared=findReport(s,c.reportId),r=findReport(latest,c.reportId);reportingScope(member,r.teamIds);
    if(r.operationId!==prepared.operationId||r.payloadSha256!==prepared.payloadSha256||!['sending','uncertain'].includes(r.state))fail(409,'Report checkpoint changed.');
    const li=latest.workspace.integrations.find(x=>x.id===i.id);if(!li||li.version!==i.version)fail(409,'Report destination changed.');
