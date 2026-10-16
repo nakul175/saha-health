@@ -249,7 +249,9 @@ mapping = [
  ('app/governance-panel.tsx','Named safety cases and capability holds','Full privacy rights/case workflow and professional acceptance pending'),
  ('app/operations-panel.tsx','Incidents, maintenance and safe diagnostics','Hosted operations, release approvals and recovery pending')]
 screen_rows=[]
-for screen, current in zip(screens,mapping,strict=True):
+if len(screens) != len(mapping):
+    raise ValueError(f'Design-screen mapping count differs: {len(screens)} screens, {len(mapping)} mappings')
+for screen, current in zip(screens,mapping):
     screen_rows.append(screen+list(current)+['Partial; target contract not fully accepted'])
 emit('docs/current/SCREEN-COVERAGE.csv',csv_text([['id','designTitle','designActor','designPurpose','designFields','designActions','designGuard','currentSource','currentSurface','remaining','status']]+screen_rows))
 workspace=(ROOT/'app/workspace.tsx').read_text()
@@ -289,11 +291,13 @@ adr_status=[
  'Synthetic fixtures and mode markers retained; external and clinical gates remain open.'
 ]
 adrs=json.loads((HISTORY/'engineering/architecture_decisions.json').read_text())
+if len(adrs) != len(adr_status):
+    raise ValueError(f'ADR status count differs: {len(adrs)} decisions, {len(adr_status)} statuses')
 emit('docs/current/ARCHITECTURE-DECISIONS.md','# Architecture decision reconciliation\n\n'
      'All twelve original ADRs are preserved as design proposals. The R11 column records source-observed implementation, '
      'not retrospective approval of a proposal or a new institutional decision.\n\n'
      '| ADR | Original choice | R11 disposition |\n| --- | --- | --- |\n'
-     +''.join(f'| [{a[0]}](../history/v1.0/engineering/adrs/{a[0]}.md) | {md(a[2])} | {md(s)} |\n' for a,s in zip(adrs,adr_status,strict=True))
+     +''.join(f'| [{a[0]}](../history/v1.0/engineering/adrs/{a[0]}.md) | {md(a[2])} | {md(s)} |\n' for a,s in zip(adrs,adr_status))
      +'\nMaterial choices still requiring review are persistence/scale, native versus browser field custody, institutional identity, '
      'sensitive-data separation, real provider/partner contracts and hosted recovery. Record a new dated decision with options, '
      'evidence, owner and consequences when one is made; never rewrite the historical proposal as if it had been accepted.\n')
