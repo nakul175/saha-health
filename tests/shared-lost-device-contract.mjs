@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+const source=readFileSync('public/field/app-grants.js','utf8');
+const {appGrantCurrent,appBookOwnerValid,appValidateOnlineBook}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+let passed=0;const check=fn=>{fn();passed++};
+const now=Date.parse('2026-10-16T10:00:00.000Z');
+const payload=(userId='worker-a',offset=3600000)=>({userId,organisationId:'org-a',personId:'person-a',issuedAt:new Date(now-60000).toISOString(),expiresAt:new Date(now+offset).toISOString()});
+const book=()=>({userId:'worker-a',drafts:[{packet:{payload:payload()}}],registrations:[{userId:'worker-a'}]});
+const workspace=(userId='worker-a')=>({user:{userId},role:'asha'});
+const detail=(userId='worker-a')=>({delta:{...workspace(userId),organisation:{id:'org-a'},people:[{id:'person-a'}]}});
+const response=value=>({ok:true,status:200,type:'basic',json:async()=>value});
+check(()=>assert.equal(appBookOwnerValid(book()),true));
+check(()=>assert.equal(appBookOwnerValid({...book(),registrations:[{userId:'worker-b'}]}),false));
+check(()=>assert.equal(appGrantCurrent(payload(), 'worker-a',now),true));
+check(()=>assert.equal(appGrantCurrent(payload('worker-b'), 'worker-a',now),false));
+check(()=>assert.equal(appGrantCurrent(payload('worker-a',-1), 'worker-a',now),false));
+await appValidateOnlineBook(book(),async path=>response(path==='/api/workspace'?workspace():detail()),true);passed++;
+await assert.rejects(appValidateOnlineBook(book(),async path=>response(path==='/api/workspace'?workspace('worker-b'):detail('worker-b')),true),/another account/);passed++;
+for(const status of [401,403,404,410]){await assert.rejects(appValidateOnlineBook(book(),async()=>({ok:false,status,type:'basic'}),true),/access changed/);passed++;}
+await assert.rejects(appValidateOnlineBook(book(),async()=>{throw new TypeError('offline')},true));passed++;
+const raced=book();let release;const gate=new Promise(r=>release=r);const first=appValidateOnlineBook(raced,async path=>{if(path==='/api/workspace'){await gate;return response(workspace())}return response(detail())},true);const switched=appValidateOnlineBook(raced,async()=>response(workspace('worker-b')),true);await assert.rejects(switched,/another account/);release();await first;passed++;
+const app=readFileSync('public/field/app.js','utf8');
+check(()=>assert.match(app,/if\(navigator\.onLine&&value\.userId\)await appValidateOnlineBook\(value,fetch,true\)/));
+check(()=>assert.match(app,/if\(!grantCurrent\(p,book\.userId\)\)\{el\.append\(node\('h2','Visit access expired'/));
+check(()=>assert.match(app,/document\.addEventListener\('visibilitychange',\(\)=>\{if\(document\.hidden\)lock\(\)\}\)/));
+check(()=>assert.match(app,/window\.addEventListener\('pagehide',lock\)/));
+const result={story:'SAHA-097',passed,failed:0,coverage:'Online unlock binds the encrypted notebook to the signed-in worker; wrong-account and revoked/refused responses fail closed; network failure fails closed while connected; overlapping account checks cannot authorise the wrong user; expired or wrong-owner grants are not presented; visibility/page-hide quick lock remains wired. Existing reconcileDeviceBook enforces revoked grants at next contact and retains deletion receipts. Browser notification channels carry no patient names or identifiers; physical-device secure erasure and MDM remain outside local proof.'};
+writeFileSync('tests/shared-lost-device-contract-result.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

@@ -1,0 +1,6 @@
+{
+  "story": "SAHA-097",
+  "passed": 17,
+  "failed": 0,
+  "coverage": "Online unlock binds the encrypted notebook to the signed-in worker; wrong-account and revoked/refused responses fail closed; network failure fails closed while connected; overlapping account checks cannot authorise the wrong user; expired or wrong-owner grants are not presented; visibility/page-hide quick lock remains wired. Existing reconcileDeviceBook enforces revoked grants at next contact and retains deletion receipts. Browser notification channels carry no patient names or identifiers; physical-device secure erasure and MDM remain outside local proof."
+}
