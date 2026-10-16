@@ -1,11 +1,12 @@
 import type { Enrolment } from './programmes';
 import type { Person } from './types';
 import type {MaternalWorkflow} from './maternal-workflow';
+import type {TbWorkflow} from './tb-workflow';
 export type ProgrammeEpisode = Pick<Enrolment, 'id' | 'packId' | 'packVersion' | 'episodeLabel' | 'startDate' | 'state' | 'registration' | 'eligibilityAssessment'> & {
   packName: string;
   destination?: { state: string; name: string; receipt?: string; rejectionReason?: string; requestedAt?: string; acceptedAt?: string; rejectedAt?: string; activeAt?: string };
 };
-export type ProgrammeStatusResponse = { organisationId: string; actorId: string; person: Pick<Person, 'id' | 'name' | 'village' | 'version'>; episodes: ProgrammeEpisode[];maternal?:MaternalWorkflow };
+export type ProgrammeStatusResponse = { organisationId: string; actorId: string; person: Pick<Person, 'id' | 'name' | 'village' | 'version'>; episodes: ProgrammeEpisode[]; maternal?: MaternalWorkflow; tb?: TbWorkflow };
 
 // Copy only the documentary fields needed for this read screen. Delivery keys,
 // payloads, provider configuration and unrelated patient partitions stay server-side.
