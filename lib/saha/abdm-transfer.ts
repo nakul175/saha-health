@@ -13,7 +13,9 @@ import type { Member, OrgState, Person } from './types';
 // validated against ABDM's encryption library or any partner.
 export type CareContext={id:string;visitId:string;display:string;hiType:'OPConsultation';recordDate:string;linkedAt:string;linkedBy:string;abhaNumber:string};
 export type ReceivedRecord={id:string;consentId:string;transferId:string;careContextId:string;hiType:string;recordDate:string;checksum:string;bundle:any;validation?:ValidationStamp;state:'review'|'accepted'|'rejected';receivedAt:string;reviewedBy?:string;reviewedAt?:string;note?:string};
-export type Transfer={id:string;consentId:string;requestedAt:string;requestedBy:string;state:'delivered'|'failed';entries:number;acknowledgedAt?:string;message:string};
+export type Transfer={id:string;consentId:string;requestedAt:string;requestedBy:string;state:'delivered'|'failed';entries:number;acknowledgedAt?:string;message:string;
+ requesterFacilityId?:string;providerFacilityId?:string;configVersion?:number;
+ trace?:{stage:'request'|'encryption'|'transfer'|'acknowledgement'|'failure';at:string;status:'accepted'|'completed'|'failed';detail:string}[]};
 const id=z.string().trim().min(1).max(200),version=z.number().int().positive();
 export const transferSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('abdmCareContextLink'),personId:id,version,visitIds:z.array(id).min(1).max(20).refine(x=>new Set(x).size===x.length,'List each visit once.')}).strict(),
@@ -87,7 +89,18 @@ export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,no
   const hiu=await pair(),nonce=crypto.getRandomValues(new Uint8Array(32));
   const payload=await mockHip(p,s,consent.id,{publicKey:b64(await crypto.subtle.exportKey('raw',hiu.publicKey)),nonce:b64(nonce)},now);
   // Consent and named parties can change while crypto is prepared. Recheck before decrypting and once more before storing.
-  assertExchangeConsent(p,s,consent.id,now);const entries=await receive(hiu.privateKey,nonce,payload);assertExchangeConsent(p,s,consent.id,now);if((p.abdmReceived??[]).length+entries.length>200)fail(422,'Received-record limit reached for this patient; review and archive first.');const t:Transfer={id:uuid(),consentId:consent.id,requestedAt:now,requestedBy:u.userId,state:'delivered',entries:entries.length,acknowledgedAt:now,message:entries.length?'Entries decrypted, checksums verified, awaiting clinician review.':'No care context matched the consent.'};
+  assertExchangeConsent(p,s,consent.id,now);const entries=await receive(hiu.privateKey,nonce,payload);assertExchangeConsent(p,s,consent.id,now);if((p.abdmReceived??[]).length+entries.length>200)fail(422,'Received-record limit reached for this patient; review and archive first.');
+  const scope=exchangeScope(s),message=entries.length?'Entries decrypted, checksums verified, awaiting clinician review.':'No care context matched the consent.';
+  // SAHA-087: retain a bounded, payload-free trace of the request, encryption, transfer and acknowledgement.
+  // The records themselves remain only in the restricted received-record collection and unrelated contexts never
+  // appear in this trace. A real provider callback is deliberately outside this local mock implementation.
+  const t:Transfer={id:uuid(),consentId:consent.id,requestedAt:now,requestedBy:u.userId,state:'delivered',entries:entries.length,acknowledgedAt:now,message,
+   ...scope,trace:[
+    {stage:'request',at:now,status:'accepted',detail:`Consent ${consent.id} accepted for ${consent.purpose}.`},
+    {stage:'encryption',at:now,status:'completed',detail:`${entries.length} authorised entr${entries.length===1?'y':'ies'} encrypted for the named requester.`},
+    {stage:'transfer',at:now,status:'completed',detail:`${entries.length} authorised entr${entries.length===1?'y':'ies'} transferred through the local mock exchange.`},
+    {stage:'acknowledgement',at:now,status:'completed',detail:message},
+   ]};
   (p.abdmTransfers??=[]).push(t);for(const e of entries)(p.abdmReceived??=[]).push({id:uuid(),consentId:consent.id,transferId:t.id,careContextId:e.careContextId,hiType:e.hiType,recordDate:e.recordDate,checksum:e.checksum,bundle:e.bundle,validation:e.validation,state:'review',receivedAt:now});
   detail=`Mock HIU transfer under consent ${consent.purpose}: ${entries.length} encrypted entr${entries.length===1?'y':'ies'} received, decrypted and checksum-verified; held for review. Nothing is added to the record until reviewed.`;result={transferId:t.id,entries:entries.length};
  }
