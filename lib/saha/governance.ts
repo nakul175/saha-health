@@ -55,6 +55,7 @@ export const governanceSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('createGovernance'),spec:governanceSpec,replacesId:id.optional()}).strict(),
  z.object({type:z.literal('reviewGovernance'),entryId:id,version,reference:id,findings:text,evaluationId:id.optional()}).strict(),
  z.object({type:z.literal('transitionGovernance'),entryId:id,version,state:z.enum(['active','suspended','retired']),reason:text}).strict(),
+ z.object({type:z.literal('suspendCapabilitySafety'),entryId:id,version,ownerId:id,reason:text,lookbackDays:z.number().int().min(1).max(365).default(30)}).strict(),
  z.object({type:z.literal('checkProtocol'),visitId:id,version}).strict(),
  z.object({type:z.literal('saveClinicalConcern'),visitId:id,version,concern:z.enum(['yes','no','unknown']),reference:id}).strict(),
  z.object({type:z.literal('reviewProtocol'),visitId:id,version,checkId:id,decision:z.enum(['accepted','rejected','override']),reason:text,reference:id}).strict(),
@@ -129,10 +130,11 @@ export function checkCapabilityBudget(s:OrgState,e:GovernanceEntry,excludeRunId?
 function clinical(s:OrgState,m:Member,p?:Person){if(m.role!=='clinician'||(p&&!allowed(m,p)))fail(403,'A clinician with current care scope is required.');}
 export function authorizeGovernance(s:OrgState,m:Member,c:any){
  if(!governanceSchema.options.some(o=>o.shape.type.value===c.type))return;
- if(c.entryId&&['reviewGovernance','transitionGovernance'].includes(c.type)){const e=entryFor(s,c.entryId);if(!entryScope(m,e))fail(403,'This review package is outside your team scope.');}
+ if(c.entryId&&['reviewGovernance','transitionGovernance','suspendCapabilitySafety'].includes(c.type)){const e=entryFor(s,c.entryId);if(!entryScope(m,e))fail(403,'This review package is outside your team scope.');}
  if(c.type==='createGovernance'){if(!governanceManager(m))fail(403,'Clinical or organisation management access is required.');}
  if(c.type==='reviewGovernance')clinical(s,m);
  if(c.type==='transitionGovernance'&&!m.isOwner)fail(403,'An organisation owner must change deployment status.');
+ if(c.type==='suspendCapabilitySafety'&&!m.isOwner)fail(403,'An organisation owner must suspend a capability and assign its safety follow-up.');
  if(c.visitId){const v=visit(s.workspace,c.visitId);if(m.role==='admin')fail(403,'Patient access is required.');if(['saveClinicalConcern','checkProtocol','createDirectoryReferral','reviewAgentResult'].includes(c.type)&&!['asha','clinician'].includes(m.role))fail(403,'A care role is required.');if(c.type==='reviewProtocol'||c.type==='reportSafety'&&c.hold)clinical(s,m,person(s.workspace,v.personId));}
  if(c.caseId){const sc=governanceState(s).safety.find(x=>x.id===c.caseId);if(!sc)fail(404,'Safety case not found.');const p=person(s.workspace,sc.personId);clinical(s,m,p);if(c.type==='resolveSafety'&&sc.ownerId!==m.userId)fail(403,'Only the current clinical case owner may resolve it.');}
 }
@@ -183,6 +185,15 @@ export async function applyGovernance(s:OrgState,input:unknown,u:Actor,m:Member,
   // Slice 5d: stopping a capability names the in-progress work it leaves behind (all revisions it replaced stay separate).
   const impact=e.spec.kind==='capability'&&['suspended','retired'].includes(e.state)?capabilityImpact(s.workspace.visits,e).counts:undefined;
   event(s,u,m,c.type,e.id,'Review package '+e.state+'; synthetic use only.'+(impact?' In-progress work: '+impactSummary(impact)+'.':''));return {entryId:e.id,...(impact?{impact}:{})};
+ }
+ if(c.type==='suspendCapabilitySafety'){
+  const e=entryFor(s,c.entryId);if(e.spec.kind!=='capability')fail(422,'Choose a named capability version.');if(e.version!==c.version)fail(409,'Review package changed. Refresh.');if(e.state==='retired')fail(409,'Retired packages are immutable.');
+  const owner=member(s,c.ownerId);if(!owner||owner.role!=='clinician'||!e.spec.teamIds.every(t=>owner.teamIds.includes(t)))fail(422,'Choose an active clinician who covers the capability teams.');
+  const affected=affectedCapabilityEncounters(s,e,now,c.lookbackDays),grouped=new Map<string,typeof affected>();for(const row of affected)grouped.set(row.visit.id,[...(grouped.get(row.visit.id)??[]),row]);
+  e.state='suspended';e.version++;e.history.push({at:now,by:u.userId,state:'suspended',reason:c.reason});g.safetyFollowups??=[];
+  const followupIds:string[]=[];for(const [visitId,rows] of grouped){for(const {run} of rows)if(run.status==='pending'){run.status='cancelled';run.finishedAt=now;run.message='Cancelled before dispatch because the exact capability version was suspended.';}
+   const existing=g.safetyFollowups.find(x=>x.entryId===e.id&&x.visitId===visitId&&x.state==='open');if(existing)continue;const v=rows[0].visit,id=uuid();g.safetyFollowups.push({id,entryId:e.id,entryRevision:e.revision,visitId,personId:v.personId,runIds:rows.map(x=>x.run.id),ownerId:c.ownerId,state:'open',createdAt:now,createdBy:u.userId,reason:c.reason});followupIds.push(id);}
+  event(s,u,m,c.type,e.id,`Named capability revision ${e.revision} suspended; ${affected.length} affected run(s), ${followupIds.length} accountable encounter follow-up(s), ${affected.filter(x=>x.run.status==='cancelled').length} unsent request(s) cancelled.`);return {entryId:e.id,revision:e.revision,affectedRuns:affected.length,followupIds,cancelledUnsent:affected.filter(x=>x.run.status==='cancelled').length};
  }
  if(c.type==='resolveSafety'||c.type==='assignSafety'){
   const sc=g.safety.find(x=>x.id===c.caseId)!;if(sc.version!==c.version||sc.state!=='open')fail(409,'Safety case changed or is closed.');const p=person(s.workspace,sc.personId);

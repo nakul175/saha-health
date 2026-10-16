@@ -60,6 +60,10 @@ export function capabilityImpact(visits:Visit[],e:GovernanceEntry){
  const counts:Record<RequiredAction,number>={cancel:0,'await-outcome':0,review:0,'check-applied':0};for(const i of items)counts[i.action]++;
  return {items,counts};
 }
+export function affectedCapabilityEncounters(s:OrgState,e:GovernanceEntry,now=new Date().toISOString(),days=30){
+ const since=Date.parse(now)-days*86400000;
+ return runsOf(s.workspace.visits,e.id).filter(({r})=>['pending','running','review','applied'].includes(r.status)&&Date.parse(r.createdAt)>=since).map(({v,r})=>({visit:v,run:r}));
+}
 export const impactSummary=(c:Record<RequiredAction,number>)=>{const parts=[c.cancel&&`${c.cancel} unsent request${c.cancel===1?'':'s'} to cancel`,c['await-outcome']&&`${c['await-outcome']} in flight (results will be withheld)`,c.review&&`${c.review} result${c.review===1?'':'s'} to review`,c['check-applied']&&`${c['check-applied']} applied to draft visits to check`].filter(Boolean);return parts.length?parts.join(', '):'no in-progress work';};
 // Slice 5g (BR-AI-07): provider and model history per capability key. Each revision pins one provider, model and
 // agent version; a new revision may change them, and each change went through its own evaluation, independent
