@@ -48,6 +48,8 @@ export type Carries='patient'|'aggregate'|'none';
 // null when allowed; otherwise the refusal text. Integrations that are not record adapters (AI providers) are not governed here.
 export function operationRefusal(i:Integration,op:AdapterOperation,carries:Carries='patient'):string|null{
  if(!governed(i))return null;const o=operationsOf(i);
+ const profile=i.profile;if(profile?.readiness==='unverified')return `${i.name} has no tested connector profile; ${op} remains unavailable.`;
+ if(profile&&!profile.operations.includes(op))return `${i.name} does not declare ${op} in connector profile version ${profile.version}.`;
  if(carries==='patient'&&o.aggregateOnly)return `${i.name} is an aggregate-only destination: it may receive aggregate reports only, never a patient-level record.`;
  if(!o.allowed.includes(op))return `${i.name} is not permitted to ${VERB[op]} (operation setting version ${o.version}).`;
  return null;
