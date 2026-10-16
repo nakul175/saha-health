@@ -62,7 +62,7 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
   // 1. Reserved question ids.
   {
     const P = await load('pack-installation'), G = await load('programmes'), C = await load('programme-commands'), F = await load('fact-provenance'), I = await load('indicators');
-    const manifest = qid => ({ format: 'saha-pack-manifest-1', id: 'childcare', version: 1, name: 'Child care', programme: 'Child health', purpose: 'Synthetic child health checks.', changeNote: 'First synthetic version.', questions: [{ id: qid, label: 'Danger signs present?', required: true, options: ['Yes', 'No'] }] });
+    const manifest = qid => ({ format: 'saha-pack-manifest-1', id: 'childcare', version: 1, name: 'Child care', programme: 'Child health', purpose: 'Synthetic child health checks.', adoption:{identityReuse:'organisation-person',observationReuse:[],roleBoundaries:[{role:'clinician',actions:['review']}],destinationRules:[],workflowReadiness:{status:'ready',evidenceRef:'SYNTHETIC-NO-DESTINATIONS'}},changeNote: 'First synthetic version.', questions: [{ id: qid, label: 'Danger signs present?', required: true, options: ['Yes', 'No'] }] });
     for (const id of ['constructor', 'toString', 'valueOf', 'hasOwnProperty', 'isPrototypeOf', 'toLocaleString', 'propertyIsEnumerable'])
       check(`1 the manifest schema refuses question id ${id}`, () => assert.equal(P.packManifestSchema.safeParse(manifest(id)).success, false));
     check('1 an ordinary id is still accepted (control)', () => assert.equal(P.packManifestSchema.safeParse(manifest('danger_signs')).success, true));

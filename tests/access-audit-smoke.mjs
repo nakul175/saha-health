@@ -16,6 +16,9 @@ export async function accessAuditSmoke({get,post,check,accounts,org,sql,base}){
  const png=new Uint8Array(2048);png.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a]);for(let i=8;i<png.length;i++)png[i]=i%251;
  const up=await fetch(`${base}/api/media?visitId=${encodeURIComponent(vid)}&purpose=wound-or-skin`,{method:'POST',headers:{...o.headers,'Content-Type':'image/png','Idempotency-Key':crypto.randomUUID(),'x-saha-organisation':mine},body:png}),media=await up.json();
  check(()=>assert.equal(up.status,200,JSON.stringify(media).slice(0,200)));await get(o,'/api/workspace',200,mine);
+ const expectedActor=o.state.visits.find(v=>v.id===vid).media.find(x=>x.id===media.mediaId).by;
+ const reviewed=await fetch(`${base}/api/media/${encodeURIComponent(media.mediaId)}/review`,{method:'POST',headers:{...o.headers,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID(),'x-saha-organisation':mine,'x-saha-expected-actor':expectedActor},body:JSON.stringify({scan:'clean',quality:'acceptable',personMatch:true,retention:'visit-record',note:'Synthetic access-audit fixture reviewed for this visit.',extractionDrafts:[]})}),reviewedText=await reviewed.text();
+ check(()=>assert.equal(reviewed.status,200,reviewedText));await get(o,'/api/workspace',200,mine);
  await post(o,{type:'confirmVisit',visitId:vid,version:o.state.visits.find(v=>v.id===vid).version},200,undefined,mine);
  const events=action=>sql.prepare('SELECT * FROM audit_events WHERE org_id=? AND action=? ORDER BY seq').all(mine,action);
  const revision=()=>sql.prepare('SELECT revision,patient_revision FROM organisations WHERE id=?').get(mine);

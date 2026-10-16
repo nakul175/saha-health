@@ -28,9 +28,9 @@ export const FACT_UNITS={weight:'kg',systolic:'mmHg',diastolic:'mmHg',temperatur
 type FactKey=keyof typeof FACT_UNITS;
 const adoption=z.object({
  identityReuse:z.literal('organisation-person'),
- observationReuse:z.array(z.enum(Object.keys(FACT_UNITS) as [FactKey,...FactKey[]])).min(1).max(6),
+ observationReuse:z.array(z.enum(Object.keys(FACT_UNITS) as [FactKey,...FactKey[]])).max(6),
  roleBoundaries:z.array(z.object({role:z.enum(PACK_ROLES),actions:z.array(z.enum(['capture','review','manage'])).min(1).max(3)}).strict()).min(1).max(4),
- destinationRules:z.array(z.object({destinationId:z.string().regex(/^[a-z][a-z0-9_-]{1,39}$/),mappingVersion:z.string().trim().min(1).max(40),readiness:z.enum(['ready','not_ready']),rule:z.string().trim().min(10).max(240)}).strict()).min(1).max(8),
+ destinationRules:z.array(z.object({destinationId:z.string().regex(/^[a-z][a-z0-9_-]{1,39}$/),mappingVersion:z.string().trim().min(1).max(40),readiness:z.enum(['ready','not_ready']),rule:z.string().trim().min(10).max(240)}).strict()).max(8),
  workflowReadiness:z.object({status:z.enum(['ready','not_ready']),evidenceRef:z.string().trim().min(6).max(120)}).strict()
 }).strict();
 const qid=z.string().regex(/^[a-z][a-zA-Z0-9_]{1,39}$/,'Question ids are 2–40 letters, digits or underscores, starting with a lower-case letter.').refine(x=>!RESERVED_QUESTION_IDS.has(x),'This question id is a reserved name (such as constructor or toString). Choose another id.');
