@@ -11,7 +11,16 @@
 // for sites-chatgpt, which keeps the R11 IDs; moving providers therefore needs members re-invited.
 
 export type IdentityProviderId = 'sites-chatgpt' | 'cloudflare-access';
-export type Principal = { userId: string; displayName: string; email: string; fullName: string | null; provider: IdentityProviderId };
+export type Principal = {
+  userId: string;
+  displayName: string;
+  email: string;
+  fullName: string | null;
+  provider: IdentityProviderId;
+  // Access supplies these only after the token has been cryptographically verified.
+  // They are deliberately absent for Sites rather than inferred from public headers.
+  authentication?: { mfa: boolean; issuedAt: number; credentialId: string };
+};
 export type IdentityConfig = { provider: IdentityProviderId; teamDomain?: string; audience?: string; error?: string };
 type HeaderSource = { get(name: string): string | null };
 type Deps = { fetch?: typeof fetch; now?: () => number };
@@ -87,7 +96,17 @@ export async function accessPrincipal(h: HeaderSource, config: IdentityConfig, d
     if (claims.nbf !== undefined && (typeof claims.nbf !== 'number' || !Number.isFinite(claims.nbf) || claims.nbf - SKEW_S > now)) return null;
     if (typeof claims.sub !== 'string' || !claims.sub || typeof claims.email !== 'string' || !claims.email.includes('@')) return null;
     const name = typeof claims.name === 'string' && claims.name.trim() ? claims.name.trim().slice(0, 200) : null;
-    return { userId: `access:${claims.sub}`, displayName: name ?? claims.email, email: claims.email, fullName: name, provider: 'cloudflare-access' };
+    const amr = Array.isArray(claims.amr) ? claims.amr.filter((x: unknown): x is string => typeof x === 'string') : [];
+    const issuedAt = typeof claims.iat === 'number' && Number.isFinite(claims.iat) ? Math.floor(claims.iat) : 0;
+    const credentialId = typeof claims.jti === 'string' && claims.jti.trim() ? claims.jti.trim().slice(0, 200) : `${claims.sub}:${issuedAt}`;
+    return {
+      userId: `access:${claims.sub}`,
+      displayName: name ?? claims.email,
+      email: claims.email,
+      fullName: name,
+      provider: 'cloudflare-access',
+      authentication: { mfa: amr.includes('mfa'), issuedAt, credentialId },
+    };
   } catch {
     return null;
   }
