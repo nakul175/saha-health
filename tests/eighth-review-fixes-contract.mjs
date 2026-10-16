@@ -67,7 +67,7 @@ try {
     const mk = (mine = {}) => { const s = { organisation: { id: 'o' }, members: [own, asha], teams: [{ id: 't1' }], workspace: { people: [P_('mine', { assignedTo: 'asha', ...mine }), P_('theirs', { assignedTo: 'other', abha: held })], visits: [], referrals: [], submissions: [], integrations: [], audit: [] } };
       Bm.applyAbdm(s, { type: 'abdmConfigure', environment: 'mock', modules: { abha: true, hip: false, hiu: true }, facilityId: 'FAC-SYNTH', approvals: [{ module: 'abha', reference: 'APPROVAL-SYNTH' }, { module: 'hiu', reference: 'APPROVAL-SYNTH-2' }], reason: 'Synthetic mock gateway configuration' }, { userId: 'own', displayName: 'Owner' }, own, now);
       for (const p of s.workspace.people) p.assigned = AC.allowed(asha, p); return s; };
-    const link = { type: 'abhaLink', personId: 'mine', version: 1, abhaNumber: held.number, otp: '000000' };
+    const link = { type: 'abhaLink', personId: 'mine', version: 1, abhaNumber: held.number, demographicMatch:'matched',confirmed:true,otp: '000000' };
     await check('2 an out-of-scope duplicate is recognised before the one-time code is checked', async () => { const e = await thrown(() => Bm.applyAbdm(mk(), link, { userId: 'asha', displayName: 'ASHA' }, asha, now)); assert.ok(e instanceof Bm.AbhaHeldElsewhere, String(e?.message)); assert.equal(e.message, Bm.LINK_REFUSED); });
     await check('2 an already linked record is refused the same way whether or not the number is held elsewhere', async () => {
       const mine = { abha: { state: 'linked', number: '91-0000-0000-0001', at: now, by: 'x', history: [] } };

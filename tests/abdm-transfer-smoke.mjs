@@ -11,7 +11,7 @@ export async function abdmTransferSmoke({get,post,check,accounts,org,base}){
  await post(o,{type:'saveVisit',visitId:vid,version:1,facts});await get(o,'/api/workspace',200,org);
  await post(o,{type:'confirmVisit',visitId:vid,version:o.state.visits.find(v=>v.id===vid).version});await get(o,'/api/workspace',200,org);
  await post(o,{type:'abdmCareContextLink',personId:pid,version:person(pid).version,visitIds:[vid]},409);
- await post(o,{type:'abhaLink',personId:pid,version:person(pid).version,abhaNumber:`66-7788-9900-${String(Date.now()).slice(-4)}`,otp:'123456'});
+ await post(o,{type:'abhaLink',personId:pid,version:person(pid).version,abhaNumber:`66-7788-9900-${String(Date.now()).slice(-4)}`,demographicMatch:'matched',confirmed:true,otp:'123456'});
  await post(w,{type:'abdmCareContextLink',personId:pid,version:person(pid).version,visitIds:[vid]},403);
  const linked=await post(o,{type:'abdmCareContextLink',personId:pid,version:person(pid).version,visitIds:[vid]});check(()=>assert.equal(linked.result.linked,1));
  await post(o,{type:'abdmCareContextLink',personId:pid,version:person(pid).version,visitIds:[vid]},409);
