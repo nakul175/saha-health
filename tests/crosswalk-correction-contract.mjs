@@ -5,7 +5,7 @@
 // never sent automatically. `identifierLink` and `identifierWithdraw` (slice 10e) are unchanged.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 const dir = mkdtempSync(join(process.cwd(), '.crosswalk-correction-contract-'));
@@ -17,7 +17,9 @@ const rejects = async (fn, status, pattern) => { await assert.rejects(fn, e => e
 const hasExtension = f => /\.(?:mjs|json)$/.test(f);
 const src = f => readFileSync(`lib/saha/${f}${hasExtension(f) ? '' : '.ts'}`, 'utf8');
 try {
-  const pending = ['crosswalk-correction', 'crosswalk', 'types', 'adapter-operations'], copied = new Set();
+  // Compile the complete application module set so the contract cannot silently omit a newly introduced
+  // transitive dependency when independently replayed against an integrated story candidate.
+  const pending = readdirSync('lib/saha').filter(file => file.endsWith('.ts')).map(file => file.slice(0, -3)), copied = new Set();
   while (pending.length) {
     const f = pending.pop();
     if (copied.has(f)) continue;
