@@ -1,4 +1,4 @@
-import { checkCapability, checkCapabilityBudget, entryFor } from './governance';
+import { checkCapability, checkCapabilityBudget, checkCapabilityInput, entryFor } from './governance';
 import { checkTaskAttempts, expiryMinutes, limitsOf, timedOut, type TaskLimits } from './task-limits';
 import { z } from 'zod';
 import { digest, fail, uuid, visit } from './core';
@@ -65,6 +65,9 @@ export async function agentApply(s:OrgState,input:unknown,u:Actor,m:Member,ps:Ag
   // Slice R42: comprehensive minimisation — refuse any patient identifier, name, village, ABHA or crosswalk
   // identifier anywhere in the organisation (not only this patient) before the request is prepared.
   if(provider.mode!=='local')checkAgentSource(source,s);
+  // External capability requests fail before a provider call. The local rules engine keeps its
+  // existing explicit unable-to-assess result for the same unreadable input.
+  if(entry&&provider.mode!=='local')checkCapabilityInput(entry,source);
   const inputHash=await digest({actor:u.userId,visit:v.id,version:v.version,personVersion:p.version,consent:p.consentVersion,provider,task:c.task,input:source,context,governance,agent:AGENT_VERSION});const now=new Date().toISOString();
   const run:AgentRun={context,...(governance?{governance}:{}),id:uuid(),actorId:u.userId,task:c.task,status:'pending',createdAt:now,expiresAt:new Date(Date.now()+expiryMinutes(limits)*60000).toISOString(),...(limits?{limits}:{}),version:AGENT_VERSION,provider,visitVersion:v.version,personVersion:p.version,consentVersion:p.consentVersion,inputHash,input:source,warnings:[],message:'Review the exact source and provider before approving.',callCount:0,steps:[{name:'Check scope and permission',state:'done',detail:'Current visit, worker and patient permission checked.'},{name:c.task==='review'?'Check programme requirements':'Extract source evidence',state:'pending',detail:provider.name},{name:'Human review',state:'pending',detail:'No automatic record changes or external programme writes.'}]};v.agentRuns.push(run);auditAgent(s,u,m,v,c.type,`${run.task} proposed using ${provider.name}; ${AGENT_VERSION}.`);return {runId:run.id};
  }
