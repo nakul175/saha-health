@@ -12,6 +12,7 @@ import { recordAccess } from './access-audit';
 import { linkTrace } from './trace';
 import { operationRefusal, refusalOf, type Refusal } from './adapter-operations';
 import { sendBlock } from './send-gate';
+import { assertConfiguredExchangeCurrent } from './fhir-validate';
 import type { D1Database } from '@cloudflare/workers-types';
 import type { Member, OrgState, Person, SendBlockRecord } from './types';
 export async function publishAuthority(s:OrgState,p:Person,op:EhrOperation,u:Actor){const current=await ehrAccess(s,p,op.linkId,op.permissionId,'write');const v=visit(s.workspace,op.visitId);if(op.actorId!==u.userId||op.approvalUntil<=new Date().toISOString()||op.identityHash!==await identityHash(p)||op.consentVersion!==p.consentVersion||op.visitVersion!==v.version||v.state!=='confirmed'||v.voidedAt||v.supersededBy||current.i.version!==op.integrationVersion||current.i.status!=='active')fail(409,'Publication approval, identity, permission, visit or connection changed.');assertOutboundPrivacy(op.bundle);assertPatientDocumentNotes(s,p.id,op.bundle);if(await digest(op.bundle)!==op.hash)fail(409,'Prepared document differs from its approved digest; review and prepare a fresh publication.');withinPermission(inspectDocument(op.bundle,current.link.externalId),current.permission);return current;}
@@ -43,7 +44,7 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
  else{if(op.state!=='prepared')return {operationId:op.id,state:op.state};if(c.hash!==op.hash)fail(409,'Review the exact document before approval.');
   // Slice 7e: if creating records was withdrawn after preparation, the publication is closed as not sent.
   {const refused=operationRefusal(i,'create','patient');if(refused){if(op.actorId!==u.userId)fail(409,'Publication approval, identity, permission, visit or connection changed.');const before=structuredClone(s);op.state='blocked';op.refusal=refusalOf(i,'create','before-send');op.at=new Date().toISOString();op.message=`Not sent: ${refused} Nothing was sent to the EHR; this publication is closed. Prepare a new publication if it is still needed.`;ehrAudit(s,u,m,'adapterOperationRefused',p.id,op.message,p.id);linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,{operationId:op.id,state:op.state,refused:true});return {operationId:op.id,state:op.state,refused:true,message:op.message};}}
-  ({i}=await publishAuthority(s,p,op,u));ehrCredential(i,s.organisation.id,env);
+  ({i}=await publishAuthority(s,p,op,u));await assertConfiguredExchangeCurrent(op.bundle,op.validation,'clinical-document',env,s.organisation.id,i.id,link.externalId);ehrCredential(i,s.organisation.id,env);
   // Slice 10g: an open dispute on anything the document carries, a withdrawn sign-off or a sign-off rule for this connection
   // stops the publication before its checkpoint; it stays prepared (nothing was sent) until that is resolved.
   {const g=await sendBlock(s,s.workspace.visits.find(x=>x.id===op.visitId),i,'plan');if(g.block)fail(409,g.block.text);if(g.signOff)op.signOff={id:g.signOff.id,by:g.signOff.by,byName:g.signOff.byName,at:g.signOff.at};}
@@ -82,7 +83,7 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
  {const li=latest.workspace.integrations.find(x=>x.id===i.id);const refused=li?operationRefusal(li,'create','patient'):null;if(refused){operationRefused=refusalOf(li!,'create','checkpoint');fail(409,refused);}
   // Slice 10g: and again immediately before the write, after the remote patient check.
   const g=li?await sendBlock(latest,latest.workspace.visits.find(x=>x.id===op.visitId),li,'checkpoint'):null;if(g?.block){blocked={kind:g.block.kind==='dispute'?'dispute':'sign-off',stage:'checkpoint',at:new Date().toISOString(),...(g.block.disputeIds.length?{disputeIds:g.block.disputeIds}:{})};fail(409,g.block.text);}}
- await publishAuthority(latest,personNow,op,u);
+ await publishAuthority(latest,personNow,op,u);await assertConfiguredExchangeCurrent(op.bundle,op.validation,'clinical-document',env,latest.organisation.id,i.id,link.externalId);
  // Slice 7f: the write starts inside the attempt window or not at all (a lookup relies on that bound).
  if(Date.now()-Date.parse(op.publishStartedAt!)>EHR_WRITE_DEADLINE_SECONDS*1000)fail(409,`The publication did not reach its write step within ${EHR_WRITE_DEADLINE_SECONDS} seconds of its checkpoint.`);
  sent=true;const raw=await transport(i,s.organisation.id,env,'Bundle',{method:'POST',headers:{'Content-Type':'application/fhir+json',Prefer:'return=representation','If-None-Exist':'identifier='+encodeURIComponent('urn:saha:documents|'+op.id)},body:JSON.stringify(op.bundle)});receipt=publicationReceipt(raw,op.bundle,link.externalId);}if(receipt)message='EHR acknowledged storage of this document. This does not confirm ingestion into its clinical workflow.';}catch(e){if(!lookup&&(!sent||serviceRefusal)){refusal=e instanceof AppError?e.message:'The EHR could not be reached before the document was sent.';message=`Not sent: ${refusal} Nothing was sent to the EHR; this publication is closed. Prepare a new publication if it is still needed.`;}}
