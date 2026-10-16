@@ -11,7 +11,13 @@ export async function agentSmoke({o,c,w,a,s,post,get,check,org,sql}){
  check(()=>{assert.equal(run().status,'pending');assert.equal(run().callCount,0);assert.equal(v().facts.weight,'')});
  await post(c,{type:'executeAgent',visitId,runId,inputHash:run().inputHash},403,crypto.randomUUID(),org);
  await post(o,{type:'executeAgent',visitId,runId,inputHash:'wrong'},409);
- const key=crypto.randomUUID(),execute={type:'executeAgent',visitId,runId,inputHash:run().inputHash};await Promise.all([post(o,execute,200,key),post(o,execute,200,key)]);await get(o,'/api/workspace',200,org);
+ const key=crypto.randomUUID(),execute={type:'executeAgent',visitId,runId,inputHash:run().inputHash};
+ // Retain the concurrent duplicate race while requesting its bounded result receipt. The caller
+ // refreshes below; two concurrent full organisation snapshots can exceed the local Worker response
+ // budget after every programme table is populated, and neither is needed to prove exactly-once execution.
+ const executeOnce=()=>fetch(`${process.env.SAHA_TEST_ORIGIN??'http://127.0.0.1:8787'}/api/commands`,{method:'POST',headers:{...o.headers,'Content-Type':'application/json','Idempotency-Key':key,'x-saha-organisation':org,'x-saha-response':'result'},body:JSON.stringify(execute)});
+ const responses=await Promise.all([executeOnce(),executeOnce()]),bodies=await Promise.all(responses.map(r=>r.json()));
+ check(()=>assert.deepEqual(responses.map(r=>r.status),[200,200]));check(()=>{assert.equal(bodies.filter(x=>x.replayed===true).length,1);assert.ok(bodies.every(x=>x.result?.runId===runId&&!x.snapshot&&!x.delta))});await get(o,'/api/workspace',200,org);
  check(()=>{assert.equal(run().status,'review');assert.equal(run().callCount,1);assert.equal(run().output.proposals.length,4);assert.equal(v().facts.weight,'');assert.equal(run().version,'saha-agent-1.2.0')});
  await post(o,execute);check(()=>assert.equal(run().callCount,1));
  const apply=()=>({type:'applyAgent',visitId,runId,version:v().version,fields:['weight','systolic','diastolic','coughDays'],includeNote:true,source:'measured',date:v().facts.date});
