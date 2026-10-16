@@ -36,12 +36,19 @@ async function sessionKey(priv:CryptoKey,peerRaw:Uint8Array,nonceA:Uint8Array,no
 }
 const pair=()=>crypto.subtle.generateKey({name:'X25519'},true,['deriveBits']) as Promise<CryptoKeyPair>;
 // Mock HIP: encrypt each permitted care context for the requester's public key.
+function exchangeScope(s:OrgState){const cfg=abdmConfig(s);if(!cfg)fail(409,'The ABDM configuration is unavailable.');return {requesterFacilityId:cfg.facilityId,providerFacilityId:cfg.facilityId,configVersion:cfg.version};}
+function assertExchangeConsent(p:Person,s:OrgState,consentId:string,now:string){
+ const consent=(p.abdmConsents??[]).find(x=>x.id===consentId);if(!consent)fail(404,'Consent artefact not found.');
+ const allowed=consentAllows(p,consentId,{hiType:consent.hiTypes[0],date:consent.from,purpose:consent.purpose,...exchangeScope(s)},now);
+ if(!allowed.allowed)fail(409,allowed.reason+' Nothing was disclosed.');return consent;
+}
 export async function mockHip(p:Person,s:OrgState,consentId:string,hiu:{publicKey:string;nonce:string},now:string){
  const hip=await pair(),nonce=crypto.getRandomValues(new Uint8Array(32));
  const {key,iv}=await sessionKey(hip.privateKey,unb64(hiu.publicKey),nonce,unb64(hiu.nonce));
  const entries=[];
  for(const cc of p.careContexts??[]){
-  const check=consentAllows(p,consentId,{hiType:cc.hiType,date:cc.recordDate},now);if(!check.allowed||cc.abhaNumber!==p.abha?.number)continue;
+  const consent=(p.abdmConsents??[]).find(x=>x.id===consentId);if(!consent)fail(404,'Consent artefact not found.');
+  const check=consentAllows(p,consentId,{hiType:cc.hiType,date:cc.recordDate,purpose:consent.purpose,...exchangeScope(s)},now);if(!check.allowed||cc.abhaNumber!==p.abha?.number)continue;
   const v=s.workspace.visits.find(x=>x.id===cc.visitId);if(!v||v.state!=='confirmed'||v.voidedAt||v.supersededBy)continue;
   // Slice 7c: each care context is sent as a FHIR document that must pass the pinned rule set first.
   const doc=fhirDocument(p,v,s.organisation.name,'Saha mock HIP');validateOutbound(doc,p.id.replace(/_/g,'-'),now);assertOutboundPrivacy(doc);assertPatientDocumentNotes(s,p.id,doc);const text=JSON.stringify(doc);
@@ -74,10 +81,13 @@ export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,no
  else if(c.type==='abdmFetch'){
   requireAbdmCapability(s,'hiu','hiu.retrieve');
   const consent=(p.abdmConsents??[]).find(x=>x.id===c.consentId);if(!consent)fail(404,'Consent artefact not found.');if(effective(consent,now)!=='GRANTED')fail(409,`Consent is ${effective(consent,now)}; nothing can be fetched.`);
+  if(!cfg?.modules.hiu||!cfg.approvals.some(a=>a.module==='hiu'))fail(409,'The ABDM HIU module is not enabled with a recorded approval for this organisation.');
+  const consent=assertExchangeConsent(p,s,c.consentId,now);if(effective(consent,now)!=='GRANTED')fail(409,`Consent is ${effective(consent,now)}; nothing can be fetched.`);
   if((p.abdmTransfers??[]).length>=100)fail(422,'Transfer history limit reached for this patient.');
   const hiu=await pair(),nonce=crypto.getRandomValues(new Uint8Array(32));
   const payload=await mockHip(p,s,consent.id,{publicKey:b64(await crypto.subtle.exportKey('raw',hiu.publicKey)),nonce:b64(nonce)},now);
-  const entries=await receive(hiu.privateKey,nonce,payload);if((p.abdmReceived??[]).length+entries.length>200)fail(422,'Received-record limit reached for this patient; review and archive first.');const t:Transfer={id:uuid(),consentId:consent.id,requestedAt:now,requestedBy:u.userId,state:'delivered',entries:entries.length,acknowledgedAt:now,message:entries.length?'Entries decrypted, checksums verified, awaiting clinician review.':'No care context matched the consent.'};
+  // Consent and named parties can change while crypto is prepared. Recheck before decrypting and once more before storing.
+  assertExchangeConsent(p,s,consent.id,now);const entries=await receive(hiu.privateKey,nonce,payload);assertExchangeConsent(p,s,consent.id,now);if((p.abdmReceived??[]).length+entries.length>200)fail(422,'Received-record limit reached for this patient; review and archive first.');const t:Transfer={id:uuid(),consentId:consent.id,requestedAt:now,requestedBy:u.userId,state:'delivered',entries:entries.length,acknowledgedAt:now,message:entries.length?'Entries decrypted, checksums verified, awaiting clinician review.':'No care context matched the consent.'};
   (p.abdmTransfers??=[]).push(t);for(const e of entries)(p.abdmReceived??=[]).push({id:uuid(),consentId:consent.id,transferId:t.id,careContextId:e.careContextId,hiType:e.hiType,recordDate:e.recordDate,checksum:e.checksum,bundle:e.bundle,validation:e.validation,state:'review',receivedAt:now});
   detail=`Mock HIU transfer under consent ${consent.purpose}: ${entries.length} encrypted entr${entries.length===1?'y':'ies'} received, decrypted and checksum-verified; held for review. Nothing is added to the record until reviewed.`;result={transferId:t.id,entries:entries.length};
  }

@@ -42,6 +42,16 @@ try {
   abdm('own', { type: 'abdmConsentDecide', personId: 'p1', consentId: cid, decision: 'GRANTED' });
   const got = await run('doc', { type: 'abdmFetch', personId: 'p1', version: P().version, consentId: cid });
   check(() => { assert.equal(got.entries, 1, 'only the care context inside the consent date range'); const r = P().abdmReceived[0]; assert.equal(r.state, 'review'); assert.equal(r.recordDate, '2026-05-01'); const v0 = s.workspace.visits[0], entries = r.bundle.entry.map(e => e.resource); assert.equal(r.bundle.type, 'document'); assert.equal(entries[0].resourceType, 'Composition', 'slice 7c: the HIP sends a FHIR document, Composition first'); assert.equal(entries.find(x => x.resourceType === 'Patient').id, 'p1'); assert.equal(String(entries.find(x => x.resourceType === 'Observation' && x.code.coding[0].code === '29463-7').valueQuantity.value), String(v0.facts.weight), 'decrypted document carries the visit weight'); assert.equal(r.validation.ruleset, 'saha-fhir-r4-document-structure', 'received entries carry the validation stamp'); assert.equal(P().abdmTransfers[0].state, 'delivered'); });
+  // SAHA-085: current HIU/HIP identity and consent status are rechecked after preparation and before storage.
+  const raceId=abdm('doc',{type:'abdmConsentRequest',personId:'p1',version:P().version,purpose:'CAREMGT',hiTypes:['OPConsultation'],from:'2026-01-01',to:'2026-09-30',expiresAt:'2026-10-30T00:00:00.000Z'}).consentId;
+  abdm('own',{type:'abdmConsentDecide',personId:'p1',consentId:raceId,decision:'GRANTED'});
+  const beforeRaceTransfers=P().abdmTransfers.length,beforeRaceReceived=P().abdmReceived.length,pending=run('doc',{type:'abdmFetch',personId:'p1',version:P().version,consentId:raceId});
+  P().abdmConsents.find(c=>c.id===raceId).status='REVOKED';
+  await rejects(()=>pending,409);
+  check(()=>{assert.equal(P().abdmTransfers.length,beforeRaceTransfers);assert.equal(P().abdmReceived.length,beforeRaceReceived);});
+  const bound=P().abdmConsents.find(c=>c.id===cid),oldFacility=s.workspace.integrations[0].abdm.facilityId;s.workspace.integrations[0].abdm.facilityId='OTHER-FACILITY';
+  await rejects(()=>run('doc',{type:'abdmFetch',personId:'p1',version:P().version,consentId:cid}),409);
+  check(()=>{assert.equal(bound.requesterFacilityId,oldFacility);assert.equal(bound.providerFacilityId,oldFacility);assert.equal(P().abdmTransfers.length,beforeRaceTransfers);});s.workspace.integrations[0].abdm.facilityId=oldFacility;
   // Crypto: a different HIU key cannot read the payload; tampering is detected.
   const pair = () => crypto.subtle.generateKey({ name: 'X25519' }, true, ['deriveBits']);
   const b64 = b => Buffer.from(b).toString('base64');

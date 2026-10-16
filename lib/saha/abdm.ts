@@ -23,7 +23,10 @@ export type AbdmRole=typeof ABDM_ROLES[number];
 export type AbdmOperation=typeof ABDM_OPERATIONS[number];
 export type AbdmConfig={environment:'mock';modules:{abha:boolean;hip:boolean;hiu:boolean};facilityId:string;approvals:{module:'abha'|'hip'|'hiu';reference:string}[];roles:AbdmRole[];approvedOperations:AbdmOperation[];clientCredentialBinding:string;responsibleOwnerId:string;responsibleOwnerEvidence:string;version:number;setBy:string;setAt:string};
 export type Abha={state:'linked'|'declined'|'none';number?:string;address?:string;verification?:'mock-otp';at:string;by:string;history:{at:string;by:string;action:string;number?:string;reason?:string}[]};
-export type AbdmConsent={id:string;purpose:typeof PURPOSES[number];hiTypes:(typeof HI_TYPES[number])[];from:string;to:string;expiresAt:string;status:'REQUESTED'|'GRANTED'|'DENIED'|'REVOKED';requestedBy:string;requestedAt:string;decidedAt?:string;revokedAt?:string;revokeReason?:string;abhaNumber:string};
+export type AbdmConsent={id:string;purpose:typeof PURPOSES[number];hiTypes:(typeof HI_TYPES[number])[];from:string;to:string;expiresAt:string;status:'REQUESTED'|'GRANTED'|'DENIED'|'REVOKED';requestedBy:string;requestedAt:string;decidedAt?:string;revokedAt?:string;revokeReason?:string;abhaNumber:string;
+ // The local mock acts as both requester (HIU) and provider (HIP), but the consent still binds both named parties.
+ // Optionality preserves old stored records; an exchange requiring these fields refuses a legacy artefact.
+ requesterFacilityId?:string;providerFacilityId?:string;configVersion?:number};
 const id=z.string().trim().min(1).max(200),version=z.number().int().positive(),reason=z.string().trim().min(10).max(1000),day=z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 // Slice 10e: format only (14 digits, or hyphenated 2-4-4-4; mixed grouping is refused). No checksum is applied because no official
 // ABDM or NHA specification of one was found; see lib/saha/identifier-search.ts, whose parseAbha is the same rule.
@@ -62,10 +65,13 @@ export function authorizeAbdm(_s:OrgState,m:Member,c:any){
 // Effective status: a granted artefact past its expiry is EXPIRED.
 export const effective=(c:AbdmConsent,now:string)=>c.status==='GRANTED'&&c.expiresAt<=now?'EXPIRED':c.status;
 // Whether a fetch for one health-information type dated on one day is allowed by an artefact.
-export function consentAllows(p:Person,consentId:string,q:{purpose?:string;hiType:string;date:string},now=new Date().toISOString()):{allowed:boolean;reason:string}{
+export function consentAllows(p:Person,consentId:string,q:{purpose?:string;hiType:string;date:string;requesterFacilityId?:string;providerFacilityId?:string;configVersion?:number},now=new Date().toISOString()):{allowed:boolean;reason:string}{
  const c=(p.abdmConsents??[]).find(x=>x.id===consentId);if(!c)return {allowed:false,reason:'No such consent artefact for this patient.'};
  const st=effective(c,now);if(st!=='GRANTED')return {allowed:false,reason:`Consent is ${st}.`};
  if(p.abha?.state!=='linked'||p.abha.number!==c.abhaNumber)return {allowed:false,reason:'The ABHA link changed after consent; request consent again.'};
+ if(q.requesterFacilityId&&(c.requesterFacilityId!==q.requesterFacilityId||!c.requesterFacilityId))return {allowed:false,reason:'Consent does not name the current HIU requester.'};
+ if(q.providerFacilityId&&(c.providerFacilityId!==q.providerFacilityId||!c.providerFacilityId))return {allowed:false,reason:'Consent does not name the current HIP provider.'};
+ if(q.configVersion!==undefined&&(c.configVersion!==q.configVersion||c.configVersion===undefined))return {allowed:false,reason:'The ABDM facility configuration changed after consent; request consent again.'};
  if(q.purpose&&q.purpose!==c.purpose)return {allowed:false,reason:`Consent covers purpose ${c.purpose} only.`};
  if(!c.hiTypes.includes(q.hiType as any))return {allowed:false,reason:`Consent does not cover ${q.hiType}.`};
  if(q.date<c.from||q.date>c.to)return {allowed:false,reason:`Consent covers records dated ${c.from} to ${c.to} only.`};
@@ -138,7 +144,7 @@ export function applyAbdm(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date
    requireAbdmCapability(s,'hiu','consent.request');if(p.abha?.state!=='linked')fail(409,'Link a verified ABHA before requesting health information.');
    if(c.from>c.to)fail(422,'The date range ends before it starts.');if(c.expiresAt<=now||Date.parse(c.expiresAt)>Date.parse(now)+365*86400000)fail(422,'Choose an expiry within the next year.');
    if((p.abdmConsents??[]).length>=50)fail(422,'Consent request limit reached for this patient.');
-   const x:AbdmConsent={id:uuid(),purpose:c.purpose,hiTypes:c.hiTypes,from:c.from,to:c.to,expiresAt:c.expiresAt,status:'REQUESTED',requestedBy:u.userId,requestedAt:now,abhaNumber:p.abha.number!};(p.abdmConsents??=[]).push(x);
+   const cfg=abdmConfig(s)!;const x:AbdmConsent={id:uuid(),purpose:c.purpose,hiTypes:c.hiTypes,from:c.from,to:c.to,expiresAt:c.expiresAt,status:'REQUESTED',requestedBy:u.userId,requestedAt:now,abhaNumber:p.abha.number!,requesterFacilityId:cfg.facilityId,providerFacilityId:cfg.facilityId,configVersion:cfg.version};(p.abdmConsents??=[]).push(x);
    detail=`Consent requested from the mock consent manager: ${c.purpose}; ${c.hiTypes.join(', ')}; records ${c.from} to ${c.to}; expires ${c.expiresAt}.`;result={consentId:x.id};
   }
   p.version++;
