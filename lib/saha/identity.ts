@@ -109,6 +109,7 @@ export function clearAccessKeyCache() { jwksCache.clear(); }
 // (target scope, ownership, expiry) lives in lib/saha/service-identity.ts. Resolution of human
 // principals above is unchanged.
 export type ServiceIdentityScope = 'connector' | 'agent';
+export type ServiceIntent = 'send' | 'lookup' | 'probe';
 export type ServiceIdentity = {
   id: string;
   name: string;
@@ -119,6 +120,9 @@ export type ServiceIdentity = {
   createdAt: string;
   createdBy: string;
   expiresAt: string;  // ISO date/time; invalid at or after this instant
+  intents?: ServiceIntent[];
+  rotatedFrom?: string;
+  rotatedTo?: string;
   revokedAt?: string;
   revokedBy?: string;
   status: 'active' | 'revoked';
