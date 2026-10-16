@@ -1,5 +1,4 @@
-/* The last receipt row has no bottom border and is clipped by the panel's rounded
-   bottom corners. Which of two same-second receipts is last depends on a random
-   record id, so normalise both effects for this single-row screenshot. */
-.receipt-panel { overflow: visible !important; }
+/* The last receipt row has no bottom border. Which of two same-second receipts
+   is last depends on a random record id, so normalise it for this screenshot.
+   The caller separately normalises the ancestor's overflow before capture. */
 .receipt-row { border-bottom: 0 !important; }
