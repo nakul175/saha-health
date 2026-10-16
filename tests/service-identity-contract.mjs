@@ -79,7 +79,7 @@ try {
     assert.equal(list[0].expiresAt, future);
     assert.equal(s.operations.version, 1);
     assert.equal(s.workspace.audit.at(-1).action, 'serviceIdentityCreate');
-    assert.match(s.workspace.audit.at(-1).detail, /accountable owner OWN; expires 2099-01-01/);
+    assert.match(s.workspace.audit.at(-1).detail, /accountable owner OWN; tools send, lookup; expires 2099-01-01/);
   });
 
   // Scope and target checks at creation.

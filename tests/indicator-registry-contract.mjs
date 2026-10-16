@@ -33,7 +33,7 @@ try {
   const q = (ids, over = {}) => ({ ids, days: 30, group: 'none', ...over });
 
   // Built-in catalogue definitions are the registry's version 1 entries.
-  check(() => { const r = x.registryRecords(s); assert.equal(r.length, 12); assert.ok(r.every(d => d.version === 1 && d.builtIn && d.by === 'built-in' && d.status === 'active')); assert.equal(x.catalogue(s).length, 12); });
+  check(() => { const r = x.registryRecords(s); assert.equal(r.length, 16); assert.ok(r.every(d => d.version === 1 && d.builtIn && d.by === 'built-in' && d.status === 'active')); assert.equal(x.catalogue(s).length, 16); });
   // Only an active owner maintains the registry; the same check runs on replay.
   check(() => { status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: spec() }), U('sup'), M('sup')), 403); status(() => reg.authorizeIndicatorRegistry(s, { ...M('own'), isOwner: false }, { type: 'retireIndicatorDefinition' }), 403); status(() => reg.authorizeIndicatorRegistry(s, { ...M('own'), status: 'suspended' }, { type: 'addIndicatorDefinition' }), 403); assert.equal(applyReleased(s, { type: 'opsMaintenance' }, U('own'), M('own')), null); });
   // Definitions use the fixed vocabulary only.
