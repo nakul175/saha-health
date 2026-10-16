@@ -39,7 +39,8 @@ export async function referralSmoke({get,post,check,accounts,org,base}){
  await post(o,ev('not-attended'));await get(o,'/api/workspace',200,org);
  await post(o,ev('scheduled',{appointmentAt:new Date(Date.now()+3*86400000).toISOString()}));await get(o,'/api/workspace',200,org);
  await post(o,ev('attended'));await get(o,'/api/workspace',200,org);
- await post(o,ev('completed'));await get(o,'/api/workspace',200,org);
+ await post(o,ev('completed'),422);
+ await post(o,ev('completed',{outcomeCode:'service-delivered'}));await get(o,'/api/workspace',200,org);
  check(()=>{assert.equal(ref(rid).state,'completed');assert.deepEqual(ref(rid).events.map(e=>e.state),['sent','received','scheduled','not-attended','scheduled','attended','completed']);});
  await post(o,{type:'referralDelay',referralId:rid,version:ref(rid).version,due:ahead(30),constraint:'other',reason:'Delay after completion attempt'},409);
  await post(o,ev('unknown'),409);

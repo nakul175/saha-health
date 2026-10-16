@@ -19,7 +19,7 @@ export async function fieldSmoke({get,post,check,accounts,org}){
  await post(o,{type:'assignReferral',referralId:rid,version:1,ownerId:o.state.user.userId,due:new Date().toISOString().slice(0,10),reason:'Synthetic owner assignment'});
  const event={type:'recordReferralEvent',referralId:rid,version:ref().version,event:'sent',note:'Synthetic evidence recorded',source:'facility-reported',evidenceReference:'TEST-RECEIPT',occurredAt:new Date().toISOString(),confirmed:true};
  await post(o,{...event,event:'completed'},409);await post(o,{...event,evidenceReference:''},422);await post(o,{...event,confirmed:false},422);await post(o,event);
- await post(o,event,409);await post(o,{...event,version:ref().version,event:'received',occurredAt:new Date().toISOString()});await post(o,{...event,version:ref().version,event:'completed',occurredAt:new Date().toISOString()});await get(o,'/api/workspace',200,org);
+ await post(o,event,409);await post(o,{...event,version:ref().version,event:'received',occurredAt:new Date().toISOString()});await post(o,{...event,version:ref().version,event:'attended',occurredAt:new Date().toISOString()});await post(o,{...event,version:ref().version,event:'completed',outcomeCode:'assessment-completed',occurredAt:new Date().toISOString()});await get(o,'/api/workspace',200,org);
  check(()=>{assert.equal(ref().state,'completed');assert.equal(ref().events.length,3);assert.equal(ref().events.at(-1).source,'facility-reported');assert.ok(ref().ownerId)});
  await post(o,{type:'assignReferral',referralId:rid,version:ref().version,ownerId:o.state.user.userId,due:new Date().toISOString().slice(0,10),reason:'Try to modify completed outcome'},409);
 }
