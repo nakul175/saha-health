@@ -10,6 +10,7 @@ import { CORPUS_VERSION } from './evaluation';
 import { currentFields, shadowManager, shadowReport, shadowsOf } from './shadow';
 import { DRIFT_NOTICE, driftReport } from './drift';
 import { capabilityHistories, capabilityImpact, capabilityUsage, lifecycleStage, replacementOf, requiredAction } from './capability-lifecycle';
+import { modelQualityPlans } from './model-quality';
 export async function governanceRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId),g=governanceState(s),visitId=new URL(request.url).searchParams.get('visitId');
   const patients=s.workspace.people.filter(p=>allowed(m,p)),permitted=new Set(patients.map(p=>p.id)),scoped=s.workspace.visits.filter(v=>permitted.has(v.personId));
@@ -28,6 +29,8 @@ export async function governanceRead(request:Request){
   })).sort((a,b)=>Number(b.usable)-Number(a.usable)||a.spec.title.localeCompare(b.spec.title));
   return json({preview:await protocolPreview(s,m,v),checks:await Promise.all((v.protocolChecks??[]).map(async c=>{const actor=s.members.find(a=>a.userId===c.by&&a.version===c.byVersion&&allowed(a,p));return {...c,reviewable:!!actor&&(await protocolPreview(s,actor,v)).contextHash===c.contextHash}})),services,safety:safety.filter(c=>c.visitId===visitId),canReview:m.role==='clinician',governanceEntries:entries.filter(e=>['protocol','capability'].includes(e.spec.kind)&&e.spec.teamIds.includes(p.teamId))});}
  return json({entries,evaluations:g.evaluations.filter(e=>ids.has(e.entryId)),safety,providers:providers(s.workspace.integrations,runtime()),agentVersion:AGENT_VERSION,corpusVersion:CORPUS_VERSION,canAuthor:governanceManager(m),canReview:m.role==='clinician',canActivate:m.isOwner,canShadow:shadowManager(m),
+ if(visitId){const v=visit(s.workspace,visitId),p=person(s.workspace,v.personId);return json({preview:await protocolPreview(s,m,v),checks:await Promise.all((v.protocolChecks??[]).map(async c=>{const actor=s.members.find(a=>a.userId===c.by&&a.version===c.byVersion&&allowed(a,p));return {...c,reviewable:!!actor&&(await protocolPreview(s,actor,v)).contextHash===c.contextHash}})),services:entries.filter(e=>e.spec.kind==='service'&&e.usable&&e.spec.teamIds.includes(p.teamId)),safety:safety.filter(c=>c.visitId===visitId),canReview:m.role==='clinician',governanceEntries:entries.filter(e=>['protocol','capability'].includes(e.spec.kind)&&e.spec.teamIds.includes(p.teamId))});}
+ return json({entries,evaluations:g.evaluations.filter(e=>ids.has(e.entryId)),qualityPlans:modelQualityPlans(s).filter(p=>ids.has(p.capabilityEntryId)),safety,providers:providers(s.workspace.integrations,runtime()),agentVersion:AGENT_VERSION,corpusVersion:CORPUS_VERSION,canAuthor:governanceManager(m),canReview:m.role==='clinician',canActivate:m.isOwner,canShadow:shadowManager(m),
   // Slice 5g: provider and model history per capability key in the viewer's scope, for governance managers.
   capabilityHistory:governanceManager(m)?capabilityHistories(s,new Set(entries.filter(e=>e.spec.kind==='capability').map(e=>e.spec.key))).map(h=>({...h,revisions:h.revisions.filter(r=>ids.has(r.entryId))})):[],
   // Slice 5f: shadow comparisons, counts only, to owners and clinician governance managers within the capability's scope.
