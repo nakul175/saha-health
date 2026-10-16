@@ -2184,5 +2184,70 @@
       "minPassed": 147
     }
   },
-  "log": "Historical-28 integration: register the two previously unclassified story suites at their complete observed assertion counts (7 and 15); no existing minimum changed."
+  "log": [
+    {
+      "date": "2026-10-03",
+      "reason": "Slice 11g: measurements without a budget no longer count as passed checks; flaky UI tests count as failed; smoke 4xx are failures",
+      "lowered": {
+        "nfr/load-burst": [
+          15,
+          13
+        ],
+        "nfr/memory-growth": [
+          14,
+          4
+        ],
+        "nfr/performance-budgets": [
+          145,
+          94
+        ]
+      },
+      "removed": []
+    },
+    {
+      "date": "2026-10-06",
+      "reason": "Added 14 suites from verified 2026-10-06 runs (additions only; no existing minimum changed). Existing ids operational-privacy-adverse/extra, report-portability, sixth-review-fixes now point at current adapters with unchanged minima.",
+      "lowered": {},
+      "removed": []
+    },
+    {
+      "date": "2026-10-10",
+      "reason": "D02 real journey independently repeated58; preserve signoff52 plus6 refusal groups and local smoke28 plus2 Today controls. No lowered or removed minima.",
+      "raised": {
+        "unit/note-answer-signoff-contract": [
+          52,
+          58
+        ],
+        "smoke/local-smoke": [
+          28,
+          30
+        ]
+      },
+      "added": [
+        "smoke/today-browser"
+      ]
+    },
+    {
+      "date": "2026-10-11",
+      "reason": "D03 original routine semantics retained; complete built synthetic browser run244/0 independently reviewed. No other minimum lowered, removed or quarantined.",
+      "raised": {
+        "smoke/routine-visit-browser": [
+          51,
+          244
+        ]
+      },
+      "lowered": {},
+      "removed": []
+    },
+    {
+      "date": "2026-10-16",
+      "reason": "Historical-28 integration registers two previously unclassified complete observed suites. Original 389 objects, minima, failed receipts and prior log entries remain unchanged.",
+      "lowered": {},
+      "removed": [],
+      "added": [
+        "integration/resume-guided-progress-browser",
+        "integration/workforce-lifecycle-complete"
+      ]
+    }
+  ]
 }
