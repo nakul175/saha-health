@@ -19,9 +19,11 @@ import type { Actor } from './store';
 //
 // This module has no runtime imports so every harness that transpiles core can list it without others.
 export const ADAPTER_OPERATIONS=['create','update','delete','lookup','aggregate'] as const;
+export const AGGREGATE_FIELDS=['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','blocks','team','indicator','unit','withheld','cells','value','numerator','denominator','suppressed'] as const;
+export type AggregateField=typeof AGGREGATE_FIELDS[number];
 export type AdapterOperation=typeof ADAPTER_OPERATIONS[number];
 export type GovernedKind='mis'|'ehr'|'abdm';
-export type OperationSetting={version:number;allowed:AdapterOperation[];aggregateOnly:boolean;setBy:string;setAt:string;reason:string};
+export type OperationSetting={version:number;allowed:AdapterOperation[];aggregateOnly:boolean;aggregateFields?:AggregateField[];setBy:string;setAt:string;reason:string};
 export type AdapterOperations=OperationSetting&{history:OperationSetting[]};
 export type Refusal={operation:AdapterOperation;settingVersion:number;aggregateOnly:boolean;stage:'before-send'|'checkpoint';at:string};
 export const CONNECTOR_PERMISSIONS=['search','read','create','amend','delete','export','status'] as const;
@@ -49,6 +51,10 @@ export function operationsOf(i:Integration):{version:number;allowed:AdapterOpera
  const o=i.operations;if(o)return {version:o.version,allowed:canonical(o.allowed),aggregateOnly:!!o.aggregateOnly,explicit:true};
  return {version:0,allowed:governed(i)?[...DEFAULT_OPERATIONS[i.kind as GovernedKind]]:[],aggregateOnly:false,explicit:false};
 }
+export function aggregateFieldsOf(i:Integration):{version:number;fields:AggregateField[];explicit:boolean}{
+ const o=i.operations,fields=o?.aggregateFields;
+ return {version:o?.version??0,fields:fields?[...new Set(fields)].filter(x=>AGGREGATE_FIELDS.includes(x)):[...AGGREGATE_FIELDS],explicit:!!fields};
+}
 // What a request carries to the destination: a patient-level record, an aggregate report, or neither (a receipt lookup).
 export type Carries='patient'|'aggregate'|'none';
 // null when allowed; otherwise the refusal text. Integrations that are not record adapters (AI providers) are not governed here.
@@ -67,7 +73,7 @@ export function refusalOf(i:Integration,op:AdapterOperation,stage:Refusal['stage
 export const misOperation=(payload:any):AdapterOperation=>payload?.operation==='correct'?'update':'create';
 
 const id=z.string().min(1).max(200);
-export const adapterOperationsSchema=z.object({type:z.literal('setAdapterOperations'),integrationId:id,version:z.number().int().min(0),allowed:z.array(z.enum(ADAPTER_OPERATIONS)).max(ADAPTER_OPERATIONS.length).refine(x=>new Set(x).size===x.length,'List each operation once.'),aggregateOnly:z.boolean(),reason:z.string().trim().min(5).max(500)}).strict()
+export const adapterOperationsSchema=z.object({type:z.literal('setAdapterOperations'),integrationId:id,version:z.number().int().min(0),allowed:z.array(z.enum(ADAPTER_OPERATIONS)).max(ADAPTER_OPERATIONS.length).refine(x=>new Set(x).size===x.length,'List each operation once.'),aggregateOnly:z.boolean(),aggregateFields:z.array(z.enum(AGGREGATE_FIELDS)).min(1).max(AGGREGATE_FIELDS.length).refine(x=>new Set(x).size===x.length,'List each aggregate field once.').optional(),reason:z.string().trim().min(5).max(500)}).strict()
  .refine(c=>!c.aggregateOnly||(c.allowed.includes('aggregate')&&!c.allowed.some(x=>['create','update','delete'].includes(x))),'An aggregate-only destination allows aggregate reports and may allow lookups, but never create, update or delete.');
 export type AdapterOperationsCommand=z.infer<typeof adapterOperationsSchema>;
 export const connectorPermissionsSchema=z.object({type:z.literal('setConnectorPermissions'),integrationId:id,version:z.number().int().min(0),allowed:z.array(z.enum(CONNECTOR_PERMISSIONS)).max(CONNECTOR_PERMISSIONS.length).refine(x=>new Set(x).size===x.length,'List each permission once.'),reason:z.string().trim().min(5).max(500)}).strict();
@@ -93,10 +99,11 @@ export function applyAdapterOperations(s:OrgState,input:unknown,u:Actor,m:Member
  const i=s.workspace.integrations.find(x=>x.id===c.integrationId);if(!i||!governed(i))fail(422,'Choose a programme, EHR or ABDM connection.');const target=i!;
  const current=operationsOf(target);if(current.version!==c.version)fail(409,'The operation setting changed. Refresh and review it again.');
  if(c.aggregateOnly&&target.kind!=='mis')fail(422,'Only a programme destination can be aggregate-only. EHR and ABDM exchange is patient-level.');
- const allowed=canonical(c.allowed);if(allowed.join()===current.allowed.join()&&c.aggregateOnly===current.aggregateOnly)fail(409,'Nothing changed.');
- const prior:OperationSetting[]=target.operations?[...target.operations.history,{version:target.operations.version,allowed:target.operations.allowed,aggregateOnly:target.operations.aggregateOnly,setBy:target.operations.setBy,setAt:target.operations.setAt,reason:target.operations.reason}]:[];
- target.operations={version:current.version+1,allowed,aggregateOnly:c.aggregateOnly,setBy:u.userId,setAt:now,reason:c.reason,history:prior.slice(-HISTORY_LIMIT)};
+ const allowed=canonical(c.allowed),aggregateFields=c.aggregateFields?[...c.aggregateFields]:target.operations?.aggregateFields;
+ if(allowed.join()===current.allowed.join()&&c.aggregateOnly===current.aggregateOnly&&JSON.stringify(aggregateFields??null)===JSON.stringify(target.operations?.aggregateFields??null))fail(409,'Nothing changed.');
+ const prior:OperationSetting[]=target.operations?[...target.operations.history,{version:target.operations.version,allowed:target.operations.allowed,aggregateOnly:target.operations.aggregateOnly,aggregateFields:target.operations.aggregateFields,setBy:target.operations.setBy,setAt:target.operations.setAt,reason:target.operations.reason}]:[];
+ target.operations={version:current.version+1,allowed,aggregateOnly:c.aggregateOnly,...(aggregateFields?{aggregateFields}:{}),setBy:u.userId,setAt:now,reason:c.reason,history:prior.slice(-HISTORY_LIMIT)};
  const list=allowed.length?allowed.map(x=>LABEL[x].toLowerCase()).join(', '):'none';
- s.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:'setAdapterOperations',subject:target.id,detail:`${target.name}: permitted operations set to ${list}${c.aggregateOnly?'; aggregate reports only':''} (setting version ${target.operations.version}). Every send and lookup rechecks this setting; items already prepared are closed as not sent if their operation is withdrawn. Reason: ${c.reason}`});
- return {integrationId:target.id,version:target.operations.version,allowed,aggregateOnly:c.aggregateOnly};
+ s.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:'setAdapterOperations',subject:target.id,detail:`${target.name}: permitted operations set to ${list}${c.aggregateOnly?'; aggregate reports only':''}${aggregateFields?`; authorised aggregate fields: ${aggregateFields.join(', ')}`:''} (setting version ${target.operations.version}). Every send and lookup rechecks this setting; items already prepared are closed as not sent if their operation or field allowlist is withdrawn. Reason: ${c.reason}`});
+ return {integrationId:target.id,version:target.operations.version,allowed,aggregateOnly:c.aggregateOnly,...(aggregateFields?{aggregateFields}:{})};
 }

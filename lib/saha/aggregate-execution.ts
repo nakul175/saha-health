@@ -45,7 +45,7 @@ async function prepare(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type
  const id=uuid(),params={id,definitions,teamIds:c.teamIds,group:c.group,period:c.period,computedAt:at,destinationId:i.id};
  const {payload}=await compute(db,s,m,params,at);
  if(!payload.manifest.rows)fail(422,'Nothing in this report can be released: every block is withheld to protect small groups. Widen the teams, period or grouping.');
- const check=minimisationCheck(payload,s,'prepare',at);if(!check.passed)fail(422,`The report failed the payload minimisation check: ${check.problems[0]} Nothing was prepared.`);
+ const check=minimisationCheck(payload,s,'prepare',at,i);if(!check.passed)fail(422,`The report failed the payload minimisation check: ${check.problems[0]} Nothing was prepared.`);
  // Slice 6ad (finding 3): a payload and the stored reports are bounded so the operations row never reaches D1's limit.
  if(bytesOf(payload)>PAYLOAD_BYTES)fail(422,`This report is too large to keep (${Math.ceil(bytesOf(payload)/1000)} kB; at most ${PAYLOAD_BYTES/1000} kB). Choose fewer teams or indicators, or a coarser grouping. Nothing was prepared.`);
  const before=structuredClone(s),r:AggregateReport={...params,destinationName:i.name,state:'prepared',preparedBy:u.userId,preparedByName:u.displayName,preparedAt:at,payload,payloadSha256:payload.manifest.sha256,rowCount:payload.manifest.rows,attempts:0,minimisation:[check],events:[],message:'',updatedAt:at};
@@ -81,7 +81,7 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
   if(!r.expiresAt||r.expiresAt<now)fail(409,'The approval has expired. Prepare and approve a new report.');
   // Before the checkpoint: the operation, the stored payload's minimisation, and a recomputation that must match what was approved.
   const refused=aggregateRefusal(i!,'before-send',now);if(refused)return await closeRefused(db,s,r,c,u,m,key,hash,refused.text,refused.refusal);
-  const check=minimisationCheck(r.payload,s,'before-send',now);r.minimisation.push(check);
+  const check=minimisationCheck(r.payload,s,'before-send',now,i!);r.minimisation.push(check);
   if(!check.passed)return await closeRefused(db,s,r,c,u,m,key,hash,`the payload failed the minimisation check (${check.problems[0]})`,{...refusalOf(i!,'aggregate','before-send',now),reason:'minimisation'});
   const again=await compute(db,s,m,r,now);
   if(again.payload.manifest.sha256!==r.payloadSha256)return await closeRefused(db,s,r,c,u,m,key,hash,'the report would now differ from what was approved, because records or earlier reports to this destination changed.',{...refusalOf(i!,'aggregate','before-send',now),reason:'changed'});
@@ -101,7 +101,7 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
   // Slice 6ad (ninth review, finding 7): the checkpoint also re-checks operating mode, as an EHR publication does.
   else if(latest.operations?.maintenance){withdrawn='the organisation was paused for maintenance.';refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'maintenance'};}
   else {const x=aggregateRefusal(li,'checkpoint',new Date().toISOString());if(x){withdrawn=x.text;refusal=x.refusal;}
-   else {check=minimisationCheck(stored?.payload,latest,'checkpoint',new Date().toISOString());if(!check.passed){withdrawn=`the payload failed the minimisation check (${check.problems[0]})`;refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'minimisation'};}}
+   else {check=minimisationCheck(stored?.payload,latest,'checkpoint',new Date().toISOString(),li);if(!check.passed){withdrawn=`the payload failed the minimisation check (${check.problems[0]})`;refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'minimisation'};}}
    // Slice 13d (tenth review): the population screen counts the people in the sender's scope, as at preparation. The state read
    // inside the checkpoint is unscoped (every person unassigned), which made the population empty and the screen pass trivially.
    if(!withdrawn){try{scope(latest,m.userId);}catch{withdrawn='the sender\'s membership is no longer active.';refusal=refusalOf(li,'aggregate','checkpoint');}}

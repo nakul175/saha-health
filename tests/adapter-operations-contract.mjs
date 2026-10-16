@@ -43,6 +43,9 @@ try{
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['create','aggregate'],aggregateOnly:true,reason:'Aggregate only'}).success,false);
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['lookup'],aggregateOnly:true,reason:'Aggregate only'}).success,false);
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['aggregate','lookup'],aggregateOnly:true,reason:'Aggregate only'}).success,true);
+  assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['aggregate','lookup'],aggregateOnly:true,aggregateFields:['contract','blocks','value'],reason:'Destination contract'}).success,true);
+  assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['aggregate'],aggregateOnly:true,aggregateFields:['value','value'],reason:'Duplicate fields'}).success,false);
+  assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['aggregate'],aggregateOnly:true,aggregateFields:['personId'],reason:'Prohibited field'}).success,false);
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['lookup','lookup'],aggregateOnly:false,reason:'Duplicate'}).success,false);
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['read'],aggregateOnly:false,reason:'Unknown op'}).success,false);
  });
@@ -62,6 +65,10 @@ try{
   A.applyAdapterOperations(s,{...cmd,version:1,allowed:['aggregate','lookup'],aggregateOnly:true},owner,owner,fail,uuid);
   assert.equal(i.operations.version,2);assert.equal(i.operations.aggregateOnly,true);assert.deepEqual(i.operations.history.map(h=>[h.version,h.allowed]),[[1,['create','lookup']]]);
   assert.match(s.workspace.audit.at(-1).detail,/aggregate reports only/);
+  const fields=['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','blocks','team','indicator','unit','withheld','cells','value','suppressed'];
+  const configured=A.applyAdapterOperations(s,{...cmd,version:2,allowed:['aggregate','lookup'],aggregateOnly:true,aggregateFields:fields,reason:'District count contract'},owner,owner,fail,uuid);
+  assert.deepEqual(configured.aggregateFields,fields);assert.deepEqual(A.aggregateFieldsOf(i),{version:3,fields,explicit:true});
+  assert.match(s.workspace.audit.at(-1).detail,/authorised aggregate fields: contract, environment/);
   assert.equal(JSON.stringify(s).includes('SAHA_'),false);
  });
 

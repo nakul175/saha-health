@@ -75,6 +75,11 @@ try{
   assert.match(bad(p=>Object.assign(p.blocks[0].cells[1],{value:2})).problems.join(),/suppressed cell carries a value/);
   assert.match(bad(p=>Object.assign(p.blocks[0],{unit:'proportion'})&&Object.assign(p.blocks[0].cells[0],{value:85.7,numerator:12,denominator:14})).problems.join(),/below the suppression threshold/,'denominator minus numerator of 2');
   assert.equal(bad(()=>{}).passed,true);
+  const destination={name:'Count-only district MIS',kind:'mis',operations:{version:7,allowed:['aggregate'],aggregateOnly:true,aggregateFields:D.ALLOWED_KEYS?[...D.ALLOWED_KEYS]:undefined}};
+  destination.operations.aggregateFields=['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','blocks','team','indicator','unit','withheld','cells','value','suppressed'];
+  const destinationCheck=D.minimisationCheck(ok,s,'before-send',recent,destination);
+  assert.equal(destinationCheck.passed,false);assert.match(destinationCheck.problems.join(),/Field "numerator" is not authorised by Count-only district MIS's destination allowlist \(version 7\)/);
+  assert.equal(destinationCheck.destinationAllowlistVersion,7);assert.equal(destinationCheck.destinationAllowlistExplicit,true);
  });
  // 3. Prepare: pinned versions, suppressed cells only, manifest with row count and SHA-256, audited, steps linked.
  let first;
@@ -149,7 +154,16 @@ try{
   assert.equal(sent.state,'cancelled');assert.equal(sent.refused,true);assert.equal(calls.length,0);
   const x=report(r.reportId);assert.equal(x.attempts,0);assert.equal(x.refusal.stage,'checkpoint');assert.equal(x.refusal.operation,'aggregate');assert.equal(x.refusal.settingVersion,2);
   assert.match(x.message,/Not sent: .*not permitted to receive aggregate reports.*nothing was sent and the reserved attempt is released/);assert.equal(L.ledger.length,0,'no release recorded');
-  assert.equal(x.events.at(-1).ref.command,'aggregateReportRefused');
+ assert.equal(x.events.at(-1).ref.command,'aggregateReportRefused');
+ });
+ await check('destination field allowlist narrowed inside the checkpoint',async()=>{
+  const s=fresh(),full=['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','blocks','team','indicator','unit','withheld','cells','value','numerator','denominator','suppressed'];
+  s.workspace.integrations[0].operations.aggregateFields=full;store.setup(s);L.resetLedger();
+  const r=await as('sup',prep());await as('own',{type:'approveAggregateReport',reportId:r.reportId,payloadSha256:report(r.reportId).payloadSha256});
+  store.setHook((saved,c)=>{if(c.type==='sendAggregateReport'){const i=saved.workspace.integrations.find(x=>x.id==='agg');i.operations={...i.operations,version:2,aggregateFields:full.filter(x=>x!=='numerator')};}});
+  calls.length=0;const sent=await as('sup',{type:'sendAggregateReport',reportId:r.reportId},spy());store.setHook(null);
+  assert.equal(sent.state,'cancelled');assert.equal(sent.refused,true);assert.equal(calls.length,0);assert.equal(report(r.reportId).attempts,0);
+  assert.equal(report(r.reportId).refusal.reason,'minimisation');assert.match(report(r.reportId).minimisation.at(-1).problems.join(),/Field "numerator" is not authorised/);
  });
  // 8. A stored payload altered after approval fails the minimisation check before the request; the result is recorded.
  await check('tampered payload refused',async()=>{
