@@ -1,29 +1,103 @@
 # Slice 0c: engineering CI on synthetic data only. It never uses secrets, live providers,
 # hosted databases or real patient records, and it does not deploy the Site.
+#
+# Minutes: `checks` is the always-on status check (documentation, catalogue, UAT,
+# and, when the diff is not documentation-only, lint, type check, build and the
+# supply-chain gate). The heavy jobs start only when this run should spend the
+# full suite: a push to main that changes more than Markdown or docs/, a merge
+# queue, a manual run, or a pull request labeled `ci-full`. They wait for
+# `checks`, so a lint, type, or build failure does not start them. A newer push
+# to the same pull request still cancels the in-progress run.
 name: engineering-checks
 on:
   pull_request:
-    # A pull request that changes only Markdown or docs/ does not start this suite.
-    # Any other path still runs it, including the documentation integrity step.
-    # workflow_dispatch always runs the full suite.
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
+  push:
+    branches: [main]
+  merge_group:
   workflow_dispatch:
 permissions:
   contents: read
+  pull-requests: read
 concurrency:
   group: engineering-checks-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 jobs:
   checks:
     runs-on: ubuntu-latest
-    # The complete guarded unit catalogue now runs for about 29 minutes and the
-    # immutable evidence artifact needs additional upload time. Keep the full
-    # catalogue and its minima intact; allow enough time to publish its receipt.
-    timeout-minutes: 45
+    timeout-minutes: 20
+    outputs:
+      heavy: ${{ steps.scope.outputs.heavy }}
+      code: ${{ steps.scope.outputs.code }}
     steps:
       - uses: actions/checkout@v4
+      - name: Decide whether the heavy suite runs
+        id: scope
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          HAS_LABEL: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'ci-full') && 'true' || 'false' }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || '' }}
+          BEFORE_SHA: ${{ github.event_name == 'push' && github.event.before || '' }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import os, subprocess
+          event = os.environ["EVENT_NAME"]
+          label = os.environ.get("HAS_LABEL") == "true"
+          repo = os.environ["REPO"]
+
+          def documentation(path):
+              return path.startswith("docs/") or path.endswith(".md")
+
+          def contains_code(paths):
+              return any(path and not documentation(path) for path in paths)
+
+          code = True
+          if event in ("workflow_dispatch", "merge_group"):
+              code = True
+          elif event == "pull_request":
+              try:
+                  out = subprocess.check_output(
+                      ["gh", "api", "--paginate", f"repos/{repo}/pulls/{os.environ['PR_NUMBER']}/files", "--jq", ".[].filename"],
+                      text=True)
+                  code = contains_code([line for line in out.splitlines() if line])
+              except subprocess.CalledProcessError:
+                  print("Could not list pull request files; treating the diff as code.")
+                  code = True
+          elif event == "push":
+              before = os.environ.get("BEFORE_SHA", "")
+              if not before or set(before) == {"0"}:
+                  code = True
+              else:
+                  try:
+                      import json
+                      raw = subprocess.check_output(
+                          ["gh", "api", f"repos/{repo}/compare/{before}...{os.environ['HEAD_SHA']}"],
+                          text=True)
+                      payload = json.loads(raw)
+                      files = payload.get("files")
+                      # A missing list, or a full 300-file page, is not proof the push is documentation-only.
+                      if not isinstance(files, list) or len(files) >= 300:
+                          code = True
+                      else:
+                          code = contains_code(item.get("filename", "") for item in files)
+                  except (subprocess.CalledProcessError, json.JSONDecodeError):
+                      print("Could not compare the push; treating the diff as code.")
+                      code = True
+          full_event = event in ("workflow_dispatch", "merge_group", "push") or label
+          heavy = "true" if full_event and code else "false"
+          code_out = "true" if code else "false"
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          line = f"Heavy suite: {heavy}. Non-documentation paths: {code_out}. Event: {event}.\n"
+          print(line.strip())
+          if summary:
+              with open(summary, "a", encoding="utf-8") as handle:
+                  handle.write(line)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
+              handle.write(f"heavy={heavy}\ncode={code_out}\n")
+          PY
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -37,13 +111,49 @@ jobs:
         run: node scripts/test.mjs --check-catalogue
       - name: Install pinned dependencies
         run: npm run install:ci
+      - name: UAT register and generated documents
+        run: node scripts/test.mjs uat --fast
       # Wave 0 hygiene gates (8 October 2026). The lint ratchet compares the ESLint error count with .lint-baseline.json and
       # fails only when it rises; lower the baseline with `node scripts/lint-baseline.mjs --update` after fixing problems.
       # Both run through the package scripts (`npm run`, because install:ci puts pnpm behind corepack, not on PATH).
+      # Documentation-only diffs skip these: the same commit has no runtime change to compile.
       - name: Lint (ratchet against .lint-baseline.json)
+        if: steps.scope.outputs.code == 'true'
         run: npm run lint:baseline
       - name: Type check
+        if: steps.scope.outputs.code == 'true'
         run: npm run typecheck
+      - name: Build
+        if: steps.scope.outputs.code == 'true'
+        run: npm run build
+      - name: Supply-chain gate (SBOM and audit)
+        if: steps.scope.outputs.code == 'true'
+        run: node scripts/security-gate.mjs
+      - uses: actions/upload-artifact@v4
+        if: steps.scope.outputs.code == 'true'
+        with:
+          name: supply-chain-evidence
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            dist/sbom.cdx.json
+            dist/security-gate.json
+            dist/bundle-provenance-evidence.json
+
+  # The guarded suites that used to run inside `checks`. They stay mandatory whenever
+  # the heavy suite runs; a documentation-only pull request does not start them.
+  guarded-checks:
+    needs: checks
+    if: needs.checks.result == 'success' && needs.checks.outputs.heavy == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned dependencies
+        run: npm run install:ci
       - name: Build
         run: npm run build
       - name: D02 real synthetic Today journey
@@ -52,8 +162,6 @@ jobs:
           node scripts/test.mjs smoke --only smoke/today-browser --fast --guard
       - name: D03 routine capture and current-authority regression
         run: node scripts/test.mjs integration smoke --only integration/routine-authority-http,integration/routine-organisation-http,integration/routine-attempt-browser,smoke/routine-visit-browser,integration/routine-telemetry-retention-http --fast --guard
-      - name: Supply-chain gate (SBOM and audit)
-        run: node scripts/security-gate.mjs
       - name: Next-50 bounded integration regressions
         env:
           SAHA_TEST_PORT: '9493'
@@ -101,17 +209,17 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: engineering-evidence
+          retention-days: 30
+          name: guarded-checks-evidence
           path: |
             tests/*-result.json
             tests/reports/
-            dist/sbom.cdx.json
-            dist/security-gate.json
-            dist/bundle-provenance-evidence.json
 
   # Split from `checks` on 6 October 2026: the browser regressions plus smoke selection no longer fit the 30-minute hosted limit
   # together with the unit and API layers. The selections, guards and baseline are unchanged; both jobs must pass.
   regressions:
+    needs: checks
+    if: needs.checks.result == 'success' && needs.checks.outputs.heavy == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -138,6 +246,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
+          retention-days: 30
           name: engineering-regression-evidence
           path: |
             tests/*-result.json
@@ -148,6 +257,8 @@ jobs:
 
   # Actual unchanged synthetic load guard on an isolated hosted runner; does not deploy or use secrets.
   bounded-report-load:
+    needs: checks
+    if: needs.checks.result == 'success' && needs.checks.outputs.heavy == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -175,11 +286,14 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
+          retention-days: 30
           name: bounded-report-load-evidence
           path: tests/reports/
 
   # Native security fixture executes independently even when another regression fails; no retries or deployment.
   native-authorization-control:
+    needs: checks
+    if: needs.checks.result == 'success' && needs.checks.outputs.heavy == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -206,10 +320,13 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
+          retention-days: 30
           name: native-authorization-current-evidence
           path: tests/reports/
 
   original-backend-nfr:
+    needs: checks
+    if: needs.checks.result == 'success' && needs.checks.outputs.heavy == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -230,11 +347,14 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
+          retention-days: 30
           name: original-backend-nfr-current-evidence
           path: tests/reports/
 
   # Additive diagnostic lane; the complete existing jobs and original eleven-group guard stay mandatory.
   availability-fixture-diagnostic:
+    needs: checks
+    if: needs.checks.result == 'success' && needs.checks.outputs.heavy == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -260,6 +380,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
+          retention-days: 30
           name: availability-fixture-diagnostic-evidence
           path: |
             tests/reports/availability-fixture/
@@ -273,6 +394,8 @@ jobs:
   # Additive coverage of thirteen preserved original suites previously omitted from explicit CI.
   # Test failures remain failures, including existing privacy/count and screenshot-oracle conflicts.
   original-missing-coverage:
+    needs: checks
+    if: needs.checks.result == 'success' && needs.checks.outputs.heavy == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
@@ -551,6 +674,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
+          retention-days: 30
           name: original-missing-coverage-evidence
           include-hidden-files: true
           if-no-files-found: error
