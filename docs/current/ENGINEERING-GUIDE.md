@@ -229,7 +229,7 @@ This writes a **new** manifest `docs/verification/application-<slug>-sha256.json
 
 ## 8. Known red check
 
-The `regressions` job (workflow `engineering-checks`, step "App-first workflow and scope regressions") fails on GitHub on `main` and on pull requests, while the same selection passes locally (147 suites, 7,691 checks, guard passed). The cause is unknown because the job logs were not retrievable. It needs `SAHA_BROWSER_PACKAGE=@playwright/test` in the environment. Next step for whoever picks it up: open the failing run in the GitHub Actions UI, read the first failing suite, and reproduce it locally with `node scripts/test.mjs integration smoke ui --only <that suite> --fast --guard`. Until fixed, say in every pull request that `regressions` was red before your change.
+The `regressions` job (workflow `engineering-checks`, step "App-first workflow and scope regressions") has failed on GitHub while the same selection passes locally (147 suites, 7,691 checks, guard passed). The cause is unknown because the job logs were not retrievable. It needs `SAHA_BROWSER_PACKAGE=@playwright/test` in the environment. Ordinary pull requests do not start this job. It runs on a non-documentation push to `main`, on the merge queue, when `engineering-checks` is started by hand, and on a pull request labeled `ci-full`. Next step for whoever picks it up: open the failing run in the GitHub Actions UI, read the first failing suite, and reproduce it locally with `node scripts/test.mjs integration smoke ui --only <that suite> --fast --guard`.
 
 ## 9. Every change, applied here
 
@@ -237,7 +237,7 @@ The `regressions` job (workflow `engineering-checks`, step "App-first workflow a
 2. Make the change with its test; update the implementation boundary, requirement assessment, next-delivery row and evidence together (AGENTS.md).
 3. Run the gate (section 6), then the baseline step if covered files changed (section 7).
 4. Commit, push, open a **draft** pull request into `main` stating what ran and what did not.
-5. Wait for `checks` (and note `regressions`, section 8). The sponsor approves merges.
+5. Wait for `checks`. The heavy jobs, including `regressions` (section 8), run on `main`, the merge queue, a manual run, and a pull request labeled `ci-full`. The sponsor approves merges.
 6. Verify the resulting tree on GitHub matches your intent.
 
 ## 10. Do and don't, specific to this repository

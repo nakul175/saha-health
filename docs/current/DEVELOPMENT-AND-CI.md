@@ -66,6 +66,12 @@ Since 1 October 2026, at the sponsor's instruction, `.github/workflows/deploy-st
 
 ## CI boundary
 
-`.github/workflows/ci.yml` (slice 0c) runs documentation integrity, install, type check, build, the supply-chain gate, the HTTP/D1 suite, contract suites and the restore drill on pull requests and when started by hand, with synthetic data only. It does not run on a push to `main`. A pull request that changes only Markdown, or only files under `docs/`, does not start the suite. Any other changed path still runs it, including the documentation checks. For a docs-only change, run the documentation commands locally, or start the workflow by hand. A new push to the same pull request cancels the in-progress run. The workflow had not run on GitHub when it was first committed. Do not connect CI to a real patient database or live partner.
+`.github/workflows/ci.yml` (slice 0c) runs on pull requests, on pushes to `main`, on the merge queue, and when started by hand. Synthetic data only. It does not deploy the Site.
+
+The `checks` job is the always-on status check. It runs documentation integrity, the requirements audit, the test catalogue and, after install, the UAT register and generated-document drift checks. When the diff changes anything other than Markdown or `docs/`, it also runs the lint ratchet, the type check, the build and the supply-chain gate. A documentation-only diff skips those compile steps.
+
+The heavy jobs (`guarded-checks`, `regressions`, `bounded-report-load`, `native-authorization-control`, `original-backend-nfr`, `availability-fixture-diagnostic`, `original-missing-coverage`) run only after `checks` succeeds, and only for a non-documentation push to `main`, a merge-queue group, a manual run, or a pull request labeled `ci-full`. They are the HTTP/D1 suite, unit catalogue, browser regressions, load, authorisation and the preserved original lanes. A lint, type or build failure does not start them. Label a pull request `ci-full` to run that suite before merge; adding the label starts a new run. A newer push to the same pull request cancels the in-progress run.
+
+`documentation-checks` (`.github/workflows/docs-checks.yml`) is manual only. Pull requests no longer start it, because `checks` already runs those commands. Do not connect CI to a real patient database or live partner.
 
 For a documentation-only change, hashes and integrity checks are sufficient when runtime files remain unchanged. For code changes, run TypeScript/build and the tests needed for the changed invariants, then record actual execution with its limits. GitHub publication is separate from authorized Sites deployment.
