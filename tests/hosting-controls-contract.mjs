@@ -33,6 +33,8 @@ try{
  check(()=>assert.equal(H.assertHostingRoute(s,s,{area:'backup',targetId:'encrypted-archive',purpose:'disaster-recovery',direction:'outbound',actualLocation:'IN'}).routeId,'encrypted-backup'));
  check(()=>assert.equal(H.assertHostingRoute(s,s,{area:'analytics',targetId:'approved-reporting',purpose:'aggregate-reporting',direction:'outbound',actualLocation:'IN'}).routeId,'aggregate-analytics'));
  check(()=>assert.equal(H.assertHostingRoute(s,s,{area:'support',targetId:'approved-support',purpose:'incident-support',direction:'interactive-access',actualLocation:'IN'}).routeId,'support-console'));
+ const supportRevoked=structuredClone(s);supportRevoked.operations.hostingControls.version++;check(()=>throws(()=>H.assertHostingRoute(s,supportRevoked,{area:'support',targetId:'approved-support',purpose:'incident-support',direction:'interactive-access',actualLocation:'IN'}),403,/changed before transfer/));
+ const analyticsRevoked=structuredClone(s);analyticsRevoked.operations.hostingControls.state='draft';check(()=>throws(()=>H.assertHostingRoute(s,analyticsRevoked,{area:'analytics',targetId:'approved-reporting',purpose:'aggregate-reporting',direction:'outbound',actualLocation:'IN'}),403,/not active/));
  check(()=>throws(()=>H.assertHostingRoute(s,s,{area:'provider',targetId:'mis',purpose:'diagnostic',direction:'outbound',actualLocation:'IN'}),403,/not approved/));
  check(()=>throws(()=>H.assertHostingRoute(s,s,{area:'provider',targetId:'mis',purpose:'programme-delivery',direction:'inbound',actualLocation:'IN'}),403,/not approved/));
  check(()=>throws(()=>H.assertHostingRoute(s,s,{area:'provider',targetId:'other',purpose:'programme-delivery',direction:'outbound',actualLocation:'IN'}),403,/not approved/));

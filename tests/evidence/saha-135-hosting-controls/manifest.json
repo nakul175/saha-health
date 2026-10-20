@@ -10,7 +10,7 @@
   },
   "checks": {
     "hostingControls": {
-      "passed": 34,
+      "passed": 36,
       "failed": 0
     },
     "serviceDispatch": {
@@ -26,7 +26,7 @@
     "catalogue": "passed: 1045 suites, 100 component modules, 49 support files",
     "requirements": "passed: 176 source IDs",
     "lintBaseline": "passed: 1392 errors equals baseline",
-    "documentationIntegrity": "passed: 2077 current source files, 176 requirements, 364 preserved formal cases, 38 generated documents"
+    "documentationIntegrity": "passed: 2077 current source files, 176 requirements, 364 preserved formal cases, 38 generated documents against r2 baseline"
   },
   "files": {
     "app/api/hosting-controls/route.ts": "b4f77cdc8e4df77a49836e18ffe81adc9eb61c98325647fd333d9238f99f5b2d",
@@ -35,10 +35,11 @@
     "docs/current/COMMAND-CATALOGUE.csv": "02ad083cbfbdc871e5f9d9f82664c859cf52a0e56d440137c8dde130d1907382",
     "docs/current/CURRENT-API-INVENTORY.md": "068098154a305eb3cf7a37dfa1924de17a81f439f56a2d6de4abdb2128385d32",
     "docs/current/HTTP-ROUTES.csv": "e1117f39150e366f422959bf2b68d9d8d03c2f497896ae32c4daec8ca651a25a",
-    "docs/current/SAHA-135-HOSTING-AND-CROSS-BORDER-CONTROLS.md": "0c6e2bc01e10336ab32dd6b26c59990a559775577604d91242696c21e91a4343",
+    "docs/current/SAHA-135-HOSTING-AND-CROSS-BORDER-CONTROLS.md": "513acdb2a93e08719081511be864aaa93246a1496a936d9d00a172f6b15abbf1",
     "docs/current/TEST-CATALOGUE.csv": "36331ae4651bddefa5e072aed8af8526550e920b96469b83c52a40bd1dc703ec",
     "docs/verification/application-saha135-hosting-controls-r1-sha256.json": "9c0f06c4daa0f9ec68463c913b4767f371872986d1ad0892e7e96cad19bf5c6c",
-    "docs/verification/current-baseline.json": "b270ac8e2584bbd8cd1cc47c45c338be04de2310d49f8cd6945b0380d3ebe73a",
+    "docs/verification/application-saha135-hosting-controls-r2-sha256.json": "84cf847ea624450aecee34154642ee39b6e32f8e4e8a791410eedf7fde73c4b8",
+    "docs/verification/current-baseline.json": "b87ff2f9fba54204baa1bb43b9957d79e547be89fe0bbd9fc84655d3a591f0e3",
     "docs/verification/evidence-source-snapshots-saha135.json": "bb7d5e0374d8b1feb9899b74fe6cee5e120445cdb331f6be63a6feb0b3b21ee0",
     "docs/verification/evidence-source-snapshots/5ab819fd1bfc7eb9453832309ce49921a8567dacd4058f4e060015855646b46c.txt": "5ab819fd1bfc7eb9453832309ce49921a8567dacd4058f4e060015855646b46c",
     "docs/verification/evidence-source-snapshots/b97339c20f869d87838302bfc995b002ed062f0d558bfc5633b41d2abbce5832.txt": "b97339c20f869d87838302bfc995b002ed062f0d558bfc5633b41d2abbce5832",
@@ -49,17 +50,17 @@
     "lib/saha/core.ts": "6f5a3d8fb6db0eb976cc0f11005b14f777d5b4d70d8e9f4290f4c31fa23874f1",
     "lib/saha/hosting-controls-server.ts": "b6c3a4fde92e9a81758a905455c8e216f2e3b3da74051b6f49b6cc32188f23bb",
     "lib/saha/hosting-controls.ts": "d101f0d596ceb175452cecd71bcc17ce140bd393a1d8d8f789164989940ee1bf",
-    "lib/saha/indicators-server.ts": "44d5562ded9353f9bb22c185673f35cdbb8b6263968fe04a35be3e2ab3b781d2",
+    "lib/saha/indicators-server.ts": "5205427dbd6721b99f0d1d0439e4e9660adc0345b220aa4366e75742af059fbc",
     "lib/saha/monitoring.ts": "6768b44b79af303a5134b83a648570b64420474476f5728f0ede5e62f031b111",
-    "lib/saha/operations-server.ts": "b8b7d7f045d1943ae5782f56cb64e89f1edd5542850050d6443cf9402b3efb77",
+    "lib/saha/operations-server.ts": "13947e2d05ac61b2710db11b68c42048db5a371406b212bf156cb096741ba2a5",
     "lib/saha/operations.ts": "8b895f86d4205310a9a5f275048e093a6c044ff2e19dce964bf24677d399cba4",
     "lib/saha/platform.ts": "c07a538e9b410565ffe8b79aaa40e0e13bbf966605211af405b682867aab25f7",
     "lib/saha/server.ts": "f7dc825d6c7c2d6fade1c96ada2630d49e98b7019dbd28d50c7b818505f16ef1",
     "lib/saha/service-dispatch.ts": "1f20260b833e12a700fa997f669376e0bd5e26304ac7b02160d750ccb2a11a4d",
     "lib/saha/types.ts": "cd9de707ab07daae402b29cba5633217fdb382fe85ba685a060e6cf07233589c",
     "scripts/check-documentation.py": "01ecda455bde58f249a5aa677212b5035c740b52b87222957c60592e9c57181c",
-    "tests/evidence/saha-135-hosting-controls/hosting-controls-contract.json": "9198b6016fc7e65d5b2632be0c504903f49d5f766687c7f40719be571393fabd",
-    "tests/hosting-controls-contract.mjs": "aae4b4d9e5e11cc2f08909bdff08d01cec3a76fdd98edac3f04ff07c2b92b9be",
+    "tests/evidence/saha-135-hosting-controls/hosting-controls-contract.json": "48efbc46c5831c6447108076ea304def287fd9bb92d4a260640f9e8cf8040267",
+    "tests/hosting-controls-contract.mjs": "677726e95eabb0303df118c91d630479d5bff230c8e6b8681eead02128838f15",
     "tests/service-dispatch-contract.mjs": "511feba367a5c61211b2309489b738df1e52ad4133aa140b47f6948e003b4add"
   },
   "boundaries": [

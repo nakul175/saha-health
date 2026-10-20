@@ -82,6 +82,7 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  manager(currentMember);ensurePurpose(currentMember,'reporting');
  if(file)assertHostingRoute(s,current,analyticsRoute);
  await assertCompletenessCurrent(current,currentMember,completeness,definitions);
+ if(file){const hostingCurrent=await loadFor(u,s.organisation.id,undefined,true);assertHostingRoute(s,hostingCurrent,analyticsRoute);}
  const visible=(state:typeof s)=>state.workspace.people.filter(person=>person.assigned&&!person.mergedInto).map(person=>person.id).sort();
  if(JSON.stringify(visible(current))!==JSON.stringify(visible(s)))fail(403,'Your current patient scope changed while the report was being recorded. No figures were returned.');
  const currentRun=indicatorRun(current,currentMember,q,new Date(result.computedAt));

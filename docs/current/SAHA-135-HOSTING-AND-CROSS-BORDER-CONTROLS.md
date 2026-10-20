@@ -25,7 +25,7 @@ The owner-only `GET /api/hosting-controls` exposes policy metadata and the expli
 
 ## Validation performed
 
-- `node tests/hosting-controls-contract.mjs` — **34/34 passed**. Covers owner authorization, active deployment binding for storage/backup/analytics/support, exact assertions for all five processing areas, primary-storage command wiring, support and analytics export wiring, actual adapter-location mismatch, wrong policy location/target/purpose/direction refusal, draft refusal, duplicate/invalid input, stale-version race refusal, replay-safe versioning, audit evidence and UI fields. Synthetic only; no provider contacted.
+- `node tests/hosting-controls-contract.mjs` — **36/36 passed**. Covers owner authorization, active deployment binding for storage/backup/analytics/support, exact assertions for all five processing areas, primary-storage command wiring, support and analytics export wiring and final-response revocation races, actual adapter-location mismatch, wrong policy location/target/purpose/direction refusal, draft refusal, duplicate/invalid input, stale-version race refusal, replay-safe versioning, audit evidence and UI fields. Synthetic only; no provider contacted.
 - `node tests/service-dispatch-contract.mjs` — **104/104 passed**. Existing execution-boundary authority and audit-window race coverage remained green; the new checks cover an otherwise approved adapter repointed to an unapproved location and retained policy/route/location/authority audit evidence.
 - `node tests/environment-contract.mjs` — **inherited harness failure retained**: the base harness omits `installed-transition-authority.js` while transpiling `programmes.ts`; execution stops before environment assertions. This test file was unchanged by SAHA-135.
 - `node node_modules/typescript/bin/tsc --noEmit` — passed.
@@ -33,7 +33,7 @@ The owner-only `GET /api/hosting-controls` exposes policy metadata and the expli
 - `npm run test:catalogue` — passed: 1,045 suites, 100 component modules, 49 support files.
 - `node scripts/audit-requirements.mjs --check` — passed after the requirement evidence was updated.
 - `npm run lint:baseline` — passed at the unchanged 1,392-error baseline. Existing warnings remain repository debt; this change adds no lint error.
-- `python3 scripts/check-documentation.py` with the bundled current Python runtime — passed against `application-saha135-hosting-controls-r1-sha256.json`: 2,077 current source files pinned, 176 requirements and 364 formal cases preserved, 38 generated documents verified. This is integrity evidence, not product execution or formal acceptance.
+- `python3 scripts/check-documentation.py` with the bundled current Python runtime — passed against `application-saha135-hosting-controls-r2-sha256.json`: 2,077 current source files pinned, 176 requirements and 364 formal cases preserved, 38 generated documents verified. This is integrity evidence, not product execution or formal acceptance.
 
 Exact current-source custody is in `tests/evidence/saha-135-hosting-controls/manifest.json`.
 
