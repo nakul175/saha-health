@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-10-20",
+  "command": "node scripts/test.mjs integration smoke --only integration/routine-authority-http,integration/routine-organisation-http,integration/routine-attempt-browser,smoke/routine-visit-browser --fast --guard --report tests/evidence/saha-155-contextual-academy/affected-summary.json",
+  "passed": 393,
+  "failed": 3,
+  "cause": "The first implementation added contextual learning to the existing routine-visit response and broke three frozen exact-response-shape assertions.",
+  "resolution": "The response-shape change was removed. Contextual learning now has a separate GET-only endpoint, while the original routine response remains unchanged.",
+  "finalEvidence": "tests/evidence/saha-155-contextual-academy/affected-summary.json",
+  "limits": "This is a retained factual console-result receipt. The runner result file was subsequently replaced by the final successful rerun. It is not a passing result."
+}

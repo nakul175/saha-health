@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **123 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **124 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -25,6 +25,7 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | POST | `/api/clinical-sources` | [app/api/clinical-sources/route.ts](../../app/api/clinical-sources/route.ts) |
 | GET | `/api/clinical-sources` | [app/api/clinical-sources/route.ts](../../app/api/clinical-sources/route.ts) |
 | POST | `/api/commands` | [app/api/commands/route.ts](../../app/api/commands/route.ts) |
+| GET | `/api/contextual-academy` | [app/api/contextual-academy/route.ts](../../app/api/contextual-academy/route.ts) |
 | GET | `/api/continuity` | [app/api/continuity/route.ts](../../app/api/continuity/route.ts) |
 | GET | `/api/data-exit` | [app/api/data-exit/route.ts](../../app/api/data-exit/route.ts) |
 | GET | `/api/delegations` | [app/api/delegations/route.ts](../../app/api/delegations/route.ts) |

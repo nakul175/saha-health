@@ -13,6 +13,8 @@ import './routine-visit.css';
 import InterfaceLanguage from './interface-language';
 import { I18nProvider, TranslationNotice } from '../i18n';
 import type { Language } from '@/lib/saha/messages';
+import ContextualAcademyPanel from './contextual-academy';
+import type { ContextualAcademy } from '@/lib/saha/contextual-academy';
 
 const conflictGroupText=(id:string,value:Facts)=>{
   if(id==='context')return 'Visit observation time (UTC): '+value.date+'\nDefault source: '+SOURCE_LABEL[value.source];
@@ -30,6 +32,7 @@ type Attempt = { key: string; command: Record<string, unknown>; personId: string
 export default function RoutineVisit() {
   const [context, setContext] = useState<RoutineContext | null>(null);
   const [displayLanguage,setDisplayLanguage]=useState<Language>('en');
+  const [learning,setLearning]=useState<ContextualAcademy>({status:'unavailable',optional:true,requiresAdditionalLogin:false,careGate:false,completionTracking:'none',reason:'not-configured'});
   const [languageBinding,setLanguageBinding]=useState<{actorId:string;organisationId:string;personId:string}|null>(null);
   const [facts, setFacts] = useState<Facts | null>(null);
   const [notice, setNotice] = useState('Loading routine visit…');
@@ -102,6 +105,22 @@ export default function RoutineVisit() {
       }).catch(cause => { if (!controller.signal.aborted) setNotice(cause.message); });
     return () => { mounted.current = false; controller.abort(); };
   }, []);
+  useEffect(()=>{
+    if(!context||!boundActor.current)return;
+    setLearning({status:'unavailable',optional:true,requiresAdditionalLogin:false,careGate:false,completionTracking:'none',reason:'not-configured'});
+    const controller=new AbortController(),personId=context.person.id,organisationId=context.organisationId,actorId=boundActor.current;
+    void fetch('/api/contextual-academy?personId='+encodeURIComponent(personId),{cache:'no-store',credentials:'same-origin',signal:controller.signal,headers:{'x-saha-organisation':organisationId}})
+      .then(async response=>{
+        if([401,403,404].includes(response.status)){clearProtected();setNotice('Access refused. Protected content cleared.');return null;}
+        if(!response.ok)return null;
+        if(response.headers.get('x-saha-operation-actor')!==actorId){clearProtected();setNotice('The signed-in account changed. Protected content cleared.');return null;}
+        const value=await response.json() as ContextualAcademy;
+        if(!value||!['available','unavailable'].includes(value.status)||value.optional!==true||value.requiresAdditionalLogin!==false||value.careGate!==false||value.completionTracking!=='none'||(value.status==='available'&&!Array.isArray(value.items)))return null;
+        return value;
+      }).then(value=>{if(!controller.signal.aborted&&value)setLearning(value);})
+      .catch(()=>{if(!controller.signal.aborted)setLearning({status:'unavailable',optional:true,requiresAdditionalLogin:false,careGate:false,completionTracking:'none',reason:'invalid-configuration'});});
+    return()=>controller.abort();
+  },[context?.person.id,context?.organisationId,clearProtected]);
   useEffect(() => {
     const guard = (event: BeforeUnloadEvent) => { if (dirty || uncertain) { event.preventDefault(); event.returnValue = ''; } };
     window.addEventListener('beforeunload', guard); return () => window.removeEventListener('beforeunload', guard);
@@ -279,6 +298,7 @@ export default function RoutineVisit() {
         {visit && <p>Visit {visit.id} · version {visit.version} · {visit.voidedAt ? 'Voided encounter on server' : visit.supersededBy ? 'Superseded encounter on server' : visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p>}
       </section>
       <RoutineSaveStatus visit={visit ?? null} dirty={dirty} busy={busy} uncertain={uncertain}/>
+      <ContextualAcademyPanel learning={learning}/>
       {!visit ? <button disabled={busy || uncertain} onClick={() => void send({ type: 'startVisit', personId: context.person.id }, 'Server draft started or resumed and read back.')}>Start or resume routine draft</button> : facts &&
       <div lang={displayLanguage}><GuidedCapture enabled={true} identity={context.person.name + ' · ' + context.person.id} problems={problems}
         steps={[{id:'time',label:'Observation time'},...MEASURES.map(measure => ({id:factStep(measure),label:measure})),{id:'notes',label:'Visit notes'},{id:'review',label:'Review and save'}]}>

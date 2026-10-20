@@ -1,0 +1,37 @@
+{
+  "suite": "Contextual Aplyd Academy learning",
+  "layer": "integration",
+  "passed": 18,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-20T14:34:17.473Z",
+  "completedAt": "2026-10-20T14:34:19.599Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Actual built local Worker/D1 with synthetic users, source-hashed synthetic content, and native audit interposition.",
+    "No external Academy provider, real patient, content approval, formal acceptance, CI, hosted, or field-device claim."
+  ],
+  "measures": [],
+  "checks": [
+    "Current assigned ASHA receives source-bound learning",
+    "Response adds no login or care gate",
+    "Response records no inferred completion",
+    "Response contains no patient or visit payload",
+    "Response is bound to the authenticated actor",
+    "Response is private and non-sniffable",
+    "Learning read is durably audited without content or person name",
+    "Anonymous request is refused",
+    "Owner role cannot use ASHA contextual learning",
+    "Non-member cannot select the organisation",
+    "Unassigned person is refused",
+    "Extra selector is refused",
+    "Duplicate selector is refused",
+    "Changed authority during the read refuses before disclosure",
+    "Restored current authority permits a fresh learning read",
+    "Invalid catalogue fails closed to a non-blocking unavailable state",
+    "Invalid catalogue does not block the ordinary routine task",
+    "No external provider was contacted or completion record written"
+  ],
+  "realProvidersCalled": false,
+  "syntheticContentOnly": true
+}
