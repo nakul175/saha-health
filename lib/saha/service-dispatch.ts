@@ -7,6 +7,7 @@ import {frontlineAgreement,independentTargets,requireServiceIdentity,requireServ
 import type {OrgState,Member} from './types';
 import type {AccessPurpose} from './purpose-scope';
 import {requireApprovedDataFlow} from './data-flow-authority';
+import {ensureProviderSupply} from './operations';
 export type DispatchContext={intent:'send'|'lookup'|'probe';direction?:'read'|'write'|'send'|'lookup'|'probe';purpose?:AccessPurpose;runtime?:Record<string,string|undefined>;authorize?:(state:OrgState,member:Member)=>void|Promise<void>;auditAlreadyRecorded?:boolean};
 // Opt-in authority. A binding cannot be removed/replaced between preparation and dispatch
 // to bypass a revocation. Completed receipts remain evidence and never trigger dispatch.
@@ -26,6 +27,7 @@ export async function serviceDispatch(db:D1Database,s:OrgState,u:Actor,m:Member,
  if(!i&&!independentTargets.includes(targetId))fail(403,'Service target no longer exists. Nothing was sent.');
  if(i&&!targetAvailable(i,context?.intent==='probe'))fail(403,'Service target is no longer active. Nothing was sent.');
  assertTarget(s,fresh,targetId,context?.intent==='probe');
+ ensureProviderSupply(fresh,targetId,new Date().toISOString(),context?.runtime);
  const si=legacyUnbound?undefined:requireServiceIntent(requireServiceIdentity(fresh,bound!,kind,targetId),context?.intent ?? 'send');
  if(!context?.auditAlreadyRecorded)await recordAccess(db,fresh,u,member,{action:'externalRequest',subject:targetId,personId,detail:si?`Service dispatch authorised: initiating human ${u.userId}; service ${si.id}; target ${targetId}; accountable owner ${si.ownerId}; expires ${si.expiresAt}.`:`Legacy unbound service dispatch revalidated: initiating human ${u.userId}; target ${targetId}. No managed service identity is claimed.`});
  const checkpoint=await readState(db,s.organisation.id),current=scope(checkpoint,u.userId);
@@ -34,6 +36,7 @@ export async function serviceDispatch(db:D1Database,s:OrgState,u:Actor,m:Member,
  const checkpointIntegration=checkpoint.workspace.integrations.find(x=>x.id===targetId);
  if(!checkpointIntegration||checkpointIntegration.mode==='http')requireApprovedDataFlow(checkpoint,targetId,{purpose:context?.purpose,direction:context?.direction??context?.intent,runtime:context?.runtime});
  assertTarget(s,checkpoint,targetId,context?.intent==='probe');
+ ensureProviderSupply(checkpoint,targetId,new Date().toISOString(),context?.runtime);
  if(!legacyUnbound)requireServiceIntent(requireServiceIdentity(checkpoint,expected!,kind,targetId),context?.intent ?? 'send');
  if(personId){const p=checkpoint.workspace.people.find(x=>x.id===personId);if(!p||!normallyAllowed(current,p,checkpoint.operations?.accessScope))fail(403,'Patient scope changed during audit. Nothing was sent.');}
  if(i&&!targetAvailable(checkpoint.workspace.integrations.find(x=>x.id===targetId),context?.intent==='probe'))fail(403,'Service target changed during audit. Nothing was sent.');

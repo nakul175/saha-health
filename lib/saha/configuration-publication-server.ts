@@ -3,6 +3,7 @@ import {boundedJsonBody} from './request-body';
 import {digest,fail} from './core';
 import {persist,scope} from './store';
 import {applyConfigurationPublication,assertConfigurationRegistry,configurationPublicationSchema,configurationPublisher,configurationReleasesOf,configurationReviewer,MAX_CONFIGURATION_RELEASES} from './configuration-publication';
+import {ensureOperating} from './operations';
 
 const access=(m:ReturnType<typeof scope>)=>configurationPublisher(m)||configurationReviewer(m);
 export async function configurationPublicationRead(request:Request){
@@ -16,5 +17,5 @@ export async function configurationPublicationPost(request:Request){
  const trusted=await identity(),origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin||request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Cross-origin configuration changes refused.');if(!request.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON.');
  const raw=await boundedJsonBody(request,6000),parsed=configurationPublicationSchema.safeParse(raw);if(!parsed.success)fail(422,'Use the versioned configuration publication contract.');const c=parsed.data;if(c.expectedActorId!==trusted.userId)fail(403,'Signed-in account changed. Refresh before acting.');const s=await loadFor(trusted,request.headers.get('x-saha-organisation')),m=scope(s,trusted.userId);if(!access(m))fail(403,'Current configuration publication access is required.');const key=request.headers.get('idempotency-key');if(!key||!/^[a-zA-Z0-9_-]{8,100}$/.test(key))fail(422,'Retain an original request key.');
  const hash=await digest(raw),saved=await db().prepare('SELECT org_id,hash,result,command_type FROM command_receipts WHERE actor_id=? AND key=?').bind(trusted.userId,key).first<{org_id:string;hash:string;result:string;command_type:string}>();if(saved){if(saved.org_id!==s.organisation.id||saved.hash!==hash)fail(409,'Original request key belongs to different input.');if(saved.command_type!==c.type)fail(409,'Original request key belongs to another operation.');return json({...JSON.parse(saved.result),replayed:true});}
- const before=structuredClone(s),result=await applyConfigurationPublication(s,c,trusted,m);if(!result)fail(422,'Use the versioned configuration publication contract.');await persist(db(),before,s,trusted,{type:c.type},key,hash,result);return json(result);
+ ensureOperating(s,c);const before=structuredClone(s),result=await applyConfigurationPublication(s,c,trusted,m);if(!result)fail(422,'Use the versioned configuration publication contract.');await persist(db(),before,s,trusted,{type:c.type},key,hash,result);return json(result);
 }

@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "receiptType": "exact-staged-successor-integration",
+  "story": "SAHA-133",
+  "scope": "Provider and supply-chain assurance",
+  "createdAt": "2026-10-20T20:42:42.331151Z",
+  "integration": {
+    "baseCommit": "97521ac19e98f7033e00f2458b1aa991e46ef125",
+    "historicalCandidateCommit": "eaf872cc",
+    "historicalReceiptsApplicable": false,
+    "conflictUnion": "Preserved accumulated SAHA-134 incident-response behavior while applying reviewed SAHA-133 successor."
+  },
+  "contract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-156.md",
+    "sha256": "a4a1809eef9d3dca1f8d9edfde98d7249ff87914cedd20d87eaf547f326e528c"
+  },
+  "review": {
+    "status": "PASS",
+    "reviewer": "independent-agent:/root/saha113_panel",
+    "previousBlockersResolved": [
+      "live dispatch fail-closed assurance gate",
+      "post-activation exact release identity"
+    ],
+    "conflictUnionReview": "PASS"
+  },
+  "validation": {
+    "supplyChainAssurance": "45/45 PASS",
+    "serviceDispatch": "109/109 PASS",
+    "frontlineProvider": "109/109 PASS",
+    "anaemiaProvider": "58/58 PASS",
+    "deploymentConfiguration": "34/34 PASS",
+    "configurationPublication": "23/23 PASS",
+    "incidentResponsePreservation": "24/24 PASS",
+    "typecheck": "PASS",
+    "productionBuild": "PASS"
+  },
+  "indexedFiles": {
+    "app/operations-panel.tsx": {
+      "changeStatus": "M",
+      "baseBlobOid": "99c48441de184537b3c092e2a08613b6dcc84638",
+      "baseSha256": "0f7eb658f27595155e3cdaeea8de658eb2b90839dde783ad36b69ef008241ce4",
+      "stagedBlobOid": "8e08fd1b55222618ce2697ad6d3c5ae6c6969b3a",
+      "stagedSha256": "9ef32364de8a13be91abf11d84bffbab9e2de981909d7f53aa241a2553386935"
+    },
+    "app/supply-chain-panel.tsx": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "4b31e03cbec11ba362694b58fb4232eb1a5fdd84",
+      "stagedSha256": "06f127eeadf35c6a3b53c7f1dcf17cc2f971c29a066f36bfa3da4772344f674a"
+    },
+    "docs/current/SAHA-133-PROVIDER-SUPPLY-CHAIN-LOCAL-CODING-COMPLETION-20261020.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "64f0f7495ae09caed6d4617551a334aa300670fa",
+      "stagedSha256": "4454a25f4494bf99b1161757402abc037293fe92890b9d12f8d0e1116429e8f1"
+    },
+    "lib/saha/anaemia-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "6b7190c1be7067e1d1b46ed7ba701125b5de3748",
+      "baseSha256": "b7575d55673f48b2ff1017e2db3869bbdb2fcaf524d840066a727d385824d166",
+      "stagedBlobOid": "d8cdafe475eb26625d9a3c341c9d4699e484f146",
+      "stagedSha256": "1a1b8eca0a14d093b68a9681ac95b1e374d13296e6ecbb3cb8f26527a156bf90"
+    },
+    "lib/saha/configuration-publication-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "377a75fade624a51fcd34414a7ca0bc50f181042",
+      "baseSha256": "895af36f3ea6948f9865a144a4efdf81863bc560d5721ac3507f1a5e8ea3f788",
+      "stagedBlobOid": "1b25d3cde627342e93741e76d0248b4eff7a7b39",
+      "stagedSha256": "39fbf0bd656779ee9cd3aa3b37ecd2ae34c4cb64c0f092abb8de10330da2f5e9"
+    },
+    "lib/saha/frontline-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "2548cf1567ef0085433cbef6f1406bf6c0b594e8",
+      "baseSha256": "06d4c2843fe519c8860853766b8f9d39f3426f32acaccb67418dcc1a1ccd7cae",
+      "stagedBlobOid": "397f79072989dfbabb22d7360080c476609f9da5",
+      "stagedSha256": "1893ff190728ee84b73595052e05c7fc48f410d8e39ea8ed2dfe7325800c1af9"
+    },
+    "lib/saha/operations-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "9244d3cbe693acac341bd9e4ed829232aa919375",
+      "baseSha256": "8091af037fc60c8d2605de98d534bf97d164b3eaa454bc220ae53422fe2dbd1a",
+      "stagedBlobOid": "40a9cfed507030a6da2f8c7f4a7508a793d495d5",
+      "stagedSha256": "64a33bfcc6e9d0792f0ee5125c4f89b887e3057a84e7872ea013f6ae7466faf0"
+    },
+    "lib/saha/operations.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "c599aa75dc4a33e0a94257fbe914001ee1daa3b7",
+      "baseSha256": "b04ff609ee58d5cbe189e72cf7086a1d9adc80f4efe8ae1c3254a46c8f08fb0f",
+      "stagedBlobOid": "61e0c012475ea952b5ca1486f20c796a51b3c803",
+      "stagedSha256": "6eba714a98253f03b658a89e268c35c10eb5b6a1509cbd872d7f0c201b19425c"
+    },
+    "lib/saha/service-dispatch.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "efbc471014533ae9fc10903e99874e3ba714a63f",
+      "baseSha256": "8c9d36225b43520584ed3d0cab0af203ec217abdb6bd827449cc7f15f3bbd8df",
+      "stagedBlobOid": "bbbfbfd0e863313f102cb38cfe2e2ca77ae3f49d",
+      "stagedSha256": "9524020995f2aaff812a4fb9155cc4a155380a8a0587515c22af4e1c1780a1a6"
+    },
+    "tests/anaemia-provider-contract.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "97cf707e5ed1f33b2c8f12d1fc5ab7f3f6fc6faa",
+      "baseSha256": "16a9804210fc92dbccf84d84e6432bf89dbfa71d299e78c06e788cb98540b577",
+      "stagedBlobOid": "43bc8b0f99e39c125b97ab5de42b37a9e9c0b374",
+      "stagedSha256": "cddc59ac5185d6cd84dde5dea97a6be4a97d1716709080debcfa8be83058d820"
+    },
+    "tests/evidence/service-identity-wiring/service-dispatch-result.json": {
+      "changeStatus": "M",
+      "baseBlobOid": "9405f9a16af7092f68c2fa15a406440ab97572e5",
+      "baseSha256": "72189af2c9abb17d3952b58a39dfc290a84b06911505fc401a5e3817e73c980a",
+      "stagedBlobOid": "7de47c6ed26265881a5ddfa82a751a24015205bf",
+      "stagedSha256": "1c5eab2f9ad589bf9f913832a545402c2ae94f495296b7e6b70cf407f3edaffe"
+    },
+    "tests/frontline-provider-contract.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "95f5252a5fcb1ece1a56a8b40daa4763c9fb510c",
+      "baseSha256": "03605e83253ff626ec5c13168426d6c4473b0f4d362eb87ffabb8816c241ef36",
+      "stagedBlobOid": "fd07f6fe9d52aa2dd5c1fa3b39f3c21d962facbd",
+      "stagedSha256": "5bbc9318af13aa3a42912211318bcbbb88fda575fa21aa0d1c8b1ccffbe9726e"
+    },
+    "tests/service-dispatch-contract.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "e412986809a397ff9cb176029cf4b9a37b73ee6b",
+      "baseSha256": "f75362fe51f9958f5494252694f17d8a40f1da072d542b0fb1d833a9be044057",
+      "stagedBlobOid": "6ba21272a7644467468bffd269f64f85ad4529c4",
+      "stagedSha256": "0c6aae62c3c2f05c70281e99b7ddd55631dca9df11a1505bebad157be55ac586"
+    },
+    "tests/supply-chain-assurance-contract.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "73acd00aab2e4408d11885df1de4dc6f27a15e84",
+      "stagedSha256": "f1334cf26aaeac2870c6ced8cf83fb6f65aaaf6efb8b756b1a6ea5dd159825ff"
+    },
+    "tests/supply-chain-assurance-result.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "2b4054c652cc0fce6e2e2d9b5003da4bc6a6e331",
+      "stagedSha256": "ad5d0eff8d182258793d6d1534208244862270e5d97876b01b99eae178964c7f"
+    }
+  },
+  "hashConvention": {
+    "algorithm": "SHA-256",
+    "manifestDigest": "SHA-256 of UTF-8 canonical JSON (sorted keys, compact separators) after removing the entire integrity object",
+    "receiptSelfHandling": "receipt excluded from indexedFiles to avoid recursive self-hashing"
+  },
+  "integrity": {
+    "manifestSha256": "3a1e779db5a71df0bbdf85ea6982b4659e3b135c9e63ec6a4b776c48a518021c"
+  }
+}
