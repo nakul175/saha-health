@@ -1,7 +1,7 @@
 // SAHA-103 / APL-126 engineering contract. Synthetic only; it is not formal TC-BR-CARE-05 or TC-J11 acceptance.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -9,7 +9,7 @@ const dir=mkdtempSync(join(process.cwd(),'.unified-action-plan-contract-'));let 
 const check=fn=>{fn();passed++;};
 const status=(fn,code,label)=>{try{fn();}catch(e){assert.equal(e.status,code,`${label}: ${e.message}`);return;}assert.fail(`${label}: expected ${code}`);};
 try{
- for(const f of ['adapter-operations','core','fact-provenance','facility-scope','installed-transition-authority','mis','programme-completion','programmes','purpose-scope','access','referral-needs','referral-rules','types','plan-dependency-state','referral-consolidation'])
+ for(const f of readdirSync('lib/saha').filter(x=>x.endsWith('.ts')).map(x=>x.slice(0,-3)))
   writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const R=await import(pathToFileURL(join(dir,'referral-consolidation.js')));
  const D=await import(pathToFileURL(join(dir,'plan-dependency-state.js')));
@@ -30,6 +30,7 @@ try{
  check(()=>assert.deepEqual([first.created,first.consolidated,first.adopted],[1,0,0]));
  const shared=s.workspace.referrals[0];
  check(()=>assert.equal(s.workspace.referrals.length,1));
+ check(()=>assert.equal(shared.version,1,'a newly created referral starts at version 1 and is not treated as an adopted legacy referral'));
  check(()=>assert.equal(shared.packRequests.length,2));
  check(()=>assert.deepEqual(shared.sources.map(x=>x.refId).sort(),['e1','e2']));
  check(()=>assert.deepEqual(shared.packRequests.map(x=>x.reason),['Synthetic programme-specific reason e1','Distinct reason retained for pack two']));

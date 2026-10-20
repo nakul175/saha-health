@@ -136,7 +136,7 @@ export function applyProgrammeReferrals(s: OrgState, input: unknown, u: Actor, m
     if ((referral?.packRequests?.length ?? 0) + newAsks.length > MAX_PACK_REQUESTS) fail(422, 'A referral can record at most 20 programme requests.');
     const newSources = newAsks.filter(a => !(referral?.sources ?? []).some(x => x.kind === 'programme-episode' && x.refId === a.episode.id)).length;
     if ((referral?.sources?.length ?? 0) + newSources > 20) fail(422, 'A referral can have at most 20 linked sources.');
-    plans.push({ group: g, referral, created: !referral, adopted: referral === legacy, newAsks });
+    plans.push({ group: g, referral, created: !referral, adopted: !!legacy && referral === legacy, newAsks });
   }
   if (plans.every(x => !x.created && !x.adopted && !x.newAsks.length)) fail(409, 'Every request was already recorded on an open referral.');
 
