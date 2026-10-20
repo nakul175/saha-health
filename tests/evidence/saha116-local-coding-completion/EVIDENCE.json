@@ -1,0 +1,92 @@
+{
+  "format": "saha-local-coding-completion-evidence-1",
+  "storyId": "SAHA-116",
+  "linearIssue": "APL-139",
+  "baseCommit": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "contract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-139.md",
+    "sha256": "63116b082bb102982244c3e99225d58f5e60cd160bee89178a3fa6485d568277"
+  },
+  "result": {
+    "codingComplete": true,
+    "tested": true,
+    "exactSourceCi": "not-run",
+    "merged": false,
+    "observedDeployed": false,
+    "formalAcceptance": "pending",
+    "independentReview": "pending"
+  },
+  "tests": [
+    {
+      "command": "node tests/configuration-publication-contract.mjs",
+      "passed": 23,
+      "failed": 0
+    },
+    {
+      "command": "node tests/configuration-publication-http.mjs",
+      "passed": 29,
+      "failed": 0
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "status": "passed"
+    },
+    {
+      "command": "npm run build",
+      "status": "passed"
+    }
+  ],
+  "retainedFailures": [
+    "tests/operations-contract.mjs, tests/pack-installation-contract.mjs and tests/programme-migration-contract.mjs stop before assertions because their fixed transpile lists omit the inherited installed-transition-authority.js dependency."
+  ],
+  "files": [
+    {
+      "path": "app/api/configuration-publications/route.ts",
+      "sha256": "00e6705317568a0e072c9ee02aa2b4cdcea7e43d7697f0f2f47b9043a52d4d2e"
+    },
+    {
+      "path": "app/configuration-publication-panel.tsx",
+      "sha256": "43df0a5d6e84ef4416b9f0d40a2873d6d7544debcb6842ca371b50a826b19eb2"
+    },
+    {
+      "path": "app/operations-panel.tsx",
+      "sha256": "8e42f1f94d61094e8aa1094c5e64a10ceab4c3ed87803c1b5b0c03f348822b06"
+    },
+    {
+      "path": "docs/current/SAHA-116-LOCAL-CODING-COMPLETION-20261020.md",
+      "sha256": "374373b1baecca77fb71f3b38c991e637a38a3a4609980a9ba8e1cb05bf25699"
+    },
+    {
+      "path": "lib/saha/configuration-publication-server.ts",
+      "sha256": "336cf44e533df9894246b025951e85e137c96f19ecfadffc9763634e805f9ad2"
+    },
+    {
+      "path": "lib/saha/configuration-publication.ts",
+      "sha256": "893f513b83ad33264ca685fe794d23e241c5b6c9bdbde2af963bc372e2198abe"
+    },
+    {
+      "path": "lib/saha/monitoring.ts",
+      "sha256": "d317f164b44209ec127280fa877db250b1af87eb6b5a7a502532584e2db35aae"
+    },
+    {
+      "path": "lib/saha/operations.ts",
+      "sha256": "9005f9402b6539b8af534570754779dafbc7ddc1436d8c3d2c4dd5f9dcac26f2"
+    },
+    {
+      "path": "tests/configuration-publication-contract.mjs",
+      "sha256": "98213cd5054b65be34407450a9fa08c6e21eda00b55c4e373d1c42d71573ec9d"
+    },
+    {
+      "path": "tests/configuration-publication-http.mjs",
+      "sha256": "9b90712f122134c91da32b67f61bd375bdac8042a44ff754a0435ee2240c9005"
+    },
+    {
+      "path": "tests/evidence/saha116-local-coding-completion/contract.json",
+      "sha256": "ae241f150c9a93e43c516dc157fed17fdbe78f26b48882d7eec4c4d8b97db17a"
+    },
+    {
+      "path": "tests/evidence/saha116-local-coding-completion/http.json",
+      "sha256": "d606b0d6da768374d33434c94ab03de2ffdb4ccd7b09c15e4b3d0ea15132bb7f"
+    }
+  ]
+}
