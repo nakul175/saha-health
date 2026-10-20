@@ -30,7 +30,9 @@ export function figureMeasure(u:FigureUnit,id:MeasureId,since:string,until:strin
   case 'patients':return 1;case 'patients-seen':return visits.length?1:0;case 'visits-confirmed':return visits.length;
   case 'followups-open':return u.followupDue.length;case 'followups-overdue':return u.followupDue.filter(d=>d<until.slice(0,10)).length;
   case 'referrals-created':return u.referrals.filter(r=>inWindow(r.at)).length;case 'referrals-completed':return u.referrals.filter(r=>inWindow(r.at)&&r.completed).length;
-  case 'maternal-episodes-active':return u.maternal;case 'open-work-unowned':return u.unowned;case 'submissions-unresolved':return u.unresolved;
+  case 'maternal-episodes-active':return u.maternal;case 'open-work-unowned':return u.unowned;
+  case 'submissions-accepted':return (u.sourceVersions.submissions??[]).filter(x=>x.state==='accepted'&&inWindow(x.updatedAt)).length;
+  case 'submissions-unresolved':return u.unresolved;
   case 'reuse-opportunities':return visits.reduce((n,v)=>n+v.reuse[0],0);case 'reuse-served':return visits.reduce((n,v)=>n+v.reuse[1],0);case 'reuse-blocked':return visits.reduce((n,v)=>n+v.reuse[2],0);case 'reuse-blocked-unknown':return visits.reduce((n,v)=>n+v.reuse[3],0);case 'reuse-blocked-not-measured':return visits.reduce((n,v)=>n+v.reuse[4],0);case 'reuse-blocked-declined':return visits.reduce((n,v)=>n+v.reuse[5],0);case 'reuse-blocked-unable':return visits.reduce((n,v)=>n+v.reuse[6],0);
   case 'repeat-entries':{let n=0;const seen=new Set<string>();for(const v of u.visits){if(seen.has(v.signature)&&inWindow(v.at))n++;seen.add(v.signature);}return n;}
   case 'corrections':return u.corrections.filter(v=>inWindow(v.amendedAt)||inWindow(v.voidedAt)).length;case 'identity-provisional':return u.provisional;

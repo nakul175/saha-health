@@ -23,7 +23,7 @@ const signature=(v:{facts:Record<string,any>})=>[String(v.facts.date??'').slice(
 // Slice 6s: the computation vocabulary. Every definition, built-in or owner-maintained, is a numerator
 // and optional denominator drawn from these per-patient measures, cohort filters from a fixed list and
 // exclusions from a fixed list. Bounded versioned calculations can combine these measures; free field access is refused.
-export type MeasureId='patients'|'patients-seen'|'visits-confirmed'|'followups-open'|'followups-overdue'|'referrals-created'|'referrals-completed'|'maternal-episodes-active'|'open-work-unowned'|'submissions-unresolved'|'reuse-opportunities'|'reuse-served'|'reuse-blocked'|'reuse-blocked-unknown'|'reuse-blocked-not-measured'|'reuse-blocked-declined'|'reuse-blocked-unable'|'repeat-entries'|'corrections'|'identity-provisional';
+export type MeasureId='patients'|'patients-seen'|'visits-confirmed'|'followups-open'|'followups-overdue'|'referrals-created'|'referrals-completed'|'maternal-episodes-active'|'open-work-unowned'|'submissions-accepted'|'submissions-unresolved'|'reuse-opportunities'|'reuse-served'|'reuse-blocked'|'reuse-blocked-unknown'|'reuse-blocked-not-measured'|'reuse-blocked-declined'|'reuse-blocked-unable'|'repeat-entries'|'corrections'|'identity-provisional';
 type Measure={id:MeasureId;label:string;sources:string[];count:(c:Ctx,p:Person)=>number};
 export const MEASURES:Measure[]=[
  {id:'patients',label:'Patients in the cohort',sources:['patients'],count:()=>1},
@@ -35,6 +35,7 @@ export const MEASURES:Measure[]=[
  {id:'referrals-completed',label:'Referrals created in the window now completed',sources:['referrals'],count:(c,p)=>c.s.workspace.referrals.filter(x=>x.personId===p.id&&inWindow(c,x.createdAt)&&x.state==='completed').length},
  {id:'maternal-episodes-active',label:'Maternal episodes active today',sources:['enrolments'],count:(_c,p)=>(p.enrolments??[]).filter(e=>e.packId==='maternal'&&e.state==='active').length},
  {id:'open-work-unowned',label:'Open items whose owner is not an active member',sources:['follow-ups','referrals','outreach'],count:(c,p)=>{const active=new Set(c.s.members.filter(m=>m.status==='active').map(m=>m.userId));return openPatientWork(c.s,p).filter(w=>!w.ownerId||!active.has(w.ownerId)).length;}},
+ {id:'submissions-accepted',label:'Programme submissions accepted in the window',sources:['submissions'],count:(c,p)=>c.s.workspace.submissions.filter(x=>x.personId===p.id&&x.state==='accepted'&&inWindow(c,x.updatedAt)).length},
  {id:'submissions-unresolved',label:'Submissions queued, sending, retryable or uncertain today',sources:['submissions'],count:(c,p)=>c.s.workspace.submissions.filter(x=>x.personId===p.id&&['queued','sending','retryable','uncertain'].includes(x.state)).length},
  {id:'reuse-opportunities',label:'Reuse opportunities: programme links beyond the first for questions shared by several packs in a confirmed visit',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).opportunities,0)},
  {id:'reuse-served',label:'Programme links served by one shared answer beyond the first',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).reused,0)},
@@ -147,7 +148,7 @@ export type Series={key:string;f:Record<string,string>;cells:Record<string,numbe
  // Slice 6ad (ninth review, finding 2): the window end, set by an aggregate report for a period that ended in the past.
  u?:string};
 // Slice 6aa: measures counted over the query window; the others describe today and do not depend on it.
-const PRIMITIVE_WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','reuse-opportunities','reuse-served','reuse-blocked','reuse-blocked-unknown','reuse-blocked-not-measured','reuse-blocked-declined','reuse-blocked-unable','repeat-entries','corrections']);
+const PRIMITIVE_WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','submissions-accepted','reuse-opportunities','reuse-served','reuse-blocked','reuse-blocked-unknown','reuse-blocked-not-measured','reuse-blocked-declined','reuse-blocked-unable','repeat-entries','corrections']);
 export const WINDOWED=new class extends Set<string>{has(id:string){if(PRIMITIVE_WINDOWED.has(id as MeasureId))return true;if(MEASURE_IDS.includes(id as MeasureId))return false;return expressionLeaves(referenceExpression(id)!).some(x=>PRIMITIVE_WINDOWED.has(x));}}(PRIMITIVE_WINDOWED);
 // A person's value of one measure over the window starting at `since` (ISO) and ending now.
 // Slice 6ad: `now` is the window end (and the moment a measure describing today is counted at).

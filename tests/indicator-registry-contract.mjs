@@ -11,7 +11,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'indicator-differencing', 'indicator-registry', 'indicators', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'indicator-differencing', 'indicator-registry', 'indicators', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'plan-dependency-state', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const x = await import(pathToFileURL(join(dir, 'indicators.js')));
   const reg = await import(pathToFileURL(join(dir, 'indicator-registry.js')));
@@ -25,7 +25,11 @@ try {
   const visits = people.map(p => ({ id: 'v-' + p.id, personId: p.id, state: 'confirmed', createdAt: recent, confirmedAt: recent }));
   const s = { organisation: { id: 'org' }, teams: [{ id: 't1', name: 'Team one' }], invitations: [], outreach: { plans: [], templates: [], messages: [] },
     members: [member('sup', 'supervisor', ['t1']), member('own', 'clinician', ['t1'], { isOwner: true }), member('admown', 'admin', [], { isOwner: true })],
-    workspace: { people, visits, submissions: [], referrals: [], integrations: [], audit: [] } };
+    workspace: { people, visits, submissions: [
+      ...['Alpur-0','Alpur-0','Alpur-1','Alpur-2','Alpur-3','Alpur-4','Alpur-5'].map((personId,i)=>({id:`accepted-${i}`,personId,state:'accepted',updatedAt:recent})),
+      {id:'accepted-old',personId:'Alpur-6',state:'accepted',updatedAt:old},
+      {id:'rejected-recent',personId:'Alpur-7',state:'rejected',updatedAt:recent},
+    ], referrals: [], integrations: [], audit: [] } };
   const M = id => s.members.find(m => m.userId === id), U = id => ({ userId: id, displayName: id, email: `${id}@example.invalid` });
   const spec = (over = {}) => ({ title: 'Older adults seen', unit: 'proportion', numerator: 'patients-seen', denominator: 'patients', filters: { ageBand: '50+' }, exclude: [], exclusionsNote: 'Merged records', owner: 'Programme manager', cadence: 'Monthly', minimumCohort: 5, ...over });
   const applyReleased=(state,input,actor,member,at='2026-09-29T10:00:00.000Z')=>{const r=reg.applyIndicatorRegistry(state,input,actor,member,at);if(!r||r.status!=='proposed')return r;const reviewed=reg.applyIndicatorRegistry(state,{type:'reviewIndicatorDefinition',id:r.id,expectedVersion:r.version,expectedGovernanceVersion:r.governanceVersion,decision:'approve',reason:'Independent synthetic fixture governance review'},U('sup'),M('sup'),at);reg.applyIndicatorRegistry(state,{type:'releaseIndicatorDefinition',id:r.id,expectedVersion:r.version,expectedGovernanceVersion:reviewed.governanceVersion,reviewEventId:reviewed.eventId,effectiveAt:at,reason:'Synthetic fixture reviewed release'},actor,member,at);return {id:r.id,version:r.version,status:input.type==='retireIndicatorDefinition'?'retired':'active'};};
@@ -34,6 +38,15 @@ try {
 
   // Built-in catalogue definitions are the registry's version 1 entries.
   check(() => { const r = x.registryRecords(s); assert.equal(r.length, 16); assert.ok(r.every(d => d.version === 1 && d.builtIn && d.by === 'built-in' && d.status === 'active')); assert.equal(x.catalogue(s).length, 16); });
+  // The fixed vocabulary distinguishes visit events, unique people and accepted programme submissions.
+  check(() => {
+    const acceptedSpec=spec({title:'Accepted programme submissions',unit:'count',numerator:'submissions-accepted',denominator:null,filters:{},exclusionsNote:'Rejected, cancelled and out-of-window submissions'});
+    const added=applyReleased(s,{type:'addIndicatorDefinition',id:'accepted-submissions',spec:acceptedSpec,reason:'Count accepted programme submissions separately from visits and people'},U('own'),M('own'));
+    const result=x.indicatorQuery(s,M('sup'),q(['accepted-submissions']),now).results[0];
+    assert.deepEqual(added,{id:'accepted-submissions',version:1,status:'active'});
+    assert.equal(result.rows[0].value,7,'two accepted submissions for one person remain two programme events');
+    assert.deepEqual(['visits-confirmed','patients-seen','submissions-accepted'].map(id=>x.measureValue(s,people[0],id,'2026-09-01T00:00:00.000Z',now)),[1,1,2]);
+  });
   // Only an active owner maintains the registry; the same check runs on replay.
   check(() => { status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: spec() }), U('sup'), M('sup')), 403); status(() => reg.authorizeIndicatorRegistry(s, { ...M('own'), isOwner: false }, { type: 'retireIndicatorDefinition' }), 403); status(() => reg.authorizeIndicatorRegistry(s, { ...M('own'), status: 'suspended' }, { type: 'addIndicatorDefinition' }), 403); assert.equal(applyReleased(s, { type: 'opsMaintenance' }, U('own'), M('own')), null); });
   // Definitions use the fixed vocabulary only.
