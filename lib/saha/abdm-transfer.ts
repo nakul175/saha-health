@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { AppError, fail, person, uuid } from './core';
 import { assertPatientDocumentNotes, assertOutboundPrivacy, fhirDocument, inspectDocument, type DocumentSummary } from './fhir-document';
 import { validateOutbound, type ValidationStamp } from './fhir-validate';
-import { abdmOperation, consentAllows, effective, requireAbdmCapability } from './abdm';
+import { abdmConfig, abdmOperation, consentAllows, effective, requireAbdmCapability } from './abdm';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 
@@ -13,8 +13,10 @@ import type { Member, OrgState, Person } from './types';
 // validated against ABDM's encryption library or any partner.
 export type CareContext={id:string;visitId:string;display:string;hiType:'OPConsultation';recordDate:string;linkedAt:string;linkedBy:string;abhaNumber:string};
 export type ReceivedRecord={id:string;consentId:string;transferId:string;careContextId:string;hiType:string;recordDate:string;checksum:string;bundle:any;validation?:ValidationStamp;state:'review'|'accepted'|'rejected'|'quarantined';receivedAt:string;source?:string;effectiveDate?:string;documentIdentifier?:string;patientId?:string;observations?:DocumentSummary['observations'];quarantineReason?:string;reviewedBy?:string;reviewedAt?:string;note?:string};
+export type TransferAuthority={consentId:string;purpose:string;hiTypes:string[];consentRequestedAt:string;consentDecidedAt:string|null;consentExpiresAt:string;personConsentVersion:number;abdmConfigVersion:number};
 export type Transfer={id:string;consentId:string;requestedAt:string;requestedBy:string;state:'delivered'|'failed';entries:number;acknowledgedAt?:string;message:string;
  requesterFacilityId?:string;providerFacilityId?:string;configVersion?:number;
+ authority?:TransferAuthority;events?:{at:string;state:string;ref?:import('./types').TraceRef}[];
  trace?:{stage:'request'|'encryption'|'transfer'|'acknowledgement'|'failure';at:string;status:'accepted'|'completed'|'failed';detail:string}[]};
 const id=z.string().trim().min(1).max(200),version=z.number().int().positive();
 export const transferSchema=z.discriminatedUnion('type',[
@@ -86,11 +88,12 @@ export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,no
  }
  else if(c.type==='abdmFetch'){
   requireAbdmCapability(s,'hiu','hiu.retrieve');
+  const cfg=abdmConfig(s);if(!cfg)fail(409,'Configure ABDM before fetching health information.');
   const consent=(p.abdmConsents??[]).find(x=>x.id===c.consentId);if(!consent)fail(404,'Consent artefact not found.');if(effective(consent,now)!=='GRANTED')fail(409,`Consent is ${effective(consent,now)}; nothing can be fetched.`);
   if((p.abdmTransfers??[]).length>=100)fail(422,'Transfer history limit reached for this patient.');
   const hiu=await pair(),nonce=crypto.getRandomValues(new Uint8Array(32));
   const payload=await mockHip(p,s,consent.id,{publicKey:b64(await crypto.subtle.exportKey('raw',hiu.publicKey)),nonce:b64(nonce)},now);
-  const entries=await receive(hiu.privateKey,nonce,payload,p.id.replace(/_/g,'-'),p.abdmReceived??[]);if((p.abdmReceived??[]).length+entries.length>200)fail(422,'Received-record limit reached for this patient; review and archive first.');const t:Transfer={id:uuid(),consentId:consent.id,requestedAt:now,requestedBy:u.userId,state:'delivered',entries:entries.length,acknowledgedAt:now,message:entries.length?'Entries decrypted, checksums verified, awaiting clinician review.':'No care context matched the consent.'};
+  const entries=await receive(hiu.privateKey,nonce,payload,p.id.replace(/_/g,'-'),p.abdmReceived??[]);if((p.abdmReceived??[]).length+entries.length>200)fail(422,'Received-record limit reached for this patient; review and archive first.');const t:Transfer={id:uuid(),consentId:consent.id,requestedAt:now,requestedBy:u.userId,state:'delivered',entries:entries.length,acknowledgedAt:now,message:entries.length?'Entries decrypted, checksums verified, awaiting clinician review.':'No care context matched the consent.',authority:{consentId:consent.id,purpose:consent.purpose,hiTypes:[...consent.hiTypes],consentRequestedAt:consent.requestedAt,consentDecidedAt:consent.decidedAt??null,consentExpiresAt:consent.expiresAt,personConsentVersion:p.consentVersion,abdmConfigVersion:cfg.version},events:[{at:now,state:'request validated'},{at:now,state:'FHIR documents validated and encrypted'},{at:now,state:'received, decrypted and checksum verified'},{at:now,state:'acknowledged: delivered'}]};
   (p.abdmTransfers??=[]).push(t);for(const e of entries)(p.abdmReceived??=[]).push({id:uuid(),consentId:consent.id,transferId:t.id,careContextId:e.careContextId,hiType:e.hiType,recordDate:e.recordDate,checksum:e.checksum,bundle:e.quarantineReason?null:e.bundle,validation:e.validation,state:e.quarantineReason?'quarantined':'review',receivedAt:now,source:e.source,effectiveDate:e.effectiveDate,documentIdentifier:e.documentIdentifier,patientId:e.patientId,observations:e.observations,quarantineReason:e.quarantineReason});
   const held=entries.filter(e=>e.quarantineReason).length;detail=`Mock HIU transfer under consent ${consent.purpose}: ${entries.length} encrypted entr${entries.length===1?'y':'ies'} received and checksum-verified; ${held} quarantined, ${entries.length-held} held for review. Local observations were not overwritten.`;result={transferId:t.id,entries:entries.length,quarantined:held};
  }

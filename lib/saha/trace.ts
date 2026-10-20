@@ -14,11 +14,12 @@ import { ACCESS_ACTION_NAMES, type Member, type OrgState, type Person, type Trac
 //
 // Content. Ids, states, times, attempt numbers, limits, command types and actor names only: no facts, notes,
 // payloads, document text, audit detail text or credentials.
-// Slice 6aa: 1.1.0 adds receiptExists/truncation; SAHA-117 1.2.0 adds the opaque destination trace id.
-export const TRACE_VERSION='1.2.0';
+// Slice 6aa: 1.1.0 adds receiptExists/truncation; SAHA-117 1.2.0 adds the opaque destination trace id;
+// SAHA-129 1.3.0 adds retrieval/transfer threads with their authority and transformation snapshots.
+export const TRACE_VERSION='1.3.0';
 export const MIS_MAX_ATTEMPTS=3;
 // Audit actions that belong to a visit's external work (listed for the visit even when not linked to a step).
-export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused','sendBlocked','scheduledTimeoutReview'] as const;
+export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','retrieveEhrDocument','ehrRetrievalResult','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused','sendBlocked','scheduledTimeoutReview','abdmConsentRequest','abdmConsentDecide','abdmConsentRevoke','abdmFetch'] as const;
 const DESTINATION=new Set(['misReceipt','ehrReceipt','agentResult']),CALLBACK=new Set(['misCallback']);
 const ID=/^[A-Za-z0-9_-]{1,200}$/;
 
@@ -39,6 +40,20 @@ export function linkTrace(before:OrgState,after:OrgState,command:string,key:stri
   const old=prevOps.get(o.id);if(old&&old.state===o.state&&old.at===o.at)continue;
   (o.events??=[]).push({at:o.at,state:o.state,ref:ref([o.id,o.visitId,p.id])});
  }
+ const prevDocuments=new Map((before.workspace.people??[]).flatMap(p=>(p.ehr?.documents??[]).map(d=>[d.id,(d.retrievals??(d.retrieval?[d.retrieval]:[])).flatMap(r=>r.events).length] as const)));
+ for(const p of after.workspace.people??[])for(const d of p.ehr?.documents??[]){
+  const events=(d.retrievals??(d.retrieval?[d.retrieval]:[])).flatMap(r=>r.events),n=prevDocuments.get(d.id)??0;
+  for(let i=n;i<events.length;i++)if(!events[i].ref)events[i].ref=ref([d.id,p.id]);
+ }
+ const prevRetrievals=new Map((before.workspace.people??[]).flatMap(p=>(p.ehr?.retrievals??[]).map(r=>[r.id,r.events.length] as const)));
+ for(const p of after.workspace.people??[])for(const r of p.ehr?.retrievals??[]){const n=prevRetrievals.get(r.id)??0;for(let i=n;i<r.events.length;i++)if(!r.events[i].ref)r.events[i].ref=ref([r.id,p.id]);}
+ const prevCandidates=new Map((before.workspace.people??[]).flatMap(p=>(p.ehr?.inboundCandidates??[]).map(c=>[c.id,(c.incoming.retrievals??(c.incoming.retrieval?[c.incoming.retrieval]:[])).flatMap(r=>r.events).length] as const)));
+ for(const p of after.workspace.people??[])for(const c of p.ehr?.inboundCandidates??[]){const events=(c.incoming.retrievals??(c.incoming.retrieval?[c.incoming.retrieval]:[])).flatMap(r=>r.events),n=prevCandidates.get(c.id)??0;for(let i=n;i<events.length;i++)if(!events[i].ref)events[i].ref=ref([c.id,p.id]);}
+ const prevTransfers=new Set((before.workspace.people??[]).flatMap(p=>(p.abdmTransfers??[]).map(t=>t.id)));
+ for(const p of after.workspace.people??[])for(const t of p.abdmTransfers??[]){
+  if(prevTransfers.has(t.id))continue;
+  for(const e of t.events??[])if(!e.ref)e.ref=ref([t.id,p.id]);
+ }
  // Slice 7g: aggregate report events (organisation-level, kept in the operations record).
  const prevReports=new Map((((before.operations as any)?.aggregateReports??[]) as {id:string;events:any[]}[]).map(r=>[r.id,r]));
  for(const r of (((after.operations as any)?.aggregateReports??[]) as {id:string;destinationId:string;attempts:number;events:{ref?:TraceRef;attempt?:number}[]}[])){const n=prevReports.get(r.id)?.events.length??0;for(let i=n;i<r.events.length;i++){const e=r.events[i];if(!e.ref){e.ref=ref([r.id,r.destinationId]);e.attempt=r.attempts;}}}
@@ -51,10 +66,10 @@ export function linkTrace(before:OrgState,after:OrgState,command:string,key:stri
 }
 
 // ---- reading ----
-export type TraceQuery={visit?:string;submission?:string;publication?:string};
+export type TraceQuery={visit?:string;submission?:string;publication?:string;document?:string;retrieval?:string;transfer?:string};
 export function parseTraceQuery(params:URLSearchParams):TraceQuery{
- const keys=['visit','submission','publication'] as const,given=keys.filter(k=>params.has(k));
- if(given.length!==1||[...params.keys()].length!==1)fail(422,'Name one visit, submission or publication, and nothing else.');
+ const keys=['visit','submission','publication','document','retrieval','transfer'] as const,given=keys.filter(k=>params.has(k));
+ if(given.length!==1||[...params.keys()].length!==1)fail(422,'Name one visit, submission, publication, retrieved EHR document or ABDM transfer, and nothing else.');
  const k=given[0],v=params.get(k)??'';if(!ID.test(v))fail(422,'Use a record identifier.');
  return {[k]:v};
 }
@@ -70,22 +85,27 @@ export function traceTarget(s:OrgState,m:Member,q:TraceQuery,now=new Date().toIS
  if(q.visit){v=s.workspace.visits.find(x=>x.id===q.visit);p=v&&s.workspace.people.find(x=>x.id===v!.personId);}
  else if(q.submission){const x=s.workspace.submissions.find(y=>y.id===q.submission);if(x){p=s.workspace.people.find(y=>y.id===x.personId);v=s.workspace.visits.find(y=>y.id===x.visitId);focus='submission:'+x.id;kind='submission';}}
  else if(q.publication){for(const y of s.workspace.people){const o=y.ehr?.operations.find(z=>z.id===q.publication);if(o){p=y;v=s.workspace.visits.find(z=>z.id===o.visitId);focus='ehr-publication:'+o.id;kind='ehr-publication';break;}}}
+ else if(q.document){for(const y of s.workspace.people){const d=y.ehr?.documents.find(z=>z.id===q.document&&z.origin==='ehr');if(d){p=y;focus='ehr-retrieval:'+d.id;break;}}}
+ else if(q.retrieval){for(const y of s.workspace.people){const r=y.ehr?.retrievals?.find(z=>z.id===q.retrieval);if(r){p=y;focus='ehr-retrieval-operation:'+r.id;break;}}}
+ else if(q.transfer){for(const y of s.workspace.people){const x=y.abdmTransfers?.find(z=>z.id===q.transfer);if(x){p=y;focus='abdm-transfer:'+x.id;break;}}}
  if(!p)return missing();
- if(allowed(m,p,now)){if(!v)return missing();return {scope:'full',person:p,visit:v,focus,threadIds:[]};}
+ if(allowed(m,p,now)){if(!v&&!q.transfer&&!q.document&&!q.retrieval)return missing();return {scope:'full',person:p,visit:v??null,focus,threadIds:(q.transfer||q.document||q.retrieval)&&focus?[focus]:[]};}
  if(operator(m)&&kind&&focus)return {scope:'redacted',person:p,visit:null,focus,threadIds:[focus],redactedKind:kind};
  return missing();
 }
 export type TraceAuditRow={id:string;at:string;actor_name:string;role:string;action:string;subject:string;seq:number|null};
 export type TraceReceiptRow={actor_id:string;key:string;created_at:string};
 export type Step={at:string;state:string;attempt:number|null;source:'command'|'destination'|'callback'|'not linked';command:string|null;traceId:string|null;actor:string|null;receiptId:string|null;receiptAt:string|null;receiptFound:boolean|null;auditId:string|null;auditSeq:number|null;linked:boolean};
-export type Thread={id:string;kind:'submission'|'ehr-publication'|'assistant';recordId:string;destination:string;state:string;receipt:string|null;receiptExists?:boolean;attempts:{used:number;limit:number|null;rule:string};limits:{timeMinutes:number|null;attempts:number|null}|null;taskAttempt:number|null;timedOut:boolean;steps:Step[];refusal:{operation:string;settingVersion:number;aggregateOnly:boolean;stage:string;at:string}|null};
+export type ExchangeAuthority={kind:'local-sharing'|'ehr-permission'|'abdm-consent';purpose:string|null;direction:string|null;reference:string|null;sourceVersion:string|null;consentVersion:number|null;status:'complete'|'incomplete';missing:string[]};
+export type Thread={id:string;kind:'submission'|'ehr-publication'|'ehr-retrieval'|'assistant'|'abdm-transfer';recordId:string;destination:string;state:string;receipt:string|null;receiptExists?:boolean;authority:ExchangeAuthority|null;transformation:{ruleset:string;version:string;contentHash:string|null}|null;attempts:{used:number;limit:number|null;rule:string};limits:{timeMinutes:number|null;attempts:number|null}|null;taskAttempt:number|null;timedOut:boolean;steps:Step[];refusal:{operation:string;settingVersion:number;aggregateOnly:boolean;stage:string;at:string}|null};
 type Raw={thread:Thread;steps:{at:string;state:string;attempt?:number;ref?:TraceRef}[]};
 function threads(s:OrgState,t:Target,now:string):Raw[]{
- const out:Raw[]=[],p=t.person,want=(id:string)=>t.scope==='full'||t.threadIds.includes(id);
- const base=(id:string,kind:Thread['kind'],recordId:string,destination:string,state:string):Thread=>({id,kind,recordId,destination,state,receipt:null,attempts:{used:0,limit:null,rule:''},limits:null,taskAttempt:null,timedOut:false,steps:[],refusal:null});
+ const out:Raw[]=[],p=t.person,want=(id:string)=>t.threadIds.length?t.threadIds.includes(id):t.scope==='full';
+ const base=(id:string,kind:Thread['kind'],recordId:string,destination:string,state:string):Thread=>({id,kind,recordId,destination,state,receipt:null,authority:null,transformation:null,attempts:{used:0,limit:null,rule:''},limits:null,taskAttempt:null,timedOut:false,steps:[],refusal:null});
  for(const x of s.workspace.submissions){
   if(x.personId!==p.id||(t.visit&&x.visitId!==t.visit.id)||!want('submission:'+x.id))continue;
   const th=base('submission:'+x.id,'submission',x.id,x.connectorName,x.state);th.receipt=x.receipt??null;th.refusal=x.refusal?{...x.refusal}:null;
+  const a=x.authority;th.authority={kind:'local-sharing',purpose:a?.purpose??null,direction:'write',reference:a?.planId??null,sourceVersion:a?`person ${a.personVersion}; visit ${a.visitVersion}; connector ${a.connectorVersion}`:null,consentVersion:a?.consentVersion??null,status:a?'complete':'incomplete',missing:a?[]:['submission authority snapshot']};th.transformation={ruleset:x.delivery?.mappingRevision?'governed MIS mapping':'legacy/untracked MIS mapping',version:x.delivery?.mappingRevision?.id??'untracked',contentHash:x.payloadHash};
   th.attempts=x.mode==='http'?{used:x.attempts,limit:MIS_MAX_ATTEMPTS,rule:`At most ${MIS_MAX_ATTEMPTS} sends with the same key; an unknown outcome is looked up, never resent.`}:{used:x.attempts,limit:1,rule:'Demo destination: one simulated delivery.'};
   const steps:Raw['steps']=x.delivery?x.delivery.events.map(e=>({at:e.at,state:e.state,attempt:e.attempt,ref:e.ref})):x.trace?.length?x.trace:[{at:x.updatedAt,state:x.state}];
   out.push({thread:th,steps});
@@ -93,9 +113,25 @@ function threads(s:OrgState,t:Target,now:string):Raw[]{
  for(const o of p.ehr?.operations??[]){
   if((t.visit&&o.visitId!==t.visit.id)||!want('ehr-publication:'+o.id))continue;
   const th=base('ehr-publication:'+o.id,'ehr-publication',o.id,s.workspace.integrations.find(i=>i.id===p.ehr?.links.find(l=>l.id===o.linkId)?.integrationId)?.name??'EHR',o.state);th.receipt=o.receipt??null;th.refusal=o.refusal?{...o.refusal}:null;
+  const permission=p.ehr?.permissions.find(g=>g.id===o.permissionId);th.authority={kind:'ehr-permission',purpose:permission?.purpose??null,direction:permission?.direction??'write',reference:o.permissionId??null,sourceVersion:`person consent ${o.consentVersion}; visit ${o.visitVersion}; connector ${o.integrationVersion}`,consentVersion:o.consentVersion,status:permission?'complete':'incomplete',missing:permission?[]:['permission reference']};th.transformation={ruleset:o.validation?.ruleset??'untracked FHIR validation',version:o.validation?.version??'untracked',contentHash:o.hash??null};
   th.attempts={used:o.state==='prepared'?0:1,limit:1,rule:'One publication per approval; an unknown outcome is looked up by document identifier, never published again.'};
   const steps:Raw['steps']=[...(o.events??[])];if(!steps.length||steps.at(-1)!.state!==o.state||steps.at(-1)!.at!==o.at)steps.push({at:o.at,state:o.state});
   out.push({thread:th,steps});
+ }
+ if(t.focus?.startsWith('ehr-retrieval:'))for(const d of p.ehr?.documents??[]){
+  if(!want('ehr-retrieval:'+d.id))continue;const rs=d.retrievals??(d.retrieval?[d.retrieval]:[]),r=rs.at(-1),permission=p.ehr?.permissions.find(g=>g.id===d.permissionId),link=p.ehr?.links.find(l=>l.id===d.linkId),integration=link&&s.workspace.integrations.find(i=>i.id===link.integrationId),missing=[] as string[];
+  if(!rs.length)missing.push('retrieval authority snapshot');if(!permission)missing.push('permission reference');
+  const th=base('ehr-retrieval:'+d.id,'ehr-retrieval',d.id,integration?.name??'EHR',d.status);th.authority={kind:'ehr-permission',purpose:r?.purpose??permission?.purpose??null,direction:'read',reference:r?.permissionId??d.permissionId,sourceVersion:rs.length?rs.map(x=>`person ${x.personVersion}; consent ${x.consentVersion}; connector ${x.integrationVersion}; source ${x.sourceVersion}`).join(' | '):null,consentVersion:r?.consentVersion??null,status:missing.length?'incomplete':'complete',missing};th.transformation={ruleset:'saha-fhir-r4-document-structure',version:'stored validation at retrieval',contentHash:d.hash};th.attempts={used:rs.length,limit:null,rule:'Each user-initiated retrieval is separately authorized and recorded; no automatic retry.'};out.push({thread:th,steps:rs.length?rs.flatMap(x=>x.events):[{at:d.at,state:d.status}]});
+ }
+ if(t.focus?.startsWith('ehr-retrieval-operation:'))for(const r of p.ehr?.retrievals??[]){
+  if(!want('ehr-retrieval-operation:'+r.id))continue;const permission=p.ehr?.permissions.find(g=>g.id===r.permissionId),link=p.ehr?.links.find(l=>l.id===r.linkId),integration=link&&s.workspace.integrations.find(i=>i.id===link.integrationId),missing=[] as string[];if(!permission)missing.push('permission reference');
+  const th=base('ehr-retrieval-operation:'+r.id,'ehr-retrieval',r.id,integration?.name??'EHR',r.state);th.authority={kind:'ehr-permission',purpose:r.purpose,direction:'read',reference:r.permissionId,sourceVersion:`person ${r.personVersion}; consent ${r.consentVersion}; connector ${r.integrationVersion}${r.sourceVersion?`; source ${r.sourceVersion}`:''}`,consentVersion:r.consentVersion,status:missing.length?'incomplete':'complete',missing};th.transformation={ruleset:'saha-fhir-r4-document-structure',version:r.sourceVersion?'validated':'not reached',contentHash:r.hash??null};th.attempts={used:1,limit:1,rule:'One deliberate retrieval per command checkpoint; a failed or withheld request is never retried automatically.'};out.push({thread:th,steps:r.events});
+ }
+ if(t.focus?.startsWith('abdm-transfer:'))for(const x of p.abdmTransfers??[]){
+  if(!want('abdm-transfer:'+x.id))continue;const consent=(p.abdmConsents??[]).find(c=>c.id===x.consentId),a=x.authority,missing=[] as string[];
+  if(!a)missing.push('authority snapshot');if(!consent)missing.push('consent source reference');
+  const th=base('abdm-transfer:'+x.id,'abdm-transfer',x.id,'ABDM mock gateway',x.state);th.authority={kind:'abdm-consent',purpose:a?.purpose??consent?.purpose??null,direction:'read',reference:a?.consentId??x.consentId??null,sourceVersion:a?`patient consent ${a.personConsentVersion}; ABDM config ${a.abdmConfigVersion}`:null,consentVersion:a?.personConsentVersion??null,status:missing.length?'incomplete':'complete',missing};th.transformation={ruleset:'saha-fhir-r4-document-structure',version:'stored validation stamp per received entry',contentHash:null};th.attempts={used:1,limit:1,rule:'One consent-bound mock transfer; no automatic retry.'};
+  out.push({thread:th,steps:x.events?.length?x.events:[{at:x.requestedAt,state:x.state}]});
  }
  if(t.scope==='full'&&t.visit){
   const runs=t.visit.agentRuns??[];
@@ -118,8 +154,8 @@ function threads(s:OrgState,t:Target,now:string):Raw[]{
 // The audit ids, receipt keys and subjects the server looks up for this target.
 export function traceLookups(s:OrgState,t:Target,now=new Date().toISOString()){
  const raw=threads(s,t,now),refs=raw.flatMap(r=>r.steps.map(x=>x.ref).filter((x):x is TraceRef=>!!x));
- const subjects=[...new Set([...(t.visit?[t.visit.id]:[]),...raw.map(r=>r.thread.recordId)])];
- return {auditIds:[...new Set(refs.map(r=>r.auditId).filter((x):x is string=>!!x))],receipts:[...new Map(refs.map(r=>[r.actorId+'\u0000'+r.key,{actorId:r.actorId,key:r.key}])).values()],subjects,personId:t.person.id,visitId:t.visit?.id??null,access:t.scope==='full'};
+ const subjects=[...new Set([...(t.visit?[t.visit.id]:[]),...raw.map(r=>r.thread.recordId)])],accessSubject=t.visit?.id??(t.focus?.startsWith('ehr-retrieval:')||t.focus?.startsWith('ehr-retrieval-operation:')||t.focus?.startsWith('abdm-transfer:')?t.person.id:null);
+ return {auditIds:[...new Set(refs.map(r=>r.auditId).filter((x):x is string=>!!x))],receipts:[...new Map(refs.map(r=>[r.actorId+'\u0000'+r.key,{actorId:r.actorId,key:r.key}])).values()],subjects,personId:t.person.id,visitId:t.visit?.id??null,accessSubject,access:t.scope==='full'};
 }
 export function assembleTrace(s:OrgState,m:Member,t:Target,audit:TraceAuditRow[],receipts:TraceReceiptRow[],now=new Date().toISOString(),truncated=false){
  const names=new Map(s.members.map(x=>[x.userId,x.displayName])),byAudit=new Map(audit.map(a=>[a.id,a])),byReceipt=new Map(receipts.map(r=>[r.actor_id+'\u0000'+r.key,r]));
