@@ -48,6 +48,7 @@ function clinicalLead(actor: CompositionActor, teams: string[]) {
     fail(403, 'An active clinical safety reviewer covering every composition team is required.');
   }
 }
+
 export async function createCompositionReview(input: unknown, author: CompositionActor, now = new Date().toISOString()): Promise<CompositionReview> {
   const parsed = compositionDraftSchema.safeParse(input);
   if (!parsed.success) fail(422, 'Record the exact tools, interaction review, missing-input rules and conflict scenarios.');
@@ -97,4 +98,3 @@ export async function compositionDecision(
   }
   return { compositionId: review.id, compositionVersion: review.version, manifestHash: review.manifestHash, available: true, inputHash: await digest(inputs) };
 }
-
