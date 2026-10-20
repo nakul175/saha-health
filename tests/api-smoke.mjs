@@ -182,7 +182,7 @@ const {workforceImportSmoke}=await import('./workforce-import-smoke.mjs');await 
 // Slice 10i: controlled import of historical visits with clinical content (kind visits of the record import).
 const {visitImportSmoke}=await import('./visit-import-smoke.mjs');await visitImportSmoke({get,post,check,accounts,org,sql,base});
 const {indicatorRegistrySmoke}=await import('./indicator-registry-privacy-registration-current.mjs');await indicatorRegistrySmoke({get,post,check,accounts,org,sql,base});
-const {indicatorFreshnessSmoke}=await import('./indicator-freshness-smoke.mjs');await indicatorFreshnessSmoke({get,post,check,accounts,org,sql,base});
+const {indicatorFreshnessSmoke}=await import('./indicator-freshness-privacy-registration-current.mjs');await indicatorFreshnessSmoke({get,post,check,accounts,org,sql,base});
 const {alertDeliverySmoke}=await import('./alert-delivery-smoke.mjs');await alertDeliverySmoke({get,post,check,accounts,org,sql});
 // Slice 10b: owner-managed out-of-app notification channel (demonstration simulator). Runs right after 6v, which it builds on, and leaves the channel off.
 const {notificationChannelSmoke}=await import('./notification-channel-smoke.mjs');await notificationChannelSmoke({get,post,check,accounts,org,sql});
