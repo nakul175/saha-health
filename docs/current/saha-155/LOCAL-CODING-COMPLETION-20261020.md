@@ -36,3 +36,7 @@ The first affected-suite run exposed that adding learning to the existing routin
 ## Limits and remaining gates
 
 This is truthful local application-code completion for the approved SAHA-155 scope. It does not approve Academy content, enable an external Academy provider, establish formal domain/clinical acceptance, prove field usability, complete independent review, run GitHub CI, merge the branch or observe a deployment. Those gates remain separate. A real catalogue must be explicitly approved and configured before any learning item becomes available.
+
+## CI repair verification
+
+The final candidate removes the new React lint error, classifies `/api/contextual-academy` in the current authorization matrix, preserves the immutable original matrix, preserves the original 389 guarded baseline digest, and registers only the two observed Academy minima. The repaired current matrix passed 72/72 with its regression guard; exact-source GitHub CI and independent final-tree review remain pending.

@@ -1,10 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { ContextualAcademy } from '@/lib/saha/contextual-academy';
 
 export default function ContextualAcademyPanel({ learning }: { learning: ContextualAcademy }) {
   const [open, setOpen] = useState<string | null>(null);
-  useEffect(() => { setOpen(null); }, [learning]);
   if (learning.status === 'unavailable') return <section aria-label="Optional Aplyd Academy learning">
     <h2>Optional learning</h2>
     <p>Aplyd Academy learning is unavailable for this task. Continue the routine visit normally.</p>

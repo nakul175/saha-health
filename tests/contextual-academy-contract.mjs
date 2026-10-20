@@ -66,7 +66,7 @@ try {
   await check('Client learning panel makes no network or storage call', async () => assert.doesNotMatch(ui, /\bfetch\s*\(|localStorage|sessionStorage|indexedDB|api\//));
   await check('Client states no completion and no patient disclosure', async () => { assert.match(ui, /no completion tracking/); assert.match(ui, /sends no patient or visit details/); });
   await check('Academy route is read-only', async () => { assert.match(route, /export async function GET/); assert.doesNotMatch(route, /export async function (POST|PUT|PATCH|DELETE)/); });
-  await check('Routine task renders learning without replacing task controls', async () => { assert.match(routine, /ContextualAcademyPanel learning=\{learning\}/); assert.match(routine, /GuidedCapture/); });
+  await check('Routine task remounts learning on exact source identity without replacing task controls', async () => { assert.match(routine, /ContextualAcademyPanel key=\{learning\.status/); assert.match(routine, /learning=\{learning\}/); assert.match(routine, /GuidedCapture/); });
   await check('Routine request sends only the selected person ID to the internal endpoint', async () => { assert.match(routine, /contextual-academy\?personId=/); assert.doesNotMatch(routine, /contextual-academy\?[^'\"]*(visitId|name|village)/); });
 
   const output = process.env.SAHA_CONTEXTUAL_ACADEMY_REPORT ?? 'tests/evidence/saha-155-contextual-academy/contract.json';

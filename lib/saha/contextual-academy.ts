@@ -49,7 +49,7 @@ async function itemOf(value: unknown): Promise<AcademyItem | null> {
       !EDITION.test(sourceRecord.edition as string) || typeof sourceRecord.contentHash !== 'string' ||
       !HASH.test(sourceRecord.contentHash)) return null;
   const item = structuredClone(value) as AcademyItem;
-  const { contentHash: _contentHash, ...sourceWithoutHash } = item.source;
+  const sourceWithoutHash = { kind: item.source.kind, reference: item.source.reference, edition: item.source.edition };
   const expected = await academyContentHash({ ...item, source: sourceWithoutHash });
   return expected === item.source.contentHash ? item : null;
 }

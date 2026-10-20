@@ -11,12 +11,33 @@
   "localCodingComplete": true,
   "knownApplicationCodeGaps": [],
   "validation": {
-    "contract": { "passed": 35, "failed": 0, "skipped": 0 },
-    "http": { "passed": 18, "failed": 0, "skipped": 0 },
-    "affectedRegression": { "suites": 4, "passed": 638, "failed": 0, "skipped": 0, "guard": "passed" },
+    "contract": {
+      "passed": 35,
+      "failed": 0,
+      "skipped": 0
+    },
+    "http": {
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0
+    },
+    "affectedRegression": {
+      "suites": 4,
+      "passed": 638,
+      "failed": 0,
+      "skipped": 0,
+      "guard": "passed"
+    },
     "typecheck": "passed",
     "productionBuild": "passed",
-    "catalogue": "passed"
+    "catalogue": "passed",
+    "authorizationMatrix": {
+      "passed": 72,
+      "failed": 0,
+      "guard": "passed"
+    },
+    "lintBaseline": "passed at 1392 inherited errors; changed source has no lint errors",
+    "ciPreparation": "original 389-record digest preserved; two additive observed minima registered; generated coverage refreshed"
   },
   "runtimeBoundary": {
     "configuredContent": false,
@@ -27,8 +48,8 @@
     "careGate": false
   },
   "separatePendingGates": [
-    "independent source review",
-    "GitHub CI",
+    "independent review of repaired final tree",
+    "exact-source GitHub CI",
     "formal domain or clinical approval if required",
     "merge",
     "observed deployment"

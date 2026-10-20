@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { DatabaseSync } from 'node:sqlite';
 import { createHash } from 'node:crypto';
-import { globSync, mkdirSync } from 'node:fs';
+import { globSync } from 'node:fs';
 import { startWorker, identity, client } from '../lib/worker.mjs';
 import { suite } from '../lib/report.mjs';
 
