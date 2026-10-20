@@ -125,9 +125,9 @@ const {rightsSmoke}=await import('./rights-smoke.mjs');await rightsSmoke({get,po
 await globalThis.sahaRecycleWorker?.(); // slice 10k: fresh Worker isolate, same D1 state (see run-api-smoke.mjs)
 const {retentionSmoke}=await import('./retention-smoke.mjs');await retentionSmoke({get,post,check,accounts,org,sql,base});
 const {fourthReviewSmoke}=await import('./fourth-review-smoke.mjs');await fourthReviewSmoke({check,org,base});
-const {indicatorsSmoke}=await import('./indicators-smoke.mjs');await indicatorsSmoke({get,post,check,accounts,org,base});
+const {indicatorsSmoke}=await import('./indicators-privacy-registration-current.mjs');await indicatorsSmoke({get,post,check,accounts,org,base});
 const {referralSmoke}=await import('./referral-smoke.mjs');await referralSmoke({get,post,check,accounts,org,base});
-const {reuseSmoke}=await import('./reuse-smoke.mjs');await reuseSmoke({get,post,check,accounts,org,base});
+const {reuseSmoke}=await import('./reuse-privacy-registration-current.mjs');await reuseSmoke({get,post,check,accounts,org,base});
 const {rosterSmoke}=await import('./roster-smoke.mjs');await rosterSmoke({get,post,check,accounts,org,base});
 const {abdmSmoke}=await import('./abdm-smoke.mjs');await abdmSmoke({get,post,check,accounts,org,base});
 // Slice 6z: the out-of-scope ABHA refusal is the ordinary link refusal and is recorded for an identity steward.
@@ -142,7 +142,7 @@ const {planDependenciesSmoke}=await import('./plan-dependencies-smoke.mjs');awai
 // Slice 10f: household visit slots and cross-pack referral consolidation.
 const {householdVisitSmoke}=await import('./household-visit-smoke.mjs');await householdVisitSmoke({get,post,check,accounts,org,sql,base});
 const {exceptionsSmoke}=await import('./exceptions-smoke.mjs');await exceptionsSmoke({get,post,check,accounts,org,base});
-const {reportExportSmoke}=await import('./report-export-smoke.mjs');await reportExportSmoke({get,check,accounts,org,sql,base});
+const {reportExportSmoke}=await import('./report-export-privacy-registration-current.mjs');await reportExportSmoke({get,post,check,accounts,org,sql,base});
 const {auditChainSmoke}=await import('./audit-chain-smoke.mjs');await auditChainSmoke({get,post,check,accounts,org,sql,base});
 const {accessAuditSmoke}=await import('./access-audit-smoke.mjs');await accessAuditSmoke({get,post,check,accounts,org,sql,base});
 // Slice 10h: workspace loads, record opens, patient searches and lists, and aggregate views are audited the same way.
