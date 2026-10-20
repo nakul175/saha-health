@@ -8,8 +8,8 @@
     "extraction": "Requirement and acceptance text extracted from the supplied BRD; sourceTextLine refers to the temporary paragraph extraction, not a Word page number."
   },
   "counts": {
-    "implemented-local": 14,
-    "partial": 151,
+    "implemented-local": 15,
+    "partial": 150,
     "not-built": 2,
     "unverified": 9
   },
@@ -4523,16 +4523,21 @@
       "requirement": "Approved data locations and transfer restrictions shall apply to primary storage, AI providers, backups, analytics and support access. Region selection shall be enforced across the processing chain.",
       "acceptance": "Acceptance: A model endpoint or support route outside the deployment's permitted locations is rejected before personal data is transferred.",
       "sourceTextLine": 587,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R15",
-      "current": "Explicit HTTPS origin allowlist limits outbound destinations.",
-      "remaining": "Enforced legal data-location policy across storage, providers, backups, analytics and support.",
+      "current": "SAHA-135 local implementation adds owner-managed, append-preserving versioned hosting controls over primary storage, providers, backups, analytics and support. Active routes bind target, purpose, direction, authority reference and owner-entered approved location; configured drafts, stale versions and unapproved or mismatched routes fail closed before service dispatch. Focused synthetic checks cover positive, refusal, invalid input, authorization, replay/version and audit-window race behavior.",
+      "remaining": "Security/privacy owner approval of the actual location vocabulary, legal bases, agreements and every deployment route; independent review, final-source CI, named formal TC-BR-SEC-14-A/B execution, merge and observed deployment remain pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "lib/saha/server.ts",
-        "lib/saha/access.ts",
-        "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "lib/saha/hosting-controls.ts",
+        "lib/saha/hosting-controls-server.ts",
+        "lib/saha/service-dispatch.ts",
+        "app/hosting-controls/page.tsx",
+        "app/api/hosting-controls/route.ts",
+        "tests/hosting-controls-contract.mjs",
+        "tests/service-dispatch-contract.mjs",
+        "docs/current/SAHA-135-HOSTING-AND-CROSS-BORDER-CONTROLS.md",
+        "tests/evidence/saha-135-hosting-controls/manifest.json"
       ],
       "automatedAcceptanceClaim": false
     },

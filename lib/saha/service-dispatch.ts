@@ -6,6 +6,7 @@ import {recordAccess} from './access-audit';
 import {frontlineAgreement,independentTargets,requireServiceIdentity} from './service-identity';
 import type {OrgState,Member} from './types';
 import type {AccessPurpose} from './purpose-scope';
+import {assertHostingRoute} from './hosting-controls';
 export type DispatchContext={intent:'send'|'lookup'|'probe';purpose?:AccessPurpose;authorize?:(state:OrgState,member:Member)=>void|Promise<void>};
 // Opt-in authority. A binding cannot be removed/replaced between preparation and dispatch
 // to bypass a revocation. Completed receipts remain evidence and never trigger dispatch.
@@ -15,6 +16,10 @@ export async function serviceDispatch(db:D1Database,s:OrgState,u:Actor,m:Member,
  const fresh=await readState(db,s.organisation.id),bound=fresh.operations?.serviceBindings?.[targetId];
  const member=scope(fresh,u.userId);
  await domain(fresh,member);
+ const routePurpose=context?.purpose??(context?.intent==='probe'?'diagnostic':context?.intent==='lookup'?'receipt-reconciliation':'service-delivery');
+ const originalTarget=s.workspace.integrations.find(x=>x.id===targetId),freshTarget=fresh.workspace.integrations.find(x=>x.id===targetId);
+ const controlled=originalTarget?.mode==='http'||freshTarget?.mode==='http'||independentTargets.includes(targetId);
+ if(controlled)assertHostingRoute(s,fresh,{area:'provider',targetId,purpose:routePurpose,direction:context?.intent==='lookup'?'inbound':'outbound'});
  if(!expected&&!bound)return;
  if(expected!==bound)fail(403,'Service authority changed. Nothing was sent.');
  if(member.version!==m.version||member.role!==m.role)fail(403,'Initiating human authority changed. Nothing was sent.');
@@ -28,6 +33,7 @@ export async function serviceDispatch(db:D1Database,s:OrgState,u:Actor,m:Member,
  const checkpoint=await readState(db,s.organisation.id),current=scope(checkpoint,u.userId);
  if(checkpoint.operations?.serviceBindings?.[targetId]!==expected||current.version!==m.version||current.role!==m.role)fail(403,'Service or initiating human authority changed during audit. Nothing was sent.');
  await domain(checkpoint,current);
+ if(controlled)assertHostingRoute(s,checkpoint,{area:'provider',targetId,purpose:routePurpose,direction:context?.intent==='lookup'?'inbound':'outbound'});
  assertTarget(s,checkpoint,targetId,context?.intent==='probe');
  requireServiceIdentity(checkpoint,expected!,kind,targetId);
  if(personId){const p=checkpoint.workspace.people.find(x=>x.id===personId);if(!p||!normallyAllowed(current,p,checkpoint.operations?.accessScope))fail(403,'Patient scope changed during audit. Nothing was sent.');}

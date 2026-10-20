@@ -1,0 +1,57 @@
+{
+  "schema": "saha-135-local-coding-evidence-v1",
+  "story": "SAHA-135",
+  "linearIssue": "APL-158",
+  "requirement": "BR-SEC-14",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "contract": {
+    "path": "../../outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-158.md",
+    "sha256": "0787b5e90c8ca7c7f427f19e3ba7e0eb6995631148c82b8f667740a0bda920b1"
+  },
+  "checks": {
+    "hostingControls": {
+      "passed": 25,
+      "failed": 0
+    },
+    "serviceDispatch": {
+      "passed": 103,
+      "failed": 0
+    },
+    "environmentContract": {
+      "status": "inherited-harness-failure",
+      "detail": "Base transpile list omits installed-transition-authority.js; no environment assertion ran."
+    },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "catalogue": "passed: 1045 suites, 100 component modules, 49 support files",
+    "requirements": "passed: 176 source IDs",
+    "lintBaseline": "passed: 1392 errors equals baseline"
+  },
+  "files": {
+    "app/hosting-controls/page.tsx": "afff74aed4551a356dd2dfecb6605caac39c9c329aff7458c7e0998ed0d29d17",
+    "app/api/hosting-controls/route.ts": "b4f77cdc8e4df77a49836e18ffe81adc9eb61c98325647fd333d9238f99f5b2d",
+    "lib/saha/hosting-controls.ts": "1d96ccf5f38fbd28bdc8cd8ecd8beaf31fb7a550fe1d1d9678edc5d99f48ce96",
+    "lib/saha/hosting-controls-server.ts": "b6c3a4fde92e9a81758a905455c8e216f2e3b3da74051b6f49b6cc32188f23bb",
+    "lib/saha/service-dispatch.ts": "408c9643b5f6721d81a9b7225fc79f7184fd96a829b9e9bd40b1e1ce70d59219",
+    "lib/saha/operations.ts": "8b895f86d4205310a9a5f275048e093a6c044ff2e19dce964bf24677d399cba4",
+    "lib/saha/platform.ts": "c07a538e9b410565ffe8b79aaa40e0e13bbf966605211af405b682867aab25f7",
+    "lib/saha/server.ts": "05f3689fe7de8d67aa9312c2f61c6b8c9b7f23fa19f0628bcde672b0e8aca6c7",
+    "lib/saha/monitoring.ts": "6768b44b79af303a5134b83a648570b64420474476f5728f0ede5e62f031b111",
+    "tests/hosting-controls-contract.mjs": "5a70cb392f4e8ab9ba0bbfa064c2503d14ce60ec3c836086a54d56b2a1be0620",
+    "tests/service-dispatch-contract.mjs": "5aea0db31ea2f0f48aa318988184450c31d5524b02fda340aba78dcd1d36293b",
+    "requirements/assessment.tsv": "490e06041fd214fca9d737fc12ea27ce96f0729fecb98ef36a4880d350768d10",
+    "requirements/evidence-map.json": "5a37d458dffe37207194ec746a25e3d74be2009ee58457814b9852a745293a9a",
+    "requirements/traceability.json": "b151aab95e1023b59e3b93894919ed25031a794c94cd8eb8dcbae5e24bb2186e",
+    "requirements/traceability.csv": "dee95b2ea2d2da4c5a54a21e1ff2d94310cd639278f3c2bca77c941b4cc16753",
+    "REQUIREMENTS-TRACEABILITY.md": "cadf3ef4262e10da3487d64d63ff91c64598ece061b7f624ac1e61cc18cd990c",
+    "docs/current/TEST-CATALOGUE.csv": "c4e6d06ec71b2ddc3e41fb25b48c233f6b96d634ca0dbc1ecbbd39be9d50aa69",
+    "docs/current/SAHA-135-HOSTING-AND-CROSS-BORDER-CONTROLS.md": "bb9bc88180ce43f5470d3c5f5a124d74672eaef69b7991c9a8a6dfbccef4ddf6"
+  },
+  "boundaries": [
+    "synthetic local evidence only",
+    "no provider contacted",
+    "no legal location or agreement inferred",
+    "formal catalogue cases not run",
+    "CI, independent review, merge and observed deployment pending"
+  ]
+}
