@@ -156,21 +156,23 @@ export function applyHousehold(s: OrgState, input: unknown, u: Actor, m: Member,
     if (p.version !== c.version) fail(409, 'Patient details changed. Refresh before recording a proxy.');
     if (c.proxyPersonId === p.id) fail(422, 'A person cannot be their own proxy.');
     if (!w.people.some(q => q.id === c.proxyPersonId)) fail(404, 'The proxy must be a registered person in this organisation.');
-    const applicable = new Set(sensitiveClasses(p));
-    if (c.classes.some(value => !applicable.has(value))) fail(422, 'Choose only sensitive classes currently recorded for this person.');
     const days = (Date.parse(c.expiresAt) - Date.parse(now)) / 86400000;
     if (days <= 0 || days > MAX_DAYS) fail(422, 'Set an expiry in the future and within 365 days.');
-    const grants = p.proxies ??= [];
+    const grants = p.proxies ?? [];
     if (grants.filter(g => activeGrant(g, now)).length >= MAX_GRANTS) fail(422, 'A person can have up to 20 current proxy grants.');
     if (grants.some(g => activeGrant(g, now) && g.proxyPersonId === c.proxyPersonId)) fail(409, 'A current grant for this proxy exists. Revoke it before recording a different scope.');
+    const applicable = new Set(sensitiveClasses(p));
+    if (c.classes.some(x => !applicable.has(x))) fail(422, 'A proxy grant can name only sensitive classes that currently apply to this person. Review the grant again if their care context changes.');
     const g: ProxyGrant = { id: uuid(), proxyPersonId: c.proxyPersonId, relationship: c.relationship, purposes: [...new Set(c.purposes)], classes: [...new Set(c.classes)], evidence: c.evidence, from: now, expiresAt: c.expiresAt, grantedBy: u.userId, grantedAt: now };
-    grants.push(g); result = { grantId: g.id };
+    (p.proxies ??= []).push(g); p.version++; result = { grantId: g.id };
     detail = `Proxy recorded for ${g.purposes.join(', ')}; sensitive classes allowed: ${g.classes.join(', ') || 'none'}; expires ${g.expiresAt.slice(0, 10)}.`;
   } else {
+    if (p.version !== c.version) fail(409, 'Patient details changed. Refresh before revoking a proxy.');
     const g = (p.proxies ?? []).find(g => g.id === c.grantId);
     if (!g) fail(404, 'Proxy grant not found.');
     if (g.revokedAt) fail(409, 'This proxy grant is already revoked.');
     Object.assign(g, { revokedAt: now, revokedBy: u.userId, revokeReason: c.reason });
+    p.version++;
     detail = `Proxy revoked. Reason: ${c.reason}`;
   }
   w.audit.push({ id: uuid(), at: now, actor: u.displayName, actorId: u.userId, role: m.role, action: c.type, subject: p.id, detail, personId: p.id });

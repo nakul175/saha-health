@@ -1,7 +1,7 @@
 // Slice 6b rights-request contract: intake, representative authority, destinations, closure and restriction.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -10,8 +10,8 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
-    writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
+  for (const file of readdirSync('lib/saha').filter(file => file.endsWith('.ts')))
+    writeFileSync(join(dir, file.replace(/\.ts$/, '.js')), ts.transpileModule(readFileSync(`lib/saha/${file}`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const x = await import(pathToFileURL(join(dir, 'rights.js')));
   const { allowed } = await import(pathToFileURL(join(dir, 'access.js')));
   const now = '2026-09-30T06:00:00.000Z', at = d => new Date(Date.parse(now) + d * 86400000).toISOString(), future = at(100);
@@ -22,7 +22,7 @@ try {
     members: [member('doc', 'clinician', ['t1']), member('doc2', 'clinician', ['t1']), member('asha', 'asha', ['t1']), member('sup', 'supervisor', ['t1']), member('sup2', 'supervisor', ['t2']), member('adm', 'admin', [], { isOwner: true })],
     workspace: { schemaVersion: 1, revision: 1, role: 'clinician', integrations: [], receipts: {}, audit: [], referrals: [],
       people: [
-        { ...base, id: 'P', name: 'Patient P', teamId: 't1', assignedTo: 'asha', proxies: [{ id: 'g1', proxyPersonId: 'H', relationship: 'spouse', expiresAt: future }, { id: 'g2', proxyPersonId: 'H', relationship: 'spouse', expiresAt: future, revokedAt: now }], ehr: { links: [], permissions: [], documents: [], operations: [{ id: 'op1', state: 'accepted', at: now }, { id: 'op2', state: 'blocked', at: now }] } },
+        { ...base, id: 'P', name: 'Patient P', teamId: 't1', assignedTo: 'asha', proxies: [{ id: 'g1', proxyPersonId: 'H', relationship: 'spouse', purposes: ['care-coordination'], classes: [], evidence: 'SYNTH-PROXY', from: now, expiresAt: future, grantedBy: 'asha', grantedAt: now }, { id: 'g2', proxyPersonId: 'H', relationship: 'spouse', purposes: ['care-coordination'], classes: [], evidence: 'SYNTH-REVOKED', from: now, expiresAt: future, grantedBy: 'asha', grantedAt: now, revokedAt: now }], ehr: { links: [], permissions: [], documents: [], operations: [{ id: 'op1', state: 'accepted', at: now }, { id: 'op2', state: 'blocked', at: now }] } },
         { ...base, id: 'H', name: 'Husband H', teamId: 't1', assignedTo: 'asha' },
         { ...base, id: 'Q', name: 'Patient Q', teamId: 't2', assignedTo: null },
       ],
@@ -40,6 +40,7 @@ try {
   check(() => { const r = R(a1.requestId); assert.equal(r.ownerId, 'asha'); assert.equal(r.dueAt, at(30)); assert.equal(r.items.length, 0, 'access requests notify no destination'); assert.equal(s.workspace.audit.at(-1).personId, 'P'); });
   const viaProxy = run('asha', create({ requester: 'proxy', proxyGrantId: 'g1', kind: 'grievance', detail: 'Husband complains about a missed visit' }));
   check(() => assert.equal(R(viaProxy.requestId).proxyGrantId, 'g1'));
+  check(() => { for (const kind of ['access','correction','restriction','deletion']) status(() => run('asha', create({ requester: 'proxy', proxyGrantId: 'g1', kind, detail: `Representative asks for ${kind} of confidential history` })), 403); });
   const corr = run('asha', create({ kind: 'correction', detail: 'Age recorded wrongly in programme record' }));
   const cr = R(corr.requestId);
   check(() => { assert.equal(corr.items, 2); assert.deepEqual(cr.items.map(i => i.ref).sort(), ['op1', 's1']); });

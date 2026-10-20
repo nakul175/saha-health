@@ -4,6 +4,7 @@ import { normallyAllowed } from './access';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 import { supervises } from './delegation';
+import { activeGrant } from './household';
 
 // Slice 6b: rights and grievance requests (BR-SEC-10). A request is recorded against one patient
 // with how the requester's identity (or a representative's authority) was checked, gets a due date
@@ -59,7 +60,13 @@ export function applyRights(s:OrgState,input:unknown,u:Actor,m:Member,now=new Da
  s.rightsRequests??=[];const w=s.workspace;let r:RightsRequest,detail='',result:any={ok:true};
  if(c.type==='rightsCreate'){
   const p=person(w,c.personId);
-  if(c.requester==='proxy'){const g=(p.proxies??[]).find(x=>x.id===c.proxyGrantId);if(!g||g.revokedAt||g.expiresAt<=now)fail(422,'A representative needs a current proxy grant recorded on this patient. Record one first.');}
+  if(c.requester==='proxy'){
+   const g=(p.proxies??[]).find(x=>x.id===c.proxyGrantId);
+   if(!g||!activeGrant(g,now))fail(422,'A representative needs a current proxy grant recorded on this patient. Record one first.');
+   // Existing household proxy purposes permit practical coordination, not access to or changes
+   // to confidential history. A representative may still lodge a grievance without disclosure.
+   if(c.kind!=='grievance')fail(403,'This proxy grant does not authorise access to or changes to confidential patient history. Record separate approved authority before handling this request for a representative.');
+  }
   else if(c.proxyGrantId)fail(422,'A proxy grant applies only to a representative\'s request.');
   if(s.rightsRequests.filter(x=>x.personId===p.id&&x.state==='open').length>=MAX_OPEN_PER_PERSON)fail(422,'Too many open requests for this patient. Close some first.');
   const dueAt=new Date(Date.parse(now)+DUE_DAYS*86400000).toISOString();
@@ -89,7 +96,7 @@ export function applyRights(s:OrgState,input:unknown,u:Actor,m:Member,now=new Da
 export function rightsView(s:OrgState,m:Member,personId:string|null,now=new Date().toISOString()){
  const name=(id:string)=>s.members.find(x=>x.userId===id)?.displayName??'Former member';
  const row=(r:RightsRequest)=>{const p=s.workspace.people.find(x=>x.id===r.personId)!;return {...r,personName:p.name,owner:name(r.ownerId),overdue:r.state==='open'&&r.dueAt<now,openItems:r.items.filter(i=>i.state==='open').length,canAssign:steward(s,m,p,now),canClose:r.state==='open'&&(r.ownerId===m.userId||steward(s,m,p,now)),restriction:activeRestriction(p)?.requestId===r.id,canLift:activeRestriction(p)?.requestId===r.id&&(r.ownerId===m.userId||steward(s,m,p,now)),history:r.history.map(h=>({...h,by:name(h.by)}))};};
- if(personId){const p=person(s.workspace,personId);return {personId:p.id,restricted:!!activeRestriction(p),requests:(s.rightsRequests??[]).filter(r=>r.personId===p.id).sort((a,b)=>b.receivedAt.localeCompare(a.receivedAt)).map(row),owners:s.members.filter(x=>staff(x)&&normallyAllowed(x,p)).map(x=>({userId:x.userId,displayName:x.displayName})),proxies:(p.proxies??[]).filter(g=>!g.revokedAt&&g.expiresAt>now).map(g=>({id:g.id,name:s.workspace.people.find(x=>x.id===g.proxyPersonId)?.name??'Registered person',relationship:g.relationship})),dueDays:DUE_DAYS};}
+ if(personId){const p=person(s.workspace,personId);return {personId:p.id,restricted:!!activeRestriction(p),requests:(s.rightsRequests??[]).filter(r=>r.personId===p.id).sort((a,b)=>b.receivedAt.localeCompare(a.receivedAt)).map(row),owners:s.members.filter(x=>staff(x)&&normallyAllowed(x,p)).map(x=>({userId:x.userId,displayName:x.displayName})),proxies:(p.proxies??[]).filter(g=>activeGrant(g,now)).map(g=>({id:g.id,name:s.workspace.people.find(x=>x.id===g.proxyPersonId)?.name??'Registered person',relationship:g.relationship})),dueDays:DUE_DAYS};}
  const open=(s.rightsRequests??[]).filter(r=>r.state==='open'&&s.workspace.people.find(x=>x.id===r.personId)?.assigned).sort((a,b)=>a.dueAt.localeCompare(b.dueAt)).slice(0,100).map(row);
  return {open,overdue:open.filter(r=>r.overdue).length,dueDays:DUE_DAYS};
 }
