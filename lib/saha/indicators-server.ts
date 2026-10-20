@@ -1,6 +1,6 @@
 import {configuredLiveFreshness} from './reporting-completeness';
 import {reportCompleteness,assertCompletenessCurrent,completenessRow,persistLiveCompleteness} from './reporting-completeness-server';
-import { identity, loadFor, json, db } from './server';
+import { identity, loadFor, json, db, rawRuntime } from './server';
 import { ensurePurpose } from './purpose-scope';
 import { AppError, fail, uuid } from './core';
 import type { Member } from './types';
@@ -14,6 +14,7 @@ import { catalogue, definitionLifecycle, GROUPS, indicatorRun, interpret, manage
 import { ledgerFull, pruneLedger, RESIDUAL_RISK, screenReleases, type Release } from './indicator-differencing';
 import { lateSinceRelease, teamFreshness } from './indicator-freshness';
 import { resolveDefinition } from './indicators';
+import {assertHostingRoute} from './hosting-controls';
 // Slice 6d: catalogue, governed interpretation of a question, and scoped indicator queries.
 // Slice 6w (fifth review, finding 4): GET reads the catalogue and interprets questions only. Running a query
 // records a release in the differencing ledger, so it is POST only (a cross-site GET cannot trigger it).
@@ -67,6 +68,8 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  const shape=(released:Set<string>)=>({...result,completeness:{...completeness.body,evidenceId:snapshot.values.id,digest:completeness.digest},results:result.results.map(r=>'refused' in r||released.has(r.id+'@'+r.version)?r:{...r,rows:[],refused:'differencing' as const,message:DIFFERENCING_MESSAGE}),differencing:{windowHours:168,note:'Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.',limits:RESIDUAL_RISK}});
  // Slice 6ac: the viewer's previous release of each figure is read before this one is recorded (read only).
  const previous=p.get('format')==='csv'?null:await previousReleases(s.organisation.id,u.userId,q,series,result.computedAt);
+ const analyticsRoute={area:'analytics' as const,targetId:'approved-reporting',purpose:'aggregate-reporting',direction:'outbound' as const,actualLocation:rawRuntime().SAHA_ANALYTICS_LOCATION};
+ if(p.get('format')==='csv')assertHostingRoute(s,s,analyticsRoute);
  const {released,file}=await recordRelease(u,s.organisation.id,m,q,series,result.computedAt,p.get('format')==='csv'?shape:null,s);
  // Slice 13f: results withheld for differencing are recorded as a refusal and counted toward the limit, on screen and in CSV.
  {const diff=shape(released).results.filter((r:any)=>r.refused==='differencing').length;if(diff)await recordAggregateView(db(),s,u,m,REFUSAL_SUBJECT,`Indicator query partly withheld${file?' (CSV export)':''}: ${diff} result${diff===1?'':'s'} withheld because, together with this viewer's queries of the last seven days, ${diff===1?'it':'they'} would reveal a group of fewer than 5 people. Filters set: ${filtersSet}.`);}
@@ -77,6 +80,7 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  await persistLiveCompleteness(s,u,m,completeness,snapshot,definitions);
  const current=await loadFor(u,s.organisation.id,undefined,true),currentMember=scope(current,u.userId);
  manager(currentMember);ensurePurpose(currentMember,'reporting');
+ if(file)assertHostingRoute(s,current,analyticsRoute);
  await assertCompletenessCurrent(current,currentMember,completeness,definitions);
  const visible=(state:typeof s)=>state.workspace.people.filter(person=>person.assigned&&!person.mergedInto).map(person=>person.id).sort();
  if(JSON.stringify(visible(current))!==JSON.stringify(visible(s)))fail(403,'Your current patient scope changed while the report was being recorded. No figures were returned.');

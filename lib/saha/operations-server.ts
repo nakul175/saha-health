@@ -14,6 +14,7 @@ import { alertsFor, ALERT_RULES_VERSION } from './alerts';
 import { evaluateIfDue } from './alert-delivery-server';
 import { BUDGET_NOTICE, budgetView } from './ai-budget';
 import { invoiceAlertInputs, invoiceView } from './ai-invoice';
+import {assertHostingRoute} from './hosting-controls';
 const currentMonth=()=>new Date().toISOString().slice(0,7);
 const REPORT_SOURCE_CHANGED='Reporting authority or source changed while the report was released. Refresh before viewing it.';
 // Only this private pre-alert marker permits bounded recomputation. Post-alert conflicts remain final refusals.
@@ -56,7 +57,9 @@ async function operationsReadAttempt(request:Request,u:Awaited<ReturnType<typeof
  // authority for this format is checked again there (CSV: not an administrator; support: operator).
  // Slice 6q (second review): the retry also refuses the export if the care scope (sorted team ids) or, for the
  // CSV, the reporting reach (teams and delegation ids) changed; nothing is delivered and the exporter retries.
- const orgId=s.organisation.id,again=(x:typeof s)=>{const o=scope(x,u.userId);if(format==='csv'&&o.role==='admin')fail(403,'Clinical reporting is unavailable to administrators.');if(format==='support'&&!operator(o))fail(403,'Operations access required.');if(o.role!==m.role)fail(409,'Your role changed while the export was prepared. Export again.');if(format==='csv')ensurePurpose(o,'reporting');sameCareScope(m,o);if(format==='csv')sameReach(reach,reportingScope(x,o));return o;};
+ const supportRoute=()=>({area:'support' as const,targetId:'approved-support',purpose:'incident-support',direction:'interactive-access' as const,actualLocation:rawRuntime().SAHA_SUPPORT_ACCESS_LOCATION});
+ const orgId=s.organisation.id,again=(x:typeof s)=>{const o=scope(x,u.userId);if(format==='csv'&&o.role==='admin')fail(403,'Clinical reporting is unavailable to administrators.');if(format==='support'&&!operator(o))fail(403,'Operations access required.');if(o.role!==m.role)fail(409,'Your role changed while the export was prepared. Export again.');if(format==='csv')ensurePurpose(o,'reporting');sameCareScope(m,o);if(format==='csv')sameReach(reach,reportingScope(x,o));if(format==='support')assertHostingRoute(s,x,supportRoute());return o;};
+ if(format==='support')assertHostingRoute(s,s,supportRoute());
  const auditId=uuid();await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId),authorize:again,authorityDelegations:(current,member)=>{if(format!=='csv')return [];const currentReach=reportingScope(current,member);return currentReach.delegations.filter(d=>!currentReach.own||current.workspace.people.some(p=>d.teamIds.includes(p.teamId)&&!allowed(member,p))).map(d=>({id:d.id,kind:d.kind,grantorId:d.grantorId,until:d.until}));},event:o=>({id:auditId,at:result.generatedAt,actorId:u.userId,actor:u.displayName,role:o.role,action:'opsExport',subject:orgId,detail:exported?`Scoped aggregate report exported; ${days}-day period; definition ${REPORT_DEFINITION.id} ${REPORT_DEFINITION.version}; export ${exportId}; ${exported.rows} data rows; SHA-256 ${exported.sha256}; control totals ${exported.reconciled?'reconciled':'NOT reconciled'}.${reach.delegations.length?` Includes teams under reporting delegation ${reach.delegations.map(d=>d.id).join(', ')}.`:''}`:'Support diagnostic exported without patient records, actor identifiers, credentials or incident free text.'}),actor:u,type:'opsExport',key:'export_'+uuid(),hash:await digest({format,days})});
  // Support output intentionally excludes organisation, members, free text,
  // clinical counters and connector endpoints. This is safe to inspect, not

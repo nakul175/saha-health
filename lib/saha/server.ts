@@ -71,7 +71,7 @@ import { linkTrace } from './trace';
 import { applyAdapterOperations } from './adapter-operations';
 import { applyPurposeScope, authorizePurposeScope, COMMAND_PURPOSE, ensurePurpose } from './purpose-scope';
 import { applyNotificationChannel } from './notification-channel';
-import {applyHostingControls,authorizeHostingControls} from './hosting-controls';
+import {applyHostingControls,assertHostingRoute,authorizeHostingControls,controlsOf} from './hosting-controls';
 import { applySpeechPolicy, speechPolicyView } from './speech';
 import { authorizeAggregate } from './aggregate-delivery';
 import { applyIncentives, authorizeIncentives } from './incentives';
@@ -167,9 +167,10 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  if(c.type==='joinOrganisation'){
   const invite=await db().prepare('SELECT org_id FROM invitations WHERE token_hash=?').bind(await digest(c.token)).first<{org_id:string}>();if(!invite)fail(404,'Invitation not found or unavailable.');
   const state=await readState(db(),invite.org_id),before=structuredClone(state),now=new Date().toISOString();
+  if(controlsOf(state)?.state==='active')assertHostingRoute(state,state,{area:'primary-storage',targetId:'workspace-d1',purpose:'care-record-storage',direction:'at-rest',actualLocation:rawRuntime().SAHA_PRIMARY_STORAGE_LOCATION});
   const tokenHash=await digest(c.token),inv=state.invitations.find(x=>x.tokenHash===tokenHash);
   if(!inv||inv.status!=='pending'||inv.expiresAt<=now||inv.accountCode!==await accountCode(u.userId))fail(403,'This invitation is expired, used, revoked or belongs to another account.');
-  validTeams(state,inv.teamIds,inv.role);let member=state.members.find(m=>m.userId===u.userId);if(member?.status==='active')fail(409,'You are already a member of this organisation.');
+  validTeams(state,inv.teamIds,inv.role);const member=state.members.find(m=>m.userId===u.userId);if(member?.status==='active')fail(409,'You are already a member of this organisation.');
   const next={userId:u.userId,displayName:u.displayName,accountCode:await accountCode(u.userId),role:inv.role,isOwner:false,status:'active' as const,version:(member?.version??0)+1,teamIds:inv.teamIds,createdAt:member?.createdAt??now};if(member)Object.assign(member,next);else state.members.push(next);inv.status='accepted';inv.acceptedBy=u.userId;
   state.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:inv.role,action:'acceptInvite',subject:inv.id,detail:'Account-bound invitation accepted. Membership activated.'});
   await persist(db(),before,state,u,c,key,hash,{organisationId:invite.org_id},[],true);return {result:{organisationId:invite.org_id},snapshot:await viewerSnapshot(request,u,invite.org_id)};
@@ -177,6 +178,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  const requested=c.type==='switchOrganisation'?c.organisationId:request.headers.get('x-saha-organisation');
  // Slice 0a: certified patient commands load only the named patient(s).
  const state=await loadFor(u,requested,orgId=>patientTargets(db(),orgId,c as any)),before=structuredClone(state),m=scope(state,u.userId);ensurePurpose(m,COMMAND_PURPOSE[c.type]);authorizeSandbox(state,m,c);ensureOperating(state,c);ensureEnvironment(state,c,rawRuntime());ensurePatientIdentity(state,c);ensureNotMerged(state,c);ensureNotImported(state,c);ensureExceptionalScope(state,m,c);ensureNotRestricted(state,c);const registration=c.type==='createPerson'?await reviewRegistration(state,m,c):null;let result:any;
+ if(controlsOf(state)?.state==='active')assertHostingRoute(state,state,{area:'primary-storage',targetId:'workspace-d1',purpose:'care-record-storage',direction:'at-rest',actualLocation:rawRuntime().SAHA_PRIMARY_STORAGE_LOCATION});
  // Slice 2g: supervisor sign-off is checked on the server before executePlan sends or queues programme submissions.
  // Slice 10g: the same call stops open disputes before a plan or EHR publication is prepared or approved, and applies the
  // withdrawal hold and the per-programme and per-destination sign-off rules before a plan runs.
@@ -244,7 +246,13 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const roster=await applyRoster(state,c,u,m);
   const abdm=await abdmWithStewardReview(state,c,u,m,key);
   const transfer=await applyTransfer(state,c,u,m);
-  const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m)??applyNotificationChannel(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid)??applyHostingControls(state,c,u,m)??applySpeechPolicy(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid); // slice 10b: owner-managed notification channel (demonstration simulator); slice 12a: voice input setting
+  const hostingLocations={
+   'primary-storage':rawRuntime().SAHA_PRIMARY_STORAGE_LOCATION,
+   backup:rawRuntime().SAHA_BACKUP_LOCATION,
+   analytics:rawRuntime().SAHA_ANALYTICS_LOCATION,
+   support:rawRuntime().SAHA_SUPPORT_ACCESS_LOCATION,
+  };
+  const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m)??applyNotificationChannel(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid)??applyHostingControls(state,c,u,m,undefined,hostingLocations)??applySpeechPolicy(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid); // slice 10b: owner-managed notification channel (demonstration simulator); slice 12a: voice input setting
  // Slice feat/r08 (BR-ID-02/BR-OPS-01): facility and geography/locality access policy (owner-managed, versioned, audited).
  const facilityScope=applyFacilityScope(state,c,u,m);
   // Slice 7e: owner-managed, versioned operation permissions for record adapters.
