@@ -1,0 +1,46 @@
+{
+  "story": "SAHA-126",
+  "linearContract": "APL-149",
+  "title": "Encryption and secrets",
+  "baseCommit": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "contractSha256": "dac32cb11344b3d3688b6c5d7ae11094df2bc26ab56e6fac6ef18478d3de809a",
+  "scope": "Local synthetic application coding evidence only; no provider, KMS, hosting, independent, formal, merge or deployment acceptance.",
+  "results": {
+    "final-unit.json": {
+      "sha256": "f8e75818f81c3fd742f8a8d6dca3dbb15b7248e1c92f13798aac86d8ff1d07ed",
+      "suites": 3,
+      "passed": 92,
+      "failed": 0,
+      "baseline": "SAHA-126 added at 25; environment raised 26 to 29; none lowered or removed"
+    },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "testCatalogue": "passed: 1045 suites, 100 component modules, 49 support files",
+    "requirementsAudit": "passed: 176 source IDs verified; 0 formally accepted",
+    "focusedLint": "passed for the new secrets module, audit tool and focused contract",
+    "diffCheck": "passed"
+  },
+  "retainedFailures": [
+    "Direct tests/recovery-drill.mjs refused because this isolated checkout had no populated .wrangler/test-state database. The focused suite instead executed a bounded synthetic encrypted SQLite backup/restore with wrong-passphrase and overwrite refusal; the full 21-check Worker restart drill remains pending.",
+    "A repository-wide ESLint invocation overlapped removal of a test-owned temporary directory and failed while scanning that absent path. The later bounded lint of all new source/test files passed. Selecting the pre-existing environment file also reports its existing explicit-any findings and one existing fixture warning; none was represented as a clean broad lint."
+  ],
+  "sourceDigests": {
+    "lib/saha/environment.ts": "b30e578d9d62f5f3e73ddea2e3d574e57b0c7d67ee7cf2c302d6bd3e72e1f1a3",
+    "lib/saha/secrets.ts": "6af61e6a88b8d44156d4753cb1278f2f944fdfeca9376dd96a1ed5f73409845e",
+    "scripts/security-material-audit.mjs": "df47042e953993f1e91760bc4c24abd12d77e195495a02bd232c270b0c02eacc",
+    "tests/encryption-secrets-contract.mjs": "9d5fa383f4a28758980444057358296ce5fe3f1d8732db8896596812a8b7b59e",
+    "tests/environment-contract.mjs": "02abdbb2a4d12cdb3cf3bf0f27c3dac801a271ccfcdb4716bf7873940de6bd30",
+    "tests/field-contract.mjs": "82639cbb5e391a968d4a4705acb22fc75da8bf7edf2fded1363cbea602f1a6a4",
+    "tests/regression-baseline.json": "b22501623026c960515327a2e528209856305354dc88f349e884314eba9d5e90"
+  },
+  "pendingGates": [
+    "independent source and exact-evidence review",
+    "exact-commit configured CI",
+    "hosted storage, database, cache, media, log and backup encryption verification",
+    "provider and KMS key access, rotation and revocation evidence",
+    "deployed client-bundle, configuration-export, log and model-context inspection",
+    "physical-device and end-to-end encryption assessment",
+    "formal security/domain/human acceptance",
+    "merge and observed deployment"
+  ]
+}

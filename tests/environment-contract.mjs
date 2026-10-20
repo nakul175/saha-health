@@ -27,8 +27,12 @@ class D1 {
 }
 
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
-    writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
+  // Compile the current module graph rather than keeping a stale hand-maintained list.
+  // This fixture had silently fallen behind shared core imports before SAHA-126.
+  for (const file of readdirSync('lib/saha').filter(file => file.endsWith('.ts'))) {
+    const f = file.slice(0, -3);
+    writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${file}`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
+  }
   const E = await import(pathToFileURL(join(dir, 'environment.js')));
   const { misCredential } = await import(pathToFileURL(join(dir, 'mis.js')));
   const { ehrCredential } = await import(pathToFileURL(join(dir, 'ehr.js')));
@@ -41,7 +45,8 @@ try {
   const mis = { id: 'mis_live', name: 'Programme MIS', kind: 'mis', mode: 'http', status: 'active', version: 2, description: '', programmes: [], endpoint: 'https://mis.example.org/v1', credentialBinding: 'SAHA_MIS_TOKEN' };
   const ehr = { id: 'ehr_live', name: 'Facility EHR', kind: 'ehr', mode: 'http', status: 'active', version: 1, description: '', programmes: [], endpoint: 'https://ehr.example.org/fhir', credentialBinding: 'SAHA_EHR_TOKEN' };
   const ai = { id: 'ai_live', name: 'Summary provider', kind: 'ai', mode: 'http', status: 'suspended', version: 1, description: '', programmes: [], endpoint: 'https://ai.example.org/v1/run', credentialBinding: 'OPENAI_API_KEY' };
-  const base = { SAHA_EXTERNAL_APIS_ENABLED: 'true', SAHA_MIS_TOKEN: SECRET, SAHA_MIS_CALLBACK: CALLBACK, SAHA_EHR_TOKEN: EHR_KEY, OPENAI_API_KEY: AI_KEY, SAHA_ALLOWED_ORIGINS: 'https://ai.example.org',
+  const ROTATION = JSON.stringify(['SAHA_MIS_TOKEN', 'SAHA_MIS_CALLBACK', 'SAHA_EHR_TOKEN', 'OPENAI_API_KEY'].map(binding => ({ binding, owner: 'synthetic-security-owner', rotatedAt: '2026-09-01T00:00:00.000Z', rotateBy: '2099-01-01T00:00:00.000Z' })));
+  const base = { SAHA_EXTERNAL_APIS_ENABLED: 'true', SAHA_MIS_TOKEN: SECRET, SAHA_MIS_CALLBACK: CALLBACK, SAHA_EHR_TOKEN: EHR_KEY, OPENAI_API_KEY: AI_KEY, SAHA_SECRET_ROTATION_RECORDS: ROTATION, SAHA_ALLOWED_ORIGINS: 'https://ai.example.org',
     SAHA_MIS_CONNECTIONS: JSON.stringify([{ organisationId: 'org_env', integrationId: 'mis_live', origin: 'https://mis.example.org', credentialBinding: 'SAHA_MIS_TOKEN', callbackBinding: 'SAHA_MIS_CALLBACK' }]),
     SAHA_EHR_CONNECTIONS: JSON.stringify([{ organisationId: 'org_env', integrationId: 'ehr_live', baseUrl: 'https://ehr.example.org/fhir', credentialBinding: 'SAHA_EHR_TOKEN' }]) };
   const as = (name, extra = {}) => { const label=name??'synthetic'; return ({ ...base, ...(name ? { SAHA_ENVIRONMENT: name } : {}), SAHA_IDENTITY_NAMESPACE:`${label}:identity:test`, SAHA_DATA_NAMESPACE:`${label}:data:test`, SAHA_CREDENTIAL_NAMESPACE:`${label}:credentials:test`, ...extra }); };
@@ -54,6 +59,9 @@ try {
   check(() => { assert.match(E.livePolicy(as('training')).reason, /training environment never calls live services/); assert.match(E.livePolicy(as('Prod')).reason, /not configured correctly/); });
   check(() => { const p = E.livePolicy(as('production')); assert.equal(p.allowed, true); assert.match(p.reason, /Live calls are allowed/); });
   check(() => { assert.match(E.livePolicy(as('staging', { SAHA_ALLOWED_ORIGINS: 'http://ai.example.org' })).reason, /allowed-origins/); assert.match(E.livePolicy(as('staging', { SAHA_IDENTITY_PROVIDER: 'bogus' })).reason, /identity/); assert.match(E.livePolicy(as('staging', { SAHA_MIS_CONNECTIONS: '{not json' })).reason, /saha_mis_connections/); assert.equal(E.livePolicy(as('synthetic', { SAHA_ALLOWED_ORIGINS: 'http://x' })).allowed, true, 'synthetic keeps the switch-only rule; per-call checks still refuse unsafe origins'); });
+  check(() => { const p = E.livePolicy(as('staging', { SAHA_SECRET_ROTATION_RECORDS: '[]' })); assert.equal(p.allowed, false); assert.match(p.reason, /secret-rotation:OPENAI_API_KEY|secret-rotation:SAHA_/); });
+  check(() => { const p = E.livePolicy(as('staging', { SAHA_SECRET_ROTATION_RECORDS: '{' })); assert.equal(p.allowed, false); assert.match(p.reason, /secret-rotation-records/); });
+  check(() => { const expired = JSON.stringify(JSON.parse(ROTATION).map(x => ({ ...x, rotateBy: '2026-09-29T00:00:00.000Z' }))); const r = E.configurationReport(as('staging', { SAHA_SECRET_ROTATION_RECORDS: expired }), { organisation: { id: 'org_env' }, workspace: { ...seedWorkspace(), integrations: [] } }, '2026-09-30T00:00:00.000Z'); assert.equal(r.live.allowed, false); assert.ok(r.checks.some(c => c.id.startsWith('secret-rotation:') && c.status === 'error')); assert.equal(JSON.stringify(r).includes(SECRET), false); });
   // 3. The effective runtime turns the switch off, and the existing provider checks then refuse.
   check(() => { const raw = as('training'), eff = E.effectiveRuntime(raw); assert.equal(eff.SAHA_EXTERNAL_APIS_ENABLED, 'false'); assert.equal(raw.SAHA_EXTERNAL_APIS_ENABLED, 'true', 'the raw configuration is not modified'); assert.equal(eff.SAHA_MIS_TOKEN, SECRET); const allowed = as('synthetic'); assert.equal(E.effectiveRuntime(allowed), allowed, 'an allowed runtime is passed through unchanged'); });
   check(() => { assert.equal(misCredential(mis, 'org_env', E.effectiveRuntime(as('synthetic'))), SECRET); assert.equal(ehrCredential(ehr, 'org_env', E.effectiveRuntime(as('staging'))), EHR_KEY); assert.equal(ehrCredential(ehr, 'org_env', E.effectiveRuntime(as('production'))), EHR_KEY); });

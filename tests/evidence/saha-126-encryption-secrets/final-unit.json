@@ -1,0 +1,159 @@
+{
+  "generatedAt": "2026-10-20T12:44:39.418Z",
+  "startedAt": "2026-10-20T12:44:36.835Z",
+  "command": "node scripts/test.mjs unit --only unit/encryption-secrets-contract --only unit/environment-contract --only unit/field-contract --fast --guard --report tests/evidence/saha-126-encryption-secrets/final-unit.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 3,
+      "passed": 92,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2401,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 92,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 2583
+  },
+  "suites": [
+    {
+      "id": "unit/encryption-secrets-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/encryption-secrets-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 294,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/encryption-secrets-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__encryption-secrets-contract.log"
+    },
+    {
+      "id": "unit/environment-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-environment-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 976,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__environment-contract.log"
+    },
+    {
+      "id": "unit/field-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-field-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1131,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 9,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 3,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/verification-programme-root-integration/fixtures/environment-contract/environment-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/field-contract/field-contract-result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/encryption-secrets-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 237,
+        "components": 0,
+        "suitesCitingNoRequirement": 91,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 161,
+        "components": 84,
+        "suitesCitingNoRequirement": 80,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 3
+      },
+      "smoke": {
+        "suites": 25,
+        "components": 0,
+        "suitesCitingNoRequirement": 19,
+        "requirementsCited": 17
+      },
+      "ui": {
+        "suites": 2,
+        "components": 16,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 6,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 610,
+        "components": 0,
+        "suitesCitingNoRequirement": 486,
+        "requirementsCited": 148
+      }
+    },
+    "supportFiles": 49,
+    "suites": 1045,
+    "components": 100,
+    "requirementsCitedBySomeSuite": 158,
+    "suitesCitingNoRequirement": 680,
+    "componentsCitingNoRequirement": 24,
+    "requirementsCitedBySomeTest": 158
+  }
+}
