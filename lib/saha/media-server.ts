@@ -11,6 +11,7 @@ import { accessRoute, recordAccess } from './access-audit';
 import { checkMedia, MAX_MEDIA_BYTES, MAX_MEDIA_PER_VISIT, readBounded, reviewMediaInput, toB64, type MediaMime, type MediaRef, type MediaReviewInput } from './media';
 import { MAX_OBJECT_MEDIA_BYTES, mediaBackend, mediaHash, storedMediaBytes, stagePrivateObject, custodyMediaBytes, assertObjectCurrent, type MediaObjectRef } from './media-storage';
 import type { OrgState } from './types';
+import {assertPrimaryStorageWrite} from './hosting-controls';
 const optionalAudioRecordingCurrent=(p:{consentDecisions?:{purpose:'ai'|'exchange';decision:'granted'|'declined';scopes:string[];expiresAt?:string}[]},now=new Date().toISOString())=>{const d=(p.consentDecisions??[]).filter(x=>x.purpose==='ai').at(-1);return d?d.scopes.includes('optional-audio-recording')&&d.decision==='granted'&&(!d.expiresAt||d.expiresAt>now):true;};
 function sameOrigin(request:Request){const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)fail(403,'Cross-origin changes are not allowed.');if(request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Cross-site changes are not allowed.');}
 function idempotency(request:Request){const key=request.headers.get('idempotency-key');if(!key||!/^[a-zA-Z0-9_-]{8,100}$/.test(key))fail(400,'A valid idempotency key is required.');return key!;}
@@ -41,7 +42,9 @@ export async function uploadMedia(request:Request){
  const org=s.organisation.id,expected=await basis(s,u,visitId);let ref:MediaRef={id:uuid(),purpose:purpose as MediaRef['purpose'],mime:mime as MediaMime,size:bytes.byteLength,sha256:sha,at:new Date().toISOString(),by:u.userId,stage:'uploaded'},objectRef:MediaObjectRef|null=null,custody:any=null;
  try{
  if(backend.bucket){
+  assertPrimaryStorageWrite(s,s,rawRuntime().SAHA_PRIMARY_STORAGE_LOCATION);
   await recordAccess(db(),s,u,m,{action:'externalRequest',subject:visitId,personId:v.personId,detail:'Private media object custody operation reserved; fixed validated type, byte size and content digest, no public URL.'});s=await unchanged(u,org,visitId,expected);({m,v,p}=care(s,u,visitId,true));audioAllowed(p,mime);
+  assertPrimaryStorageWrite(s,s,rawRuntime().SAHA_PRIMARY_STORAGE_LOCATION);
   custody=await db().prepare('SELECT * FROM media_custody WHERE org_id=? AND actor_id=? AND request_key=?').bind(org,u.userId,key).first<any>();
   if(custody&&custody.input_hash!==hash)fail(409,'This custody key belongs to different original media.');
   if(!custody){
@@ -51,8 +54,10 @@ export async function uploadMedia(request:Request){
   }
   if(!['staged','quarantined'].includes(custody.state))fail(409,'This custody operation already completed. Recover the original receipt.');ref={...ref,id:custody.id,at:custody.created_at,storage:'r2-private-v1'};
   s=await unchanged(u,org,visitId,expected);({m,v,p}=care(s,u,visitId,true));audioAllowed(p,mime);
+  assertPrimaryStorageWrite(s,s,rawRuntime().SAHA_PRIMARY_STORAGE_LOCATION);
   objectRef=await stagePrivateObject(backend.bucket,custody.object_key,custody.id,bytes,mime,purpose);
   s=await unchanged(u,org,visitId,expected);({m,v,p}=care(s,u,visitId,true));audioAllowed(p,mime);
+  assertPrimaryStorageWrite(s,s,rawRuntime().SAHA_PRIMARY_STORAGE_LOCATION);
  }
  const before=structuredClone(s);(v.media??=[]).push(ref);s.workspace.audit.push({id:uuid(),at:new Date().toISOString(),actorId:u.userId,actor:u.displayName,role:m.role,action:'attachMedia',subject:v.id,personId:v.personId,detail:`${ref.mime} (${Math.round(ref.size/1024)} KB) attached to the draft visit for ${ref.purpose}. Type, signature, size and custody integrity checked.`});
  const row:Row={table:'media',values:{org_id:org,id:ref.id,person_id:v.personId,visit_id:v.id,mime:ref.mime,size:ref.size,sha256:sha,purpose:ref.purpose,created_at:ref.at,deleted_at:null,data:objectRef?'':toB64(bytes),storage_ref:objectRef?JSON.stringify(objectRef):null},keys:['org_id','id']};const extras=[row];if(custody&&objectRef)extras.push({table:'media_custody',values:{...custody,state:'linked',object_version:objectRef.version,etag:objectRef.etag},keys:['org_id','id']});

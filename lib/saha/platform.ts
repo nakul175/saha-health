@@ -45,6 +45,7 @@ import { chooseLanguage } from './messages';
 import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
 import { notificationChannelSchema } from './notification-channel';
+import {hostingControlsSchema} from './hosting-controls';
 import { speechPolicySchema } from './speech';
 import { invoiceSchema } from './ai-invoice';
 import { fieldSchema } from './field';
@@ -121,6 +122,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...alertAckSchema.options,
  ...inboxSchema.options,
  ...notificationChannelSchema.options,
+ ...hostingControlsSchema.options,
  ...speechPolicySchema.options,
  ...invoiceSchema.options,
  ...pilotSchema.options,
