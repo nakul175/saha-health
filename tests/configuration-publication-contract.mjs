@@ -33,4 +33,3 @@ try{
  await rejects(()=>C.applyConfigurationPublication(state(),cmd('configurationStage',{expectedAttestation:'none',manifest:manifest(),impactSummary:'Actor mismatch must fail closed.',reason:'Attempt with stale signed-in account'},owner),actor(reviewer),reviewer,now),/Signed-in account changed/);
  const result={passed,failed:0,scope:'All five configuration kinds, immutable manifests, independent review, publication, supersession, compatible-migration rollback, version/history retention, authority/stale/drift refusal.'};mkdirSync('tests/evidence/saha116-local-coding-completion',{recursive:true});writeFileSync('tests/evidence/saha116-local-coding-completion/contract.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
 }finally{rmSync(dir,{recursive:true,force:true});}
-

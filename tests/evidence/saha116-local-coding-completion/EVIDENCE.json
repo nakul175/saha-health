@@ -42,11 +42,11 @@
   "files": [
     {
       "path": "app/api/configuration-publications/route.ts",
-      "sha256": "00e6705317568a0e072c9ee02aa2b4cdcea7e43d7697f0f2f47b9043a52d4d2e"
+      "sha256": "2782ecee5c61ba33e8fe20ed7fb9407915b802d62fc71ac38f49c79650ea0fd4"
     },
     {
       "path": "app/configuration-publication-panel.tsx",
-      "sha256": "43df0a5d6e84ef4416b9f0d40a2873d6d7544debcb6842ca371b50a826b19eb2"
+      "sha256": "a390a86cd4fc4fb6baa77aba1110278151ce4d7845fa76697166c338315c39cf"
     },
     {
       "path": "app/operations-panel.tsx",
@@ -58,11 +58,11 @@
     },
     {
       "path": "lib/saha/configuration-publication-server.ts",
-      "sha256": "336cf44e533df9894246b025951e85e137c96f19ecfadffc9763634e805f9ad2"
+      "sha256": "895af36f3ea6948f9865a144a4efdf81863bc560d5721ac3507f1a5e8ea3f788"
     },
     {
       "path": "lib/saha/configuration-publication.ts",
-      "sha256": "893f513b83ad33264ca685fe794d23e241c5b6c9bdbde2af963bc372e2198abe"
+      "sha256": "4131df38a55673df4bdac3c3d1c628e2cf69e215cc15a835ede2c16f664ef160"
     },
     {
       "path": "lib/saha/monitoring.ts",
@@ -74,11 +74,11 @@
     },
     {
       "path": "tests/configuration-publication-contract.mjs",
-      "sha256": "98213cd5054b65be34407450a9fa08c6e21eda00b55c4e373d1c42d71573ec9d"
+      "sha256": "7fc30e7142cb63bc99a5770fbbc84416ddefddf795d747c757a2b70d590d61b3"
     },
     {
       "path": "tests/configuration-publication-http.mjs",
-      "sha256": "9b90712f122134c91da32b67f61bd375bdac8042a44ff754a0435ee2240c9005"
+      "sha256": "1997924f64aa0f9de7d999afa7694c3a2b60db26a654ba91be62d1b246cef66d"
     },
     {
       "path": "tests/evidence/saha116-local-coding-completion/contract.json",
@@ -88,5 +88,15 @@
       "path": "tests/evidence/saha116-local-coding-completion/http.json",
       "sha256": "d606b0d6da768374d33434c94ab03de2ffdb4ccd7b09c15e4b3d0ea15132bb7f"
     }
-  ]
+  ],
+  "reviewRepair": {
+    "date": "2026-10-20",
+    "reason": "Independent review found blank EOF lines in six exact candidate source/test files despite the recorded diff-check pass.",
+    "change": "Removed only the blank EOF lines and refreshed exact file hashes; application behavior is unchanged.",
+    "verification": [
+      "git diff --check",
+      "node tests/configuration-publication-contract.mjs",
+      "node node_modules/typescript/bin/tsc --noEmit"
+    ]
+  }
 }

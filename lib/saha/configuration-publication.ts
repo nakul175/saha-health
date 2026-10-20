@@ -62,4 +62,3 @@ export async function applyConfigurationPublication(s:OrgState,input:unknown,u:A
  }
  ops.configurationReleaseAttestation=await configurationAttestation(records);return {...result,attestation:ops.configurationReleaseAttestation};
 }
-

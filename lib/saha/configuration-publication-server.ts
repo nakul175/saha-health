@@ -18,4 +18,3 @@ export async function configurationPublicationPost(request:Request){
  const hash=await digest(raw),saved=await db().prepare('SELECT org_id,hash,result,command_type FROM command_receipts WHERE actor_id=? AND key=?').bind(trusted.userId,key).first<{org_id:string;hash:string;result:string;command_type:string}>();if(saved){if(saved.org_id!==s.organisation.id||saved.hash!==hash)fail(409,'Original request key belongs to different input.');if(saved.command_type!==c.type)fail(409,'Original request key belongs to another operation.');return json({...JSON.parse(saved.result),replayed:true});}
  const before=structuredClone(s),result=await applyConfigurationPublication(s,c,trusted,m);if(!result)fail(422,'Use the versioned configuration publication contract.');await persist(db(),before,s,trusted,{type:c.type},key,hash,result);return json(result);
 }
-
