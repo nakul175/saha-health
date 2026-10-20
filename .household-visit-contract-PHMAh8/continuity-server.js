@@ -1,0 +1,34 @@
+import { registerMatchCopy } from './registration-device-work.js';
+import { db, identity, loadFor, json } from './server.js';
+import { recordMatchSearch, recordPatientWorkView } from './read-audit.js';
+import { allowed } from './access.js';
+import { fail } from './core.js';
+import { scope } from './store.js';
+import { boundedJsonBody } from './request-body.js';
+import { matchInput, patientMatches, openPatientWork } from './continuity.js';
+export async function matchesRead(request) {
+    const origin = request.headers.get('origin');
+    if (origin && origin !== new URL(request.url).origin)
+        fail(403, 'Cross-origin patient searches are unavailable.');
+    if (request.headers.get('sec-fetch-site') === 'cross-site')
+        fail(403, 'Cross-site patient searches are unavailable.');
+    if (!request.headers.get('content-type')?.startsWith('application/json'))
+        fail(415, 'Use JSON for patient search.');
+    const u = await identity(), s = await loadFor(u, request.headers.get('x-saha-organisation')), m = scope(s, u.userId), parsed = matchInput.safeParse(await boundedJsonBody(request, 3000));
+    if (!parsed.success)
+        fail(422, 'Enter valid patient demographics and a care team.');
+    const result = await patientMatches(s, m, parsed.data);
+    // Slice 10h: the duplicate check is a search of permitted records: recorded as a kind and a result count, never the entered details.
+    await recordMatchSearch(db(), s, u, m, result.candidates.length, result.overflow);
+    const fresh = await loadFor(u, s.organisation.id);
+    const copyId = await registerMatchCopy(db(), fresh, u, parsed.data, result);
+    return json({ ...result, copyId });
+}
+export async function continuityRead(request) {
+    const u = await identity(), s = await loadFor(u, request.headers.get('x-saha-organisation')), m = scope(s, u.userId);
+    if (m.role === 'admin')
+        fail(403, 'Patient access is required.');
+    const people = s.workspace.people.filter(p => allowed(m, p)).map(p => { const work = openPatientWork(s, p), handover = p.assignmentHistory?.at(-1), missing = work.filter(t => !s.members.some(owner => owner.userId === t.ownerId && ['asha', 'clinician'].includes(owner.role) && allowed(owner, p))); return { id: p.id, name: p.name, age: p.age, sex: p.sex, village: p.village, version: p.version, teamId: p.teamId, assignedTo: p.assignedTo, identityReview: p.identityReview ?? null, handover: handover ?? null, work, unavailableOwners: missing.length }; }).filter(p => p.unavailableOwners || p.identityReview?.state === 'provisional' || (p.handover?.ownerId && !p.handover.acknowledgement));
+    await recordPatientWorkView(db(), s, u, m, 'care continuity', people.length);
+    return json({ generatedAt: new Date().toISOString(), people, canAssign: (m.isOwner || m.role === 'supervisor'), canResolveIdentity: m.role === 'clinician', scope: 'Only patients in your current care scope; unavailable task owners and unacknowledged handovers remain visible.' });
+}

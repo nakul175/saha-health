@@ -8,6 +8,7 @@ import { operator } from './operations';
 import { contactWithdrawalItems, recordConsent } from './consent';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
+import { actionAuthorityCurrent, bindActionAuthority, type ActionAuthority, type ActionAuthorityFacts } from './action-authority';
 
 export const MESSAGE_COPY={
  en:'This is a reminder to get in touch using the contact details already provided to you. Do not reply with personal information.',
@@ -17,7 +18,7 @@ export type ContactPreferences={version:number;method:'none'|'in_person'|'sms';d
 export type OutreachItem={householdItems?:import('./household-visit').HouseholdVisitItem[];id:string;personId:string;ownerId:string;reason:string;state:'planned'|'attempted'|'completed'|'cancelled';events:{at:string;by:string;state:string;note:string;reference:string;visitId?:string}[]};
 export type OutreachPlan={householdSlot?:{householdId:string;slotId:string;date:string;window:string};id:string;version:number;title:string;date:string;teamId:string;criteria:string;createdAt:string;createdBy:string;state:'draft'|'scheduled'|'completed'|'cancelled';items:OutreachItem[];history:{at:string;by:string;state:string;reason:string}[]};
 export type MessageTemplate={id:string;version:number;language:'en'|'hi';body:string;state:'review'|'approved'|'suspended';createdBy:string;createdAt:string;reviewedBy?:string;reviewerVersion?:number;reference?:string;reason?:string};
-export type OutreachMessage={id:string;version:number;planId:string;itemId:string;personId:string;templateId:string;templateVersion:number;body:string;scheduledAt:string;createdAt:string;createdBy:string;authorVersion:number;state:'draft'|'approved'|'simulated'|'failed'|'cancelled';approval?:{by:string;memberVersion:number;at:string;hash:string};attempts:{at:string;by:string;result:'simulated'|'failed';receipt:string}[];recovery?:{ownerId:string;state:'open'|'resolved';resolution?:string;reference?:string;at?:string};cancelReason?:string};
+export type OutreachMessage={id:string;version:number;planId:string;itemId:string;personId:string;templateId:string;templateVersion:number;body:string;scheduledAt:string;createdAt:string;createdBy:string;authorVersion:number;state:'draft'|'approved'|'simulated'|'failed'|'cancelled';approval?:ActionAuthority;attempts:{at:string;by:string;result:'simulated'|'failed';receipt:string}[];recovery?:{ownerId:string;state:'open'|'resolved';resolution?:string;reference?:string;at?:string};cancelReason?:string};
 export type Outreach={plans:OutreachPlan[];templates:MessageTemplate[];messages:OutreachMessage[]};
 export const defaultOutreach=():Outreach=>({plans:[],templates:[],messages:[]});
 const id=z.string().trim().min(1).max(200),version=z.number().int().positive(),note=z.string().trim().min(10).max(500),reference=z.string().trim().min(3).max(200);
@@ -73,6 +74,11 @@ export async function messageReview(s:OrgState,v:OutreachMessage,now=new Date().
  owner(s,p,item.ownerId);const t=approvedTemplate(s,v.templateId),contact=safeContact(p,v.scheduledAt);if(t.version!==v.templateVersion||t.body!==v.body||t.language!==contact.language)fail(409,'Template or contact language changed. Cancel and prepare a new message.');
  return {hash:await digest({id:v.id,identity:{name:p.name,age:p.age,sex:p.sex,village:p.village,teamId:p.teamId,assignedTo:p.assignedTo},contact,template:t,authorVersion:author.version,planVersion:plan.version,item,scheduledAt:v.scheduledAt}),destination:contact.destination,language:t.language,body:t.body,now};
 }
+function messageAuthorityFacts(v:OutreachMessage,review:Awaited<ReturnType<typeof messageReview>>,approver:Member):ActionAuthorityFacts{return {
+ actorId:approver.userId,actorVersion:approver.version,taskId:v.id,taskVersion:v.state==='draft'?v.version+1:v.version,evidenceHash:review.hash,
+ action:'simulate-contact-attempt',destination:review.destination,purpose:'outreach-reminder',
+ capabilityVersions:{contact:v.personId+':'+review.hash,template:v.templateId+':'+v.templateVersion,plan:v.planId},
+};}
 export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
  const parsed=outreachSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeOutreach(s,m,c);const out=s.outreach??=defaultOutreach();let result:any={ok:true},personId:string|undefined;
  if(c.type==='setContactPreferences'){
@@ -112,10 +118,10 @@ export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,no
  }else{
   const v=messageFor(s,c.messageId);personId=v.personId;current(v.version,c.version);
   if(c.type==='messageApprove'){
-   if(v.state!=='draft')fail(409,'Only a draft message can be approved.');if(v.createdBy===m.userId)fail(403,'A different clinician or supervisor must review the message.');const review=await messageReview(s,v,now);if(review.hash!==c.hash)fail(409,'Message context changed. Review the current preview.');v.approval={by:m.userId,memberVersion:m.version,at:now,hash:c.hash};v.state='approved';
+   if(v.state!=='draft')fail(409,'Only a draft message can be approved.');if(v.createdBy===m.userId)fail(403,'A different clinician or supervisor must review the message.');const review=await messageReview(s,v,now);if(review.hash!==c.hash)fail(409,'Message context changed. Review the current preview.');v.approval=await bindActionAuthority(messageAuthorityFacts(v,review,m),now,86400000);v.state='approved';
   }else if(c.type==='messageSimulate'){
-   if(v.state!=='approved')fail(409,'Approve the current message before simulation.');const review=await messageReview(s,v,now),approver=member(s,v.approval!.by),p=person(s.workspace,v.personId);
-   if(!approver||!['clinician','supervisor'].includes(approver.role)||!allowed(approver,p)||approver.version!==v.approval!.memberVersion||review.hash!==v.approval!.hash||Date.parse(now)-Date.parse(v.approval!.at)>86400000)fail(409,'Message approval expired or access/context changed. Cancel and prepare a new message.');
+   if(v.state!=='approved')fail(409,'Approve the current message before simulation.');const review=await messageReview(s,v,now),approver=v.approval?member(s,v.approval.actorId):undefined,p=person(s.workspace,v.personId);
+   if(!approver||!['clinician','supervisor'].includes(approver.role)||!allowed(approver,p)||!await actionAuthorityCurrent(v.approval,messageAuthorityFacts(v,review,approver),now))fail(409,'Message approval expired or access/context changed. Cancel and prepare a new message.');
    if(now<v.scheduledAt)fail(409,'This message is not due yet.');safeContact(p,now);if(v.attempts.length>=3)fail(409,'Retry limit reached. Resolve this through the outreach follow-up.');
    const receipt='SIM-MSG-'+uuid();v.attempts.push({at:now,by:u.userId,result:c.outcome,receipt});v.state=c.outcome;if(c.outcome==='failed')v.recovery={ownerId:planFor(s,v.planId).items.find(i=>i.id===v.itemId)!.ownerId,state:'open'};result={receipt,state:v.state,realMessageSent:false};
   }else if(c.type==='messageRetry'){

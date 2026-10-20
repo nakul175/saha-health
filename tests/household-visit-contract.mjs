@@ -13,6 +13,7 @@ try {
   // Compile the complete Saha module graph. A hand-maintained dependency list made this
   // story contract silently stale whenever a transitive authorization guard was added.
   for (const f of readdirSync('lib/saha').filter(x => x.endsWith('.ts')).map(x => x.slice(0, -3)))
+  for(const f of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts')).map(x=>x.slice(0,-3)))
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const hv = await import(pathToFileURL(join(dir, 'household-visit.js')));
   const rc = await import(pathToFileURL(join(dir, 'referral-consolidation.js')));

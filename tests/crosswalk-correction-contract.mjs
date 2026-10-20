@@ -5,8 +5,8 @@
 // never sent automatically. `identifierLink` and `identifierWithdraw` (slice 10e) are unchanged.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, readdirSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 const dir = mkdtempSync(join(process.cwd(), '.crosswalk-correction-contract-'));
 let passed = 0;
@@ -14,10 +14,23 @@ const check = fn => { fn(); passed++; };
 const rejects = async (fn, status, pattern) => { await assert.rejects(fn, e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 // Every module is read from the working tree, like every other contract (integration of #145: reading dependencies from
 // git HEAD, as the parallel build did, tested committed code rather than the code under test and failed during a merge).
-const src = f => readFileSync(`lib/saha/${f}.ts`, 'utf8');
+const hasExtension = f => /\.(?:mjs|json)$/.test(f);
+const src = f => readFileSync(`lib/saha/${f}${hasExtension(f) ? '' : '.ts'}`, 'utf8');
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'crosswalk', 'crosswalk-correction', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identifier-search', 'identity', 'import-rejections', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'patient-import', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'contact-import', 'record-import', 'referral-needs', 'referral-request', 'referral-rules', 'report-export', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types', 'visit-import'])
-    writeFileSync(join(dir, f + '.js'), ts.transpileModule(src(f), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
+  // Compile the complete application module set so the contract cannot silently omit a newly introduced
+  // transitive dependency when independently replayed against an integrated story candidate.
+  const pending = readdirSync('lib/saha').filter(file => file.endsWith('.ts')).map(file => file.slice(0, -3)), copied = new Set();
+  while (pending.length) {
+    const f = pending.pop();
+    if (copied.has(f)) continue;
+    copied.add(f);
+    const source = src(f);
+    for (const match of source.matchAll(/from ['"]\.\/([^'"]+)['"]/g))
+      if (!copied.has(match[1])) pending.push(match[1]);
+    const output = join(dir, f + (hasExtension(f) ? '' : '.js'));
+    mkdirSync(dirname(output), { recursive: true });
+    writeFileSync(output, f.endsWith('.json') ? source : ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, (_all, specifier) => `from '${hasExtension(specifier) ? specifier : specifier + '.js'}'`));
+  }
   const imp = n => import(pathToFileURL(join(dir, n + '.js')));
   const [CC, C, TY, AD] = await Promise.all(['crosswalk-correction', 'crosswalk', 'types', 'adapter-operations'].map(imp));
   const now = '2026-10-03T09:00:00.000Z';

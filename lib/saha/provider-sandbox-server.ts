@@ -1,6 +1,7 @@
 import { identity, loadFor, json, db, runtime } from './server';
 import { scope } from './store';
 import { providers } from './agent';
+import { providerSelfServiceContract } from './provider-sandbox-contract';
 import { governanceManager, governanceState, entryScope, type Governance, type GovernanceEntry } from './governance';
 import type { Evaluation } from './evaluation';
 // Slice 5b: provider sandbox status for sandbox members, and importable proposals for production owners.
@@ -9,7 +10,7 @@ const proposal=(g:Governance,e:GovernanceEntry)=>({entryId:e.id,entryVersion:e.v
 export async function providerSandboxRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId),g=governanceState(s),sb=g.sandbox;
  const notice='Synthetic sandbox only. Provider accounts cannot see patient records, review or activate anything, or reach a production organisation. Credential references name a server-side binding; no credential value is stored.';
- if(sb){const member=m.isOwner||m.role==='provider';return json({notice,sandbox:{organisationId:s.organisation.id,providerId:sb.providerId,providerName:sb.providerName,declaredAt:sb.declaredAt,reason:sb.reason,documentation:member?sb.documentation??null:null},proposals:member?g.entries.filter(e=>e.spec.kind==='capability').map(e=>proposal(g,e)):[],canEditDocs:member,canInvite:m.isOwner,role:m.role});}
+ if(sb){const member=m.isOwner||m.role==='provider';return json({notice,contract:providerSelfServiceContract(sb),sandbox:{organisationId:s.organisation.id,providerId:sb.providerId,providerName:sb.providerName,declaredAt:sb.declaredAt,reason:sb.reason,documentation:member?sb.documentation??null:null},proposals:member?g.entries.filter(e=>e.spec.kind==='capability').map(e=>proposal(g,e)):[],canEditDocs:member,canInvite:m.isOwner,role:m.role});}
  const imported=governanceManager(m)?g.entries.filter(e=>e.origin&&entryScope(m,e)).map(e=>({entryId:e.id,title:e.spec.title,revision:e.revision,state:e.state,origin:e.origin})):[];
  let sandboxes:any[]=[];
  if(m.isOwner){

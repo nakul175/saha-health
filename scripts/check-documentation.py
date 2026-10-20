@@ -120,7 +120,7 @@ for integration_binding_name in integration_binding_paths:
         key=(binding.get('originalManifest'),binding.get('sourcePath'))
         require(key not in integration_bindings,'Duplicate integration source binding: '+str(key))
         integration_bindings[key]=binding
-for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json','evidence-source-snapshots-routine-retention.json','evidence-source-snapshots-refresh-contrast-20261012.json','evidence-source-snapshots-historical28-20261016.json']:
+for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json','evidence-source-snapshots-routine-retention.json','evidence-source-snapshots-refresh-contrast-20261012.json','evidence-source-snapshots-historical28-20261016.json','evidence-source-snapshots-next32.json']:
     additional_index=ROOT/'docs/verification'/additional_name
     if additional_index.exists():
         for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():

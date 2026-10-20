@@ -30,6 +30,7 @@ import { workforceImportSchema } from './workforce-import';
 import { abdmSchema } from './abdm';
 import { transferSchema } from './abdm-transfer';
 import { governanceSchema } from './governance';
+import { deploymentAuthorisationSchema } from './deployment-authorisation';
 import { evaluationSchema } from './evaluation';
 import { sandboxSchema } from './provider-sandbox';
 import { continuitySchema, transferPatientWork } from './continuity';
@@ -100,6 +101,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...abdmSchema.options,
  ...transferSchema.options,
  ...governanceSchema.options,
+ ...deploymentAuthorisationSchema.options,
  ...evaluationSchema.options,
  ...sandboxSchema.options,
  ...shadowSchema.options,

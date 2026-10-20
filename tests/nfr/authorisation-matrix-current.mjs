@@ -65,6 +65,12 @@ const ROUTE_PARAMS = {
   '/api/installed-pack-transition': () => [{q:''}], // migration 0032: audited read of reviewed programme transitions; every principal is checked for patient, token and organisation leakage like the other GET routes
   '/api/imported-evidence': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
   '/api/clinical-sources': w => [{q:w.sourceQuery}],
+  '/api/approved-sources': () => [{ q: '' }],
+  '/api/capability-registration': () => [{ q: '' }],
+  // The synthetic world has no two reviewable agent runs. A real assigned
+  // encounter still exercises the route; 409 is its valid empty-review state.
+  '/api/disagreement-review': w => [{ q: `?personId=${w.people.a2}&visitId=${w.visits.v2}`, kind: 'plain' }],
+  '/api/identity-link-review': w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }],
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),
   '/api/rights': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/work-burden/support': w => [{ q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
@@ -142,6 +148,7 @@ try {
   await r.check(`grid is complete: ${cases.length} requests x ${PRINCIPALS.length} principals, every cell has a status`, () => { if (cases.length < 40) throw new Error(`only ${cases.length} cases`); none(violations((c, p) => (Number.isInteger(c.cells[p].status) ? '' : 'no status')), 'cells'); });
   // These explicit ASHA-only routes refuse the owner; all old legacy owner responses remain unchanged.
   await r.check('control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/local-registration', '/api/shared-question-review'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/disagreement-review', '/api/identity-link-review'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
   for (const [route, label] of [['/api/programme-status', 'Programme status'], ['/api/handover', 'Receiving handover']]) {
     await r.check(`${label} permits only its assigned ASHA and refuses every other principal`, () => {
       const row = cases.find(c => c.route === route); assert.ok(row);

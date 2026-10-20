@@ -10,6 +10,23 @@ export type Language = 'en' | 'hi';
 export const LANGUAGES: readonly Language[] = ['en', 'hi'];
 export const DEFAULT_LANGUAGE: Language = 'en';
 export const LANGUAGE_NAME: Record<Language, string> = { en: 'English', hi: 'हिन्दी' };
+export type LanguageResourceState = 'qualified' | 'draft' | 'unavailable';
+// Resource state is code configuration, not a claim of human acceptance. English is the
+// preserved source text. Hindi remains a draft until a qualified review is recorded in a
+// future, versioned resource. Safety-critical screens therefore fail closed to English.
+export const LANGUAGE_RESOURCES = {
+  en: { revision: 'source-en-v1', state: 'qualified' as const, reviewReference: 'preserved-source-text' },
+  hi: { revision: 'draft-hi-v1', state: 'draft' as const, reviewReference: null },
+} as const;
+export const SAFETY_CRITICAL_SCREENS = ['capture', 'review', 'receipts', 'clinical'] as const;
+export function languageResource(language: Language, key: string) {
+  const requested = LANGUAGE_RESOURCES[language];
+  const safetyCritical = (SAFETY_CRITICAL_SCREENS as readonly string[]).includes(screenOf(key));
+  const available = language === 'en' || !safetyCritical || requested.state === 'qualified';
+  return { requestedLanguage: language, effectiveLanguage: available ? language : 'en' as Language,
+    revision: requested.revision, state: requested.state as LanguageResourceState, safetyCritical, available,
+    fallbackReason: available ? null : 'qualified-language-resource-unavailable' as const };
+}
 export type Params = Record<string, string | number>;
 type Entry = readonly [en: string, hi?: string];
 
@@ -21,6 +38,7 @@ export const CATALOGUE = {
   'common.untranslatedNotice': ['This screen is not translated yet and is shown in English.', 'यह स्क्रीन अभी अनूदित नहीं है और अंग्रेज़ी में दिखाई गई है।'],
   'common.choose': ['Choose…', 'चुनें…'],
   'common.noticeLabel': ['Translation notice', 'अनुवाद सूचना'],
+  'common.criticalUnavailable': ['Safety-critical Hindi content is unavailable until qualified review. It is shown in English.', 'योग्य समीक्षा होने तक सुरक्षा-महत्वपूर्ण हिंदी सामग्री उपलब्ध नहीं है। इसे अंग्रेज़ी में दिखाया जाता है।'],
   'common.state.accepted': ['accepted', 'स्वीकार किया गया'],
   'common.state.uncertain': ['uncertain', 'अनिश्चित'],
   'common.state.rejected': ['rejected', 'अस्वीकार किया गया'],
@@ -478,13 +496,13 @@ export function createTranslator(catalogue: Record<string, Entry>) {
   return { message, plural, has };
 }
 const real = createTranslator(CATALOGUE);
-export const message = (language: Language, key: MessageKey, params?: Params): string => real.message(language, key, params);
-export const plural = (language: Language, key: 'patient.consentWithdrawn' | 'patient.mergedFrom' | 'clinical.urgentCount' | 'clinical.needReview', n: number, params?: Params): string => real.plural(language, key, n, params);
+export const message = (language: Language, key: MessageKey, params?: Params): string => real.message(languageResource(language, key).effectiveLanguage, key, params);
+export const plural = (language: Language, key: 'patient.consentWithdrawn' | 'patient.mergedFrom' | 'clinical.urgentCount' | 'clinical.needReview', n: number, params?: Params): string => real.plural(languageResource(language, key).effectiveLanguage, key, n, params);
 export const hasMessage = (key: string): key is MessageKey => real.has(key);
 // A state or choice value shown as a label: the translated label when one exists, the stored value otherwise.
-export const labelFor = (language: Language, group: string, value: string): string => (real.has(`${group}.${value}`) ? real.message(language, `${group}.${value}`) : value);
+export const labelFor = (language: Language, group: string, value: string): string => (real.has(`${group}.${value}`) ? real.message(languageResource(language, `${group}.${value}`).effectiveLanguage, `${group}.${value}`) : value);
 // "signed off by X, <time> UTC" in either language, from the stored sign-off.
-export const signOffLine = (language: Language, signOff: { byName: string; at: string } | undefined): string => signOff ? real.message(language, 'receipts.signedOff', { name: signOff.byName, at: signOff.at.slice(0, 16).replace('T', ' ') }) : real.message(language, 'receipts.notSignedOff');
+export const signOffLine = (language: Language, signOff: { byName: string; at: string } | undefined): string => signOff ? message(language, 'receipts.signedOff', { name: signOff.byName, at: signOff.at.slice(0, 16).replace('T', ' ') }) : message(language, 'receipts.notSignedOff');
 
 // ---- The per-member language choice, saved in the organisation's operations record (slice 10j) ---------------------------
 // Stored as operations.memberLanguages[userId]. It follows the member in this organisation only, is versioned like the

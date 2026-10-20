@@ -14,6 +14,7 @@ import { catalogue, definitionLifecycle, GROUPS, indicatorRun, interpret, manage
 import { ledgerFull, pruneLedger, RESIDUAL_RISK, screenReleases, type Release } from './indicator-differencing';
 import { lateSinceRelease, teamFreshness } from './indicator-freshness';
 import { resolveDefinition } from './indicators';
+import { normallyAllowed } from './access';
 // Slice 6d: catalogue, governed interpretation of a question, and scoped indicator queries.
 // Slice 6w (fifth review, finding 4): GET reads the catalogue and interprets questions only. Running a query
 // records a release in the differencing ledger, so it is POST only (a cross-site GET cannot trigger it).
@@ -50,7 +51,7 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  ensurePurpose(m,'reporting'); // slice 13a: computing and releasing indicator figures is a reporting flow
  const ids=(p.get('ids')??'').split(',').map(x=>x.trim()).filter(Boolean);
  // Slice 6s: the catalogue read also carries every recorded version and the definition vocabulary.
- if(!ids.length)return json({...registryView(s,m,u.userId),protection:RESIDUAL_RISK,groups:GROUPS,minimumCell:MIN_CELL,teams:s.teams.filter(t=>m.teamIds.includes(t.id)).map(t=>({id:t.id,name:t.name})),villages:[...new Set(s.workspace.people.filter(x=>x.assigned).map(x=>x.village))].sort(),programmes:[...new Set(s.workspace.people.filter(x=>x.assigned).flatMap(x=>x.programmes))].sort()});
+ if(!ids.length){const visible=s.workspace.people.filter(x=>x.assigned&&!x.mergedInto&&normallyAllowed(m,x));return json({...registryView(s,m,u.userId),protection:RESIDUAL_RISK,groups:GROUPS,minimumCell:MIN_CELL,teams:s.teams.filter(t=>m.teamIds.includes(t.id)).map(t=>({id:t.id,name:t.name})),villages:[...new Set(visible.map(x=>x.village))].sort(),programmes:[...new Set(visible.flatMap(x=>x.programmes))].sort()});}
  // Slice 13d (ninth review, finding 8): each refusal tells the viewer that a combination would reveal a small group, so refused
  // and partly withheld queries are recorded (below and in recordRelease) and limited per viewer per day.
  await refusalLimit(s.organisation.id,u.userId);

@@ -7,7 +7,7 @@ import { boundedJsonBody } from './request-body';
 import { environmentOf } from './environment';
 import { mayImport, planImport, publicPlan, csvBytes, MAX_CSV } from './patient-import';
 import { mayImportVisits, VISIT_REFUSED } from './visit-import';
-import { planRecordImport, publicRecordPlan, recordImportInput } from './record-import';
+import { planLegacyImportReversal, planRecordImport, publicRecordPlan, recordImportInput } from './record-import';
 import { rejectionReport, REJECTIONS_DEFINITION, REJECTION_KINDS } from './import-rejections';
 import { recordAccess } from './access-audit';
 import { planWorkforceImport, WORKFORCE_REFUSED, workforceReportPlan } from './workforce-import';
@@ -21,7 +21,7 @@ async function body(request:Request){
  return {input,env:e.name};
 }
 export async function recordImportDryRun(request:Request){
- const u=await identity(),{input,env}=await body(request);const reversal=z.object({kind:z.literal('contacts-reversal'),batchId:z.string().min(1).max(100)}).strict().safeParse(input);if(reversal.success){const s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);return json(await planContactReversal(s,m,reversal.data.batchId,env));}const parsed=recordImportInput.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid import.');
+ const u=await identity(),{input,env}=await body(request);const reversal=z.object({kind:z.literal('contacts-reversal'),batchId:z.string().min(1).max(100)}).strict().safeParse(input);if(reversal.success){const s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);return json(await planContactReversal(s,m,reversal.data.batchId,env));}const legacyReversal=z.object({kind:z.enum(['enrolments-reversal','identifiers-reversal']),batchId:z.string().min(1).max(100)}).strict().safeParse(input);if(legacyReversal.success){const s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);return json(await planLegacyImportReversal(s,m,legacyReversal.data.kind.replace('-reversal','') as 'enrolments'|'identifiers',legacyReversal.data.batchId,env));}const parsed=recordImportInput.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid import.');
  const s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);
  return json({...publicRecordPlan(await planRecordImport(s,m,parsed.data!.kind,parsed.data!.csv,env)),generatedAt:new Date().toISOString()});
 }

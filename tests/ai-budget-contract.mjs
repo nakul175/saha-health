@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';import ts from 'typescript';import {read
 const dir=mkdtempSync(join(process.cwd(),'.ai-budget-contract-'));let passed=0;const check=fn=>{fn();passed++},rejects=async(fn,pattern)=>{await assert.rejects(fn,pattern);passed++};
 const status=async(fn,code,pattern)=>{try{await fn();}catch(e){assert.equal(e.status,code,e.message);if(pattern)assert.match(e.message,pattern);passed++;return e;}assert.fail(`expected ${code}`);};
 try{
- for(const file of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ for(const file of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts')).map(x=>x.slice(0,-3)))writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const {checkCapabilityBudget}=await import(pathToFileURL(join(dir,'governance.js'))),{providers,AGENT_VERSION,agentApply}=await import(pathToFileURL(join(dir,'agent.js')));
  const budget=await import(pathToFileURL(join(dir,'ai-budget.js'))),{applyOperations,maintenanceAllows}=await import(pathToFileURL(join(dir,'operations.js')));
  const now=new Date().toISOString(),today=now.slice(0,10),future=new Date(Date.now()+86400000).toISOString(),lastMonth=new Date(Date.UTC(new Date().getUTCFullYear(),new Date().getUTCMonth()-1,15)).toISOString();
@@ -15,7 +15,7 @@ try{
  const spec={kind:'capability',key:'fixture-cap',title:'Synthetic capability',ownerId:'owner',teamIds:['team'],effectiveFrom:today,reviewBy:future.slice(0,10),changeSummary:'Synthetic review fixture only.',providerId:'openai',model:provider.model,agentVersion:AGENT_VERSION,purpose:'documentary-evidence',ageMin:18,ageMax:60,roles:['asha','clinician'],populations:['General care'],languages:['en'],settings:['community'],devices:['browser'],tasks:['extract','summary'],inputQuality:'validated-text',excludedUses:'No clinical decisions authorised.',supportContact:'Synthetic owner',hostingRegion:'Not activated',retentionTerms:'Synthetic test input only, no real data.',trainingUse:'not-authorised',agreementReference:'FIXTURE',dailyCallLimit:100,dailyTokenBudget:600000};
  const entry={id:'cap',revision:1,version:3,spec,manifestHash:'fixture-hash',createdBy:'owner',createdAt:now,state:'active',history:[],review:{by:'reviewer',memberVersion:1,ownerVersion:1,authorVersion:1,dependencyStamp:'[]',evaluationId:'evaluation'}};
  const localEntry={...entry,id:'local-cap',spec:{...spec,key:'local-cap',title:'Local rules',providerId:'local',model:local.model}};
- s.governance.entries.push(entry,localEntry);s.governance.evaluations.push({id:'evaluation',manifestHash:entry.manifestHash,state:'completed',metrics:{passed:true}});
+ s.governance.entries.push(entry,localEntry);s.governance.evaluations.push({id:'evaluation',entryId:entry.id,manifestHash:entry.manifestHash,corpusVersion:'fixture-v1',corpusHash:'fixture-corpus',provider:{id:'openai',version:1,mode:'openai',model:'gpt-fixture'},results:[],state:'completed',metrics:{passed:true}});
  const actor=id=>({userId:id,displayName:'Synthetic '+id});
  const request={type:'prepareAgent',visitId:v.id,version:1,providerId:'openai',task:'extract',input:'Weight 58 kg',context};
  const prepare=()=>agentApply(s,request,actor('worker'),worker,[provider,local]);
@@ -60,6 +60,14 @@ try{
  check(()=>{const r=budget.budgetView(s,now)[0];assert.equal(r.reservedUsd,2.4);assert.equal(r.spentUsd,0);assert.equal(r.remainingUsd,0.6);assert.equal(r.state,'reached');});
  // The local rules capability is never charged or refused on cost.
  check(()=>assert.doesNotThrow(()=>budget.checkMonthlyBudget(s,localEntry)));
+
+ // A checkpointed synthetic evaluation reserves the same provider allowance and
+ // recorded evaluation usage settles it. It cannot bypass the capability cap.
+ const evalRates={input:100,output:200,at:now},evState={...s,workspace:{...s.workspace,visits:[]},operations:{...s.operations,rates:evalRates,budgets:[{capabilityKey:'fixture-cap',monthlyUsd:1.5}]},governance:{...s.governance,evaluations:[{id:'metered-evaluation',entryId:'cap',provider,manifestHash:entry.manifestHash,results:[{caseId:'running',state:'running',startedAt:now}]}]}};
+ check(()=>assert.deepEqual(budget.capabilitySpend(evState,'fixture-cap',evalRates,now),{month:now.slice(0,7),spentUsd:0,reservedUsd:1.2,runs:1,missingUsage:1}));
+ await status(()=>budget.checkMonthlyBudget(evState,entry),429,/monthly cost budget/);
+ evState.governance.evaluations[0].results[0]={caseId:'done',state:'completed',startedAt:now,usage:{inputTokens:6000,outputTokens:3000}};
+ check(()=>assert.deepEqual(budget.capabilitySpend(evState,'fixture-cap',evalRates,now),{month:now.slice(0,7),spentUsd:1.2,reservedUsd:0,runs:1,missingUsage:0}));
 
  // Cancelling an unsent request releases its reservation.
  await agentApply(s,{type:'cancelAgent',visitId:v.id,runId:second.runId},actor('worker'),worker,[provider,local]);

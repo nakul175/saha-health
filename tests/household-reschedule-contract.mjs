@@ -11,6 +11,7 @@ const check = fn => { fn(); passed++; };
 const status = (fn, code, msg) => { try { fn(); } catch (e) { assert.equal(e.status, code, `${msg ?? ''} ${e.message}`); return e; } assert.fail(`expected ${code}${msg ? ': ' + msg : ''}`); };
 try {
   for (const f of readdirSync('lib/saha').filter(x => x.endsWith('.ts')).map(x => x.slice(0, -3)))
+  for(const f of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts')).map(x=>x.slice(0,-3)))
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const awaitAccess=await import(pathToFileURL(join(dir,'access.js')));
   const hv = await import(pathToFileURL(join(dir, 'household-visit.js')));

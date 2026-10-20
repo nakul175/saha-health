@@ -129,6 +129,7 @@ export default function Today() {
             <dd>{record.sex || 'Not recorded'}</dd>
           </dl>
           <button onClick={() => void load()}>Back to Today</button>
+          <a href={'/identity-link-review?personId='+encodeURIComponent(record.id)+'&organisationId='+encodeURIComponent(view.kind==='record'?view.organisationId:'')}>Review programme identity corrections</a>
           <a href={'/routine-visit?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
             encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review routine visit</a>
           <a href={'/shared-question-review?personId=' + encodeURIComponent(record.id) + '&organisationId=' + encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review shared encounter questions</a>

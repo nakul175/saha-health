@@ -7,7 +7,29 @@ export const MEDIA_TYPES={'image/jpeg':'photo','image/png':'photo','image/webp':
 export type MediaMime=keyof typeof MEDIA_TYPES;
 export const MEDIA_PURPOSES=['wound-or-skin','document-or-card','medicine-packaging','voice-note','other-clinical'] as const;
 export const MAX_MEDIA_BYTES=256*1024,MIN_MEDIA_BYTES=512,MAX_MEDIA_PER_VISIT=10;
-export type MediaRef={id:string;purpose:typeof MEDIA_PURPOSES[number];mime:MediaMime;size:number;sha256:string;at:string;by:string;removedAt?:string;removedBy?:string;removeReason?:string;storage?:'r2-private-v1'};
+export const MEDIA_RETENTION=['draft-only','visit-record'] as const;
+export type MediaExtractionDraft={field:string;value:string;sourceOffset:string;status:'unconfirmed'};
+export type MediaReview={
+ stage:'available'|'quarantined';scan:'clean'|'blocked'|'unavailable';quality:'acceptable'|'low'|'unusable';
+ personMatch:boolean;retention:typeof MEDIA_RETENTION[number];note:string;by:string;at:string;
+};
+export type MediaRef={id:string;purpose:typeof MEDIA_PURPOSES[number];mime:MediaMime;size:number;sha256:string;at:string;by:string;stage?:'uploaded'|'available'|'quarantined';review?:MediaReview;extractionDrafts?:MediaExtractionDraft[];removedAt?:string;removedBy?:string;removeReason?:string;storage?:'r2-private-v1'};
+export type MediaReviewInput={scan:MediaReview['scan'];quality:MediaReview['quality'];personMatch:boolean;retention:MediaReview['retention'];note:string;extractionDrafts?:{field:string;value:string;sourceOffset:string}[]};
+const text=(value:unknown,min:number,max:number,label:string)=>{if(typeof value!=='string'||value.trim().length<min||value.trim().length>max)fail(422,`${label} must be ${min}-${max} characters.`);return value.trim();};
+// Review is deliberately local and human-recorded. It never invokes a provider and every
+// extracted value stays an unconfirmed draft, distinct from visit facts.
+export function reviewMediaInput(input:MediaReviewInput,actor:string,at=new Date().toISOString()){
+ if(!input||!['clean','blocked','unavailable'].includes(input.scan))fail(422,'Record the current scan result.');
+ if(!['acceptable','low','unusable'].includes(input.quality))fail(422,'Record the current media quality.');
+ if(typeof input.personMatch!=='boolean')fail(422,'Confirm whether the media belongs to this person and encounter.');
+ if(!(MEDIA_RETENTION as readonly string[]).includes(input.retention))fail(422,'Choose an approved media retention class.');
+ const note=text(input.note,10,1000,'Review note'),raw=input.extractionDrafts??[];
+ if(!Array.isArray(raw)||raw.length>20)fail(422,'At most 20 extracted draft fields may be recorded.');
+ const available=input.personMatch&&input.scan==='clean'&&input.quality==='acceptable';
+ if(!available&&raw.length)fail(422,'Unqualified media cannot produce extracted draft fields.');
+ const extractionDrafts=raw.map((x,i)=>({field:text(x?.field,1,80,`Extracted field ${i+1}`),value:text(x?.value,1,500,`Extracted value ${i+1}`),sourceOffset:text(x?.sourceOffset,1,120,`Source offset ${i+1}`),status:'unconfirmed' as const}));
+ return {review:{stage:available?'available' as const:'quarantined' as const,scan:input.scan,quality:input.quality,personMatch:input.personMatch,retention:input.retention,note,by:actor,at},extractionDrafts};
+}
 const starts=(b:Uint8Array,sig:number[],at=0)=>sig.every((x,i)=>b[at+i]===x);
 // The declared type must match the file's own signature; a renamed file is refused.
 export function sniff(bytes:Uint8Array,mime:string):boolean{

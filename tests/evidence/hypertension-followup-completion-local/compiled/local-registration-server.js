@@ -1,0 +1,97 @@
+import { z } from 'zod';
+import { identity, db, json, runtime, command } from './server.js';
+import { readState, scope } from './store.js';
+import { patientId } from './patient-directory.js';
+import { fail, digest } from './core.js';
+import { environmentOf } from './environment.js';
+import { boundedJsonBody } from './request-body.js';
+import { patientMatches } from './continuity.js';
+import { allowed } from './access.js';
+import { recordMatchSearch } from './read-audit.js';
+import { recordAccess } from './access-audit.js';
+import { assertAssignedRead } from './routine-read-guard.js';
+import { localRegistrationContext, localRegistrationSearch, localRegistrationSaved, localRegistrationOperation, localRegistrationCommand } from './local-registration.js';
+import { registrationTransferReadProof, REGISTRATION_TRANSFER_PROOF_SQL } from './local-registration-read-guard.js';
+const SQL = ['SELECT id,revision FROM organisations WHERE id=?', 'SELECT user_id,role,status,version,is_owner FROM memberships WHERE org_id=? ORDER BY user_id', 'SELECT user_id,team_id FROM team_members WHERE org_id=? ORDER BY user_id,team_id', 'SELECT id,name FROM teams WHERE org_id=? ORDER BY id', 'SELECT data FROM operations WHERE org_id=?', 'SELECT id,version,team_id,assigned_to,data FROM patients WHERE org_id=? ORDER BY id', REGISTRATION_TRANSFER_PROOF_SQL];
+async function proof(org) { return (await db().batch(SQL.map(sql => db().prepare(sql).bind(org)))).map(x => x.results); }
+function finalTransfer(rows, ids) { return registrationTransferReadProof(rows[SQL.length - 1], ids, new Date().toISOString()); }
+async function read(actor, org) { const state = await readState(db(), org, undefined, actor.userId, true), member = scope(state, actor.userId); if (member.role !== 'asha')
+    fail(403, 'Current ASHA registration access is required.'); const transfer = registrationTransferReadProof((await db().prepare(REGISTRATION_TRANSFER_PROOF_SQL).bind(org).all()).results, state.workspace.people.map(p => p.id), new Date().toISOString()); const context = localRegistrationContext.parse({ actorId: actor.userId, organisationId: org, memberVersion: member.version, teams: state.teams.filter(t => member.teamIds.includes(t.id)).map(t => ({ id: t.id, name: t.name })), refreshAt: transfer.refreshAt }); return { state, member, context }; }
+async function bind(request) { if (!['synthetic', 'training'].includes(environmentOf(runtime()).name))
+    fail(409, 'Use a synthetic or training workspace.'); if (new URL(request.url).search)
+    fail(400, 'Choose the explicit organisation using its context header.'); const actor = await identity(), org = patientId(request.headers.get('x-saha-organisation')), expected = request.headers.get('x-saha-operation-actor'); if (expected !== null && expected !== actor.userId)
+    fail(403, 'The signed-in account changed. Use the original account.'); return { actor, org }; }
+function reply(value, actor, org) { const response = json(value); response.headers.set('x-saha-operation-actor', actor.userId); response.headers.set('x-saha-organisation', org); return response; }
+export async function localRegistrationRead(request) { const { actor, org } = await bind(request), before = await proof(org), current = await read(actor, org); await recordAccess(db(), current.state, actor, current.member, { action: 'viewWorkspace', subject: org, personId: null, detail: 'Bounded local registration team context; no patient or credential data returned.' }); const final = await proof(org); if (JSON.stringify(before) !== JSON.stringify(final))
+    fail(409, 'Current registration context changed. Refresh.'); finalTransfer(final, current.state.workspace.people.map(p => p.id)); return reply(current.context, actor, org); }
+export async function localRegistrationWrite(request) {
+    const { actor, org } = await bind(request);
+    if (request.headers.get('x-saha-operation-actor') !== actor.userId)
+        fail(403, 'Bind the original signed-in account before registration.');
+    if (request.headers.get('sec-fetch-site') === 'cross-site' || request.headers.get('origin') && request.headers.get('origin') !== new URL(request.url).origin)
+        fail(403, 'Cross-origin registration is unavailable.');
+    if (!request.headers.get('content-type')?.startsWith('application/json'))
+        fail(415, 'Use JSON for registration.');
+    const parsed = localRegistrationOperation.safeParse(await boundedJsonBody(request, 3000));
+    if (!parsed.success)
+        fail(422, 'Enter valid known demographics and current team.');
+    const operation = parsed.data, before = await proof(org), current = await read(actor, org);
+    if (!current.member.teamIds.includes(operation.input.teamId))
+        fail(409, 'The registration team changed. Refresh current access.');
+    if (!allowed(current.member, { id: 'prospective-local-registration', teamId: operation.input.teamId, assignedTo: actor.userId, programmes: ['General care'] }))
+        fail(403, 'The selected local record would be outside current care scope.');
+    if (operation.kind === 'search') {
+        if (operation.memberVersion !== current.member.version)
+            fail(409, 'The registration membership changed. Refresh current access.');
+        const { programme, ...input } = operation.input;
+        void programme;
+        const matches = await patientMatches(current.state, current.member, input);
+        await recordMatchSearch(db(), current.state, actor, current.member, matches.candidates.length, matches.overflow);
+        const final = await proof(org);
+        if (JSON.stringify(before) !== JSON.stringify(final))
+            fail(409, 'The candidate or authority context changed. Check again.');
+        finalTransfer(final, current.state.workspace.people.map(p => p.id));
+        return reply(localRegistrationSearch.parse({ context: current.context, ...matches }), actor, org);
+    }
+    const key = z.string().uuid().safeParse(request.headers.get('idempotency-key'));
+    if (!key.success)
+        fail(400, 'Use one exact original registration operation key.');
+    const c = localRegistrationCommand(operation.input, operation.reviewHash), hash = await digest(c), saved = await db().prepare('SELECT org_id,hash,command_type,person_id,result FROM command_receipts WHERE actor_id=? AND key=?').bind(actor.userId, key.data).first();
+    if (saved && (saved.org_id !== org || saved.hash !== hash || saved.command_type !== 'createPerson'))
+        fail(409, 'The original registration key belongs to different input or scope.');
+    if (!saved) {
+        if (operation.memberVersion !== current.member.version)
+            fail(409, 'The registration membership changed. Refresh current access.');
+        const { programme, ...input } = operation.input;
+        void programme;
+        const matches = await patientMatches(current.state, current.member, input);
+        if (matches.overflow || matches.candidates.length || matches.hash !== operation.reviewHash)
+            fail(409, 'Existing candidates or entered details changed. No new record was created.');
+        await recordMatchSearch(db(), current.state, actor, current.member, matches.candidates.length, matches.overflow);
+    }
+    const dispatchProof = await proof(org);
+    if (JSON.stringify(before) !== JSON.stringify(dispatchProof))
+        fail(409, 'Registration authority changed. Check current access.');
+    finalTransfer(dispatchProof, current.state.workspace.people.map(p => p.id));
+    const headers = new Headers(request.headers);
+    headers.set('x-saha-organisation', org);
+    headers.delete('content-length');
+    const result = await command(new Request(request.url, { method: 'POST', headers, body: JSON.stringify(c) }));
+    const id = result.result.personId;
+    if (!id || saved && id !== saved.person_id)
+        fail(409, 'The original saved registration could not be matched.');
+    const savedProof = await proof(org), latest = await readState(db(), org, [id], actor.userId, true), member = scope(latest, actor.userId);
+    if (member.role !== 'asha')
+        fail(403, 'Current ASHA access was withdrawn. Check the exact attempt with restored access.');
+    const person = latest.workspace.people.find(p => p.id === id && p.assigned && p.assignedTo === actor.userId && !p.mergedInto);
+    if (!person || person.identityReview?.state !== 'local')
+        fail(409, 'Saved local registration changed. Keep the exact attempt unresolved.');
+    await recordAccess(db(), latest, actor, member, { action: 'viewPatientRecord', subject: id, personId: id, detail: 'Exact local registration result read back; no encounter started.' });
+    await assertAssignedRead(db(), member, org, { personId: id });
+    const finalSavedProof = await proof(org);
+    if (JSON.stringify(savedProof) !== JSON.stringify(finalSavedProof))
+        fail(409, 'The saved record or current authority changed. Keep the exact attempt unresolved.');
+    const savedTransfer = finalTransfer(finalSavedProof, [...current.state.workspace.people.map(p => p.id), id]);
+    const context = localRegistrationContext.parse({ ...current.context, memberVersion: member.version, refreshAt: savedTransfer.refreshAt });
+    return reply(localRegistrationSaved.parse({ context, person: { id: person.id, name: person.name, age: person.age, sex: person.sex, village: person.village, version: person.version, identityState: 'local' }, key: key.data, replayed: result.replayed === true }), actor, org);
+}

@@ -5,6 +5,7 @@ export async function mediaSmoke({get,post,check,accounts,org,sql,base}){
  const png=(size=2048,seed=1)=>{const b=new Uint8Array(size);b.set([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a]);for(let i=8;i<size;i++)b[i]=(i*seed)%251;return b;};
  const upload=async(who,visitId,body,{mime='image/png',purpose='wound-or-skin',key=crypto.randomUUID(),status=200}={})=>{const r=await fetch(`${base}/api/media?visitId=${encodeURIComponent(visitId)}&purpose=${purpose}`,{method:'POST',headers:{...who.headers,'Content-Type':mime,'Idempotency-Key':key,'x-saha-organisation':org},body});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,200)));return j;};
  const play=async(who,id,status=200)=>{const r=await fetch(`${base}/api/media/${id}?organisationId=${encodeURIComponent(org)}`,{headers:who.headers});check(()=>assert.equal(r.status,status));return r;};
+ const review=async(who,id,body,status=200,key=crypto.randomUUID())=>{const r=await fetch(`${base}/api/media/${id}/review`,{method:'POST',headers:{...who.headers,'Content-Type':'application/json','Idempotency-Key':key,'x-saha-organisation':org,'x-saha-expected-actor':who.id},body:JSON.stringify(body)});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,200)));return j;};
  const remove=async(who,id,reason,status=200)=>{const r=await fetch(`${base}/api/media/${id}?reason=${encodeURIComponent(reason)}`,{method:'DELETE',headers:{...who.headers,'Idempotency-Key':crypto.randomUUID(),'x-saha-organisation':org}});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,200)));return j;};
  const pid=(await post(o,{type:'createPerson',name:`Media Synthetic ${crypto.randomUUID().slice(0,6)}`,age:47,sex:'Male',village:'Media synthetic locality',programme:'General care',teamId:'default'})).result.personId;
  const vid=(await post(o,{type:'startVisit',personId:pid})).result.visitId;
@@ -22,6 +23,8 @@ export async function mediaSmoke({get,post,check,accounts,org,sql,base}){
  await play(w,first.mediaId,403);await play(a,first.mediaId,403);await play(o,'not-a-media-id',404);
  await get(o,'/api/workspace',200,org);
  check(()=>{const v=o.state.visits.find(x=>x.id===vid);assert.equal(v.media.length,1);assert.equal(v.media[0].size,2048);assert.equal(v.media[0].data,undefined,'snapshots carry references, not content');});
+ const reviewInput={scan:'clean',quality:'acceptable',personMatch:true,retention:'visit-record',note:'Synthetic attachment checked against the selected person and encounter.',extractionDrafts:[{field:'document label',value:'synthetic example',sourceOffset:'page 1'}]},reviewKey=crypto.randomUUID();
+ await review(w,first.mediaId,reviewInput,403);await review(o,first.mediaId,{...reviewInput,personMatch:false},422);const reviewed=await review(o,first.mediaId,reviewInput,200,reviewKey);check(()=>{assert.equal(reviewed.stage,'available');assert.equal(reviewed.extractionDrafts,1);});const replayed=await review(o,first.mediaId,reviewInput,200,reviewKey);check(()=>assert.equal(replayed.replayed,true));await review(o,first.mediaId,reviewInput,409);
  // Removal from a draft leaves a tombstone; confirmed visits are locked.
  const second=await upload(o,vid,png(4096,7));
  await remove(w,second.mediaId,'Worker attempt',403);await remove(o,second.mediaId,'no',422);
@@ -34,5 +37,5 @@ export async function mediaSmoke({get,post,check,accounts,org,sql,base}){
  await post(o,{type:'confirmVisit',visitId:vid,version:o.state.visits.find(x=>x.id===vid).version});
  await upload(o,vid,png(3000,3),{status:409});await remove(o,first.mediaId,'Try after confirmation',409);
  await play(o,first.mediaId);
- check(()=>assert.ok(sql.prepare("SELECT count(*) AS n FROM audit_events WHERE org_id=? AND person_id=? AND action IN ('attachMedia','removeMedia')").get(org,pid).n===3));
+ check(()=>assert.ok(sql.prepare("SELECT count(*) AS n FROM audit_events WHERE org_id=? AND person_id=? AND action IN ('attachMedia','reviewMedia','removeMedia')").get(org,pid).n===4));
 }

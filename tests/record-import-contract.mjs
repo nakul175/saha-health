@@ -14,7 +14,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const rejects = async (fn, status, pattern) => { await assert.rejects(fn, e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'import-rejections', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'patient-import', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'contact-import', 'record-import', 'referral-needs', 'referral-request', 'referral-rules', 'report-export', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types', 'visit-import'])
+  for(const f of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts')).map(x=>x.slice(0,-3)))
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const R = await import(pathToFileURL(join(dir, 'record-import.js')));
   const X = await import(pathToFileURL(join(dir, 'import-rejections.js')));
@@ -91,7 +91,7 @@ try {
   await rejects(() => apply(state(), 'enrolments', efile, eplan.planHash, {}, undefined, member('clin', 'clinician')), 403, /Only an owner or supervisor/);
   await rejects(() => apply(state(), 'identifiers', efile, eplan.planHash), 422, /header must name exactly/);
   const s = state(), done = await apply(s, 'enrolments', efile, eplan.planHash);
-  check(() => { assert.deepEqual(done.counts, { rows: 16, accepted: 4, rejected: 12, applied: 4, records: 2 }); assert.deepEqual(done.rows, [1, 2, 12, 13]); assert.equal(JSON.stringify(done).includes('p1'), false, 'result carries no record ids'); });
+  check(() => { assert.deepEqual(done.counts, { rows: 16, accepted: 4, rejected: 12, source: 16, parsed: 16, duplicates: 2, merged: 0, applied: 4, records: 2 }); assert.deepEqual(done.rows, [1, 2, 12, 13]); assert.equal(JSON.stringify(done).includes('p1'), false, 'result carries no record ids'); });
   check(() => { const p1 = s.workspace.people[0]; assert.deepEqual(p1.enrolments.map(e => [e.packId, e.packVersion, e.state, e.registration]), [['tb', 1, 'active', 'not_submitted'], ['hypertension', 1, 'active', 'not_submitted'], ['maternal', 2, 'active', 'not_submitted']]); assert.ok(p1.enrolments.every(e => e.imported.planHash === eplan.planHash && e.imported.by === 'owner' && e.createdBy === 'owner')); assert.deepEqual(p1.enrolments.map(e => e.imported.row), [1, 2, 12]); assert.deepEqual(p1.programmes, ['General care', 'TB screening', 'Chronic care', 'Maternal care']); assert.equal(p1.enrolments[0].startDate, '2026-09-01'); assert.equal(p1.enrolments[1].startDate, null); });
   check(() => { const p5 = s.workspace.people[4]; assert.equal(p5.enrolments[0].packId, 'child'); assert.ok(p5.programmes.includes('Child health')); assert.equal(s.workspace.people[2].enrolments.length, 1, 'the open maternal episode is not duplicated'); });
   check(() => { assert.equal(s.workspace.audit.length, 1); const a = s.workspace.audit[0]; assert.equal(a.action, 'recordImportApply'); assert.equal(a.subject, 'org'); assert.match(a.detail, /\(enrolments\) batch .* 16 rows, 4 episodes opened \(official registration not submitted\) on 2 records, 12 rejected/); for (const x of ['TB screening episode', 'Synthetic Person', '111122223333']) assert.equal(a.detail.includes(x), false, x); });
@@ -99,6 +99,15 @@ try {
   const replan = await R.planRecordImport(s, owner, 'enrolments', efile, 'synthetic', now);
   check(() => assert.equal(replan.counts.accepted, 0, 'the applied episodes are now open'));
   await rejects(() => apply(s, 'enrolments', efile, replan.planHash), 409, /no rows to apply/);
+  // SAHA-030: the batch register reconciles source/parsed/accepted/rejected/duplicate/merged totals and unchanged
+  // imported enrolments have a separate reversal dry run. Dependent care work refuses the whole reversal.
+  check(() => { const b=s.operations.legacyImportBatches[0];assert.deepEqual({kind:b.kind,source:b.sourceRows,parsed:b.parsedRows,accepted:b.accepted,rejected:b.rejected,duplicates:b.duplicateCandidates,merged:b.merged},{kind:'enrolments',source:16,parsed:16,accepted:4,rejected:12,duplicates:2,merged:0}); });
+  const importedEpisode=s.workspace.people[0].enrolments[0];s.workspace.visits.push({id:'dependent',personId:'p1',version:1,state:'draft',facts:{},createdAt:now,aiResults:[],recordVersion:1,programmeCapture:{packs:[{enrolmentId:importedEpisode.id,pack:{}}]}});
+  await rejects(()=>R.planLegacyImportReversal(s,owner,'enrolments',done.batchId,'synthetic'),409,/dependent work/);s.workspace.visits.pop();
+  const er=await R.planLegacyImportReversal(s,owner,'enrolments',done.batchId,'synthetic');
+  const erDone=await R.applyRecordImport(s,{type:'recordImportReverse',kind:'enrolments',batchId:done.batchId,planHash:er.planHash,reason:'Reverse synthetic failed legacy batch'},actor,owner,{SAHA_ENVIRONMENT:'synthetic'},now);
+  check(()=>{assert.equal(erDone.counts.applied,4);assert.ok(s.workspace.people.flatMap(p=>p.enrolments??[]).filter(e=>e.imported?.batchId===done.batchId).every(e=>e.state==='closed'&&e.imported.reversal));assert.equal(s.operations.legacyImportBatches[0].reversal.reversed,4);assert.equal(s.workspace.audit.at(-1).action,'recordImportReverse');});
+  await rejects(()=>R.planLegacyImportReversal(s,owner,'enrolments',done.batchId,'synthetic'),409,/already has a recorded reversal/);
   // 6. Identifier rows.
   // Slice 6aa (seventh review, finding 5): issuers are an allowlist, so the rows that test uniqueness and scope use listed
   // issuers (rch, nikshay) instead of the unlisted ehr_local and local_mrn; their assertions are unchanged.
@@ -128,7 +137,7 @@ try {
     const p = await R.planRecordImport(st, north, 'identifiers', IH + '\np3,nikshay,1234567', 'synthetic', now);
     check(() => { assert.match(p.rows[0].reasons[0], /another record you can see/); assert.deepEqual(p.rows[0].conflict, { personId: 'p2', version: 1 }); }); }
   const si = state(), idone = await apply(si, 'identifiers', ifile, iplan.planHash);
-  check(() => { assert.deepEqual(idone.counts, { rows: 14, accepted: 2, rejected: 12, applied: 2, records: 2 }); const p1 = si.workspace.people[0], p3 = si.workspace.people[2]; assert.deepEqual(p1.identifiers.map(i => [i.issuer, i.value]), [['rch', '111122223333'], ['nikshay', '7654321']]); assert.deepEqual(p3.identifiers.map(i => [i.issuer, i.value, i.verified, i.source, i.imported.row]), [['rch', '123456789012', false, 'import', 2]]); });
+  check(() => { assert.deepEqual(idone.counts, { rows: 14, accepted: 2, rejected: 12, source: 14, parsed: 14, duplicates: 6, merged: 0, applied: 2, records: 2 }); const p1 = si.workspace.people[0], p3 = si.workspace.people[2]; assert.deepEqual(p1.identifiers.map(i => [i.issuer, i.value]), [['rch', '111122223333'], ['nikshay', '7654321']]); assert.deepEqual(p3.identifiers.map(i => [i.issuer, i.value, i.verified, i.source, i.imported.row]), [['rch', '123456789012', false, 'import', 2]]); });
   check(() => { const a = si.workspace.audit[0]; assert.match(a.detail, /\(identifiers\) batch .* 14 rows, 2 identifiers recorded \(not verified with the issuer\) on 2 records, 12 rejected/); for (const x of ['7654321', '123456789012']) assert.equal(a.detail.includes(x), false, x); });
   // An imported identifier then matches its record in a later enrolment import.
   const later = await R.planRecordImport(si, owner, 'enrolments', EH + '\nnikshay:7654321,tb,,Matched by imported identifier,\nRCH:123456789012,tb,,Matched by imported identifier,', 'synthetic', now);
@@ -136,6 +145,11 @@ try {
   // Identifier values are masked in snapshots and history like ABHA numbers; the stored record keeps them.
   { const A = await import(pathToFileURL(join(dir, 'abdm.js'))), p1 = si.workspace.people[0], red = A.redactAbha(p1);
     check(() => { assert.deepEqual(red.identifiers.map(i => i.value), ['XXXXXXXX3333', 'XXX4321']); assert.equal(p1.identifiers[1].value, '7654321'); const rev = A.redactRevision({ entityType: 'person', data: p1, changes: [] }); assert.equal(JSON.stringify(rev).includes('7654321'), false); assert.equal(A.maskIdentifier('X-1'), 'XXX'); }); }
+  const importedIdentifier=si.workspace.people[0].identifiers.at(-1),ref=R.identifierRef?.(importedIdentifier)??`import:${importedIdentifier.imported.batchId}:${importedIdentifier.imported.row}`;
+  si.workspace.people[0].identifiers.push({issuer:importedIdentifier.issuer,value:importedIdentifier.value,verified:false,recordedAt:now,recordedBy:'owner',source:'crosswalk',id:'changed',kind:'correct',corrects:ref,origin:'programme-system',verification:'unverified',reason:'Synthetic changed identity'});
+  await rejects(()=>R.planLegacyImportReversal(si,owner,'identifiers',idone.batchId,'synthetic'),409,/corrected or withdrawn/);si.workspace.people[0].identifiers.pop();
+  const ir=await R.planLegacyImportReversal(si,owner,'identifiers',idone.batchId,'synthetic'),irDone=await R.applyRecordImport(si,{type:'recordImportReverse',kind:'identifiers',batchId:idone.batchId,planHash:ir.planHash,reason:'Reverse synthetic failed identifier batch'},actor,owner,{SAHA_ENVIRONMENT:'synthetic'},now);
+  check(()=>{assert.equal(irDone.counts.applied,2);assert.equal(si.workspace.people.flatMap(p=>p.identifiers??[]).filter(e=>e.kind==='withdraw'&&e.corrects?.startsWith('import:')).length,2);assert.equal(si.operations.legacyImportBatches[0].reversal.reversed,2);});
   // 7. Replay recheck.
   check(() => { assert.throws(() => R.authorizeRecordImport(state(), member('asha', 'asha', { isOwner: true }), { type: 'recordImportApply' }), e => e.status === 403); R.authorizeRecordImport(state(), sup, { type: 'recordImportApply' }); R.authorizeRecordImport(state(), member('asha', 'asha'), { type: 'other' }); });
   // 8. Rejection report: row numbers and reasons only, formula-escaped, manifest verified.

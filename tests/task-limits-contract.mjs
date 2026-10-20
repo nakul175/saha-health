@@ -1,10 +1,10 @@
 // Slice 5e contract: per-capability task time and attempt limits (a timed-out sent request becomes
 // uncertain and is never retried), and owner-owned AI budget alerts from the slice 5a estimates.
-import assert from 'node:assert/strict';import ts from 'typescript';import {readFileSync,writeFileSync,mkdtempSync,rmSync,readdirSync} from 'node:fs';import {join} from 'node:path';import {pathToFileURL} from 'node:url';
+import assert from 'node:assert/strict';import ts from 'typescript';import {readFileSync,writeFileSync,mkdtempSync,rmSync} from 'node:fs';import {join} from 'node:path';import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.task-limits-contract-'));let passed=0;const check=fn=>{fn();passed++};
 const status=async(fn,code,pattern)=>{try{await fn();}catch(e){assert.equal(e.status,code,e.message);if(pattern)assert.match(e.message,pattern);passed++;return e;}assert.fail(`expected ${code}`);};
 try{
- for(const name of readdirSync('lib/saha').filter(name=>name.endsWith('.ts'))){const file=name.slice(0,-3);writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));}
+ for(const file of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts')).map(x=>x.slice(0,-3)))writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const {governanceSpec}=await import(pathToFileURL(join(dir,'governance.js'))),{providers,AGENT_VERSION,agentApply}=await import(pathToFileURL(join(dir,'agent.js')));
  const limits=await import(pathToFileURL(join(dir,'task-limits.js'))),budget=await import(pathToFileURL(join(dir,'ai-budget.js'))),alerts=await import(pathToFileURL(join(dir,'alerts.js'))),{maintenanceAllows}=await import(pathToFileURL(join(dir,'operations.js')));
  const now=new Date().toISOString(),today=now.slice(0,10),future=new Date(Date.now()+86400000).toISOString(),ago=m=>new Date(Date.now()-m*60000).toISOString();
@@ -12,10 +12,10 @@ try{
  const p={id:'patient',name:'Synthetic Subject',village:'Test village',version:1,consentVersion:1,aiConsent:true,teamId:'team',assignedTo:'worker',assigned:true,age:32,programmes:['General care']};const v={id:'visit',personId:p.id,version:1,recordVersion:1,state:'draft',facts:{date:now.slice(0,16),notes:'',weight:''},agentRuns:[]},other={...v,id:'other-visit',agentRuns:[]};
  const s={organisation:{id:'org'},members:[owner,reviewer,worker,supervisor,outsider,peer,admin],workspace:{people:[p],visits:[v,other],referrals:[],audit:[],role:'asha',integrations:[]},governance:{entries:[],evaluations:[],safety:[]}};
  const local=providers([],{}).find(p=>p.id==='local'),ps=[local];
- const base={kind:'capability',key:'local-cap',title:'Synthetic local rules',ownerId:'owner',teamIds:['team'],effectiveFrom:today,reviewBy:future.slice(0,10),changeSummary:'Synthetic task limit fixture only.',providerId:'local',model:local.model,agentVersion:AGENT_VERSION,purpose:'documentary-evidence',ageMin:18,ageMax:60,roles:['asha','clinician'],populations:['General care'],languages:['en'],settings:['community'],devices:['browser'],tasks:['extract','summary'],inputQuality:'validated-text',excludedUses:'No clinical decisions authorised.',supportContact:'Synthetic owner',hostingRegion:'Local workspace',retentionTerms:'Synthetic test input only, no real data.',trainingUse:'not-authorised',agreementReference:'FIXTURE',dailyCallLimit:100,dailyTokenBudget:600000};
- const spec={...base,taskTimeLimitMinutes:5,taskAttemptLimit:2,taskStepLimit:4,taskToolCallLimit:2,taskRetryLimit:1};
+ const base={kind:'capability',key:'local-cap',title:'Synthetic local rules',ownerId:'owner',teamIds:['team'],effectiveFrom:today,reviewBy:future.slice(0,10),changeSummary:'Synthetic task limit fixture only.',providerId:'local',model:local.model,agentVersion:AGENT_VERSION,purpose:'documentary-evidence',ageMin:18,ageMax:60,roles:['asha','clinician'],languages:['en'],settings:['community'],devices:['browser'],tasks:['extract','summary'],jurisdictions:['IN'],connectivity:['online'],minimumInputQuality:'adequate',excludedUses:'No clinical decisions authorised.',supportContact:'Synthetic owner',hostingRegion:'Local workspace',retentionTerms:'Synthetic test input only, no real data.',trainingUse:'not-authorised',agreementReference:'FIXTURE',dailyCallLimit:100,dailyTokenBudget:600000};
+ const spec={...base,taskTimeLimitMinutes:5,taskAttemptLimit:2};
  const entry={id:'cap',revision:1,version:3,spec,manifestHash:'fixture-hash',createdBy:'owner',createdAt:now,state:'active',history:[],review:{by:'reviewer',memberVersion:1,ownerVersion:1,authorVersion:1,dependencyStamp:'[]',evaluationId:'evaluation'}};
- s.governance.entries.push(entry);s.governance.evaluations.push({id:'evaluation',manifestHash:entry.manifestHash,state:'completed',metrics:{passed:true}});
+ s.governance.entries.push(entry);s.governance.evaluations.push({id:'evaluation',entryId:entry.id,corpusVersion:'fixture-v1',corpusHash:'fixture-corpus',manifestHash:entry.manifestHash,provider:{id:'local',version:2,mode:'local',model:'structured-parser-v2'},results:[],state:'completed',metrics:{passed:true}});
  const actor=(id,name='Synthetic '+id)=>({userId:id,displayName:name});
  const prepare=(task='extract',visit=v)=>agentApply(s,{type:'prepareAgent',visitId:visit.id,version:visit.version,providerId:'local',task,input:'Weight 58 kg'},actor('worker'),worker,ps);
  const run=id=>[...v.agentRuns,...other.agentRuns].find(r=>r.id===id);
@@ -24,14 +24,14 @@ try{
  check(()=>assert.deepEqual(governanceSpec.parse(base),base,'a manifest without limits parses unchanged'));
  check(()=>assert.equal(governanceSpec.parse(spec).taskAttemptLimit,2));
  check(()=>{assert.equal(governanceSpec.safeParse({...base,taskAttemptLimit:0}).success,false);assert.equal(governanceSpec.safeParse({...base,taskAttemptLimit:6}).success,false);assert.equal(governanceSpec.safeParse({...base,taskTimeLimitMinutes:241}).success,false);});
- check(()=>{assert.equal(limits.limitsOf({spec:base}),null);assert.deepEqual(limits.limitsOf(entry),{timeMinutes:5,attempts:2,steps:4,toolCalls:2,retries:1});assert.deepEqual(limits.limitsOf({spec:{...base,taskAttemptLimit:3}}),{timeMinutes:null,attempts:3,steps:1,toolCalls:0,retries:0});});
+ check(()=>{assert.equal(limits.limitsOf({spec:base}),null);assert.deepEqual(limits.limitsOf(entry),{timeMinutes:5,attempts:2});assert.deepEqual(limits.limitsOf({spec:{...base,taskAttemptLimit:3}}),{timeMinutes:null,attempts:3});});
  check(()=>{assert.equal(limits.expiryMinutes(null),15);assert.equal(limits.expiryMinutes({timeMinutes:5,attempts:null}),5);assert.equal(limits.expiryMinutes({timeMinutes:60,attempts:null}),15,'never later than the existing 15 minutes');});
- check(()=>{assert.equal(limits.limitsSummary({timeMinutes:5,attempts:2,steps:4,toolCalls:2,retries:1}),'time limit 5 minutes, 2 attempts per task on a visit, 4 execution steps, 2 tool calls, 1 retry.');assert.match(limits.limitsSummary(null),/No governed capability limits recorded; unsent requests expire after 15 minutes/);});
+ check(()=>{assert.equal(limits.limitsSummary({timeMinutes:5,attempts:2}),'time limit 5 minutes, 2 attempts per task on a visit.');assert.match(limits.limitsSummary(null),/No task limits recorded; unsent requests expire after 15 minutes/);});
  check(()=>{const l={timeMinutes:5,attempts:2};assert.equal(limits.timedOut({status:'running',startedAt:ago(6),createdAt:ago(7),limits:l},now),true);assert.equal(limits.timedOut({status:'running',startedAt:ago(4),createdAt:ago(7),limits:l},now),false);assert.equal(limits.timedOut({status:'pending',createdAt:ago(60),limits:l},now),false,'an unsent request expires; it is not an uncertain outcome');assert.equal(limits.timedOut({status:'running',startedAt:ago(600),createdAt:ago(600)},now),false,'no limit, no timeout');});
 
  // Prepared requests record the revision's limits and expire at the time limit.
  const first=await prepare();
- check(()=>{const r=run(first.runId);assert.deepEqual(r.limits,{timeMinutes:5,attempts:2,steps:4,toolCalls:2,retries:1});const minutes=(Date.parse(r.expiresAt)-Date.parse(r.createdAt))/60000;assert.ok(minutes>4.9&&minutes<=5.01,String(minutes));});
+ check(()=>{const r=run(first.runId);assert.deepEqual(r.limits,{timeMinutes:5,attempts:2});const minutes=(Date.parse(r.expiresAt)-Date.parse(r.createdAt))/60000;assert.ok(minutes>4.9&&minutes<=5.01,String(minutes));});
  const second=await prepare();check(()=>assert.ok(second.runId));
  const count=v.agentRuns.length;
  await status(()=>prepare(),429,/attempt limit on this visit \(2 of 2 attempts.*No further request is sent, automatically or manually.*no provider substitution/);

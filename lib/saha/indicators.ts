@@ -187,6 +187,7 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date(),governan
   if(composite)for(const leaf of dependencies){const counts:Record<string,number>={};for(const p of cohort)for(const k of keysFor(s,p,q.group))counts[k]=(counts[k]??0)+measure(leaf).count(ctx,p);const key=`${base}|${leaf}/`,id=key+'#'+JSON.stringify(defF)+'#count',sr=series.get(id)??{key,f:defF,cells:pc,m:Object.fromEntries(Object.entries(counts).map(([k,n])=>[k,[n,0] as [number,number]])),n:leaf,d:null,gd:q.group,x:[...sp.exclude].sort(),w:ctx0.since,shown,ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(id,sr);}
   return {...head,rows:out};});
  const result={computedAt:ctx0.until,window:{since:ctx0.since,until:ctx0.until,days:q.days},cohort:{people:people.length,team:q.team??null,village:q.village??null,programme:q.programme??null},group:q.group,latestSourceRecord:latest,minimumCell:MIN_CELL,results,
+  analysis:{contract:'saha-programme-analysis-v1',method:'Approved versioned indicator definitions over current authorised assigned records; merged records are excluded and small cells are suppressed.',filters:{team:q.team??null,village:q.village??null,programme:q.programme??null},definitionLineage:defs.map(def=>({ref:`${def.id}@${def.version}`,recordedAt:def.at,owner:def.spec.owner,sources:[...new Set([...operandLeaves(def.spec.numerator),...(def.spec.denominator?operandLeaves(def.spec.denominator):[])].flatMap(x=>measure(x).sources))].sort(),canonicalSpec:canonicalSpec(def)})),missingness:{latestSourceRecord:latest,note:latest?'Source completeness and freshness are reported separately; a latest record time does not prove complete capture.':'No source record was found in the selected result window; zero values must not be read as complete capture.'}},
   scope:'Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.'};
  return {result,series:[...series.values()]};
 }
@@ -230,9 +231,11 @@ export const vocabulary=()=>({measures:MEASURES.map(m=>({id:m.id,label:m.label})
 // Governed question interpreter: maps words to catalogue entries and never runs anything itself.
 export function interpret(question:string,s?:OrgState){
  const t=question.toLowerCase().replace(/[^a-z0-9\s-]/g,' ');const words=new Set(t.split(/\s+/).filter(Boolean));
+ const disclosure=/\b(list|names?|phone|address|details?|records?|individual|person-level|patient-level)\b/.test(t)&&/\b(patient|patients|people|person|beneficiar|recipient)\w*\b/.test(t);
+ if(disclosure)return {ids:[],group:'none' as Group,days:30,understood:false,refused:'person-list' as const,note:'Programme analysis returns protected aggregates only. Patient lists, names and person-level records cannot be produced by reformulating a question.'};
  const active=new Set(catalogue(s).map(d=>d.id)),owned=catalogue(s).filter(d=>!d.builtIn&&t.includes(d.title.toLowerCase().replace(/[^a-z0-9\s-]/g,' '))).map(d=>d.id);
  const ids=[...BUILT_IN.filter(d=>active.has(d.record.id)&&d.keywords.some(k=>k.includes(' ')?t.includes(k):words.has(k))).map(d=>d.record.id),...owned].slice(0,8);
  const group:Group=/\bby (team|teams)\b/.test(t)?'team':/\bby (village|villages|locality)\b/.test(t)?'village':/\bby (programme|programmes|program)\b/.test(t)?'programme':/\bby age\b/.test(t)?'age-band':'none';
  const m=t.match(/\blast (\d{1,3}) days?\b/);const days=m?Math.min(366,Math.max(1,Number(m[1]))):/\blast week\b|\bthis week\b/.test(t)?7:/\blast month\b|\bthis month\b/.test(t)?30:/\blast year\b|\bthis year\b/.test(t)?365:30;
- return {ids,group,days,understood:ids.length>0,note:ids.length?'Review this interpretation before running it. Only catalogue indicators can be answered.':'No catalogue indicator matches. Choose one from the list.'};
+ return {ids,group,days,understood:ids.length>0,refused:null,note:ids.length?'Review this interpretation before running it. Only catalogue indicators can be answered.':'No catalogue indicator matches. Choose one from the list.'};
 }

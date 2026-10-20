@@ -1,0 +1,174 @@
+import { collectSensitive, carriesSensitive } from './agent-minimisation.js';
+import { serviceDispatch } from './service-dispatch.js';
+import { identity, loadFor, db, json, rawRuntime } from './server.js';
+import { ensurePurpose } from './purpose-scope.js';
+import { digest, fail, uuid, visit, AppError } from './core.js';
+import { readState, persist, scope } from './store.js';
+import { boundedJsonBody } from './request-body.js';
+import { defaultOperations } from './operations.js';
+import { linkTrace } from './trace.js';
+import { recordAccess } from './access-audit.js';
+import { FRONTLINE, config, agreement, access, runSchema, otherSchema, invoke, finish, hash, validateInput, identifierIn, checkFrontlineEnvelope } from './frontline.js';
+const same = (r) => { if (!r.headers.get('content-type')?.startsWith('application/json'))
+    fail(415, 'Use JSON for changes.'); if (r.headers.get('origin') && r.headers.get('origin') !== new URL(r.url).origin || r.headers.get('sec-fetch-site') === 'cross-site')
+    fail(403, 'Cross-origin changes are not allowed.'); };
+const key = (r) => { const k = r.headers.get('idempotency-key'); if (!k || !/^[A-Za-z0-9_-]{8,100}$/.test(k))
+    fail(400, 'A valid operation key is required.'); return k; };
+const summary = (r) => ({ runId: r.id, status: r.status, message: r.message });
+function audit(s, u, m, v, action) { s.workspace.audit.push({ id: uuid(), at: new Date().toISOString(), actorId: u.userId, actor: u.displayName, role: m.role, action, subject: v.id, personId: v.personId, detail: 'Independent community-health provider demonstration. No diagnosis, treatment or measurement was changed.' }); }
+export async function providersRead(r) { const u = await identity(), s = await loadFor(u, r.headers.get('x-saha-organisation'), () => Promise.resolve([])), m = scope(s, u.userId); if (!m.isOwner && !['asha', 'clinician'].includes(m.role))
+    fail(403, 'Care or owner role required.'); return json({ providers: FRONTLINE.map(c => { let configured = false; try {
+        config(c.id, rawRuntime());
+        configured = true;
+    }
+    catch { } return { ...c, configured, clinicalUse: false, agreement: agreement(s, c.id) }; }), canManage: m.isOwner }); }
+export async function providersWrite(r) { same(r); const u = await identity(), s = await loadFor(u, r.headers.get('x-saha-organisation')), m = scope(s, u.userId); if (!m.isOwner)
+    fail(403, 'Only the owner manages provider agreements.'); const x = await boundedJsonBody(r, 1000); if (Object.keys(x).sort().join(',') !== 'active,appId,version' || typeof x.active !== 'boolean' || !FRONTLINE.some(c => c.id === x.appId) || !Number.isInteger(x.version))
+    fail(422, 'Invalid agreement change.'); const k = key(r), h = await digest({ org: s.organisation.id, x }), old = await db().prepare('SELECT org_id,hash,result FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId, k).first(); if (old) {
+    if (old.org_id !== s.organisation.id || old.hash !== h)
+        fail(409, 'Operation key already used.');
+    return json(JSON.parse(old.result));
+} if (agreement(s, x.appId).version !== x.version)
+    fail(409, 'Refresh the provider agreement.'); if (x.active)
+    config(x.appId, rawRuntime()); const before = structuredClone(s), ops = s.operations ??= defaultOperations(); ops.frontlineProviders ??= {}; ops.frontlineProviders[x.appId] = { active: x.active, version: x.version + 1, by: u.userId, at: new Date().toISOString() }; ops.version++; ops.updatedAt = new Date().toISOString(); s.workspace.audit.push({ id: uuid(), at: ops.updatedAt, actorId: u.userId, actor: u.displayName, role: m.role, action: 'frontlineAgreement', subject: s.organisation.id, detail: 'Synthetic provider agreement ' + x.appId + ' ' + (x.active ? 'activated' : 'suspended') }); await persist(db(), before, s, u, { type: 'frontlineAgreement' }, k, h, { ok: true }); return json({ ok: true }); }
+export async function assessmentsWrite(r) {
+    same(r);
+    const u = await identity(), s = await loadFor(u, r.headers.get('x-saha-organisation')), m = scope(s, u.userId), x = await boundedJsonBody(r, 12000), parsed = runSchema.safeParse(x), other = otherSchema.safeParse(x);
+    if (!parsed.success && !other.success)
+        fail(422, 'Review the assessment request.');
+    const k = key(r), h = await digest({ org: s.organisation.id, x }), old = await db().prepare('SELECT org_id,hash,result FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId, k).first();
+    const appId = parsed.success ? parsed.data.appId : s.workspace.visits.find(v => v.id === other.data.visitId)?.frontlineRuns?.find(a => a.id === other.data.runId)?.appId;
+    if (!appId)
+        fail(404, 'Assessment not found.'); // Integration of #145 (review finding M1): for a lookup, a changed context (409: visit, consent, agreement or provider
+    // configuration) must not leave the request open for ever; the caller still needs the care role and patient scope (403 is
+    // rethrown) and the organisation must not be paused (423). The run is then ended as blocked below, with no provider contact.
+    let ctx = null;
+    try {
+        ctx = access(s, m, x.visitId, rawRuntime(), appId);
+    }
+    catch (err) {
+        if (parsed.success || other.data.action !== 'lookup' || !(err instanceof AppError) || err.status !== 409)
+            throw err;
+    }
+    const { v, p, a, c } = ctx ?? { v: visit(s.workspace, x.visitId), p: null, a: null, c: null };
+    if (old) {
+        if (old.org_id !== s.organisation.id || old.hash !== h)
+            fail(409, 'Operation key belongs to different input.');
+        return json({ ...JSON.parse(old.result), replayed: true });
+    }
+    if (parsed.success) {
+        ensurePurpose(m, 'ai-assistance');
+        if (v.version !== x.version || p.consentVersion !== x.consentVersion || a.version !== x.agreementVersion)
+            fail(409, 'Refresh visit, permission and agreement.');
+        if (v.frontlineRuns?.some(r => r.appId === appId && ['running', 'uncertain'].includes(r.status)))
+            fail(409, 'Resolve the outstanding provider receipt first.');
+        if ((v.frontlineRuns?.length ?? 0) >= 24)
+            fail(409, 'This visit reached its demonstration limit.');
+        const requestId = 'fl_' + (await digest({ org: s.organisation.id, actor: u.userId, k })).slice(0, 40), input = { schemaVersion: 'frontline.v1', appId, requestId, environment: 'synthetic', confirmed: true, fields: x.fields, evidence: x.evidence };
+        try {
+            validateInput(c, input);
+        }
+        catch (err) {
+            fail(422, err instanceof Error ? err.message : 'Invalid observations.');
+        }
+        const sensitive = collectSensitive(s);
+        if ([x.evidence.text, x.evidence.engine].some(text => identifierIn(text, p) || carriesSensitive(text, sensitive)))
+            fail(422, 'Remove names, village names, contact details and identifiers from the evidence text before sending it. This check is a safeguard, not a de-identification guarantee.');
+        const before = structuredClone(s), run = { id: uuid(), appId, requestId, inputHash: await hash(input), engine: x.evidence.engine, visitVersion: v.version, personVersion: p.version, consentVersion: p.consentVersion, agreementVersion: a.version, status: 'running', createdAt: new Date().toISOString(), message: 'Request reserved before provider contact.' };
+        (v.frontlineRuns ??= []).push(run);
+        audit(s, u, m, v, 'frontlineStart');
+        linkTrace(before, s, 'frontlineStart', k, u.userId);
+        await persist(db(), before, s, u, { type: 'frontlineStart' }, k, h, summary(run));
+        let result = null, sent = false, serviceRefusal = '';
+        try {
+            await serviceDispatch(db(), s, u, m, 'frontline:' + run.appId, v.personId, { intent: 'send', purpose: 'ai-assistance', authorize: async (latest, member) => { const lv = latest.workspace.visits.find(x => x.id === v.id), lr = lv?.frontlineRuns?.find(x => x.id === run.id); if (!lr || lr.status !== 'running' || lr.inputHash !== run.inputHash)
+                    fail(409, 'Provider checkpoint changed.'); access(latest, member, v.id, rawRuntime(), run.appId, lr); for (const value of collectSensitive(latest))
+                    sensitive.add(value); await checkFrontlineEnvelope(c, run, input, sensitive); } });
+            await checkFrontlineEnvelope(c, run, input, sensitive);
+            sent = true;
+            result = await invoke(run, rawRuntime(), input, fetch, sensitive);
+        }
+        catch (e) {
+            if (!sent)
+                serviceRefusal = e instanceof Error ? e.message : 'Service authority unavailable.';
+        }
+        return complete(s.organisation.id, v.id, run.id, u, m, result, 'frontline_finish_' + run.id, serviceRefusal);
+    }
+    const run = v.frontlineRuns?.find(q => q.id === x.runId);
+    if (!run)
+        fail(404, 'Assessment not found.');
+    try {
+        access(s, m, v.id, rawRuntime(), run.appId, run);
+    }
+    catch (err) {
+        if (x.action === 'lookup' && err instanceof AppError && err.status === 409 && ['running', 'uncertain'].includes(run.status))
+            return complete(s.organisation.id, v.id, run.id, u, m, null, 'frontline_lookup_' + k);
+        throw err;
+    }
+    if (x.action === 'review') {
+        if (run.status !== 'review' || !run.result || !x.decision || !x.reason)
+            fail(409, 'A current result and review reason are required.');
+        const before = structuredClone(s);
+        run.status = 'reviewed';
+        run.review = { by: u.userId, at: new Date().toISOString(), decision: x.decision, reason: x.reason };
+        audit(s, u, m, v, 'frontlineReview');
+        linkTrace(before, s, 'frontlineReview', k, u.userId);
+        await persist(db(), before, s, u, { type: 'frontlineReview' }, k, h, summary(run));
+        return json(summary(run));
+    }
+    if (!['running', 'uncertain'].includes(run.status))
+        return json(summary(run));
+    // Integration of #145 (review L3): the lookup is recorded as an external request before the provider is contacted, as for the anaemia provider.
+    await recordAccess(db(), s, u, m, { action: 'externalRequest', subject: v.id, personId: v.personId, detail: 'Independent community-health provider receipt lookup. No patient identifiers sent.' });
+    let result = null;
+    try {
+        await serviceDispatch(db(), s, u, m, 'frontline:' + run.appId, v.personId, { intent: 'lookup' });
+        result = await invoke(run, rawRuntime());
+    }
+    catch { }
+    return complete(s.organisation.id, v.id, run.id, u, m, result, 'frontline_lookup_' + k);
+}
+async function complete(org, visitId, runId, u, original, result, k, serviceRefusal) { for (let attempt = 0; attempt < 3; attempt++) {
+    const s = await readState(db(), org);
+    let m;
+    try {
+        m = scope(s, u.userId);
+    }
+    catch {
+        m = { ...original, status: 'suspended' };
+    }
+    const before = structuredClone(s), run = finish(s, m, visitId, runId, rawRuntime(), result), v = s.workspace.visits.find(v => v.id === visitId);
+    if (serviceRefusal) {
+        run.status = 'blocked';
+        run.message = 'Not sent: ' + serviceRefusal;
+        delete run.result;
+    }
+    audit(s, u, m, v, 'frontlineResult');
+    linkTrace(before, s, 'frontlineResult', k, u.userId);
+    try {
+        await persist(db(), before, s, u, { type: 'frontlineResult' }, k, run.inputHash, summary(run));
+        return json(summary(run));
+    }
+    catch (err) {
+        if (!(err instanceof AppError && err.status === 409) || attempt === 2)
+            throw err;
+    }
+} fail(409, 'Result remains unconfirmed. Check its receipt.'); }
+// Fixed synthetic diagnostics have no patient context or D1 reads/writes.
+export async function connectionTest(r) { if (!/^Bearer \S{32,}$/.test(r.headers.get('authorization') ?? ''))
+    fail(401, 'Connection diagnostic credential rejected.'); same(r); const x = await boundedJsonBody(r, 500); if (Object.keys(x).sort().join(',') !== 'appId,fixture' || x.fixture !== 'built-in' || typeof x.appId !== 'string')
+    fail(422, 'Choose a built-in connection fixture.'); const e = rawRuntime(); if (!FRONTLINE.some(q => q.id === x.appId))
+    fail(422, 'Choose a built-in connection fixture.'); let c; try {
+    c = config(x.appId, e);
+}
+catch {
+    fail(401, 'Connection diagnostic credential rejected.');
+} const given = r.headers.get('authorization') ?? '', a = await digest(given), b = await digest('Bearer ' + c.key); let mismatch = 0; for (let i = 0; i < a.length; i++)
+    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i); if (mismatch)
+    fail(401, 'Connection diagnostic credential rejected.'); const requestId = 'fl_probe_' + crypto.randomUUID().replaceAll('-', ''), input = { schemaVersion: 'frontline.v1', appId: c.id, requestId, environment: 'synthetic', confirmed: true, fields: c.sample, evidence: { kind: 'sample', engine: 'none', text: c.note } }, run = { id: requestId, appId: c.id, requestId, inputHash: await hash(input), visitVersion: 0, personVersion: 0, consentVersion: 0, agreementVersion: 0, status: 'running', createdAt: new Date().toISOString(), message: 'Fixed synthetic service diagnostic.' }; let result; try {
+    result = await invoke(run, e, input);
+}
+catch {
+    fail(502, 'Independent provider did not confirm the connection.');
+} if (!result)
+    fail(502, 'Connection outcome remains unresolved.'); return json({ connected: true, patientRecordAffected: false, result }); }

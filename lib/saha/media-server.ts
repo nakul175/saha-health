@@ -8,7 +8,7 @@ import { ensureExceptionalScope } from './exceptional';
 import { ensureNotRestricted } from './rights';
 import { ensurePurpose } from './purpose-scope';
 import { accessRoute, recordAccess } from './access-audit';
-import { checkMedia, MAX_MEDIA_BYTES, MAX_MEDIA_PER_VISIT, readBounded, toB64, type MediaMime, type MediaRef } from './media';
+import { checkMedia, MAX_MEDIA_BYTES, MAX_MEDIA_PER_VISIT, readBounded, reviewMediaInput, toB64, type MediaMime, type MediaRef, type MediaReviewInput } from './media';
 import { MAX_OBJECT_MEDIA_BYTES, mediaBackend, mediaHash, storedMediaBytes, stagePrivateObject, custodyMediaBytes, assertObjectCurrent, type MediaObjectRef } from './media-storage';
 import type { OrgState } from './types';
 function sameOrigin(request:Request){const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)fail(403,'Cross-origin changes are not allowed.');if(request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Cross-site changes are not allowed.');}
@@ -36,7 +36,7 @@ export async function uploadMedia(request:Request){
  let s=await loadVisit(u,request.headers.get('x-saha-organisation'),visitId);const known=await db().prepare('SELECT org_id,person_id,command_type FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,key).first<{org_id:string;person_id:string;command_type:string|null}>(),knownReceipt=!!known&&known.org_id===s.organisation.id&&known.person_id===visit(s.workspace,visitId).personId&&(known.command_type==='attachMedia'||known.command_type===null);care(s,u,visitId,false,!knownReceipt);
  const readMax=request.headers.has('x-saha-expected-actor')?MAX_OBJECT_MEDIA_BYTES:backend.max,bytes=await readBounded(request,readMax);checkMedia(bytes,mime,purpose,readMax);const sha=await mediaHash(bytes),hash=await digest({type:'attachMedia',visitId,purpose,mime,sha});const prior=await replay(u,request,key,hash,visitId);if(prior)return json(prior);checkMedia(bytes,mime,purpose,backend.max);
  let {m,v}=care(s,u,visitId,true);const current=(v.media??[]).filter(x=>!x.removedAt);if(current.length>=MAX_MEDIA_PER_VISIT)fail(422,`At most ${MAX_MEDIA_PER_VISIT} media items per visit.`);if(current.some(x=>x.sha256===sha))fail(409,'This file is already attached to the visit.');
- const org=s.organisation.id,expected=await basis(s,u,visitId);let ref:MediaRef={id:uuid(),purpose:purpose as MediaRef['purpose'],mime:mime as MediaMime,size:bytes.byteLength,sha256:sha,at:new Date().toISOString(),by:u.userId},objectRef:MediaObjectRef|null=null,custody:any=null;
+ const org=s.organisation.id,expected=await basis(s,u,visitId);let ref:MediaRef={id:uuid(),purpose:purpose as MediaRef['purpose'],mime:mime as MediaMime,size:bytes.byteLength,sha256:sha,at:new Date().toISOString(),by:u.userId,stage:'uploaded'},objectRef:MediaObjectRef|null=null,custody:any=null;
  try{
  if(backend.bucket){
   await recordAccess(db(),s,u,m,{action:'externalRequest',subject:visitId,personId:v.personId,detail:'Private media object custody operation reserved; fixed validated type, byte size and content digest, no public URL.'});s=await unchanged(u,org,visitId,expected);({m,v}=care(s,u,visitId,true));
@@ -72,7 +72,18 @@ export async function mediaFile(request:Request,id:string){
 export async function removeMedia(request:Request,id:string){
  const u=await identity();sameOrigin(request);actorBinding(request,u);const key=idempotency(request),body=request.headers.get('content-type')?.startsWith('application/json')?await boundedJsonBody(request,4000):null,reason=(body&&typeof body.reason==='string'?body.reason:new URL(request.url).searchParams.get('reason')??'').trim();if(reason.length<5||reason.length>1000)fail(422,'Give a reason of at least 5 characters.');
  const hash=await digest({type:'removeMedia',id,reason}),prior=await replay(u,request,key,hash);if(prior)return json(prior);
- const {s,row,v,ref,m}=await mediaRecord(u,request.headers.get('x-saha-organisation'),id);care(s,u,v.id,true);if(ref.removedAt)fail(409,'This media is already removed.');const before=structuredClone(s),now=new Date().toISOString();Object.assign(ref,{removedAt:now,removedBy:u.userId,removeReason:reason});s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'removeMedia',subject:v.id,personId:v.personId,detail:`Media removed from the draft visit; content access withdrawn and a tombstone kept. ${reason}`});
+ const {s,row,v,ref,m}=await mediaRecord(u,request.headers.get('x-saha-organisation'),id);care(s,u,v.id,true);if(ref.removedAt)fail(409,'This media is already removed.');const before=structuredClone(s),now=new Date().toISOString(),drafts=ref.extractionDrafts?.length??0;Object.assign(ref,{removedAt:now,removedBy:u.userId,removeReason:reason,extractionDrafts:[]});s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'removeMedia',subject:v.id,personId:v.personId,detail:`Media removed from the draft visit; content access withdrawn and ${drafts} associated extraction draft reference(s) removed; a tombstone was kept. ${reason}`});
  const tomb:Row={table:'media',values:{...row,size:0,deleted_at:now,data:''},keys:['org_id','id']},extras=[tomb];if(row.storage_ref){const custody=await db().prepare('SELECT * FROM media_custody WHERE org_id=? AND id=?').bind(s.organisation.id,id).first<any>();if(!custody||custody.state!=='linked')fail(503,'Media custody lineage unavailable. No removal was saved.');extras.push({table:'media_custody',values:{...custody,state:'removed'},keys:['org_id','id']});}
  const result={removed:id};await persist(db(),before,s,u,{type:'removeMedia',visitId:v.id},key,hash,result,extras);return json(result);
+}
+
+export async function reviewMedia(request:Request,id:string){
+ const u=await identity();sameOrigin(request);actorBinding(request,u,true);const key=idempotency(request),body=await boundedJsonBody(request,16000) as MediaReviewInput;
+ const initial=await mediaRecord(u,request.headers.get('x-saha-organisation'),id);care(initial.s,u,initial.v.id,true);if(initial.ref.removedAt)fail(409,'This media was removed.');
+ const input=reviewMediaInput(body,u.userId),hash=await digest({type:'reviewMedia',id,...body}),prior=await replay(u,request,key,hash,initial.v.id);if(prior)return json(prior);
+ const expected=await basis(initial.s,u,initial.v.id),refreshed=await unchanged(u,initial.s.organisation.id,initial.v.id,expected),current=await mediaRecord(u,refreshed.organisation.id,id),{s,v,ref,m}=current;
+ if(ref.removedAt)fail(409,'This media was removed.');if(ref.review)fail(409,'This media already has a recorded quality review. Remove it or attach a new draft item.');
+ const before=structuredClone(s);ref.stage=input.review.stage;ref.review=input.review;ref.extractionDrafts=input.extractionDrafts;
+ s.workspace.audit.push({id:uuid(),at:input.review.at,actorId:u.userId,actor:u.displayName,role:m.role,action:'reviewMedia',subject:v.id,personId:v.personId,detail:`Media review recorded: scan ${input.review.scan}; quality ${input.review.quality}; person/encounter match ${input.review.personMatch?'confirmed':'refused'}; retention ${input.review.retention}; stage ${input.review.stage}. ${input.extractionDrafts.length} extracted value(s) remain unconfirmed drafts and did not change clinical facts.`});
+ const result={mediaId:id,stage:ref.stage,extractionDrafts:input.extractionDrafts.length};await persist(db(),before,s,u,{type:'reviewMedia',visitId:v.id},key,hash,result);return json(result);
 }

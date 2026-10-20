@@ -1,0 +1,78 @@
+import { scope, readState } from './store.js';
+import { careReport } from './operations.js';
+import { reportingScope } from './delegation.js';
+import { ensurePurpose } from './purpose-scope.js';
+import { previewOperational, commitProfiles } from './operational-disclosure.js';
+import { alertsFor } from './alerts.js';
+import { digest, fail } from './core.js';
+export const CLINICAL_AGGREGATE_ALERTS = ['destination-uncertain', 'ehr-uncertain', 'referrals-overdue', 'followups-overdue', 'referrals-undated', 'provider-usage-missing'];
+export const clinicalAggregateAlert = (id) => CLINICAL_AGGREGATE_ALERTS.includes(id);
+export const AGGREGATE_ALERT_NOTICE = 'Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.';
+const sourceBasis = (s, m, at) => { const reach = reportingScope(s, m, at), people = s.workspace.people.filter(reach.include), ids = new Set(people.map(p => p.id)), report = careReport(s, m, 7, new Date(at), reach.include); return { member: m, reach: { teams: reach.teams, own: reach.own, delegations: reach.delegations }, people: people.map(p => [p.id, p.version]), visits: s.workspace.visits.filter(v => ids.has(v.personId)).map(v => [v.id, v.version, v.recordVersion]), report: { ...report, activeWorkers: null, activeWorkersCoverage: null } }; };
+// Historical event counts cannot be certified by a new current projection. They stay immutable
+// and private; this sidecar is a newly governed current view, without historical event IDs/times.
+export async function captureAggregateAlerts(d, s, userId, at = new Date().toISOString()) {
+    const m = scope(s, userId);
+    let basis = null, available = false, current = [], profiles = [];
+    try {
+        if (m.role === 'admin')
+            throw Error('No clinical reporting');
+        ensurePurpose(m, 'reporting', s.operations?.purposeGrants);
+        const reach = reportingScope(s, m, at), raw = careReport(s, m, 7, new Date(at), reach.include);
+        basis = await digest(sourceBasis(s, m, at));
+        const { projection: projected, profiles: pending } = await previewOperational(d, s, m, raw, reach.include, at);
+        if (projected.privacy?.withheld === false) {
+            available = true;
+            profiles = pending;
+            current = alertsFor({ report: projected, telemetry: null, operations: null }).filter(a => clinicalAggregateAlert(a.id));
+        }
+    }
+    catch {
+        available = false;
+        current = [];
+    }
+    return { m, at, basis, available, current, profiles, disclosed: false, notice: AGGREGATE_ALERT_NOTICE };
+}
+// Slice 14a: capture is read-only. The differencing ledger records an aggregate projection only when it is actually shown
+// or sent to a person: this is called at the GET /api/alerts and GET /api/notification-channel reads and before an
+// out-of-app message that carries a current clinical alert is committed. An alert that is computed and then discarded
+// (nobody is shown or sent it) discloses nothing and records nothing. Nothing is recorded when no clinical alert is
+// present. If the profiles may no longer be released (recent history, capacity, concurrent change, storage fault) the
+// context is emptied, as an unavailable projection, and false is returned: the caller must not show or send it.
+export async function discloseAggregateAlerts(d, orgId, ctx) {
+    if (!ctx.available || !ctx.current.length)
+        return true;
+    if (ctx.disclosed)
+        return true;
+    try {
+        if (await commitProfiles(d, orgId, ctx.profiles, ctx.at) === null) {
+            ctx.disclosed = true;
+            return true;
+        }
+    }
+    catch { /* uncertain: nothing is shown */ }
+    ctx.available = false;
+    ctx.current = [];
+    return false;
+}
+export async function checkAggregateAlertContext(d, orgId, ctx) {
+    const s = await readState(d, orgId), m = scope(s, ctx.m.userId);
+    if (m.version !== ctx.m.version || m.role !== ctx.m.role || m.isOwner !== ctx.m.isOwner)
+        fail(409, 'Notification authority changed. Refresh the current view.');
+    if (ctx.available) {
+        ensurePurpose(m, 'reporting', s.operations?.purposeGrants);
+        if (await digest(sourceBasis(s, m, ctx.at)) !== ctx.basis)
+            fail(409, 'Current reporting authority or source changed. Refresh before viewing reporting alerts.');
+    }
+    return m;
+}
+// A read-only assertion inside the notification batch: malformed JSON aborts and rolls
+// back the batch when its exact source/policy/membership basis changed, including an
+// AFTER INSERT adversarial change. No clinical/organisation revision is advanced.
+export function aggregateAlertTransactionGuard(d, s) {
+    const memberships = JSON.stringify(s.members.filter(m => m.status === 'active').map(m => ({ id: m.userId, version: m.version, role: m.role, owner: m.isOwner ? 1 : 0 }))), org = s.organisation.id;
+    return d.prepare(`SELECT CASE WHEN EXISTS(SELECT 1 FROM organisations WHERE id=? AND revision=? AND COALESCE(patient_revision,0)=?) AND (SELECT count(*) FROM json_each(?) e JOIN memberships m ON m.org_id=? AND m.user_id=json_extract(e.value,'$.id') AND m.status='active' AND m.version=json_extract(e.value,'$.version') AND m.role=json_extract(e.value,'$.role') AND m.is_owner=json_extract(e.value,'$.owner'))=json_array_length(?) AND COALESCE((SELECT json(json_extract(data,'$.purposeGrants')) FROM operations WHERE org_id=?),'null')=? AND COALESCE((SELECT json(json_extract(data,'$.accessScope')) FROM operations WHERE org_id=?),'null')=? THEN 1 ELSE json('Current aggregate alert basis changed') END AS current`).bind(org, s.organisation.revision, s.organisation.patientRevision ?? 0, memberships, org, memberships, org, JSON.stringify(s.operations?.purposeGrants ?? null), org, JSON.stringify(s.operations?.accessScope ?? null));
+}
+export function aggregateAlertGuardedDatabase(d, s) {
+    return { prepare: (query) => d.prepare(query), batch: async (statements) => { const rows = await d.batch([aggregateAlertTransactionGuard(d, s), ...statements, aggregateAlertTransactionGuard(d, s)]); return rows.slice(1, -1); } };
+}

@@ -9,7 +9,9 @@ import type { Evaluation } from './evaluation';
 import { checkMonthlyBudget } from './ai-budget';
 import type { ProviderSandbox, ProposalOrigin } from './provider-sandbox';
 import type { Shadow } from './shadow';
-import { capabilityImpact, impactSummary } from './capability-lifecycle';
+import { affectedCapabilityEncounters, capabilityImpact, impactSummary } from './capability-lifecycle';
+import { evaluateApprovedCondition } from './controlled-clinical-logic';
+import type { DeploymentAuthorisationState } from './deployment-authorisation';
 export const SOURCE_DOCUMENT_BYTES=512*1024;
 export const sourceDocumentRef=z.object({id:z.string().uuid(),sha256:z.string().regex(/^[0-9a-f]{64}$/),mime:z.enum(['text/plain','application/pdf']),bytes:z.number().int().min(1).max(SOURCE_DOCUMENT_BYTES),acquiredAt:z.string().datetime(),expiresAt:z.string().datetime(),licenceReference:z.string().trim().min(3).max(200),acquisition:z.enum(['synthetic-upload','approved-origin-retrieval']),trainingOnly:z.literal(true),retrieval:z.object({url:z.string().url().max(500),origin:z.string().url().max(500),expectedSha256:z.string().regex(/^[0-9a-f]{64}$/),receivedAt:z.string().datetime(),method:z.literal('GET')}).strict().optional()}).strict().refine(d=>d.acquisition==='synthetic-upload'?!d.retrieval:!!d.retrieval&&d.retrieval.expectedSha256===d.sha256&&new URL(d.retrieval.url).origin===d.retrieval.origin,'Acquisition provenance must match its exact digest and origin.');
 const id=z.string().trim().min(1).max(200),text=z.string().trim().min(10).max(1000),version=z.number().int().positive();
@@ -17,6 +19,22 @@ const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>Number.isFinite(Dat
 const unique=(v:string[])=>new Set(v).size===v.length;
 const teamIds=z.array(id).min(1).max(20).refine(unique),roles=z.array(z.enum(['asha','clinician'])).min(1).max(2).refine(unique);
 const programme=z.enum(['General care','Maternal care','TB screening','Chronic care','Child health']);
+const capabilityRegistrationDetails=z.object({
+ manifestVersion:z.string().regex(/^v[1-9]\d*\.\d+\.\d+$/),
+ intendedUse:text,
+ inputContract:text,
+ outputContract:text,
+ providerContract:id,
+ modelContract:id,
+ toolContracts:z.array(id).max(10).refine(unique),
+ permittedData:z.array(z.enum(['encounter-text','documentary-observations','language','task-context'])).min(1).max(4).refine(unique),
+ population:text,
+ limitations:text,
+ safetyFallback:text,
+ evaluationEvidence:id,
+ approvalVersion:id,
+ incidentOwnerId:id
+}).strict();
 const common={key:z.string().regex(/^[a-z][a-z0-9-]{2,60}$/),title:id,ownerId:id,teamIds,effectiveFrom:date,reviewBy:date,changeSummary:text};
 const conditions=z.object({field:z.enum(['systolic','diastolic','weight','temperature','weeks','coughDays','workerConcern']),operator:z.enum(['gte','lte','eq','missing']),value:z.string().trim().max(30)}).strict();
 export const ruleSchema=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),label:id,condition:conditions,urgency:z.enum(['review','urgent_review']),action:text,serviceId:id}).strict();
@@ -24,20 +42,22 @@ export const governanceSpec=z.discriminatedUnion('kind',[
  z.object({...common,kind:z.literal('source'),publisher:id,edition:id,url:z.string().url().max(500).refine(s=>{try{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password}catch{return false}}),applicability:text,summary:text,document:sourceDocumentRef.optional()}).strict(),
  z.object({...common,kind:z.literal('service'),location:id,services:text,contactRoute:id,constraints:text,verifiedOn:date,verificationReference:id}).strict(),
  z.object({...common,kind:z.literal('protocol'),programme,ageMin:z.number().int().min(0).max(120),ageMax:z.number().int().min(0).max(120),roles,sourceIds:z.array(id).min(1).max(5).refine(unique),maxObservationAgeHours:z.number().int().min(1).max(720),rules:z.array(ruleSchema).min(1).max(12),transition:z.literal('new-reviews-only')}).strict(),
- z.object({...common,kind:z.literal('capability'),providerId:id,model:id,agentVersion:id,purpose:z.literal('documentary-evidence'),ageMin:z.number().int().min(0).max(120),ageMax:z.number().int().min(0).max(120),roles,populations:z.array(programme).min(1).max(5).refine(unique),languages:z.array(z.enum(['en','hi'])).min(1).max(2).refine(unique),settings:z.array(z.enum(['community','facility'])).min(1).max(2).refine(unique),devices:z.array(z.literal('browser')).length(1),tasks:z.array(z.enum(['extract','summary'])).min(1).max(2).refine(unique),inputQuality:z.literal('validated-text'),excludedUses:text,supportContact:id,hostingRegion:id,retentionTerms:text,trainingUse:z.literal('not-authorised'),agreementReference:id,dailyCallLimit:z.number().int().min(1).max(100),dailyTokenBudget:z.number().int().min(6000).max(600000),
+ z.object({...common,kind:z.literal('capability'),providerId:id,model:id,agentVersion:id,purpose:z.literal('documentary-evidence'),ageMin:z.number().int().min(0).max(120),ageMax:z.number().int().min(0).max(120),roles,populations:z.array(programme).min(1).max(5).refine(unique),languages:z.array(z.enum(['en','hi'])).min(1).max(2).refine(unique),settings:z.array(z.enum(['community','facility'])).min(1).max(2).refine(unique),devices:z.array(z.literal('browser')).length(1),tasks:z.array(z.enum(['extract','summary'])).min(1).max(2).refine(unique),inputQuality:z.literal('validated-text'),jurisdictions:z.array(z.literal('IN')).length(1).default(['IN']),connectivity:z.array(z.literal('online')).length(1).default(['online']),minimumInputQuality:z.literal('adequate').default('adequate'),excludedUses:text,supportContact:id,hostingRegion:id,retentionTerms:text,trainingUse:z.literal('not-authorised'),agreementReference:id,dailyCallLimit:z.number().int().min(1).max(100),dailyTokenBudget:z.number().int().min(6000).max(600000),
   // Slice 5e: optional task limits, bound into the manifest and reviewed with the revision.
-  taskTimeLimitMinutes:z.number().int().min(1).max(240).optional(),taskAttemptLimit:z.number().int().min(1).max(5).optional(),taskStepLimit:z.number().int().min(1).max(20).optional(),taskToolCallLimit:z.number().int().min(0).max(20).optional(),taskRetryLimit:z.number().int().min(0).max(3).optional()}).strict()
+  taskTimeLimitMinutes:z.number().int().min(1).max(240).optional(),taskAttemptLimit:z.number().int().min(1).max(5).optional(),taskStepLimit:z.number().int().min(1).max(20).optional(),taskToolCallLimit:z.number().int().min(0).max(20).optional(),taskRetryLimit:z.number().int().min(0).max(3).optional(),permittedData:z.array(z.literal('documentary-source')).length(1).optional(),retentionDays:z.number().int().min(0).max(365).optional(),subprocessors:z.array(id).max(20).refine(unique).optional(),monitoring:z.object({windowDays:z.number().int().min(1).max(365),minimumRuns:z.number().int().min(1).max(10000),failureRatePercent:z.number().min(0).max(100),unsupportedRatePercent:z.number().min(0).max(100),latencyP95Ms:z.number().int().min(100).max(3600000)}).strict().optional(),registration:capabilityRegistrationDetails.optional()}).strict()
 ]);
 export type GovernanceSpec=z.infer<typeof governanceSpec>;
 export type GovernanceEntry={id:string;revision:number;version:number;spec:GovernanceSpec;manifestHash:string;createdBy:string;createdAt:string;replacesId?:string;replacedBy?:string;origin?:ProposalOrigin;state:'draft'|'reviewed'|'active'|'suspended'|'retired';review?:{by:string;memberVersion:number;ownerVersion:number;authorVersion:number;at:string;reference:string;findings:string;dependencyStamp:string;evaluationId?:string};history:{at:string;by:string;state:string;reason:string}[]};
 export type ProtocolCheck={id:string;at:string;by:string;byVersion:number;visitVersion:number;personVersion:number;contextHash:string;protocols:{id:string;manifestHash:string;revision:number;title:string}[];findings:{entryId:string;ruleId:string;label:string;urgency:string;action:string;service:{id:string;title:string;contactRoute:string;location:string};evidence:string;sources:{title:string;url:string;edition:string;entryId?:string;document?:z.infer<typeof sourceDocumentRef>}[]}[];unknowns:string[];decision?:{by:string;at:string;decision:'accepted'|'rejected'|'override';reason:string;reference:string}};
 export type SafetyCase={id:string;personId:string;visitId:string;ownerId:string;createdBy:string;createdAt:string;version:number;kind:string;summary:string;state:'open'|'closed';entryId?:string;evidence:{visitVersion:number;recordVersion:number;agentRuns:{id:string;provider:string;model:string;status:string}[];protocolCheckIds:string[]};resolution?:{by:string;at:string;reason:string;reference:string}};
-export type Governance={entries:GovernanceEntry[];evaluations:Evaluation[];safety:SafetyCase[];sandbox?:ProviderSandbox;shadows?:Shadow[]};
+export type CapabilitySafetyFollowup={id:string;entryId:string;entryRevision:number;visitId:string;personId:string;runIds:string[];ownerId:string;state:'open'|'closed';createdAt:string;createdBy:string;reason:string};
+export type Governance={entries:GovernanceEntry[];evaluations:Evaluation[];safety:SafetyCase[];safetyFollowups?:CapabilitySafetyFollowup[];sandbox?:ProviderSandbox;shadows?:Shadow[];deploymentAuthorisations?:DeploymentAuthorisationState};
 export const governanceState=(s:OrgState)=>s.governance??{entries:[],evaluations:[],safety:[]};
 export const governanceSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('createGovernance'),spec:governanceSpec,replacesId:id.optional()}).strict(),
  z.object({type:z.literal('reviewGovernance'),entryId:id,version,reference:id,findings:text,evaluationId:id.optional()}).strict(),
  z.object({type:z.literal('transitionGovernance'),entryId:id,version,state:z.enum(['active','suspended','retired']),reason:text}).strict(),
+ z.object({type:z.literal('suspendCapabilitySafety'),entryId:id,version,ownerId:id,reason:text,lookbackDays:z.number().int().min(1).max(365).default(30)}).strict(),
  z.object({type:z.literal('checkProtocol'),visitId:id,version}).strict(),
  z.object({type:z.literal('saveClinicalConcern'),visitId:id,version,concern:z.enum(['yes','no','unknown']),reference:id}).strict(),
  z.object({type:z.literal('reviewProtocol'),visitId:id,version,checkId:id,decision:z.enum(['accepted','rejected','override']),reason:text,reference:id}).strict(),
@@ -72,13 +92,40 @@ export function entryIssues(s:OrgState,e:GovernanceEntry,now=new Date().toISOStr
 }
 export function activeEntry(s:OrgState,e:GovernanceEntry,now=new Date().toISOString()){return e.state==='active'&&!entryIssues(s,e,now).length;}
 export function capabilityFor(s:OrgState,providerId:string){return governanceState(s).entries.filter(e=>e.spec.kind==='capability'&&e.spec.providerId===providerId).sort((a,b)=>b.createdAt.localeCompare(a.createdAt)||b.revision-a.revision).find(e=>e.state==='active');}
-export function checkCapability(s:OrgState,m:Member,p:Person,provider:AgentProvider,task:string,context:{language:string;setting:string;device:string},agentVersion:string){
- const registered=governanceState(s).entries.some(e=>e.spec.kind==='capability'&&e.spec.providerId===provider.id);
- if(provider.mode==='local'&&(!registered||task==='review'))return null;
- const e=capabilityFor(s,provider.id);if(!e||e.spec.kind!=='capability'||!activeEntry(s,e))fail(409,'This provider needs a current, independently reviewed capability and passing evaluation.');const c=e.spec;
- if(c.model!==provider.model||c.agentVersion!==agentVersion)fail(409,'The approved model or agent version changed.');
- if(!c.teamIds.includes(p.teamId)||!c.roles.includes(m.role as any)||!c.populations?.some(x=>p.programmes.includes(x))||typeof p.age!=='number'||!Number.isFinite(p.age)||p.age<c.ageMin||p.age>c.ageMax||!c.languages.includes(context.language as any)||!c.settings.includes(context.setting as any)||!c.devices.includes(context.device as any)||!c.tasks.includes(task as any))fail(409,'This task, person or working context is outside the approved capability scope.');
- return {id:e.id,version:e.version,manifestHash:e.manifestHash};
+export type CapabilityContext={language:string;setting:string;device:string;jurisdiction?:string;connectivity?:string;inputQuality?:'adequate'|'insufficient'|'unknown';intendedUse?:string};
+export type CapabilityExclusion={code:'permission'|'availability'|'evidence'|'version'|'jurisdiction'|'role'|'intended-use'|'population'|'language'|'setting'|'device'|'task'|'connectivity'|'input-quality';detail:string};
+export type CapabilityEligibility={eligible:boolean;providerId:string;governance:null|{id:string;version:number;manifestHash:string};exclusions:CapabilityExclusion[]};
+/** Eligibility is resolved completely before cost or latency may rank a candidate. */
+export function capabilityEligibility(s:OrgState,m:Member,p:Person,provider:AgentProvider,task:string,context:CapabilityContext,agentVersion:string):CapabilityEligibility{
+ const registered=governanceState(s).entries.some(e=>e.spec.kind==='capability'&&e.spec.providerId===provider.id),exclusions:CapabilityExclusion[]=[];
+ if(!provider.available)exclusions.push({code:'availability',detail:provider.reason});
+ if(!p.aiConsent)exclusions.push({code:'permission',detail:'Current permission for AI assistance is required.'});
+ if(!['asha','clinician'].includes(m.role))exclusions.push({code:'role',detail:'A current care role is required.'});
+ if(provider.mode==='local'&&(!registered||task==='review'))return {eligible:exclusions.length===0,providerId:provider.id,governance:null,exclusions};
+ const e=capabilityFor(s,provider.id);
+ if(!e||e.spec.kind!=='capability'||!activeEntry(s,e))return {eligible:false,providerId:provider.id,governance:null,exclusions:[...exclusions,{code:'evidence',detail:'A current independent review and passing version-bound evaluation are required.'}]};
+ const c=e.spec,governance={id:e.id,version:e.version,manifestHash:e.manifestHash};
+ if(c.model!==provider.model||c.agentVersion!==agentVersion)exclusions.push({code:'version',detail:'The approved model or agent version changed.'});
+ if(!(c.jurisdictions??['IN']).includes((context.jurisdiction??'IN') as 'IN'))exclusions.push({code:'jurisdiction',detail:'The declared jurisdiction is outside the approved capability scope.'});
+ if(!(c.roles as readonly string[]).includes(m.role))exclusions.push({code:'role',detail:'The current role is outside the approved capability scope.'});
+ if((context.intendedUse??'documentary-evidence')!==c.purpose)exclusions.push({code:'intended-use',detail:'The intended use is outside the approved capability scope.'});
+ if(!c.teamIds.includes(p.teamId)||!c.populations?.some(programme=>p.programmes.includes(programme))||typeof p.age!=='number'||!Number.isFinite(p.age)||p.age<c.ageMin||p.age>c.ageMax)exclusions.push({code:'population',detail:'The person or population is outside the approved capability scope.'});
+ if(!(c.languages as readonly string[]).includes(context.language))exclusions.push({code:'language',detail:'The requested language is outside the approved capability scope.'});
+ if(!(c.settings as readonly string[]).includes(context.setting))exclusions.push({code:'setting',detail:'The care setting is outside the approved capability scope.'});
+ if(!(c.devices as readonly string[]).includes(context.device))exclusions.push({code:'device',detail:'The device is outside the approved capability scope.'});
+ if(!(c.tasks as readonly string[]).includes(task))exclusions.push({code:'task',detail:'The task is outside the approved capability scope.'});
+ if(!(c.connectivity??['online']).includes((context.connectivity??'online') as 'online'))exclusions.push({code:'connectivity',detail:'The current connectivity is outside the approved capability scope.'});
+ if((context.inputQuality??'adequate')!==(c.minimumInputQuality??'adequate'))exclusions.push({code:'input-quality',detail:'The input quality does not meet the approved capability minimum.'});
+ return {eligible:exclusions.length===0,providerId:provider.id,governance,exclusions};
+}
+export function checkCapability(s:OrgState,m:Member,p:Person,provider:AgentProvider,task:string,context:CapabilityContext,agentVersion:string){
+ const decision=capabilityEligibility(s,m,p,provider,task,context,agentVersion);if(decision.eligible)return decision.governance;
+ const first=decision.exclusions[0];if(first.code==='evidence')fail(409,'This provider needs a current, independently reviewed capability and passing evaluation.');if(first.code==='version')fail(409,'The approved model or agent version changed.');
+ fail(409,`This provider is outside the approved capability scope and ineligible before ranking (${decision.exclusions.map(x=>x.code).join(', ')}). ${decision.exclusions.map(x=>x.detail).join(' ')}`);
+}
+export function rankEligibleCapabilities<T extends {provider:AgentProvider;cost:number;latencyMs:number}>(s:OrgState,m:Member,p:Person,task:string,context:CapabilityContext,agentVersion:string,candidates:T[]){
+ const evaluated=candidates.map(candidate=>({candidate,decision:capabilityEligibility(s,m,p,candidate.provider,task,context,agentVersion)}));
+ return {eligible:evaluated.filter(x=>x.decision.eligible).sort((a,b)=>a.candidate.cost-b.candidate.cost||a.candidate.latencyMs-b.candidate.latencyMs),excluded:evaluated.filter(x=>!x.decision.eligible)};
 }
 export function checkCapabilityInput(e:GovernanceEntry,source:string){
  if(e.spec.kind!=='capability')return;
@@ -93,10 +140,11 @@ export function checkCapabilityBudget(s:OrgState,e:GovernanceEntry,excludeRunId?
 function clinical(s:OrgState,m:Member,p?:Person){if(m.role!=='clinician'||(p&&!allowed(m,p)))fail(403,'A clinician with current care scope is required.');}
 export function authorizeGovernance(s:OrgState,m:Member,c:any){
  if(!governanceSchema.options.some(o=>o.shape.type.value===c.type))return;
- if(c.entryId&&['reviewGovernance','transitionGovernance'].includes(c.type)){const e=entryFor(s,c.entryId);if(!entryScope(m,e))fail(403,'This review package is outside your team scope.');}
+ if(c.entryId&&['reviewGovernance','transitionGovernance','suspendCapabilitySafety'].includes(c.type)){const e=entryFor(s,c.entryId);if(!entryScope(m,e))fail(403,'This review package is outside your team scope.');}
  if(c.type==='createGovernance'){if(!governanceManager(m))fail(403,'Clinical or organisation management access is required.');}
  if(c.type==='reviewGovernance')clinical(s,m);
  if(c.type==='transitionGovernance'&&!m.isOwner)fail(403,'An organisation owner must change deployment status.');
+ if(c.type==='suspendCapabilitySafety'&&!m.isOwner)fail(403,'An organisation owner must suspend a capability and assign its safety follow-up.');
  if(c.visitId){const v=visit(s.workspace,c.visitId);if(m.role==='admin')fail(403,'Patient access is required.');if(['saveClinicalConcern','checkProtocol','createDirectoryReferral','reviewAgentResult'].includes(c.type)&&!['asha','clinician'].includes(m.role))fail(403,'A care role is required.');if(c.type==='reviewProtocol'||c.type==='reportSafety'&&c.hold)clinical(s,m,person(s.workspace,v.personId));}
  if(c.caseId){const sc=governanceState(s).safety.find(x=>x.id===c.caseId);if(!sc)fail(404,'Safety case not found.');const p=person(s.workspace,sc.personId);clinical(s,m,p);if(c.type==='resolveSafety'&&sc.ownerId!==m.userId)fail(403,'Only the current clinical case owner may resolve it.');}
 }
@@ -105,12 +153,11 @@ export async function protocolPreview(s:OrgState,m:Member,v:Visit,now=new Date()
  const p=person(s.workspace,v.personId),findings:ProtocolCheck['findings']=[],unknowns:string[]=[],protocols:ProtocolCheck['protocols']=[];
  for(const e of governanceState(s).entries){const c=e.spec;if(c.kind!=='protocol'||!activeEntry(s,e,now)||!c.teamIds.includes(p.teamId)||!c.roles.includes(m.role as any)||!p.programmes.includes(c.programme)||p.age<c.ageMin||p.age>c.ageMax)continue;
   protocols.push({id:e.id,manifestHash:e.manifestHash,revision:e.revision,title:c.title});
-  for(const rule of c.rules){const f=rule.condition.field,raw=f==='workerConcern'?v.clinicalConcern?.value:v.facts[f],date=f==='workerConcern'?v.clinicalConcern?.at:(measureOf(f)?factProvenance(v.facts,measureOf(f)!).at:v.facts.date)+'Z',age=date?Date.parse(now)-Date.parse(date):NaN;
-   const missing=!raw||raw==='unknown'||!Number.isFinite(age)||age< -300000||age>c.maxObservationAgeHours*3600000;
-   if(missing){unknowns.push(rule.label+': current evidence required');if(rule.condition.operator!=='missing')continue;}
-   const hit=rule.condition.operator==='missing'?missing:rule.condition.operator==='eq'?raw===rule.condition.value:rule.condition.operator==='gte'?Number(raw)>=Number(rule.condition.value):Number(raw)<=Number(rule.condition.value);
-   if(!hit)continue;const service=entryFor(s,rule.serviceId);if(service.spec.kind!=='service')continue;
-   findings.push({entryId:e.id,ruleId:rule.id,label:rule.label,urgency:rule.urgency,action:rule.action,service:{id:service.id,title:service.spec.title,contactRoute:service.spec.contactRoute,location:service.spec.location},evidence:missing?'Current input unavailable':`${f}: ${raw} · ${date}`,sources:c.sourceIds.map(id=>{const x=entryFor(s,id).spec;if(x.kind!=='source')fail(409,'Source kind changed.');return {title:x.title,url:x.url,edition:x.edition,...(x.document?{entryId:id,document:x.document}:{})};})});
+  for(const rule of c.rules){const f=rule.condition.field,raw=f==='workerConcern'?v.clinicalConcern?.value:v.facts[f],date=f==='workerConcern'?v.clinicalConcern?.at:(measureOf(f)?factProvenance(v.facts,measureOf(f)!).at:v.facts.date)+'Z';
+   const outcome=evaluateApprovedCondition(rule.condition,{value:raw,observedAt:date,evaluatedAt:now,maxObservationAgeHours:c.maxObservationAgeHours});
+   if(outcome.state==='unknown'||outcome.evidence==='missing'||outcome.evidence==='stale'||outcome.evidence==='future'||outcome.evidence==='invalid')unknowns.push(rule.label+': current evidence required');
+   if(outcome.state!=='matched')continue;const service=entryFor(s,rule.serviceId);if(service.spec.kind!=='service')continue;
+   findings.push({entryId:e.id,ruleId:rule.id,label:rule.label,urgency:rule.urgency,action:rule.action,service:{id:service.id,title:service.spec.title,contactRoute:service.spec.contactRoute,location:service.spec.location},evidence:outcome.evidence==='confirmed'?`${f}: ${raw} · ${date}`:'Current input unavailable',sources:c.sourceIds.map(id=>{const x=entryFor(s,id).spec;if(x.kind!=='source')fail(409,'Source kind changed.');return {title:x.title,url:x.url,edition:x.edition,...(x.document?{entryId:id,document:x.document}:{})};})});
   }
  }
  const contextHash=await digest({visitId:v.id,visitVersion:v.version,personId:p.id,personVersion:p.version,protocols,dependencies:protocols.map(e=>dependencyStamp(s,entryFor(s,e.id))),findings,unknowns});
@@ -147,6 +194,15 @@ export async function applyGovernance(s:OrgState,input:unknown,u:Actor,m:Member,
   // Slice 5d: stopping a capability names the in-progress work it leaves behind (all revisions it replaced stay separate).
   const impact=e.spec.kind==='capability'&&['suspended','retired'].includes(e.state)?capabilityImpact(s.workspace.visits,e).counts:undefined;
   event(s,u,m,c.type,e.id,'Review package '+e.state+'; synthetic use only.'+(impact?' In-progress work: '+impactSummary(impact)+'.':''));return {entryId:e.id,...(impact?{impact}:{})};
+ }
+ if(c.type==='suspendCapabilitySafety'){
+  const e=entryFor(s,c.entryId);if(e.spec.kind!=='capability')fail(422,'Choose a named capability version.');if(e.version!==c.version)fail(409,'Review package changed. Refresh.');if(e.state==='retired')fail(409,'Retired packages are immutable.');
+  const owner=member(s,c.ownerId);if(!owner||owner.role!=='clinician'||!e.spec.teamIds.every(t=>owner.teamIds.includes(t)))fail(422,'Choose an active clinician who covers the capability teams.');
+  const affected=affectedCapabilityEncounters(s,e,now,c.lookbackDays),grouped=new Map<string,typeof affected>();for(const row of affected)grouped.set(row.visit.id,[...(grouped.get(row.visit.id)??[]),row]);
+  e.state='suspended';e.version++;e.history.push({at:now,by:u.userId,state:'suspended',reason:c.reason});g.safetyFollowups??=[];
+  const followupIds:string[]=[];for(const [visitId,rows] of grouped){for(const {run} of rows)if(run.status==='pending'){run.status='cancelled';run.finishedAt=now;run.message='Cancelled before dispatch because the exact capability version was suspended.';}
+   const existing=g.safetyFollowups.find(x=>x.entryId===e.id&&x.visitId===visitId&&x.state==='open');if(existing)continue;const v=rows[0].visit,id=uuid();g.safetyFollowups.push({id,entryId:e.id,entryRevision:e.revision,visitId,personId:v.personId,runIds:rows.map(x=>x.run.id),ownerId:c.ownerId,state:'open',createdAt:now,createdBy:u.userId,reason:c.reason});followupIds.push(id);}
+  event(s,u,m,c.type,e.id,`Named capability revision ${e.revision} suspended; ${affected.length} affected run(s), ${followupIds.length} accountable encounter follow-up(s), ${affected.filter(x=>x.run.status==='cancelled').length} unsent request(s) cancelled.`);return {entryId:e.id,revision:e.revision,affectedRuns:affected.length,followupIds,cancelledUnsent:affected.filter(x=>x.run.status==='cancelled').length};
  }
  if(c.type==='resolveSafety'||c.type==='assignSafety'){
   const sc=g.safety.find(x=>x.id===c.caseId)!;if(sc.version!==c.version||sc.state!=='open')fail(409,'Safety case changed or is closed.');const p=person(s.workspace,sc.personId);

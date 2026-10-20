@@ -38,6 +38,19 @@ export function capabilitySpend(s: OrgState, key: string, rates: NonNullable<Rat
     const c = runCost(r, rates, now); if (c.basis === 'none') continue;
     runs++; if (c.basis === 'usage') spent += c.usd; else { reserved += c.usd; if (r.callCount > 0) missingUsage++; }
   }
+  // Evaluations use the same reviewed provider deployment and the same monthly cap.
+  // A checkpointed running or failed case reserves the maximum allowance; recorded
+  // usage settles it. This makes concurrent admission safe because the reservation is
+  // persisted before provider invocation.
+  for (const ev of s.governance?.evaluations ?? []) {
+    if (!ids.has(ev.entryId) || ev.provider.mode === 'local') continue;
+    for (const result of ev.results) {
+      if (!['running', 'completed', 'failed'].includes(result.state) || month(result.startedAt) !== month(now)) continue;
+      runs++;
+      if (result.usage) spent += (result.usage.inputTokens * rates.input + result.usage.outputTokens * rates.output) / 1e6;
+      else { reserved += reservedUsd(rates); missingUsage++; }
+    }
+  }
   return { month: month(now), spentUsd: round(spent), reservedUsd: round(reserved), runs, missingUsage };
 }
 export function budgetFor(s: OrgState, key: string): Budget | undefined { return ((s.operations as { budgets?: Budget[] } | undefined)?.budgets ?? []).find(b => b.capabilityKey === key); }
@@ -61,4 +74,4 @@ export function budgetView(s: OrgState, now = new Date().toISOString()) {
     return { capabilityKey: e.spec.key, title: e.spec.title, providerId: e.spec.providerId, capabilityState: e.state, monthlyUsd: budget?.monthlyUsd ?? null, setBy: budget?.setBy ?? null, setAt: budget?.setAt ?? null, month: now.slice(0, 7), spentUsd: use?.spentUsd ?? null, reservedUsd: use?.reservedUsd ?? null, remainingUsd: budget && used !== null ? round(Math.max(0, budget.monthlyUsd - used)) : null, runs: use?.runs ?? null, missingUsage: use?.missingUsage ?? null, state };
   });
 }
-export const BUDGET_NOTICE = 'Estimated from recorded cost assumptions and recorded or reserved token use; not an invoice or provider bill. Agent requests only; evaluations, hosting and other charges are excluded.';
+export const BUDGET_NOTICE = 'Estimated from recorded cost assumptions and recorded or reserved token use for agent requests and synthetic evaluations; not an invoice or provider bill. Hosting and other charges are excluded.';

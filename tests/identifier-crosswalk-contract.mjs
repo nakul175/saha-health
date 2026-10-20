@@ -16,6 +16,7 @@ const rejects = async (fn, status, pattern) => { await assert.rejects(fn, e => e
 const throwsAt = (fn, status, pattern) => { assert.throws(fn, e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 try {
   for (const f of readdirSync('lib/saha').filter(f=>f.endsWith('.ts')).map(f=>f.replace(/\.ts$/,'')))
+  for(const f of (await import('node:fs')).readdirSync('lib/saha').filter(x=>x.endsWith('.ts')).map(x=>x.slice(0,-3)))
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   // crosswalk-server is exercised with a recording stand-in for the audit writer and a small in-memory audit table.
   writeFileSync(join(dir, 'access-audit.js'), `export const recorded=[];export async function recordAccesses(db,s,u,m,list,now){for(const a of list){recorded.push({...a,actorId:u.userId});db.events.push({org_id:s.organisation.id,actor_id:u.userId,action:a.action,person_id:a.personId??null,subject:a.subject,at:now});}return [];}`);
