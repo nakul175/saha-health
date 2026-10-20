@@ -105,7 +105,7 @@ const ap=await get(legacyUser,'/api/audit',200,legacyOrg);check(()=>{assert.equa
 const {programmeSmoke}=await import('./programme-smoke.mjs');await programmeSmoke({o,w,s,a,post,get,check,org});
 const {agentSmoke}=await import('./agent-smoke.mjs');await agentSmoke({o,c,w,a,s,post,get,check,org,sql});
 const {misSmoke}=await import('./mis-smoke.mjs');await misSmoke({get,post,check,accounts,org,sql});
-const {ehrSmoke}=await import('./ehr-smoke.mjs');await ehrSmoke({get,post,check,accounts,org});
+const {ehrSmoke}=await import('./ehr-smoke.mjs');await ehrSmoke({get,post,check,accounts,org,sql});
 const {fieldSmoke}=await import('./field-smoke.mjs');await fieldSmoke({get,post,check,accounts,org});
 const {operationsSmoke}=await import('./operations-smoke.mjs');await operationsSmoke({get,post,check,accounts,org,sql});
 const {pilotSmoke}=await import('./pilot-smoke.mjs');await pilotSmoke({get,post,check,accounts,org,sql});
