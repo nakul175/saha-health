@@ -4369,8 +4369,8 @@
       "sourceTextLine": 566,
       "implementation": "partial",
       "target": "R15",
-      "current": "Fixed route/status telemetry and redacted support exports. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs. Slice 6q (second independent review): the paged patient list no longer puts names in URLs (opaque cursor, POST search); the static check also flags free-text and search keys set on URLSearchParams. Routine retention repair (11 October 2026): independent source review confirmed a shared metadata deletion authority gap on refused foreign/suspended requests. Only the existing DELETE adds the same trusted actor active-membership predicate; separate code review, fresh build and all nine native HTTP scenarios/64 named check groups pass with independent whole-row/source/build evidence verification; normal CI fixture qualification, exact successor CI/full NFR and hosted acceptance remain pending. See docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md. Original formal status, policies, criteria and minima unchanged.",
-      "remaining": "Hosted log, crash-report and analytics configuration and retention, identifiers in request paths, and a separate access-controlled store for necessary sensitive diagnostics with policy review.",
+      "current": "Fixed route/status telemetry and redacted support exports. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs. Slice 6q (second independent review): the paged patient list no longer puts names in URLs (opaque cursor, POST search); the static check also flags free-text and search keys set on URLSearchParams. Routine retention repair (11 October 2026): independent source review confirmed a shared metadata deletion authority gap on refused foreign/suspended requests. Only the existing DELETE adds the same trusted actor active-membership predicate; separate code review, fresh build and all nine native HTTP scenarios/64 named check groups pass with independent whole-row/source/build evidence verification; normal CI fixture qualification, exact successor CI/full NFR and hosted acceptance remain pending. See docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md. Original formal status, policies, criteria and minima unchanged. SAHA-128 local application boundary (20 October 2026): every request and failure console record now passes through a fixed-field encoder; raw exception objects, messages, stacks, URLs, bodies and identifiers are excluded even in development. Necessary patient-linked diagnostic evidence remains in the separately authorised audit/revision stores governed by existing retention controls. Focused encoder/static tests pass 16/16 and the actual routine telemetry tenant-retention integration passes 64/64. This is not hosted telemetry, privacy-policy or formal acceptance.",
+      "remaining": "Hosted platform log/crash/analytics configuration and retention inspection, privacy-owner policy review, and representative end-to-end hosted leakage testing remain; formal TC-BR-SEC-07-A/B are Not run.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -4386,7 +4386,9 @@
         "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
         "docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md",
         "docs/current/d03/telemetry-retention-evidence-20261011/MANIFEST.json",
-        "tests/integration/routine-telemetry-retention-http.mjs"
+        "tests/integration/routine-telemetry-retention-http.mjs",
+        "lib/saha/observability.ts",
+        "docs/current/SAHA-128-LOCAL-CODING-COMPLETION-20261020.md"
       ],
       "automatedAcceptanceClaim": false
     },
