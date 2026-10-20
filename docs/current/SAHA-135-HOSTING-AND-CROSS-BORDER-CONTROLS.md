@@ -32,8 +32,10 @@ The owner-only `GET /api/hosting-controls` exposes policy metadata and the expli
 - `npm run build` — passed; `/api/hosting-controls` and `/hosting-controls` are present in the built route catalogue.
 - `npm run test:catalogue` — passed: 1,045 suites, 100 component modules, 49 support files.
 - `node scripts/audit-requirements.mjs --check` — passed after the requirement evidence was updated.
+- `node scripts/test.mjs uat --fast` — **63/63 passed** after the generated UAT pack was refreshed. BR-SEC-14 is now runnable as `implemented-local`; the catalogue cases remain formally **Not run** until named execution and review occur.
+- `node scripts/test.mjs nfr --only nfr/authorisation-matrix --fast --guard --report tests/reports/native-authorization-current-summary.json` — **71/71 passed**. The new owner-only GET route is exercised across all eight synthetic principals, including denial and disclosure checks.
 - `npm run lint:baseline` — passed at the unchanged 1,392-error baseline. Existing warnings remain repository debt; this change adds no lint error.
-- `python3 scripts/check-documentation.py` with the bundled current Python runtime — passed against `application-saha135-hosting-controls-r2-sha256.json`: 2,077 current source files pinned, 176 requirements and 364 formal cases preserved, 38 generated documents verified. This is integrity evidence, not product execution or formal acceptance.
+- `python3 scripts/check-documentation.py` with the bundled current Python runtime — passed against `application-saha135-hosting-controls-r3-sha256.json`: 2,077 current source files pinned, 176 requirements and 364 formal cases preserved, 38 generated documents verified. This is integrity evidence, not product execution or formal acceptance.
 
 Exact current-source custody is in `tests/evidence/saha-135-hosting-controls/manifest.json`.
 

@@ -10,7 +10,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 - **What this role can do:** Membership, teams, connections, governance activation, retention, budgets, pilot settings and data export. The owner flag gives no patient access beyond the member's own role and teams (lib/saha/platform.ts manage(); docs/current/06).
 - **Navigation this role sees** (from lib/saha/navigation.ts): My work, People, Submissions, Outreach, Care handover, Clinical governance, Pilot readiness, Expansion, Operations, Programmes, AI tools, Connections, Activity log, Organisation & team.
 
-- **Cases:** 53. Default Blocked: 7.
+- **Cases:** 53. Default Blocked: 6.
 
 | Run details | |
 | --- | --- |
@@ -75,7 +75,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 | TC-BR-SEC-09-A | Controlled retention and disposal acceptance | BR-SEC-09 (partial) | Blocked |
 | TC-BR-SEC-10-A | Rights and correction workflow acceptance | BR-SEC-10 (partial) | Not run |
 | TC-BR-SEC-12-A | Provider and supply-chain assurance acceptance | BR-SEC-12 (partial) | Not run |
-| TC-BR-SEC-14-A | Hosting and cross-border controls acceptance | BR-SEC-14 (partial) | Blocked |
+| TC-BR-SEC-14-A | Hosting and cross-border controls acceptance | BR-SEC-14 (implemented-local) | Not run |
 | TC-BR-RULE-06-A | Rechecks at execution time acceptance | BR-RULE-06 (implemented-local) | Not run |
 
 ## Cases
@@ -1804,27 +1804,29 @@ Dependency lockfile and provider configuration inventory. Slice 0c: production S
 
 ### TC-BR-SEC-14-A — Hosting and cross-border controls acceptance
 
-- **Requirement:** BR-SEC-14 — Hosting and cross-border controls. Assessment: **partial**. Target R15. Priority Must, BRD phase R1.
+- **Requirement:** BR-SEC-14 — Hosting and cross-border controls. Assessment: **implemented-local**. Target R15. Priority Must, BRD phase R1.
 - **Catalogue:** Functional, fixture FX-SEC-14, catalogue owner "QA with Privacy and security owners".
 - **Run as:** Organisation owner / programme lead. Basis: requirement area default (BR-SEC; catalogue owner "QA with Privacy and security owners").
-- **Default result:** **Blocked**
-- **Start from:** No screen is documented for BR-SEC-14: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Default result:** Not run
+- **Start from:** Candidate owner hosting controls (/hosting-controls; deployment inputs and formal approval pending). These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
 
-1. Not testable in current build: The assessment lists as remaining work “Enforced legal data-location policy across storage, providers, backups, analytics and support.” (BR-SEC-14, remaining field of requirements/assessment.tsv).
-2. Check it: open the screens named under Start from and look for the behaviour described in the expected result below. Do not work around a missing control.
-3. If the behaviour is absent, leave the result Blocked and write in the register what you looked at and what was missing. If you can exercise part of it, do so, record exactly what you did and saw in Notes, and keep the result Blocked or set Fail if what you saw was wrong. A partial run is never a Pass.
-4. Original design step, for reference: "Routing policy constrains provider, storage, backup and support regions before any transfer."
+1. Sign in to hosted staging as Organisation owner / programme lead and check that the synthetic-environment banner is showing (plan section 7).
+2. Set up the data. The original case loads fixture FX-SEC-14; a fixture of that name cannot be loaded on hosted staging. Choose seeded or newly created synthetic records (plan section 7) and write down which ones you used.
+3. Open the screens named under Start from.
+4. Try to bring about the behaviour in the original design step: "Routing policy constrains provider, storage, backup and support regions before any transfer." Use only what the screens offer. If a control or state described there does not exist in this build, do not work around it; note "not available in this build" and check the Known gaps line.
+5. Compare what happened with the expected result below. If the build refuses the action, the refusal is a result: copy its message. Write the actual result in your own words (what you saw, not what you expected).
+6. Capture evidence: a screenshot of the screen showing the outcome, plus the receipt, revision or Activity log entry where the action creates one (the Activity log is not in every role's navigation). Save it where the reviewer can open it and note its location.
 
 **Expected result** (catalogue): A model endpoint or support route outside the deployment's permitted locations is rejected before personal data is transferred.
 
-**Known gaps** (assessment, remaining work for BR-SEC-14): Enforced legal data-location policy across storage, providers, backups, analytics and support.
+**Known gaps** (assessment, remaining work for BR-SEC-14): Security/privacy owner approval of the actual location vocabulary, legal bases, agreements and every deployment route; independent review, final-source CI, named formal TC-BR-SEC-14-A/B execution, merge and observed deployment remain pending.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-14)</summary>
 
-Explicit HTTPS origin allowlist limits outbound destinations.
+SAHA-135 local implementation adds owner-managed, append-preserving versioned hosting controls over primary storage, providers, backups, analytics and support. Active routes bind target, purpose, direction, authority reference and owner-entered approved location; configured drafts, stale versions and unapproved or mismatched routes fail closed before service dispatch. Focused synthetic checks cover positive, refusal, invalid input, authorization, replay/version and audit-window race behavior.
 
 </details>
 

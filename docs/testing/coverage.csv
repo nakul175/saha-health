@@ -138,7 +138,7 @@ BR-SEC-10,Rights and correction workflow,BR-SEC,Must,partial,R15,BR-SEC-10,2,0,0
 BR-SEC-11,Emergency and support access,BR-SEC,Must,partial,R15,BR-SEC-11,2,0,0,0,0,0,2,1,1,1,0,0,2,0,1,false,true,false,one layer only,tests/fourth-review-fixes-contract.mjs; tests/main-review-fixes-contract.mjs
 BR-SEC-12,Provider and supply-chain assurance,BR-SEC,Must,partial,R15,BR-SEC-12,0,0,0,0,0,0,0,0,1,1,0,0,2,0,1,true,false,false,no automated test cited,
 BR-SEC-13,Incident response,BR-SEC,Must,partial,R15,BR-SEC (area list),0,0,0,0,0,0,0,0,1,1,0,0,2,0,1,true,false,false,no automated test cited,
-BR-SEC-14,Hosting and cross-border controls,BR-SEC,Must,partial,R15,BR-SEC (area list),0,0,0,0,0,0,0,0,1,1,0,0,2,0,1,true,false,false,no automated test cited,
+BR-SEC-14,Hosting and cross-border controls,BR-SEC,Must,implemented-local,R15,BR-SEC-14,2,0,0,0,0,0,2,1,1,1,0,0,2,0,1,false,true,false,one layer only,tests/hosting-controls-contract.mjs; tests/service-dispatch-contract.mjs
 BR-RULE-01,No invented facts,BR-RULE,Must,partial,R11,BR-RULE (area list),1,1,0,0,0,0,2,2,1,1,0,0,2,0,1,false,false,false,,tests/governance-contract.mjs; tests/governance-smoke.mjs
 BR-RULE-02,Patient confirmation before commitment,BR-RULE,Must,partial,R12,BR-RULE (area list),1,1,0,0,0,0,2,2,1,1,0,0,2,0,1,false,false,false,,tests/governance-contract.mjs; tests/governance-smoke.mjs
 BR-RULE-03,Review depends on unchanged evidence,BR-RULE,Must,implemented-local,R16,BR-RULE-03,0,0,0,1,0,0,1,1,1,1,0,0,2,0,1,false,true,false,one layer only,tests/smoke/routine-visit-browser.mjs

@@ -99,7 +99,6 @@ export const BLOCKED_REQUIREMENTS = {
   'BR-INT-22': ['remaining', 'Approved legacy HL7 v2/CDA/REST/SOAP/file adapters as selected by buyer.'],
   'BR-SEC-05': ['remaining', 'Independent storage/key-management, rotation, media and end-to-end encryption assessment.'],
   'BR-SEC-09': ['current', 'No record is deleted.'],
-  'BR-SEC-14': ['remaining', 'Enforced legal data-location policy across storage, providers, backups, analytics and support.'],
 };
 // End to end journeys: individual steps that cannot be done (step number -> assessment quote).
 const CLINICAL_GENERATION = { req: 'BR-AI-02', field: 'current', quote: 'clinical generation remains unavailable.' };
@@ -143,6 +142,7 @@ export const PLAN_REVIEW_SCREEN = 'Candidate ASHA action review (/plan-review; l
 export const ASSISTANCE_SCREEN='Candidate ASHA own assistance status and cancellation (/assistance-control; no provider activation; deployment pending)';
 export const WORKFORCE_SCREEN='Candidate existing-owner workforce suspension (/workforce-status; no activation or institutional verification; deployment pending)';
 export const SELECTIVE_REUSE_SCREEN='Candidate permitted-reuse review (/selective-reuse; preview only; approval and sending remain separate)';
+export const HOSTING_CONTROLS_SCREEN='Candidate owner hosting controls (/hosting-controls; deployment inputs and formal approval pending)';
 export const PANEL_HOME = {
   'app/routine-visit/save-status.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/record-matching/page.tsx':[MATCHING_SCREEN],
@@ -160,6 +160,7 @@ export const PANEL_HOME = {
   'app/workforce-status/page.tsx':[WORKFORCE_SCREEN],
   'app/workforce-status/workforce-status.tsx':[WORKFORCE_SCREEN],
   'app/selective-reuse/screen.tsx':[SELECTIVE_REUSE_SCREEN],
+  'app/hosting-controls/page.tsx':[HOSTING_CONTROLS_SCREEN],
   'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/resume-work/resume-work.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/resume-work/page.tsx': [ROUTINE_CAPTURE_SCREEN],
