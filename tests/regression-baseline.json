@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-20",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -863,6 +863,11 @@
       "file": "tests/smoke/deployment-evidence-review-browser.mjs",
       "minPassed": 40
     },
+    "smoke/event-geotag-worker": {
+      "layer": "smoke",
+      "file": "tests/smoke/event-geotag-worker.mjs",
+      "minPassed": 8
+    },
     "smoke/fact-freshness-browser": {
       "layer": "smoke",
       "file": "tests/smoke/fact-freshness-browser.mjs",
@@ -1327,6 +1332,11 @@
       "layer": "unit",
       "file": "tests/root-verification-current-environment-contract.mjs",
       "minPassed": 26
+    },
+    "unit/event-geotag-contract": {
+      "layer": "unit",
+      "file": "tests/event-geotag-contract.mjs",
+      "minPassed": 60
     },
     "unit/exceptional-contract": {
       "layer": "unit",
