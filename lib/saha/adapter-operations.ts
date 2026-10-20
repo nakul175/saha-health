@@ -19,7 +19,7 @@ import type { Actor } from './store';
 //
 // This module has no runtime imports so every harness that transpiles core can list it without others.
 export const ADAPTER_OPERATIONS=['create','update','delete','lookup','aggregate'] as const;
-export const AGGREGATE_FIELDS=['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','blocks','team','indicator','unit','withheld','cells','value','numerator','denominator','suppressed'] as const;
+export const AGGREGATE_FIELDS=['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','reporting','evaluatedAt','window','since','until','coverage','clinicalDenominator','evidenceBasis','evidenceDigest','calendars','digest','effectiveAt','title','affectedDenominatorCoverage','affectedSourcePeriods','definitionRef','component','sourceId','periodId','teamId','calendarId','calendarVersion','status','affectedOperands','sources','source','kind','deadline','deadlinePassed','lateHours','syncHours','coverageTimeliness','refreshAt','warning','freshness','shareMinimum','note','teams','label','latestAt','arrivals','late','lateShare','lateShareNote','thresholdHours','thresholdPolicy','syncing','grants','message','syncThresholdHours','notice','blocks','team','indicator','unit','withheld','cells','value','numerator','denominator','suppressed'] as const;
 export type AggregateField=typeof AGGREGATE_FIELDS[number];
 export type AdapterOperation=typeof ADAPTER_OPERATIONS[number];
 export type GovernedKind='mis'|'ehr'|'abdm';

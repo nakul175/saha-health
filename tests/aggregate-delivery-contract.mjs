@@ -87,8 +87,9 @@ try{
   store.setup(fresh());L.resetLedger();
   const r=await as('sup',prep({group:'village'}));assert.equal(r.state,'prepared');first=report(r.reportId);
   assert.deepEqual(first.definitions,['all-people@1','patients-seen@1']);assert.equal(first.preparedBy,'sup');
-  const p=first.payload;assert.equal(p.contract,'saha-aggregate-v1');assert.equal(p.operation,'aggregate');
-  assert.equal(p.manifest.sha256,sha(D.canonical({report:p.report,definitions:p.manifest.definitions,blocks:p.blocks})),'the SHA-256 is recomputable by a receiver');
+  const p=first.payload;assert.equal(p.contract,'saha-aggregate-v2');assert.equal(p.operation,'aggregate');
+  assert.equal(p.reporting.coverage,'incomplete-or-unknown');assert.equal(p.reporting.clinicalDenominator,'unknown');assert.match(p.reporting.evidenceDigest,/^[a-f0-9]{64}$/);
+  assert.equal(p.manifest.sha256,sha(D.canonical({report:p.report,definitions:p.manifest.definitions,reporting:p.reporting,blocks:p.blocks})),'the SHA-256 covers figures and completeness and is recomputable by a receiver');
   assert.equal(p.manifest.rows,p.blocks.reduce((n,b)=>n+b.cells.length,0));assert.equal(first.rowCount,p.manifest.rows);
   assert.deepEqual(p.manifest.definitions.map(d=>`${d.id}@${d.version}`),['all-people@1','patients-seen@1']);
   const t1=p.blocks.find(b=>b.team==='Team one'&&b.indicator==='all-people');assert.deepEqual(t1.cells.map(c=>[c.group,c.value,c.suppressed]),[['Alpur',7,false],['Bedi',6,false]]);
