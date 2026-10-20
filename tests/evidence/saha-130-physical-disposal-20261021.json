@@ -1,0 +1,16 @@
+{
+  "story": "SAHA-130",
+  "contract": "APL-153",
+  "parent": "9b2ccf34f1929c5b677b3b901b01f43ca7408c21",
+  "environment": "synthetic local only",
+  "results": [
+    {"command": "node tests/retention-contract.mjs", "passed": 19, "failed": 0},
+    {"command": "node tests/retention-disposal-contract.mjs", "passed": 31, "failed": 0, "coverage": "actual SQLite outreach scrub; durable reservation/outcome tables and immutable triggers; replacement, authority, crash/retry and idempotency races"},
+    {"command": "node tests/retention-direct-read-contract.mjs", "passed": 12, "failed": 0},
+    {"command": "node tests/data-exit-retention-contract.mjs", "passed": 28, "failed": 0},
+    {"command": "node tests/object-media-migration.mjs", "passed": 13, "failed": 0},
+    {"command": "pnpm typecheck", "status": "passed"},
+    {"command": "pnpm build", "status": "passed", "note": "existing bundle-size advisory only"}
+  ],
+  "retainedHold": "Patient/model/offline/audit/export/backup physical-disposal semantics remain underdetermined and unsupported."
+}

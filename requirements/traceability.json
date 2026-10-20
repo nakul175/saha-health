@@ -4485,8 +4485,8 @@
       "sourceTextLine": 572,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners.",
-      "remaining": "Approved record-class schedule, tombstones, restore-safe disposal and coverage of backups and exports.",
+      "current": "Local application control now records versioned schedules by record class, purpose, location and jurisdiction across patient/receipt/audit/outreach/rights/field/transcript/raw-audio/model-output/cache/export/backup classes; owner-only inventory and disposal commands fail closed on stale policy or active holds, retain append-only tombstones, and apply tombstones before operational state is returned after a restore. Controlled recovery requires an encrypted current authority and merges newer tombstones before creating a destination database. Outside-scope hold redaction remains in force.",
+      "remaining": "Independent review and exact-source CI; formal privacy/security owner acceptance; hosted storage-tier purge adapters and backup/export operational evidence; physical-device/local-cache verification; merge and observed deployment.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -4496,7 +4496,10 @@
         "lib/saha/retention.ts",
         "app/retention-panel.tsx",
         "tests/fourth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "tests/retention-contract.mjs",
+        "tests/retention-smoke.mjs",
+        "docs/current/SAHA-130-LOCAL-CODING-COMPLETION-20261020.md"
       ],
       "automatedAcceptanceClaim": false
     },

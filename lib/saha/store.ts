@@ -1,5 +1,6 @@
 import { allowed, bindAccessPolicy, policySql } from './access';
 import {hydrateTransitionAuthority} from './installed-transition-authority';
+import {applyRetentionTombstones,retentionTombstonesFromRaw} from './retention';
 export { allowed } from './access';
 import type { D1Database } from '@cloudflare/workers-types';
 import { AppError, digest, fail, uuid } from './core';
@@ -135,7 +136,7 @@ export async function readState(db:D1Database,orgId:string,personIds?:string[],v
  const w:Workspace={schemaVersion:1,revision:org.revision,role:'admin',people:values.patients.map(r=>({...JSON.parse(r.data),version:r.version,teamId:r.team_id,assignedTo:r.assigned_to,assigned:false})),visits:values.visits.map(r=>{const {planId,...data}=JSON.parse(r.data);const plan=planId?plans.get(planId):undefined;return {...data,version:r.version,recordVersion:r.record_version,plan:plan?JSON.parse(plan):undefined,aiResults:(ai.get(r.id)??[]).map(a=>JSON.parse(a))};}),integrations:values.integrations.map(r=>JSON.parse(r.data)),submissions:values.submissions.map(r=>JSON.parse(r.data)),referrals:values.referrals.map(r=>JSON.parse(r.data)),receipts:{},audit:values.audit_events.reverse().map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id}))};
  // Slice 13a: bind the organisation's access policy to its members (lib/saha/access.ts).
  const state=bindAccessPolicy({retention:values.retention[0]?JSON.parse(values.retention[0].data):undefined,governance:values.governance[0]?JSON.parse(values.governance[0].data):undefined,outreach:values.outreach[0]?JSON.parse(values.outreach[0].data):undefined,expansions:values.expansions[0]?JSON.parse(values.expansions[0].data):undefined,pilot:values.pilot[0]?JSON.parse(values.pilot[0].data):undefined,operations:values.operations[0]?JSON.parse(values.operations[0].data):undefined,organisation:{id:org.id,name:org.name,revision:org.revision,createdAt:org.created_at,patientRevision:org.patient_revision??0},teams:values.teams.map(r=>({id:r.id,name:r.name,createdAt:r.created_at})),members:namedMembers(values.memberships.map(r=>({userId:r.user_id,displayName:r.display_name,accountCode:r.account_code,role:r.role,isOwner:!!r.is_owner,status:r.status,version:r.version,createdAt:r.created_at,teamIds:teamIds.get(r.user_id)??[]})),values.invitations,values.operations[0]?.data),invitations:values.invitations.map(r=>({id:r.id,accountCode:r.account_code,label:r.label,role:r.role,teamIds:JSON.parse(r.team_ids),status:r.status,expiresAt:r.expires_at,createdBy:r.created_by,createdAt:r.created_at,tokenHash:r.token_hash,acceptedBy:r.accepted_by??undefined})),households:values.households.map(r=>({...JSON.parse(r.data),version:r.version,teamId:r.team_id})),...(ids?{}:{caseloads:values.caseload_transfers.map(r=>({...JSON.parse(r.data),version:r.version,state:r.state}))}),identityCases:values.identity_cases.map(r=>({...JSON.parse(r.data),version:r.version,state:r.state})),rightsRequests:values.rights_requests.map(r=>({...JSON.parse(r.data),version:r.version,state:r.state})),workspace:w,patientRevs:Object.fromEntries(values.patients.map(r=>[r.id,r.rev??0])),...(ids&&!windowed?{partition:ids}:{}),...((!ids||windowed)&&viewer?{readOnlyFor:viewer}:{})});
- await hydrateTransitionAuthority(db,state);return state;
+ applyRetentionTombstones(state);await hydrateTransitionAuthority(db,state);return state;
 }
 function revisionChanges(previous:unknown,current:unknown){
  const flatten=(value:any,prefix=''):Record<string,string>=>{const out:Record<string,string>={};for(const [key,val] of Object.entries(value??{})){if(['assigned','plan','aiResults','version','recordVersion'].includes(key))continue;const name=prefix?prefix+'.'+key:key;if(val!==null&&typeof val==='object'&&!Array.isArray(val))Object.assign(out,flatten(val,name));else out[name]=val==null?'—':Array.isArray(val)?val.join(', '):String(val);}return out;};
@@ -338,16 +339,18 @@ function auditPageResult(results:Record<string,any>[]){
  const rows=results.slice(0,100),last=rows.at(-1);return {events:rows.map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id})) as Audit[],nextCursor:results.length>100?j([last!.at,last!.id]):null};
 }
 export async function auditPage(db:D1Database,orgId:string,userId:string,cursor:[string,string]|null=null,summaries=false){
- return auditPageResult((await auditPageStatement(db,orgId,userId,cursor,summaries).all<Record<string,any>>()).results);
+ const [activity,authority]=await db.batch([auditPageStatement(db,orgId,userId,cursor,summaries),db.prepare('SELECT data FROM retention WHERE org_id=?').bind(orgId)]);retentionTombstonesFromRaw((authority.results[0] as {data?:string}|undefined)?.data);return auditPageResult(activity.results as Record<string,any>[]);
 }
 // Response decorations are independent reads after the caller's durable workspace access audit.
 // Keep the same fresh SQL visibility predicate; batching does not reuse membership or patient scope.
 export async function snapshotDecorations(db:D1Database,orgId:string,userId:string){
- const [orgs,migration,activity]=await db.batch([
+ const [orgs,migration,activity,authority]=await db.batch([
   db.prepare('SELECT o.id,o.name,m.role,m.is_owner FROM memberships m JOIN organisations o ON o.id=m.org_id WHERE m.user_id=? AND m.status=? ORDER BY o.created_at').bind(userId,'active'),
   db.prepare('SELECT migrated_at,counts FROM legacy_migrations WHERE org_id=?').bind(orgId),
   auditPageStatement(db,orgId,userId),
+  db.prepare('SELECT data FROM retention WHERE org_id=?').bind(orgId),
  ]);
+ retentionTombstonesFromRaw((authority.results[0] as {data?:string}|undefined)?.data);
  return {orgs:orgs.results as {id:string;name:string;role:Member['role'];is_owner:number}[],migration:(migration.results[0]??null) as {migrated_at:string;counts:string}|null,activity:auditPageResult(activity.results as Record<string,any>[])};
 }
 

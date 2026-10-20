@@ -29,7 +29,7 @@ import {eventGeotagDisclosureRevision,eventGeotagDisclosureVisit} from './event-
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0033_credential_recovery';
+export const SCHEMA_MIGRATION = '0034_retention_disposal';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
@@ -164,6 +164,54 @@ export function scopeEntries(value: unknown, keep: (personId: string) => boolean
   return { value: walk(value), withheld };
 }
 
+// SAHA-130: data exit reads the storage tables directly, rather than through readState.
+// Bind those reads to the same append-only retention authority before any scope, count,
+// handover, FHIR or staged-basis calculation. Audit rows deliberately remain untouched:
+// audit-event disposal is refused at the retention command boundary because the chained
+// immutable representation cannot be removed or rewritten by an ordinary data exit.
+const EXIT_RETENTION_CLASSES=['patient-record','programme-receipt','audit-event','outreach-message','rights-request','field-package','transcript','raw-audio','model-output','local-cache','export','backup'] as const;
+type ExitRetentionClass=typeof EXIT_RETENTION_CLASSES[number];
+const exitTombstone=z.object({id:z.string().min(1),recordClass:z.enum(EXIT_RETENTION_CLASSES),recordId:z.string().min(1),personId:z.string().min(1).optional(),policyVersion:z.number().int().positive(),triggerAt:z.string().datetime({offset:true}),purpose:z.string().min(1),location:z.string().min(1),jurisdiction:z.string().min(1),disposedBy:z.string().min(1),disposedAt:z.string().datetime({offset:true}),reason:z.string().min(1)}).passthrough();
+const exitRetention=z.object({tombstones:z.array(exitTombstone).optional()}).passthrough();
+const retentionKey=(recordClass:ExitRetentionClass,recordId:unknown)=>`${recordClass}\u0000${String(recordId)}`;
+type ExitRetentionProjection={disposedPeople:Set<string>;tombstones:ReadonlyArray<z.infer<typeof exitTombstone>>};
+export function scopedExitTombstones(tombstones:ExitRetentionProjection['tombstones'],people:ReadonlySet<string>){return tombstones.filter(t=>!t.personId||people.has(t.personId));}
+
+function retentionAuthority(data:Record<string,Row[]>):ExitRetentionProjection{
+ const rows=data.retention??[];if(rows.length>1)fail(503,'Retention authority is invalid. No export was produced.');
+ if(!rows.length)return{disposedPeople:new Set(),tombstones:[]};
+ let raw:unknown;try{raw=JSON.parse(String(rows[0].data));}catch{fail(503,'Retention authority is invalid. No export was produced.');}
+ const parsed=exitRetention.safeParse(raw);if(!parsed.success)fail(503,'Retention authority is invalid. No export was produced.');
+ const tombstones=parsed.data.tombstones??[],seen=new Set<string>();
+ for(const t of tombstones){const key=retentionKey(t.recordClass,t.recordId);if(seen.has(key))fail(503,'Retention authority contains duplicate tombstones. No export was produced.');seen.add(key);if(t.recordClass==='audit-event')fail(503,'Immutable audit events cannot be disposed by data exit. No export was produced.');}
+ return{disposedPeople:new Set(tombstones.filter(t=>t.recordClass==='patient-record').map(t=>t.recordId)),tombstones};
+}
+const parseRowDocument=(row:Row,table:string)=>{try{const value=JSON.parse(String(row.data));if(!value||typeof value!=='object'||Array.isArray(value))throw new Error();return value as Record<string,unknown>;}catch{fail(503,`Stored ${table} retention projection is invalid. No export was produced.`);}};
+const filterObjects=(value:unknown,drop:(value:Record<string,unknown>)=>boolean):unknown=>{
+ if(Array.isArray(value))return value.filter(x=>!(x&&typeof x==='object'&&!Array.isArray(x)&&drop(x as Record<string,unknown>))).map(x=>filterObjects(x,drop));
+ if(value&&typeof value==='object'){const out:Record<string,unknown>={};for(const[k,v]of Object.entries(value))out[k]=filterObjects(v,drop);return out;}return value;
+};
+
+export function projectDataExitTombstones(data:Record<string,Row[]>):ExitRetentionProjection{
+ const authority=retentionAuthority(data),dead=new Set(authority.tombstones.map(t=>retentionKey(t.recordClass,t.recordId))),disposed=authority.disposedPeople;
+ if(!dead.size)return authority;
+ const rows=(table:string)=>data[table]??[],dropPeople=(table:string)=>{data[table]=rows(table).filter(r=>r.person_id==null||!disposed.has(String(r.person_id)));};
+ data.patients=rows('patients').filter(r=>!disposed.has(String(r.id))).map(r=>{const doc=parseRowDocument(r,'patients'),leases=Array.isArray(doc.fieldLeases)?doc.fieldLeases.filter(x=>!x||typeof x!=='object'||!dead.has(retentionKey('field-package',(x as any).id))&&!dead.has(retentionKey('local-cache',(x as any).id))):doc.fieldLeases;return leases===doc.fieldLeases?r:{...r,data:JSON.stringify({...doc,fieldLeases:leases})};});
+ const disposedVisits=new Set(rows('visits').filter(r=>disposed.has(String(r.person_id))).map(r=>String(r.id)));
+ data.visits=rows('visits').filter(r=>!disposed.has(String(r.person_id))).map(r=>{const doc=parseRowDocument(r,'visits'),media=Array.isArray(doc.media)?doc.media.filter(x=>!x||typeof x!=='object'||!dead.has(retentionKey('raw-audio',(x as any).id))&&!dead.has(retentionKey('transcript',(x as any).id))):doc.media;return media===doc.media?r:{...r,data:JSON.stringify({...doc,media})};});
+ data.plans=rows('plans').filter(r=>!disposedVisits.has(String(r.visit_id)));
+ data.ai_results=rows('ai_results').filter(r=>!disposedVisits.has(String(r.visit_id))&&!dead.has(retentionKey('model-output',r.id)));
+ for(const table of ['submissions','referrals','record_revisions','media','rights_requests','work_burden_samples','work_support_events','device_work_grants','device_registration_grants','device_registration_receipts','offline_open_subjects','indicator_figure_units'])dropPeople(table);
+ data.submissions=rows('submissions').filter(r=>!dead.has(retentionKey('programme-receipt',r.id)));
+ data.rights_requests=rows('rights_requests').filter(r=>!dead.has(retentionKey('rights-request',r.id)));
+ data.media=rows('media').filter(r=>!dead.has(retentionKey('raw-audio',r.id))&&!dead.has(retentionKey('transcript',r.id)));
+ data.identity_cases=rows('identity_cases').filter(r=>!disposed.has(String(r.survivor_id))&&!disposed.has(String(r.duplicate_id)));
+ for(const table of ['operations','pilot','outreach','expansions','governance','households','caseload_transfers'])data[table]=rows(table).map(r=>{const doc=parseRowDocument(r,table),patientProjected=scopeEntries(doc,id=>!disposed.has(id),PATIENT_ID_LISTS,PATIENT_ID_MAPS).value,projected=filterObjects(patientProjected,x=>table==='outreach'&&x.id!=null&&dead.has(retentionKey('outreach-message',x.id)));return{...r,data:JSON.stringify(projected)};});
+ return authority;
+}
+
+async function projectedTables(db:D1Database,orgId:string,specs:TableSpec[]){const data:Record<string,Row[]>={};for(const spec of specs)data[spec.table]=await readAll(db,spec,orgId);if(!('retention'in data))data.retention=await readAll(db,TABLES.find(x=>x.table==='retention')!,orgId);projectDataExitTombstones(data);return data;}
+
 // Builds every file of the archive. Pure over the database: nothing is written.
 export async function buildExport(db: D1Database, input: ExportInput) {
   const { orgId, member: m } = input;
@@ -179,6 +227,8 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // archive is assembled.
   const tableRows = await Promise.all(TABLES.map(spec => readAll(db, spec, orgId)));
   for (let i = 0; i < TABLES.length; i++) data[TABLES[i].table] = tableRows[i];
+  const retentionProjection=projectDataExitTombstones(data);
+  const retentionBasis=await digest(data.retention);
   // Actor ownership and today's scope cannot certify a historical clinical aggregate.
   // Filter before any row/withheld/other-member/column totals; do not expose an omitted count.
   const protectedAlertSubjects=new Set<string>(),protectedAlertAuditIds=new Set<string>();
@@ -260,7 +310,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       // the exporter's patient scope is left out of the row's data, with its relationship and any end reason.
       if ((spec.scope === 'org' || spec.scope === 'team') && typeof r.data === 'string' && r.data) {
         let doc: unknown = null; try { doc = JSON.parse(r.data); } catch { doc = null; }
-        if (doc && typeof doc === 'object') { const scoped = spec.scope === 'team' ? scopeEntries(doc, id => people.has(id), PATIENT_ID_LISTS, PATIENT_ID_MAPS) : scopeEntries(doc, id => people.has(id)); if (scoped.withheld) { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
+        if (doc && typeof doc === 'object') { const scoped = spec.scope === 'team' ? scopeEntries(doc, id => people.has(id), PATIENT_ID_LISTS, PATIENT_ID_MAPS) : scopeEntries(doc, id => people.has(id));if(spec.table==='retention'&&scoped.value&&typeof scoped.value==='object'&&!Array.isArray(scoped.value))(scoped.value as Record<string,unknown>).tombstones=scopedExitTombstones(retentionProjection.tombstones,people); if (scoped.withheld||spec.table==='retention') { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
       }
       // Slice 6w (fifth review, finding 6): the indicator differencing ledger is server-side protection state
       // (hashed filters and unsuppressed per-cell counts from every viewer's queries); it is not exported.
@@ -352,7 +402,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   const listed = [{ path: 'README.txt', bytes: readme }, { path: 'manifest.json', bytes: manifestBytes }, ...files];
   const sums = enc.encode((await Promise.all(listed.map(async f => `${await sha256Bytes(f.bytes)}  ${f.path}`))).join('\n') + '\n');
   const archive = tar([...listed, { path: 'SHA256SUMS', bytes: sums }], Math.floor(Date.parse(input.now) / 1000));
-  return { archive, manifest, figureCohort, calendarTeams, completenessBasis, exportedPeople:[...people], manifestSha256: await sha256Bytes(manifestBytes), archiveSha256: await sha256Bytes(archive) };
+  return { archive, manifest, figureCohort, calendarTeams, completenessBasis, retentionBasis, exportedPeople:[...people], manifestSha256: await sha256Bytes(manifestBytes), archiveSha256: await sha256Bytes(archive) };
 }
 
 const README = (id: string, name: string, at: string) => `Saha organisation data export ${id}
@@ -420,16 +470,17 @@ export function tar(files: { path: string; bytes: Uint8Array }[], mtime: number)
 
 // Exact immutable/new-source basis, excluding export audit rows and org revision changed by this read.
 const COMPLETENESS_BASIS_TABLES=['reporting_calendars','reporting_calendar_events','reporting_coverage','reporting_completeness_receipts','reporting_completeness_snapshots','integrations','memberships','patients','operations'];
-export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const rows=await Promise.all(COMPLETENESS_BASIS_TABLES.map(async table=>{const spec=TABLES.find(s=>s.table===table)!;return {table,rows:await readAll(db,spec,orgId)};}));return digest(rows);}
+export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const data=await projectedTables(db,orgId,COMPLETENESS_BASIS_TABLES.map(table=>TABLES.find(s=>s.table===table)!));return digest(COMPLETENESS_BASIS_TABLES.map(table=>({table,rows:data[table]})));}
 
 // Stable across the export's own audit/receipt write. Any clinical, configuration, queue or membership
 // change invalidates every remaining staged part and requires a new plan.
 const PORTABLE_BASIS_OMIT=new Set(['audit_events','command_receipts']);
-export async function dataExitPortableBasis(db:D1Database,orgId:string){const rows=[];for(const spec of TABLES){if(PORTABLE_BASIS_OMIT.has(spec.table))continue;const value=await readAll(db,spec,orgId);rows.push({table:spec.table,rows:spec.table==='organisations'?value.map(({revision:_,last_command:__,...r})=>r):value});}return digest(rows);}
+export async function dataExitPortableBasis(db:D1Database,orgId:string){const specs=TABLES.filter(spec=>!PORTABLE_BASIS_OMIT.has(spec.table)),data=await projectedTables(db,orgId,specs),rows=[];for(const spec of specs){const value=data[spec.table];rows.push({table:spec.table,rows:spec.table==='organisations'?value.map(({revision:_,last_command:__,...r})=>r):value});}return digest(rows);}
+export async function dataExitRetentionBasis(db:D1Database,orgId:string){const data={retention:await readAll(db,TABLES.find(x=>x.table==='retention')!,orgId)};projectDataExitTombstones(data);return digest(data.retention);}
 
 export async function dataExitStagePlan(db:D1Database,orgId:string,m:Member,size:number){
  if(!Number.isInteger(size)||size<1||size>5000)fail(422,'Stage size must be an integer from 1 to 5000 people.');
- const rows=await readAll(db,TABLES.find(x=>x.table==='patients')!,orgId),noPatients=m.role==='admin'||m.role==='provider';
+ const data=await projectedTables(db,orgId,[TABLES.find(x=>x.table==='patients')!]),rows=data.patients,noPatients=m.role==='admin'||m.role==='provider';
  const authorised=rows.filter(r=>{try{return m.status==='active'&&!noPatients&&normallyAllowed(m,storedExportPerson(r));}catch{return false;}}).map(r=>String(r.id)).sort();
  if(authorised.length!==rows.length)fail(403,'A staged full exit requires current normal authority over every person in the organisation.');
  const basis=await dataExitPortableBasis(db,orgId),total=Math.max(1,Math.ceil(authorised.length/size));
@@ -438,4 +489,4 @@ export async function dataExitStagePlan(db:D1Database,orgId:string,m:Member,size
 
 // Database columns are authoritative; JSON keeps programme/facility/locality policy fields.
 function storedExportPerson(r:Row){return {...JSON.parse(String(r.data)),id:String(r.id),teamId:String(r.team_id),assignedTo:r.assigned_to} as import('./types').Person;}
-export async function assertDataExitPatientScope(db:D1Database,orgId:string,m:Member,ids:string[]){if(!ids.length)return;const rows=(await db.prepare('SELECT id,team_id,assigned_to,data FROM patients WHERE org_id=? AND id IN (SELECT value FROM json_each(?))').bind(orgId,JSON.stringify(ids)).all<Row>()).results;if(rows.length!==ids.length||rows.some(r=>{try{return !normallyAllowed(m,storedExportPerson(r));}catch{return true;}}))fail(403,'Normal patient export scope changed. Nothing was downloaded.');}
+export async function assertDataExitPatientScope(db:D1Database,orgId:string,m:Member,ids:string[]){if(!ids.length)return;const rows=(await db.prepare('SELECT id,team_id,assigned_to,data FROM patients WHERE org_id=? AND id IN (SELECT value FROM json_each(?))').bind(orgId,JSON.stringify(ids)).all<Row>()).results,retention=await readAll(db,TABLES.find(x=>x.table==='retention')!,orgId),data={patients:rows,retention};projectDataExitTombstones(data);if(data.patients.length!==ids.length||data.patients.some(r=>{try{return !normallyAllowed(m,storedExportPerson(r));}catch{return true;}}))fail(403,'Normal patient export scope changed. Nothing was downloaded.');}

@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "receiptType": "exact-staged-successor-integration",
+  "story": "SAHA-130",
+  "scope": "Controlled retention and physical disposal bounded supported-class slice",
+  "createdAt": "2026-10-20T23:24:54.162165Z",
+  "integration": {
+    "baseCommit": "9b2ccf34f1929c5b677b3b901b01f43ca7408c21",
+    "historicalCandidateBase": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+    "historicalReceiptsApplicable": false
+  },
+  "contract": {
+    "portableSnapshot": "docs/verification/saha130-apl153-contract-snapshot.json",
+    "decodedSourceSha256": "db1b6f31cd18ab5754eb5f4b921ea28e31437c9c1a6aa307d04af857812c636e"
+  },
+  "review": {
+    "status": "PENDING_DIFFERENT_AGENT_CURRENT_PARENT_REVIEW"
+  },
+  "validation": {
+    "retentionContract": "19/19 PASS; exact current-parent direct source evidence regenerated at tests/evidence/saha-130-retention-unit.json",
+    "physicalDisposalContract": "31/31 PASS (actual SQLite outreach scrub; durable reservation/outcome tables and triggers; replacement, authority, crash/retry, idempotency)",
+    "directReadContract": "12/12 PASS",
+    "dataExitRetentionContract": "28/28 PASS",
+    "objectMediaMigration": "13/13 PASS",
+    "integrationObjectMediaMigration": "13/13 PASS",
+    "saha158Preservation": "event geotag 66/66, Worker/D1 10/10, visit import 54/54, data exit 46/46 PASS",
+    "saha159Preservation": "route suggestion contract 31/31 and Worker/D1 8/8 PASS",
+    "hostingControlsPreservation": "51/51 PASS",
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "authorisationMatrix": "HOLD: 70 PASS / 5 FAIL retained exactly; no promotion claimed",
+    "testCatalogue": "HOLD: inherited current parent has three unrelated unclassified test files",
+    "requirementsAudit": "HOLD: current-parent generation yields implemented-local 15 / partial 150 while bounded staged aggregate records 19 / 146; unrelated statuses were not rewritten",
+    "generatedDocumentation": "HOLD: current generated documentation differs in five files; not regenerated in this bounded successor",
+    "ciBaseline": "PASS: original 389 suite records preserved and exact 74 additions retained (463 total)"
+  },
+  "limitations": [
+    "Full SAHA-130 remains QA_HOLD; this receipt qualifies only the bounded supported-class successor",
+    "Patient/model/offline/audit/export/backup physical-disposal semantics remain underdetermined and unsupported",
+    "No external provider or hosted object store was exercised",
+    "Formal privacy/security acceptance, CI, merge and deployment remain separate"
+  ],
+  "indexedFiles": {
+    "REQUIREMENTS-TRACEABILITY.md": {
+      "changeStatus": "M",
+      "baseBlobOid": "d2b1b9a9fa92110a01b6597beff855ebcdff3a4a",
+      "baseSha256": "cd6644c59ad0dbf018837dda1e1a879469accea9429a86f5234eb75397c1a421",
+      "stagedBlobOid": "84676774ca23508f3a36939f8d68051031e76308",
+      "stagedSha256": "2858a2cf807e47eb9a427cce8da9158e17eca94dd5ad0ad15f96b23cd31d564b"
+    },
+    "app/api/retention/route.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "938b1f1c6d1c7e0087019edb60c38951110f3094",
+      "baseSha256": "6b756bbe4c7a9464d97f7ad4e2f6546a50d64e007449ad9350cf526ca4036047",
+      "stagedBlobOid": "00fa67f75a1d4654ce06d6fc38af80c54b2bc1a6",
+      "stagedSha256": "5b086e44d633edd712b9e662fd10c6cc7bad2e50ef9159f84f89b031400e6272"
+    },
+    "app/retention-panel.tsx": {
+      "changeStatus": "M",
+      "baseBlobOid": "1e8f05e4343a8941dac396c280b4a985f0e13ba2",
+      "baseSha256": "4cd890ef1fd6fc841b054418bb74a7f4783bc6f86816587b46d54ba1c5571662",
+      "stagedBlobOid": "4af779099af4a00ea2a5bc844422fc5bee0c4b58",
+      "stagedSha256": "715d4c64e03bcecdcc9eb80c202a49f01fefce90fdcc8a7c37b07362510429b7"
+    },
+    "docs/current/SAHA-130-LOCAL-CODING-COMPLETION-20261020.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "44c134d1b605209a402f5f10cd978fad395318ac",
+      "stagedSha256": "56c04ed59d9abde4b95f348b9c685f479d637973c816112525e1c23f076396b7"
+    },
+    "docs/current/SAHA-130-PHYSICAL-DISPOSAL-DECISION-20261021.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "5a29ef1804deb698ba98c9d7b3f146afdd7a6aa7",
+      "stagedSha256": "6fb2a3e9c23db53ec7e48343ba8b129eb6fcc8cffe2dbbed1551d71c9ed6e490"
+    },
+    "docs/verification/saha130-apl153-contract-snapshot.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "ce2d74a077622ca11f7d2365e9078960c3f39047",
+      "stagedSha256": "d1b6802bd20cec0ce284cd45e56d115cf1a288e20a82d3dd034c910a451e8fea"
+    },
+    "drizzle/0034_retention_disposal.sql": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "8b141f55b0cbda56411b4800b6bbf62f94012f42",
+      "stagedSha256": "f1b9070346a164cbf9b29808e9eb8ca010129e3b33fdbc75c43e9f0961b45ff8"
+    },
+    "lib/saha/data-exit-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "f78e2b35d1f156f08fcf27b64eed7583913c7f4e",
+      "baseSha256": "d5a7856f053ec9c46f00226f7d0445408aec44c1f8d678c070d704858b25db76",
+      "stagedBlobOid": "a3a36a267c33011cc5b9011c4a50f01857885a28",
+      "stagedSha256": "52da2ac164744245f10f5d65615129eca89b170736393a2dd20246f092896436"
+    },
+    "lib/saha/data-exit.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "f6a360c7c727e5209dfb7cbb92937c94048ba66a",
+      "baseSha256": "913a5b86eaa5c0cff21ba53a014f4d8ccb72c60178ff9de4e476c1a3c03b0671",
+      "stagedBlobOid": "ef203053054af6b1c9553b0d9d9f2cee0e7578a3",
+      "stagedSha256": "f1e1120707597fdc62926562ddfb1345864c9f1c1d7142ee430391f8da3f9896"
+    },
+    "lib/saha/media-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "20672fd5e2f9f50331aefb1878cf6977c38e515f",
+      "baseSha256": "6c4c99e26e04b7889f7691b7e296e90efb4a96782f31be3cfa7dd4bc3a1c4f63",
+      "stagedBlobOid": "aeec4b82a996b09a644f74c7ec499c84d9608094",
+      "stagedSha256": "9ff32a91fb40cec03df993a9253b241ce6f96d291f379cc493a35ef1c421a538"
+    },
+    "lib/saha/retention-disposal.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "3ad9cce63ae1b00e3a0239165075815b066836d8",
+      "stagedSha256": "215cdb5f3e383febecbe8a189abcbe2fc3e1ecb98e9bb1b3adf4a6eee3bc8c39"
+    },
+    "lib/saha/retention-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "45b7da1b1412831ed4ab9c4e21124612378724b6",
+      "baseSha256": "197006df2ddbe228d7bbd9ec76829e49990df1f5143b4db7ac798424057c399e",
+      "stagedBlobOid": "b0c795e4239532f6cfd8b81ebab52df401fa2758",
+      "stagedSha256": "f774b5da56f8db21ee38b68e09876ebcca28db43de04bc1081cc5f2bc715d1e8"
+    },
+    "lib/saha/retention.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "2236096dd021a27aa653e28c474b6f127da46915",
+      "baseSha256": "af20d66d31e72bb366226fa73bf6f2fad6b5f2f5eb156674daa516eaf0020d2f",
+      "stagedBlobOid": "7babae43e994730ce3530c03d40f9f8c36ae9555",
+      "stagedSha256": "b5307a04d93aa106bfbc115e2f80d00ac71b33aff020b6af1ce671460a674d10"
+    },
+    "lib/saha/server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "48b44afea29c3d39f53dab9b8777a27d5d8be93f",
+      "baseSha256": "11f9ad6b77d54436b585e4a63aa5b5c5c4344fb69b6e878fec09d22c2bab43cd",
+      "stagedBlobOid": "5ed56e2499eb61b28215913a452be77a9d163fef",
+      "stagedSha256": "4e05e543f15d6eca70a7f902f6fe5e826689fd3006aad1edeea67c3dd98bd82b"
+    },
+    "lib/saha/store.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "cbbc8c519d817ff65c6ef73afb6a8ca33c6538a5",
+      "baseSha256": "eaddda8484f93d3b9cba72af3b8d12ed0a756e76839ccb9ab9dc6db1506d1cdd",
+      "stagedBlobOid": "8a834b3846fc888d45e31a0004b7a4c86ae37520",
+      "stagedSha256": "ae481cbdf341d12f17f3d3ecea16a3815e0ffbd4ae0e38a152c84ccdf2e9e6b9"
+    },
+    "requirements/assessment.tsv": {
+      "changeStatus": "M",
+      "baseBlobOid": "fb1d8a79c4e996b52846e778b307c06e0dfb76f6",
+      "baseSha256": "9da2ae0e2633df6273fe7c46e388c943671775f7d43c5a7d32b0d5e13e5cd816",
+      "stagedBlobOid": "b65d30734655dac2ec2ca6148be6c5f57e34e07e",
+      "stagedSha256": "fa4f3fc3281cc2c951efeade56e8d21fccd5a74f2e41f69efe26198fcb13985b"
+    },
+    "requirements/evidence-map.json": {
+      "changeStatus": "M",
+      "baseBlobOid": "8d2d8b6edafcef3b5c3ecd3656266cb5d25c845d",
+      "baseSha256": "f9e6dba1e491f7344c43f2b3d6ccf0aea6572e9ac2e3c8fe652f9bc988af159a",
+      "stagedBlobOid": "baf287cc9bc39274d3515f9fd1d62f56d799317e",
+      "stagedSha256": "08ab514e18e89acbfe8c122ef77c89c0fe61079b36ce32f0326ead0257a88fac"
+    },
+    "requirements/traceability.csv": {
+      "changeStatus": "M",
+      "baseBlobOid": "190733e6b8f48e674fe8e1ae7650e60f77bd81c6",
+      "baseSha256": "5e52a28382825118ea1c9127292e3242937af2a36ab3af40a98274d48d17604e",
+      "stagedBlobOid": "e43fdfeb0197a3d1ade5780ef2480e81fe74b049",
+      "stagedSha256": "eb50117eaed0d9db109861aaa7227b2d73c74bf340bf305c4edec0487cc68eb7"
+    },
+    "requirements/traceability.json": {
+      "changeStatus": "M",
+      "baseBlobOid": "0072f5ccefeb07b55c1d1b5a6eac77f5c0eef57b",
+      "baseSha256": "1955e24a00398cbed7fd6eb62bea75fdce240b033aa1c59a6a7384a73ec91377",
+      "stagedBlobOid": "b59ed0b043a266dfce79b7f4b81fce2c087fe8d0",
+      "stagedSha256": "5ad0c643a4b062fff25b316a47e1b108bbafbb8c4eed2ba53b3f6669def0a035"
+    },
+    "scripts/recovery.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "e48871ac1d71024740ca16f79c39550955bfccc6",
+      "baseSha256": "4c2c34fe0b8866da9ea58b91a954e2a6c8357655abe94a8b5f3cee983b1a6ab7",
+      "stagedBlobOid": "a782173e18b7b472f7318c6f4f4cc95378f59fb7",
+      "stagedSha256": "066956dfdaac47827be26c14f03ff19dedc92468a90dc4b8a967af348b28f754"
+    },
+    "tests/data-exit-retention-contract.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "597255bc358aa14725987cbc5d772cd46aa92c3e",
+      "stagedSha256": "a6345c7984da34555900268610b22eac78c4295ebcdcfa58a3caaf6bdb9acead"
+    },
+    "tests/evidence/saha-130-physical-disposal-20261021.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "4897efa1f8df0f359f7114871a218451fddbbe7a",
+      "stagedSha256": "a60b94a4efa87dd0fe17770fad1e2ef100fa653d6e336a6a8ed30c3a7e105725"
+    },
+    "tests/evidence/saha-130-retention-unit.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "cb9c768ccd8a6fb461944b6f45becbbb6c205aed",
+      "stagedSha256": "e5a7188d93454447c532fcd29d73de8162bc3947874e10144b3e684c1e9e3306"
+    },
+    "tests/regression-baseline.json": {
+      "changeStatus": "M",
+      "baseBlobOid": "8f1b41f53ff28c96e06f4f3529da2bf1d2075eef",
+      "baseSha256": "db85746bd536b7d9a7ee0857dba1dc00fcf76cb1efa64e2ffcf2d1c2d7b1d8fc",
+      "stagedBlobOid": "9681b90401180e9d101841b7789fefae79d2e597",
+      "stagedSha256": "c65964252338b6f527a4e8e8c74b11dd673656c5d0af6cf6b4453a558d1a5cc1"
+    },
+    "tests/retention-contract.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "e11408a7e810654d453c6f3e7ac439269fdc3477",
+      "baseSha256": "f5ff753a42c2bb8dbc35a1129fb6a0006d6f3ee5d412549418f98ed0bb6098a6",
+      "stagedBlobOid": "4f2a198d3e60db864443aaec8d3098d64dd0c666",
+      "stagedSha256": "41c18b3afbeb7e1b5ed0b7b3a77e4ddf0ea4eea07ad3a040beee9e8cc188e471"
+    },
+    "tests/retention-direct-read-contract.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "c8f852bf7636baa8f51c51c94c9897f53b23f5ea",
+      "stagedSha256": "ca08fd80170836bd1bec91c0744f07af7b6aefce3464d4d99055a3d021702503"
+    },
+    "tests/retention-disposal-contract.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "f5e30141ce623d0d19de44f9a52a0d638c9414d9",
+      "stagedSha256": "e701a8f1adcce8ca9e5743140e38f878e830ff101584665552f8da6ec18295c5"
+    },
+    "tests/retention-smoke.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "0824d34a62e9c0c2ab51e5ead2e1f0fcf1320f0c",
+      "baseSha256": "ae4efba7ff66de9fada15168ba187d86e3da053c18f1be63932f814754f19ded",
+      "stagedBlobOid": "db7f43b12d294a851251437a76659b9f2ef49148",
+      "stagedSha256": "85104dc9f1ee7f9dfd210577b7f3e18da1b4ee5e5d432813e6ef1668ccba4461"
+    }
+  },
+  "semanticPatchSha256": "269ac1d96b3b893d3e092f0653137f4f86e622845af0439931f94ba6661b09d4",
+  "hashConvention": {
+    "algorithm": "SHA-256",
+    "semanticPatch": "SHA-256 of git diff --cached --binary excluding this receipt",
+    "manifestDigest": "SHA-256 of UTF-8 canonical JSON (recursively sorted keys, compact separators) after removing entire integrity object",
+    "receiptSelfHandling": "receipt excluded from indexedFiles"
+  },
+  "integrity": {
+    "manifestSha256": "a0726f998f16e7a94f13a48f0f251226172c4bf65ab83ccc40a8726993ca2fb2"
+  }
+}

@@ -10,6 +10,7 @@ import { ensurePurpose } from './purpose-scope';
 import { accessRoute, recordAccess } from './access-audit';
 import { checkMedia, MAX_MEDIA_BYTES, MAX_MEDIA_PER_VISIT, readBounded, reviewMediaInput, toB64, type MediaMime, type MediaRef, type MediaReviewInput } from './media';
 import { MAX_OBJECT_MEDIA_BYTES, mediaBackend, mediaHash, storedMediaBytes, stagePrivateObject, custodyMediaBytes, assertObjectCurrent, type MediaObjectRef } from './media-storage';
+import { retentionTombstonesFromRaw } from './retention';
 import type { OrgState } from './types';
 import {assertPrimaryStorageWrite} from './hosting-controls';
 const optionalAudioRecordingCurrent=(p:{consentDecisions?:{purpose:'ai'|'exchange';decision:'granted'|'declined';scopes:string[];expiresAt?:string}[]},now=new Date().toISOString())=>{const d=(p.consentDecisions??[]).filter(x=>x.purpose==='ai').at(-1);return d?d.scopes.includes('optional-audio-recording')&&d.decision==='granted'&&(!d.expiresAt||d.expiresAt>now):true;};
@@ -20,6 +21,14 @@ const visitPerson=async(orgId:string,visitId:string)=>{const r=await db().prepar
 async function loadVisit(u:Actor,org:string|null,visitId:string){return loadFor(u,org,id=>visitPerson(id,visitId));}
 function care(s:OrgState,u:Actor,visitId:string,mutation=false,writer=mutation){const m=scope(s,u.userId),v=visit(s.workspace,visitId),p=person(s.workspace,v.personId);ensurePurpose(m,'care-coordination');if(writer&&!['asha','clinician'].includes(m.role))fail(403,'A care role is required for visit media.');if(mutation){const c={type:'attachMedia',visitId};ensureOperating(s,c);ensureNotMerged(s,c);ensureExceptionalScope(s,m,c);ensureNotRestricted(s,c);if(v.state!=='draft'||v.voidedAt||v.supersededBy)fail(409,'Attach or remove media while the visit is a draft. Confirmed visits are immutable.');}return {m,v,p};}
 function audioAllowed(p:ReturnType<typeof care>['p'],mime:string){if(mime.startsWith('audio/')&&!optionalAudioRecordingCurrent(p))fail(409,'Optional audio recording is declined or expired. Continue the visit without recording; no media was transferred.');}
+// SAHA-130 direct-read barrier begin
+const retentionReadKey=(recordClass:string,recordId:string)=>recordClass+'\u0000'+recordId;
+export function directReadTombstones(raw:string|null|undefined){
+ return new Set(retentionTombstonesFromRaw(raw).map(value=>retentionReadKey(value.recordClass,value.recordId)));
+}
+export function disposedDirectMedia(raw:string|null|undefined,mediaId:string,personId:string){const tombstones=directReadTombstones(raw);return tombstones.has(retentionReadKey('patient-record',personId))||['raw-audio','transcript','model-output'].some(recordClass=>tombstones.has(retentionReadKey(recordClass,mediaId)));}
+async function assertMediaNotDisposed(orgId:string,row:{id:string;person_id:string}){const authority=await db().prepare('SELECT data FROM retention WHERE org_id=?').bind(orgId).first<{data:string}>();if(disposedDirectMedia(authority?.data,row.id,row.person_id))fail(410,'This media or patient record was disposed under the current retention authority. Nothing was returned.');}
+// SAHA-130 direct-read barrier end
 const basis=async(s:OrgState,u:Actor,visitId:string)=>{const {m,v,p}=care(s,u,visitId,true);return digest({org:s.organisation.id,revision:s.organisation.revision,patientRevision:s.patientRevs?.[p.id],m,p,v,maintenance:s.operations?.maintenance??false,scope:s.operations?.accessScope??null,purposes:s.operations?.purposeGrants??null});};
 async function unchanged(u:Actor,org:string,visitId:string,expected:string){const s=await loadVisit(u,org,visitId);if(await basis(s,u,visitId)!==expected)fail(409,'Visit or current media authority changed. Keep the original input and refresh.');return s;}
 async function replay(u:Actor,request:Request,key:string,hash:string,visitId?:string){
@@ -64,11 +73,11 @@ export async function uploadMedia(request:Request){
  const result={mediaId:ref.id,size:ref.size};await persist(db(),before,s,u,{type:'attachMedia',visitId},key,hash,result,extras);return json(result);
  }catch(e){if(custody)await db().prepare("UPDATE media_custody SET state='quarantined' WHERE org_id=? AND id=? AND state IN ('staged','quarantined')").bind(org,custody.id).run();throw e;}
 }
-async function mediaRecord(u:Actor,org:string|null,id:string){let row:any=null;const s=await loadFor(u,org,async resolved=>{row=await db().prepare('SELECT * FROM media WHERE org_id=? AND id=?').bind(resolved,id).first();return row?[row.person_id]:null;});if(!row)fail(404,'Media not found.');const {m,v,p}=care(s,u,row.visit_id);
+async function mediaRecord(u:Actor,org:string|null,id:string){let row:any=null;const s=await loadFor(u,org,async resolved=>{row=await db().prepare('SELECT * FROM media WHERE org_id=? AND id=?').bind(resolved,id).first();if(row)await assertMediaNotDisposed(resolved,row);return row?[row.person_id]:null;});if(!row)fail(404,'Media not found.');const {m,v,p}=care(s,u,row.visit_id);
  // Documentary imports retain attachments on the original patient's source evidence,
  // without changing the confirmed historical visit. Only legacy D1 bytes use this lineage.
  const ref=v.media?.find(x=>x.id===id)??(row.storage_ref===null&&v.imported&&v.personId===row.person_id?p.importedVisitEvidence?.filter(e=>e.visitId===v.id).flatMap(e=>e.attachments).find(x=>x.id===id):undefined);
- if(!ref||ref.sha256!==row.sha256||ref.mime!==row.mime||ref.purpose!==row.purpose||ref.at!==row.created_at||(!row.deleted_at&&ref.size!==row.size))fail(503,'Media lineage is invalid. Nothing was returned.');return {s,row,m,v,p,ref};}
+ if(!ref||ref.sha256!==row.sha256||ref.mime!==row.mime||ref.purpose!==row.purpose||ref.at!==row.created_at||(!row.deleted_at&&ref.size!==row.size))fail(503,'Media lineage is invalid. Nothing was returned.');await assertMediaNotDisposed(s.organisation.id,row);return {s,row,m,v,p,ref};}
 export async function mediaFile(request:Request,id:string){
  const u=await identity(),url=new URL(request.url);if(!id||id.length>200)fail(404,'Media not found.');const initial=await mediaRecord(u,url.searchParams.get('organisationId')??request.headers.get('x-saha-organisation'),id);if(initial.row.deleted_at||initial.ref.removedAt)fail(410,'This media was removed from a draft visit.');
  const bytes=await custodyMediaBytes(db(),initial.row,mediaBackend(rawRuntime()).bucket);const after=await mediaRecord(u,initial.s.organisation.id,id);if(JSON.stringify(after.row)!==JSON.stringify(initial.row)||after.ref.removedAt)fail(409,'Media changed while opening it. Nothing was returned.');

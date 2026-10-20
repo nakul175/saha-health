@@ -21,7 +21,8 @@ import { applyDueCaseloads } from './caseload-schedule';
 import { applyMerge, authorizeMerge, ensureNotMerged } from './merge';
 import { applyExceptional, authorizeExceptional, ensureExceptionalScope } from './exceptional';
 import { applyRights, authorizeRights, ensureNotRestricted } from './rights';
-import { applyRetention, authorizeRetention } from './retention';
+import { applyRetention, applyRetentionTombstones, authorizeRetention } from './retention';
+import {prepareRetentionDisposal} from './retention-disposal';
 import { applyFixtureMark, authorizeFixtureMark } from './fixture-migration';
 import { applyProgrammeMigration, authorizeProgrammeMigration } from './programme-migration';
 import { applyRangeProtocol, authorizeRangeProtocol, applyPackInstallation, authorizePackInstallation } from './pack-installation';
@@ -206,7 +207,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  }
  const requested=c.type==='switchOrganisation'?c.organisationId:request.headers.get('x-saha-organisation');
  // Slice 0a: certified patient commands load only the named patient(s).
- const state=await loadFor(u,requested,orgId=>patientTargets(db(),orgId,c as any)),before=structuredClone(state),m=scope(state,u.userId);authorizeDeploymentConfiguration(state,m,c);enforceDeploymentConfiguration(state,c);ensurePurpose(m,COMMAND_PURPOSE[c.type]);authorizeSandbox(state,m,c);ensureOperating(state,c);ensureEnvironment(state,c,rawRuntime());ensurePatientIdentity(state,c);ensureNotMerged(state,c);ensureNotImported(state,c);ensureExceptionalScope(state,m,c);ensureNotRestricted(state,c);const registration=c.type==='createPerson'?await reviewRegistration(state,m,c):null;let result:any;
+ const state=await loadFor(u,requested,orgId=>patientTargets(db(),orgId,c as any)),before=structuredClone(state),m=scope(state,u.userId);authorizeDeploymentConfiguration(state,m,c);enforceDeploymentConfiguration(state,c);ensurePurpose(m,COMMAND_PURPOSE[c.type]);authorizeSandbox(state,m,c);ensureOperating(state,c);ensureEnvironment(state,c,rawRuntime());ensurePatientIdentity(state,c);ensureNotMerged(state,c);ensureNotImported(state,c);ensureExceptionalScope(state,m,c);ensureNotRestricted(state,c);const registration=c.type==='createPerson'?await reviewRegistration(state,m,c):null;let result:any,retentionDisposal:Awaited<ReturnType<typeof prepareRetentionDisposal>>=null;
  if(controlsOf(state)?.state==='active')assertHostingRoute(state,state,{area:'primary-storage',targetId:'workspace-d1',purpose:'care-record-storage',direction:'at-rest',actualLocation:rawRuntime().SAHA_PRIMARY_STORAGE_LOCATION});
  // Slice 2g: supervisor sign-off is checked on the server before executePlan sends or queues programme submissions.
  // Slice 10g: the same call stops open disputes before a plan or EHR publication is prepared or approved, and applies the
@@ -254,6 +255,8 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   // Slice 6s: owner-maintained indicator definitions (append-only versions).
   const registry=applyIndicatorRegistry(state,c,u,m);
   const retention=applyRetention(state,c,u,m);
+  retentionDisposal=retention?await prepareRetentionDisposal(db(),before,state):null;
+  if(retentionDisposal){applyRetentionTombstones(state);retention.privateObjectsPending=retentionDisposal.pendingObjects;}
   const fixture=await applyFixtureMark(state,c,u,m);
   // Slice 4e: reviewed migration of open programme episodes to a newer pack version.
   const packMigration=await applyProgrammeMigration(state,c,u,m);
@@ -320,7 +323,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  // Slice 1e: record any delegated authority the command relied on.
  const authorityDelegations=state.delegationUsed?.length?delegationAudit(state,u,m,c.type,typeof (c as any).personId==='string'?(c as any).personId:null):[];
  if(c.type==='confirmVisit'||c.type==='voidVisit'||c.type==='amendVisit')await materialiseInstalledWork(state,u,c.visitId,undefined,200);
- await persist(db(),before,state,u,{...c,authorityDelegations},key,hash,result,[...(c.type==='prepareFieldVisit'?deviceGrantRows(result,state,u):await registrationGrantRows(c,result,state,u,key,hash,parsed.wireHash)),...installedWorkRows(state,before)],c.type==='switchOrganisation');
+ await persist(db(),before,state,u,{...c,authorityDelegations},key,hash,result,[...(c.type==='prepareFieldVisit'?deviceGrantRows(result,state,u):await registrationGrantRows(c,result,state,u,key,hash,parsed.wireHash)),...installedWorkRows(state,before)],c.type==='switchOrganisation',retentionDisposal?.statements);
  // Slice 6v: an organisation-wide command evaluates alert delivery on the state it loaded (best effort, never fails the command).
  if(c.type!=='switchOrganisation')await evaluateAfterCommand(state);
  // Slice 0b: a partitioned command may answer with the partition snapshot for the client to merge.
