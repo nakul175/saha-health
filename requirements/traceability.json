@@ -4334,8 +4334,8 @@
       "sourceTextLine": 563,
       "implementation": "partial",
       "target": "R15",
-      "current": "Organisation/patient scope tested across current APIs and exports.",
-      "remaining": "Independent adversarial coverage of hosted backup, future indexes/media and asynchronous services.",
+      "current": "Organisation/patient scope tested across current APIs and exports. SAHA-127 local completion adds active-membership resolution for every explicitly named tenant before target, search, report, export or traffic-triggered background work. Focused actual Worker/D1 evidence passes 44 synthetic positive, foreign-tenant, wrong-record, suspension, lineage and export-authority-race checks with no disclosed tenant marker or prepared archive bytes.",
+      "remaining": "Formal TC-BR-SEC-06-A/B, independent source review and adversarial hosted coverage of backup/restore, future indexes/retrieval stores, hosted media/file links and scheduled/asynchronous infrastructure.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -4351,7 +4351,11 @@
         "docs/current/WORK-SUPPORT-CURRENT-HELPERS.md",
         "docs/current/WORK-SUPPORT-CURRENT-SNAPSHOT.md",
         "docs/current/WORK-SUPPORT-FIX-INDEPENDENT-REVIEW.md",
-        "docs/current/WORK-SUPPORT-WORKFLOW-RACE-REVIEW.md"
+        "docs/current/WORK-SUPPORT-WORKFLOW-RACE-REVIEW.md",
+        "tests/tenant-record-isolation-http.mjs",
+        "tests/evidence/tenant-record-isolation/http.json",
+        "tests/evidence/tenant-record-isolation/authorisation-matrix-boundary.json",
+        "docs/current/SAHA-127-TENANT-RECORD-ISOLATION-LOCAL-COMPLETION-20261020.md"
       ],
       "automatedAcceptanceClaim": false
     },

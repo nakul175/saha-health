@@ -68,6 +68,12 @@ D02 is delivered on synthetic staging with its declared gate10/10 and restored c
 
 See [Claude resume](current/CLAUDE-RESUME-20261006.md) for the latest combined source and saved candidates. Reviewed alert disclosure/export, programme transition audit/count parity, and generic Hindi/local spoken guidance are now combined in the integration branch. Fresh build/types pass; combined runtime regression and main/deployment qualification remain held. The original requirement assessments and formal acceptance have not been promoted. Offline work-list repairs are saved separately awaiting interrupted independent review.
 
+# SAHA-127 tenant and record isolation — local code complete, formal gate open
+
+The common organisation resolver now verifies active membership when a caller explicitly names a tenant, before patient targeting, search, reports, exports or traffic-triggered background work can query that tenant. Missing, foreign and revoked tenant membership uses one non-disclosing refusal; downstream role, assignment, purpose, record-scope and final authority checks remain unchanged. The focused actual Worker/D1 suite passes 44/44 across positive access, foreign-tenant requests, a dual-tenant wrong-record reference, search/count isolation, transaction no-side-effect, FHIR/media/archive isolation, suspension, storage lineage and withdrawal during archive preparation. See [the exact local completion record](current/SAHA-127-TENANT-RECORD-ISOLATION-LOCAL-COMPLETION-20261020.md).
+
+BR-SEC-06 remains partial. The formal cases, independent review, hosted backup/restore and future index/retrieval/media/async adversarial coverage, CI, merge and observed deployment remain separate pending gates.
+
 # Implementation boundary
 
 Reviewed calendar/completeness software now pins UTC periods, per-source thresholds, explicit independently governed declarations, intended actor and current producer versions. Live/current and frozen original sidecars remain distinct; exports preserve governed calendar history under whole-team normal reporting scope and omit private snapshot bodies. Combined419 focused checks/build/types pass; full combined and hosted qualification remain pending. B28 privacy, controlled access/download and official scheduled submission remain residuals; all176 acceptance criteria remain pending. See [reporting review](current/REPORTING-COMPLETENESS-REPAIR-INDEPENDENT-COLD.md) and [export review](current/REPORTING-PORTABILITY-ROOT-COLD-REVIEW.md).

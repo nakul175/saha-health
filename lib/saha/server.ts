@@ -124,7 +124,23 @@ export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)
 // The organisation a request acts in: the named one, else the account's active membership.
 // Slice 9a: a new home organisation in the synthetic environment receives the demonstration clinical package.
 const ensureHome=(u:Actor)=>ensureAccount(db(),u,w=>fixturesFor(rawRuntime(),w),automaticInstall(rawRuntime())?state=>prepareHome(db(),state,u,environmentOf(rawRuntime()).name,accountCode):undefined);
-export async function activeOrg(u:Actor,orgId?:string|null){await ensureHome(u);let id=orgId;if(!id){const a=await db().prepare('SELECT active_org_id FROM accounts WHERE user_id=?').bind(u.userId).first<{active_org_id:string}>();id=a?.active_org_id;const active=id?await db().prepare('SELECT user_id FROM memberships WHERE org_id=? AND user_id=? AND status=?').bind(id,u.userId,'active').first():null;if(!active){const fallback=await db().prepare('SELECT org_id FROM memberships WHERE user_id=? AND status=? ORDER BY created_at LIMIT 1').bind(u.userId,'active').first<{org_id:string}>();id=fallback?.org_id;if(id)await db().prepare('UPDATE accounts SET active_org_id=? WHERE user_id=?').bind(id,u.userId).run();}}if(!id)fail(403,'Select an active organisation.');return id!;}
+export async function activeOrg(u:Actor,orgId?:string|null){
+ await ensureHome(u);let id=orgId;
+ if(id){
+  // BR-SEC-06: an explicitly named tenant is authority input, not a routing hint. Resolve the current
+  // membership before any patient target, search, report, export or traffic-triggered background work can
+  // query that tenant. The same refusal covers a missing tenant, a foreign tenant and a revoked membership,
+  // so the header cannot be used as a tenant-existence oracle. Every material route still applies its
+  // role/patient/purpose checks and rechecks current authority before disclosure or commit.
+  const active=await db().prepare('SELECT 1 AS active FROM memberships WHERE org_id=? AND user_id=? AND status=?').bind(id,u.userId,'active').first();
+  if(!active)fail(403,'Your organisation membership is inactive or unavailable.');
+ }else{
+  const a=await db().prepare('SELECT active_org_id FROM accounts WHERE user_id=?').bind(u.userId).first<{active_org_id:string}>();id=a?.active_org_id;
+  const active=id?await db().prepare('SELECT user_id FROM memberships WHERE org_id=? AND user_id=? AND status=?').bind(id,u.userId,'active').first():null;
+  if(!active){const fallback=await db().prepare('SELECT org_id FROM memberships WHERE user_id=? AND status=? ORDER BY created_at LIMIT 1').bind(u.userId,'active').first<{org_id:string}>();id=fallback?.org_id;if(id)await db().prepare('UPDATE accounts SET active_org_id=? WHERE user_id=?').bind(id,u.userId).run();}
+ }
+ if(!id)fail(403,'Select an active organisation.');return id;
+}
 export async function snapshotFor(state:OrgState,u:Actor):Promise<Snapshot>{
  const m=scope(state,u.userId),w=state.workspace;const permitted=new Set(w.people.filter(p=>p.assigned).map(p=>p.id));
  const {orgs,migration,activity}=await snapshotDecorations(db(),state.organisation.id,u.userId);

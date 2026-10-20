@@ -1,0 +1,39 @@
+{
+  "story": "SAHA-127",
+  "requirement": "BR-SEC-06",
+  "suite": "tests/nfr/authorisation-matrix.mjs",
+  "passed": 59,
+  "failed": 1,
+  "roleCellsExecuted": 512,
+  "gridHash": "0d3bb4dbddbb8de5",
+  "productRegressionObserved": false,
+  "failureClassification": "inherited-catalogue-drift",
+  "failure": {
+    "summary": "The existing authorisation matrix does not classify 17 newer GET routes already present in docs/current/HTTP-ROUTES.csv.",
+    "unclassifiedRoutes": [
+      "/api/amendments",
+      "/api/assistance-control",
+      "/api/deployment-evidence-review",
+      "/api/fact-freshness",
+      "/api/handover",
+      "/api/household-proxy-review",
+      "/api/institution-roster-review",
+      "/api/interface-language",
+      "/api/own-care-permissions",
+      "/api/plan-review",
+      "/api/programme-pack-review",
+      "/api/programme-status",
+      "/api/record-matching",
+      "/api/routine-visit",
+      "/api/selective-reuse",
+      "/api/service-authority-review",
+      "/api/workforce-status"
+    ]
+  },
+  "passingBoundaryChecks": [
+    "foreign organisation read and write requests are refused",
+    "suspension takes effect immediately",
+    "command, refusal and cross-organisation assertions complete"
+  ],
+  "claim": "This retained failure is not promoted to a green authorisation-matrix result and does not lower or remove any existing route-catalogue expectation."
+}
