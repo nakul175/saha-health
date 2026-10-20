@@ -20,6 +20,7 @@ import { capabilityOutputContext, type CapabilityOutputContext } from './capabil
 // processing is restricted, the person is outside the capability's age range, there is no recorded note, the
 // capability's monthly budget is reached (slice 5a), or the provider is external: this build calls only the
 // local rules provider in shadow. A suspended or retired revision does not run at all (slice 5d).
+const permissionCurrent=(p:{aiConsent:boolean;exchangeConsent:boolean;consentDecisions?:{purpose:'ai'|'exchange';decision:'granted'|'declined';expiresAt?:string}[]},purpose:'ai'|'exchange',now=new Date().toISOString())=>{const d=(p.consentDecisions??[]).filter(x=>x.purpose===purpose).at(-1);return d?d.decision==='granted'&&(!d.expiresAt||d.expiresAt>now):purpose==='ai'?p.aiConsent:p.exchangeConsent;};
 export const SHADOW_MAX_DAYS = 30, SHADOW_BATCH = 50, MAX_SHADOWS = 50, MAX_RESULTS = 2000;
 export type ShadowOutcome = 'agreement' | 'disagreement' | 'missing' | 'not-recorded' | 'unable';
 export const OUTCOMES: ShadowOutcome[] = ['agreement', 'disagreement', 'missing', 'not-recorded', 'unable'];
@@ -83,7 +84,7 @@ export function recompareShadow(s: OrgState, r: ShadowResult): { outcome: 'recom
 }
 function notRunReason(s: OrgState, e: GovernanceEntry, p: Person, v: Visit, now: string): NotRunReason | null {
   const spec = e.spec as Extract<GovernanceEntry['spec'], { kind: 'capability' }>;
-  if (!p.aiConsent) return 'consent';
+  if (!permissionCurrent(p,'ai')) return 'consent';
   if ((p.restrictions ?? []).some(r => !r.liftedAt)) return 'restricted';
   if (p.age < spec.ageMin || p.age > spec.ageMax) return 'outside-scope';
   if (!v.facts.notes?.trim()) return 'no-source';

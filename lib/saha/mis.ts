@@ -3,6 +3,7 @@ import { requireApprovedDataFlow } from './data-flow-authority';
 import { digest, fail, person, uuid, visit } from './core';
 import { PROGRAMMES, currentIdentifiers, type Integration, type Member, type OrgState, type Submission, type TraceRef, type Visit } from './types';
 import type { Actor } from './store';
+const permissionCurrent=(p:{aiConsent:boolean;exchangeConsent:boolean;consentDecisions?:{purpose:'ai'|'exchange';decision:'granted'|'declined';expiresAt?:string}[]},purpose:'ai'|'exchange',now=new Date().toISOString())=>{const d=(p.consentDecisions??[]).filter(x=>x.purpose===purpose).at(-1);return d?d.decision==='granted'&&(!d.expiresAt||d.expiresAt>now):purpose==='ai'?p.aiConsent:p.exchangeConsent;};
 export const MIS_FIELDS=['terminologyCode','weightSource','weightObservedAt','weightUnit','temperatureSource','temperatureObservedAt','temperatureUnit','systolicSource','systolicObservedAt','systolicUnit','diastolicSource','diastolicObservedAt','diastolicUnit','weeksSource','weeksObservedAt','weeksUnit','coughDaysSource','coughDaysObservedAt','coughDaysUnit','personId','visitId','date','source','systolic','diastolic','weight','temperature','weeks','coughDays','notes'] as const;
 export type Mapping={source:typeof MIS_FIELDS[number];target:string;required:boolean;transformation?:'identity'|'kg-to-g'|'kg-to-lb'|'celsius-to-fahrenheit'|'weeks-to-days';unit?:'none'|'kg'|'g'|'lb'|'mmHg'|'°C'|'°F'|'weeks'|'days';nullSemantics?:'omit'|'empty'|'null'|'response-state'};
 export type ConnectorUpgrade={id:string;fromVersion:number;state:'staged'|'blocked'|'approved'|'rejected'|'activated';mapping:Mapping[];programmes:string[];corrections:boolean;reason:string;issues:string[];queued:string[];inFlight:string[];historical:number;stagedAt:string;stagedBy:string;reviewedAt?:string;reviewedBy?:string;evidence?:string;activatedAt?:string};
@@ -84,7 +85,7 @@ export async function configureMis(s:OrgState,c:MisCommand,u:Actor,m:Member,env:
 }
 export function deliveryCurrent(s:OrgState,sub:Submission,u:Actor,m:Member,env:Record<string,string|undefined>){
  if(!['asha','clinician'].includes(m.role))fail(403,'A care role is required to send records.');const p=person(s.workspace,sub.personId),v=visit(s.workspace,sub.visitId),d=sub.delivery!;
- if(!p.exchangeConsent||p.consentVersion!==d.consentVersion||p.version!==d.personVersion||v.version!==d.visitVersion||v.state!=='confirmed'||v.voidedAt||v.supersededBy)fail(409,'Record or sharing permission changed. Cancel this unsent delivery and review a fresh plan.');
+ if(!permissionCurrent(p,'exchange')||p.consentVersion!==d.consentVersion||p.version!==d.personVersion||v.version!==d.visitVersion||v.state!=='confirmed'||v.voidedAt||v.supersededBy)fail(409,'Record or sharing permission changed. Cancel this unsent delivery and review a fresh plan.');
  if(d.actorId!==u.userId||d.expiresAt<new Date().toISOString())fail(409,'The original approving worker must send within the approval window. Cancel unsent delivery and prepare a fresh plan.');
  const i=misIntegration(s,sub.connectorId);assertMappingEffective(i);if(i.status!=='active'||(i.version!==d.connectorVersion&&!i.mis?.compatibleVersions?.includes(d.connectorVersion)))fail(409,'Connection changed. Review a fresh plan.');misCredential(i,s.organisation.id,env);return i;
 }
