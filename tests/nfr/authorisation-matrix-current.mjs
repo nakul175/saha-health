@@ -66,6 +66,10 @@ const ROUTE_PARAMS = {
   '/api/installed-pack-transition': () => [{q:''}], // migration 0032: audited read of reviewed programme transitions; every principal is checked for patient, token and organisation leakage like the other GET routes
   '/api/imported-evidence': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
   '/api/clinical-sources': w => [{q:w.sourceQuery}],
+  '/api/event-geotags': w => [
+    {q:`?personId=${w.people.a2}&visitId=${w.visits.v2}`,kind:'person'},
+    {q:'?policy=1',kind:'plain'},
+  ],
   '/api/approved-sources': () => [{ q: '' }],
   '/api/capability-registration': () => [{ q: '' }],
   // The synthetic world has no two reviewable agent runs. A real assigned
@@ -172,6 +176,13 @@ try {
     assert.ok([403, 404].includes(row.cells.asha1.status));
     for (const role of ['owner', 'admin', 'supervisor', 'clinician', 'stranger']) assert.equal(row.cells[role].status, 403, fmt(row, role));
     assert.equal(row.cells.anonymous.status, 401);
+  });
+  await r.check('Event location views stay in current care scope and policy disclosure stays owner-only',()=>{
+    const patient=cases.find(c=>c.route==='/api/event-geotags'&&c.kind==='person'),policy=cases.find(c=>c.route==='/api/event-geotags'&&c.kind==='plain');
+    assert.ok(patient&&policy);assert.equal(patient.cells.asha2.status,200);assert.ok([403,404].includes(patient.cells.asha1.status));
+    for(const role of ['owner','supervisor','clinician'])assert.equal(patient.cells[role].status,200,fmt(patient,role));
+    for(const role of ['admin','stranger'])assert.equal(patient.cells[role].status,403,fmt(patient,role));assert.equal(patient.cells.anonymous.status,401);
+    for(const role of ROLES)assert.equal(policy.cells[role].status,role==='owner'?200:403,fmt(policy,role));assert.equal(policy.cells.anonymous.status,401);
   });
   await r.check('Today list allows both active ASHAs and refuses all other roles; ASHA 2 opens its own record', () => {
     const list = cases.find(c => c.route === '/api/today' && c.kind === 'plain');

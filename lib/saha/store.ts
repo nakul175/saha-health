@@ -180,7 +180,7 @@ export function appendCommandAuthority(rows:Row[],before:OrgState,uses:readonly 
 }
 // Slice 6j: a commit that loses the audit-chain race is rebuilt on the new head this many times.
 export const CHAIN_ATTEMPTS=6;
-export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string;authorityDelegations?:readonly DelegationUse[];taskId?:string;parentId?:string;kind?:string;visitId?:string;accessMembership?:AccessMembership},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false){
+export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string;authorityDelegations?:readonly DelegationUse[];taskId?:string;parentId?:string;kind?:string;visitId?:string;accessMembership?:AccessMembership},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false,extraStatements?:(token:string)=>D1PreparedStatement[]){
  if(before.readOnlyFor)throw new Error('A viewer-scoped read cannot be persisted.');
  const checkStorage=()=>assertPrimaryStorageWrite(before,after,primaryStorageRuntime(),command.type==='setHostingControls');checkStorage();
  const orgId=before.organisation.id,now=new Date().toISOString();const rows=rowsForState(after,before,actor,command.type,command.reason??'',now);
@@ -230,6 +230,7 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
   if(m.teamIds.length)stmts.push(...guarded(db,orgId,token,m.teamIds.map(t=>row('team_members',{org_id:orgId,team_id:t,user_id:m.userId},['org_id','team_id','user_id']))));
  }
  if(switchOrg)stmts.push(db.prepare('UPDATE accounts SET active_org_id=? WHERE user_id=? AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)').bind(orgId,actor.userId,orgId,token));
+ if(extraStatements)stmts.push(...extraStatements(token));
  checkStorage();
  let saved;try{saved=await db.batch(stmts);}catch(e){if(access&&!isAuditSequenceConflict(e))throw e;if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<chainAttempts){await(access?accessChainBackoff(attempt):chainBackoff(attempt));continue;}fail(409,'Many changes are being saved in this organisation at once. Nothing was saved; your input is kept on screen. Please try again.');}
  if(accessMembership){

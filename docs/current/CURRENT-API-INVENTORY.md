@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **139 HTTP method/route pairs** and **272 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **141 HTTP method/route pairs** and **272 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -38,6 +38,8 @@ Generated from source: **139 HTTP method/route pairs** and **272 command schema 
 | GET | `/api/disagreement-review` | [app/api/disagreement-review/route.ts](../../app/api/disagreement-review/route.ts) |
 | POST | `/api/disagreement-review` | [app/api/disagreement-review/route.ts](../../app/api/disagreement-review/route.ts) |
 | GET | `/api/environment` | [app/api/environment/route.ts](../../app/api/environment/route.ts) |
+| GET | `/api/event-geotags` | [app/api/event-geotags/route.ts](../../app/api/event-geotags/route.ts) |
+| POST | `/api/event-geotags` | [app/api/event-geotags/route.ts](../../app/api/event-geotags/route.ts) |
 | GET | `/api/exceptional` | [app/api/exceptional/route.ts](../../app/api/exceptional/route.ts) |
 | GET | `/api/exceptions` | [app/api/exceptions/route.ts](../../app/api/exceptions/route.ts) |
 | GET | `/api/expansion` | [app/api/expansion/route.ts](../../app/api/expansion/route.ts) |

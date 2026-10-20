@@ -38,6 +38,7 @@ export const SUITE_RESULTS = {
   'tests/governed-report-export-http.mjs': ['tests/evidence/saha111-local-coding-completion/http.json'],
   'tests/integration/contextual-academy-http.mjs': ['tests/reports/contextual-academy-http-result.json'],
   'tests/withdrawal-disposition-http.mjs': ['tests/evidence/withdrawal-disposition/http.json'],
+  'tests/smoke/event-geotag-worker.mjs': ['tests/evidence/saha-158-event-geotag/worker-d1-result.json'],
   'tests/integration/routine-save-status-browser.mjs': ['tests/reports/routine-save-status-browser/result.json'],
  'tests/integration/routine-telemetry-retention-http.mjs':['tests/reports/routine-telemetry-retention-result.json'],
  'tests/test-runner-manual-intake-v2-contract.mjs':['tests/reports/runner-manual-intake-v2-result.json'],

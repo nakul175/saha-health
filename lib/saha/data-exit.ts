@@ -9,6 +9,7 @@ import { CHAIN_VERSION, HASHING, chainHead, contentDigest, verifyChain, type Eve
 import { fhirDocument } from './fhir-document';
 import { TERMINAL } from './referral-rules';
 import type { Member } from './types';
+import {eventGeotagDisclosureRevision,eventGeotagDisclosureVisit} from './event-geotag';
 // Slice 6m: organisation data exit (BR-OPS-07, NFR-22).
 //
 // An owner exports the organisation's stored records as one uncompressed POSIX tar archive:
@@ -247,6 +248,12 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       }
       if (spec.table === 'media' && !r.deleted_at && (r.data || r.storage_ref)) { if(r.storage_ref&&!input.mediaBytes)fail(503,'Private media resolver unavailable; no incomplete archive was produced.'); if(media.reduce((n,f)=>n+f.bytes.length,0)+Number(r.size)>MAX_BYTES)fail(413,'Media exceeds the bounded export budget. Ask for a staged export.'); const content=input.mediaBytes?await input.mediaBytes(r):fromB64(String(r.data)); if(media.reduce((n,f)=>n+f.bytes.length,0)+content.length>MAX_BYTES)fail(413,'Media exceeds the bounded export budget. Ask for a staged export.'); media.push({path:`media/${r.id}.${MEDIA_EXT[String(r.mime)]??'bin'}`,bytes:content,note:`Media ${r.id} for visit ${r.visit_id}`}); }
       const out = without(r, spec.omit);
+      if(spec.table==='visits'&&typeof out.data==='string'){
+        try{out.data=JSON.stringify(eventGeotagDisclosureVisit(JSON.parse(out.data) as Record<string,unknown>,input.now));}catch{fail(409,'A visit record could not be checked for location retention; no archive was produced.');}
+      }
+      if(spec.table==='record_revisions'&&out.entity_type==='visit'&&typeof out.data==='string'&&typeof out.changes==='string'){
+        try{const disclosed=eventGeotagDisclosureRevision({entityType:'visit',data:JSON.parse(out.data),changes:JSON.parse(out.changes)},input.now);out.data=JSON.stringify(disclosed.data);out.changes=JSON.stringify(disclosed.changes);}catch{fail(409,'A visit revision could not be checked for location retention; no archive was produced.');}
+      }
       // Slice 6p: patient-linked entries inside an organisation document follow the same care scope.
       // The data text is re-serialised only when something was left out; otherwise it stays as stored.
       // Slice 6u: team-scoped rows (households, caseload transfers) too: a member or transferred patient outside

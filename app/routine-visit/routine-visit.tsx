@@ -295,7 +295,7 @@ export default function RoutineVisit() {
     {context && <>
       <section aria-label="Selected person"><h2>{context.person.name}</h2><p>{context.person.village} · {context.person.id}</p>
         <p>{context.person.age} years · {context.person.sex} · Person version {context.person.version}</p>
-        {visit && <p>Visit {visit.id} · version {visit.version} · {visit.voidedAt ? 'Voided encounter on server' : visit.supersededBy ? 'Superseded encounter on server' : visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p>}
+        {visit && <><p>Visit {visit.id} · version {visit.version} · {visit.voidedAt ? 'Voided encounter on server' : visit.supersededBy ? 'Superseded encounter on server' : visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p><p><a href={`/event-geotag?personId=${encodeURIComponent(context.person.id)}&visitId=${encodeURIComponent(visit.id)}&organisationId=${encodeURIComponent(context.organisationId)}`}>Optional event location or no-GPS outcome</a></p></>}
       </section>
       <RoutineSaveStatus visit={visit ?? null} dirty={dirty} busy={busy} uncertain={uncertain} lifecycle={context?.lifecycle}/>
       {visit && !visit.voidedAt && !visit.supersededBy && <a aria-disabled={busy || uncertain || dirty} href={'/disagreement-review?'+new URLSearchParams({organisationId:context.organisationId,personId:context.person.id,visitId:visit.id})} onClick={event => { if (busy || uncertain || dirty || inFlight.current || attempt.current) event.preventDefault(); }}>Review separate extraction results</a>}
