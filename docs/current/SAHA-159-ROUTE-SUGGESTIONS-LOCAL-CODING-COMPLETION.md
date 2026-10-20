@@ -32,8 +32,12 @@ Frozen contract: [SAHA-159 acceptance contract](SAHA-159-ACCEPTANCE-CONTRACT.md)
 
 `npm run typecheck`, `npm run lint:baseline`, `npm run build` and `npm run test:catalogue` pass on the same working tree. The production build includes `/api/route-suggestions`.
 
+After independent review found that the first read implementation could return a pre-audit view if an assignment changed while the access audit was recorded, the handler was repaired to reload current state and recompute role, assignment and policy scope after that await. The immutable failed receipt is retained at `tests/evidence/saha-159-route-suggestions/post-audit-race-before.json`.
+
+`smoke/route-suggestions-worker` now exercises the actual built Worker and D1. Its 8 checks cover the assigned-ASHA read, command persistence, access and mutation audit, exact replay without duplicate mutation, restart durability, post-audit assignment withdrawal with no restricted disclosure, stale-version refusal and changed-membership replay refusal. `unit/route-suggestions-contract` and this Worker/D1 suite are registered at observed regression minima 31 and 8; the guarded final run passes 39/39 with both baselines evaluated. Baseline registration and guarded evidence are retained under `tests/evidence/saha-159-route-suggestions/`.
+
 ## Evidence and limits
 
 The code paths are `lib/saha/route-suggestions.ts`, `lib/saha/route-suggestions-server.ts`, `app/api/route-suggestions/route.ts`, `app/route-suggestions-panel.tsx`, the platform schema/server dispatch integration, and `tests/route-suggestions-contract.mjs`.
 
-This is local coding evidence. A separate reviewer has not approved the code, current-head CI has not yet completed, the branch is not merged, and no staging or production deployment has been observed. Representative ASHA usability, approved real routing semantics and formal CWO/domain acceptance remain separate gates. No provider or tracking capability is activated.
+This is local coding evidence. The repaired final tree requires a different reviewer; current-head CI has not yet completed, the branch is not merged, and no staging or production deployment has been observed. Representative ASHA usability, approved real routing semantics and formal CWO/domain acceptance remain separate gates. No provider or tracking capability is activated.
