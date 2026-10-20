@@ -4080,14 +4080,15 @@
       "sourceTextLine": 534,
       "implementation": "partial",
       "target": "R15",
-      "current": "Redacted technical support export and generic incidents.",
-      "remaining": "Task-linked support cases and purpose/time-limited exceptional support access.",
+      "current": "Redacted technical support export and generic incidents. SAHA-118 adds task-linked fixed-diagnostic support cases, server-authorized routine queues, separately approved fixed-scope exceptional access with recorded purpose and 15–120 minute duration, expiry/revocation, chained patient-linked read audit, stale-write/race refusal and unchanged clinical records. Synthetic Worker/D1 checks pass 24 assertions.",
+      "remaining": "Formal TC-BR-OPS-05-A/B remain Not run; independent review, CI, deployment operations acceptance, merge and observed hosted deployment remain pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "lib/saha/operations.ts",
-        "lib/saha/pilot.ts",
-        "tests/operations-smoke.mjs",
-        "tests/pilot-smoke.mjs"
+        "lib/saha/support-case.ts",
+        "lib/saha/support-case-server.ts",
+        "app/support-case-panel.tsx",
+        "tests/support-case-http.mjs",
+        "docs/current/SAHA-118-LOCAL-CODING-COMPLETION-20261020.md"
       ],
       "automatedAcceptanceClaim": false
     },

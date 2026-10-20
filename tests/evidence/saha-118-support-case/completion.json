@@ -1,0 +1,79 @@
+{
+  "storyId": "SAHA-118",
+  "linearId": "APL-141",
+  "requirementIds": [
+    "BR-OPS-05"
+  ],
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "contract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-141.md",
+    "sha256": "1941cb3cff8a11062e7d4735bb8b39e46dda1364e8b8789e48080543a0f04130"
+  },
+  "sourceHashes": {
+    "lib/saha/support-case.ts": "b4c872936c43c15186132101b584ee5d4616f2471a95470ef42d8e66c970ce27",
+    "lib/saha/support-case-server.ts": "88ec6e68453ec5f3c977d29325ec0a5d88343833c0dd9abc03687996fffc3a82",
+    "app/api/support-cases/route.ts": "6a51a7428bfb0a8a6ad20aa9c0c02888e3ca321ef9a0ad4f3adaac7d200cdbbf",
+    "app/support-case-panel.tsx": "5b7a7f48bc6bf19d87ae510c1b30d39470a8d50fc072c98666916d12767fcafd",
+    "tests/support-case-http.mjs": "249aff67da1027fccead12833ca7db068c54bb54142ace09ef9fafcba1a45a7f",
+    "docs/current/SAHA-118-LOCAL-CODING-COMPLETION-20261020.md": "86b08257e840bb06274c666e6eba1d4e231052fd15aac9fac894351bb3745aaa"
+  },
+  "localCodingComplete": true,
+  "knownApplicationCodeGaps": [],
+  "checks": [
+    {
+      "command": "npm run typecheck",
+      "exit": 0
+    },
+    {
+      "command": "npm run build",
+      "exit": 0
+    },
+    {
+      "command": "node tests/support-case-http.mjs",
+      "exit": 0,
+      "passed": 24,
+      "failed": 0,
+      "runtime": "built Worker + fresh local D1; synthetic only"
+    },
+    {
+      "command": "node scripts/test.mjs --check-catalogue",
+      "exit": 0
+    },
+    {
+      "command": "node scripts/audit-requirements.mjs --check",
+      "exit": 0
+    },
+    {
+      "command": "bundled Python scripts/check-documentation.py",
+      "exit": 0,
+      "note": "Generated files are current; checker reports changed baseline inputs for this unreviewed branch as expected."
+    }
+  ],
+  "retainedFailures": [
+    {
+      "suite": "node tests/support-case-http.mjs",
+      "stage": "first integration run",
+      "exit": 1,
+      "failure": "Administrator replay of supportGrantRequest incorrectly entered the ordinary patient accessor and returned 403. Repaired by exempting support commands from that generic replay accessor while preserving support-specific fresh authorization."
+    }
+  ],
+  "separatePendingGates": {
+    "independentSourceReview": "pending",
+    "exactSourceCI": "pending",
+    "formalCases": [
+      "TC-BR-OPS-05-A",
+      "TC-BR-OPS-05-B"
+    ],
+    "deploymentOperationsAcceptance": "pending",
+    "humanDomainPrivacyAcceptance": "pending",
+    "merge": "pending",
+    "observedDeployment": "pending"
+  },
+  "claims": {
+    "formalAcceptance": false,
+    "merged": false,
+    "deployed": false,
+    "hostedObserved": false,
+    "realPatientData": false
+  }
+}
