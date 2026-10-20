@@ -1,6 +1,6 @@
-# SAHA-154 optional assignment local candidate — 20 October 2026
+# SAHA-154 optional assignment local coding complete — 20 October 2026
 
-[The implementation record](current/SAHA-154-OPTIONAL-PAID-ASSIGNMENT-LOCAL-CODING-COMPLETION.md) adds a server-authorized optional invitation, explicit accept/decline, versioned evidence correction/withdrawal and owner cancellation to the synthetic incentive surface. Routine care, access, schedules, claims and payment remain separate and unchanged. Local application gaps against the available proposed APL-177 scenarios are closed and tested; the missing CWO-014 narrative means frozen product acceptance remains blocked.
+[The implementation record](current/SAHA-154-OPTIONAL-PAID-ASSIGNMENT-LOCAL-CODING-COMPLETION.md) adds a server-authorized optional invitation, explicit accept/decline, versioned evidence correction/withdrawal and owner cancellation to the synthetic incentive surface. Routine care, access, schedules, claims and payment remain separate and unchanged. Local application gaps against the sponsor-approved, exact-hash [SAHA-154 contract](current/SAHA-154-ACCEPTANCE-CONTRACT.md) are closed and tested. Independent review, exact-source CI, formal acceptance, merge and observed deployment remain separate.
 
 # Monotonic test hold repaired locally; final gate pending — 12 October 2026
 

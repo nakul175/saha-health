@@ -191,6 +191,13 @@ export async function applyIncentives(s: OrgState, input: unknown, u: Actor, m: 
   const c = parsed.data; authorizeIncentives(s, m, c, now);
   const st = writable(s), push = (subject: string, detail: string) => s.workspace.audit.push({ id: uuid(), at: now, actor: u.displayName, actorId: u.userId, role: m.role, action: c.type, subject, detail });
   const bytes = () => JSON.stringify(st).length;
+  const ensureAssignmentFits = (assignments: OptionalAssignment[]) => {
+    if (JSON.stringify({ ...st, assignments }).length > STATE_BYTES) fail(422, 'The stored incentive-work limit for this organisation is reached; existing evidence is retained.');
+  };
+  const commitAssignment = (current: OptionalAssignment, next: OptionalAssignment) => {
+    ensureAssignmentFits(st.assignments!.map(a => a.id === current.id ? next : a));
+    Object.assign(current, next);
+  };
   if (c.type === 'offerOptionalAssignment') {
     const worker = s.members.find(x => x.userId === c.workerId && x.status === 'active');
     if (!worker || worker.role !== 'asha' || !worker.teamIds.includes(c.teamId) || !s.teams.some(t => t.id === c.teamId)) fail(422, 'Choose an active ASHA worker and one of their current teams.');
@@ -198,8 +205,8 @@ export async function applyIncentives(s: OrgState, input: unknown, u: Actor, m: 
     if (due <= start) fail(422, 'The optional assignment due time must be in the future.');
     if (due - start > 366 * 86400000) fail(422, 'The optional assignment due time must be within 366 days.');
     if ((st.assignments ?? []).length >= 500) fail(422, 'The stored optional-assignment limit is reached; existing evidence is retained.');
-    if (bytes() > STATE_BYTES) fail(422, 'The stored incentive-work limit for this organisation is reached; existing evidence is retained.');
     const a: OptionalAssignment = { id: uuid(), version: 1, teamId: c.teamId, workerId: worker.userId, workerName: worker.displayName, title: c.title, summary: c.summary, evidencePrompt: c.evidencePrompt, dueAt: c.dueAt, state: 'offered', createdBy: u.userId, createdByName: u.displayName, createdAt: now, history: [{ at: now, by: u.userId, byName: u.displayName, action: 'offered', note: 'Optional invitation created; no claim or payment state.' }], evidence: [] };
+    ensureAssignmentFits([...st.assignments!, a]);
     st.assignments!.push(a);
     push(a.id, `Optional assignment offered to an active ASHA in team ${a.teamId}; due ${a.dueAt}. Worker choice remains open; no rate, claim, approval or payment was created.`);
     return { assignmentId: a.id, version: a.version, state: a.state };
@@ -207,30 +214,29 @@ export async function applyIncentives(s: OrgState, input: unknown, u: Actor, m: 
   if (c.type === 'chooseOptionalAssignment' || c.type === 'submitOptionalAssignmentEvidence' || c.type === 'withdrawOptionalAssignmentEvidence' || c.type === 'cancelOptionalAssignment') {
     const a = assignmentOf(s, c.assignmentId);
     if (a.version !== c.version) fail(409, 'This optional assignment changed. Refresh before acting.');
-    const history = (action: string, note: string) => a.history.push({ at: now, by: u.userId, byName: u.displayName, action, note });
+    const nextHistory = (action: string, note: string) => [...a.history, { at: now, by: u.userId, byName: u.displayName, action, note }];
     if (c.type === 'chooseOptionalAssignment') {
       if (a.state !== 'offered') fail(409, 'This optional assignment is no longer awaiting your choice.');
-      a.state = c.decision; a.version++; history(c.decision, c.decision === 'declined' ? 'Worker declined; routine work and access are unchanged.' : 'Worker opted in; no claim or payment state was created.');
+      commitAssignment(a, { ...a, state: c.decision, version: a.version + 1, history: nextHistory(c.decision, c.decision === 'declined' ? 'Worker declined; routine work and access are unchanged.' : 'Worker opted in; no claim or payment state was created.') });
       push(a.id, `Worker ${c.decision === 'accepted' ? 'opted in to' : 'declined'} the optional assignment. Routine care, access, claim and payment state are unchanged.`);
       return { assignmentId: a.id, version: a.version, state: a.state };
     }
     if (c.type === 'submitOptionalAssignmentEvidence') {
       if (a.state !== 'accepted' && a.state !== 'evidence-submitted') fail(409, 'Accept this optional assignment before recording evidence.');
-      for (const e of a.evidence) e.active = false;
       const evidence = { id: uuid(), version: a.evidence.length + 1, note: c.note, ...(c.reference ? { reference: c.reference } : {}), by: u.userId, byName: u.displayName, at: now, active: true };
-      a.evidence.push(evidence); a.state = 'evidence-submitted'; a.version++; history(evidence.version === 1 ? 'evidence submitted' : 'evidence corrected', `Evidence revision ${evidence.version} stored; claim and payment remain separate.`);
+      commitAssignment(a, { ...a, state: 'evidence-submitted', version: a.version + 1, history: nextHistory(evidence.version === 1 ? 'evidence submitted' : 'evidence corrected', `Evidence revision ${evidence.version} stored; claim and payment remain separate.`), evidence: [...a.evidence.map(e => ({ ...e, active: false })), evidence] });
       push(a.id, `Optional assignment evidence revision ${evidence.version} stored. No claim, approval or payment was created.`);
       return { assignmentId: a.id, evidenceId: evidence.id, evidenceVersion: evidence.version, version: a.version, state: a.state };
     }
     if (c.type === 'withdrawOptionalAssignmentEvidence') {
       if (a.state !== 'evidence-submitted') fail(409, 'There is no current optional-assignment evidence to withdraw.');
       const evidence = a.evidence.findLast(x => x.active); if (!evidence) fail(409, 'There is no current optional-assignment evidence to withdraw.');
-      evidence.active = false; evidence.withdrawnAt = now; a.state = 'accepted'; a.version++; history('evidence withdrawn', c.reason);
+      commitAssignment(a, { ...a, state: 'accepted', version: a.version + 1, history: nextHistory('evidence withdrawn', c.reason), evidence: a.evidence.map(e => e.id === evidence.id ? { ...e, active: false, withdrawnAt: now } : e) });
       push(a.id, `Optional assignment evidence revision ${evidence.version} withdrawn and retained as history. No claim or payment state changed.`);
       return { assignmentId: a.id, version: a.version, state: a.state };
     }
     if (a.state === 'declined' || a.state === 'cancelled') fail(409, 'This optional assignment is already closed.');
-    a.state = 'cancelled'; a.version++; history('cancelled', c.reason);
+    commitAssignment(a, { ...a, state: 'cancelled', version: a.version + 1, history: nextHistory('cancelled', c.reason) });
     push(a.id, 'Optional assignment cancelled; worker choice and any submitted evidence remain in history. Routine care, claims and payment state are unchanged.');
     return { assignmentId: a.id, version: a.version, state: a.state };
   }

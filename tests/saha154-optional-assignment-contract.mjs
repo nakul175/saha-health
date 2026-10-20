@@ -63,6 +63,17 @@ try {
   await acheck(async () => { const cancelled = await run('own', { type: 'cancelOptionalAssignment', assignmentId: optional.id, version: 5, reason: 'The synthetic programme activity is no longer needed' }); assert.deepEqual([cancelled.state, cancelled.version], ['cancelled', 6]); await status(() => run('asha', { type: 'chooseOptionalAssignment', assignmentId: optional.id, version: 6, decision: 'declined' }), 409); assert.equal(optional.evidence.length, 2); });
   await acheck(async () => { const made = await run('own', { ...OFFER, title: 'Second optional activity' }), a = x.incentiveState(s).assignments.find(v2 => v2.id === made.assignmentId); const declined = await run('asha', { type: 'chooseOptionalAssignment', assignmentId: a.id, version: 1, decision: 'declined' }); assert.equal(declined.state, 'declined'); await status(() => run('own', { type: 'cancelOptionalAssignment', assignmentId: a.id, version: 2, reason: 'Trying to close a declined invitation' }), 409); assert.equal(x.incentiveState(s).claims.length, 0); });
   await acheck(async () => { const made = await run('own', { ...OFFER, title: 'Authority change activity' }), a = x.incentiveState(s).assignments.find(v2 => v2.id === made.assignmentId); M('asha').teamIds = []; assert.equal((await view('asha')).optionalAssignments.rows.length, 0); await status(() => run('asha', { type: 'chooseOptionalAssignment', assignmentId: a.id, version: 1, decision: 'accepted' }), 404); M('asha').teamIds = ['t1']; });
+  await acheck(async () => {
+    const made = await run('own', { ...OFFER, title: 'Bounded evidence activity' }), a = x.incentiveState(s).assignments.find(v2 => v2.id === made.assignmentId);
+    await run('asha', { type: 'chooseOptionalAssignment', assignmentId: a.id, version: 1, decision: 'accepted' });
+    const pad = { at: NOW, by: 'own', byName: 'OWN', action: 'retained fixture padding', note: '' };
+    a.history.push(pad); const emptySize = JSON.stringify(x.incentiveState(s)).length; pad.note = 'x'.repeat(x.STATE_BYTES - emptySize - 100);
+    assert.ok(JSON.stringify(x.incentiveState(s)).length <= x.STATE_BYTES, 'fixture begins inside the storage limit');
+    const before = JSON.stringify(a);
+    await status(() => run('asha', { type: 'submitOptionalAssignmentEvidence', assignmentId: a.id, version: 2, note: 'This evidence must not cross the bounded state limit.' }), 422, /stored incentive-work limit/);
+    assert.equal(JSON.stringify(a), before, 'a refused oversized evidence write leaves the assignment unchanged');
+    a.history.pop();
+  });
 
   // The schedule: owner only, versioned, validated, labelled synthetic.
   await acheck(async () => { for (const who of ['sup', 'doc', 'asha', 'sup2']) await status(() => run(who, SCHEDULE), 403); await status(() => run('own', { ...SCHEDULE, expectedVersion: 1 }), 409); });

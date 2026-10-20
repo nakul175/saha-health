@@ -1,6 +1,6 @@
 # SAHA-154 next delivery gates — 20 October 2026
 
-[The optional-assignment candidate](current/SAHA-154-OPTIONAL-PAID-ASSIGNMENT-LOCAL-CODING-COMPLETION.md) has local application code and synthetic verification only. Before it can be a completed story, recover and reconcile CWO-014 or obtain a reviewed source-bound product/domain decision, then obtain independent source review and exact-source CI. Product/domain/formal approval, merge and exact observed deployment remain separate. Do not introduce real eligibility rules, rates, a payment provider or settlement to close those gates.
+[The optional-assignment implementation](current/SAHA-154-OPTIONAL-PAID-ASSIGNMENT-LOCAL-CODING-COMPLETION.md) is locally code-complete and synthetically tested against its sponsor-approved [source-bound contract](current/SAHA-154-ACCEPTANCE-CONTRACT.md). Next obtain independent source review and exact-source CI. Formal and real-use approval, merge and exact observed deployment remain separate. Do not introduce real eligibility rules, rates, a payment provider or settlement to close those gates.
 
 # Monotonic test hold repaired locally; final gate pending — 12 October 2026
 
