@@ -1,5 +1,9 @@
 # Development slice 10c — worker incentive claims
 
+## SAHA-154 local optional-assignment candidate — 20 October 2026
+
+[The local coding-completion record](SAHA-154-OPTIONAL-PAID-ASSIGNMENT-LOCAL-CODING-COMPLETION.md) adds a server-scoped, explicit opt-in/decline invitation and append-only evidence history alongside routine work. It creates no real rate, provider, claim, approval or payment and leaves routine care/access unchanged. The available APL-177 snapshot says the original CWO-014 narrative and approved acceptance are missing, so this is a tested local candidate against the described proposed scenarios, not frozen or formally accepted product scope.
+
 2 October 2026 (IST), evening. Based on `main` at 150b9fc. Synthetic data only; formal acceptance unchanged. No migration. No payment, no real rate and no provider is involved.
 
 ## What changed

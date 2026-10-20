@@ -34,6 +34,7 @@ assignSafety,lib/saha/governance.ts,47,Schema discriminator; authorization and s
 cancelAgent,lib/saha/agent.ts,35,Schema discriminator; authorization and state gates still apply
 cancelEvaluation,lib/saha/evaluation.ts,37,Schema discriminator; authorization and state gates still apply
 cancelMisMapping,lib/saha/mis.ts,33,Schema discriminator; authorization and state gates still apply
+cancelOptionalAssignment,lib/saha/incentives.ts,75,Schema discriminator; authorization and state gates still apply
 cancelSubmission,lib/saha/mis.ts,40,Schema discriminator; authorization and state gates still apply
 caseloadAcknowledge,lib/saha/caseload.ts,28,Schema discriminator; authorization and state gates still apply
 caseloadApply,lib/saha/caseload.ts,26,Schema discriminator; authorization and state gates still apply
@@ -41,6 +42,7 @@ caseloadCancel,lib/saha/caseload.ts,27,Schema discriminator; authorization and s
 caseloadHouseholdTransfer,lib/saha/caseload.ts,25,Schema discriminator; authorization and state gates still apply
 caseloadTransfer,lib/saha/caseload.ts,23,Schema discriminator; authorization and state gates still apply
 checkProtocol,lib/saha/governance.ts,41,Schema discriminator; authorization and state gates still apply
+chooseOptionalAssignment,lib/saha/incentives.ts,72,Schema discriminator; authorization and state gates still apply
 closeCorrectionTask,lib/saha/correction-tasks.ts,151,Schema discriminator; authorization and state gates still apply
 closeEnrolment,lib/saha/programme-commands.ts,12,Schema discriminator; authorization and state gates still apply
 closeTimedOutAgent,lib/saha/agent.ts,37,Schema discriminator; authorization and state gates still apply
@@ -57,7 +59,7 @@ createPerson,lib/saha/core.ts,44,Schema discriminator; authorization and state g
 createProgrammeReferrals,lib/saha/referral-consolidation.ts,22,Schema discriminator; authorization and state gates still apply
 createReferral,lib/saha/core.ts,56,Schema discriminator; authorization and state gates still apply
 createTeam,lib/saha/platform.ts,146,Schema discriminator; authorization and state gates still apply
-decideIncentiveClaim,lib/saha/incentives.ts,68,Schema discriminator; authorization and state gates still apply
+decideIncentiveClaim,lib/saha/incentives.ts,81,Schema discriminator; authorization and state gates still apply
 decideReferralRequest,lib/saha/referral-request.ts,15,Schema discriminator; authorization and state gates still apply
 declareProviderSandbox,lib/saha/provider-sandbox.ts,26,Schema discriminator; authorization and state gates still apply
 delegationGrant,lib/saha/delegation.ts,25,Schema discriminator; authorization and state gates still apply
@@ -117,6 +119,7 @@ messageRetry,lib/saha/outreach.ts,38,Schema discriminator; authorization and sta
 messageSimulate,lib/saha/outreach.ts,37,Schema discriminator; authorization and state gates still apply
 messageTemplatePropose,lib/saha/outreach.ts,33,Schema discriminator; authorization and state gates still apply
 messageTemplateReview,lib/saha/outreach.ts,34,Schema discriminator; authorization and state gates still apply
+offerOptionalAssignment,lib/saha/incentives.ts,71,Schema discriminator; authorization and state gates still apply
 opsAcknowledgeAlert,lib/saha/alerts.ts,24,Schema discriminator; authorization and state gates still apply
 opsAvailability,lib/saha/operations.ts,43,Schema discriminator; authorization and state gates still apply
 opsBudget,lib/saha/operations.ts,48,Schema discriminator; authorization and state gates still apply
@@ -148,8 +151,8 @@ prepareEhrPublish,lib/saha/ehr.ts,39,Schema discriminator; authorization and sta
 prepareEvaluation,lib/saha/evaluation.ts,35,Schema discriminator; authorization and state gates still apply
 prepareFieldVisit,lib/saha/field.ts,14,Schema discriminator; authorization and state gates still apply
 prepareIdentifierCorrection,lib/saha/crosswalk-correction.ts,77,Schema discriminator; authorization and state gates still apply
-prepareIncentiveClaim,lib/saha/incentives.ts,64,Schema discriminator; authorization and state gates still apply
-prepareIncentiveCorrection,lib/saha/incentives.ts,65,Schema discriminator; authorization and state gates still apply
+prepareIncentiveClaim,lib/saha/incentives.ts,77,Schema discriminator; authorization and state gates still apply
+prepareIncentiveCorrection,lib/saha/incentives.ts,78,Schema discriminator; authorization and state gates still apply
 preparePlan,lib/saha/core.ts,49,Schema discriminator; authorization and state gates still apply
 previewReconciliationBackfill,lib/saha/reconciliation.ts,14,Schema discriminator; authorization and state gates still apply
 probeEhr,lib/saha/ehr.ts,30,Schema discriminator; authorization and state gates still apply
@@ -222,7 +225,7 @@ setAdapterOperations,lib/saha/adapter-operations.ts,60,Schema discriminator; aut
 setConsent,lib/saha/core.ts,53,Schema discriminator; authorization and state gates still apply
 setContactPreferences,lib/saha/outreach.ts,28,Schema discriminator; authorization and state gates still apply
 setEhrLookupPolicy,lib/saha/ehr.ts,42,Schema discriminator; authorization and state gates still apply
-setIncentiveSchedule,lib/saha/incentives.ts,63,Schema discriminator; authorization and state gates still apply
+setIncentiveSchedule,lib/saha/incentives.ts,76,Schema discriminator; authorization and state gates still apply
 setMemberLocation,lib/saha/facility-scope.ts,62,Schema discriminator; authorization and state gates still apply
 setMyDisplayName,lib/saha/platform.ts,142,Schema discriminator; authorization and state gates still apply
 setMyLanguage,lib/saha/platform.ts,145,Schema discriminator; authorization and state gates still apply
@@ -235,6 +238,7 @@ signOffVisit,lib/saha/visit-signoff.ts,37,Schema discriminator; authorization an
 startShadow,lib/saha/shadow.ts,32,Schema discriminator; authorization and state gates still apply
 startVisit,lib/saha/core.ts,45,Schema discriminator; authorization and state gates still apply
 stopShadow,lib/saha/shadow.ts,34,Schema discriminator; authorization and state gates still apply
+submitOptionalAssignmentEvidence,lib/saha/incentives.ts,73,Schema discriminator; authorization and state gates still apply
 switchOrganisation,lib/saha/platform.ts,137,Schema discriminator; authorization and state gates still apply
 syncFieldVisit,lib/saha/field.ts,16,Schema discriminator; authorization and state gates still apply
 testMis,lib/saha/mis.ts,36,Schema discriminator; authorization and state gates still apply
@@ -245,10 +249,11 @@ unlinkPlanItems,lib/saha/action-plan.ts,153,Schema discriminator; authorization 
 updateMember,lib/saha/platform.ts,149,Schema discriminator; authorization and state gates still apply
 verifyEntry,lib/saha/visit-signoff.ts,36,Schema discriminator; authorization and state gates still apply
 verifyFact,lib/saha/fact-verification.ts,20,Schema discriminator; authorization and state gates still apply
-verifyIncentiveClaim,lib/saha/incentives.ts,67,Schema discriminator; authorization and state gates still apply
+verifyIncentiveClaim,lib/saha/incentives.ts,80,Schema discriminator; authorization and state gates still apply
 voidVisit,lib/saha/platform.ts,153,Schema discriminator; authorization and state gates still apply
 withdrawConsent,lib/saha/consent.ts,24,Schema discriminator; authorization and state gates still apply
-withdrawIncentiveClaim,lib/saha/incentives.ts,66,Schema discriminator; authorization and state gates still apply
+withdrawIncentiveClaim,lib/saha/incentives.ts,79,Schema discriminator; authorization and state gates still apply
 withdrawIndicatorDefinition,lib/saha/indicator-registry.ts,16,Schema discriminator; authorization and state gates still apply
+withdrawOptionalAssignmentEvidence,lib/saha/incentives.ts,74,Schema discriminator; authorization and state gates still apply
 withdrawSignOff,lib/saha/visit-signoff.ts,42,Schema discriminator; authorization and state gates still apply
 workforceImportApply,lib/saha/workforce-import.ts,30,Schema discriminator; authorization and state gates still apply

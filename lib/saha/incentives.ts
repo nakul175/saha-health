@@ -30,6 +30,14 @@ export const GENESIS_PREV = '0'.repeat(64);
 export const HASHING = "subject = SHA-256 of JSON.stringify(['saha-incentive-subject',organisation id,person id]); content = SHA-256 of JSON.stringify(['saha-incentive-claim-content-v1',claim id,number,type,corrects,team,claimant code,preparer code,period from,period to,schedule version,prepared at,[line id,kind,source ref,evidence visit,subject,activity at,amount,receipt,reversed claim,reversed line,reversal reason] per line,total,verifier code,verified at,verification note,approver code,approved at]); digest = SHA-256 of JSON.stringify(['saha-incentive-claim-v1',seq,previous digest,content]); seq 1 has previous digest of 64 zeros.";
 export type Line = { id: string; kind: Kind | 'reversal'; ref: string; evidenceVisitId: string; personId: string; subject: string; at: string; amount: number; receipt?: string; reverses?: { claimId: string; lineId: string; reason: string } };
 export type Schedule = { version: number; label: string; lines: { kind: Kind; amount: number }[]; reason: string; by: string; byName: string; at: string };
+export type OptionalAssignment = {
+  id: string; version: number; teamId: string; workerId: string; workerName: string;
+  title: string; summary: string; evidencePrompt: string; dueAt: string;
+  state: 'offered' | 'accepted' | 'declined' | 'evidence-submitted' | 'cancelled';
+  createdBy: string; createdByName: string; createdAt: string;
+  history: { at: string; by: string; byName: string; action: string; note: string }[];
+  evidence: { id: string; version: number; note: string; reference?: string; by: string; byName: string; at: string; active: boolean; withdrawnAt?: string }[];
+};
 export type Claim = {
   id: string; number: number; type: 'claim' | 'correction'; corrects?: string; teamId: string;
   claimantId: string; claimantName: string; claimantCode: string; preparedBy: string; preparedByName: string; preparedByCode: string;
@@ -39,10 +47,10 @@ export type Claim = {
   verified?: { by: string; byName: string; byCode: string; at: string; note: string };
   chain?: { seq: number; prev: string; content: string; digest: string; at: string; by: string; byName: string; byCode: string };
 };
-export type IncentiveState = { schedules: Schedule[]; claims: Claim[] };
+export type IncentiveState = { schedules: Schedule[]; claims: Claim[]; assignments?: OptionalAssignment[] };
 const day = (s?: string) => (s ?? '').slice(0, 10);
-export const incentiveState = (s: OrgState): IncentiveState => (s.operations as any)?.incentives ?? { schedules: [], claims: [] };
-function writable(s: OrgState): IncentiveState { const ops: any = s.operations ??= { version: 0, maintenance: false, reason: '', updatedAt: '', incidents: [], rates: null }; return ops.incentives ??= { schedules: [], claims: [] }; }
+export const incentiveState = (s: OrgState): IncentiveState => (s.operations as any)?.incentives ?? { schedules: [], claims: [], assignments: [] };
+function writable(s: OrgState): IncentiveState { const ops: any = s.operations ??= { version: 0, maintenance: false, reason: '', updatedAt: '', incidents: [], rates: null }; const st: IncentiveState = ops.incentives ??= { schedules: [], claims: [], assignments: [] }; st.assignments ??= []; return st; }
 export const currentSchedule = (st: IncentiveState) => st.schedules.at(-1);
 const live = (c: Claim) => c.state === 'submitted' || c.state === 'verified' || c.state === 'approved';
 // Sources already on a live claim: a visit can evidence one line only, and an outreach item can be on one line only.
@@ -60,6 +68,11 @@ const id = z.string().trim().min(1).max(200), version = z.number().int().positiv
 const text = (min: number, max: number, what: string) => z.string().trim().min(min, `Write at least ${min} characters for the ${what}.`).max(max).regex(/^[^=+\-@\u0000-\u001f]/, `Start the ${what} with a letter or a digit.`);
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use a valid date.').refine(s => !isNaN(Date.parse(s)) && new Date(s).toISOString().slice(0, 10) === s, 'Use a valid date.');
 export const incentiveSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('offerOptionalAssignment'), workerId: id, teamId: id, title: text(3, 80, 'assignment title'), summary: text(10, 500, 'assignment summary'), evidencePrompt: text(10, 300, 'evidence prompt'), dueAt: z.string().datetime({ offset: true }) }).strict(),
+  z.object({ type: z.literal('chooseOptionalAssignment'), assignmentId: id, version, decision: z.enum(['accepted', 'declined']) }).strict(),
+  z.object({ type: z.literal('submitOptionalAssignmentEvidence'), assignmentId: id, version, note: text(10, 500, 'evidence note'), reference: z.string().trim().max(120).regex(/^([^=+\-@\u0000-\u001f].*)?$/, 'Start the reference with a letter or a digit.').optional() }).strict(),
+  z.object({ type: z.literal('withdrawOptionalAssignmentEvidence'), assignmentId: id, version, reason: text(10, 300, 'withdrawal reason') }).strict(),
+  z.object({ type: z.literal('cancelOptionalAssignment'), assignmentId: id, version, reason: text(10, 300, 'cancellation reason') }).strict(),
   z.object({ type: z.literal('setIncentiveSchedule'), expectedVersion: z.number().int().min(0), label: text(3, 80, 'schedule label'), lines: z.array(z.object({ kind: z.enum(KIND_IDS), amount: z.number().int().min(1, 'Each amount is at least 1 SYN.').max(MAX_AMOUNT, `Each amount is at most ${MAX_AMOUNT} SYN.`) }).strict()).min(1, 'Price at least one kind of activity.').max(KIND_IDS.length).refine(x => new Set(x.map(l => l.kind)).size === x.length, 'Price each kind once.'), reason: text(10, 300, 'reason') }).strict(),
   z.object({ type: z.literal('prepareIncentiveClaim'), teamId: id, from: date, to: date }).strict(),
   z.object({ type: z.literal('prepareIncentiveCorrection'), claimId: id, reversals: z.array(z.object({ lineId: id, reason: text(10, 300, 'reason') }).strict()).min(1).max(MAX_LINES).refine(x => new Set(x.map(r => r.lineId)).size === x.length, 'Name each line once.') }).strict(),
@@ -67,13 +80,22 @@ export const incentiveSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('verifyIncentiveClaim'), claimId: id, version, decision: z.enum(['verified', 'returned']), note: z.string().trim().max(300).regex(/^([^=+\-@\u0000-\u001f].*)?$/, 'Start the note with a letter or a digit.') }).strict(),
   z.object({ type: z.literal('decideIncentiveClaim'), claimId: id, version, decision: z.enum(['approved', 'returned']), note: z.string().trim().max(300).regex(/^([^=+\-@\u0000-\u001f].*)?$/, 'Start the note with a letter or a digit.') }).strict(),
 ]);
-const TYPES = new Set(['setIncentiveSchedule', 'prepareIncentiveClaim', 'prepareIncentiveCorrection', 'withdrawIncentiveClaim', 'verifyIncentiveClaim', 'decideIncentiveClaim']);
+const TYPES = new Set(['offerOptionalAssignment', 'chooseOptionalAssignment', 'submitOptionalAssignmentEvidence', 'withdrawOptionalAssignmentEvidence', 'cancelOptionalAssignment', 'setIncentiveSchedule', 'prepareIncentiveClaim', 'prepareIncentiveCorrection', 'withdrawIncentiveClaim', 'verifyIncentiveClaim', 'decideIncentiveClaim']);
 const active = (m?: Member): m is Member => !!m && m.status === 'active';
 const claimOf = (s: OrgState, claimId: string) => { const c = incentiveState(s).claims.find(x => x.id === claimId); if (!c) fail(404, 'Claim not found.'); return c!; };
+const assignmentOf = (s: OrgState, assignmentId: string) => { const a = (incentiveState(s).assignments ?? []).find(x => x.id === assignmentId); if (!a) fail(404, 'Optional assignment not found.'); return a!; };
 // Who may do what, checked on first run and again when a saved command is replayed. Supervision goes through slice 1e.
 export function authorizeIncentives(s: OrgState, m: Member, c: any, now = new Date().toISOString()) {
   if (!TYPES.has(c?.type)) return;
   if (!active(m)) fail(403, 'Your membership is inactive.');
+  if (c.type === 'offerOptionalAssignment') { if (!m.isOwner) fail(403, 'Only an owner can offer an optional assignment.'); return; }
+  if (c.type === 'cancelOptionalAssignment') { if (!m.isOwner) fail(403, 'Only an owner can cancel an optional assignment.'); assignmentOf(s, c.assignmentId); return; }
+  if (c.type === 'chooseOptionalAssignment' || c.type === 'submitOptionalAssignmentEvidence' || c.type === 'withdrawOptionalAssignmentEvidence') {
+    if (m.role !== 'asha') fail(403, 'Only the invited ASHA worker can choose this optional assignment or record its evidence.');
+    const a = assignmentOf(s, c.assignmentId);
+    if (a.workerId !== m.userId || !m.teamIds.includes(a.teamId)) fail(404, 'Optional assignment not found.');
+    return;
+  }
   if (c.type === 'setIncentiveSchedule') { if (!m.isOwner) fail(403, 'Only an owner can set the incentive schedule.'); return; }
   if (c.type === 'prepareIncentiveClaim') { if (m.role !== 'asha') fail(403, 'Only an ASHA worker prepares a claim, from her own activity.'); if (!m.teamIds.includes(c.teamId)) fail(403, 'Choose a team you belong to.'); return; }
   const claim = claimOf(s, c.claimId);
@@ -169,6 +191,49 @@ export async function applyIncentives(s: OrgState, input: unknown, u: Actor, m: 
   const c = parsed.data; authorizeIncentives(s, m, c, now);
   const st = writable(s), push = (subject: string, detail: string) => s.workspace.audit.push({ id: uuid(), at: now, actor: u.displayName, actorId: u.userId, role: m.role, action: c.type, subject, detail });
   const bytes = () => JSON.stringify(st).length;
+  if (c.type === 'offerOptionalAssignment') {
+    const worker = s.members.find(x => x.userId === c.workerId && x.status === 'active');
+    if (!worker || worker.role !== 'asha' || !worker.teamIds.includes(c.teamId) || !s.teams.some(t => t.id === c.teamId)) fail(422, 'Choose an active ASHA worker and one of their current teams.');
+    const due = Date.parse(c.dueAt), start = Date.parse(now);
+    if (due <= start) fail(422, 'The optional assignment due time must be in the future.');
+    if (due - start > 366 * 86400000) fail(422, 'The optional assignment due time must be within 366 days.');
+    if ((st.assignments ?? []).length >= 500) fail(422, 'The stored optional-assignment limit is reached; existing evidence is retained.');
+    if (bytes() > STATE_BYTES) fail(422, 'The stored incentive-work limit for this organisation is reached; existing evidence is retained.');
+    const a: OptionalAssignment = { id: uuid(), version: 1, teamId: c.teamId, workerId: worker.userId, workerName: worker.displayName, title: c.title, summary: c.summary, evidencePrompt: c.evidencePrompt, dueAt: c.dueAt, state: 'offered', createdBy: u.userId, createdByName: u.displayName, createdAt: now, history: [{ at: now, by: u.userId, byName: u.displayName, action: 'offered', note: 'Optional invitation created; no claim or payment state.' }], evidence: [] };
+    st.assignments!.push(a);
+    push(a.id, `Optional assignment offered to an active ASHA in team ${a.teamId}; due ${a.dueAt}. Worker choice remains open; no rate, claim, approval or payment was created.`);
+    return { assignmentId: a.id, version: a.version, state: a.state };
+  }
+  if (c.type === 'chooseOptionalAssignment' || c.type === 'submitOptionalAssignmentEvidence' || c.type === 'withdrawOptionalAssignmentEvidence' || c.type === 'cancelOptionalAssignment') {
+    const a = assignmentOf(s, c.assignmentId);
+    if (a.version !== c.version) fail(409, 'This optional assignment changed. Refresh before acting.');
+    const history = (action: string, note: string) => a.history.push({ at: now, by: u.userId, byName: u.displayName, action, note });
+    if (c.type === 'chooseOptionalAssignment') {
+      if (a.state !== 'offered') fail(409, 'This optional assignment is no longer awaiting your choice.');
+      a.state = c.decision; a.version++; history(c.decision, c.decision === 'declined' ? 'Worker declined; routine work and access are unchanged.' : 'Worker opted in; no claim or payment state was created.');
+      push(a.id, `Worker ${c.decision === 'accepted' ? 'opted in to' : 'declined'} the optional assignment. Routine care, access, claim and payment state are unchanged.`);
+      return { assignmentId: a.id, version: a.version, state: a.state };
+    }
+    if (c.type === 'submitOptionalAssignmentEvidence') {
+      if (a.state !== 'accepted' && a.state !== 'evidence-submitted') fail(409, 'Accept this optional assignment before recording evidence.');
+      for (const e of a.evidence) e.active = false;
+      const evidence = { id: uuid(), version: a.evidence.length + 1, note: c.note, ...(c.reference ? { reference: c.reference } : {}), by: u.userId, byName: u.displayName, at: now, active: true };
+      a.evidence.push(evidence); a.state = 'evidence-submitted'; a.version++; history(evidence.version === 1 ? 'evidence submitted' : 'evidence corrected', `Evidence revision ${evidence.version} stored; claim and payment remain separate.`);
+      push(a.id, `Optional assignment evidence revision ${evidence.version} stored. No claim, approval or payment was created.`);
+      return { assignmentId: a.id, evidenceId: evidence.id, evidenceVersion: evidence.version, version: a.version, state: a.state };
+    }
+    if (c.type === 'withdrawOptionalAssignmentEvidence') {
+      if (a.state !== 'evidence-submitted') fail(409, 'There is no current optional-assignment evidence to withdraw.');
+      const evidence = a.evidence.findLast(x => x.active); if (!evidence) fail(409, 'There is no current optional-assignment evidence to withdraw.');
+      evidence.active = false; evidence.withdrawnAt = now; a.state = 'accepted'; a.version++; history('evidence withdrawn', c.reason);
+      push(a.id, `Optional assignment evidence revision ${evidence.version} withdrawn and retained as history. No claim or payment state changed.`);
+      return { assignmentId: a.id, version: a.version, state: a.state };
+    }
+    if (a.state === 'declined' || a.state === 'cancelled') fail(409, 'This optional assignment is already closed.');
+    a.state = 'cancelled'; a.version++; history('cancelled', c.reason);
+    push(a.id, 'Optional assignment cancelled; worker choice and any submitted evidence remain in history. Routine care, claims and payment state are unchanged.');
+    return { assignmentId: a.id, version: a.version, state: a.state };
+  }
   if (c.type === 'setIncentiveSchedule') {
     const cur = currentSchedule(st);
     if (c.expectedVersion !== (cur?.version ?? 0)) fail(409, 'The schedule changed. Refresh and review the latest version.');
