@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **123 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **124 HTTP method/route pairs** and **257 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -107,6 +107,7 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |
+| GET | `/api/route-suggestions` | [app/api/route-suggestions/route.ts](../../app/api/route-suggestions/route.ts) |
 | GET | `/api/routine-visit` | [app/api/routine-visit/route.ts](../../app/api/routine-visit/route.ts) |
 | POST | `/api/routine-visit` | [app/api/routine-visit/route.ts](../../app/api/routine-visit/route.ts) |
 | GET | `/api/selective-reuse` | [app/api/selective-reuse/route.ts](../../app/api/selective-reuse/route.ts) |

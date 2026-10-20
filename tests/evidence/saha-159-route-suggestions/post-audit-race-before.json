@@ -1,0 +1,15 @@
+{
+  "story": "SAHA-159",
+  "sourceCommit": "47177b1835f66eb64d09e80b85c5d718ca7c626d",
+  "observedAt": "2026-10-20T15:10:00Z",
+  "environment": "actual built local Worker and D1 with synthetic identities and records",
+  "trigger": "An audit_events AFTER INSERT trigger reassigned the selected person when the listPatients access audit was written.",
+  "expected": "The response recomputes current scope and does not disclose the withdrawn record or locality.",
+  "actual": {
+    "httpStatus": 200,
+    "raceDisclosedWork": true,
+    "raceDisclosedSuggestion": true
+  },
+  "status": "failed-before-repair",
+  "retention": "Immutable diagnostic receipt retained; it is not current positive evidence."
+}

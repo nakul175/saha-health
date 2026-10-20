@@ -1,0 +1,17 @@
+{
+  "story": "SAHA-159",
+  "passed": 8,
+  "failed": 0,
+  "checks": [
+    "actual ASHA read returns only assigned local work and disabled provider boundaries",
+    "actual command persists one suggestion without assignment completion or provider side effects",
+    "exact command replay returns the durable result without duplicate mutation or audit",
+    "suggestion remains readable after Worker restart on the same D1 state",
+    "create mutation and access reads are durably audited once",
+    "post-audit assignment withdrawal recomputes current scope and reveals only an unavailable placeholder",
+    "actual current-version reorder succeeds and stale version is refused",
+    "changed membership authority refuses replay of a formerly accepted mutation"
+  ],
+  "completedAt": "2026-10-20T15:04:23.350Z",
+  "scope": "Actual built local Worker and D1: ASHA-only read, command persistence, access and mutation audit, exact replay, restart durability, post-audit assignment withdrawal, stale version and current-authority replay refusal. Synthetic only; independent review, CI, formal domain acceptance, merge and deployment remain separate."
+}
