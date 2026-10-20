@@ -137,7 +137,7 @@ export async function recordAccess(db,s,u,m,a){if(failing)throw new AppError(503
     assert.notEqual(r2.operationId, notStoredOp.id); assert.equal(s.workspace.people[0].ehr.operations.at(-1).state, 'prepared');
     // The exception queue lists it as not stored (normal severity) until that new publication exists.
     const q = exceptionQueue(store.saved, admin), row = q.items.find(x => x.id === 'ehr-publication:' + notStoredOp.id);
-    assert.equal(row.severity, 'normal'); assert.match(row.what, /not stored/); assert.match(row.recovery, /Nothing was resent/); assert.equal(q.rulesVersion, '1.3.0');
+    assert.equal(row.severity, 'normal'); assert.match(row.what, /not stored/); assert.match(row.recovery, /Nothing was resent/); assert.equal(q.rulesVersion, '1.4.0');
     assert.equal(exceptionQueue(s, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), false);
     // Preparation can append within the same millisecond. Only a later appended operation suppresses the resolved row.
     const sameTime = structuredClone(s), operations = sameTime.workspace.people[0].ehr.operations;

@@ -80,7 +80,7 @@ try {
   // Exception queue (rules 1.1.0): undecided requests on current visits waiting 48 hours or more.
   const ex = userId => x.exceptionQueue(s, s.members.find(m => m.userId === userId), now);
   const exSup = ex('sup'), waiting = exSup.items.filter(i => i.kind === 'referral-request-waiting');
-  check(() => { assert.equal(exSup.rulesVersion, '1.3.0'); assert.deepEqual(waiting.map(i => i.id).sort(), ['referral-request-waiting:v1', 'referral-request-waiting:v5']); assert.equal(exSup.counts['referral-request-waiting'], 2); });
+  check(() => { assert.equal(exSup.rulesVersion, '1.4.0'); assert.deepEqual(waiting.map(i => i.id).sort(), ['referral-request-waiting:v1', 'referral-request-waiting:v5']); assert.equal(exSup.counts['referral-request-waiting'], 2); });
   check(() => { const i = waiting.find(i => i.id.endsWith(':v1')); assert.equal(i.severity, 'normal'); assert.equal(i.owner, 'Clinicians of Team One'); assert.match(i.what, /Synthetic CHC not decided$/); assert.equal(i.ageDays, 3); assert.deepEqual(i.link, { personId: 'p1', visitId: 'v1', href: '/?patient=p1&visit=v1' }); assert.match(i.recovery, /creates the referral or declines/); });
   const exSup2 = ex('sup2').items.filter(i => i.kind === 'referral-request-waiting');
   check(() => { assert.deepEqual(exSup2.map(i => i.id).sort(), ['referral-request-waiting:v11', 'referral-request-waiting:v12']); const u = exSup2.find(i => i.id.endsWith(':v12')); assert.equal(u.owner, 'ASHA'); assert.match(u.what, /not confirmed/); assert.match(u.recovery, /confirms it/); });

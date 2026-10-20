@@ -1,23 +1,26 @@
-import { fail } from './core';
+import { z } from 'zod';
+import { fail, uuid } from './core';
 import { allowed, normallyAllowed } from './access';
-import { operator, requireReporting } from './operations';
+import { defaultOperations, operator, requireReporting } from './operations';
 import { activeOwner } from './referrals';
 import { escalation } from './referral-rules';
 import { PACKS } from './programmes';
 import type { Member, OrgState, Person } from './types';
 import { planItemWaiting } from './plan-dependency-state';
+import type { Actor } from './store';
 
 // Slice 6i: item-level operational exception queue (BR-REP-01; item links for NFR-18). Computed on read
 // from the records that hold each problem. Supervisors and owners see rows for patients in their care
 // scope with a link that opens the patient and visit. Operations members (owners, administrators) also see
 // destination-delivery rows for patients outside that scope, without patient details or links.
-export const EXCEPTION_RULES_VERSION='1.3.0';
-export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting'|'operation-refused'|'correction-task';
-export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null;trace:{query:'submission'|'publication';id:string}|null};
+export const EXCEPTION_RULES_VERSION='1.4.0';
+export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'identity-conflict'|'field-grant-expired'|'device-diagnostic'|'abdm-received'|'referral-request-waiting'|'operation-refused'|'correction-task';
+export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null;trace:{query:'submission'|'publication';id:string}|null;assignment:{version:number;assignedTo:string;assignedToName:string;assignedBy:string;assignedAt:string;reason:string}|null;diagnosticActorId?:string};
+export type DeviceDiagnostic={id:string;actorId:string;at:string;code:'storage-quota'|'storage-write'|'crypto-unavailable'|'sync-transport'|'sync-refused'|'purge-write';draftCount:number;pendingCount:number};
 const RANK={critical:0,high:1,normal:2} as const;
 // Destination-delivery problems are operations work: shown, redacted, to operations members for any patient.
 const OPERATIONS_KINDS=new Set<ExceptionKind>(['submission','ehr-publication','operation-refused']);
-export const STALE_RUNNING_MINUTES=10,MAX_ROWS=500;
+export const STALE_RUNNING_MINUTES=10,MAX_ROWS=500,MAX_ASSIGNMENTS=1000;
 // Slice 3i (rules 1.1.0): a field referral request undecided this long is raised here as well as in its own queue.
 export const REQUEST_WAIT_HOURS=48;
 const day=86400000;
@@ -27,6 +30,7 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
  requireReporting(m);if(m.status!=='active')fail(403,'Your membership is inactive.');
  const today=now.slice(0,10),members=new Map(s.members.map(x=>[x.userId,x])),rows:ExceptionRow[]=[];
  const name=(id?:string|null)=>id?members.get(id)?.displayName??'Former member':null;
+ const assigned=(id:string)=>{const a=s.operations?.exceptionAssignments?.[id];return a?{version:a.version,assignedTo:a.assignedTo,assignedToName:name(a.assignedTo)!,assignedBy:a.assignedBy,assignedAt:a.assignedAt,reason:a.reason}:null;};
  // Records indexed by patient once, so the queue grows linearly with the organisation.
  const byPerson=<T extends {personId:string}>(xs:readonly T[])=>{const m=new Map<string,T[]>();for(const x of xs){const l=m.get(x.personId);if(l)l.push(x);else m.set(x.personId,[x]);}return m;};
  const subs=byPerson(s.workspace.submissions),refs=byPerson(s.workspace.referrals),visits=byPerson(s.workspace.visits),safety=byPerson(s.governance?.safety??[]);
@@ -34,9 +38,9 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
  for(const p of s.workspace.people){
   const visible=m.role!=='admin'&&allowed(m,p,now),ops=operator(m);if(!visible&&!ops)continue;
   // Slice 6y: delivery rows name the submission or publication whose trace the viewer may open (GET /api/trace).
-  const add=(r:Omit<ExceptionRow,'patient'|'link'|'ageDays'|'trace'>,visitId:string|null,trace:ExceptionRow['trace']=null)=>{
+  const add=(r:Omit<ExceptionRow,'patient'|'link'|'ageDays'|'trace'|'assignment'>,visitId:string|null,trace:ExceptionRow['trace']=null)=>{
    if(!visible&&!OPERATIONS_KINDS.has(r.kind))return;
-   rows.push({...r,ageDays:Math.max(0,Math.floor((Date.parse(now)-Date.parse(r.since))/day)),patient:visible?{id:p.id,name:p.name}:null,link:visible?{personId:p.id,visitId,href:href(p.id,visitId)}:null,trace});
+   const assignment=assigned(r.id);rows.push({...r,ageDays:Math.max(0,Math.floor((Date.parse(now)-Date.parse(r.since))/day)),owner:assignment?.assignedToName??r.owner,patient:visible?{id:p.id,name:p.name}:null,link:visible?{personId:p.id,visitId,href:href(p.id,visitId)}:null,trace,assignment});
   };
   // Programme submissions whose destination outcome is unknown, retryable or rejected (and not since accepted).
   const mine=subs.get(p.id)??[];
@@ -112,8 +116,64 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
   for(const r of p.abdmReceived??[])if(r.state==='review'||r.state==='quarantined')
    add({id:'abdm-received:'+r.id,kind:'abdm-received',severity:r.state==='quarantined'?'high':'normal',what:r.state==='quarantined'?`Quarantined ABDM record (${r.hiType}): ${r.quarantineReason??'validation or reconciliation required'}`:`Received ABDM record (${r.hiType}) awaiting review`,since:r.receivedAt,owner:`Clinicians of ${team(p)}`,recovery:r.state==='quarantined'?'Resolve the patient, duplicate or document conflict through the configured reconciliation process; local observations remain unchanged.':'A clinician with access accepts or rejects the record on the patient screen.'},null);
  }
+ // Open identity conflicts name two records. They are visible only to a current identity steward with normal
+ // access to both records; owner status and emergency access never widen this scope.
+ for(const c of s.identityCases??[]){if(c.state!=='proposed')continue;const survivor=s.workspace.people.find(p=>p.id===c.survivorId),duplicate=s.workspace.people.find(p=>p.id===c.duplicateId);if(!survivor||!duplicate||!['clinician','supervisor'].includes(m.role)||!normallyAllowed(m,survivor)||!normallyAllowed(m,duplicate))continue;
+  const id='identity-conflict:'+c.id,assignment=assigned(id);rows.push({id,kind:'identity-conflict',severity:'high',what:`Possible duplicate identity: ${duplicate.name} and ${survivor.name} await an independent steward decision`,since:c.proposedAt,ageDays:Math.max(0,Math.floor((Date.parse(now)-Date.parse(c.proposedAt))/day)),owner:assignment?.assignedToName??`Identity stewards of ${team(duplicate)}`,recovery:'A different identity steward compares both records and accepts or rejects the proposal. Records are never merged automatically.',patient:{id:duplicate.id,name:duplicate.name},link:{personId:duplicate.id,visitId:null,href:href(duplicate.id,null)},trace:null,assignment});
+ }
  rows.sort((a,b)=>RANK[a.severity]-RANK[b.severity]||b.ageDays-a.ageDays||a.since.localeCompare(b.since)||a.id.localeCompare(b.id));
  const counts:Record<string,number>={};for(const r of rows)counts[r.kind]=(counts[r.kind]??0)+1;
  return {rulesVersion:EXCEPTION_RULES_VERSION,generatedAt:now,total:rows.length,counts,items:rows.slice(0,MAX_ROWS),truncated:rows.length>MAX_ROWS,
   scope:m.role==='admin'?'Administrators see destination-delivery exceptions without patient details.':operator(m)?'Patients in your care teams, plus destination-delivery exceptions for other patients without patient details.':'Patients in your care teams.'};
+}
+
+// Device reports are retained in their append-only D1 evidence table, outside the organisation JSON. This pure
+// projection lets the route join those fixed-code, count-only reports to the ordinary queue without patient data.
+export function deviceDiagnosticRows(s:OrgState,m:Member,reports:readonly DeviceDiagnostic[],now=new Date().toISOString()):ExceptionRow[]{
+ requireReporting(m);const assignments=s.operations?.exceptionAssignments??{},members=new Map(s.members.map(x=>[x.userId,x])),rows:ExceptionRow[]=[];
+ for(const report of reports){const worker=members.get(report.actorId);if(!worker||worker.status!=='active')continue;const inScope=operator(m)||(m.role==='supervisor'&&worker.teamIds.some(t=>m.teamIds.includes(t)));if(!inScope)continue;
+  const id='device-diagnostic:'+report.id,a=assignments[id],label=report.code.replaceAll('-',' '),serious=['storage-write','crypto-unavailable','purge-write'].includes(report.code);
+  rows.push({id,kind:'device-diagnostic',severity:serious?'high':'normal',what:`Device reported ${label}; ${report.draftCount} draft${report.draftCount===1?'':'s'}, ${report.pendingCount} awaiting a confirmed sync outcome`,since:report.at,ageDays:Math.max(0,Math.floor((Date.parse(now)-Date.parse(report.at))/day)),owner:a?members.get(a.assignedTo)?.displayName??'Former member':`${worker.displayName}'s supervisors`,recovery:'Contact the worker, preserve the encrypted notebook and exact receipt key, then retry only the documented same-key recovery after connectivity, storage and access are verified.',patient:null,link:null,trace:null,diagnosticActorId:worker.userId,assignment:a?{version:a.version,assignedTo:a.assignedTo,assignedToName:members.get(a.assignedTo)?.displayName??'Former member',assignedBy:a.assignedBy,assignedAt:a.assignedAt,reason:a.reason}:null});
+ }
+ return rows.sort((a,b)=>RANK[a.severity]-RANK[b.severity]||b.ageDays-a.ageDays||a.since.localeCompare(b.since)||a.id.localeCompare(b.id));
+}
+export function withDeviceDiagnostics<T extends ReturnType<typeof exceptionQueue>>(base:T,diagnostics:ExceptionRow[]){
+ const items=[...base.items,...diagnostics].sort((a,b)=>RANK[a.severity]-RANK[b.severity]||b.ageDays-a.ageDays||a.since.localeCompare(b.since)||a.id.localeCompare(b.id)),counts={...base.counts};if(diagnostics.length)counts['device-diagnostic']=(counts['device-diagnostic']??0)+diagnostics.length;
+ return {...base,total:base.total+diagnostics.length,counts,items:items.slice(0,MAX_ROWS),truncated:base.truncated||items.length>MAX_ROWS};
+}
+
+const id=z.string().trim().min(1).max(240),reason=z.string().trim().min(10,'Explain the assignment in at least 10 characters.').max(500);
+export const exceptionAssignmentSchema=z.discriminatedUnion('type',[
+ z.object({type:z.literal('assignException'),itemId:id,itemSince:z.string().datetime({offset:true}),rulesVersion:z.literal(EXCEPTION_RULES_VERSION),expectedAssignmentVersion:z.number().int().min(0),assigneeId:id,reason}).strict(),
+]);
+const deliveryKind=(kind:ExceptionKind)=>OPERATIONS_KINDS.has(kind);
+const deliveryKindFromId=(id:string)=>id.startsWith('submission:')||id.startsWith('ehr-publication:')||id.startsWith('operation-refused:');
+export function authorizeExceptionAssignment(s:OrgState,m:Member,c:{type?:string;itemId?:string},receiptPersonId?:string|null){
+ if(c?.type!=='assignException')return;const itemId=c.itemId;if(!itemId)fail(422,'The exception identifier is required.');requireReporting(m);if(deliveryKindFromId(itemId)){if(!operator(m))fail(403,'Operations access is required to assign a destination exception.');return;}
+ // Fresh commands are checked against the exact current queue in applyExceptionAssignment. Receipt replays also
+ // re-check the retained patient scope, even if the exception has since resolved and is no longer in the queue.
+ if(!receiptPersonId)return;const p=s.workspace.people.find(x=>x.id===receiptPersonId);if(!p)fail(403,'This exception is outside your current scope.');
+ if(itemId.startsWith('identity-conflict:')){const cse=(s.identityCases??[]).find(x=>'identity-conflict:'+x.id===itemId),other=cse?s.workspace.people.find(x=>x.id===(cse.survivorId===p.id?cse.duplicateId:cse.survivorId)):null;if(!cse||!other||!['clinician','supervisor'].includes(m.role)||!normallyAllowed(m,p)||!normallyAllowed(m,other))fail(403,'This identity exception is outside your current scope.');}
+ else if(!allowed(m,p))fail(403,'This exception is outside your current scope.');
+}
+export function applyExceptionAssignment(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString(),additionalRows:readonly ExceptionRow[]=[]):{ok:true;itemId:string;assignmentVersion:number;assigneeId:string;assigneeName:string}|null{
+ const parsed=exceptionAssignmentSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeExceptionAssignment(s,m,c);
+ const row=[...exceptionQueue(s,m,now).items,...additionalRows].find(x=>x.id===c.itemId);if(!row)fail(409,'This exception is resolved or outside your current scope. Refresh the queue.');
+ if(row.since!==c.itemSince)fail(409,'This exception changed. Refresh the queue before assigning it.');
+ const ops=s.operations??=defaultOperations(),assignments=ops.exceptionAssignments??={},prior=assignments[c.itemId];if((prior?.version??0)!==c.expectedAssignmentVersion)fail(409,'This exception assignment changed. Refresh the queue.');
+ if(!prior&&Object.keys(assignments).length>=MAX_ASSIGNMENTS)fail(422,'Exception assignment history is full; archive policy review is required.');
+ const target=s.members.find(x=>x.userId===c.assigneeId&&x.status==='active');if(!target)fail(422,'Choose an active member.');
+ if(deliveryKind(row.kind)){if(!operator(target))fail(422,'Choose an active operations member for a destination exception.');}
+ else if(row.kind==='device-diagnostic'){const worker=s.members.find(x=>x.userId===row.diagnosticActorId);if(!worker||(!operator(target)&&(target.role!=='supervisor'||!target.teamIds.some(t=>worker.teamIds.includes(t)))))fail(422,'Choose an operations member or a supervisor responsible for this worker.');}
+ else{
+  if(!row.patient)fail(409,'This patient-scoped exception is unavailable. Refresh the queue.');const p=s.workspace.people.find(x=>x.id===row.patient!.id);if(!p||!normallyAllowed(target,p))fail(422,'Choose a member whose current responsibilities cover this patient.');
+  if(row.kind==='identity-conflict'){const cse=(s.identityCases??[]).find(x=>'identity-conflict:'+x.id===row.id),other=cse?s.workspace.people.find(x=>x.id===(cse.survivorId===p.id?cse.duplicateId:cse.survivorId)):null;if(!cse||!other||!['clinician','supervisor'].includes(target.role)||!normallyAllowed(target,other))fail(422,'Choose an identity steward with current access to both records.');}
+  else if(['safety-case','protocol-review','identity-provisional','abdm-received','referral-request-waiting'].includes(row.kind)&&!['clinician','supervisor'].includes(target.role))fail(422,'Choose a clinician or supervisor for this review.');
+  else if(row.kind==='emergency-access-unreviewed'&&target.role!=='supervisor')fail(422,'Choose a supervisor for this access review.');
+  else if(!['asha','clinician','supervisor'].includes(target.role))fail(422,'Choose an active care worker or supervisor.');
+ }
+ const version=(prior?.version??0)+1,history=[...(prior?.history??[]),...(prior?[{version:prior.version,assignedTo:prior.assignedTo,assignedBy:prior.assignedBy,assignedAt:prior.assignedAt,reason:prior.reason}]:[])].slice(-20);
+ assignments[c.itemId]={version,itemId:c.itemId,itemSince:row.since,assignedTo:target.userId,assignedBy:u.userId,assignedAt:now,reason:c.reason,history};ops.exceptionAssignments=assignments;ops.version++;ops.updatedAt=now;
+ s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'assignException',subject:c.itemId,personId:row.patient?.id??null,detail:`Exception ${c.itemId} assigned to ${target.displayName} at assignment version ${version}. Recovery action unchanged. Reason: ${c.reason}`});
+ return {ok:true,itemId:c.itemId,assignmentVersion:version,assigneeId:target.userId,assigneeName:target.displayName};
 }

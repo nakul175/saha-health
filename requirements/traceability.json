@@ -3584,10 +3584,10 @@
       "requirement": "Supervisors shall see overdue work, identity conflicts, rejected submissions, unresolved clinical reviews and synchronisation problems within their scope. Queues shall identify owner, age and recovery action.",
       "acceptance": "Acceptance: Each seeded failure is discoverable and assignable without searching individual worker transcripts.",
       "sourceTextLine": 499,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R15",
-      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events. A06 adds trusted care-worker fixed-code device failure reports with strict bounded counts, stable metadata operations and chained audit; raw errors and patient content are refused.",
-      "remaining": "Assignment from the queue itself, scoped device-diagnostic discovery/assignment and recovery queue; reporting while offline/without a trusted notebook organisation, notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.",
+      "current": "Operational backlog counts plus the established item queue, trace, alert and redacted device-report foundations. SAHA-107 local completion adds explicit scoped identity-conflict and append-only fixed-code device-diagnostic rows; versioned assignment from every visible row with current viewer/assignee scope, stale-row and race refusal, bounded history and audit; a metadata-only stable device diagnostic outbox for offline or not-yet-attributed failures that drains after trusted reconnect; and opaque one-occurrence-per-item demonstration notification planning. Assignment never executes recovery, retries delivery, merges identities or changes clinical records. Focused synthetic contract, device, notification, TypeScript and production-build evidence is recorded in docs/current/SAHA-107-OPERATIONAL-EXCEPTION-QUEUES.md.",
+      "remaining": "Formal TC-BR-REP-01-A/B execution with the controlled FX-REP-01/NEG fixtures, independent review, exact-source CI, physical-device failure/loss validation, approved live notification-provider acceptance, merge and observed deployment remain pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3623,7 +3623,18 @@
         "docs/current/SCOPE-FOLLOWUP-INDEPENDENT-REVIEW.md",
         "tests/evidence/device-work-fail-closed",
         "tests/evidence/device-privacy-fixed-independent-review",
-        "tests/evidence/scope-followup-independent-review"
+        "tests/evidence/scope-followup-independent-review",
+        "app/exceptions-panel.tsx",
+        "app/operations-panel.tsx",
+        "lib/saha/exception-diagnostics.ts",
+        "lib/saha/exceptions-server.ts",
+        "lib/saha/notification-sources.ts",
+        "lib/saha/platform.ts",
+        "lib/saha/server.ts",
+        "tests/exception-assignment-contract.mjs",
+        "tests/exception-assignment-contract-result.json",
+        "tests/notification-sources-contract.mjs",
+        "docs/current/SAHA-107-OPERATIONAL-EXCEPTION-QUEUES.md"
       ],
       "automatedAcceptanceClaim": false
     },
