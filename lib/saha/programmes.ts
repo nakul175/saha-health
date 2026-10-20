@@ -1,6 +1,10 @@
-import {transitionEffectVerified,transitionReplacementVerified} from './installed-transition-authority';
 import type {PackCondition,CompletionContract} from './programme-completion';
 import type { Facts, Programme, Visit } from './types';
+const transitionVerifiedState=new WeakMap<object,Set<string>>();
+const transitionEffectsState=new WeakMap<object,Map<string,any[]>>();
+export function registerTransitionAuthority(s:object,verified:Set<string>,effects:Map<string,any[]>){transitionVerifiedState.set(s,verified);transitionEffectsState.set(s,effects);}
+export function transitionEffectVerified(s:object,t:any,marker:any,taskId:string){return transitionVerifiedState.get(s)?.has(JSON.stringify(t))===true&&transitionEffectsState.get(s)?.get(t.id)?.some(e=>e.personId===marker.personId&&e.teamId===marker.teamId&&e.originalId===taskId&&e.replacementId===marker.replacementId&&e.originalHash===marker.originalHash&&e.eventId===marker.eventId)===true;}
+export function transitionReplacementVerified(s:any,task:any,personId:string){const o=task.transitionOrigin;if(!o)return false;const t=(s.operations?.installedTransitions??[]).find((x:any)=>x.id===o.transitionId);return !!t&&transitionVerifiedState.get(s)?.has(JSON.stringify(t))===true&&o.personId===personId&&o.teamId===t.teamId&&o.declarationHash===t.hash&&o.installationId===t.toId&&o.manifestHash===t.toHash&&transitionEffectsState.get(s)?.get(t.id)?.some(e=>e.personId===personId&&e.replacementId===task.id&&e.originalId===o.originalId&&e.originalHash===o.originalHash&&e.eventId===o.eventId&&e.sourceOccurrenceId===o.sourceOccurrenceId)===true;}
 // Slice 4f: pack ids are slugs. The three compiled packs keep their ids; an owner may install further packs (and
 // further versions of these) at runtime through the governed installation path in pack-installation.ts.
 export type PackId=string;
@@ -58,7 +62,7 @@ export function adoptedVersion(s:Installs,id:PackId){const v=s.operations?.packV
 // Prepared work permits documentary capture only; no offline clinical decision or task closure.
 export function offlineWorkFor(c?:ProgrammeCapture){
  const packs=c?.packs??[];if(packs.length>20||packs.some(x=>x.pack.questions.length>25))throw new Error('Prepared programme work exceeds the bounded notebook contract.');
- return {schema:1 as const,tasks:packs.length?['visit-facts','programme-answers']:['visit-facts'],clinicalApproval:'pending' as const,packs:packs.map(x=>({enrolmentId:x.enrolmentId,pack:structuredClone(x.pack)}))};
+ return {schema:1 as const,tasks:packs.length?['visit-facts','programme-answers']:['visit-facts'],clinicalApproval:'pending' as const,remoteCapabilities:[{id:'cloud-ai',label:'Cloud AI assistance',status:'unavailable-offline' as const},{id:'current-server-information',label:'Current server information',status:'pending-online' as const}],packs:packs.map(x=>({enrolmentId:x.enrolmentId,pack:structuredClone(x.pack)}))};
 }
 
 export function conditionMet(v:Visit,c?:PackCondition){if(!c)return true;const q=questions(v.programmeCapture).find(q=>q.id===c.questionId);if(!q)return false;const value=String(q.fact?v.facts[q.fact]:own(v.programmeCapture?.answers,q.id)??'').trim();if(c.operator==='missing')return !value;if(!value)return false;if(c.operator==='eq')return value===c.value;return /^-?\d+(\.\d+)?$/.test(value)&&Number.isFinite(Number(value))&&(c.operator==='gte'?Number(value)>=Number(c.value):Number(value)<=Number(c.value));}

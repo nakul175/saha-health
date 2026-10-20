@@ -34,7 +34,9 @@ try{
  await test('connection suspended',d=>d.state.workspace.integrations[0].status='suspended',403);
  await test('revoked while audit commits',d=>d.revokeDuringAudit=true,403);
  await test('audit storage failure',d=>d.auditFailure=true,503);
- await test('legacy default unchanged',(d,s)=>{delete s.operations.serviceBindings;delete d.state.operations.serviceBindings;d.state.operations.serviceIdentities=[]});
+ await test('legacy default still revalidated',(d,s)=>{delete s.operations.serviceBindings;delete d.state.operations.serviceBindings;d.state.operations.serviceIdentities=[]});
+ await test('legacy unbound initiating human revoked during audit',(d,s)=>{delete s.operations.serviceBindings;delete d.state.operations.serviceBindings;d.state.operations.serviceIdentities=[];d.afterAudit=state=>{state.members[0].status='suspended'}},403);
+ await test('legacy unbound patient assignment revoked during audit',(d,s)=>{delete s.operations.serviceBindings;delete d.state.operations.serviceBindings;d.state.operations.serviceIdentities=[];d.afterAudit=state=>{state.workspace.people[0].teamId='other'}},403);
  await test('binding added after unbound preparation',(d,s)=>{delete s.operations.serviceBindings},403);
  const s=fixture(),db={state:s,audit:[]};await serviceDispatch(db,s,actor,human,'mis','p');assert.match(db.audit[0].detail,/initiating human human; service si; target mis; accountable owner human/);assert.equal(db.audit[0].personId,'p');passed++;
  applyServiceIdentity(s,{type:'serviceIdentityBind',version:0,targetId:'mis',serviceIdentityId:'si'},actor,human);assert.equal(s.operations.serviceBindings.mis,'si');passed++;
@@ -60,7 +62,7 @@ try{
  db.state.operations.serviceIdentities[0].status='revoked';for(let n=0;n<2;n++)await assert.rejects(()=>serviceDispatch(db,s,actor,human,'mis','p'),e=>e.status===403);passed++;
  for(const bound of [true,false])for(const intent of ['send','lookup','probe']){
   const prepared=fixture();if(!bound)prepared.operations.serviceBindings={};const data={state:structuredClone(prepared),audit:[]};let validations=0;
-  await serviceDispatch(data,prepared,actor,human,'mis','p',{intent,purpose:'programme-delivery',authorize:()=>validations++});assert.equal(validations,bound?2:1);passed++;
+  await serviceDispatch(data,prepared,actor,human,'mis','p',{intent,purpose:'programme-delivery',authorize:()=>validations++});assert.equal(validations,2);passed++;
   data.state.operations.maintenance=true;
   if(intent==='lookup')await serviceDispatch(data,prepared,actor,human,'mis','p',{intent,purpose:'programme-delivery'});else await assert.rejects(()=>serviceDispatch(data,prepared,actor,human,'mis','p',{intent,purpose:'programme-delivery'}),e=>e.status===423);passed++;
  }

@@ -892,11 +892,11 @@ Versioned service metadata, contacts, constraints, verification and expiry gate 
 
 **Expected result** (catalogue): Completion requires a defined evidence source and actor; unsupported closure attempts are rejected.
 
-**Known gaps** (assessment, remaining work for BR-CARE-03): Facility-verified outcomes and external outcome evidence.
+**Known gaps** (assessment, remaining work for BR-CARE-03): Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.
 
 <details><summary>What the build does today (assessment, current state of BR-CARE-03)</summary>
 
-Dated referral events with evidence. Slice 4a adds accepted, scheduled (with appointment time), attended, did-not-attend, declined, cancelled and unknown states under an explicit transition table; closed states are immutable.
+Dated referral events with evidence. SAHA-101 locally distinguishes proposed, authorised, sent, received, scheduled, attended and completed states; completion requires prior attendance, a coded service outcome, evidence source/reference and the recording actor. Declined, cancelled, not-attended and unknown dispositions remain distinct; closed states are immutable.
 
 </details>
 

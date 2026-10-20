@@ -29,7 +29,7 @@ class D1 {
 }
 
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'read-audit', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'read-audit', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const load = async f => import(pathToFileURL(join(dir, f + '.js')));
   const store = await load('store'), chain = await load('audit-chain'), access = await load('access-audit'), ra = await load('read-audit'), types = await load('types');
@@ -199,7 +199,7 @@ try {
 
   // 12. The client opens a record only after the server has recorded the open (blocking, online) and says so when it cannot.
   const ws = src('app/workspace.tsx');
-  check(() => { assert.match(ws, /const markOpened=async\(pid:string,source:string\):Promise<boolean>/); assert.match(ws, /const openPerson=async\(p:Person,source='other'\)=>\{if\(!await markOpened\(p\.id,source\)\)return;setSelected\(p\.id\)/); assert.match(ws, /if\(known&&!await markOpened\(pid,'link'\)\)return;/); assert.match(ws, /not in the organisation audit log/); });
+  check(() => { assert.match(ws, /const markOpened=async\(pid:string,source:string\):Promise<boolean>/); assert.match(ws, /const openPersonNow=async\(p:Person,source='other'\)=>\{if\(!await markOpened\(p\.id,source\)\)return;setSelected\(p\.id\)/); assert.match(ws, /if\(known&&!await markOpened\(pid,'link'\)\)return;/); assert.match(ws, /not in the organisation audit log/); });
 
   v = await chain.verifyChain(d1, A);
   check(() => { assert.equal(v.status, 'intact'); assert.equal(v.firstBreak, null); });

@@ -15,6 +15,8 @@ GET,/api/assistance-control,app/api/assistance-control/route.ts
 POST,/api/assistance-control,app/api/assistance-control/route.ts
 GET,/api/audit/chain,app/api/audit/chain/route.ts
 GET,/api/audit,app/api/audit/route.ts
+GET,/api/authentication-recovery,app/api/authentication-recovery/route.ts
+POST,/api/authentication-recovery,app/api/authentication-recovery/route.ts
 GET,/api/availability,app/api/availability/route.ts
 POST,/api/availability,app/api/availability/route.ts
 GET,/api/capability-registration,app/api/capability-registration/route.ts
@@ -70,6 +72,8 @@ GET,/api/institution-roster-review,app/api/institution-roster-review/route.ts
 POST,/api/institution-roster-review,app/api/institution-roster-review/route.ts
 GET,/api/interface-language,app/api/interface-language/route.ts
 POST,/api/interface-language,app/api/interface-language/route.ts
+GET,/api/local-registration,app/api/local-registration/route.ts
+POST,/api/local-registration,app/api/local-registration/route.ts
 POST,/api/media/[id]/review,app/api/media/[id]/review/route.ts
 GET,/api/media/[id],app/api/media/[id]/route.ts
 DELETE,/api/media/[id],app/api/media/[id]/route.ts
@@ -109,12 +113,15 @@ POST,/api/reminder-optout,app/api/reminder-optout/route.ts
 GET,/api/reporting-completeness,app/api/reporting-completeness/route.ts
 POST,/api/reporting-completeness,app/api/reporting-completeness/route.ts
 GET,/api/retention,app/api/retention/route.ts
+GET,/api/reuse-measurements,app/api/reuse-measurements/route.ts
+POST,/api/reuse-measurements,app/api/reuse-measurements/route.ts
 GET,/api/rights,app/api/rights/route.ts
 POST,/api/roster,app/api/roster/route.ts
 GET,/api/routine-visit,app/api/routine-visit/route.ts
 POST,/api/routine-visit,app/api/routine-visit/route.ts
 GET,/api/selective-reuse,app/api/selective-reuse/route.ts
 GET,/api/service-authority-review,app/api/service-authority-review/route.ts
+GET,/api/shared-question-review,app/api/shared-question-review/route.ts
 GET,/api/today,app/api/today/route.ts
 GET,/api/trace,app/api/trace/route.ts
 GET,/api/value-range-protocols,app/api/value-range-protocols/route.ts

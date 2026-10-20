@@ -32,10 +32,11 @@ class D1 {
 }
 
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'delta', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'patient-directory', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types', 'worklist-views', 'worklists'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'delta', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'patient-directory', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types', 'worklist-views', 'worklists'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const wl = await import(pathToFileURL(join(dir, 'worklists.js')));
   const views = await import(pathToFileURL(join(dir, 'worklist-views.js')));
+  const types = await import(pathToFileURL(join(dir, 'types.js')));
   const store = await import(pathToFileURL(join(dir, 'store.js')));
   const pd = await import(pathToFileURL(join(dir, 'patient-directory.js')));
   const { TERMINAL } = await import(pathToFileURL(join(dir, 'referral-rules.js')));
@@ -119,7 +120,8 @@ try {
   check(() => assert.deepEqual([seen.admin.work.first.total, seen.admin.subs.first.all, seen.admin.refs.first.total, seen.admin.followups.first.tasks], [0, 0, 0, 0]));
   await statusAsync(() => wl.worklistData(d1, 'org1', members.find(m => m.userId === 'gone'), 'work', now), 403);
   // Rows carry summary fields only and never another patient's name; merged records are flagged.
-  check(() => assert.deepEqual(Object.keys(seen.supAll.work.rows[0]).sort(), ['age', 'due', 'id', 'merged', 'name', 'programmes', 'sex', 'status', 'task', 'village']));
+  check(() => assert.deepEqual(Object.keys(seen.supAll.work.rows[0]).sort(), ['age', 'due', 'hasDraft', 'id', 'merged', 'name', 'programmes', 'sex', 'status', 'task', 'village']));
+  check(() => assert.ok(seen.supAll.work.rows.every(r => r.hasDraft === visits.some(v => v.personId === r.id && v.state === 'draft' && !v.voidedAt && !v.supersededBy && !v.imported)), 'the paged task entry identifies resumable drafts without returning draft ids'));
   check(() => assert.ok(seen.supAll.work.rows.find(r => r.id === 'p04').merged));
   check(() => assert.ok(seen.supAll.subs.rows.every(r => r.personName === people.find(p => p.id === r.personId).name && !('delivery' in r) && !('payloadHash' in r))));
   check(() => assert.ok(seen.supAll.refs.rows.every(r => !('events' in r) && !('sources' in r))));
@@ -127,6 +129,14 @@ try {
   check(() => assert.ok(seen.supAll.u.subs.length === 32 && new Set(seen.supAll.u.subs).size === 32 && seen.supAll.u.attention.length > 0 && seen.supAll.u.attention.length < 32));
   check(() => assert.ok(seen.supAll.refs.rows.some(r => TERMINAL.has(r.state)) && seen.supAll.refs.rows.some(r => !r.due)));
   check(() => assert.ok(seen.supAll.followups.rows.length > 1 && seen.supAll.followups.first.tasks > seen.supAll.followups.rows.length));
+
+  // Task entry resumes the active durable draft before any newer confirmed record; imported history is never entered.
+  check(() => assert.equal(types.latestOwnVisitId([
+    { id: 'draft', personId: 'p', state: 'draft' },
+    { id: 'confirmed-newer', personId: 'p', state: 'confirmed' },
+    { id: 'imported-newest', personId: 'p', state: 'confirmed', imported: { batchId: 'b' } },
+  ], 'p'), 'draft'));
+  check(() => assert.equal(types.latestOwnVisitId([{ id: 'voided-draft', personId: 'p', state: 'draft', voidedAt: now }, { id: 'confirmed', personId: 'p', state: 'confirmed' }], 'p'), 'confirmed'));
 
   // 2. The shared functions keep the pre-0b-4 browser order over the snapshot (id-ordered) arrays.
   {
@@ -178,6 +188,8 @@ try {
   // only opened records; the work-list address carries no free text.
   const workspace = readFileSync('app/workspace.tsx', 'utf8'), programmes = readFileSync('app/programmes.tsx', 'utf8'), referral = readFileSync('app/referral-panel.tsx', 'utf8'), panel = readFileSync('app/worklist-panel.tsx', 'utf8');
   check(() => assert.ok(/\.sort\(visitCompare\)/.test(workspace) && /workStats\(data\.people,data\.visits,data\.submissions\)/.test(workspace) && /submissionList\(/.test(workspace)));
+  check(() => assert.ok(/activeDraftFor\(data\.visits,p\.id\)/.test(workspace) && /work\.noAssigned/.test(workspace), 'unpaged task entry identifies a saved draft and distinguishes a true empty assignment from a filtered list'));
+  check(() => assert.ok(/p\.hasDraft/.test(panel) && /work\.resumeDraft/.test(panel), 'paged task entry identifies a resumable saved draft'));
   check(() => assert.ok(/followUpGroups\(data\.people\)/.test(programmes) && /referralList\(/.test(referral)));
   check(() => assert.ok(!/lists only the records opened/.test(workspace) && /PagedVisitList/.test(workspace) && /PagedReceipts/.test(workspace) && /PagedReferrals/.test(workspace) && /PagedFollowUps/.test(workspace)));
   check(() => assert.ok(/\/api\/worklists\?view=\$\{view\}/.test(panel) && !/[?&](q|search|name|personId)=/.test(panel)));

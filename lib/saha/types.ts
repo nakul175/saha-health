@@ -22,12 +22,13 @@ import type { CareContext, ReceivedRecord, Transfer } from './abdm-transfer';
 import type { MediaRef } from './media';
 import type { EhrConfig, EhrState } from './ehr';
 import type { MisConfig, Delivery } from './mis';
-import type { AdapterOperations, Refusal } from './adapter-operations';
+import type { AdapterOperations, ConnectorPermissions, Refusal } from './adapter-operations';
 import type { AgentRun, AgentProvider } from './agent';
 import type { AgentReleaseControl } from './agent-release-control';
 import type { Enrolment, FollowUp, ProgrammeCapture } from './programmes';
 import type { FieldRegistration, ReferralRequest } from './field-registration';
 import type { PackRequest, ReferralNeed } from './referral-needs';
+import type { ModelQualityPlan } from './model-quality';
 // Slice 5b: 'provider' exists only in provider sandbox organisations (lib/saha/provider-sandbox.ts).
 export type Role = 'asha' | 'clinician' | 'supervisor' | 'admin' | 'provider';
 export type Programme = 'Maternal care' | 'Chronic care' | 'TB screening' | 'Child health' | 'General care';
@@ -115,9 +116,12 @@ export type AIResult = {id:string; providerId:string; providerName:string; mode:
  outputSnapshot?:{hash:string;original:string};
  review?:{state:'unreviewed'|'reviewed';by?:string;at?:string};
 };
-export type Integration = {operations?:AdapterOperations;abdm?:AbdmConfig;ehr?:EhrConfig;mis?:MisConfig;agentContract?:{version:1;model:string};id:string;name:string;kind:'ai'|'mis'|'ehr'|'abdm';mode:'demo'|'http'|'unconfigured';status:'active'|'suspended'|'unconfigured';version:number;description:string;programmes:Programme[];endpoint?:string;credentialBinding?:string;capability?:'summary'|'completeness'|'generic';behavior?:'accept'|'uncertain'|'reject';};
-export type Submission = {block?:SendBlockRecord;refusal?:Refusal;trace?:TraceStep[];signOff?:{id:string;by:string;byName:string;at:string};delivery?:Delivery;id:string;visitId:string;personId:string;connectorId:string;connectorName:string;state:'accepted'|'uncertain'|'rejected'|'cancelled'|'queued'|'sending'|'retryable';mode:'demo'|'http';payloadHash:string;receipt?:string;attempts:number;message:string;createdAt:string;updatedAt:string;};
-export type Referral = {need?:ReferralNeed;packRequests?:PackRequest[];sources?:ReferralSource[];urgency?:Urgency;appointmentAt?:string;delays?:{id:string;at:string;by:string;from:string;to:string;constraint:string;reason:string}[];directory?:{entryId:string;manifestHash:string;revision:number;contactRoute:string;location:string;verifiedOn:string;reviewBy:string};version?:number;ownerId?:string;due?:string;events?:{id:string;state:string;note:string;source:string;evidenceReference:string;occurredAt:string;recordedAt:string;actorId:string}[];id:string;personId:string;visitId:string;facility:string;reason:string;state:ReferralState;createdAt:string;};
+export type ConnectorCapabilityProfile={version:number;environment:'test'|'production';systemOwner:string;receivingOwner:string;supportContact:string;identityMethod:string;dataContract:string;authorisation:string;resources:string[];searchKeys:string[];operations:('create'|'update'|'delete'|'lookup'|'aggregate'|'acknowledge')[];terminology:string;connectorVersion:string;latencyLimitMs:number;idempotency:string;receiptSemantics:string;amendmentSemantics:string;deletionRestrictions:string;operationalLimits:string;testedAt:string|null;testEvidence:string|null;receivingOwnerAcceptedAt:string|null;receivingOwnerAcceptedBy:string|null;productionAccessEnabled:boolean;readiness:'unverified'|'test-only'|'live';history:{version:number;readiness:'unverified'|'test-only'|'live';at:string;by:string;reason:string}[]};
+export type ConformanceEvidence={syntactic?:{passedAt:string;evidence:string};sandbox?:{passedAt:string;evidence:string};securityReview?:{approvedAt:string;evidence:string};partnerCertification?:{certifiedAt:string;evidence:string};productionOnboarding?:{completedAt:string;evidence:string};credentials?:{binding:string;recordedAt:string};ownerApproval?:{ownerId:string;approvedAt:string;evidence:string};endToEndTransaction?:{completedAt:string;receipt:string};supportResponsibility?:{owner:string;recordedAt:string};liveAcceptance?:{acceptedAt:string;evidence:string};};
+export type Integration = {conformance?:ConformanceEvidence;connectorPermissions?:ConnectorPermissions;profile?:ConnectorCapabilityProfile;operations?:AdapterOperations;abdm?:AbdmConfig;ehr?:EhrConfig;mis?:MisConfig;agentContract?:{version:1;model:string};id:string;name:string;kind:'ai'|'mis'|'ehr'|'abdm';mode:'demo'|'http'|'unconfigured';status:'active'|'suspended'|'unconfigured';version:number;description:string;programmes:Programme[];endpoint?:string;credentialBinding?:string;capability?:'summary'|'completeness'|'generic';behavior?:'accept'|'uncertain'|'reject';};
+export type SubmissionAttempt={attempt:number;at:string;destination:{id:string;name:string;connectorVersion:number|null};submittedVersion:number;payloadHash:string;initiatingAuthority:{actorId:string;role:Role};status:'sending'|'accepted'|'rejected'|'uncertain';receipt?:string;error?:string};
+export type Submission = {submittedVersion?:number;initiatingAuthority?:{actorId:string;role:Role;at:string};attemptLog?:SubmissionAttempt[];destinationOutcome?:{status:'accepted'|'rejected'|'uncertain';at:string;receipt?:string;error?:string};block?:SendBlockRecord;refusal?:Refusal;trace?:TraceStep[];signOff?:{id:string;by:string;byName:string;at:string};delivery?:Delivery;id:string;visitId:string;personId:string;connectorId:string;connectorName:string;state:'accepted'|'uncertain'|'rejected'|'cancelled'|'queued'|'sending'|'retryable';mode:'demo'|'http';payloadHash:string;receipt?:string;attempts:number;message:string;createdAt:string;updatedAt:string;};
+export type Referral = {need?:ReferralNeed;packRequests?:PackRequest[];sources?:ReferralSource[];urgency?:Urgency;appointmentAt?:string;delays?:{id:string;at:string;by:string;from:string;to:string;constraint:string;reason:string}[];directory?:{entryId:string;manifestHash:string;revision:number;contactRoute:string;location:string;verifiedOn:string;reviewBy:string};version?:number;ownerId?:string;due?:string;events?:{id:string;state:string;note:string;source:string;evidenceReference:string;outcomeCode?:string;occurredAt:string;recordedAt:string;actorId:string}[];id:string;personId:string;visitId:string;facility:string;reason:string;state:ReferralState;createdAt:string;};
 // Slice 6t: audit actions that record a material read or an external request (see lib/saha/access-audit.ts).
 export const ACCESS_ACTION_NAMES:readonly string[] = ['viewPatientRecord','viewActionPlan','viewRecordHistory','viewMedia','viewExternalRecords','downloadFhir','externalRequest','indicatorExport','abhaLinkReview','importRejectionsExport','viewWorkspace','openRecord','searchPatients','listPatients','viewAggregate','identifierSearch','identifierSearchMiss','identifierConflictReview','incentiveExport','viewHousehold'];
 // Slice 6y: the correlation reference stamped on each external-execution step from now on: the command that
@@ -132,7 +136,7 @@ export type Member = {userId:string;displayName:string;accountCode:string;role:R
 export type Team = {id:string;name:string;createdAt:string};
 export type Invitation = {id:string;accountCode:string;label:string;role:Role;teamIds:string[];status:'pending'|'accepted'|'revoked';expiresAt:string;createdBy:string;createdAt:string;tokenHash?:string;acceptedBy?:string};
 export type Organisation = {id:string;name:string;revision:number;createdAt:string;patientRevision?:number};
-export type OrgState = {agentReleases?:AgentReleaseControl;governance?:Governance;outreach?:Outreach;expansions?:Expansion[];pilot?:Pilot;operations?:Operations;organisation:Organisation;members:Member[];teams:Team[];invitations:Invitation[];workspace:Workspace;
+export type OrgState = {agentReleases?:AgentReleaseControl;modelQualityPlans?:ModelQualityPlan[];governance?:Governance;outreach?:Outreach;expansions?:Expansion[];pilot?:Pilot;operations?:Operations;organisation:Organisation;members:Member[];teams:Team[];invitations:Invitation[];workspace:Workspace;
  // Slice 0a: per-patient concurrency counters as loaded, and the patient ids loaded when the
  // state is a patient partition rather than the whole organisation.
  patientRevs?:Record<string,number>;partition?:string[];
@@ -162,4 +166,8 @@ export const emptyFacts=():Facts=>({date:new Date().toISOString().slice(0,16),sy
 
 // Slice 10i: imported visits are read-only history (lib/saha/imported-visits.ts). A record opens on its latest visit recorded in Saha, never an imported one.
 export const isImported=(v:{imported?:unknown}|undefined|null)=>!!v?.imported;
-export const latestOwnVisitId=(visits:Pick<Visit,'id'|'personId'|'imported'>[],personId:string)=>visits.filter(v=>v.personId===personId&&!v.imported).at(-1)?.id??null;
+type VisitEntry = Pick<Visit,'id'|'personId'|'state'|'imported'|'voidedAt'|'supersededBy'>;
+export const activeDraftFor=(visits:VisitEntry[],personId:string)=>visits.find(v=>v.personId===personId&&!v.imported&&v.state==='draft'&&!v.voidedAt&&!v.supersededBy)??null;
+// Entering a task must resume its durable draft even if a newer confirmed/imported record is also present.
+// This mirrors core.startVisit, which reuses the active draft instead of silently creating a duplicate.
+export const latestOwnVisitId=(visits:VisitEntry[],personId:string)=>activeDraftFor(visits,personId)?.id??visits.filter(v=>v.personId===personId&&!v.imported).at(-1)?.id??null;

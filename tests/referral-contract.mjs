@@ -1,7 +1,7 @@
 // Slice 4a referral contract: lifecycle table, escalation rules, reasoned delays and the queue.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -11,12 +11,14 @@ const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
   for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'installed-transition-authority', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const f of readdirSync('lib/saha').filter(f=>f.endsWith('.ts')).map(f=>f.slice(0,-3)))
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const R = await import(pathToFileURL(join(dir, 'referral-rules.js')));
   const x = await import(pathToFileURL(join(dir, 'referrals.js')));
+  const F = await import(pathToFileURL(join(dir, 'field.js')));
   const now = '2026-09-30T06:00:00.000Z', daysAgo = n => new Date(Date.parse(now) - n * 86400000).toISOString(), date = n => daysAgo(n).slice(0, 10);
   check(() => { for (const t of R.TERMINAL) assert.deepEqual(R.NEXT[t], []); for (const [s, next] of Object.entries(R.NEXT)) { assert.ok(R.REFERRAL_STATES.includes(s)); for (const n of next) assert.ok(R.REFERRAL_STATES.includes(n) && n !== 'draft'); } });
-  check(() => { assert.equal(R.NEXT.draft.includes('completed'), false); assert.ok(R.NEXT.received.includes('completed'), 'R11 path kept'); assert.ok(R.NEXT['not-attended'].includes('scheduled')); assert.ok(R.NEXT.unknown.includes('attended')); assert.equal(R.NEXT.scheduled.includes('received'), false); });
+  check(() => { assert.deepEqual(R.NEXT.draft, ['authorised','cancelled']); assert.deepEqual(R.NEXT.authorised, ['sent','cancelled']); assert.equal(R.NEXT.draft.includes('completed'), false); assert.ok(R.NEXT.received.includes('completed'), 'legacy transition is additionally guarded by attended evidence'); assert.ok(R.NEXT['not-attended'].includes('scheduled')); assert.ok(R.NEXT.unknown.includes('attended')); assert.equal(R.NEXT.scheduled.includes('received'), false); });
   const e = (over, active = true, at = now) => R.escalation({ state: 'sent', ownerId: 'w', due: date(-3), urgency: 'routine', createdAt: daysAgo(20), events: [], ...over }, active, at);
   check(() => { assert.equal(e({ state: 'completed', due: date(30) }).level, 'none'); assert.equal(e({}).level, 'none'); assert.equal(e({ ownerId: undefined }).level, 'escalated'); assert.match(e({}, false).reasons[0], /no longer/); assert.equal(e({ due: undefined }).level, 'watch'); });
   check(() => { assert.equal(e({ due: date(3) }).level, 'watch'); assert.equal(e({ due: date(8) }).level, 'escalated'); assert.equal(e({ due: date(8) }).daysOverdue, 8); assert.equal(e({ due: date(2), urgency: 'urgent' }).level, 'escalated'); assert.equal(e({ due: date(1), urgency: 'urgent' }).level, 'watch'); assert.equal(e({ due: date(1), urgency: 'emergency', state: 'received' }).level, 'escalated'); });
@@ -43,6 +45,20 @@ try {
   const q = id => { for (const p of s.workspace.people) p.assigned = M(id).role === 'asha' ? p.assignedTo === id : true; return x.escalationQueue(s, M(id), now); };
   check(() => { const v = q('sup'); assert.deepEqual(v.items.map(i => i.referralId), ['r4']); assert.equal(v.items[0].level, 'escalated'); assert.match(v.items[0].reasons.join(), /Owner no longer/); });
   check(() => { s.workspace.referrals[2].due = date(1); const v = q('sup'); assert.deepEqual(v.items.map(i => i.referralId), ['r3', 'r4'], 'emergency first'); assert.equal(q('asha').items.length, 0); assert.deepEqual(q('asha2').items.map(i => i.referralId), ['r3'], 'own referrals only'); status(() => q('adm'), 403); });
+  const life={organisation:{id:'org'},teams:[{id:'t1',name:'One'}],invitations:[],members:[member('asha','asha'),member('doc','clinician')],workspace:{role:'asha',audit:[],submissions:[],integrations:[],people:[{...base,id:'lp',name:'Lifecycle',assignedTo:'asha',assigned:true}],visits:[{id:'lv',personId:'lp',version:1,state:'confirmed',createdAt:daysAgo(1),confirmedAt:daysAgo(1)}],referrals:[{id:'lr',personId:'lp',visitId:'lv',facility:'Synthetic CHC',reason:'Synthetic lifecycle',state:'draft',createdAt:daysAgo(1),version:1}]}};
+  const actor={userId:'asha',displayName:'ASHA',email:'synthetic@example.invalid'},asha=life.members[0],doc=life.members[1],lr=()=>life.workspace.referrals[0];
+  const rejection=async(p,code)=>{try{await p;}catch(e){assert.equal(e.status,code,e.message);return;}assert.fail(`expected ${code}`);};
+  await F.applyField(life,{type:'assignReferral',referralId:'lr',version:1,ownerId:'asha',due:date(-2),urgency:'routine',reason:'Named worker accepts referral'},actor,asha,now);
+  check(()=>{assert.equal(lr().state,'authorised');assert.match(life.workspace.audit.at(-1).detail,/authorised/);});
+  const event=(event,version=lr().version,extra={})=>({type:'recordReferralEvent',referralId:'lr',version,event,note:`Synthetic ${event} evidence`,source:'facility-reported',evidenceReference:`SYN-${event}`,occurredAt:now,confirmed:true,...extra});
+  await rejection(F.applyField(life,event('sent'),doc,doc,now),403);
+  await rejection(F.applyField(life,event('sent',1),actor,asha,now),409);
+  await F.applyField(life,event('sent'),actor,asha,now);await F.applyField(life,event('received'),actor,asha,now);
+  await rejection(F.applyField(life,event('completed'),actor,asha,now),422);
+  await F.applyField(life,event('attended'),actor,asha,now);
+  await rejection(F.applyField(life,event('completed'),actor,asha,now),422);
+  await F.applyField(life,event('completed',lr().version,{outcomeCode:'service-delivered'}),actor,asha,now);
+  check(()=>{assert.equal(lr().state,'completed');assert.equal(lr().events.at(-1).outcomeCode,'service-delivered');assert.equal(lr().events.at(-1).actorId,'asha');});
   const result = { suite: 'referral contract (slice 4a)', passed, completedAt: new Date().toISOString() };
   writeFileSync('tests/referral-contract-result.json', JSON.stringify(result, null, 2) + '\n');
   console.log(JSON.stringify(result));

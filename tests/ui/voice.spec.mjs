@@ -7,7 +7,7 @@ import { test, expect } from './support/fixtures.mjs';
 import { team, openPatient, field } from './support/flows.mjs';
 
 const FAKE = ({ local, said }) => {
-  window.__voice = { starts: [], available: [], said: [...said] };
+  window.__voice = { starts: [], available: [], said: [...said], tracksStopped: 0 };
   class StandIn {
     static async available(options) { window.__voice.available.push(options); return local; }
     start() { window.__voice.starts.push({ lang: this.lang, processLocally: !!this.processLocally, continuous: !!this.continuous, interim: !!this.interimResults });
@@ -16,6 +16,13 @@ const FAKE = ({ local, said }) => {
     stop() {} abort() {}
   }
   window.SpeechRecognition = StandIn;
+  class Recording {
+    constructor(stream) { this.stream = stream; this.state = 'inactive'; this.mimeType = 'audio/webm'; }
+    start() { this.state = 'recording'; }
+    stop() { this.state = 'inactive'; this.ondataavailable?.({ data: new Blob(['synthetic voice'], { type: this.mimeType }) }); this.onstop?.(); }
+  }
+  window.MediaRecorder = Recording;
+  Object.defineProperty(navigator, 'mediaDevices', { configurable: true, value: { getUserMedia: async () => ({ getTracks: () => [{ stop: () => window.__voice.tracksStopped++ }] }) } });
 };
 async function openWith(lab, who, fake) {
   const page = await lab.open(who);
@@ -46,6 +53,7 @@ test('voice input: the browser speech service only after the notice; a number fr
   await test.step('review: the first number heard, the others named; Insert puts it in the box', async () => {
     await expect(page.getByText('Number to insert')).toBeVisible();
     await expect(page.locator('.voice-number')).toHaveText('152');
+    await expect(page.locator('audio[aria-label="Play recording"]'), 'the just-recorded audio can be played before insertion').toBeVisible();
     await expect(page.getByText(/also heard 114; only the first number is used/)).toBeVisible();
     await expect(systolic, 'not inserted before Insert').toHaveValue('');
     await lab.scan(page, 'Voice input review');
@@ -54,6 +62,7 @@ test('voice input: the browser speech service only after the notice; a number fr
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), 'no sideways scroll').toBe(true);
     await page.getByRole('button', { name: 'Insert' }).click();
     await expect(systolic).toHaveValue('152');
+    expect(await page.evaluate(() => window.__voice.tracksStopped), 'the microphone stream is released').toBe(1);
     const starts = await page.evaluate(() => window.__voice.starts);
     expect(starts).toEqual([{ lang: 'en-IN', processLocally: false, continuous: false, interim: false }]);
   });
@@ -87,6 +96,19 @@ test('voice input: with the browser speech service off and no on-device speech, 
   await expect(page.getByRole('alert').filter({ hasText: /has not allowed the browser speech service/ })).toBeVisible();
   expect(await page.evaluate(() => window.__voice.starts.length)).toBe(0);
   await expect(search).toHaveValue('');
+});
+
+test('voice input: a recording can be discarded before it changes the field', async ({ lab }) => {
+  const t = await team(lab);
+  const page = await openWith(lab, t.asha, { local: 'available', said: ['temporary private note'] });
+  const search = page.getByPlaceholder(/Search name or village/).first();
+  await search.click();
+  await mic(page).click();
+  await expect(page.locator('audio[aria-label="Play recording"]')).toBeVisible();
+  await page.getByRole('button', { name: 'Discard recording' }).click();
+  await expect(search).toHaveValue('');
+  await expect(page.locator('audio[aria-label="Play recording"]')).toHaveCount(0);
+  expect(await page.evaluate(() => window.__voice.tracksStopped)).toBe(1);
 });
 
 test('voice input: on-device speech needs no setting and no notice; Hindi is offered; it works inside a dialog', async ({ lab }) => {

@@ -39,7 +39,7 @@ export function worklistQuery(url: URL): WorklistQuery {
   return { view: view as WorklistView, limit, offset, attention: tab === 'attention', ...(total !== undefined ? { total } : {}) };
 }
 
-export type WorkPerson = Pick<Person, 'id' | 'name' | 'age' | 'sex' | 'village' | 'programmes' | 'task' | 'due' | 'status'> & { followUps?: FollowUp[]; merged: boolean };
+export type WorkPerson = Pick<Person, 'id' | 'name' | 'age' | 'sex' | 'village' | 'programmes' | 'task' | 'due' | 'status'> & { followUps?: FollowUp[]; merged: boolean; hasDraft?: boolean };
 export type WorklistData = { people: WorkPerson[]; stats?: WorkStats; submissions: Submission[]; referrals: Referral[] };
 type Need = { visits: boolean; submissions: 'none' | 'state' | 'full'; referrals: boolean };
 const NEEDS: Record<WorklistView, Need> = {
@@ -82,13 +82,15 @@ export async function worklistData(db: D1Database, orgId: string, member: Member
   }
   for(const p of people)if(p.followUps)p.followUps=p.followUps.map(t=>{const {transitionStatus:_,...original}=t as any;return {...original,...(authority&&transitionSuperseded(authority,t)?{transitionStatus:'superseded'}:{})};});
   const ids = new Set(people.map(p => p.id)), mine = (r: Record<string, any>) => ids.has(r.person_id);
+  const activeDrafts = new Set(at(1).filter(r => mine(r) && r.state === 'draft' && !r.voided_at && !r.superseded_by && !r.imported).map(r => r.person_id));
+  for (const p of people) p.hasDraft = activeDrafts.has(p.id);
   const submissions = need.submissions === 'full' ? at(2).filter(mine).map(r => JSON.parse(r.data) as Submission) : at(2).filter(mine).map(r => ({ state: r.state }) as Submission);
   const referrals = at(3).filter(mine).map(r => JSON.parse(r.data) as Referral);
   const stats = need.visits ? workStats(people, at(1).filter(mine).map(v => ({ state: v.state, voidedAt: v.voided_at ?? undefined, supersededBy: v.superseded_by ?? undefined, imported: v.imported ?? undefined })), submissions) : undefined;
   return { people, stats, submissions, referrals };
 }
 
-export type WorkRow = { id: string; name: string; age: number | null; sex: string; village: string; programmes: string[]; task: string; due: string; status: string; merged: boolean };
+export type WorkRow = { id: string; name: string; age: number | null; sex: string; village: string; programmes: string[]; task: string; due: string; status: string; merged: boolean; hasDraft: boolean };
 export type FollowUpRow = { personId: string; name: string; tasks: { id: string; due: string; packId: string; title: string }[] };
 export type SubmissionRow = Pick<Submission, 'id' | 'personId' | 'visitId' | 'connectorName' | 'state' | 'receipt' | 'attempts' | 'mode' | 'message' | 'createdAt' | 'signOff'> & { personName: string };
 export type ReferralRow = Pick<Referral, 'id' | 'personId' | 'visitId' | 'facility' | 'reason' | 'state' | 'due' | 'urgency' | 'ownerId'> & { personName: string };
@@ -102,7 +104,7 @@ export function worklistPage(data: WorklistData, q: WorklistQuery): WorklistPage
   const name = new Map(data.people.map(p => [p.id, p.name]));
   if (q.view === 'work') {
     const list = visitList(data.people), pg = page(list, q);
-    return { view: q.view, stats: data.stats, total: list.length, nextCursor: pg.nextCursor, ...(pg.restarted ? { restarted: true } : {}), rows: pg.rows.map(p => ({ id: p.id, name: p.name, age: p.age ?? null, sex: p.sex, village: p.village, programmes: p.programmes, task: p.task, due: p.due, status: p.status, merged: p.merged })) };
+    return { view: q.view, stats: data.stats, total: list.length, nextCursor: pg.nextCursor, ...(pg.restarted ? { restarted: true } : {}), rows: pg.rows.map(p => ({ id: p.id, name: p.name, age: p.age ?? null, sex: p.sex, village: p.village, programmes: p.programmes, task: p.task, due: p.due, status: p.status, merged: p.merged, hasDraft: !!p.hasDraft })) };
   }
   if (q.view === 'followups') {
     const f = followUpGroups(data.people), pg = page(f.groups, q);

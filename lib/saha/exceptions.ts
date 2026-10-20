@@ -75,7 +75,7 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
    add({id:'safety-case:'+c.id,kind:'safety-case',severity:'critical',what:`Open clinical safety case (${c.kind.replace(/-/g,' ')})`,since:c.createdAt,owner:name(c.ownerId)??`Clinicians of ${team(p)}`,recovery:'The clinical owner reviews the evidence in Clinical governance and resolves or reassigns the case.'},c.visitId);
   // Escalated referrals (slice 4a rules).
   for(const r of refs.get(p.id)??[]){
-   const e=escalation(r as any,activeOwner(s,r,p),now);if(e.level!=='escalated')continue;
+   const e=escalation(r,activeOwner(s,r,p),now);if(e.level!=='escalated')continue;
    add({id:'referral-overdue:'+r.id,kind:'referral-overdue',severity:(r.urgency??'routine')==='emergency'?'critical':'high',what:`Referral to ${r.facility}: ${e.reasons.join('; ')}`,since:r.due&&r.due<today?r.due+'T00:00:00.000Z':r.events?.at(-1)?.occurredAt??r.createdAt,
     owner:activeOwner(s,r,p)?name(r.ownerId)!:`Supervisors of ${team(p)}`,recovery:'Record the next referral event with evidence, a reasoned delay, or assign an owner from the patient\'s action plan.'},r.visitId);
   }
@@ -107,8 +107,8 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
   for(const l of p.fieldLeases??[])if(l.status==='active'&&l.expiresAt<=now)
    add({id:'field-grant-expired:'+l.id,kind:'field-grant-expired',severity:'normal',what:'Field visit grant expired without a sync',since:l.expiresAt,owner:name(l.actorId)??`Supervisors of ${team(p)}`,recovery:'Ask the worker whether anything was captured offline; prepare a new field visit to sync it, otherwise revoke the grant.'},l.visitId);
   // ABDM records received and not yet reviewed.
-  for(const r of p.abdmReceived??[])if(r.state==='review')
-   add({id:'abdm-received:'+r.id,kind:'abdm-received',severity:'normal',what:`Received ABDM record (${r.hiType}) awaiting review`,since:r.receivedAt,owner:`Clinicians of ${team(p)}`,recovery:'A clinician with access accepts or rejects the record on the patient screen.'},null);
+  for(const r of p.abdmReceived??[])if(r.state==='review'||r.state==='quarantined')
+   add({id:'abdm-received:'+r.id,kind:'abdm-received',severity:r.state==='quarantined'?'high':'normal',what:r.state==='quarantined'?`Quarantined ABDM record (${r.hiType}): ${r.quarantineReason??'validation or reconciliation required'}`:`Received ABDM record (${r.hiType}) awaiting review`,since:r.receivedAt,owner:`Clinicians of ${team(p)}`,recovery:r.state==='quarantined'?'Resolve the patient, duplicate or document conflict through the configured reconciliation process; local observations remain unchanged.':'A clinician with access accepts or rejects the record on the patient screen.'},null);
  }
  rows.sort((a,b)=>RANK[a.severity]-RANK[b.severity]||b.ageDays-a.ageDays||a.since.localeCompare(b.since)||a.id.localeCompare(b.id));
  const counts:Record<string,number>={};for(const r of rows)counts[r.kind]=(counts[r.kind]??0)+1;

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { AppError, fail, uuid } from './core';
 import { canonicalSpec, indicatorRun, manager, MIN_CELL, resolveDefinition, type Series } from './indicators';
-import { operationRefusal, operationsOf, refusalOf, type Refusal } from './adapter-operations';
+import { aggregateFieldsOf, operationRefusal, operationsOf, refusalOf, type Refusal } from './adapter-operations';
 import type { Actor } from './store';
 import type { Integration, Member, OrgState, TraceRef } from './types';
 // Slice 7g: aggregate report delivery to aggregate-only programme destinations (BR-INT-09, BR-REP-05).
@@ -53,7 +53,7 @@ export function reportView(r:AggregateReport){
 }
 export const AGGREGATE_GROUPS=['none','village','programme','age-band'] as const;
 export type AggregateGroup=typeof AGGREGATE_GROUPS[number];
-export type MinimisationCheck={at:string;stage:'prepare'|'before-send'|'checkpoint';passed:boolean;fields:number;cells:number;problems:string[]};
+export type MinimisationCheck={at:string;stage:'prepare'|'before-send'|'checkpoint';passed:boolean;fields:number;cells:number;problems:string[];destinationAllowlistVersion?:number;destinationAllowlistExplicit?:boolean};
 export type ReportEvent={at:string;state:string;detail:string;ref?:TraceRef;attempt?:number};
 export type Cell={group:string;value:number|null;numerator:number|null;denominator:number|null;suppressed:boolean};
 export type Block={team:string;indicator:string;version:number;unit:'count'|'proportion';withheld:'cohort'|'differencing'|null;cells:Cell[]};
@@ -144,13 +144,14 @@ const ALLOWED_KEYS=new Set(['contract','environment','operation','report','id','
 export const PATIENT_FIELDS=['personId','patientId','visitId','name','fullName','abha','abhaNumber','abhaAddress','phone','mobile','address','dob','dateOfBirth','age','sex','facts','notes','identifier','identifiers','externalId','consent','visits','people'];
 const small=(x:unknown)=>typeof x==='number'&&x>0&&x<MIN_CELL;
 // Refuses a payload carrying any patient-level field or identifier value, or any released cell from 1 to 4.
-export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationCheck['stage'],at:string):MinimisationCheck{
+export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationCheck['stage'],at:string,destination?:Integration):MinimisationCheck{
  const normalize=(x:string)=>x.normalize('NFKC').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'').replace(/\s+/g,' ').trim().toLowerCase();const problems:string[]=[],ids=new Set<string>();let fields=0,cells=0;
+ const destinationFields=destination?aggregateFieldsOf(destination):null,destinationAllowed=destinationFields?new Set(destinationFields.fields):null;
  for(const p of s.workspace.people??[]){for(const v of [p.id,p.name,p.abha?.number,p.abha?.address,...(p.identifiers??[]).map(x=>x.value)])if(typeof v==='string'&&v.trim().length>=3)ids.add(normalize(v));}
  for(const v of s.workspace.visits??[])ids.add(normalize(v.id));
  const walk=(x:unknown,path:string,depth=0)=>{if(depth>20){problems.push('Aggregate nesting exceeds the mapped contract.');return;}
   if(Array.isArray(x)){x.forEach((y,i)=>walk(y,`${path}[${i}]`,depth+1));return;}
-  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" is not permitted.`);else if(!ALLOWED_KEYS.has(k))problems.push('An unexpected field is not part of the aggregate contract.');walk(v,path?`${path}.${k}`:k,depth+1);}return;}
+  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" is not permitted.`);else if(!ALLOWED_KEYS.has(k))problems.push('An unexpected field is not part of the aggregate contract.');else if(destinationAllowed&&!destinationAllowed.has(k as any))problems.push(`Field "${k}" is not authorised by ${destination!.name}'s destination allowlist (version ${destinationFields!.version}).`);walk(v,path?`${path}.${k}`:k,depth+1);}return;}
   if(typeof x==='string'&&ids.has(normalize(x)))problems.push('A value matches a patient identifier, name or ABHA number.');
  };
  walk(payload,'');if(!aggregateEnvelopeSchema.safeParse(payload).success)problems.push('Aggregate envelope differs from its mapped path contract.');
@@ -158,7 +159,7 @@ export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationC
   if(c?.suppressed){if([c.value,c.numerator,c.denominator].some(v=>v!==null))problems.push('A suppressed cell carries a value.');continue;}
   const parts=[c?.numerator,c?.denominator,b?.unit==='count'?c?.value:null,b?.unit==='proportion'&&typeof c?.denominator==='number'&&typeof c?.numerator==='number'?c.denominator-c.numerator:null];
   if(parts.some(small))problems.push(`A released cell is below the suppression threshold of ${MIN_CELL}.`);}
- return {at,stage,passed:problems.length===0,fields,cells,problems:[...new Set(problems)].slice(0,20)};
+ return {at,stage,passed:problems.length===0,fields,cells,problems:[...new Set(problems)].slice(0,20),...(destinationFields?{destinationAllowlistVersion:destinationFields.version,destinationAllowlistExplicit:destinationFields.explicit}:{})};
 }
 // ---- approval ----
 export function approveReport(s:OrgState,c:Extract<AggregateCommand,{type:'approveAggregateReport'}>,u:Actor,m:Member,now:string){
@@ -176,7 +177,11 @@ export function approveReport(s:OrgState,c:Extract<AggregateCommand,{type:'appro
 }
 export function reportEvent(r:AggregateReport,at:string,detail:string){r.updatedAt=at;r.message=detail;r.events.push({at,state:r.state,detail});}
 // ---- the demonstration destination ----
-export const aggregateReceiptSchema=z.object({contract:z.literal(AGGREGATE_CONTRACT),key:id,payloadHash:z.string().regex(/^[a-f0-9]{64}$/),status:z.enum(['accepted','rejected','pending','not_found']),receipt:z.string().min(1).max(200).optional()}).strict();
+export const aggregateReceiptSchema=z.object({contract:z.literal(AGGREGATE_CONTRACT),key:id,payloadHash:z.string().regex(/^[a-f0-9]{64}$/),status:z.enum(['accepted','rejected','pending','not_found']),receipt:z.string().min(1).max(200).optional()}).strict().superRefine((x,ctx)=>{
+ // SAHA-075 / BR-INT-04: a bare "accepted" assertion is not authoritative evidence. Without the destination's
+ // receipt the outcome remains uncertain and must be reconciled; it must never be promoted to accepted or retried.
+ if(x.status==='accepted'&&!x.receipt)ctx.addIssue({code:z.ZodIssueCode.custom,path:['receipt'],message:'An accepted destination result must include its receipt.'});
+});
 export type AggregateTransport=(i:Integration,body:any,key:string)=>Promise<unknown>;
 // A deterministic in-process simulator. A destination with behaviour "uncertain" stores the report but its response
 // is lost on the first send; a lookup then finds the receipt without the report being sent again.

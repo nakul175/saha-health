@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import {offlineCapacity,capacityRefusal,REFERENCE_OFFLINE_PROFILE as P} from '../public/field/offline-capacity.js';
+
+let passed=0;const check=(value,message)=>{assert.ok(value,message);passed++};
+const draft=i=>({packet:{payload:{leaseId:`lease-${i}`}},state:'draft',media:[]});
+const book={drafts:Array.from({length:200},(_,i)=>draft(i))};
+for(let i=0;i<100;i++)book.drafts[i].media.push({id:`media-${i}`,state:'queued',size:4*1024*1024});
+const before=structuredClone(book),storage={usage:400*1024*1024,quota:1024*1024*1024,persisted:true};
+const full=offlineCapacity(book,storage);
+check(full.drafts===200&&full.media===100&&full.mediaBytes===400*1024*1024,'Reference 200/100 capacity is counted exactly');
+check(full.remainingDrafts===0&&full.remainingMedia===0&&full.remainingAllowanceBytes===100*1024*1024,'500 MB allowance retains the reference payload');
+check(capacityRefusal(full,{drafts:1})?.includes('200'),'Encounter 201 is refused');
+check(capacityRefusal(full,{media:1,mediaBytes:512})?.includes('100'),'Media 101 is refused');
+check(capacityRefusal(offlineCapacity({drafts:[]},storage),{media:1,mediaBytes:P.mediaItemMaxBytes+1})?.includes('accepted offline profile'),'Oversized media is refused');
+check(JSON.stringify(book)===JSON.stringify(before),'Every refusal leaves acknowledged unsent work unchanged');
+check(capacityRefusal(offlineCapacity(book,{usage:980,quota:1000,persisted:true}),{})?.includes('low'),'Low browser storage refuses additions');
+check(capacityRefusal(offlineCapacity(book,{persisted:true}),{})?.includes('unavailable'),'Unknown capacity refuses additions');
+check(capacityRefusal(offlineCapacity(book,storage),{})===null,'Existing full reference payload remains valid without additions');
+const restarted=JSON.parse(JSON.stringify(book));
+check(offlineCapacity(restarted,storage).mediaBytes===full.mediaBytes&&JSON.stringify(restarted)===JSON.stringify(book),'Restart preserves every queued item and byte count');
+mkdirSync('tests/evidence/saha-098',{recursive:true});
+writeFileSync('tests/evidence/saha-098/contract.json',JSON.stringify({storyId:'SAHA-098',passed,failed:0,profile:P,coverage:'Pure capacity and restart contract: 200 structured encounters, 100 media items at 4 MiB within 500 MiB; warning/refusal at browser pressure, unknown capacity, item/count overflow; all refusals preserve the original unsent book.',limits:'Synthetic local contract only; physical reference-device quota and restart acceptance remain separate.'},null,2)+'\n');
+console.log(JSON.stringify({storyId:'SAHA-098',passed,failed:0}));

@@ -11,10 +11,11 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); passed++; return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-request-queue', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'installed-transition-authority', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-request-queue', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const q = await import(pathToFileURL(join(dir, 'referral-request-queue.js')));
   const x = await import(pathToFileURL(join(dir, 'exceptions.js')));
+  const operations = await import(pathToFileURL(join(dir, 'operations.js')));
   const now = '2026-09-30T06:00:00.000Z', hoursAgo = h => new Date(Date.parse(now) - h * 3600000).toISOString(), ahead = h => hoursAgo(-h);
   const member = (userId, role, over = {}) => ({ userId, displayName: userId.toUpperCase(), accountCode: 'X', role, isOwner: false, status: 'active', version: 1, teamIds: ['t1'], createdAt: now, ...over });
   const base = { age: 30, sex: 'Female', village: 'Synthetic', programmes: ['General care'], task: 'Visit', due: 'Today', status: 'due', aiConsent: false, exchangeConsent: false, consentVersion: 1, createdAt: now, version: 1, teamId: 't1', assigned: false };
@@ -23,6 +24,7 @@ try {
   const s = {
     organisation: { id: 'org' }, teams: [{ id: 't1', name: 'Team One' }, { id: 't2', name: 'Team Two' }], invitations: [],
     members: [member('asha', 'asha'), member('doc', 'clinician'), member('doc2', 'clinician', { teamIds: ['t2'] }), member('sup', 'supervisor'), member('sup2', 'supervisor', { teamIds: ['t2'] }), member('own', 'clinician', { isOwner: true }), member('ownadm', 'admin', { isOwner: true, teamIds: [] }), member('adm', 'admin', { teamIds: [] }), member('prov', 'provider', { teamIds: [] }), member('idle', 'clinician', { status: 'suspended' })],
+    operations: {version:1,maintenance:false,reason:'',updatedAt:now,incidents:[],rates:null,clinicalAuthorities:['doc','doc2','own'].map(memberId=>({memberId,memberVersion:1,qualificationRef:'SYNTHETIC-QUALIFICATION',actions:['referral-order'],teamIds:memberId==='doc2'?['t2']:['t1'],expiresAt:ahead(24),version:1,state:'approved',approvedBy:'reviewer',approvedAt:hoursAgo(1),reason:'Synthetic contract fixture'}))},
     workspace: { role: 'supervisor', audit: [], integrations: [], submissions: [], referrals: [],
       people: [
         { ...base, id: 'p1', name: 'P1', village: 'V1', assignedTo: 'asha' },
@@ -64,6 +66,11 @@ try {
   check(() => { assert.equal(by('v4').longWaiting, false); assert.equal(by('v4').ageHours, 47); assert.equal(by('v5').longWaiting, true); assert.equal(by('v5').requestedBy, 'Former member'); });
   check(() => { const i = by('v3'); assert.equal(i.canDecide, false); assert.match(i.blocker, /not confirmed/); });
   check(() => { assert.equal(by('v2').concern, 'yes'); assert.equal(by('v1').concern, null); });
+  // A role label, ownership or stale credential never grants clinical ordering authority.
+  const stale = structuredClone(s); stale.members.find(m=>m.userId==='doc').version++; check(()=>assert.equal(q.referralRequestQueue(stale,stale.members.find(m=>m.userId==='doc'),now).items.some(i=>i.canDecide),false));
+  const expired = structuredClone(s); expired.operations.clinicalAuthorities.find(a=>a.memberId==='doc').expiresAt=hoursAgo(1); check(()=>assert.equal(q.referralRequestQueue(expired,expired.members.find(m=>m.userId==='doc'),now).items.some(i=>i.canDecide),false));
+  const changedRole = structuredClone(s); changedRole.members.find(m=>m.userId==='doc').role='supervisor'; check(()=>assert.equal(q.referralRequestQueue(changedRole,changedRole.members.find(m=>m.userId==='doc'),now).items.some(i=>i.canDecide),false));
+  const revoked = structuredClone(s); revoked.operations.clinicalAuthorities.find(a=>a.memberId==='doc').state='revoked'; check(()=>assert.equal(q.referralRequestQueue(revoked,revoked.members.find(m=>m.userId==='doc'),now).items.some(i=>i.canDecide),false));
   // The bound.
   const big = structuredClone(s);
   for (let n = 0; n < 520; n++) big.workspace.visits.push(visit(`b${n}`, 'p1', 10 + (n % 50)));
@@ -82,6 +89,16 @@ try {
   check(() => assert.equal(x.exceptionQueue(concern, concern.members.find(m => m.userId === 'sup'), now).items.find(i => i.id === 'referral-request-waiting:v2').severity, 'high'));
   // Administrators see no patient rows of this kind.
   check(() => assert.equal(ex('adm').items.filter(i => i.kind === 'referral-request-waiting').length, 0));
+
+  // Approval is an explicit, independently performed, version-bound operation; owner or supervisor labels alone are insufficient.
+  const approvalState=structuredClone(s),owner=approvalState.members.find(m=>m.userId==='own'),target=approvalState.members.find(m=>m.userId==='doc');approvalState.operations.version=1;approvalState.operations.clinicalAuthorities=[];
+  const approve={type:'clinicalAuthorityApprove',version:1,memberId:'doc',memberVersion:target.version,qualificationRef:'SYNTHETIC-CREDENTIAL-REF',actions:['referral-order'],teamIds:['t1'],expiresAt:'2099-01-01T00:00:00.000Z',reason:'Synthetic independent qualification review'};
+  check(()=>{const result=operations.applyOperations(approvalState,approve,{userId:'own',displayName:'Owner'},owner);assert.equal(result.state,'approved');assert.equal(operations.clinicalAuthority(approvalState,target,'referral-order','t1',now),true);assert.equal(approvalState.workspace.audit.at(-1).action,'clinicalAuthorityApprove');});
+  status(()=>operations.applyOperations(structuredClone(approvalState),{...approve,version:1},{userId:'own',displayName:'Owner'},approvalState.members.find(m=>m.userId==='own')),409);
+  const membershipChanged=structuredClone(s);membershipChanged.operations.version=1;membershipChanged.operations.clinicalAuthorities=[];membershipChanged.members.find(m=>m.userId==='doc').version=2;status(()=>operations.applyOperations(membershipChanged,approve,{userId:'own',displayName:'Owner'},membershipChanged.members.find(m=>m.userId==='own')),409);
+  status(()=>operations.applyOperations(structuredClone(s),{...approve,memberId:'own',memberVersion:1},{userId:'own',displayName:'Owner'},owner),403);
+  const supervisorOwner={...approvalState.members.find(m=>m.userId==='sup'),isOwner:true};status(()=>operations.applyOperations(structuredClone(approvalState),{...approve,version:approvalState.operations.version},{userId:'sup',displayName:'Supervisor'},supervisorOwner),403);
+  const revokedState=structuredClone(approvalState),revokingOwner=revokedState.members.find(m=>m.userId==='own'),approved=revokedState.operations.clinicalAuthorities.find(a=>a.memberId==='doc');check(()=>{const result=operations.applyOperations(revokedState,{type:'clinicalAuthorityRevoke',version:revokedState.operations.version,memberId:'doc',authorityVersion:approved.version,reason:'Synthetic authority withdrawn'},{userId:'own',displayName:'Owner'},revokingOwner);assert.equal(result.state,'revoked');assert.equal(operations.clinicalAuthority(revokedState,revokedState.members.find(m=>m.userId==='doc'),'referral-order','t1',now),false);});
 
   writeFileSync('tests/referral-request-queue-contract-result.json', JSON.stringify({ suite: 'referral request queue contract (slice 3i)', passed, completedAt: new Date().toISOString() }, null, 2) + '\n');
   console.log(JSON.stringify({ passed }));

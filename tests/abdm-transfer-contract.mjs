@@ -10,7 +10,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const rejects = async (fn, code) => { try { await fn(); } catch (e) { assert.equal(e.status, code, e.message); passed++; return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const t = await import(pathToFileURL(join(dir, 'abdm-transfer.js')));
   const A = await import(pathToFileURL(join(dir, 'abdm.js')));
@@ -32,7 +32,7 @@ try {
   await rejects(() => run('doc', { type: 'abdmCareContextLink', personId: 'p1', version: P().version, visitIds: ['v-in'] }), 409);
   cfg(true);
   await rejects(() => run('doc', { type: 'abdmCareContextLink', personId: 'p1', version: P().version, visitIds: ['v-in'] }), 409);
-  abdm('asha', { type: 'abhaLink', personId: 'p1', version: P().version, abhaNumber: '91-0000-1111-2222', otp: A.MOCK_OTP });
+  abdm('asha', { type:'abhaLink', demographicMatch:'matched', confirmed:true, personId: 'p1', version: P().version, abhaNumber: '91-0000-1111-2222', otp: A.MOCK_OTP });
   await rejects(() => run('doc', { type: 'abdmCareContextLink', personId: 'p1', version: P().version, visitIds: ['v-draft'] }), 422);
   const linked = await run('doc', { type: 'abdmCareContextLink', personId: 'p1', version: P().version, visitIds: ['v-in', 'v-old'] });
   check(() => { assert.equal(linked.linked, 2); assert.deepEqual(P().careContexts.map(c => c.recordDate), ['2026-05-01', '2025-03-01']); });
@@ -68,7 +68,7 @@ try {
   await rejects(() => run('doc', { type: 'abdmReceivedReview', personId: 'p1', version: P().version, recordId: rid, decision: 'rejected', note: 'Second review attempt' }), 409);
   abdm('asha', { type: 'abhaUnlink', personId: 'p1', version: P().version, reason: 'Wrong ABHA recorded earlier' });
   await rejects(() => run('doc', { type: 'abdmFetch', personId: 'p1', version: P().version, consentId: cid }), 409);
-  abdm('asha', { type: 'abhaLink', personId: 'p1', version: P().version, abhaNumber: '91-3333-4444-5555', otp: A.MOCK_OTP });
+  abdm('asha', { type:'abhaLink', demographicMatch:'matched', confirmed:true, personId: 'p1', version: P().version, abhaNumber: '91-3333-4444-5555', otp: A.MOCK_OTP });
   const cid2 = abdm('doc', { type: 'abdmConsentRequest', personId: 'p1', version: P().version, purpose: 'CAREMGT', hiTypes: ['OPConsultation'], from: '2025-01-01', to: '2026-09-30', expiresAt: '2026-10-30T00:00:00.000Z' }).consentId;
   abdm('own', { type: 'abdmConsentDecide', personId: 'p1', consentId: cid2, decision: 'GRANTED' });
   const none = await run('doc', { type: 'abdmFetch', personId: 'p1', version: P().version, consentId: cid2 });

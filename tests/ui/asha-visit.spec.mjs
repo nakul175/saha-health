@@ -114,7 +114,8 @@ test('ASHA visit with a danger sign: assistant, urgent finding, confirmation, pr
     await expect(page.getByText('Needs attention (1)')).toBeVisible();
     await expect(mis.getByRole('button', { name: 'Resend' })).toHaveCount(0);                        // no blind retry is offered
     await lab.scan(page, 'ASHA · receipts, one uncertain');
-    await lab.shot(page, 'receipt-uncertain.png', { target: mis, stylePath: RECEIPT_ROW_STYLE });   // one row, border removed: the order of two same-second receipts is a coin flip
+    await mis.evaluate(row => { const panel=row.closest('.receipt-panel');panel?.style.setProperty('overflow','visible','important');panel?.style.setProperty('border-radius','0','important'); }); // locator styles cannot reach ancestors; prevent random last-row corner clipping
+    await lab.shot(page, 'receipt-uncertain.png', { target: mis, mask: [mis.getByText(/Initiating authority:/)], stylePath: RECEIPT_ROW_STYLE });   // one row, border removed: the order of two same-second receipts is a coin flip
   });
 
   await test.step('look up the uncertain receipt: found, and nothing is sent again', async () => {

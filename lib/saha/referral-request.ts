@@ -6,6 +6,7 @@ import { ensureExceptionalScope } from './exceptional';
 import { ensureNotRestricted } from './rights';
 import type { Actor } from './store';
 import type { Member, OrgState } from './types';
+import { clinicalAuthority } from './operations';
 // Slice 3h: a clinician acts on a referral request captured with a field registration (slice 3g). "Refer" creates
 // the referral from the request in one step through the existing createReferral path; "decline" records why not.
 // Either way the decision, who made it and when are kept on the request, and an audit line names both.
@@ -16,13 +17,14 @@ export const referralRequestSchema=z.discriminatedUnion('type',[z.object({
  facility:z.string().trim().min(3).max(200).optional(),reason:z.string().trim().min(5,'Give the reason in at least 5 characters.').max(1000),
 }).strict()]);
 // Also applied when an idempotent request is replayed.
-export function authorizeReferralRequest(s:OrgState,m:Member,c:any){
+export function authorizeReferralRequest(s:OrgState,m:Member,c:any,now=new Date().toISOString()){
  if(c.type!=='decideReferralRequest')return;
- if(m.role!=='clinician')fail(403,'A clinician decides on referral requests.');
+ const v=visit(s.workspace,c.visitId),p=person(s.workspace,v.personId);
+ if(!clinicalAuthority(s,m,'referral-order',p.teamId,now))fail(403,'Current verified professional authority for referral orders is required. A role label or ownership alone is insufficient.');
 }
 export async function applyReferralRequest(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
  const parsed=referralRequestSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data,w=s.workspace;
- authorizeReferralRequest(s,m,c);
+ authorizeReferralRequest(s,m,c,now);
  const v=visit(w,c.visitId),p=person(w,v.personId),r=v.referralRequest;if(!r)fail(404,'This visit has no referral request.');
  // The same patient guards as creating a referral directly.
  const as={type:'createReferral',visitId:v.id};ensurePatientIdentity(s,as);ensureNotMerged(s,as);ensureExceptionalScope(s,m,as,now);ensureNotRestricted(s,as);

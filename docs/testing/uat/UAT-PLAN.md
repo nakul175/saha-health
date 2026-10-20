@@ -199,6 +199,6 @@ Sign-off records that the run met the exit criteria for the scripts named. It do
 | TC-BR-ID-09-A | BR-ID-09 | The assessment records the current state as “service accounts are documented as unsupported by both identity providers” (BR-ID-09, current field of requirements/assessment.tsv). |
 | TC-J02 (steps 3, 4, 5) | BR-AI-02 | The assessment records the current state as “clinical generation remains unavailable.” (BR-AI-02, current field of requirements/assessment.tsv). |
 | TC-J08 (steps 3, 4) | BR-AI-02 | The assessment records the current state as “clinical generation remains unavailable.” (BR-AI-02, current field of requirements/assessment.tsv). |
-| TC-J10 (step 3) | BR-CARE-03 | The assessment lists as remaining work “Facility-verified outcomes and external outcome evidence.” (BR-CARE-03, remaining field of requirements/assessment.tsv). |
+| TC-J10 (step 3) | BR-CARE-03 | The assessment lists as remaining work “Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.” (BR-CARE-03, remaining field of requirements/assessment.tsv). |
 
 **Regenerating.** `node tests/uat/generate-uat-pack.mjs` rewrites the plan and scripts and creates the register only if it is missing; a register that exists is never overwritten, because it holds the testers' results. To start a fresh blank register, delete the file and regenerate. `node tests/uat/generate-uat-pack.mjs --check` fails if the committed files differ from what the sources now produce.

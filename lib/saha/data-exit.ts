@@ -166,7 +166,12 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // Other tables are read page by page, not in one transaction: records changed during the export may
   // appear in their newer state.
   const chain = await verifyChain(db, orgId, undefined, input.now), cut = await chainHead(db, orgId);
-  for (const spec of TABLES) data[spec.table] = await readAll(db, spec, orgId);
+  // These reads are independent and the export already documents that they are not one
+  // transactional snapshot. Starting them together avoids serialising one D1 round trip
+  // per table as the portable schema grows, while preserving TABLES order below when the
+  // archive is assembled.
+  const tableRows = await Promise.all(TABLES.map(spec => readAll(db, spec, orgId)));
+  for (let i = 0; i < TABLES.length; i++) data[TABLES[i].table] = tableRows[i];
   // Actor ownership and today's scope cannot certify a historical clinical aggregate.
   // Filter before any row/withheld/other-member/column totals; do not expose an omitted count.
   const protectedAlertSubjects=new Set<string>(),protectedAlertAuditIds=new Set<string>();
@@ -389,7 +394,7 @@ export function tar(files: { path: string; bytes: Uint8Array }[], mtime: number)
 
 // Exact immutable/new-source basis, excluding export audit rows and org revision changed by this read.
 const COMPLETENESS_BASIS_TABLES=['reporting_calendars','reporting_calendar_events','reporting_coverage','reporting_completeness_receipts','reporting_completeness_snapshots','integrations','memberships','patients','operations'];
-export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const rows=[];for(const table of COMPLETENESS_BASIS_TABLES){const spec=TABLES.find(s=>s.table===table)!;rows.push({table,rows:await readAll(db,spec,orgId)});}return digest(rows);}
+export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const rows=await Promise.all(COMPLETENESS_BASIS_TABLES.map(async table=>{const spec=TABLES.find(s=>s.table===table)!;return {table,rows:await readAll(db,spec,orgId)};}));return digest(rows);}
 
 // Database columns are authoritative; JSON keeps programme/facility/locality policy fields.
 function storedExportPerson(r:Row){return {...JSON.parse(String(r.data)),id:String(r.id),teamId:String(r.team_id),assignedTo:r.assigned_to} as import('./types').Person;}

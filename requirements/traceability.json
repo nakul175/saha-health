@@ -3370,8 +3370,8 @@
       "sourceTextLine": 479,
       "implementation": "partial",
       "target": "R14",
-      "current": "Dated referral events with evidence. Slice 4a adds accepted, scheduled (with appointment time), attended, did-not-attend, declined, cancelled and unknown states under an explicit transition table; closed states are immutable.",
-      "remaining": "Facility-verified outcomes and external outcome evidence.",
+      "current": "Dated referral events with evidence. SAHA-101 locally distinguishes proposed, authorised, sent, received, scheduled, attended and completed states; completion requires prior attendance, a coded service outcome, evidence source/reference and the recording actor. Declined, cancelled, not-attended and unknown dispositions remain distinct; closed states are immutable.",
+      "remaining": "Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
