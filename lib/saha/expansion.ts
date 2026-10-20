@@ -3,17 +3,20 @@ import { digest, fail, uuid } from './core';
 import { operator } from './operations';
 import type { Actor } from './store';
 import type { Member, OrgState } from './types';
+import { deploymentManifest, deploymentManifestSchema, deploymentPackSchema, parseDeploymentPack, type DeploymentManifest } from './deployment-pack';
 
 export const EXPANSION_CHECKS=['workflow','integration','population','legal','capacity','rollback'] as const;
 const str=z.string().trim().min(3).max(200),note=z.string().trim().min(10).max(1000),id=z.string().min(1).max(200),version=z.number().int().positive();
 export const expansionSpec=z.object({kind:z.enum(['programme','ai','ehr','location']),name:str,jurisdiction:str,population:note,languages:z.array(z.enum(['en','hi'])).min(1).max(2).refine(x=>new Set(x).size===x.length),purpose:note,localDifferences:note,dependencies:note,rollback:note}).strict();
 export type ExpansionSpec=z.infer<typeof expansionSpec>;
-export type Expansion={id:string;version:number;spec:ExpansionSpec;ownerId:string;reviewerId:string;createdBy:string;createdAt:string;state:'draft'|'reviewed'|'withdrawn';sourceHash?:string;evidence:{id:string;specHash:string;check:typeof EXPANSION_CHECKS[number];reference:string;findings:string;by:string;at:string}[];review?:{by:string;memberVersion:number;hash:string;reference:string;findings:string;at:string};history:{by:string;at:string;action:string;reason:string}[]};
+export type Expansion={id:string;version:number;spec:ExpansionSpec;deployment?:DeploymentManifest;ownerId:string;reviewerId:string;createdBy:string;createdAt:string;state:'draft'|'reviewed'|'withdrawn';sourceHash?:string;evidence:{id:string;specHash:string;check:typeof EXPANSION_CHECKS[number];reference:string;findings:string;by:string;at:string}[];review?:{by:string;memberVersion:number;hash:string;reference:string;findings:string;at:string};history:{by:string;at:string;action:string;reason:string}[]};
 const config=z.object({format:z.literal('saha-expansion-proposal'),schema:z.literal(1),spec:expansionSpec}).strict();
+const importedConfig=z.union([config,deploymentPackSchema.extend({contentSha256:z.string().length(64)})]);
 export const expansionSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('expansionCreate'),spec:expansionSpec,ownerId:id,reviewerId:id}).strict(),
- z.object({type:z.literal('expansionImport'),pack:config,ownerId:id,reviewerId:id}).strict(),
+ z.object({type:z.literal('expansionImport'),pack:importedConfig,ownerId:id,reviewerId:id}).strict(),
  z.object({type:z.literal('expansionEdit'),id,version,spec:expansionSpec,ownerId:id,reviewerId:id,reason:note}).strict(),
+ z.object({type:z.literal('expansionSetDeploymentPack'),id,version,manifest:deploymentManifestSchema,reason:note}).strict(),
  z.object({type:z.literal('expansionEvidence'),id,version,check:z.enum(EXPANSION_CHECKS),reference:str,findings:note}).strict(),
  z.object({type:z.literal('expansionReview'),id,version,hash:z.string().length(64),reference:str,findings:note}).strict(),
  z.object({type:z.literal('expansionWithdraw'),id,version,reason:note}).strict(),
@@ -23,22 +26,25 @@ function actors(s:OrgState,ownerId:string,reviewerId:string,createdBy:string){co
 export function expansionFor(s:OrgState,id:string){const x=s.expansions?.find(x=>x.id===id);if(!x)fail(404,'Expansion proposal not found.');return x;}
 export async function expansionStatus(s:OrgState,x:Expansion){
  const owner=s.members.find(m=>m.userId===x.ownerId),reviewer=s.members.find(m=>m.userId===x.reviewerId);
- const hash=await digest({spec:x.spec,owner:owner?{id:owner.userId,version:owner.version,status:owner.status,role:owner.role,isOwner:owner.isOwner}:null,reviewer:reviewer?{id:reviewer.userId,version:reviewer.version,status:reviewer.status,isOwner:reviewer.isOwner}:null,evidence:x.evidence});
- const specHash=await digest(x.spec),missing=EXPANSION_CHECKS.filter(check=>!x.evidence.some(e=>e.check===check&&e.specHash===specHash));let authority=true;try{actors(s,x.ownerId,x.reviewerId,x.createdBy)}catch{authority=false}
- return {hash,specHash,missing,reviewCurrent:x.state==='reviewed'&&x.review?.hash===hash&&authority,canReview:authority&&!missing.length&&x.state!=='withdrawn',liveEnabled:false,blockers:['Real pilot exit and buyer/jurisdiction acceptance remain unresolved.','Recorded evidence is not independently verified.','Proposal review does not install a programme, activate a provider, connect an EHR or open a deployment.']};
+ const hash=await digest({spec:x.spec,...(x.deployment?{deployment:x.deployment}:{}),owner:owner?{id:owner.userId,version:owner.version,status:owner.status,role:owner.role,isOwner:owner.isOwner}:null,reviewer:reviewer?{id:reviewer.userId,version:reviewer.version,status:reviewer.status,isOwner:reviewer.isOwner}:null,evidence:x.evidence});
+ const specHash=await digest(x.deployment?{spec:x.spec,deployment:x.deployment}:x.spec),missing=EXPANSION_CHECKS.filter(check=>!x.evidence.some(e=>e.check===check&&e.specHash===specHash));let authority=true;try{actors(s,x.ownerId,x.reviewerId,x.createdBy)}catch{authority=false}const deploymentReady=x.spec.kind!=='location'||!!x.deployment;
+ return {hash,specHash,missing,deploymentReady,reviewCurrent:x.state==='reviewed'&&x.review?.hash===hash&&authority,canReview:authority&&deploymentReady&&!missing.length&&x.state!=='withdrawn',liveEnabled:false,blockers:['Real pilot exit and buyer/jurisdiction acceptance remain unresolved.','Recorded evidence is not independently verified.','Proposal review does not install a programme, activate a provider, connect an EHR or open a deployment.']};
 }
 export function authorizeExpansion(s:OrgState,m:Member,c:any){if(!c.type.startsWith('expansion'))return;if(!operator(m))fail(403,'Operations access required.');if(c.type==='expansionReview'&&expansionFor(s,c.id).reviewerId!==m.userId)fail(403,'Only the named independent reviewer can record this review.');}
 export async function applyExpansion(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
  const parsed=expansionSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeExpansion(s,m,c);s.expansions??=[];let x:Expansion,result:any={ok:true};
  if(c.type==='expansionCreate'||c.type==='expansionImport'){
-  if(s.expansions.length>=100)fail(422,'Expansion proposal limit reached.');actors(s,c.ownerId,c.reviewerId,u.userId);const spec=c.type==='expansionCreate'?c.spec:c.pack.spec;
-  x={id:uuid(),version:1,spec,ownerId:c.ownerId,reviewerId:c.reviewerId,createdBy:u.userId,createdAt:now,state:'draft',evidence:[],history:[{by:u.userId,at:now,action:c.type,reason:'Synthetic proposal only; no clinical records, credentials or approvals copied.'}],...(c.type==='expansionImport'?{sourceHash:await digest(c.pack)}:{})};s.expansions.push(x);result={proposalId:x.id};
+  if(s.expansions.length>=100)fail(422,'Expansion proposal limit reached.');actors(s,c.ownerId,c.reviewerId,u.userId);let spec=c.type==='expansionCreate'?c.spec:c.pack.spec as ExpansionSpec,deployment:DeploymentManifest|undefined;
+  if(c.type==='expansionImport'&&c.pack.format==='saha-deployment-pack'){const verified=await parseDeploymentPack(c.pack),parsedSpec=expansionSpec.safeParse(verified.spec);if(!parsedSpec.success)fail(422,'Deployment pack proposal scope is invalid.');spec=parsedSpec.data;deployment=verified.deployment;}
+  x={id:uuid(),version:1,spec,...(deployment?{deployment}:{}),ownerId:c.ownerId,reviewerId:c.reviewerId,createdBy:u.userId,createdAt:now,state:'draft',evidence:[],history:[{by:u.userId,at:now,action:c.type,reason:'Synthetic proposal only; no clinical records, credentials or approvals copied. Imported reviews never transfer.'}],...(c.type==='expansionImport'?{sourceHash:await digest(c.pack)}:{})};s.expansions.push(x);result={proposalId:x.id};
  }else{
   x=expansionFor(s,c.id);if(x.version!==c.version)fail(409,'The proposal changed. Refresh and review the current version.');if(c.type==='expansionActivate')fail(409,'Live expansion is unavailable. Complete the real pilot exit and buyer/jurisdiction approvals in an authorised deployment.');if(x.state==='withdrawn')fail(409,'Withdrawn proposals are immutable. Import a configuration-only copy to start again.');
   if(c.type==='expansionEdit'){
    if(x.ownerId!==u.userId&&!m.isOwner)fail(403,'Only the accountable owner or organisation owner can edit the proposal.');actors(s,c.ownerId,c.reviewerId,x.createdBy);x.spec=c.spec;x.ownerId=c.ownerId;x.reviewerId=c.reviewerId;x.state='draft';
+  }else if(c.type==='expansionSetDeploymentPack'){
+   if(x.ownerId!==u.userId&&!m.isOwner)fail(403,'Only the accountable owner or organisation owner can package a deployment.');x.deployment=deploymentManifest(c.manifest);x.state='draft';
   }else if(c.type==='expansionEvidence'){
-   if(x.ownerId!==u.userId&&!m.isOwner)fail(403,'Only the accountable owner or organisation owner can add evidence.');if(x.evidence.length>=60)fail(422,'Evidence limit reached.');x.evidence.push({id:uuid(),specHash:await digest(x.spec),check:c.check,reference:c.reference,findings:c.findings,by:u.userId,at:now});x.state='draft';
+   if(x.ownerId!==u.userId&&!m.isOwner)fail(403,'Only the accountable owner or organisation owner can add evidence.');if(x.evidence.length>=60)fail(422,'Evidence limit reached.');x.evidence.push({id:uuid(),specHash:await digest(x.deployment?{spec:x.spec,deployment:x.deployment}:x.spec),check:c.check,reference:c.reference,findings:c.findings,by:u.userId,at:now});x.state='draft';
   }else if(c.type==='expansionReview'){
    const status=await expansionStatus(s,x);if(!status.canReview)fail(409,'Current accountable members and all six evidence categories are required.');if(c.hash!==status.hash)fail(409,'The proposal or evidence changed. Review the current version.');x.review={by:u.userId,memberVersion:m.version,hash:status.hash,reference:c.reference,findings:c.findings,at:now};x.state='reviewed';
   }else if(c.type==='expansionWithdraw'){
