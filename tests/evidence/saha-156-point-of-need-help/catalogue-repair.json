@@ -1,0 +1,37 @@
+{
+  "story": "SAHA-156",
+  "candidateCommit": "6ec4bc5d35839532c5fe206a69f96de6bb57b6ea",
+  "scope": "Release-gate repair only: classify the existing point-of-need help contract, React/Chromium component and built Worker/D1 browser suites; register their result files; add observed guarded minima without changing any existing minimum.",
+  "catalogue": {
+    "status": "passed",
+    "suites": 1047,
+    "components": 100
+  },
+  "guardedSelection": {
+    "command": "node scripts/test.mjs unit integration --only unit/point-of-need-help-contract --only integration/point-of-need-help-component --only integration/point-of-need-help-browser --guard --report /private/tmp/saha156-final-guard.json",
+    "passed": 57,
+    "failed": 0,
+    "skipped": 0,
+    "suites": {
+      "unit/point-of-need-help-contract": 30,
+      "integration/point-of-need-help-component": 16,
+      "integration/point-of-need-help-browser": 11
+    },
+    "regressionGuard": "passed; 3 baselined suites checked; 0 quarantined or excused",
+    "productionBuild": "passed before the integration suites"
+  },
+  "otherChecks": {
+    "typecheck": "passed",
+    "documentationIntegrity": "passed against application-saha-156-point-of-need-help-catalogue-repair-20261020-sha256.json",
+    "requirementsAudit": "passed; 176 source IDs retained and acceptance pending",
+    "diffCheck": "passed"
+  },
+  "sourceHashes": {
+    "scripts/test-catalogue.mjs": "faa86a2f6429486ef917cbee37f50e7c1a71059ed07f1172aabdad3f9bbed37b",
+    "tests/regression-baseline.json": "b39aaa23dced5b68f6b88ac0d808f93f086b020ddbc3e974f8fa8e7688df932d",
+    "docs/verification/application-saha-156-point-of-need-help-catalogue-repair-20261020-sha256.json": "19ce047a39cd86f849574e62c081d9e3b9483dabecbda2a0282343ba73aa6cde",
+    "docs/verification/current-baseline.json": "8695e64b6877601cf792557cd34beb34a2fa4ed71eb862c2e473b1de980a0a76"
+  },
+  "limits": "Synthetic local engineering evidence only. This repair is not independent approval, CI, merge, formal acceptance or observed deployment.",
+  "completedAt": "2026-10-20T14:49:02.542Z"
+}
