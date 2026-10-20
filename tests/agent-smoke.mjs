@@ -8,7 +8,7 @@ export async function agentSmoke({o,c,w,a,s,post,get,check,org,sql}){
  await post(a,prepare(),403);await post(w,prepare(),403);await post(s,prepare(),403);
  await post(o,{...prepare(),providerId:'openai'},409);await post(o,{...prepare(),task:'prescribe'},422);await post(o,{...prepare(),patientId:'p_meena'},422);
  let runId=(await post(o,prepare())).result.runId;const run=()=>v().agentRuns.find(x=>x.id===runId);
- check(()=>{assert.equal(run().status,'pending');assert.equal(run().callCount,0);assert.equal(v().facts.weight,'');assert.deepEqual(run().execution,{catalogueVersion:'saha-approved-tools-1',toolId:'agent.extract-evidence.v1',inputContract:'agent-source-v1',outputContract:'agent-evidence-v1',authorityClass:'care-role-own-request',confirmation:'exact-input-hash'})});
+ check(()=>{assert.equal(run().status,'pending');assert.equal(run().callCount,0);assert.equal(v().facts.weight,'');assert.deepEqual(run().approvedExecution,{catalogueVersion:'saha-approved-tools-1',toolId:'agent.extract-evidence.v1',inputContract:'agent-source-v1',outputContract:'agent-evidence-v1',authorityClass:'care-role-own-request',confirmation:'exact-input-hash'})});
  await post(c,{type:'executeAgent',visitId,runId,inputHash:run().inputHash},403,crypto.randomUUID(),org);
  await post(o,{type:'executeAgent',visitId,runId,inputHash:'wrong'},409);
  const key=crypto.randomUUID(),execute={type:'executeAgent',visitId,runId,inputHash:run().inputHash};
