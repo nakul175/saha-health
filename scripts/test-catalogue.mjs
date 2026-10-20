@@ -34,6 +34,7 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/smoke/route-suggestions-worker.mjs': ['tests/evidence/saha-159-route-suggestions/worker-d1-result.json'],
   'tests/configuration-publication-http.mjs': ['tests/evidence/saha116-local-coding-completion/http.json'],
   'tests/governed-report-export-http.mjs': ['tests/evidence/saha111-local-coding-completion/http.json'],
   'tests/integration/contextual-academy-http.mjs': ['tests/reports/contextual-academy-http-result.json'],

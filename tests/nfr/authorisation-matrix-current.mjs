@@ -52,6 +52,7 @@ const ROUTE_PARAMS = {
   '/api/programme-pack-review': ()=>[{q:'',kind:'plain',binding:true}],
   '/api/workforce-status': ()=>[{q:''}],
   '/api/contextual-academy': w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }],
+  '/api/route-suggestions': () => [{ q: '' }],
   '/api/today': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/routine-visit': w => [
     { q: `?personId=${w.people.a2}`, kind: 'person' },
@@ -152,8 +153,14 @@ try {
   await r.check('route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)', () => none(unclassified, `unclassified GET routes: ${unclassified.join(', ')}`));
   await r.check(`grid is complete: ${cases.length} requests x ${PRINCIPALS.length} principals, every cell has a status`, () => { if (cases.length < 40) throw new Error(`only ${cases.length} cases`); none(violations((c, p) => (Number.isInteger(c.cells[p].status) ? '' : 'no status')), 'cells'); });
   // These explicit ASHA-only routes refuse the owner; all old legacy owner responses remain unchanged.
-  await r.check('control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/contextual-academy', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/local-registration', '/api/shared-question-review'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
-  await r.check('control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/contextual-academy', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/disagreement-review', '/api/identity-link-review'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/contextual-academy', '/api/route-suggestions', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/local-registration', '/api/shared-question-review'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/contextual-academy', '/api/route-suggestions', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/disagreement-review', '/api/identity-link-review'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('Route suggestions permit current ASHAs only and preserve role boundaries', () => {
+    const row = cases.find(c => c.route === '/api/route-suggestions'); assert.ok(row);
+    for (const role of ['asha1', 'asha2']) assert.equal(row.cells[role].status, 200, fmt(row, role));
+    for (const role of ['owner', 'admin', 'supervisor', 'clinician', 'stranger']) assert.equal(row.cells[role].status, 403, fmt(row, role));
+    assert.equal(row.cells.anonymous.status, 401, fmt(row, 'anonymous'));
+  });
   await r.check('Contextual Academy permits only its assigned ASHA and refuses every other principal', () => {
     const row = cases.find(c => c.route === '/api/contextual-academy'); assert.ok(row);
     assert.equal(row.cells.asha2.status, 200, fmt(row, 'asha2'));

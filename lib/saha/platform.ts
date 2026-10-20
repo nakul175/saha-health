@@ -62,6 +62,7 @@ import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
 import { factReuseSchema, applyFactReuse } from './fact-reuse';
 import { destinationEnrolmentSchema } from './destination-enrolment';
+import { routeSuggestionSchema } from './route-suggestions';
 import { dueWorkSchema } from './due-work';
 import { exceptionAssignmentSchema } from './exceptions';
 import { prioritisationSchema } from './prioritisation';
@@ -144,6 +145,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...factReuseSchema.options,
  // Slice r37: destination enrolment request/rejection/acceptance lifecycle (mock destination; lib/saha/destination-enrolment.ts).
  ...destinationEnrolmentSchema.options,
+ ...routeSuggestionSchema.options,
  // SAHA-102: owner-approved due-work policy and version-checked follow-up delay recording.
  ...dueWorkSchema.options,
  // SAHA-107: auditable operational exception assignment and reassignment.

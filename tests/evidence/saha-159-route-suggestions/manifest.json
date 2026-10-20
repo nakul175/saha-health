@@ -1,0 +1,36 @@
+{
+  "story": "SAHA-159",
+  "linearIssue": "APL-182",
+  "repairBase": "47177b1835f66eb64d09e80b85c5d718ca7c626d",
+  "environment": "local synthetic built Worker and D1",
+  "sourceSha256": {
+    "lib/saha/route-suggestions-server.ts": "dcf80effb1ed5cce3b1cd867ab4f292455bddfc1bfd0bd0230db11f50171321f",
+    "tests/smoke/route-suggestions-worker.mjs": "1959e447dc63b8b9b43c9d05b530f8cd7b4079022996136db526765ca7ae79a6",
+    "scripts/test-catalogue.mjs": "58c4b596242ecade39ba2f7f9ad1987d92579e02d299cedb60267a3732ebccb2",
+    "tests/regression-baseline.json": "61ba771af5453b3eea90a0147b7773a719720f084e2bdaf135d6d6a52b52a574"
+  },
+  "evidenceSha256": {
+    "tests/evidence/saha-159-route-suggestions/post-audit-race-before.json": "ba8bee852d0c4bbabfc55e386444fa167cea7380181fdd1fcbfdbfc3edbc03ec",
+    "tests/evidence/saha-159-route-suggestions/worker-d1-result.json": "ab519703a2928af44cd2d697522ed82731a1f2eb243bba80ea4d923f4b01e449",
+    "tests/evidence/saha-159-route-suggestions/baseline-registration.json": "652834193e3db9c408bc2126edf736ac3e2399658d7896d82301c3e0201d924c",
+    "tests/evidence/saha-159-route-suggestions/guarded-final.json": "eacf14b6e5fc2b90fa7e251a736fd10aa8895ef39c75bf85606096962aae6118"
+  },
+  "results": {
+    "unit": { "passed": 31, "failed": 0, "minimum": 31 },
+    "workerD1": { "passed": 8, "failed": 0, "minimum": 8 },
+    "guarded": { "passed": 39, "failed": 0, "baselinedSuites": 2 },
+    "loweredOrRemovedMinima": 0,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "catalogue": "passed",
+    "documentationIntegrity": "passed",
+    "requirementsAudit": "176 source IDs verified; acceptance remains pending"
+  },
+  "pendingSeparateGates": [
+    "independent review of this repaired tree",
+    "exact-source CI",
+    "formal product and domain acceptance",
+    "merge",
+    "observed deployment"
+  ]
+}

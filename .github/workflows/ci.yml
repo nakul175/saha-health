@@ -368,15 +368,16 @@ jobs:
               'unit/language-resource-qualification-contract', 'unit/mapping-authority-contract',
               'unit/multi-provider-result-history-contract', 'unit/organisational-federation-contract',
               'unit/programme-manager-analysis-contract', 'unit/provider-invocation-contract',
-              'unit/saha-027-media-review-contract', 'unit/saha-062-local-completion'
+              'unit/saha-027-media-review-contract', 'unit/saha-062-local-completion',
+              'smoke/route-suggestions-worker', 'unit/route-suggestions-contract'
           }
           original = json.loads((root / 'tests/reports/original-missing13-custody/original-389-regression-baseline.json').read_text())['suites']
           assert len(original) == 389, 'Original 389 guarded records must remain'
           assert hashlib.sha256(json.dumps(original,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 objects/minima changed'
-          assert len(baseline['suites']) == 436 and additions <= baseline['suites'].keys(), 'All and only the 47 integrated observed minima must be added'
+          assert len(baseline['suites']) == 463 and additions <= baseline['suites'].keys(), 'All and only the original 389 plus 74 integrated observed minima must remain'
           assert hashlib.sha256(json.dumps(original,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 immutable objects/minima changed'
           current = baseline['suites']
-          assert len(current) == 459 and set(current) == set(original) | additions, 'All and only the original 389 plus 70 integrated observed minima must remain'
+          assert len(current) == 463 and set(current) == set(original) | additions, 'All and only the original 389 plus 74 integrated observed minima must remain'
           allowed_file_successors = {
               'unit/data-exit-contract': 'tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs',
               'unit/test-runner-contract': 'tests/test-runner-manual-intake-v2-contract.mjs',
