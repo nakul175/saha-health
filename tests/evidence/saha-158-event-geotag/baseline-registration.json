@@ -1,0 +1,140 @@
+{
+  "generatedAt": "2026-10-20T14:54:27.288Z",
+  "startedAt": "2026-10-20T14:54:25.435Z",
+  "command": "node scripts/test.mjs unit smoke --only unit/event-geotag-contract,smoke/event-geotag-worker --fast --update-baseline --reason Add observed SAHA-158 contract and actual Worker/D1 minima after independent review --report tests/evidence/saha-158-event-geotag/baseline-registration.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 60,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 145,
+      "failedSuites": 0
+    },
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 1,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1492,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 68,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 1853
+  },
+  "suites": [
+    {
+      "id": "unit/event-geotag-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/event-geotag-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 60,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 145,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__event-geotag-contract.log"
+    },
+    {
+      "id": "smoke/event-geotag-worker",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/event-geotag-worker.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1492,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/saha-158-event-geotag/worker-d1-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__event-geotag-worker.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 237,
+        "components": 0,
+        "suitesCitingNoRequirement": 92,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 161,
+        "components": 84,
+        "suitesCitingNoRequirement": 80,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 26,
+        "components": 0,
+        "suitesCitingNoRequirement": 20,
+        "requirementsCited": 17
+      },
+      "ui": {
+        "suites": 2,
+        "components": 16,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 6,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 610,
+        "components": 0,
+        "suitesCitingNoRequirement": 486,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 49,
+    "suites": 1046,
+    "components": 100,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 682,
+    "componentsCitingNoRequirement": 24,
+    "requirementsCitedBySomeTest": 157
+  }
+}

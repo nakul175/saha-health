@@ -276,7 +276,7 @@ export default function RoutineVisit() {
     {context && <>
       <section aria-label="Selected person"><h2>{context.person.name}</h2><p>{context.person.village} · {context.person.id}</p>
         <p>{context.person.age} years · {context.person.sex} · Person version {context.person.version}</p>
-        {visit && <p>Visit {visit.id} · version {visit.version} · {visit.voidedAt ? 'Voided encounter on server' : visit.supersededBy ? 'Superseded encounter on server' : visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p>}
+        {visit && <><p>Visit {visit.id} · version {visit.version} · {visit.voidedAt ? 'Voided encounter on server' : visit.supersededBy ? 'Superseded encounter on server' : visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p><p><a href={`/event-geotag?personId=${encodeURIComponent(context.person.id)}&visitId=${encodeURIComponent(visit.id)}&organisationId=${encodeURIComponent(context.organisationId)}`}>Optional event location or no-GPS outcome</a></p></>}
       </section>
       <RoutineSaveStatus visit={visit ?? null} dirty={dirty} busy={busy} uncertain={uncertain}/>
       {!visit ? <button disabled={busy || uncertain} onClick={() => void send({ type: 'startVisit', personId: context.person.id }, 'Server draft started or resumed and read back.')}>Start or resume routine draft</button> : facts &&
