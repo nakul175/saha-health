@@ -295,3 +295,6 @@ Combined validation now passes147 unit suites/8,594 checks, fullHTTP/restore/sec
 | B27 frozen reports | Immutable original editions and reviewed corrections; independent cancellation freshness repair | Final independent review complete in isolated source, not yet integrated |
 
 Full41-group residual scope remains in [the dispatch ledger](current/APP-FIRST-REMAINING-WORK.md). B09 inbound conflicts, B13 household completion and hosted transport diagnosis proceed in parallel. SDK licence decision, APK/device and all clinical/external/formal acceptance remain pending.
+# SAHA-104 checkpoint — 20 October 2026
+
+The frozen APL-127 / BR-CARE-06 application-code gap is locally complete: preferences are per person/purpose/channel, shared-phone disclosure and private-contact refusal are enforced, messages are purpose-bound, and current record/assignment/purpose authority plus preference history are retained. Focused tests, existing contact import, typecheck and production build pass with zero external sends. Next gates are independent source and domain review, exact-source CI, formal TC-BR-CARE-06-A/B and representative-device acceptance, approved language/channel/provider evidence, merge, and observed deployment. Do not count this local commit as any of those gates.

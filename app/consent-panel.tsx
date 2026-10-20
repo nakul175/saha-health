@@ -12,7 +12,7 @@ type Command=(c:any,s?:string)=>Promise<any>;
 const LABEL:Record<ConsentPurpose,string>={ai:'Optional AI assistance',exchange:'External record sharing',contact:'Automated contact'};
 const DISPOSITION:Record<Disposition,string>={stopped:'stopped','in-flight':'awaiting receipt','already-sent':'already sent, not recalled',kept:'kept'};
 const CHANNEL:Record<string,string>={'in-person':'in person',phone:'by phone',written:'in writing',switch:'with the permission switch','contact-preferences':'with contact preferences'};
-const current=(p:Person,x:ConsentPurpose)=>x==='ai'?p.aiConsent:x==='exchange'?p.exchangeConsent:!!p.contactPreferences?.permission;
+const current=(p:Person,x:ConsentPurpose)=>x==='ai'?p.aiConsent:x==='exchange'?p.exchangeConsent:[...(p.contactPreferenceRecords??[]),...(p.contactPreferences?[p.contactPreferences]:[])].some(c=>c.permission);
 function Pick({label,value,set,items}:{label:string;value:string;set:(s:string)=>void;items:[string,string][]}){return <Select value={value} onValueChange={set}><SelectTrigger aria-label={label}><SelectValue placeholder={label}/></SelectTrigger><SelectContent>{items.map(([id,name])=><SelectItem key={id} value={id}>{name}</SelectItem>)}</SelectContent></Select>}
 function EventCard({e}:{e:ConsentEvent}){
  return <li className="stack-form merge-case"><strong>{LABEL[e.purpose]} {e.action}</strong> <span className="muted">· {new Date(e.at).toLocaleString()} · {e.byName} ({e.role}) · recorded {CHANNEL[e.channel]??e.channel}{e.reference?` · reference ${e.reference}`:''} · version {e.fromVersion} to {e.toVersion}</span>

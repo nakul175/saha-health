@@ -1,0 +1,92 @@
+{
+  "format": "saha-local-coding-completion-v1",
+  "story": "SAHA-104",
+  "issue": "APL-127",
+  "requirement": "BR-CARE-06",
+  "generatedAt": "2026-10-20T11:40:12.502727Z",
+  "baseCommit": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "contract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-127.md",
+    "sha256": "b6fce2ab98d92c9a723e7056be0a56a615c6bd44551883213c4d94ced008a544"
+  },
+  "scope": "Local application-code completion for frozen safe communication preferences; synthetic only.",
+  "results": {
+    "focusedContract": {
+      "passed": 27,
+      "failed": 0,
+      "runner": "tests/evidence/saha104-local-coding-completion/runner.json"
+    },
+    "outreachRegression": {
+      "passed": 55,
+      "failed": 0,
+      "adapter": "temporary current-module inventory only; assertions unchanged"
+    },
+    "consentRegression": {
+      "passed": 25,
+      "failed": 0,
+      "adapter": "temporary current-module inventory only; assertions unchanged"
+    },
+    "contactImport": {
+      "passed": 18,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "catalogue": "passed",
+    "requirementsAudit": "passed",
+    "generatedDocumentationInventory": "passed",
+    "immutableBaselineIntegrity": {
+      "status": "expected-feature-branch-failure-retained",
+      "reason": "application sources differ from current-main baseline and historic evidence manifests pin the original source"
+    },
+    "externalProviderCalls": 0,
+    "realRecipientsContacted": 0
+  },
+  "sourceHashes": {
+    "app/consent-panel.tsx": "c07c561eb02b605d7414aa3d011298659ef3c2f4014c65d863f57b6bba08230c",
+    "app/outreach-panel.tsx": "ab74d224754a0e1be23f880b704b125ae0098ed94cd0e5965d7d463a6167c35f",
+    "lib/saha/consent.ts": "d854c19c83a65953c4c0e85d2c426941f14bdba4f944e269575f47eba1a4ebe0",
+    "lib/saha/contact-import.ts": "d157fe5e648d093d24a1bf9d6c0d6a68bbfe106c4b5072e2f1d3519e8954d224",
+    "lib/saha/outreach-server.ts": "8d2f61f6f46ff24195a397322873c564ad0c315d05ad6052fad981c30da2e9ab",
+    "lib/saha/outreach.ts": "489a403050c025a72d01fdbe1ae241ec7e730484cfc0ee639b7e8ad27f97f8ce",
+    "lib/saha/purpose-scope.ts": "c2dcdfdd6a44ded464ebf48e05c52d21697776ef3b02329ed73e35dd30f9ce9a",
+    "lib/saha/types.ts": "7d4f808e9fafe2004aaa86b34c5568bafccba915c355499f53e98d3b7b529562",
+    "tests/safe-communication-preferences-contract.mjs": "4e1de557df2bf4e29fbdd7e684057fe0c864544d19b4efea9bd99ccd23097327",
+    "requirements/assessment.tsv": "7e980ad953d6d358e4599b1426883442dacdfba0fa40a4cab10bdc6ce4528d4f",
+    "requirements/evidence-map.json": "0cdaef628f023f76a3987b5dc64ec0f76e3bcbf8eeaaa946b7ce6c67ec90579a",
+    "requirements/traceability.csv": "791af716d80c1b3fa1ec0e503745d988077748e125e6c069a8be995b885ea0ad",
+    "requirements/traceability.json": "5ca10289acddaa6e084c86ac2180a834bd284fd4776888c2c5646c6c7335f3c6",
+    "REQUIREMENTS-TRACEABILITY.md": "23ee6b4b90b52edf9b74f8b32ed03a968cdfa3f6df189e4b1ed38b388e56902a",
+    "docs/current/SAHA-104-LOCAL-CODING-COMPLETION-20261020.md": "3f0e805713e40da174b0f79710cf5f12bcc0d75a053572b7a225db73db31f02d",
+    "docs/current/COMMAND-CATALOGUE.csv": "2eb79dfd8aa084f91dcf995a5f3e891083db9033fa5f68142be3cafb6d33f614",
+    "docs/current/TEST-CATALOGUE.csv": "fc2ebc761d998b033b9eafd66cae968ddb6ef1111c6ae44b85f86c7d375d1849",
+    "VALIDATION.md": "bfae78ea8ec73892f637bac5f4146c996ca5e7a64b916613e0b444cfe23d0f83",
+    "docs/IMPLEMENTATION.md": "d521207ace29c88fb95da4eb5e1ed691c5682984fe06ddda2e9a7b1839d71e9a",
+    "docs/NEXT-DELIVERY.md": "326302d92f4030a7ad20239178efef308cd108093ac8a5705e2517b42865209a"
+  },
+  "artifactHashes": {
+    "tests/evidence/saha104-local-coding-completion/runner.json": "4e53a69ffdbf2f69ebd8fbf89c8628f69dd53e3b49ec3aed3c50b98c47ce6d61",
+    "tests/evidence/saha104-local-coding-completion/contract.log": "29d62ec801e5d2d2d500b849aa3ef76fbf707efcd37993d37449010abb59f229",
+    "tests/evidence/saha104-local-coding-completion/contact-import.log": "c24ca640b420568d996f8ca7ae05a670a07ca530f888a967b2b810ce6e9dbc77",
+    "tests/evidence/saha104-local-coding-completion/outreach-regression.log": "4715afac2a397f9ec47b0a4c32356399d91df80de6dc271bd1ced3aa2114feb9",
+    "tests/evidence/saha104-local-coding-completion/consent-regression.log": "51f9f4a921873f8fa7a0eab785fb4ce94ede4110c5cac4e3b8fffed4db48af4d",
+    "tests/evidence/saha104-local-coding-completion/typecheck.log": "0e65e88b4476921401173ca64d2d9950a748184c7880259e5171d0aaead22135",
+    "tests/evidence/saha104-local-coding-completion/build.log": "100482a49766c2b02e997a52066d38b24b7c864da33b7db0c4780e19d6e83d87",
+    "tests/evidence/saha104-local-coding-completion/catalogue.log": "52b844aa670c903b8c9a914aaeb2574ec78dc76818a8e073d716edd2e021c7f9",
+    "tests/evidence/saha104-local-coding-completion/requirements.log": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+    "tests/evidence/saha104-local-coding-completion/documentation-generate.log": "c3592f86cc6005be5abba2845785f4d61a53d553a297cdbf81e0f325521b97b6",
+    "tests/evidence/saha104-local-coding-completion/documentation-inventory.log": "8784d00e4720661962921e4c6f061c778bd9cb605a71e1ae36532abc140e0f00",
+    "tests/evidence/saha104-local-coding-completion/documentation-baseline.log": "73c8ae91667be1e6d591ac35cd8e479893cbe7f937769a6272e8c11c5ecef97e"
+  },
+  "pendingGates": [
+    "independent source review",
+    "product/domain/clinical review as applicable",
+    "exact-source CI and branch protections",
+    "formal TC-BR-CARE-06-A/B",
+    "representative worker/device and reviewed-language acceptance",
+    "approved live channel/provider",
+    "integration custody reconciliation",
+    "merge",
+    "observed deployment"
+  ]
+}

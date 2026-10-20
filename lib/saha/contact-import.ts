@@ -26,7 +26,7 @@ export async function planContactRows(s:OrgState,m:Member,header:string[],body:s
 }
 export async function applyContactRows(s:OrgState,plan:Awaited<ReturnType<typeof planContactRows>>,reason:string,u:Actor,m:Member,now:string){
  authorizeContactImport(s,m);const batchId=uuid();
- for(const a of plan.accepted){const p=s.workspace.people.find(x=>x.id===a.personId)!;importsInto(s,m,p.teamId,now,true);const preferences:ContactPreferences={...a.preferences,permission:false,version:1,updatedAt:now,by:u.userId};p.contactPreferences=preferences;(p.importedContacts??=[]).push({id:uuid(),batchId,row:a.row,fileDigest:plan.fileDigest,planHash:plan.planHash,sourceSystem:a.sourceSystem,at:now,by:u.userId,preferences:structuredClone(preferences)});p.version++;}
+ for(const a of plan.accepted){const p=s.workspace.people.find(x=>x.id===a.personId)!;importsInto(s,m,p.teamId,now,true);const preferences:ContactPreferences={...a.preferences,permission:false,version:1,updatedAt:now,by:u.userId};p.contactPreferences=preferences;p.contactPreferenceRecords=[preferences];(p.importedContacts??=[]).push({id:uuid(),batchId,row:a.row,fileDigest:plan.fileDigest,planHash:plan.planHash,sourceSystem:a.sourceSystem,at:now,by:u.userId,preferences:structuredClone(preferences)});p.version++;}
  s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'recordImportApply',subject:s.organisation.id,detail:`Contact import batch ${batchId}; file SHA-256 ${plan.fileDigest}; reviewed plan ${plan.planHash}; ${plan.accepted.length} contacts recorded without contact permission; ${plan.counts.rejected} rejected. Reason: ${reason}`});
  return {batchId,kind:'contacts',counts:{...plan.counts,applied:plan.accepted.length,records:plan.accepted.length},rows:plan.accepted.map(x=>x.row)};
 }
@@ -38,7 +38,7 @@ export async function planContactReversal(s:OrgState,m:Member,batchId:string,env
 }
 export async function applyContactReversal(s:OrgState,m:Member,u:Actor,c:{batchId:string;planHash:string;reason:string},env:string,now:string){
  const plan=await planContactReversal(s,m,c.batchId,env);if(plan.planHash!==c.planHash)fail(409,'Batch records changed. Review a new reversal dry run.');
- for(const {p,e}of contactBatch(s,m,c.batchId)){delete p.contactPreferences;e.withdrawal={at:now,by:u.userId,reason:c.reason,planHash:plan.planHash};p.version++;}
+ for(const {p,e}of contactBatch(s,m,c.batchId)){delete p.contactPreferences;delete p.contactPreferenceRecords;e.withdrawal={at:now,by:u.userId,reason:c.reason,planHash:plan.planHash};p.version++;}
  s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'recordImportContactsReverse',subject:s.organisation.id,detail:`Contact import batch ${c.batchId} reversed under reviewed plan ${plan.planHash}; ${plan.rows.length} unchanged imported contacts cleared; original source lineage retained. Reason: ${c.reason}`});
  return {batchId:c.batchId,kind:'contacts-reversal',counts:{...plan.counts,applied:plan.rows.length,records:plan.rows.length},rows:plan.rows.map(x=>x.row)};
 }

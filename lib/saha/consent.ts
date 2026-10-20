@@ -31,8 +31,8 @@ export function authorizeConsent(s:OrgState,m:Member,c:any){
  if(!care(m))fail(403,'A care role with access to this patient records permission changes.');
  if(typeof c.personId==='string')person(s.workspace,c.personId);
 }
-export function granted(p:Person,purpose:ConsentPurpose){return purpose==='ai'?p.aiConsent:purpose==='exchange'?p.exchangeConsent:!!p.contactPreferences?.permission;}
-const version=(p:Person,purpose:ConsentPurpose)=>purpose==='contact'?p.contactPreferences?.version??0:p.consentVersion;
+export function granted(p:Person,purpose:ConsentPurpose){return purpose==='ai'?p.aiConsent:purpose==='exchange'?p.exchangeConsent:[...(p.contactPreferenceRecords??[]),...(p.contactPreferences?[p.contactPreferences]:[])].some(x=>x.permission);}
+const version=(p:Person,purpose:ConsentPurpose)=>purpose==='contact'?Math.max(0,...(p.contactPreferenceRecords??[]).map(x=>x.version),p.contactPreferences?.version??0):p.consentVersion;
 export function recordConsent(p:Person,e:Omit<ConsentEvent,'id'>){
  const items=e.items.slice(0,MAX_ITEMS),omitted=e.items.length-items.length;
  const event:ConsentEvent={id:uuid(),...e,items,...(omitted?{omitted}:{})};
@@ -88,7 +88,7 @@ const summary=(items:DownstreamItem[])=>{const n=(d:Disposition)=>items.filter(i
 // Withdraws one permission and applies its downstream effects. Returns the recorded event.
 function withdraw(s:OrgState,p:Person,purpose:ConsentPurpose,u:Actor,m:Member,now:string,channel:ConsentChannel,reference:string,reason:string){
  const from=version(p,purpose),items:DownstreamItem[]=[];
- if(purpose==='contact'){const c=p.contactPreferences;if(c){c.permission=false;c.version++;c.updatedAt=now;c.by=u.userId;}items.push(...contactWithdrawalItems(s,p,now,'Contact permission withdrawn.'));}
+ if(purpose==='contact'){const records=[...(p.contactPreferenceRecords??[])];if(p.contactPreferences&&!records.includes(p.contactPreferences))records.push(p.contactPreferences);for(const c of records){if(!c.permission)continue;c.permission=false;c.version++;c.updatedAt=now;c.by=u.userId;}items.push(...contactWithdrawalItems(s,p,now,'Contact permission withdrawn.'));}
  else {if(purpose==='ai')p.aiConsent=false;else p.exchangeConsent=false;p.consentVersion++;(purpose==='ai'?ai:exchange)(s,p,now,items);}
  return recordConsent(p,{purpose,action:'withdrawn',at:now,by:u.userId,byName:u.displayName,role:m.role,channel,reference,reason,fromVersion:from,toVersion:version(p,purpose),items});
 }
@@ -99,7 +99,7 @@ export function applyConsent(s:OrgState,input:unknown,u:Actor,m:Member,now=new D
   const parsed=consentSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid permission withdrawal.');const c=parsed.data,p=person(w,c.personId);
   if(p.version!==c.version)fail(409,'This patient record has changed. Refresh before recording the withdrawal.');
   if(!granted(p,c.purpose))fail(409,`${PURPOSE_LABEL[c.purpose]} is not currently permitted, so there is nothing to withdraw.`);
-  if(c.purpose==='contact'&&!p.contactPreferences)fail(409,'No contact preferences are recorded for this patient.');
+  if(c.purpose==='contact'&&!p.contactPreferences&&!(p.contactPreferenceRecords?.length))fail(409,'No contact preferences are recorded for this patient.');
   e=withdraw(s,p,c.purpose,u,m,now,c.channel,c.reference,c.reason);
  } else {
   const parsed=setConsentSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data,p=person(w,c.personId);

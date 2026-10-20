@@ -38,6 +38,7 @@ export const ACCESS_PURPOSE_LABEL: Record<AccessPurpose, string> = {
 // may start only flows of those purposes. Lookups that resolve an uncertain outcome of a flow already started are
 // not listed: refusing them could leave an outcome unknown, and they send no new data.
 export const COMMAND_PURPOSE: Readonly<Record<string, AccessPurpose>> = {
+  setContactPreferences: 'care-coordination',
   preparePlan: 'programme-delivery', approvePlan: 'programme-delivery', executePlan: 'programme-delivery', sendSubmission: 'programme-delivery',
   requestDestinationEnrolment: 'programme-delivery', activateDestinationEnrolment: 'programme-delivery',
   prepareIdentifierCorrection: 'programme-delivery', approveIdentifierCorrection: 'programme-delivery', sendIdentifierCorrection: 'programme-delivery',
