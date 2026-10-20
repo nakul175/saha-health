@@ -49,6 +49,7 @@ export const COMMAND_PURPOSE: Readonly<Record<string, AccessPurpose>> = {
   prepareAgent: 'ai-assistance', executeAgent: 'ai-assistance', applyAgent: 'ai-assistance',
   prepareAggregateReport: 'reporting', approveAggregateReport: 'reporting', sendAggregateReport: 'reporting',
   householdAddMember: 'household-sharing', householdVisitSchedule: 'household-sharing', householdVisitReschedule: 'household-sharing', householdVisitRecord:'household-sharing',householdVisitOutreach:'household-sharing', proxyGrant: 'household-sharing',
+  prioritisationCreate: 'care-coordination', prioritisationOverride: 'care-coordination', prioritisationConfirm: 'care-coordination', prioritisationCancel: 'care-coordination',
 };
 export function purposeRefusal(m: Member, purpose: AccessPurpose, grants?: readonly PurposeGrant[]): string | null {
   if (purposePermits(m, purpose, grants)) return null;

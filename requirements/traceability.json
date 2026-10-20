@@ -3855,15 +3855,20 @@
       "requirement": "Approved risk or gap-analysis tools may identify populations needing review. Such results shall identify data limitations and support human planning rather than automatically denying service or ranking worker pay.",
       "acceptance": "Acceptance: Supervisors can inspect selection criteria and override an allocation with a reason; uncertainty remains visible.",
       "sourceTextLine": 514,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R14",
-      "current": "Human cohort selection with recorded criteria and allocation rationale.",
-      "remaining": "Approved gap/risk measures and real data-quality/fairness validation.",
+      "current": "Governed operational care-gap criteria with independent configuration review, visible limitations and uncertainty, scoped supervisor selection, reasoned human inclusion/allocation overrides, stale authority/source invalidation, small-cohort refusal and draft-only outreach. The workflow never scores clinical risk, denies service, changes eligibility, worker pay or sanctions.",
+      "remaining": "Clinical/programme approval of any deployment-specific criterion, real data-quality and fairness validation, formal TC-BR-REP-06-A/B and TC-J12 execution, independent source review, CI, merge and observed deployment remain separate gates.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "lib/saha/operations.ts",
-        "lib/saha/pilot.ts",
-        "tests/operations-smoke.mjs"
+        "lib/saha/prioritisation.ts",
+        "lib/saha/prioritisation-server.ts",
+        "app/prioritisation/page.tsx",
+        "app/api/prioritisation/route.ts",
+        "tests/prioritisation-contract.mjs",
+        "tests/prioritisation-contract-result.json",
+        "docs/current/SAHA-112-LOCAL-CODING-COMPLETION.md",
+        "docs/verification/saha-112-local-coding-evidence-sha256.json"
       ],
       "automatedAcceptanceClaim": false
     },

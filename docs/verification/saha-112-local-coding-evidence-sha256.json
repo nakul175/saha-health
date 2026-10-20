@@ -1,0 +1,52 @@
+{
+  "story": "SAHA-112",
+  "linearIssue": "APL-135",
+  "requirement": "BR-REP-06",
+  "baseCommit": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "capturedAt": "2026-10-20T11:53:51Z",
+  "scope": "local application-code completion; formal acceptance, independent review, CI, merge and observed deployment are separate gates",
+  "contract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-135.md",
+    "sha256": "13967d6df5eafbbd2af754ad6cc3e15318d4f855ca0b160949c264c700e6ef6d"
+  },
+  "verification": [
+    {"command": "node tests/prioritisation-contract.mjs", "result": "passed", "passed": 23, "failed": 0},
+    {"command": "node tests/access-scope-contract.mjs", "result": "passed", "passed": 8, "failed": 0},
+    {"command": "node scripts/audit-requirements.mjs --check", "result": "passed", "requirements": 176, "acceptance": "pending"},
+    {"command": "pnpm typecheck", "result": "passed"},
+    {"command": "pnpm build", "result": "passed"},
+    {"command": "node tests/outreach-contract.mjs", "result": "not-run-to-assertions", "reason": "Inherited test harness imports missing generated installed-transition-authority.js"},
+    {"command": "python3 scripts/check-documentation.py", "result": "unavailable", "reason": "Host Python 3.9 does not support zip(strict=True); intentional source changes also differ from the historical baseline"}
+  ],
+  "formalCases": {
+    "TC-BR-REP-06-A": "not run",
+    "TC-BR-REP-06-B": "not run",
+    "TC-J12": "not run"
+  },
+  "files": {
+    "app/outreach-panel.tsx": "07c1f11a7ce6ccdcd3e264f1481d3cdec82f915381c4612f5f20b3274c054f89",
+    "app/api/prioritisation/route.ts": "20aa6463d171185a366638c4c9bfa8055cf733acf18c3c9f89f7e3c6ed4ecc47",
+    "app/prioritisation/page.tsx": "e0b600e90a8cf7dc6df8db92f638d5ba5acbffacb813719959224f2f1393b4d4",
+    "lib/saha/monitoring.ts": "96467cecf2b85f290727a07ba92d1aaa12e9d8492778f3a2ef52cb85f85fc971",
+    "lib/saha/operations.ts": "6b3703f5662fcac37c18d686b50351a448b422853f6cbb2bd897b8fe229703ba",
+    "lib/saha/platform.ts": "aeb17a1e99aafe73fd2bbbe51888b05082242b8a60d64b924a148435f26565ee",
+    "lib/saha/prioritisation-server.ts": "dc97a455bd5015cf22841649146a08bba1edcf3175400e56cfe19038dd6c52e7",
+    "lib/saha/prioritisation.ts": "8fafb0f11e31c3e951c354d845e4f7b3074e18deaa9be31e5ba2e0c45b064153",
+    "lib/saha/purpose-scope.ts": "de682126937d233a9035abe83e8571322309a272cb8ae00f5db87a7bad07f965",
+    "lib/saha/server.ts": "d64703dc30f0736f71765ad0ccf4c35d5a4005386e94834619a83310be6de22c",
+    "tests/prioritisation-contract.mjs": "9802603abc2f41be2981330d90118bf57da6b1ab93e9c646b46e216842f09605",
+    "tests/prioritisation-contract-result.json": "7be4c5a26876f37332cb4b457140be3f293b70272132cd3a0bc065a7f14127e0",
+    "tests/access-scope-contract-result.json": "318babb059b98aa3a4ecec8eb8417183fea8cc2ad3a8d8af00bf68f033571b15",
+    "requirements/assessment.tsv": "ce178aa7596e78338553ca260c8831068d3e9e7bb9b7c4174babb79630f9c613",
+    "requirements/evidence-map.json": "3bdb2f781e812ef4948051dd6b29416f47a45aa0219dff1cf3e2a4304ba3fcd4",
+    "requirements/traceability.json": "8452febe0be872e6d914d021ed9e58c076f417652383c0e2cf4b588a5e89e9b5",
+    "requirements/traceability.csv": "b0aac92aae5df27faa5d0f782c1d9a40dd3c2f360e8c4271095c3f4a44cb268b",
+    "REQUIREMENTS-TRACEABILITY.md": "1c94a21a659be9b3c23e0bc65e2bdba42b74628b7f31f88ee67109bcd823583b",
+    "docs/current/SAHA-112-LOCAL-CODING-COMPLETION.md": "101a8d8c2fa38cf695b342380d18c891474960954b64102da4d24ad2079feaaa",
+    "docs/current/COMMAND-CATALOGUE.csv": "2a0ed224442f746acd335aad8441b8d423f3f7398d697e5edbe093cbe646a5e3",
+    "docs/current/CURRENT-API-INVENTORY.md": "9d301d0a8797e4405976e5579d321d7437d13eea3bc60548111c34320d998e2a",
+    "docs/current/EXECUTION-REGISTER.csv": "8688f2b747d70b2406f1ae55c9c84a0ad65db1bd155cd8b638146d80a9a01dd3",
+    "docs/current/HTTP-ROUTES.csv": "ae71d48f693a68b26dcdf8d589c916d6022bc9a60861d39c89748f64ff4e8eae",
+    "docs/verification/generated-inventory.json": "01c7f75c137aa18355b7e8404fa35070c344b73cac04d895b3f5a76091157899"
+  }
+}

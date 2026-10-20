@@ -62,6 +62,7 @@ import { factReuseSchema, applyFactReuse } from './fact-reuse';
 import { destinationEnrolmentSchema } from './destination-enrolment';
 import { dueWorkSchema } from './due-work';
 import { exceptionAssignmentSchema } from './exceptions';
+import { prioritisationSchema } from './prioritisation';
 import { z } from 'zod';
 import { commandSchema, digest, fail, person, visit, uuid } from './core';
 import type { Actor } from './store';
@@ -141,6 +142,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...dueWorkSchema.options,
  // SAHA-107: auditable operational exception assignment and reassignment.
  ...exceptionAssignmentSchema.options,
+ // SAHA-112: server-scoped prioritisation policy, scoring and review workflow.
+ ...prioritisationSchema.options,
  // Slice 9a: owner-only installation of the demonstration clinical package (synthetic environment only; lib/saha/demonstration.ts).
  z.object({type:z.literal('installDemonstrationPackage')}).strict(),
  z.object({type:z.literal('createOrganisation'),name:str}),
