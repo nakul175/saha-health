@@ -162,7 +162,7 @@ const {programmeMigrationSmoke}=await import('./programme-migration-smoke.mjs');
 // Slice 4f: governed installation of a programme pack (stage, independent review, activation, retirement).
 const {packInstallationSmoke}=await import('./pack-installation-smoke.mjs');await packInstallationSmoke({get,post,check,accounts,org,sql,base});
 const {consentSmoke}=await import('./consent-smoke.mjs');await consentSmoke({get,post,check,accounts,org,sql});
-const {delegationSmoke}=await import('./delegation-smoke.mjs');await delegationSmoke({get,post,check,accounts,org,sql,base});
+const {delegationSmoke}=await import('./delegation-privacy-registration-current.mjs');await delegationSmoke({get,post,check,accounts,org,sql,base});
 const {workerActivitySmoke}=await import('./worker-activity-smoke.mjs');await workerActivitySmoke({get,post,check,accounts,org,base});
 // Slice 10c: synthetic worker incentive claims (schedule, claim, verification, approval into a digest chain, correction, CSV).
 const {incentiveClaimsSmoke}=await import('./incentive-claims-smoke.mjs');await incentiveClaimsSmoke({get,post,check,accounts,org,sql,base});
