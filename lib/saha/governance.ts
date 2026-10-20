@@ -12,6 +12,7 @@ import type { Shadow } from './shadow';
 import { affectedCapabilityEncounters, capabilityImpact, impactSummary } from './capability-lifecycle';
 import { evaluateApprovedCondition } from './controlled-clinical-logic';
 import type { DeploymentAuthorisationState } from './deployment-authorisation';
+import { governanceProviderFingerprint, requireApprovedDataFlow } from './data-flow-authority';
 export const SOURCE_DOCUMENT_BYTES=512*1024;
 export const sourceDocumentRef=z.object({id:z.string().uuid(),sha256:z.string().regex(/^[0-9a-f]{64}$/),mime:z.enum(['text/plain','application/pdf']),bytes:z.number().int().min(1).max(SOURCE_DOCUMENT_BYTES),acquiredAt:z.string().datetime(),expiresAt:z.string().datetime(),licenceReference:z.string().trim().min(3).max(200),acquisition:z.enum(['synthetic-upload','approved-origin-retrieval']),trainingOnly:z.literal(true),retrieval:z.object({url:z.string().url().max(500),origin:z.string().url().max(500),expectedSha256:z.string().regex(/^[0-9a-f]{64}$/),receivedAt:z.string().datetime(),method:z.literal('GET')}).strict().optional()}).strict().refine(d=>d.acquisition==='synthetic-upload'?!d.retrieval:!!d.retrieval&&d.retrieval.expectedSha256===d.sha256&&new URL(d.retrieval.url).origin===d.retrieval.origin,'Acquisition provenance must match its exact digest and origin.');
 const id=z.string().trim().min(1).max(200),text=z.string().trim().min(10).max(1000),version=z.number().int().positive();
@@ -188,7 +189,7 @@ export async function applyGovernance(s:OrgState,input:unknown,u:Actor,m:Member,
    e.review={by:u.userId,memberVersion:m.version,ownerVersion:owner.version,authorVersion:author.version,at:now,reference:c.reference,findings:c.findings,dependencyStamp:dependencyStamp(s,e),...(c.evaluationId?{evaluationId:c.evaluationId}:{})};e.state='reviewed';
   }else{
    if(e.state==='retired')fail(409,'Retired packages are immutable. Create a new revision.');
-   if(c.state==='active'){if(e.state!=='reviewed')fail(409,'Independent review must precede activation.');const issues=entryIssues(s,e,now);if(issues.length)fail(409,issues.join('; '));for(const old of g.entries)if(old.id!==e.id&&old.spec.key===e.spec.key&&old.state==='active'){old.state='retired';old.replacedBy=e.id;old.version++;old.history.push({at:now,by:u.userId,state:'retired',reason:'Replaced by reviewed revision '+e.revision});}}
+   if(c.state==='active'){if(e.state!=='reviewed')fail(409,'Independent review must precede activation.');if(e.spec.kind==='capability'&&e.spec.providerId!=='local')requireApprovedDataFlow(s,e.spec.providerId,{purpose:'ai-assistance',targetFingerprint:governanceProviderFingerprint(e)});const issues=entryIssues(s,e,now);if(issues.length)fail(409,issues.join('; '));for(const old of g.entries)if(old.id!==e.id&&old.spec.key===e.spec.key&&old.state==='active'){old.state='retired';old.replacedBy=e.id;old.version++;old.history.push({at:now,by:u.userId,state:'retired',reason:'Replaced by reviewed revision '+e.revision});}}
    e.state=c.state;
   }
   e.version++;e.history.push({at:now,by:u.userId,state:e.state,reason:c.type==='reviewGovernance'?c.findings:c.reason});
