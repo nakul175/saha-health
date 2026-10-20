@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import {readFileSync,writeFileSync,mkdtempSync,rmSync,mkdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdtempSync,rmSync,mkdirSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.mis-delivery-'));let passed=0;
 try{
- for(const f of ['types','programmes','installed-transition-authority','adapter-operations','service-dispatch','audit-chain','access-audit','core','fact-provenance','send-gate','access','delegation','visit-signoff','mis','mis-execution','trace','operations','referral-rules','task-limits','facility-scope','service-identity','identity']){const code=ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,f+'.js'),code);}
+ for(const file of readdirSync('lib/saha').filter(file=>file.endsWith('.ts'))){const f=file.slice(0,-3),code=ts.transpileModule(readFileSync(`lib/saha/${file}`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,f+'.js'),code);}
  // Injectable persistence models the same compare-and-swap boundary; the API
  // suite separately executes the real D1 persistence and membership checks.
  writeFileSync(join(dir,'store.js'),`import {AppError} from './core.js'; export let saved;export let failFinish=false;export function setup(s,f=false){saved=structuredClone(s);failFinish=f}export async function readState(){return structuredClone(saved)}export function scope(s,id){return s.members.find(m=>m.userId===id)}export async function persist(db,before,after,u,c){if(failFinish&&c.type==='misReceipt')throw new AppError(409,'Injected final-write conflict');if(before.organisation.revision!==saved.organisation.revision)throw new AppError(409,'CAS conflict');saved=structuredClone(after);saved.organisation.revision++;}`);

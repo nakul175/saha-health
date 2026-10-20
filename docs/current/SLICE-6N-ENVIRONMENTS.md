@@ -1,5 +1,11 @@
 # Development slice 6n — environment separation and configuration check
 
+## SAHA-115 application follow-up — 20 October 2026
+
+The original slice history below is retained. The fixed `synthetic` outbound-label limitation is now closed in application code: MIS, FHIR and legacy AI envelopes and transport headers follow the declared environment, and dispatch refuses a body prepared under another environment before I/O. Staging and production live-call policy now also requires opaque environment-bound identity, data and credential namespace attestations. Training reads fail closed if any patient record lacks an explicit synthetic mark, and new synthetic/training registrations retain that mark. See [the exact local completion record](SAHA-115-ENVIRONMENT-SEPARATION-LOCAL-COMPLETION.md).
+
+Physical separation of identity tenants, databases and credential stores has not been provisioned or observed. Formal `TC-BR-OPS-02-A/B`, independent review, CI, merge and deployment remain pending, so `BR-OPS-02` stays partial.
+
 30 September 2026 (IST). Builds on slice 6m. Synthetic data only; nothing was deployed and no real Site configuration was changed. Formal acceptance unchanged.
 
 ## What changed
