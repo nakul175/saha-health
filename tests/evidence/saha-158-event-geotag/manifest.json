@@ -2,7 +2,7 @@
   "story": "SAHA-158",
   "linearIssue": "APL-181",
   "contractSha256": "2f567c5d359a4c8ef077ebe3fae3f498cc09d0a992569543932f4c9c0dd27708",
-  "recordedAt": "2026-10-20T14:55:56Z",
+  "recordedAt": "2026-10-20T15:01:16Z",
   "sourceBase": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
   "environment": "local synthetic code and test runtime",
   "sourceSha256": {
@@ -16,13 +16,15 @@
     "scripts/test-catalogue.mjs": "639ef1e5959673a669de57a06cb0336e7811ab0f82f73c7e97e37e524360d493",
     "app/routine-visit/routine-visit.tsx": "c7b4ecc48894ec01a87117b5b6311e22ea66b67ea5f4dac20f38685db4405e80",
     "app/organisation.tsx": "bc4ee6c78353f075a92cc384ebb6b04d2a160199ea4e3a5b272f0b97c494ae67",
-    "tests/regression-baseline.json": "8511a2fe3633f9568ea8e3661fe094c89f5a28707285201371e9fef960d49fe9"
+    "tests/regression-baseline.json": "8511a2fe3633f9568ea8e3661fe094c89f5a28707285201371e9fef960d49fe9",
+    "tests/nfr/authorisation-matrix-current.mjs": "37ca34416ef580fbfbc1b80c2151f4537fa752e06044d0f3907be4e82ee4413c"
   },
   "sha256": {
     "tests/evidence/saha-158-event-geotag/event-geotag-contract-result.json": "2884db1237bd42cce4aad8db415715f9990ae2c3ce60d797beb92dee1c53bea1",
     "tests/evidence/saha-158-event-geotag/worker-d1-result.json": "aebd8650bf7726b1587cd53b99b57b7ac3c77d797890c52d3c495c39908bbab3",
     "tests/evidence/saha-158-event-geotag/baseline-registration.json": "2b8737f4d46c72298a4949322da74b3af03bcfa9ac6847c311de45176177736c",
-    "tests/evidence/saha-158-event-geotag/guarded-final.json": "b4551cc034fb6dc75b8333afeff0bb0350ff85f38357fb5d5376ca6459f33343"
+    "tests/evidence/saha-158-event-geotag/guarded-final.json": "b4551cc034fb6dc75b8333afeff0bb0350ff85f38357fb5d5376ca6459f33343",
+    "tests/evidence/saha-158-event-geotag/current-authorization-final.json": "d3e313670988ff3b84e5ebc1b31d3f03f42d03937142b3c1d0d74d4a71178e04"
   },
   "results": {
     "eventGeotagContract": {
@@ -45,6 +47,10 @@
       "unitMinimum": 60,
       "workerD1Minimum": 8,
       "loweredOrRemoved": 0
+    },
+    "currentAuthorizationMatrix": {
+      "expectedPassed": 72,
+      "scope": "actual built local Worker/D1 role grid including event geotag person and owner-only policy reads"
     }
   },
   "implemented": [
