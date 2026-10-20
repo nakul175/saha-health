@@ -58,6 +58,7 @@ const recipes = (visitId, org) => ({
   '/api/abdm': '?personId=p_meena', '/api/action-plan': '?personId=p_meena', '/api/history': '?personId=p_meena', '/api/household': '?personId=p_meena',
   '/api/identity-cases': '?personId=p_meena', '/api/patients/detail': '?personId=p_meena', '/api/trace': `?visit=${visitId}`, '/api/fhir/[id]': `?organisationId=${org}`,
   '/api/work-burden/support': `?visitId=${encodeURIComponent(visitId)}`,
+  '/api/contextual-academy': '?personId=p_meena',
 });
 // Routes that cannot be exercised in this run, with the reason. Anything else that answers 4xx without a parameter recipe is skipped and reported too.
 const unsuppliable = {
@@ -255,6 +256,17 @@ try {
   await r.check(`every GET route in HTTP-ROUTES.csv answers the owner with its declared contract (ASHA-only routes refuse; legacy routes succeed)`, async () => {
     const bad = [];
     for (const route of gets) {
+      if (route === '/api/contextual-academy') {
+        const refused = await c.get(owner, pathOf(route), org);
+        assert.equal(refused.status, 403, 'contextual Academy requires active ASHA membership');
+        assert.deepEqual(Object.keys(refused.json).sort(), ['error'], 'contextual Academy role refusal carries no protected context');
+        const res = await c.get(asha, pathOf(route), org);
+        sweep.push({ route, path: pathOf(route), actor: 'assigned-asha', status: res.status, ms: Math.round(res.ms) });
+        assert.equal(res.status, 200, `assigned ASHA contextual Academy: ${res.json?.error ?? ''}`);
+        assert.equal(res.json.optional, true); assert.equal(res.json.careGate, false); assert.equal(res.json.completionTracking, 'none');
+        assert.doesNotMatch(JSON.stringify(res.json), /p_meena|personId|patientId|visitId|organisationId|assignedTo/);
+        continue;
+      }
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
       if (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/local-registration', '/api/shared-question-review'].includes(route)) {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
