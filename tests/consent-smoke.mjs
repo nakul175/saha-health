@@ -42,6 +42,7 @@ export async function consentSmoke({get,post,check,accounts,org,sql}){
  let report=await get(o,'/api/outreach',200,org);let hi=report.templates.find(t=>t.language==='hi');
  if(!hi){await post(o,{type:'messageTemplatePropose',language:'hi'});report=await get(o,'/api/outreach',200,org);hi=report.templates.find(t=>t.language==='hi');}
  if(hi.state!=='approved'){await post(a,{type:'messageTemplateReview',templateId:hi.id,version:hi.version,state:'approved',reference:'SYNTHETIC-CONSENT',reason:'Neutral Hindi template reviewed for synthetic use'},200,crypto.randomUUID(),org);}
+ report=await get(o,'/api/outreach',200,org);for(const existing of report.channels.filter(c=>c.kind==='sms'&&c.state!=='suspended'))await post(o,{type:'externalChannelReview',channelId:existing.id,version:existing.version,state:'suspended',reference:'SYNTHETIC-CONSENT-REPLACE',reason:'Replace prior readiness after fixture authority changes; preserve its history.'});const channelId=(await post(o,{type:'externalChannelPropose',kind:'sms',capabilities:{deliveryEvidence:true,optOutHandling:true,recoveryWork:true},reason:'Synthetic consent fixture requires independently reviewed channel readiness.'})).result.channelId;await post(a,{type:'externalChannelReview',channelId,version:1,state:'ready',reference:'SYNTHETIC-CONSENT-CHANNEL',reason:'Independent synthetic readiness review; no provider or credential configured.'});report=await get(o,'/api/outreach',200,org);const smsChannel=report.channels.find(c=>c.id===channelId);
  const prefs={method:'sms',destination:'TEST-CONSENT-001',ownership:'personal',language:'hi',timezone:new Date().getUTCHours()===23?'Etc/GMT+12':'UTC',from:'00:00',to:'23:59',permission:true,privateContact:false,reference:'SYNTHETIC-CONTACT'};
  await post(o,{type:'setContactPreferences',personId:pid,version:person(pid).version,preferences:prefs});
  check(()=>{const e=person(pid).consentHistory.at(-1);assert.equal(e.purpose,'contact');assert.equal(e.action,'granted');assert.equal(e.channel,'contact-preferences');assert.equal(e.reference,'SYNTHETIC-CONTACT');});
@@ -49,7 +50,7 @@ export async function consentSmoke({get,post,check,accounts,org,sql}){
  const planId=(await post(o,{type:'outreachCreate',title:'Consent synthetic outreach',date,teamId:'default',ownerId:o.id,personIds:[pid],criteria:'Synthetic case for the consent withdrawal exercise.'})).result.planId;
  await post(o,{type:'outreachTransition',planId,version:1,state:'scheduled',reason:'Schedule the synthetic consent exercise'});
  report=await get(o,'/api/outreach',200,org);const itemId=report.plans.find(p=>p.id===planId).items[0].id;
- const messageId=(await post(o,{type:'messageCreate',planId,itemId,templateId:hi.id,scheduledAt:new Date(Date.now()+86400000).toISOString()})).result.messageId;
+ const messageId=(await post(o,{type:'messageCreate',planId,itemId,templateId:hi.id,channelId:smsChannel.id,scheduledAt:new Date(Date.now()+86400000).toISOString()})).result.messageId;
 
  // Refusals: role, scope, schema, version and replay.
  const withdraw=(over={})=>({type:'withdrawConsent',personId:pid,version:person(pid).version,purpose:'exchange',channel:'in-person',reference:'FORM-CONSENT-1',reason:'Patient no longer wants records shared outside',...over});

@@ -203,7 +203,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const ehr=c.type.includes('Ehr')?await applyEhr(state,c as any,u,m,runtime()):null;
   const field=await applyField(state,c,u,m,undefined,environmentOf(rawRuntime()).name)??await applyFieldRegistration(state,c,u,m,undefined,environmentOf(rawRuntime()).name)??await applyReferralRequest(state,c,u,m);
   const pilot=await applyPilot(state,c,u,m);
-  const outreach=await applyOutreach(state,c,u,m);
+  const outreach=await applyOutreach(state,c,u,m,undefined,environmentOf(rawRuntime()).name);
   const expansion=await applyExpansion(state,c,u,m);
   // Slice 5b: an import reads the named provider sandbox; the importer's ownership of it is checked in applySandbox.
   const sandbox=await applySandbox(state,c,u,m,providers(state.workspace.integrations,runtime()),c.type==='importCapabilityProposal'?await sandboxSource(c.sandboxOrganisationId,state.organisation.id,u.userId):null);

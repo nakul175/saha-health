@@ -22,9 +22,14 @@ export type ContactPreferenceEvent={id:string;at:string;by:string;purpose:Contac
 export type OutreachItem={householdItems?:import('./household-visit').HouseholdVisitItem[];id:string;personId:string;ownerId:string;reason:string;state:'planned'|'attempted'|'completed'|'cancelled';events:{at:string;by:string;state:string;note:string;reference:string;visitId?:string}[]};
 export type OutreachPlan={householdSlot?:{householdId:string;slotId:string;date:string;window:string};id:string;version:number;title:string;date:string;teamId:string;criteria:string;createdAt:string;createdBy:string;state:'draft'|'scheduled'|'completed'|'cancelled';items:OutreachItem[];history:{at:string;by:string;state:string;reason:string}[]};
 export type MessageTemplate={id:string;version:number;language:'en'|'hi';body:string;state:'review'|'approved'|'suspended';createdBy:string;createdAt:string;reviewedBy?:string;reviewerVersion?:number;reference?:string;reason?:string};
-export type OutreachMessage={id:string;version:number;planId:string;itemId:string;personId:string;contactPurpose?:ContactPurpose;templateId:string;templateVersion:number;body:string;scheduledAt:string;createdAt:string;createdBy:string;authorVersion:number;state:'draft'|'approved'|'simulated'|'failed'|'cancelled';approval?:ActionAuthority;attempts:{at:string;by:string;result:'simulated'|'failed';receipt:string}[];recovery?:{ownerId:string;state:'open'|'resolved';resolution?:string;reference?:string;at?:string};cancelReason?:string};
-export type Outreach={plans:OutreachPlan[];templates:MessageTemplate[];messages:OutreachMessage[]};
-export const defaultOutreach=():Outreach=>({plans:[],templates:[],messages:[]});
+export const EXTERNAL_CHANNELS=['sms','ivr','messaging','appointment'] as const;
+export type ExternalChannelKind=typeof EXTERNAL_CHANNELS[number];
+export type ExternalChannel={id:string;version:number;kind:ExternalChannelKind;adapter:'synthetic-receipt-simulator';state:'review'|'ready'|'suspended';capabilities:{deliveryEvidence:boolean;optOutHandling:boolean;recoveryWork:boolean};createdAt:string;createdBy:string;creatorVersion:number;reviewedAt?:string;reviewedBy?:string;reviewerVersion?:number;reference?:string;reason?:string};
+export type DeliveryAttempt={at:string;by:string;result:'simulated'|'failed';receipt:string;delivery:'delivered'|'failed';patientAcknowledgement:'unconfirmed'};
+export type PatientAcknowledgement={state:'confirmed';at:string;by:string;memberVersion:number;source:'direct-worker-confirmation';reference:string;note:string};
+export type OutreachMessage={id:string;version:number;planId:string;itemId:string;personId:string;contactPurpose?:ContactPurpose;templateId:string;templateVersion:number;channelId?:string;body:string;scheduledAt:string;createdAt:string;createdBy:string;authorVersion:number;state:'draft'|'approved'|'simulated'|'failed'|'cancelled';approval?:ActionAuthority;attempts:(DeliveryAttempt|{at:string;by:string;result:'simulated'|'failed';receipt:string})[];patientAcknowledgement?:PatientAcknowledgement;recovery?:{ownerId:string;state:'open'|'resolved';resolution?:string;reference?:string;at?:string};cancelReason?:string};
+export type Outreach={plans:OutreachPlan[];templates:MessageTemplate[];messages:OutreachMessage[];channels?:ExternalChannel[]};
+export const defaultOutreach=():Outreach=>({plans:[],templates:[],messages:[],channels:[]});
 const id=z.string().trim().min(1).max(200),version=z.number().int().positive(),note=z.string().trim().min(10).max(500),reference=z.string().trim().min(3).max(200);
 const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(s=>!isNaN(Date.parse(s))&&new Date(s).toISOString().slice(0,10)===s,'Use a valid date.');
 const time=z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
@@ -37,12 +42,15 @@ export const outreachSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('outreachAssign'),planId:id,itemId:id,version,ownerId:id,reason:note}).strict(),
  z.object({type:z.literal('messageTemplatePropose'),language:z.enum(['en','hi'])}).strict(),
  z.object({type:z.literal('messageTemplateReview'),templateId:id,version,state:z.enum(['approved','suspended']),reference,reason:note}).strict(),
- z.object({type:z.literal('messageCreate'),planId:id,itemId:id,templateId:id,contactPurpose:z.enum(CONTACT_PURPOSES).default('care-follow-up'),scheduledAt:z.string().datetime()}).strict(),
+ z.object({type:z.literal('externalChannelPropose'),kind:z.enum(EXTERNAL_CHANNELS),capabilities:z.object({deliveryEvidence:z.boolean(),optOutHandling:z.boolean(),recoveryWork:z.boolean()}).strict(),reason:note}).strict(),
+ z.object({type:z.literal('externalChannelReview'),channelId:id,version,state:z.enum(['ready','suspended']),reference,reason:note}).strict(),
+ z.object({type:z.literal('messageCreate'),planId:id,itemId:id,templateId:id,channelId:id.optional(),contactPurpose:z.enum(CONTACT_PURPOSES).default('care-follow-up'),scheduledAt:z.string().datetime()}).strict(),
  z.object({type:z.literal('messageApprove'),messageId:id,version,hash:z.string().length(64)}).strict(),
  z.object({type:z.literal('messageSimulate'),messageId:id,version,outcome:z.enum(['simulated','failed'])}).strict(),
  z.object({type:z.literal('messageRetry'),messageId:id,version,scheduledAt:z.string().datetime(),reason:note}).strict(),
  z.object({type:z.literal('messageCancel'),messageId:id,version,reason:note}).strict(),
  z.object({type:z.literal('messageResolve'),messageId:id,version,note,reference}).strict(),
+ z.object({type:z.literal('messageAcknowledge'),messageId:id,version,note,reference}).strict(),
 ]);
 function care(m:Member){if(!['asha','clinician','supervisor'].includes(m.role))fail(403,'Care-team access is required.');}
 function member(s:OrgState,userId:string){return s.members.find(m=>m.userId===userId&&m.status==='active');}
@@ -51,6 +59,8 @@ function current(n:number,expected:number){if(n!==expected)fail(409,'This outrea
 function planFor(s:OrgState,id:string){const p=s.outreach?.plans.find(p=>p.id===id);if(!p)fail(404,'Outreach plan not found.');return p;}
 function messageFor(s:OrgState,id:string){const v=s.outreach?.messages.find(v=>v.id===id);if(!v)fail(404,'Message not found.');return v;}
 function templateFor(s:OrgState,id:string){const t=s.outreach?.templates.find(t=>t.id===id);if(!t)fail(404,'Template not found.');return t;}
+function channelFor(s:OrgState,id:string){const c=s.outreach?.channels?.find(c=>c.id===id);if(!c)fail(404,'External channel not found.');return c;}
+function currentChannel(s:OrgState,id:string){const c=channelFor(s,id),creator=member(s,c.createdBy),reviewer=c.reviewedBy?member(s,c.reviewedBy):undefined;if(c.adapter!=='synthetic-receipt-simulator'||c.state!=='ready'||!creator||!operator(creator)||creator.version!==c.creatorVersion||!c.reviewedBy||!reviewer||!operator(reviewer)||reviewer.version!==c.reviewerVersion||c.createdBy===c.reviewedBy||!Object.values(c.capabilities).every(Boolean))fail(409,'The selected channel does not have current independent synthetic readiness approval.');return c;}
 function scheduled(s:string,now:string){const at=Date.parse(s);if(at<Date.parse(now)-300000||at>Date.parse(now)+30*86400000)fail(422,'Schedule within the next 30 days.');}
 export function inContactWindow(p:ContactPreferences,at:string){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:p.timezone,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(at)),clock=parts.find(x=>x.type==='hour')!.value+':'+parts.find(x=>x.type==='minute')!.value;return clock>=p.from&&clock<p.to;}
 const DEFAULT_CONTACT_PURPOSE:ContactPurpose='care-follow-up';
@@ -66,7 +76,7 @@ function approvedTemplate(s:OrgState,id:string){const t=templateFor(s,id),review
 export function householdOutreachCurrent(s:OrgState,plan:OutreachPlan,item:OutreachItem,at?:string){const source=plan.householdSlot;if(!source)return;const h=s.households?.find(h=>h.id===source.householdId),slot=h?.visits?.find(v=>v.id===source.slotId),p=s.workspace.people.find(p=>p.id===item.personId),cv=slot?.covers.find(x=>x.personId===item.personId);if(!h||!slot||slot.state!=='planned'||slot.date!==source.date||slot.window!==source.window||!p?.assigned||p.mergedInto||!h.members.some(x=>x.personId===p.id&&!x.to)||!cv||JSON.stringify(cv.items)!==JSON.stringify(item.householdItems))fail(409,'The original household slot or covered member changed. Inspect existing outreach and prepare a new slot-linked plan.');if(at&&at.slice(0,10)!==slot.date)fail(422,'A slot reminder must use its planned UTC date and the person’s permitted contact hours.');if(!cv.items.some(ref=>ref.kind==='home-visit'?p.status!=='completed':ref.kind==='follow-up'?p.followUps?.some(x=>x.id===ref.id&&followUpOpen(s,x)):s.workspace.referrals.some(x=>x.id===ref.id&&x.personId===p.id&&!TERMINAL.has(x.state))))fail(409,'All covered work of this person is resolved; a slot reminder cannot infer or repeat care.');}
 export function outreachEvidenceCurrent(s:OrgState,i:OutreachItem){const event=i.events.filter(e=>e.state==='completed').at(-1);return i.state!=='completed'||!!s.workspace.visits.find(v=>v.id===event?.visitId&&v.personId===i.personId&&v.state==='confirmed'&&!v.voidedAt&&!v.supersededBy);}
 export function authorizeOutreach(s:OrgState,m:Member,c:any){
- if(c.type.startsWith('messageTemplate')){if(!operator(m))fail(403,'Operations access required for message templates.');return;}
+ if(c.type.startsWith('messageTemplate')||c.type.startsWith('externalChannel')){if(!operator(m))fail(403,'Operations access required for messaging configuration.');return;}
  if(!['setContactPreferences'].includes(c.type)&&!c.type.startsWith('outreach')&&!c.type.startsWith('message'))return;
  care(m);
  if(c.type==='outreachCreate')for(const id of c.personIds)person(s.workspace,id);
@@ -77,6 +87,7 @@ export function authorizeOutreach(s:OrgState,m:Member,c:any){
  if(sourcePlan?.householdSlot){ensurePurpose(m,'household-sharing');const h=s.households?.find(h=>h.id===sourcePlan.householdSlot!.householdId),slot=h?.visits?.find(v=>v.id===sourcePlan.householdSlot!.slotId);const items=c.itemId?sourcePlan.items.filter(i=>i.id===c.itemId):c.messageId?sourcePlan.items.filter(i=>i.id===messageFor(s,c.messageId).itemId):sourcePlan.items;for(const i of items){const p=person(s.workspace,i.personId);if(!normallyAllowed(m,p)||!h?.members.some(x=>x.personId===p.id&&!x.to)||!slot?.covers.some(x=>x.personId===p.id))fail(403,'Current normal original-member household access is required for this outreach.');}}
  if(c.type==='messageApprove'&&!['clinician','supervisor'].includes(m.role))fail(403,'A clinician or supervisor must review the message.');
  if(c.type==='setContactPreferences')ensurePurpose(m,'care-coordination');
+ if(c.type==='messageAcknowledge'&&!['asha','clinician','supervisor'].includes(m.role))fail(403,'A care worker must record direct patient acknowledgement.');
  if(c.type==='setContactPreferences'&&m.role==='supervisor'&&c.preferences.permission)fail(403,'A care worker must record a new contact permission.');
 }
 export async function messageReview(s:OrgState,v:OutreachMessage,now=new Date().toISOString()){
@@ -84,15 +95,15 @@ export async function messageReview(s:OrgState,v:OutreachMessage,now=new Date().
  householdOutreachCurrent(s,plan,item,v.scheduledAt);
  const author=member(s,v.createdBy);if(!author||author.version!==v.authorVersion||!allowed(author,p))fail(409,'The message author no longer has the same patient access. Prepare a new message.');
  if(plan.householdSlot&&author&&!normallyAllowed(author,p))fail(403,'Current normal original-member access is required for slot outreach.');
- owner(s,p,item.ownerId);const t=approvedTemplate(s,v.templateId),contact=safeContact(p,v.contactPurpose??DEFAULT_CONTACT_PURPOSE,v.scheduledAt);if(t.version!==v.templateVersion||t.body!==v.body||t.language!==contact.language)fail(409,'Template or contact language changed. Cancel and prepare a new message.');
- return {hash:await digest({id:v.id,identity:{name:p.name,age:p.age,sex:p.sex,village:p.village,teamId:p.teamId,assignedTo:p.assignedTo},contact,template:t,authorVersion:author.version,planVersion:plan.version,item,scheduledAt:v.scheduledAt}),destination:contact.destination,language:t.language,body:t.body,now};
+ owner(s,p,item.ownerId);const t=approvedTemplate(s,v.templateId),contact=safeContact(p,v.contactPurpose??DEFAULT_CONTACT_PURPOSE,v.scheduledAt),channel=v.channelId?currentChannel(s,v.channelId):undefined;if(channel&&channel.kind!=='sms')fail(409,'This neutral reminder currently requires a ready SMS channel; other configured channels remain separately staged.');if(t.version!==v.templateVersion||t.body!==v.body||t.language!==contact.language)fail(409,'Template or contact language changed. Cancel and prepare a new message.');
+ return {hash:await digest({id:v.id,identity:{name:p.name,age:p.age,sex:p.sex,village:p.village,teamId:p.teamId,assignedTo:p.assignedTo},contact,template:t,channel,authorVersion:author.version,planVersion:plan.version,item,scheduledAt:v.scheduledAt}),destination:contact.destination,language:t.language,body:t.body,channel:channel?{id:channel.id,kind:channel.kind,adapter:channel.adapter,state:channel.state}:null,now};
 }
 function messageAuthorityFacts(v:OutreachMessage,review:Awaited<ReturnType<typeof messageReview>>,approver:Member):ActionAuthorityFacts{return {
  actorId:approver.userId,actorVersion:approver.version,taskId:v.id,taskVersion:v.state==='draft'?v.version+1:v.version,evidenceHash:review.hash,
  action:'simulate-contact-attempt',destination:review.destination,purpose:'outreach-reminder',
- capabilityVersions:{contact:v.personId+':'+review.hash,template:v.templateId+':'+v.templateVersion,plan:v.planId},
+ capabilityVersions:{contact:v.personId+':'+review.hash,template:v.templateId+':'+v.templateVersion,plan:v.planId,...(v.channelId?{channel:v.channelId}: {})},
 };}
-export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
+export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString(),environment='legacy-test'):Promise<any|null>{
  const parsed=outreachSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeOutreach(s,m,c);const out=s.outreach??=defaultOutreach();let result:any={ok:true},personId:string|undefined;
  if(c.type==='setContactPreferences'){
   const p=person(s.workspace,c.personId);personId=p.id;current(p.version,c.version);if(c.preferences.from>=c.preferences.to)fail(422,'Contact hours must start before they end on the same local day.');if(c.preferences.method==='sms'&&!c.preferences.destination)fail(422,'Enter a synthetic contact identifier.');
@@ -128,10 +139,15 @@ export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,no
   if(out.templates.some(t=>t.language===c.language))fail(409,'A template for this language already exists; review or suspend it.');const t:MessageTemplate={id:uuid(),version:1,language:c.language,body:MESSAGE_COPY[c.language],state:'review',createdBy:u.userId,createdAt:now};out.templates.push(t);result={templateId:t.id};
  }else if(c.type==='messageTemplateReview'){
   const t=templateFor(s,c.templateId);current(t.version,c.version);if(c.state==='approved'&&t.createdBy===u.userId)fail(403,'A different operations member must approve the template.');t.state=c.state;t.reference=c.reference;t.reason=c.reason;t.reviewedBy=u.userId;t.reviewerVersion=m.version;t.version++;
+ }else if(c.type==='externalChannelPropose'){
+  if((out.channels??=[]).some(x=>x.kind===c.kind&&x.state!=='suspended'))fail(409,'This channel already has an active readiness record. Review or suspend it first.');const ch:ExternalChannel={id:uuid(),version:1,kind:c.kind,adapter:'synthetic-receipt-simulator',state:'review',capabilities:c.capabilities,createdAt:now,createdBy:u.userId,creatorVersion:m.version,reason:c.reason};out.channels.push(ch);result={channelId:ch.id,liveProviderConfigured:false,credentialsStored:false};
+ }else if(c.type==='externalChannelReview'){
+  const ch=channelFor(s,c.channelId);current(ch.version,c.version);if(c.state==='ready'&&ch.createdBy===u.userId)fail(403,'A different operations member must approve channel readiness.');const creator=member(s,ch.createdBy);if(c.state==='ready'&&(!creator||!operator(creator)||creator.version!==ch.creatorVersion))fail(409,'The channel proposer no longer has the same operations authority. Stage a new readiness record.');if(c.state==='ready'&&!Object.values(ch.capabilities).every(Boolean))fail(409,'Delivery evidence, opt-out handling and recovery work must all be ready before approval.');ch.state=c.state;ch.reviewedAt=now;ch.reviewedBy=u.userId;ch.reviewerVersion=m.version;ch.reference=c.reference;ch.reason=c.reason;ch.version++;result={channelId:ch.id,state:ch.state,syntheticOnly:true,liveProviderConfigured:false,credentialsStored:false};
  }else if(c.type==='messageCreate'){
   const p=planFor(s,c.planId),i=p.items.find(i=>i.id===c.itemId)!;personId=i.personId;if(out.messages.length>=500)fail(422,'Message history limit reached.');scheduled(c.scheduledAt,now);const t=approvedTemplate(s,c.templateId);
+  if(!c.channelId&&environment!=='legacy-test')fail(409,'Choose an independently ready synthetic channel before preparing a new message.');
   if(out.messages.some(v=>v.personId===i.personId&&(v.contactPurpose??DEFAULT_CONTACT_PURPOSE)===c.contactPurpose&&v.scheduledAt.slice(0,10)===c.scheduledAt.slice(0,10)&&v.state!=='cancelled'))fail(409,'A message already exists for this patient, purpose and UTC day. Inspect its receipt or retry the failed record.');
-  const v:OutreachMessage={id:uuid(),version:1,planId:p.id,itemId:i.id,personId:i.personId,contactPurpose:c.contactPurpose,templateId:t.id,templateVersion:t.version,body:t.body,scheduledAt:c.scheduledAt,createdAt:now,createdBy:u.userId,authorVersion:m.version,state:'draft',attempts:[]};await messageReview(s,v,now);out.messages.push(v);result={messageId:v.id};
+  if(c.channelId)currentChannel(s,c.channelId);const v:OutreachMessage={id:uuid(),version:1,planId:p.id,itemId:i.id,personId:i.personId,contactPurpose:c.contactPurpose,templateId:t.id,templateVersion:t.version,...(c.channelId?{channelId:c.channelId}:{}),body:t.body,scheduledAt:c.scheduledAt,createdAt:now,createdBy:u.userId,authorVersion:m.version,state:'draft',attempts:[]};await messageReview(s,v,now);out.messages.push(v);result={messageId:v.id};
  }else{
   const v=messageFor(s,c.messageId);personId=v.personId;current(v.version,c.version);
   if(c.type==='messageApprove'){
@@ -139,14 +155,18 @@ export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,no
   }else if(c.type==='messageSimulate'){
    if(v.state!=='approved')fail(409,'Approve the current message before simulation.');const review=await messageReview(s,v,now),approver=v.approval?member(s,v.approval.actorId):undefined,p=person(s.workspace,v.personId);
    if(!approver||!['clinician','supervisor'].includes(approver.role)||!allowed(approver,p)||!await actionAuthorityCurrent(v.approval,messageAuthorityFacts(v,review,approver),now))fail(409,'Message approval expired or access/context changed. Cancel and prepare a new message.');
+   if(!v.channelId&&environment!=='legacy-test')fail(409,'This legacy message has no reviewed channel readiness record. Prepare a new message; no provider was called.');
+   if(v.channelId&&!['synthetic','training'].includes(environment))fail(409,'The staged external-channel simulator runs only in synthetic or training environments. No provider was called.');
    if(now<v.scheduledAt)fail(409,'This message is not due yet.');safeContact(p,v.contactPurpose??DEFAULT_CONTACT_PURPOSE,now);if(v.attempts.length>=3)fail(409,'Retry limit reached. Resolve this through the outreach follow-up.');
-   const receipt='SIM-MSG-'+uuid();v.attempts.push({at:now,by:u.userId,result:c.outcome,receipt});v.state=c.outcome;if(c.outcome==='failed')v.recovery={ownerId:planFor(s,v.planId).items.find(i=>i.id===v.itemId)!.ownerId,state:'open'};result={receipt,state:v.state,realMessageSent:false};
+   const receipt='SIM-MSG-'+uuid(),delivery=c.outcome==='simulated'?'delivered':'failed';v.attempts.push({at:now,by:u.userId,result:c.outcome,receipt,delivery,patientAcknowledgement:'unconfirmed'});v.state=c.outcome;if(c.outcome==='failed')v.recovery={ownerId:planFor(s,v.planId).items.find(i=>i.id===v.itemId)!.ownerId,state:'open'};result={receipt,state:v.state,delivery,patientAcknowledgement:'unconfirmed',realMessageSent:false,syntheticOnly:true};
   }else if(c.type==='messageRetry'){
    if(v.state!=='failed'||v.attempts.length>=3)fail(409,'Only a failed message below the attempt limit can be retried.');scheduled(c.scheduledAt,now);if(out.messages.some(x=>x.id!==v.id&&x.personId===v.personId&&(x.contactPurpose??DEFAULT_CONTACT_PURPOSE)===(v.contactPurpose??DEFAULT_CONTACT_PURPOSE)&&x.state!=='cancelled'&&x.scheduledAt.slice(0,10)===c.scheduledAt.slice(0,10)))fail(409,'Another message for this purpose already occupies this UTC day.');v.scheduledAt=c.scheduledAt;v.state='draft';v.approval=undefined;await messageReview(s,v,now);
   }else if(c.type==='messageCancel'){
    if(!['draft','approved','failed'].includes(v.state))fail(409,'Only pending messages can be cancelled.');v.state='cancelled';v.cancelReason=c.reason;
   }else if(c.type==='messageResolve'){
    if(v.recovery?.state!=='open')fail(409,'No unresolved message follow-up exists.');if(m.userId!==v.recovery.ownerId&&!m.isOwner&&m.role!=='supervisor')fail(403,'The responsible worker or scoped supervisor must resolve this follow-up.');Object.assign(v.recovery,{state:'resolved',resolution:c.note,reference:c.reference,at:now});
+  }else if(c.type==='messageAcknowledge'){
+   const p=person(s.workspace,v.personId),plan=planFor(s,v.planId),item=plan.items.find(i=>i.id===v.itemId);if(!item||item.ownerId!==m.userId&&!m.isOwner&&m.role!=='supervisor')fail(403,'The responsible worker or scoped supervisor must record acknowledgement.');if(!allowed(m,p))fail(403,'Current care-team access to this patient is required.');if(v.patientAcknowledgement)fail(409,'Patient acknowledgement is already recorded; preserve its history.');if(!v.attempts.length)fail(409,'Record provider delivery evidence before a separate direct acknowledgement.');v.patientAcknowledgement={state:'confirmed',at:now,by:u.userId,memberVersion:m.version,source:'direct-worker-confirmation',reference:c.reference,note:c.note};result={messageId:v.id,patientAcknowledgement:'confirmed',delivery:v.attempts.at(-1) && 'delivery' in v.attempts.at(-1)!?(v.attempts.at(-1) as DeliveryAttempt).delivery:v.attempts.at(-1)!.result==='failed'?'failed':'delivered',careCompleted:false};
   }
   v.version++;
  }

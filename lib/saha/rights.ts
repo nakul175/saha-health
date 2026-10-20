@@ -26,7 +26,7 @@ export const rightsSchema=z.discriminatedUnion('type',[
 ]);
 const TYPES=new Set(['rightsCreate','rightsAssign','rightsClose','rightsItemResolve','rightsRestrictionLift']);
 // Commands paused while processing is restricted: external sharing, programme sending and optional AI.
-export const PAUSED_WHEN_RESTRICTED=new Set(['preparePlan','approvePlan','executePlan','sendSubmission','runAI','prepareAgent','executeAgent','applyAgent','prepareEhrPublish','executeEhrPublish','messageCreate','messageApprove','messageSimulate','abdmCareContextLink',
+export const PAUSED_WHEN_RESTRICTED=new Set(['preparePlan','approvePlan','executePlan','sendSubmission','runAI','prepareAgent','executeAgent','applyAgent','prepareEhrPublish','executeEhrPublish','messageCreate','messageApprove','messageSimulate','messageAcknowledge','abdmCareContextLink',
  // Slice 6u (fourth review): a FHIR download (`GET /api/fhir/[id]`, either format) is an export for sharing outside Saha.
  'exportFhir']);
 export function activeRestriction(p:Person){return (p.restrictions??[]).find(r=>!r.liftedAt);}
