@@ -34,6 +34,8 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/point-of-need-help-component.mjs': ['tests/evidence/saha-156-point-of-need-help/component-result.json'],
+  'tests/point-of-need-help-browser.mjs': ['tests/evidence/saha-156-point-of-need-help/browser-result.json'],
   'tests/integration/routine-save-status-browser.mjs': ['tests/reports/routine-save-status-browser/result.json'],
  'tests/integration/routine-telemetry-retention-http.mjs':['tests/reports/routine-telemetry-retention-result.json'],
  'tests/test-runner-manual-intake-v2-contract.mjs':['tests/reports/runner-manual-intake-v2-result.json'],
@@ -310,6 +312,8 @@ export function classify(file){
  return classifyBase(file);
 }
 function classifyBase(file) {
+  if (file === 'tests/point-of-need-help-component.mjs') return { id: 'integration/point-of-need-help-component', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'SAHA-156 actual React and Chromium optional-help context, stale-content closure, refusal, source-unavailable and no-request regression' };
+  if (file === 'tests/point-of-need-help-browser.mjs') return { id: 'integration/point-of-need-help-browser', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'SAHA-156 actual built Worker/D1 and Chromium assigned-routine journey, unsaved-state preservation and zero-command regression' };
   if (file === 'tests/integration/routine-save-status-browser.mjs') return { id: 'integration/routine-save-status-browser', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'SAHA-006 actual synthetic backend and browser current-entry versus server-readback lifecycle regression' };
   if (file === 'tests/integration/routine-authority-http.mjs') return { id: 'integration/routine-authority-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'D03 native HTTP/D1 post-audit current ASHA authority, scoped refusal and committed exact-key replay' };
   if (file === 'tests/integration/routine-organisation-http.mjs') return { id: 'integration/routine-organisation-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'D03 whole-operation initial organisation pinning, mutable active-account controls and exact original receipt replay' };
