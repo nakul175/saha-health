@@ -1,0 +1,74 @@
+{
+  "storyId": "SAHA-156",
+  "contract": {
+    "linearIssue": "APL-179",
+    "workOrder": "CWO-023",
+    "sha256": "1e5369b86a17cad0446296a29ea462662898d9d9e0f3fa4aa2818c5b83d1bdaa",
+    "approvalBasis": "The human user explicitly approved the proposed acceptance criteria in the current conversation on 20 October 2026."
+  },
+  "source": {
+    "parent": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+    "branch": "feature/saha-156-point-of-need-help-20261020",
+    "worktree": "work/saha-remaining40-saha156-20261020",
+    "applicationHashes": {
+      "app/guided-capture.tsx": "eb05cf3ac29123c0382d2cf2715b6d0ae3b9e89095fc6b10b30b982f653ffda2",
+      "app/point-of-need-help.tsx": "b06440063c9de3501b122fe79d72a6cedd77e46acfbb6375db402b68e3a99088",
+      "app/point-of-need-help.css": "16ca178f812e30162278f9e8106b7a65fef3127d3d57b424d299847f190dec2e",
+      "app/routine-visit/routine-visit.tsx": "be7a7328fa83833259fc15c661b46d591d88b927229b2f15de3ab6caa55fdb08",
+      "app/workspace.tsx": "25355f4250e66882a50552a4406d95d382f40acbb9a0c78c5cb559c605b4cd32",
+      "lib/saha/point-of-need-help.ts": "c0d95a5cf00dc0813b06c518866eadb3e0eefbc3f6d9e7406e19680d1521ab86"
+    }
+  },
+  "implemented": [
+    "Optional source-labelled help at approved steps of the assigned-ASHA routine-visit journey",
+    "Context transitions synchronously close stale help while preserving current form state",
+    "Other actors, tasks and unknown steps are refused without catalogue disclosure",
+    "Unavailable approved source returns an explicit limitation without replacement content or completion",
+    "No network, storage, command, confirmation, assignment, send or provider path"
+  ],
+  "results": [
+    { "command": "node tests/point-of-need-help-contract.mjs", "passed": 30, "failed": 0 },
+    { "command": "node tests/point-of-need-help-component.mjs", "passed": 16, "failed": 0 },
+    { "command": "node tests/point-of-need-help-browser.mjs", "passed": 11, "failed": 0 },
+    { "command": "node tests/guided-instructions-contract.mjs", "passed": 28, "failed": 0 },
+    { "command": "node tests/routine-save-status-contract.mjs", "passed": 20, "failed": 0 },
+    { "command": "node node_modules/typescript/bin/tsc --noEmit", "passed": 1, "failed": 0 },
+    { "command": "npm run build", "passed": 1, "failed": 0 },
+    { "command": "./node_modules/.bin/eslint app/point-of-need-help.tsx lib/saha/point-of-need-help.ts tests/point-of-need-help-contract.mjs tests/point-of-need-help-component.mjs tests/point-of-need-help-browser.mjs --max-warnings=0", "passed": 1, "failed": 0 }
+  ],
+  "retainedFailures": [
+    {
+      "finding": "The first contract allowed an empty programme identifier.",
+      "correction": "Require a bounded non-empty programme identifier; the original negative case now passes."
+    },
+    {
+      "finding": "The first component could reopen help after leaving and returning to the same step.",
+      "correction": "Key the state-owning component by the full task, step, actor and source context; transitions remount it closed."
+    },
+    {
+      "finding": "The first browser selector matched both the toggle and help copy.",
+      "correction": "Use an exact role/name selector without changing the product assertion."
+    },
+    {
+      "finding": "The first actual-runtime attempt used a stale build.",
+      "correction": "Rebuild the exact source before the actual Worker/D1/Chromium run."
+    },
+    {
+      "command": "npm run lint -- --max-warnings=0 ...",
+      "result": "failed",
+      "detail": "The package script runs eslint over the entire repository. It reported the existing baseline of 1,411 errors and 1,825 warnings, including the first run's generated temporary bundle. The owned temporary directory was removed and direct lint of all new files passes. No finding was suppressed."
+    }
+  ],
+  "formalRequirementAssessment": "unchanged: APL-179/CWO-023 has no approved mapping to the 176-row BRD ledger; 0 of 364 formal cases remain accepted",
+  "gates": {
+    "localCodingComplete": true,
+    "localFocusedTestsComplete": true,
+    "independentReview": false,
+    "ci": false,
+    "merged": false,
+    "observedDeployed": false,
+    "formalProductClinicalPrivacyFieldAcceptance": false
+  },
+  "limits": "Synthetic local software evidence only. It does not invent clinical content, policy, provider, status or formal approval and makes no CI, merge or deployment claim.",
+  "completedAt": "2026-10-20"
+}
