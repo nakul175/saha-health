@@ -52,8 +52,27 @@ export async function incentiveView(s: OrgState, m: Member, now: string, q: { fr
     else { const f = eligibleActivity(s, m, team, q.from, q.to, sched, now); eligible = { teamId: team, from: q.from, to: q.to, lines: f.rows.map(r => ({ kind: r.kind, kindLabel: KINDS[r.kind as keyof typeof KINDS], ref: r.ref, evidenceVisitId: r.evidenceVisitId, at: r.at, amount: r.amount, patient: people.get(r.personId)?.name ?? null, ...(r.receipt ? { receipt: r.receipt } : {}) })), total: f.rows.reduce((n, r) => n + r.amount, 0), skipped: f.skipped }; }
   }
   const order = [...claims].sort((a, b) => b.number - a.number);
+  const optional = (st.assignments ?? []).filter(a => m.isOwner || (a.workerId === m.userId && m.role === 'asha' && m.teamIds.includes(a.teamId))).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const optionalAssignments = {
+    notice: 'Optional assignment invitations are separate from routine care, claim approval and payment. Choosing, declining, ignoring or submitting evidence does not promise or trigger payment and does not change patient access.',
+    canOffer: m.isOwner,
+    candidates: m.isOwner ? s.members.filter(x => x.status === 'active' && x.role === 'asha').flatMap(x => x.teamIds.map(teamId => ({ workerId: x.userId, workerName: x.displayName, teamId, teamName: teamName(teamId) }))) : [],
+    rows: optional.map(a => ({
+      id: a.id, version: a.version, title: a.title, summary: a.summary, evidencePrompt: a.evidencePrompt, dueAt: a.dueAt,
+      teamId: a.teamId, team: teamName(a.teamId), workerId: a.workerId, workerName: a.workerName, state: a.state, createdAt: a.createdAt, createdBy: a.createdByName,
+      history: a.history.map(h => ({ at: h.at, by: h.byName, action: h.action, note: h.note })),
+      evidence: a.evidence.map(e => ({ id: e.id, version: e.version, note: e.note, reference: e.reference ?? null, at: e.at, by: e.byName, active: e.active, withdrawnAt: e.withdrawnAt ?? null })),
+      actions: {
+        choose: !m.isOwner && a.workerId === m.userId && a.state === 'offered',
+        submitEvidence: !m.isOwner && a.workerId === m.userId && (a.state === 'accepted' || a.state === 'evidence-submitted'),
+        withdrawEvidence: !m.isOwner && a.workerId === m.userId && a.state === 'evidence-submitted' && a.evidence.some(e => e.active),
+        cancel: m.isOwner && !['declined', 'cancelled'].includes(a.state),
+      },
+    })),
+  };
   return {
     notice: NOTICE, unit: UNIT, hashing: HASHING, kinds: Object.entries(KINDS).map(([id, label]) => ({ id, label })),
+    optionalAssignments,
     schedule: { current: sched ?? null, ...(m.isOwner ? { history: [...st.schedules].reverse() } : {}), canSet: m.isOwner },
     canPrepare: m.role === 'asha' && !!sched, teams: m.role === 'asha' ? m.teamIds.map(t => ({ id: t, name: teamName(t) })) : [], supervises: teams.map(t => ({ id: t, name: teamName(t) })),
     chain: await verifyClaimChain(s), claims: order.map(view), eligible,
