@@ -1,0 +1,41 @@
+{
+  "storyId": "SAHA-119",
+  "linearIssue": "APL-142",
+  "contractSha256": "7bfd81999e08424370792c2521f098608054f61192004f5926e832fdb5f342ff",
+  "sourceBase": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "codingComplete": true,
+  "locallyTested": true,
+  "results": {
+    "contract": {
+      "passed": 14,
+      "failed": 0
+    },
+    "workerD1Http": {
+      "passed": 39,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "catalogue": "passed"
+  },
+  "separateGates": {
+    "independentReview": "pending",
+    "exactSourceCi": "not-run",
+    "merged": false,
+    "observedDeployed": false,
+    "formalAcceptance": "pending"
+  },
+  "retainedFailure": "tests/pilot-contract.mjs stops before assertions because its fixed transpilation list omits the inherited installed-transition-authority.js dependency",
+  "files": {
+    "app/pilot-panel.tsx": "e3ce210c672c4c157a5a78b26039eee2eb8a1aa9cbbc427e21a3c0385b12b078",
+    "lib/saha/pilot-server.ts": "949e0c092053bae7346b80fbef05e0e057ea5abe5a26e2db4a588d19fdd85fb3",
+    "lib/saha/pilot.ts": "87620dd230b9817846c5fa2fa1822c70c54fd700bc3756dcde000918c95cca51",
+    "scripts/test-catalogue.mjs": "b14160053d155a0582db9d90917a1a3d7b6bb6103e05be39bfa3d665d237384b",
+    "tests/pilot-smoke.mjs": "7cd40eec04d2d33d5993f28acb2f03749bbd1c376c0cd316edd259b825c3817f",
+    "tests/training-competency-contract.mjs": "7420edbed1908795e1530a62fdc483dc89f90d45a7cf07cebf1e9ee4595eafb1",
+    "tests/training-competency-http.mjs": "6a769c4a2a52c6ab190be41823e73b938bc142db7cb6b31ed7be4a41772337eb",
+    "tests/evidence/saha119-local-coding-completion/contract.json": "b57b2b335233b1c7a0ae0258336447fe2f01521ab81527e5c598e601cc02a297",
+    "tests/evidence/saha119-local-coding-completion/http.json": "27ced8e4f44e0671f0177a24ed2f0beb269e43daa7810c62d4c7f405caf51ecd",
+    "docs/current/SAHA-119-LOCAL-CODING-COMPLETION-20261020.md": "7883b4eb341e413f8915d8020fc9c2e35842691cee1fdc4082476ab36312c0a3"
+  }
+}
