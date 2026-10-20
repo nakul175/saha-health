@@ -50,6 +50,7 @@ const recipes = (visitId, org) => ({
   '/api/household-proxy-review': '?personId=p_meena',
   '/api/interface-language': '?personId=p_meena',
   '/api/selective-reuse': '?personId=p_meena',
+  '/api/shared-question-review': '?personId=p_meena',
   '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/routine-visit': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
   '/api/inbound-conflicts': '?personId=p_meena',
@@ -251,7 +252,7 @@ try {
     const bad = [];
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
-      if (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions'].includes(route)) {
+      if (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/local-registration', '/api/shared-question-review'].includes(route)) {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
         continue;
@@ -259,6 +260,11 @@ try {
       if(route==='/api/programme-pack-review'){
         assert.equal(res.status,403,'programme pack review requires its explicit original-account binding header');
         assert.deepEqual(Object.keys(res.json).sort(),['error'],'binding refusal carries no configuration payload');
+        continue;
+      }
+      if(route==='/api/reuse-measurements'){
+        assert.equal(res.status,403,'reuse figure history requires its explicit original-account binding header');
+        assert.deepEqual(Object.keys(res.json).sort(),['error'],'reuse binding refusal carries no protected figure metadata');
         continue;
       }
       if (res.status >= 500) bad.push(`${res.status} ${route}`);
@@ -290,7 +296,7 @@ try {
     const prior = structuredClone(visit(asha));
     const res = await c.get(asha, `/api/routine-visit?personId=p_meena&visitId=${encodeURIComponent(visitId)}`, org);
     need(res, 200, 'ASHA selected routine context');
-    assert.deepEqual(Object.keys(res.json).sort(), ['organisationId', 'person', 'visit']);
+    assert.deepEqual(Object.keys(res.json).sort(), ['lifecycle', 'organisationId', 'person', 'visit']);
     const person = asha.snap.people.find(p => p.id === 'p_meena');
     assert.equal(res.json.organisationId, org);
     assert.deepEqual(res.json.person, {id: person.id, name: person.name, village: person.village, age: person.age, sex: person.sex, version: person.version});
@@ -298,6 +304,11 @@ try {
     assert.equal(res.json.visit.version, prior.version); assert.equal(res.json.visit.state, 'confirmed');
     assert.deepEqual(res.json.visit.facts, prior.facts); assert.deepEqual(res.json.visit.aiResults, []);
     assert.equal(Object.hasOwn(res.json.visit, 'plan'), false, 'bounded read omits destination payloads');
+    assert.equal(res.json.lifecycle.local, 'confirmed'); assert.equal(res.json.lifecycle.server, 'saved');
+    assert.equal(res.json.lifecycle.review, 'complete'); assert.equal(res.json.lifecycle.service, 'locally-complete');
+    assert.equal(res.json.lifecycle.device, 'not-claimed'); assert.equal(res.json.lifecycle.destinations.length, 2);
+    assert.deepEqual(res.json.lifecycle.destinations.map(x => x.state).sort(), ['accepted', 'uncertain']);
+    assert.equal(res.json.lifecycle.unresolved, 1, 'the original uncertain destination remains explicit');
     assert.match(res.headers.get('cache-control'), /no-store/);
     assert.equal(res.headers.get('x-saha-operation-actor'), asha.id);
     await load(owner, org);

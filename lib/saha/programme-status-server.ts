@@ -7,6 +7,8 @@ import { accessRoute, recordAccess } from './access-audit';
 import { assertAssignedRead } from './routine-read-guard';
 import { packAt } from './programmes';
 import { programmeEpisode, type ProgrammeStatusResponse } from './programme-status';
+import {maternalWorkflow} from './maternal-workflow';
+import {tbWorkflow} from './tb-workflow';
 
 export async function programmeStatusRead(request: Request) {
   const actor = await identity(), query = new URL(request.url).searchParams;
@@ -21,7 +23,9 @@ export async function programmeStatusRead(request: Request) {
   if (!p) fail(404, 'This record is not in your assigned care scope.');
   const value: ProgrammeStatusResponse = { organisationId: state.organisation.id, actorId: actor.userId,
     person: { id: p.id, name: p.name, village: p.village, version: p.version },
-    episodes: (p.enrolments ?? []).map(e => programmeEpisode(e, packAt(e.packId, e.packVersion, state)?.name ?? e.packId)) };
+    episodes: (p.enrolments ?? []).map(e => programmeEpisode(e, packAt(e.packId, e.packVersion, state)?.name ?? e.packId)),
+    ...(p.enrolments?.some(e=>e.packId==='maternal')?{maternal:maternalWorkflow(state,p)}:{}),
+    ...(p.enrolments?.some(e=>e.packId==='tb')?{tb:tbWorkflow(state,p)}:{}) };
   await recordAccess(db(), state, actor, member, { action: 'viewPatientRecord', subject: id, personId: id, detail: `Bounded programme episode status read: ${value.episodes.length} local episodes; simulator evidence only.${accessRoute(member, p)}` });
   // Same final consistent membership/assignment/purpose/facility guard as Today.
   await assertAssignedRead(db(), member, state.organisation.id, { personId: id });

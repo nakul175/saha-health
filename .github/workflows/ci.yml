@@ -342,6 +342,7 @@ jobs:
               'unit/frontline-followup-contract', 'unit/handover-contract', 'unit/identity-numeric-dates-contract',
               'unit/programme-status-contract', 'unit/resume-work-contract', 'unit/routine-save-status-contract',
               'unit/task-entry-contract',
+              'integration/resume-guided-progress-browser', 'integration/workforce-lifecycle-complete',
               'smoke/deployment-evidence-review-browser', 'smoke/household-proxy-review-browser',
               'smoke/institution-roster-review-browser', 'smoke/interface-language-browser',
               'smoke/own-care-permissions-browser', 'smoke/programme-pack-review-browser',
@@ -359,7 +360,7 @@ jobs:
           original = {name: value for name, value in baseline['suites'].items() if name not in additions}
           assert len(original) == 389, 'Original 389 guarded records must remain'
           assert hashlib.sha256(json.dumps(original,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 objects/minima changed'
-          assert len(baseline['suites']) == 434 and additions <= baseline['suites'].keys(), 'All and only the 45 integrated observed minima must be added'
+          assert len(baseline['suites']) == 436 and additions <= baseline['suites'].keys(), 'All and only the 47 integrated observed minima must be added'
           if phase == 'final':
               before = json.loads((out / 'before-install.json').read_text())
               assert before['baseline'] == baseline, 'Original baseline changed'

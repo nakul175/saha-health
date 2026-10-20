@@ -1,0 +1,55 @@
+{
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "original389BytesExact": true,
+  "individualGuardReuseSourceSHA256": "f52b78ddc0dbb0b52d5a7937f363e92299851ae29a45d507234709b5de07c60f",
+  "individualGuardExactApartFromExportNames": true,
+  "allPrior51ObservedNativeChecksPassCurrent": true,
+  "sourcePaths": [
+    "app/today/today.tsx",
+    "app/api/local-registration/route.ts",
+    "app/local-registration/page.tsx",
+    "app/local-registration/local-registration.tsx",
+    "app/local-registration/local-registration.css",
+    "lib/saha/local-registration.ts",
+    "lib/saha/local-registration-server.ts",
+    "lib/saha/local-registration-read-guard.ts",
+    "tests/local-registration-contract.mjs",
+    "tests/smoke/local-registration-browser.mjs"
+  ],
+  "credentialMinimization": {
+    "originalsOutsideGitUnchanged": [
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/local-registration/native-owned005/committed-response-loss-custody.json",
+        "sha256": "db46a0764f6a08cd3df381b3699d187cd6366e573f771b4c03fc863794416300",
+        "reason": "Contains ephemeral synthetic invitation result credential, retained outsideGit."
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/local-registration/native-owned005/successful-create-custody.json",
+        "sha256": "db3ce4b24045b0b19d49b82b22e89ac6111c3a8a513f1660c01134a0d0919997",
+        "reason": "Contains ephemeral synthetic invitation result credential, retained outsideGit."
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/local-registration/native-owned003/successful-create-custody.json",
+        "sha256": "2d7a4aa5a850a9ab761890d2dc59463912e47722bf236b5da60333387a307fc2",
+        "reason": "Contains ephemeral synthetic invitation result credential, retained outsideGit."
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/local-registration/native-owned004/committed-response-loss-custody.json",
+        "sha256": "85588b96966b501fdc1e57daf9f1c4b1e142ed356c226cb7ae6f75c44a961f2c",
+        "reason": "Contains ephemeral synthetic invitation result credential, retained outsideGit."
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/local-registration/native-owned004/successful-create-custody.json",
+        "sha256": "eaee9da603f2ca76c8a09e37f5f883e41cb11f0c916dd4139fcd430dc245eefd",
+        "reason": "Contains ephemeral synthetic invitation result credential, retained outsideGit."
+      }
+    ],
+    "transparentHashDerivatives": [
+      "tests/evidence/local-registration-20261012/native-owned005/committed-response-loss-custody-receipt-result-digest.json",
+      "tests/evidence/local-registration-20261012/native-owned005/successful-create-custody-receipt-result-digest.json",
+      "tests/evidence/local-registration-20261012/native-owned003/successful-create-custody-receipt-result-digest.json",
+      "tests/evidence/local-registration-20261012/native-owned004/committed-response-loss-custody-receipt-result-digest.json",
+      "tests/evidence/local-registration-20261012/native-owned004/successful-create-custody-receipt-result-digest.json"
+    ]
+  }
+}

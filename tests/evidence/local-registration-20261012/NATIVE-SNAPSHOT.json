@@ -1,0 +1,122 @@
+{
+  "capturedAt": "2026-10-12T19:50:16.872Z",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "native": [
+    {
+      "id": "APL-38",
+      "uuid": "36ea59c2-bef9-4425-a574-6262520bb5ea",
+      "title": "[SAHA-015] Local registration without national identifier",
+      "description": "## User / outcome\n\nAs a worker registering a person, I want a local record and eligible workflow even when ABHA, a personal phone and biometric identifiers are absent, so lack of an external identifier does not force fabricated data.\n\n**Scope boundary:** External identity linking remains a separate authorised process, and programme rules determine which unknown local demographics are permitted.\n\n## Canonical scope and hierarchy\n\nScope ID: SAHA-015; type: functional. Original IDs: BR-ID-06.\nCWO references: None. Decision references: None recorded.\nPrimary epic: WP01; related work packages: WP01. Source original release(s): R1.\nThis is one of the 160 reconciled scope items. 1 original requirement(s) map here exactly once.\n\n## Original requirement and acceptance text\n\n### BR-ID-06 — Local registration without national identifier\n\nPriority: Must; original release: R1.\n\nA person shall be able to receive a local record and permitted workflow without an ABHA number, personal phone or biometric identifier. External identity linking shall be a separate authorised process.\n\nAcceptance: A person lacking all three completes an eligible pilot encounter without a fabricated external identifier.\n\n## Additional CWO acceptance / refusal criteria\n\nNo additional CWO criterion assigned to this owner; original criteria are retained unchanged.\n\n## Original test scenarios — not executed acceptance\n\n### TC-BR-ID-06-A — Local registration without national identifier acceptance\n\nType: Functional; source role: QA with Deployment administrator and identity steward; fixture: FX-ID-06.\nPreconditions: Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution.\nSteps: 1. Load FX-ID-06. 2. Create a local UUID before external linking. Required local demographics permit explicit unknown where programme rules allow. 3. Capture UI/API results and stored receipt or audit evidence.\nExpected: A person lacking all three completes an eligible pilot encounter without a fabricated external identifier.\nFormal status: Not run; no engineering subset automatically passes this case.\n\n### TC-BR-ID-06-B — Local registration without national identifier adverse condition\n\nType: Negative or recovery; source role: QA with Deployment administrator and identity steward; fixture: FX-ID-06-NEG.\nPreconditions: Isolated synthetic tenant; begin from the corresponding acceptance scenario; inject only the named adverse condition.\nSteps: 1. Establish the normal precondition. 2. Register a person with no ABHA or phone; allow local care capture without invented identifiers. 3. Inspect user state, side effects, audit and any recovery queue.\nExpected: Register a person with no ABHA or phone; allow local care capture without invented identifiers. Evidence must show the actual final state and any accountable unresolved work.\nFormal status: Not run; no engineering subset automatically passes this case.\n\n## Authorization, error and recovery contract\n\nCurrent server role/tenant/assignment/purpose, audit and version constraints remain applicable. Before execution, freeze authorised positive behaviour, out-of-scope/changed-authority refusal, invalid input, unavailable dependency, stale version and uncertain-save recovery wherever relevant. Inspect actual code/API/data and inherited failures; preserve targets and no-side-effect guarantees. Do not substitute an assumed UI or reference API catalogue for a current implementation contract.\n\n## Current evidence and readiness\n\nBR-ID-06: source assessment \"implemented-local\"; target checkpoint R16. Full remaining scope stays open; see authoritative requirements/assessment.tsv and current evidence-map. Remaining: Pilot acceptance with the approved local identity process.\nCanonical item remains Backlog/unqualified. Current local source/assessment may contain bounded implemented components; original formal acceptance is not thereby passed. No named executor, estimate or delivery date is invented.\nNot part of the first D01–D08 implementation tasks; later prioritisation requires sponsor decision and dependency checks.\n\n## Technical work and delivery\n\nRequirement-linked engineering subtasks retain ENG IDs, source outcomes, owner roles, dependencies and tests. Inspect current reuse and freeze a minimal ready slice before coding; no bulk implementation dispatch. GitHub #188 remains the single delivery controller. Isolated qualified story PRs, final-code CI/review/native approvals and exact hosting/smoke evidence govern delivery.\nNo real patient/recipient, provider activation, paid services, new hosting, parallel database, clinical policy or destructive migration is authorised by this backlog.\n\nSources: [scope row](<https://github.com/nakul175/saha-health/blob/9e74b6a4648aa0a0a9e3fa32474cb4c943f1aea1/docs/current/community-worker-os/scope.tsv>), [additional criteria](<https://github.com/nakul175/saha-health/blob/9e74b6a4648aa0a0a9e3fa32474cb4c943f1aea1/docs/current/community-worker-os/new-criteria.tsv>), [source BRD requirements](<https://github.com/nakul175/saha-health/blob/7668a03d97c1ae62174f09e65ccd5a5717120be6/requirements/brd-v1.1.json>), [formal catalogue](<https://github.com/nakul175/saha-health/blob/7668a03d97c1ae62174f09e65ccd5a5717120be6/docs/reference/workbook/Test-Catalogue.csv>), [delivery gates](<https://linear.app/aplyd-sandbox/document/saha-story-readiness-and-delivery-gates-3fbcfc7ee2e7>).\n\n## v4.2 planning refinement — source preserved\n\nAuthor recommendation for planning only. Original requirements, frozen criteria, native status/priority/milestone/assignee and historic evidence remain unchanged. Do not weaken criteria to obtain a pass.\n\n### Priority, sequence and forecast\n\nRetain original Must-before-Should/Could and source-release ordering; use risk reduction and prerequisites to choose one bounded slice before adding further product surface.\n\nSource priorities: Must; release: R1. Source package inputs: none recorded. These are inspection inputs, not whole-epic completion requirements.\n\nRecommended size: 2–5 engineering effort days, low confidence. Method: owned requirement count plus interface/device/source-gap uncertainty; inspect current reuse first. Excludes approval/partner wait, participant recruitment and observation windows; no staffing/date commitment.\n\n### Scenario coverage and evidence contract\n\n* Positive: Run TC-BR-ID-06-A using the source-named fixture, actor, preconditions and exact Expected oracle; cover a local record and eligible workflow even when ABHA, a personal phone and biometric identifiers are absent.\n* Refusal/adverse: Run TC-BR-ID-06-B; retained source adverse/recovery case: Register a person with no ABHA or phone; allow local care capture without invented identifiers.. Its source label does not by itself establish refusal coverage.\n* Error/recovery refinement: Make external identity-linking unavailable for a locally eligible person. Preserve local registration and capture with explicit unknown fields rather than inventing ABHA, phone or biometrics.\n* Authorization refinement: For worker registering a person performing “a local record and eligible workflow even when ABHA, a personal phone and biometric identifiers are absent”: Remove the source actor’s task/record purpose or change person/assignment between preparation and commitment; deny the protected operation at its existing server/action boundary, preserving previously accepted history.\n\nBind source/configuration and synthetic fixture version to actual UI/API/state/side-effect/audit outputs; record every failed, skipped and untested case separately. Planned scenarios remain Not run, and local reuse evidence cannot satisfy full formal or live/domain approval.\n\n### Shared gates and remaining decisions\n\nLink [SAHA-READY-1.0 and SAHA-DONE-1.0](<https://linear.app/aplyd-sandbox/document/saha-story-readiness-and-delivery-gates-3fbcfc7ee2e7>); apply the engineering/synthetic scope and exact version, alongside this issue’s unchanged source acceptance. Shared checklist completeness cannot approve domain decisions or stand in for observed delivery.\n\nUse the existing Current evidence/readiness and original formal cases for unresolved authority/evidence; this refinement does not mark the canonical item Ready or accepted.",
+      "projectMilestone": {
+        "id": "c1b16578-cd76-4598-837b-af20bc793744",
+        "name": "Product R1 — authorised multi-programme pilot"
+      },
+      "priority": {
+        "value": 2,
+        "name": "High"
+      },
+      "url": "https://linear.app/aplyd-sandbox/issue/APL-38/saha-015-local-registration-without-national-identifier",
+      "gitBranchName": "nakul17/apl-38-saha-015-local-registration-without-national-identifier",
+      "createdAt": "2026-10-10T08:57:24.304Z",
+      "updatedAt": "2026-10-10T17:39:16.412Z",
+      "archivedAt": null,
+      "completedAt": null,
+      "startedAt": null,
+      "canceledAt": null,
+      "dueDate": null,
+      "slaStartedAt": null,
+      "slaMediumRiskAt": null,
+      "slaHighRiskAt": null,
+      "slaBreachesAt": null,
+      "status": "Backlog",
+      "statusType": "backlog",
+      "labels": [
+        "SAHA Scope"
+      ],
+      "attachments": [],
+      "documents": [],
+      "stateHistory": [
+        {
+          "state": {
+            "id": "3970a201-582f-4d4a-a448-fd2703e77cba",
+            "name": "Backlog",
+            "type": "backlog"
+          },
+          "startedAt": "2026-10-10T08:57:24.304Z",
+          "endedAt": null
+        }
+      ],
+      "createdBy": "NAKUL JAIN",
+      "createdById": "4d7ec541-0a39-4f85-97af-352c64010859",
+      "project": "SAHA — Community Worker OS",
+      "projectId": "d60fda66-7be7-41d1-a7e8-c7ec50b51632",
+      "parentId": "APL-13",
+      "team": "Aplyd Sandbox",
+      "teamId": "525d5b8a-9fb9-496d-b98b-32b29915e80a",
+      "relations": {
+        "blocks": [],
+        "blockedBy": [],
+        "relatedTo": [],
+        "duplicateOf": null
+      }
+    },
+    {
+      "id": "APL-198",
+      "uuid": "32de3b88-38ca-41ef-9d4b-e1ac6a3f944a",
+      "title": "[ENG-BR-ID-06] Local registration without national identifier",
+      "description": "## Technical outcome\n\nCreate a local UUID before external linking. Required local demographics permit explicit unknown where programme rules allow.\n\n## Traceability\n\nTask ID: ENG-BR-ID-06; parent scope: SAHA-015; original requirement: BR-ID-06; design ID: FR-ID-06.\nWork package: WP01; source original release: R1; source priority: Must.\nSource accountable role: Platform lead; named executor unassigned; estimate: Unestimated.\nSource package dependencies: None. These are preserved design dependencies, not evidence of upstream completion.\n\n## Inspect and adapt current implementation first\n\nThis is the preserved engineering outcome, not an instruction to rebuild an already implemented feature or adopt the original proposed architecture. Inspect current requirements/assessment.tsv, requirements/evidence-map.json, current API/data contracts, `AGENTS.md`, `CLAUDE.md` and `HANDOVER.md` in the current repository and related components/tests. Select verified reuse and record remaining behaviour. Freeze a minimal scoped execution contract before moving from Backlog.\nReference workbook components/APIs describe target design; actual current server identity, scoping, audit/version/receipt semantics remain authoritative. No schema/new store/provider/clinical-policy change is presumed.\n\n## Acceptance and test output\n\nOriginal named tests: TC-BR-ID-06-A TC-BR-ID-06-B. Exact positive/adverse fixtures, steps and expected results are preserved on the parent scope story. Original acceptance clauses and applicable NFR targets remain unchanged; original formal cases are Not run unless independently executed and accepted.\nDone for this task requires a named published source/configuration, actual implementation or individually verified reuse, affected original/adverse checks, evidence of state/side effects/audit and limits, and separate final review. A narrower local witness cannot qualify the full parent. No estimates, approval signatures or test success is inferred from this import.\n\n## Execution state and release\n\nBacklog: current remaining scope must be qualified; historical source \"Not started\" is a reference snapshot, not a current claim that no code exists. Sponsor has held coding for full planning. GitHub #188 is the sole controller; D03 is the sole existing candidate, and no new story is dispatched. Clinical/partner/device/privacy prerequisites remain blockers where applicable.\nCurrent demonstrations are synthetic only. No real recipients/patients, paid services, new hosting, secrets, providers, destructive migrations, parallel patient database or new clinical policies. Original requirements and release gates remain independent of bounded D01–D08 delivery.\n\n[Parent story](<https://linear.app/aplyd-sandbox/issue/APL-38/saha-015-local-registration-without-national-identifier>) · [Source engineering backlog](<https://github.com/nakul175/saha-health/blob/7668a03d97c1ae62174f09e65ccd5a5717120be6/docs/reference/workbook/Engineering-Backlog.csv>) · [Delivery gates](<https://linear.app/aplyd-sandbox/document/saha-story-readiness-and-delivery-gates-3fbcfc7ee2e7>)\n\n## v4.2 planning refinement — source preserved\n\nAuthor planning recommendation; the retained outcome and source acceptance remain unchanged. Do not weaken criteria to obtain a pass.\n\n### Bounded handoff\n\n* Parent contract: [APL-38 — \\[SAHA-015\\] Local registration without national identifier](<https://linear.app/aplyd-sandbox/issue/APL-38/saha-015-local-registration-without-national-identifier>)\n* Inputs: The exact parent <issue id=\"36ea59c2-bef9-4425-a574-6262520bb5ea\" href=\"https://linear.app/aplyd-sandbox/issue/APL-38/saha-015-local-registration-without-national-identifier\">APL-38</issue> requirement/acceptance, source task/design ID, current implementation evidence and TC-BR-ID-06-A, TC-BR-ID-06-B.\n* Reviewable output: Reviewable implementation or individually verified reuse demonstrating the preserved outcome: Create a local UUID before external linking. Required local demographics permit explicit unknown where programme rules allow.\n* Boundary: finish only this named outcome; no whole-parent or production qualification follows.\n\nNative blockers: none recorded. Source package inspection inputs: none recorded. Recommended remaining-work forecast: 1–3 engineering effort days, low confidence, conditional on verified reuse and a frozen bounded contract. Interface/device/source-gap tasks use the wider range; excludes external approval/observation wait and is not additional to the parent forecast.\n\n### Verification and evidence\n\nMake external identity-linking unavailable for a locally eligible person. Preserve local registration and capture with explicit unknown fields rather than inventing ABHA, phone or biometrics.\n\nRetain actual named check exits, source/config/fixture versions, before/after state, side effects, receipts/audit and unresolved limits for TC-BR-ID-06-A, TC-BR-ID-06-B. No planned test, historical source status or local narrow witness is a formal acceptance pass.\n\n### Shared gates and delivery constraints\n\nApply [SAHA-READY-1.0/SAHA-DONE-1.0](<https://linear.app/aplyd-sandbox/document/saha-story-readiness-and-delivery-gates-3fbcfc7ee2e7>) at the pinned engineering/synthetic scope in addition to the exact parent acceptance. No broad dispatch: inspect source/current candidate first; dependency references do not require completing entire epics. Native status, parent, priority, milestone, assignee and estimate stay unchanged.",
+      "projectMilestone": {
+        "id": "c1b16578-cd76-4598-837b-af20bc793744",
+        "name": "Product R1 — authorised multi-programme pilot"
+      },
+      "priority": {
+        "value": 2,
+        "name": "High"
+      },
+      "url": "https://linear.app/aplyd-sandbox/issue/APL-198/eng-br-id-06-local-registration-without-national-identifier",
+      "gitBranchName": "nakul17/apl-198-eng-br-id-06-local-registration-without-national-identifier",
+      "createdAt": "2026-10-10T09:14:06.498Z",
+      "updatedAt": "2026-10-10T17:51:25.630Z",
+      "archivedAt": null,
+      "completedAt": null,
+      "startedAt": null,
+      "canceledAt": null,
+      "dueDate": null,
+      "slaStartedAt": null,
+      "slaMediumRiskAt": null,
+      "slaHighRiskAt": null,
+      "slaBreachesAt": null,
+      "status": "Backlog",
+      "statusType": "backlog",
+      "labels": [
+        "SAHA Technical"
+      ],
+      "attachments": [],
+      "documents": [],
+      "stateHistory": [
+        {
+          "state": {
+            "id": "3970a201-582f-4d4a-a448-fd2703e77cba",
+            "name": "Backlog",
+            "type": "backlog"
+          },
+          "startedAt": "2026-10-10T09:14:06.498Z",
+          "endedAt": null
+        }
+      ],
+      "createdBy": "NAKUL JAIN",
+      "createdById": "4d7ec541-0a39-4f85-97af-352c64010859",
+      "project": "SAHA — Community Worker OS",
+      "projectId": "d60fda66-7be7-41d1-a7e8-c7ec50b51632",
+      "parentId": "APL-38",
+      "team": "Aplyd Sandbox",
+      "teamId": "525d5b8a-9fb9-496d-b98b-32b29915e80a",
+      "relations": {
+        "blocks": [],
+        "blockedBy": [],
+        "relatedTo": [],
+        "duplicateOf": null
+      }
+    }
+  ]
+}

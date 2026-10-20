@@ -3,7 +3,7 @@ import {fail} from './core';
 import {readState,scope,type Actor} from './store';
 import {normallyAllowed,purposePermits} from './access';
 import {recordAccess} from './access-audit';
-import {frontlineAgreement,independentTargets,requireServiceIdentity} from './service-identity';
+import {frontlineAgreement,independentTargets,requireServiceIdentity,requireServiceIntent} from './service-identity';
 import type {OrgState,Member} from './types';
 import type {AccessPurpose} from './purpose-scope';
 export type DispatchContext={intent:'send'|'lookup'|'probe';purpose?:AccessPurpose;authorize?:(state:OrgState,member:Member)=>void|Promise<void>};
@@ -23,13 +23,13 @@ export async function serviceDispatch(db:D1Database,s:OrgState,u:Actor,m:Member,
  if(!i&&!independentTargets.includes(targetId))fail(403,'Service target no longer exists. Nothing was sent.');
  if(i&&!targetAvailable(i,context?.intent==='probe'))fail(403,'Service target is no longer active. Nothing was sent.');
  assertTarget(s,fresh,targetId,context?.intent==='probe');
- const si=requireServiceIdentity(fresh,bound!,kind,targetId);
+ const si=requireServiceIntent(requireServiceIdentity(fresh,bound!,kind,targetId),context?.intent ?? 'send');
  await recordAccess(db,fresh,u,member,{action:'externalRequest',subject:targetId,personId,detail:`Service dispatch authorised: initiating human ${u.userId}; service ${si.id}; target ${targetId}; accountable owner ${si.ownerId}; expires ${si.expiresAt}.`});
  const checkpoint=await readState(db,s.organisation.id),current=scope(checkpoint,u.userId);
  if(checkpoint.operations?.serviceBindings?.[targetId]!==expected||current.version!==m.version||current.role!==m.role)fail(403,'Service or initiating human authority changed during audit. Nothing was sent.');
  await domain(checkpoint,current);
  assertTarget(s,checkpoint,targetId,context?.intent==='probe');
- requireServiceIdentity(checkpoint,expected!,kind,targetId);
+ requireServiceIntent(requireServiceIdentity(checkpoint,expected!,kind,targetId),context?.intent ?? 'send');
  if(personId){const p=checkpoint.workspace.people.find(x=>x.id===personId);if(!p||!normallyAllowed(current,p,checkpoint.operations?.accessScope))fail(403,'Patient scope changed during audit. Nothing was sent.');}
  if(i&&!targetAvailable(checkpoint.workspace.integrations.find(x=>x.id===targetId),context?.intent==='probe'))fail(403,'Service target changed during audit. Nothing was sent.');
  async function domain(state:OrgState,member:Member){

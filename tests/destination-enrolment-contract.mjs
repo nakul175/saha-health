@@ -27,6 +27,7 @@ export async function persist(db, before, after, u, c) { if (failNextFinish && c
   const adapter = await import(pathToFileURL(join(dir, 'destination-enrolment-adapter.js')));
   const de = await import(pathToFileURL(join(dir, 'destination-enrolment.js')));
   const exec = await import(pathToFileURL(join(dir, 'destination-enrolment-execution.js')));
+  const programme = await import(pathToFileURL(join(dir, 'programme-commands.js')));
   const store = await import(pathToFileURL(join(dir, 'store.js')));
 
   const check = fn => { fn(); passed++; };
@@ -76,6 +77,13 @@ export async function persist(db, before, after, u, c) { if (failNextFinish && c
   check(() => assert.throws(() => de.requestTarget(s, { ...req, destinationId: 'missing' }, actor, member(s.members[0])), /active demonstration programme destination/));
   check(() => assert.throws(() => de.requestTarget(s, { ...req, personId: 'p', version: 2 }, actor, member(s.members[0])), /changed/));
   check(() => assert.throws(() => de.requestTarget(s, { ...req, enrolmentVersion: 1 }, actor, member(s.members[0])), /changed/));
+
+  // ---- eligibility assessment stays independent from destination registration ----
+  const eligibilityState=makeState(),eligibilityCommand={type:'recordProgrammeEligibility',personId:'p',version:1,enrolmentId:'e1',assessmentVersion:0,state:'eligible',reason:'Synthetic programme criteria reviewed.'};
+  const eligibilityResult=programme.programmeApply(eligibilityState,eligibilityCommand,actor,member(eligibilityState.members[0]));
+  check(()=>{const episode=eligibilityState.workspace.people[0].enrolments[0];assert.equal(eligibilityResult.eligibilityAssessment.state,'eligible');assert.equal(episode.eligibilityAssessment.version,1);assert.equal(episode.registration,'not_submitted');assert.equal(episode.destinationEnrolment,undefined);});
+  check(()=>assert.throws(()=>programme.programmeApply(eligibilityState,{...eligibilityCommand,version:2,assessmentVersion:0},actor,member(eligibilityState.members[0])),/assessment changed/));
+  check(()=>assert.throws(()=>programme.programmeApply(makeState(),eligibilityCommand,actor,member({...makeState().members[0],role:'admin'})),/care role/));
 
   // ---- receipt application ----
   const d = { version: 0, state: 'requested', destinationId: 'dest1', destinationName: 'Maternal & child register', payloadHash: ph, attempts: 1, delivery: { key: 'e1', actorId: 'worker', connectorVersion: 1, personVersion: 1, expiresAt: new Date(Date.now() + 60000).toISOString(), events: [] }, history: [] };

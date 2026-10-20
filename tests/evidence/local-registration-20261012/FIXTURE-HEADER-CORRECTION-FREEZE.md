@@ -1,0 +1,3 @@
+# Native fixture header correction
+Frozen 2026-10-12T19:59:53.549609+00:00 before edit. Actual owned00216passes then create400 Use one exact originalregistrationoperationkey; original client(body) inserts capital Idempotency-Key when that exact property absent, while fixture supplied lowercase idempotency-key. The real Headers combines both values, violating unchangedUUID oracle. Correct only native caller spelling to original helper capital property; no product validator/body/criteria/oracle/timeout relaxation. Save controlled actual Headers reproduction before/after.
+Sourcepreimage SHA 9078ab3387a3253edbdbd93de324b36cbf3fb5387062caebdc8cf34dcf2b30e2

@@ -21,6 +21,7 @@ export function HouseholdPatient({data,p,busy,command}:{data:Snapshot;p:Person;b
  const care=['asha','clinician'].includes(data.role);
  const load=useCallback(async(r=recipient,pu=purpose)=>{setLoading(true);setError('');try{const q=new URLSearchParams({personId:p.id,...(r?{recipient:r,purpose:pu}:{})});const res=await fetch(`/api/household?${q}`,{cache:'no-store',headers:{'x-saha-organisation':data.organisation.id}});const j:any=await res.json();if(!res.ok)throw Error(j.error??'Household view unavailable.');setView(j);}catch(e){setError(e instanceof Error?e.message:'Household view unavailable.');}finally{setLoading(false)}},[p.id,data.organisation.id,recipient,purpose]);
  useEffect(()=>{if(open)load();},[open,p.version]);// eslint-disable-line react-hooks/exhaustive-deps
+ useEffect(()=>{if(!open||!view?.refreshAt)return;const deadline=Date.parse(view.refreshAt),wait=deadline-Date.now();if(!Number.isFinite(deadline))return;const refresh=()=>{setRecipient('');setView((current:any)=>current?{...current,refreshAt:null,shareable:null}:current);void load('','care-coordination');};if(wait<=0){refresh();return;}const timer=setTimeout(refresh,Math.min(wait,2_147_483_647));return()=>clearTimeout(timer);},[open,view?.refreshAt,load]);
  const run=async(body:any,ok:string)=>{const r=await command(body,ok);if(r)await load();return r;};
  const h=view?.household,members:any[]=view?.members??[],self=members.find(m=>m.personId===p.id);
  const candidates=data.people.filter(q=>q.id!==p.id&&!q.householdId);

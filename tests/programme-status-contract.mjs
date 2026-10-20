@@ -41,6 +41,8 @@ try {
     assert.doesNotMatch(JSON.stringify(value), /private/); assert.deepEqual(source, before);
   });
   check('Closure of local episode never implies destination acceptance', () => assert.match(programmeStatusText(project({ state: 'closed' })).status, /Destination evidence not recorded/));
+  check('Eligibility assessment is projected independently without inventing destination registration', () => { const value=project({eligibilityAssessment:{state:'eligible',reason:'Synthetic criteria reviewed.',assessedAt:'2026-10-16T00:00:00.000Z',assessedBy:'worker',version:1}});assert.equal(value.eligibilityAssessment.state,'eligible');assert.equal(value.registration,'not_submitted');assert.equal(value.destination,undefined); });
+  check('Malformed eligibility assessment is refused rather than treated as eligibility', () => assert.throws(()=>project({eligibilityAssessment:{state:'eligible',reason:'',assessedAt:'bad',assessedBy:'',version:0}}),/Eligibility assessment source is unavailable/));
   for (const value of [12, {}, [], null]) check('Malformed receipt stays unverified instead of crashing or confirming', () => assert.match(programmeStatusText(project({ destinationEnrolment: { state: 'accepted', destinationName: 'Synthetic', destinationReceipt: value } })).status, /unavailable or inconsistent/));
   for (const patch of [{ id: null }, { packVersion: 0 }, { state: 'guessed' }, { registration: 'accepted' }, { destinationEnrolment: { state: 'accepted', destinationName: {} } }]) check('Invalid core source refuses the projection without invented fields', () => assert.throws(() => project(patch), /source is unavailable/));
   const output = process.env.SAHA_PROGRAMME_STATUS_REPORT ?? 'tests/reports/programme-status-contract-result.json';

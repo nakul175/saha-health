@@ -1,0 +1,472 @@
+{
+  "suite": "saha-022-extraction-quality-contract",
+  "passed": 16,
+  "corpusVersion": "saha-synthetic-evidence-2",
+  "metrics": {
+    "cases": [
+      {
+        "caseId": "current-bp-weight",
+        "language": "en",
+        "group": "clean",
+        "critical": false,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "decimal-weight",
+        "language": "en",
+        "group": "clean",
+        "critical": false,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "temperature",
+        "language": "en",
+        "group": "clean",
+        "critical": false,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "reported-duration",
+        "language": "en",
+        "group": "clean",
+        "critical": false,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "history",
+        "language": "en",
+        "group": "history",
+        "critical": true,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "negated",
+        "language": "en",
+        "group": "negation",
+        "critical": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "other-person",
+        "language": "en",
+        "group": "subject",
+        "critical": true,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "uncertainty",
+        "language": "en",
+        "group": "uncertainty",
+        "critical": true,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "example",
+        "language": "en",
+        "group": "adversarial",
+        "critical": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "injection",
+        "language": "en",
+        "group": "adversarial",
+        "critical": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "conflicting-weight",
+        "language": "en",
+        "group": "conflict",
+        "critical": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "conflicting-bp",
+        "language": "en",
+        "group": "conflict",
+        "critical": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "unsupported-unit",
+        "language": "en",
+        "group": "units",
+        "critical": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "unknown",
+        "language": "en",
+        "group": "missing",
+        "critical": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "noise",
+        "language": "en",
+        "group": "noise",
+        "critical": false,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "line-breaks",
+        "language": "en",
+        "group": "noise",
+        "critical": false,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "hindi-weight",
+        "language": "hi",
+        "group": "language",
+        "critical": false,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "hindi-unknown",
+        "language": "hi",
+        "group": "missing",
+        "critical": true,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "mixed-language",
+        "language": "hi",
+        "group": "language",
+        "critical": false,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "background-speaker",
+        "language": "en",
+        "group": "noise",
+        "critical": true,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      },
+      {
+        "caseId": "ambiguous-quantity",
+        "language": "en",
+        "group": "ambiguity",
+        "critical": true,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "error": false,
+        "exact": true
+      }
+    ],
+    "tp": 19,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1,
+    "recall": 1,
+    "failed": 0,
+    "criticalFailures": 0,
+    "missingness": 0,
+    "correctionBurden": 0,
+    "passed": true,
+    "byField": [
+      {
+        "field": "systolic",
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "missingness": 0,
+        "correctionBurden": 0
+      },
+      {
+        "field": "diastolic",
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "missingness": 0,
+        "correctionBurden": 0
+      },
+      {
+        "field": "weight",
+        "tp": 9,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "missingness": 0,
+        "correctionBurden": 0
+      },
+      {
+        "field": "temperature",
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "missingness": 0,
+        "correctionBurden": 0
+      },
+      {
+        "field": "weeks",
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "missingness": 0,
+        "correctionBurden": 0
+      },
+      {
+        "field": "coughDays",
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "missingness": 0,
+        "correctionBurden": 0
+      }
+    ],
+    "byLanguage": [
+      {
+        "language": "en",
+        "cases": 18,
+        "tp": 15,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "language": "hi",
+        "cases": 3,
+        "tp": 4,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "failed": 0,
+        "criticalFailures": 0
+      }
+    ],
+    "byGroup": [
+      {
+        "group": "clean",
+        "cases": 4,
+        "tp": 7,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "history",
+        "cases": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "negation",
+        "cases": 1,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "subject",
+        "cases": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "uncertainty",
+        "cases": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "adversarial",
+        "cases": 2,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "conflict",
+        "cases": 2,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "units",
+        "cases": 1,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "missing",
+        "cases": 2,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "precision": null,
+        "recall": null,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "noise",
+        "cases": 3,
+        "tp": 4,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "language",
+        "cases": 2,
+        "tp": 4,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "failed": 0,
+        "criticalFailures": 0
+      },
+      {
+        "group": "ambiguity",
+        "cases": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "failed": 0,
+        "criticalFailures": 0
+      }
+    ],
+    "scope": "Versioned synthetic engineering fixture only; independent annotation, representative-population and clinical accuracy acceptance remain separate."
+  },
+  "completedAt": "2026-10-16T05:02:37.090Z"
+}

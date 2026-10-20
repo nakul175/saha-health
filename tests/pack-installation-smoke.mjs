@@ -16,9 +16,9 @@ export async function packInstallationSmoke({ get, post, check, accounts, org, s
   { const r = await fetch(`${base}/api/pack-installations`, { headers: { ...w.headers, 'x-saha-organisation': org } }); check(() => assert.equal(r.status, 403, 'an ASHA cannot read installations')); }
   let view = await read(o);
   check(() => { assert.equal(view.canStage, true); assert.equal(view.installations.length, 0); assert.match(view.notice, /not clinical approval/); assert.equal(view.limits.manifestCharacters, 8000); });
-  const manifest = { format: 'saha-pack-manifest-1', id: 'child_growth', version: 1, name: 'Child growth check', programme: 'Child health', purpose: 'Record a synthetic child growth check and a reported feeding concern.',
+  const manifest = { format: 'saha-pack-manifest-2', id: 'child_growth', version: 1, name: 'Child growth check', programme: 'Child health', purpose: 'Record a synthetic child growth check and a reported feeding concern.',
     questions: [{ id: 'weight', label: 'Weight', fact: 'weight', unit: 'kg', required: true }, { id: 'feeding_concern', label: 'Does the carer report a feeding concern?', options: ['Yes', 'No'], required: true }],
-    schedule: { followUpWithinDays: 30 }, escalation: [{ id: 'feeding-concern', label: 'Reported feeding concern', condition: { questionId: 'feeding_concern', operator: 'eq', value: 'Yes' }, urgency: 'review' }], changeNote: 'Synthetic illustrative pack for the installation smoke; not clinically approved.' };
+    schedule: { followUpWithinDays: 30 }, escalation: [{ id: 'feeding-concern', label: 'Reported feeding concern', condition: { questionId: 'feeding_concern', operator: 'eq', value: 'Yes' }, urgency: 'review' }], governance:{population:{description:'Synthetic children enrolled in the local child-health episode.',eligibility:['Active child-health episode confirmed in this organisation']},mandatoryEvidence:['Confirmed visit facts and every required programme answer'],authorisedRoles:['asha','clinician'],workflowStates:[{id:'draft',label:'Draft capture',terminal:false},{id:'confirmed',label:'Confirmed record',terminal:true}],destinationMappings:[{id:'review',label:'Clinician review queue',destinationType:'referral',requiresApproval:true}],indicators:[{id:'completion',label:'Completed child checks',numerator:'Confirmed eligible encounters',denominator:'Eligible enrolled episodes'}],approvals:{business:true,clinical:true},effectiveFrom:'2026-09-30T00:00:00.000Z'}, changeNote: 'Synthetic illustrative pack for the installation smoke; not clinically approved.' };
   const stage = (m, reason = 'Stage a synthetic child growth pack') => ({ type: 'packInstallStage', manifest: m, reason });
   // Invalid manifests are refused with the reason; nothing is staged.
   const bad = await post(o, stage({ ...manifest, questions: [{ ...manifest.questions[0], unit: 'g' }, manifest.questions[1]] }), 422, undefined, mine);
@@ -31,7 +31,7 @@ export async function packInstallationSmoke({ get, post, check, accounts, org, s
   const replay = await post(o, stage(manifest), 200, key, mine);
   check(() => { assert.equal(staged.state, 'staged'); assert.equal(replay.replayed, true); assert.equal(replay.result.installationId, staged.installationId); });
   await post(o, stage(manifest), 409, undefined, mine);
-  const review = (decision = 'approve') => ({ type: 'packInstallReview', installationId: staged.installationId, manifestHash: staged.manifestHash, decision, reason: 'Structure and conflicts checked on synthetic data' });
+  const review = (decision = 'approve') => ({ type: 'packInstallReview', installationId: staged.installationId, manifestHash: staged.manifestHash, decision, ...(decision==='approve'?{approval:'clinical'}:{}), reason: 'Structure and conflicts checked on synthetic data' });
   await post(o, review(), 403, undefined, mine);
   view = await read(rv);
   check(() => { assert.equal(view.canStage, false); const i = view.installations[0]; assert.deepEqual([i.state, i.canReview, i.canActivate, i.conflicts.length], ['staged', true, false, 0]); });
@@ -41,7 +41,7 @@ export async function packInstallationSmoke({ get, post, check, accounts, org, s
   await enrol('p_meena', 422);
   await post(rv, review(), 200, undefined, mine);
   await enrol('p_meena', 422);
-  const activate = { type: 'packInstallActivate', installationId: staged.installationId, manifestHash: staged.manifestHash, reason: 'Activate the reviewed synthetic pack' };
+  const activate = { type: 'packInstallActivate', installationId: staged.installationId, manifestHash: staged.manifestHash, businessApproval:true, reason: 'Activate the reviewed synthetic pack' };
   await post(rv, activate, 403, undefined, mine);
   await post(o, activate, 200, undefined, mine);
   await enrol('p_meena');

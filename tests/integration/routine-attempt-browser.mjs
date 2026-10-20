@@ -99,10 +99,20 @@ try {
     await fixture.page.getByRole('textbox', { name: 'Weight (kg)', exact: true }).fill(value);
     await fixture.page.getByRole('combobox', { name: 'Go to observation or save', exact: true }).selectOption('review');
   };
-  const installRefusal = stage => {
+  const installRefusal = async stage => {
     const before = member(asha), threshold = boundedCount() + (stage === 'post-save-context' ? 2 : 1), name = 'qa_attempt_' + stage.replaceAll('-', '_') + '_' + run;
     activeTrigger = name;
-    sql.exec('CREATE TRIGGER ' + name + ' AFTER INSERT ON audit_events WHEN NEW.org_id=' + literal(org) + ' AND NEW.actor_id=' + literal(asha.id) + " AND NEW.action='viewPatientRecord' AND NEW.detail LIKE 'Bounded routine visit context.%' AND (SELECT count(*) FROM audit_events WHERE org_id=" + literal(org) + ' AND actor_id=' + literal(asha.id) + " AND action='viewPatientRecord' AND detail LIKE 'Bounded routine visit context.%') >= " + threshold + " BEGIN UPDATE memberships SET status='suspended',version=version+1 WHERE org_id=" + literal(org) + ' AND user_id=' + literal(asha.id) + ' AND version=' + before.version + '; END');
+    const statement = 'CREATE TRIGGER ' + name + ' AFTER INSERT ON audit_events WHEN NEW.org_id=' + literal(org) + ' AND NEW.actor_id=' + literal(asha.id) + " AND NEW.action='viewPatientRecord' AND NEW.detail LIKE 'Bounded routine visit context.%' AND (SELECT count(*) FROM audit_events WHERE org_id=" + literal(org) + ' AND actor_id=' + literal(asha.id) + " AND action='viewPatientRecord' AND detail LIKE 'Bounded routine visit context.%') >= " + threshold + " BEGIN UPDATE memberships SET status='suspended',version=version+1 WHERE org_id=" + literal(org) + ' AND user_id=' + literal(asha.id) + ' AND version=' + before.version + '; END';
+    // The Worker can briefly retain SQLite's write lock after the preceding HTTP
+    // response. Wait for that real transaction to finish instead of treating a
+    // fixture-control race as an application failure.
+    for (let attempt = 0; ; attempt++) {
+      try { sql.exec(statement); break; }
+      catch (cause) {
+        if (cause?.code !== 'ERR_SQLITE_ERROR' || !String(cause.message).includes('database is locked') || attempt === 49) throw cause;
+        await new Promise(resolve => setTimeout(resolve, 20));
+      }
+    }
     return name;
   };
   const removeRefusal = name => { sql.exec('DROP TRIGGER IF EXISTS ' + name); activeTrigger = null; };
@@ -120,7 +130,7 @@ try {
       const refused = f.page.waitForResponse(response => response.url().startsWith(worker.base + '/api/routine-visit?') && response.request().method() === 'GET');
       await f.page.getByRole('button', { name: 'Compare latest saved record', exact: true }).click(); responseStatus = (await refused).status(); await idle(f.page);
     } else {
-      nativeTrigger = installRefusal(stage === 'pre-command-start' ? 'pre-command' : stage);
+      nativeTrigger = await installRefusal(stage === 'pre-command-start' ? 'pre-command' : stage);
       const response = f.page.waitForResponse(response => response.url().endsWith('/api/routine-visit') && response.request().method() === 'POST');
       try { await f.page.getByRole('button', { name: stage === 'pre-command-start' ? 'Start or resume routine draft' : 'Save observations as server draft', exact: true }).click(); responseStatus = (await response).status(); await idle(f.page); }
       finally { removeRefusal(nativeTrigger); }

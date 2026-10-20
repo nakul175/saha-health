@@ -18,7 +18,7 @@ export async function indicatorsCoherentSmoke({get,post,check,accounts,org,base}
  const read=async(who,q={},status=200)=>{const r=q.ids?await fetch(`${base}/api/indicators`,{method:'POST',headers:{...who.headers,'Content-Type':'application/json','x-saha-organisation':org},body:JSON.stringify(q)}):await fetch(`${base}/api/indicators?${new URLSearchParams(q)}`,{headers:{...who.headers,'x-saha-organisation':org}});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,300)));return j;};
  await read(w,{},403);await read(a,{},403);await read(c,{},403);
  const cat=await read(s);
- check(()=>{assert.equal(cat.catalogue.length,12);assert.equal(cat.minimumCell,5);assert.ok(cat.catalogue.every(d=>d.version&&d.owner&&d.numerator));assert.ok(cat.villages.length>0);});
+ check(()=>{assert.equal(cat.catalogue.length,16);assert.equal(cat.minimumCell,5);assert.ok(cat.catalogue.every(d=>d.version&&d.owner&&d.numerator));assert.ok(cat.villages.length>0);});
  await read(o);
  const every=cat.catalogue.map(d=>d.id),ids=every.slice(0,8).join(',');
  await read(s,{ids:every.join(','),days:'30',group:'none'},422);

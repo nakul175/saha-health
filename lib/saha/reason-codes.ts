@@ -136,3 +136,19 @@ export function summaryReasonCodes(facts: { provenance?: Record<string, { source
   const parts = Object.entries(codes).map(([field, r]) => `${field}=${r.code} (${r.class})`);
   return parts.length ? `Reason codes (${REASON_CODE_RULESET}): ${parts.join(', ')}.` : '';
 }
+
+// A deterministic, value-free context for an assistance summary request.  It carries
+// only explicit absence semantics already saved on the visit; it never converts an
+// absent answer into a normal finding and never adds patient identity or free text.
+export function modelReasonContext(
+  facts: { provenance?: Record<string, { source?: string; at?: string } | undefined> } | undefined,
+  absence: Record<string, string> | undefined,
+): string[] {
+  const measurement = Object.entries(provenanceReasonCodes(facts?.provenance))
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([field, reason]) => `measurement ${field}: ${reason.code} [${reason.class}]`);
+  const programme = Object.entries(absenceReasonCodes(absence))
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([field, reason]) => `programme ${field}: ${reason.code} [${reason.class}]`);
+  return [...measurement, ...programme];
+}

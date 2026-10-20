@@ -80,7 +80,8 @@ export default function WorkforceStatus() {
   return <main className="workforce-status" aria-busy={busy || view.kind === 'loading'}>
     <p>Saha · Synthetic / training</p><h1>Review membership suspension</h1>
     <p>Organisation owners can suspend an existing member without changing their role, teams or owner status. This screen does not verify or activate accounts.</p>
-    <p>New online requests use current membership checks. A disconnected device may retain access within its existing grant and lock policy; immediate offline revocation is not promised or measured here.</p>
+    <p>New online requests use current membership checks and are refused immediately after suspension in this service, within the five-minute requirement.</p>
+    <p>A disconnected encrypted visit copy may remain readable until its displayed signed-grant expiry (currently up to 24 hours). Suspension cannot remotely erase that copy; reconnect and upload recheck the current membership. Immediate offline revocation is not promised.</p>
     {notice && <p role="status">{notice}</p>}
     {attempt && <section aria-label="Original suspension attempt"><p>Original operation reference: {attempt.key}</p>
       <p>This reference is held only in this screen&apos;s memory. Recovery requires the original owner and a committed original receipt; no missing operation is resent.</p>

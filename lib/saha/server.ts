@@ -80,6 +80,7 @@ import { applyDemonstration, authorizeDemonstration, automaticInstall, prepareHo
 import { env } from 'cloudflare:workers';
 import { headers } from 'next/headers';
 import { identityConfig, principalFromHeaders, signOutPath } from './identity';
+import { credentialIsCurrent } from './authentication-recovery';
 import { seedWorkspace } from './seed';
 import { effectiveRuntime, ensureEnvironment, environmentOf, ENVIRONMENT_LABEL, fixturesFor } from './environment';
 import { AppError, apply, digest, fail, person, visit, uuid, type Command } from './core';
@@ -91,7 +92,7 @@ import { auditWindow } from './access-audit';
 import { recordWorkspaceLoad, recordPartitionResponse, type SnapshotVia } from './read-audit';
 import { accountCode, auditPage, snapshotDecorations, parseCursor, createState, ensureAccount, history, persist, persistBurdenCounter, readState, scope, type Actor } from './store';
 import type { OrgState, Integration, Member, Snapshot } from './types';
-export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u)return u;if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null};return fail(401,'Sign in to use your workspace.');}
+export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u){const security=await db().prepare('SELECT revoked_before FROM credential_recoveries WHERE user_id=?').bind(u.userId).first<{revoked_before:number}>();if(security&&!credentialIsCurrent(u,security.revoked_before))fail(401,'This credential was superseded. Sign in again with the approved institutional method.');return u;}if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null,provider:'sites-chatgpt' as const};return fail(401,'Sign in to use your workspace.');}
 export function db(){if(!env.DB)fail(503,'Workspace storage is temporarily unavailable. Your unsaved input has been kept on screen.');return env.DB!;}
 export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null,material:boolean|SnapshotVia=false){const id=await activeOrg(u,orgId);
  // Slice 1f: due scheduled caseload transfers are applied (or held) before the organisation is read for this request.
@@ -168,7 +169,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const state=await readState(db(),invite.org_id),before=structuredClone(state),now=new Date().toISOString();
   const tokenHash=await digest(c.token),inv=state.invitations.find(x=>x.tokenHash===tokenHash);
   if(!inv||inv.status!=='pending'||inv.expiresAt<=now||inv.accountCode!==await accountCode(u.userId))fail(403,'This invitation is expired, used, revoked or belongs to another account.');
-  validTeams(state,inv.teamIds,inv.role);let member=state.members.find(m=>m.userId===u.userId);if(member?.status==='active')fail(409,'You are already a member of this organisation.');
+  validTeams(state,inv.teamIds,inv.role);const member=state.members.find(m=>m.userId===u.userId);if(member?.status==='active')fail(409,'You are already a member of this organisation.');
   const next={userId:u.userId,displayName:u.displayName,accountCode:await accountCode(u.userId),role:inv.role,isOwner:false,status:'active' as const,version:(member?.version??0)+1,teamIds:inv.teamIds,createdAt:member?.createdAt??now};if(member)Object.assign(member,next);else state.members.push(next);inv.status='accepted';inv.acceptedBy=u.userId;
   state.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:inv.role,action:'acceptInvite',subject:inv.id,detail:'Account-bound invitation accepted. Membership activated.'});
   await persist(db(),before,state,u,c,key,hash,{organisationId:invite.org_id},[],true);return {result:{organisationId:invite.org_id},snapshot:await viewerSnapshot(request,u,invite.org_id)};

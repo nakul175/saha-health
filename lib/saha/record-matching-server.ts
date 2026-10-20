@@ -46,7 +46,7 @@ export async function recordMatchingRead(request:Request){
     const c=result.candidates.find(p=>p.id===input.personId&&p.version===input.version);if(!c)fail(409,'The selected existing record changed. Search and choose again.');
     const person=initial.state.workspace.people.find(p=>p.id===c.id)!;
     await recordAccess(db(),initial.state,actor,initial.member,{action:'viewPatientRecord',subject:c.id,personId:c.id,detail:`Explicit possible-match selection; no identity link or merge.${accessRoute(initial.member,person)}`});
-    selected={id:person.id,name:person.name,age:person.age,sex:person.sex,village:person.village,version:person.version,identityState:person.identityReview?.state??'not-recorded'};
+    selected={id:person.id,name:person.name,age:person.age,sex:person.sex,village:person.village,version:person.version,identityState:c.identityState};
   }else await recordAccess(db(),initial.state,actor,initial.member,{action:'searchPatients',subject:org,personId:null,detail:`Bounded demographic possible-match search; ${result.candidates.length} candidate rows${result.overflow?' (limited)':''}; entered values not recorded. No identity decision.`});
   const fresh=await current(actor,org,input.query);
   if(fresh.fingerprint!==initial.fingerprint)fail(409,'Records or permissions changed during the read. Search again.');

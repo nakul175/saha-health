@@ -10,10 +10,10 @@ For each of the 176 requirements: its assessment status, the test files its evid
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
 - **52 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
-- **The map is incomplete in both directions.** 804 of 1142 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
+- **The map is incomplete in both directions.** 826 of 1164 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
-- **64 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
+- **68 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
 
 ## Summary
 
@@ -33,10 +33,10 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layer | Requirements citing it | Distinct files cited | Files on disk | On disk but cited by no requirement |
 | --- | ---: | ---: | ---: | ---: |
-| unit | 141 | 213 | 956 | 743 |
+| unit | 141 | 213 | 974 | 761 |
 | integration | 114 | 99 | 115 | 16 |
 | resilience | 2 | 1 | 1 | 0 |
-| smoke | 20 | 8 | 30 | 22 |
+| smoke | 20 | 8 | 34 | 26 |
 | ui | 12 | 9 | 25 | 16 |
 | nfr | 11 | 8 | 15 | 7 |
 
@@ -132,7 +132,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | NFR-14 | unverified | own | Usability and training burden |
 | NFR-27 | partial | own | Connector upgrade compatibility |
 
-## Test files cited by no requirement (804 of 1142)
+## Test files cited by no requirement (826 of 1164)
 
 Each is a test file on disk that no evidence-map entry mentions. They may well test requirements; the map just does not say which.
 
@@ -201,7 +201,9 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/asha-guided-capture-uncertainty-before.mjs | unit |
 | tests/asha-guided-capture-uncertainty.mjs | unit |
 | tests/assistance-control-contract.mjs | unit |
+| tests/assistance-executor-contract.mjs | unit |
 | tests/audit-checkpoint-contract.mjs | unit |
+| tests/authentication-recovery-contract.mjs | unit |
 | tests/bundle-audit-coverage-contract.mjs | unit |
 | tests/bundle-provenance-contract.mjs | unit |
 | tests/capability-age-boundary-contract.mjs | unit |
@@ -317,11 +319,13 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/guided-simplicity-current-guided-registration-browser.mjs | unit |
 | tests/guided-simplicity-current-guided-registration-overflow-browser.mjs | unit |
 | tests/handover-contract.mjs | unit |
+| tests/household-authority-lifecycle-contract.mjs | unit |
 | tests/household-completion-before.mjs | unit |
 | tests/household-completion-independent-browser.mjs | unit |
 | tests/household-completion-independent-http.mjs | unit |
 | tests/household-proxy-review-contract.mjs | unit |
 | tests/household-reschedule-before-driver.mjs | unit |
+| tests/hypertension-followup-completion-contract.mjs | unit |
 | tests/identity-contract.mjs | unit |
 | tests/identity-numeric-dates-contract.mjs | unit |
 | tests/imported-evidence-before.mjs | unit |
@@ -432,9 +436,12 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/integration-report-portability-schema-http.mjs | unit |
 | tests/integration-reporting-figure-portability-after-http.mjs | unit |
 | tests/interface-language-contract.mjs | unit |
+| tests/lifecycle-status-contract.mjs | unit |
 | tests/load-envelope.mjs | nfr |
+| tests/local-registration-contract.mjs | unit |
 | tests/mapping-lifecycle-review-contract.mjs | unit |
 | tests/mapping-remaining-contract-http.mjs | unit |
+| tests/maternal-workflow-contract.mjs | unit |
 | tests/media-contract.mjs | unit |
 | tests/media-imported-lineage-before.mjs | unit |
 | tests/media-imported-lineage-repair-http.mjs | unit |
@@ -611,10 +618,13 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/reporting-portability-root-cold-extra-http.mjs | unit |
 | tests/reporting-portability-root-cold-upgrade-http.mjs | unit |
 | tests/request-body-transport-contract.mjs | unit |
+| tests/resume-guided-progress-browser.mjs | unit |
+| tests/resume-guided-progress-contract.mjs | unit |
 | tests/resume-work-contract.mjs | unit |
 | tests/retention-contract.mjs | unit |
 | tests/retention-smoke.mjs | integration |
 | tests/reuse-contract.mjs | unit |
+| tests/reuse-measurements-contract.mjs | unit |
 | tests/reuse-privacy-registration-current.mjs | unit |
 | tests/reuse-smoke.mjs | integration |
 | tests/rights-contract.mjs | unit |
@@ -731,9 +741,14 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/run-api-privacy-registration-current.mjs | unit |
 | tests/run-api-reporting-current.mjs | unit |
 | tests/run-api-verification-programme-current.mjs | unit |
+| tests/saha-021-exchange-provenance-contract.mjs | unit |
+| tests/saha-022-extraction-quality-contract.mjs | unit |
+| tests/saha-024-model-missingness-contract.mjs | unit |
 | tests/scoped-read-contract.mjs | unit |
 | tests/security-audit-response-contract.mjs | unit |
 | tests/service-authority-review-contract.mjs | unit |
+| tests/service-identity-rotation-contract.mjs | unit |
+| tests/shared-question-review-contract.mjs | unit |
 | tests/simplicity-independent-guided-instructions-browser.mjs | unit |
 | tests/simplicity-independent-guided-instructions-contract.mjs | unit |
 | tests/simplicity-independent-guided-simplicity-browser.mjs | unit |
@@ -756,16 +771,20 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/smoke/interface-language-browser.mjs | smoke |
 | tests/smoke/interface-language-owned-browser.mjs | smoke |
 | tests/smoke/local-privacy-current-smoke.mjs | smoke |
+| tests/smoke/local-registration-browser.mjs | smoke |
 | tests/smoke/observation-time-browser.mjs | smoke |
 | tests/smoke/own-care-permissions-browser.mjs | smoke |
 | tests/smoke/programme-pack-review-browser.mjs | smoke |
 | tests/smoke/programme-status-browser.mjs | smoke |
 | tests/smoke/record-matching-browser.mjs | smoke |
 | tests/smoke/resume-work-browser.mjs | smoke |
+| tests/smoke/reuse-measurements-browser.mjs | smoke |
 | tests/smoke/routine-visit-native-browser.mjs | smoke |
 | tests/smoke/service-authority-review-browser.mjs | smoke |
+| tests/smoke/shared-question-review-browser.mjs | smoke |
 | tests/smoke/task-entry-browser.mjs | smoke |
 | tests/smoke/today-browser.mjs | smoke |
+| tests/smoke/today-guidance-browser.mjs | smoke |
 | tests/smoke/workforce-status-browser.mjs | smoke |
 | tests/storage-contract.mjs | unit |
 | tests/sync-receipt-cold-device-contract.mjs | unit |
@@ -774,6 +793,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/sync-receipt-cold-scope-browser.mjs | unit |
 | tests/sync-receipt-projection.mjs | unit |
 | tests/task-entry-contract.mjs | unit |
+| tests/tb-workflow-contract.mjs | unit |
 | tests/tenth-review-fixes-contract.mjs | unit |
 | tests/test-runner-contract.mjs | unit |
 | tests/test-runner-current-fixture-contract.mjs | unit |
@@ -781,6 +801,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/test-runner-privacy-registration-current-contract.mjs | unit |
 | tests/test-runner-reporting-current-contract.mjs | unit |
 | tests/test-runner-verification-current-contract.mjs | unit |
+| tests/today-guidance-contract.mjs | unit |
 | tests/transition-operational-count-privacy-contract.mjs | unit |
 | tests/transition-operational-count-privacy-http.mjs | unit |
 | tests/transition-operational-count-repair-contract.mjs | unit |
@@ -941,6 +962,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/work-burden-transport-http.mjs | unit |
 | tests/work-support-permission-race-review.mjs | unit |
 | tests/work-support-workflow-race-review.mjs | unit |
+| tests/workforce-lifecycle-complete.mjs | unit |
 | tests/workforce-status-contract.mjs | unit |
 
 ## Layer rules

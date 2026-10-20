@@ -24,7 +24,7 @@ const api=async(who,path,org,body,extra={})=>{
 };
 const ok=r=>{assert.equal(r.status,200,r.text);return r.json;};
 const tables=async()=>{const map={};for(const {name} of (await db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name <> '_cf_METADATA' ORDER BY name").all()).results){const rows=(await db.prepare('SELECT * FROM "'+name.replaceAll('"','""')+'"').all()).results;map[name]={rows:rows.length,sha256:sha(JSON.stringify(rows.map(row=>JSON.stringify(row)).sort()))};}return map;};
-const unchanged=(a,b,allow=['audit_events','request_metrics'])=>Object.keys(a).length===60&&Object.keys(b).length===60&&Object.keys(a).every(t=>allow.includes(t)||JSON.stringify(a[t])===JSON.stringify(b[t]));
+const unchanged=(a,b,allow=['audit_events','request_metrics'])=>Object.keys(a).length===62&&Object.keys(b).length===62&&Object.keys(a).every(t=>allow.includes(t)||JSON.stringify(a[t])===JSON.stringify(b[t]));
 const pref=()=>page.getByRole('region',{name:'Display-language preference',exact:true});
 const ready=async()=>page.getByText(/Current preference: (English|Hindi \(draft\))/).waitFor({state:'visible',timeout:10000});
 // Owned origin-only byte transport. One real preference result may be held or

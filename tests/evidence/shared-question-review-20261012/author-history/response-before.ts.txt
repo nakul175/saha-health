@@ -1,0 +1,25 @@
+import {z} from 'zod';
+import {questions,RESERVED_QUESTION_IDS,type ProgrammeCapture} from './programmes';
+import {FACT_UNITS} from './pack-installation';
+import type {Person,Visit} from './types';
+const ref=z.string().min(1).max(120).regex(/^[A-Za-z0-9_:.-]+$/),integer=z.number().int().min(1),qid=z.string().regex(/^[a-z][a-zA-Z0-9_]{1,39}$/).refine(x=>!RESERVED_QUESTION_IDS.has(x));
+const question=z.object({id:qid,label:z.string().min(3).max(160),required:z.boolean(),fact:z.enum(['weight','systolic','diastolic','temperature','weeks','coughDays']).optional(),unit:z.enum(['kg','mmHg','°C','weeks','days']).optional(),options:z.array(z.string().min(1).max(60)).min(2).max(8).optional(),when:z.object({id:qid,value:z.string().min(1).max(60)}).strict().optional(),renamedFrom:qid.optional()}).strict().refine(q=>q.fact?q.id===q.fact&&q.unit===FACT_UNITS[q.fact]&&!q.options:!!q.options&&!q.unit,'Unsupported shared fact or question definition.');
+const destination=z.object({enrolmentId:ref,packId:ref,version:integer,name:z.string().min(1),purpose:z.string().min(1),installationId:ref.nullable(),manifestHash:z.string().regex(/^[0-9a-f]{64}$/).nullable()}).strict();
+const capturedPack=z.object({id:ref,version:integer,name:z.string().min(1),purpose:z.string().min(1),questions:z.array(question).min(1).max(25),installed:z.object({installationId:ref,manifestHash:z.string().regex(/^[0-9a-f]{64}$/)}).strict().optional()}).passthrough();
+const capture=z.object({packs:z.array(z.object({enrolmentId:ref,pack:capturedPack}).strict()).max(20),answers:z.record(z.string()),absence:z.record(z.string())}).passthrough();
+const row=z.object({question,destinations:z.array(destination).min(1).max(20)}).strict();
+export const sharedQuestionResponse=z.object({organisationId:ref,actorId:z.string().min(1),person:z.object({id:ref,name:z.string().min(1),version:integer}).strict(),visits:z.array(z.object({id:ref,version:integer,state:z.enum(['draft','confirmed']),createdAt:z.string().min(1)}).strict()).max(500),selected:z.object({id:ref,version:integer,state:z.enum(['draft','confirmed']),createdAt:z.string().min(1),packs:z.array(destination).max(20),questions:z.array(row).max(500),conditionalDeferred:z.array(row).max(500)}).strict().nullable()}).strict().superRefine((v,c)=>{if(new Set(v.visits.map(x=>x.id)).size!==v.visits.length)c.addIssue({code:'custom',message:'Duplicate visit identity.'});if(v.selected&&!v.visits.some(x=>x.id===v.selected!.id&&x.version===v.selected!.version&&x.state===v.selected!.state))c.addIssue({code:'custom',message:'Selected source version is not in the current index.'});});
+export type SharedQuestionResponse=z.infer<typeof sharedQuestionResponse>;
+export function reviewQuestions(raw:unknown){
+ const c=capture.parse(raw),defs=new Map<string,z.infer<typeof question>>(),lineage=new Map<string,z.infer<typeof destination>[]>(),episodeIds=new Set<string>();
+ const packs=c.packs.map(x=>({enrolmentId:x.enrolmentId,packId:x.pack.id,version:x.pack.version,name:x.pack.name,purpose:x.pack.purpose,installationId:x.pack.installed?.installationId??null,manifestHash:x.pack.installed?.manifestHash??null}));
+ for(const x of c.packs){if(episodeIds.has(x.enrolmentId))throw Error('Repeated episode identity.');episodeIds.add(x.enrolmentId);const ids=new Set<string>();for(const q of x.pack.questions){if(ids.has(q.id))throw Error('Repeated question in one programme.');ids.add(q.id);const old=defs.get(q.id);if(old&&JSON.stringify(old)!==JSON.stringify(q))throw Error('Conflicting captured question definition: '+q.id);defs.set(q.id,q);lineage.set(q.id,[...(lineage.get(q.id)??[]),packs[c.packs.indexOf(x)]]);}for(const q of x.pack.questions)if(q.when){const dependency=x.pack.questions.find(o=>o.id===q.when!.id);if(!dependency?.options?.includes(q.when.value))throw Error('Unsupported question dependency.');}}
+ // Reuse the original conditional assembler only AFTER exact-definition validation.
+ // This reviews one captured encounter; it never grants cross-episode/history reuse.
+ const active=new Set(questions(c as ProgrammeCapture).map(q=>q.id));
+ const rows=[...defs].map(([id,q])=>({question:q,destinations:lineage.get(id)!}));return {packs,questions:rows.filter(x=>active.has(x.question.id)),conditionalDeferred:rows.filter(x=>!active.has(x.question.id))};
+}
+export function sharedQuestionProjection(organisationId:string,actorId:string,person:Person,visits:Visit[],selected?:Visit):SharedQuestionResponse{
+ const eligible=visits.filter(v=>v.personId===person.id&&!v.voidedAt&&!v.supersededBy&&['draft','confirmed'].includes(v.state));
+ return sharedQuestionResponse.parse({organisationId,actorId,person:{id:person.id,name:person.name,version:person.version},visits:eligible.map(v=>({id:v.id,version:v.version,state:v.state,createdAt:v.createdAt})),selected:selected?{id:selected.id,version:selected.version,state:selected.state,createdAt:selected.createdAt,...reviewQuestions(selected.programmeCapture??{packs:[],answers:{},absence:{}})}:null});
+}

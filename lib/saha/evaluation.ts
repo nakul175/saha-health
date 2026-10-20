@@ -4,7 +4,7 @@ import { AGENT_VERSION, FIELDS, type AgentField, type AgentProvider, type AgentO
 import { entryFor, entryScope, governanceState } from './governance';
 import type { OrgState, Member } from './types';
 import type { Actor } from './store';
-export const CORPUS_VERSION='saha-synthetic-evidence-1';
+export const CORPUS_VERSION='saha-synthetic-evidence-2';
 export type EvaluationCase={id:string;language:'en'|'hi';group:string;critical:boolean;input:string;expected:Partial<Record<AgentField,string>>};
 // Hand-authored engineering examples. They are not representative clinical data.
 export const EVALUATION_CASES:EvaluationCase[]=[
@@ -25,7 +25,10 @@ export const EVALUATION_CASES:EvaluationCase[]=[
  {id:'noise',language:'en',group:'noise',critical:false,input:'weight 5? kg; BP 120/? mmHg',expected:{}},
  {id:'line-breaks',language:'en',group:'noise',critical:false,input:'BP: 118/76 mmHg\nweight: 62 kg',expected:{systolic:'118',diastolic:'76',weight:'62'}},
  {id:'hindi-weight',language:'hi',group:'language',critical:false,input:'वजन 58 किलोग्राम',expected:{weight:'58'}},
- {id:'hindi-unknown',language:'hi',group:'missing',critical:true,input:'वजन मापा नहीं गया',expected:{}}
+ {id:'hindi-unknown',language:'hi',group:'missing',critical:true,input:'वजन मापा नहीं गया',expected:{}},
+ {id:'mixed-language',language:'hi',group:'language',critical:false,input:'वजन 58 किलोग्राम; BP 120/80 mmHg',expected:{weight:'58',systolic:'120',diastolic:'80'}},
+ {id:'background-speaker',language:'en',group:'noise',critical:true,input:'Background speaker said weight 70 kg; weight 58 kg',expected:{weight:'58'}},
+ {id:'ambiguous-quantity',language:'en',group:'ambiguity',critical:true,input:'Medicine dose about 2 or 3 tablets; weight 58 kg',expected:{weight:'58'}}
 ];
 export const corpusFor=(languages:readonly string[])=>EVALUATION_CASES.filter(c=>languages.includes(c.language));
 export type CaseResult={caseId:string;state:'running'|'completed'|'failed';startedAt:string;finishedAt?:string;output?:AgentOutput;error?:string;usage?:{inputTokens:number;outputTokens:number};latencyMs?:number};
@@ -39,9 +42,9 @@ export const evaluationSchema=z.discriminatedUnion('type',[
 export function scoreEvaluation(cases:EvaluationCase[],results:CaseResult[]){
  const counted=cases.map(c=>{const r=results.find(r=>r.caseId===c.id),actual=new Map((r?.output?.proposals??[]).map(p=>[p.field,p.value]));let tp=0,fp=0,fn=0;for(const f of FIELDS){const wanted=c.expected[f],got=actual.get(f);if(wanted!==undefined&&got===wanted)tp++;else{if(got!==undefined)fp++;if(wanted!==undefined)fn++;}}return {caseId:c.id,language:c.language,group:c.group,critical:c.critical,tp,fp,fn,error:r?.state!=='completed',exact:r?.state==='completed'&&fp===0&&fn===0};});
  const aggregate=(rows:typeof counted)=>{const tp=rows.reduce((n,r)=>n+r.tp,0),fp=rows.reduce((n,r)=>n+r.fp,0),fn=rows.reduce((n,r)=>n+r.fn,0);return {cases:rows.length,tp,fp,fn,precision:tp+fp?tp/(tp+fp):null,recall:tp+fn?tp/(tp+fn):null,failed:rows.filter(r=>r.error).length,criticalFailures:rows.filter(r=>r.critical&&!r.exact).length};};
- const total=aggregate(counted),byField=FIELDS.map(field=>{let tp=0,fp=0,fn=0;for(const c of cases){const r=results.find(r=>r.caseId===c.id),got=r?.output?.proposals.find(p=>p.field===field)?.value,want=c.expected[field];if(want!==undefined&&got===want)tp++;else{if(got!==undefined)fp++;if(want!==undefined)fn++;}}return {field,tp,fp,fn,precision:tp+fp?tp/(tp+fp):null,recall:tp+fn?tp/(tp+fn):null};});
+ const total=aggregate(counted),byField=FIELDS.map(field=>{let tp=0,fp=0,fn=0;for(const c of cases){const r=results.find(r=>r.caseId===c.id),got=r?.output?.proposals.find(p=>p.field===field)?.value,want=c.expected[field];if(want!==undefined&&got===want)tp++;else{if(got!==undefined)fp++;if(want!==undefined)fn++;}}return {field,tp,fp,fn,precision:tp+fp?tp/(tp+fp):null,recall:tp+fn?tp/(tp+fn):null,missingness:tp+fn?fn/(tp+fn):null,correctionBurden:tp+fp?fp/(tp+fp):null};});
  const languagePass=[...new Set(counted.map(r=>r.language))].every(language=>{const a=aggregate(counted.filter(r=>r.language===language));return(a.precision??0)>=0.95&&(a.recall??0)>=0.95});
- return {...total,passed:languagePass&&total.failed===0&&total.criticalFailures===0&&(total.precision??0)>=0.95&&(total.recall??0)>=0.95,byField,byLanguage:[...new Set(counted.map(r=>r.language))].map(language=>({language,...aggregate(counted.filter(r=>r.language===language))})),byGroup:[...new Set(counted.map(r=>r.group))].map(group=>({group,...aggregate(counted.filter(r=>r.group===group))})),cases:counted,scope:'Synthetic engineering fixture only; no clinical accuracy or representative-population claim.'};
+ return {...total,missingness:total.tp+total.fn?total.fn/(total.tp+total.fn):null,correctionBurden:total.tp+total.fp?total.fp/(total.tp+total.fp):null,passed:languagePass&&total.failed===0&&total.criticalFailures===0&&(total.precision??0)>=0.95&&(total.recall??0)>=0.95,byField,byLanguage:[...new Set(counted.map(r=>r.language))].map(language=>({language,...aggregate(counted.filter(r=>r.language===language))})),byGroup:[...new Set(counted.map(r=>r.group))].map(group=>({group,...aggregate(counted.filter(r=>r.group===group))})),cases:counted,scope:'Versioned synthetic engineering fixture only; independent annotation, representative-population and clinical accuracy acceptance remain separate.'};
 }
 export function authorizeEvaluation(s:OrgState,m:Member,c:any){if(!['prepareEvaluation','runEvaluationCase','cancelEvaluation'].includes(c.type))return;if(!m.isOwner&&m.role!=='clinician'&&m.role!=='provider')fail(403,'Owner, clinical reviewer or sandbox provider access required.');const ev=c.evaluationId?governanceState(s).evaluations.find(x=>x.id===c.evaluationId):null;if(c.evaluationId&&!ev)fail(404,'Evaluation not found.');const entry=entryFor(s,ev?.entryId??c.entryId);if(!entryScope(m,entry))fail(403,'Evaluation is outside your team scope.');if(ev&&ev.createdBy!==m.userId)fail(403,'Only the requesting reviewer may run or cancel this evaluation.');}
 export async function applyEvaluation(s:OrgState,input:unknown,u:Actor,m:Member,providers:AgentProvider[],now=new Date().toISOString()){

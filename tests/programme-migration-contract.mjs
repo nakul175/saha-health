@@ -28,8 +28,10 @@ class D1 {
 }
 
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programme-migration', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
-    writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
+  for (const file of readdirSync('lib/saha').filter(name => name.endsWith('.ts'))) {
+    const f = file.replace(/\.ts$/, '');
+    writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${file}`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
+  }
   const M = await import(pathToFileURL(join(dir, 'programme-migration.js')));
   const P = await import(pathToFileURL(join(dir, 'programmes.js')));
   const C = await import(pathToFileURL(join(dir, 'programme-commands.js')));
@@ -67,7 +69,7 @@ try {
 
   // 2. Dry run: counts, blocked reasons, ids only.
   let s = makeState('org_pm_a');
-  check(() => assert.deepEqual(M.migratablePacks(s), ['maternal']));
+  check(() => assert.deepEqual(M.migratablePacks(s), ['maternal','hypertension']));
   let plan = await M.planProgrammeMigration(s, owner, 'maternal');
   check(() => { assert.equal(plan.targetVersion, 2); assert.equal(plan.adoptedVersion, 1); assert.equal(plan.adopts, true); assert.equal(plan.examined, 5); assert.equal(plan.outOfScope, 1); assert.deepEqual(plan.candidates.map(c => c.enrolmentId).sort(), ['e_aarav', 'e_meena']); assert.deepEqual(Object.fromEntries(plan.blocked.map(b => [b.enrolmentId, b.code])), { e_farida: 'open-visit', e_rajesh: 'restricted' }); assert.match(plan.planHash, /^[0-9a-f]{64}$/); assert.equal(plan.changes.length, 1); });
   check(() => { const meena = plan.candidates.find(c => c.enrolmentId === 'e_meena'); assert.deepEqual({ openFollowUps: meena.openFollowUps, keptVisits: meena.keptVisits, fromVersion: meena.fromVersion, version: meena.version }, { openFollowUps: 1, keptVisits: 1, fromVersion: 1, version: 1 }); assert.match(plan.blocked.find(b => b.code === 'open-visit').reason, /confirm or discard it/); });

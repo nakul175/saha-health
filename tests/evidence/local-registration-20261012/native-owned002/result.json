@@ -1,0 +1,32 @@
+{
+  "passed": 16,
+  "failed": 1,
+  "skipped": 0,
+  "checks": [
+    "Actual trusted opaque ASHA/org/currentteam metadata binds explicit registration",
+    "Context returns no patient list credentials external identifiers or accountcodes",
+    "Actual original scoped match predicate finds no candidate without fabricating identifier verification",
+    "Actual initial context/match read leaves all60tables unchanged except originalauditmetrics",
+    "Actual anonymous context refuses protected registration data",
+    "Actual clinician context refuses protected registration data",
+    "Actual foreignorganisation context refuses protected registration data",
+    "Actual foreignaccount context refuses protected registration data",
+    "Actual changedactor context refuses protected registration data",
+    "Authority context refusals preserve every60table exceptmetrics",
+    "Unknown trusted subject refuses withzero account/org/patient/receipt bootstrap",
+    "Actual inventedidentifier source validation refuses without clinical or receipt writes",
+    "Actual unknownage source validation refuses without clinical or receipt writes",
+    "Actual wrongwriter source validation refuses without clinical or receipt writes",
+    "Actual staleMembership source validation refuses without clinical or receipt writes",
+    "Actual wrongteam source validation refuses without clinical or receipt writes"
+  ],
+  "requests": [],
+  "errors": [],
+  "external": [],
+  "failure": "AssertionError [ERR_ASSERTION]: {\"error\":\"Use one exact original registration operation key.\"}\n\n400 !== 200\n\n    at ok (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-local-registration-20261012/tests/smoke/local-registration-browser.mjs:2:440)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-local-registration-20261012/tests/smoke/local-registration-browser.mjs:9:103\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+  "disposed": true,
+  "portFree": true,
+  "statePreservedOnFailure": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-local-registration-c1cb90b4-2558-43cd-aae9-2b13058b692a",
+  "completedAt": "2026-10-12T19:59:12.609Z",
+  "limits": "Minimalconnected Generalcare local registration viaoriginalcreatePerson/receipt only; no new DB/writer/provider/nationalID/phone/biometric/clinicalpolicy/automaticencounter. Deliberate synthetic SQL authorityraces restored separately; no formalpilot/clinical/physical/domain/currentheadCI/hosting acceptance."
+}

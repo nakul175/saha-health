@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-16",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -653,6 +653,11 @@
       "file": "tests/reporting-completeness-repaired-http.mjs",
       "minPassed": 97
     },
+    "integration/resume-guided-progress-browser": {
+      "layer": "integration",
+      "file": "tests/resume-guided-progress-browser.mjs",
+      "minPassed": 7
+    },
     "integration/routine-attempt-browser": {
       "layer": "integration",
       "file": "tests/integration/routine-attempt-browser.mjs",
@@ -802,6 +807,11 @@
       "layer": "integration",
       "file": "tests/work-support-visibility-http.mjs",
       "minPassed": 23
+    },
+    "integration/workforce-lifecycle-complete": {
+      "layer": "integration",
+      "file": "tests/workforce-lifecycle-complete.mjs",
+      "minPassed": 15
     },
     "integration/workspace-metadata-smoke": {
       "layer": "integration",
@@ -2228,6 +2238,16 @@
       },
       "lowered": {},
       "removed": []
+    },
+    {
+      "date": "2026-10-16",
+      "reason": "Historical-28 integration registers two previously unclassified complete observed suites. Original 389 objects, minima, failed receipts and prior log entries remain unchanged.",
+      "lowered": {},
+      "removed": [],
+      "added": [
+        "integration/resume-guided-progress-browser",
+        "integration/workforce-lifecycle-complete"
+      ]
     }
   ]
 }

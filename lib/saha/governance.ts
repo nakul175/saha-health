@@ -24,9 +24,9 @@ export const governanceSpec=z.discriminatedUnion('kind',[
  z.object({...common,kind:z.literal('source'),publisher:id,edition:id,url:z.string().url().max(500).refine(s=>{try{const u=new URL(s);return u.protocol==='https:'&&!u.username&&!u.password}catch{return false}}),applicability:text,summary:text,document:sourceDocumentRef.optional()}).strict(),
  z.object({...common,kind:z.literal('service'),location:id,services:text,contactRoute:id,constraints:text,verifiedOn:date,verificationReference:id}).strict(),
  z.object({...common,kind:z.literal('protocol'),programme,ageMin:z.number().int().min(0).max(120),ageMax:z.number().int().min(0).max(120),roles,sourceIds:z.array(id).min(1).max(5).refine(unique),maxObservationAgeHours:z.number().int().min(1).max(720),rules:z.array(ruleSchema).min(1).max(12),transition:z.literal('new-reviews-only')}).strict(),
- z.object({...common,kind:z.literal('capability'),providerId:id,model:id,agentVersion:id,purpose:z.literal('documentary-evidence'),ageMin:z.number().int().min(0).max(120),ageMax:z.number().int().min(0).max(120),roles,languages:z.array(z.enum(['en','hi'])).min(1).max(2).refine(unique),settings:z.array(z.enum(['community','facility'])).min(1).max(2).refine(unique),devices:z.array(z.literal('browser')).length(1),tasks:z.array(z.enum(['extract','summary'])).min(1).max(2).refine(unique),excludedUses:text,supportContact:id,hostingRegion:id,retentionTerms:text,trainingUse:z.literal('not-authorised'),agreementReference:id,dailyCallLimit:z.number().int().min(1).max(100),dailyTokenBudget:z.number().int().min(6000).max(600000),
+ z.object({...common,kind:z.literal('capability'),providerId:id,model:id,agentVersion:id,purpose:z.literal('documentary-evidence'),ageMin:z.number().int().min(0).max(120),ageMax:z.number().int().min(0).max(120),roles,populations:z.array(programme).min(1).max(5).refine(unique),languages:z.array(z.enum(['en','hi'])).min(1).max(2).refine(unique),settings:z.array(z.enum(['community','facility'])).min(1).max(2).refine(unique),devices:z.array(z.literal('browser')).length(1),tasks:z.array(z.enum(['extract','summary'])).min(1).max(2).refine(unique),inputQuality:z.literal('validated-text'),excludedUses:text,supportContact:id,hostingRegion:id,retentionTerms:text,trainingUse:z.literal('not-authorised'),agreementReference:id,dailyCallLimit:z.number().int().min(1).max(100),dailyTokenBudget:z.number().int().min(6000).max(600000),
   // Slice 5e: optional task limits, bound into the manifest and reviewed with the revision.
-  taskTimeLimitMinutes:z.number().int().min(1).max(240).optional(),taskAttemptLimit:z.number().int().min(1).max(5).optional()}).strict()
+  taskTimeLimitMinutes:z.number().int().min(1).max(240).optional(),taskAttemptLimit:z.number().int().min(1).max(5).optional(),taskStepLimit:z.number().int().min(1).max(20).optional(),taskToolCallLimit:z.number().int().min(0).max(20).optional(),taskRetryLimit:z.number().int().min(0).max(3).optional()}).strict()
 ]);
 export type GovernanceSpec=z.infer<typeof governanceSpec>;
 export type GovernanceEntry={id:string;revision:number;version:number;spec:GovernanceSpec;manifestHash:string;createdBy:string;createdAt:string;replacesId?:string;replacedBy?:string;origin?:ProposalOrigin;state:'draft'|'reviewed'|'active'|'suspended'|'retired';review?:{by:string;memberVersion:number;ownerVersion:number;authorVersion:number;at:string;reference:string;findings:string;dependencyStamp:string;evaluationId?:string};history:{at:string;by:string;state:string;reason:string}[]};
@@ -64,7 +64,10 @@ export function entryIssues(s:OrgState,e:GovernanceEntry,now=new Date().toISOStr
   if(r.dependencyStamp!==dependencyStamp(s,e))issues.push('Referenced source or service changed');
  }
  for(const d of dependencies(s,e))if(d.state!=='active'||entryIssues(s,d,now).length)issues.push('Referenced source or service is unavailable: '+d.spec.title);
- if(e.spec.kind==='capability'&&r){const ev=governanceState(s).evaluations.find(x=>x.id===r.evaluationId);if(!ev||ev.state!=='completed'||!ev.metrics?.passed||ev.manifestHash!==e.manifestHash)issues.push('Passing version-bound synthetic evaluation required');}
+ if(e.spec.kind==='capability'){
+  if(!e.spec.populations?.length||e.spec.inputQuality!=='validated-text')issues.push('A reviewed population and input-quality scope is required');
+  if(r){const ev=governanceState(s).evaluations.find(x=>x.id===r.evaluationId);if(!ev||ev.state!=='completed'||!ev.metrics?.passed||ev.manifestHash!==e.manifestHash)issues.push('Passing version-bound synthetic evaluation required');}
+ }
  return [...new Set(issues)];
 }
 export function activeEntry(s:OrgState,e:GovernanceEntry,now=new Date().toISOString()){return e.state==='active'&&!entryIssues(s,e,now).length;}
@@ -74,8 +77,13 @@ export function checkCapability(s:OrgState,m:Member,p:Person,provider:AgentProvi
  if(provider.mode==='local'&&(!registered||task==='review'))return null;
  const e=capabilityFor(s,provider.id);if(!e||e.spec.kind!=='capability'||!activeEntry(s,e))fail(409,'This provider needs a current, independently reviewed capability and passing evaluation.');const c=e.spec;
  if(c.model!==provider.model||c.agentVersion!==agentVersion)fail(409,'The approved model or agent version changed.');
- if(!c.teamIds.includes(p.teamId)||!c.roles.includes(m.role as any)||typeof p.age!=='number'||!Number.isFinite(p.age)||p.age<c.ageMin||p.age>c.ageMax||!c.languages.includes(context.language as any)||!c.settings.includes(context.setting as any)||!c.devices.includes(context.device as any)||!c.tasks.includes(task as any))fail(409,'This task, person or working context is outside the approved capability scope.');
+ if(!c.teamIds.includes(p.teamId)||!c.roles.includes(m.role as any)||!c.populations?.some(x=>p.programmes.includes(x))||typeof p.age!=='number'||!Number.isFinite(p.age)||p.age<c.ageMin||p.age>c.ageMax||!c.languages.includes(context.language as any)||!c.settings.includes(context.setting as any)||!c.devices.includes(context.device as any)||!c.tasks.includes(task as any))fail(409,'This task, person or working context is outside the approved capability scope.');
  return {id:e.id,version:e.version,manifestHash:e.manifestHash};
+}
+export function checkCapabilityInput(e:GovernanceEntry,source:string){
+ if(e.spec.kind!=='capability')return;
+ if(e.spec.inputQuality!=='validated-text')fail(409,'This capability has no current reviewed input-quality rule.');
+ if(source.trim().length<5||/\[(?:inaudible|unclear|illegible)\]|\uFFFD|\d\s*\?|\?\s*\d|\/\s*\?|\d_|_\d/i.test(source))fail(422,'This source does not meet the capability input-quality rule. Re-enter it clearly or continue with structured capture; nothing was sent.');
 }
 export function checkCapabilityBudget(s:OrgState,e:GovernanceEntry,excludeRunId?:string,now=new Date().toISOString()){
  if(e.spec.kind!=='capability')return;const spec=e.spec;const rows=s.workspace.visits.flatMap(v=>v.agentRuns??[]).filter(r=>r.id!==excludeRunId&&r.provider.id===spec.providerId&&(r.callCount>0&&(r.startedAt??r.createdAt).slice(0,10)===now.slice(0,10)||r.status==='pending'&&r.expiresAt>=now));

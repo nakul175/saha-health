@@ -1,0 +1,13 @@
+{
+  "original": "tests/lib/routine-retention/native-runtime.mjs",
+  "originalSha256": "ed7338f06316bdfa25b8ffb77516fe8bd4e545e8e685c7e402cb5c05dca55d4d",
+  "new": "tests/lib/today-guidance-native-runtime.mjs",
+  "newSha256": "73e9dadfcc36ba839dd14957058423142b2bf3692df8dbc99868a6bf041c28ed",
+  "changes": [
+    "import path only",
+    "factory name only",
+    "optional assetsFirst=false parameter",
+    "same generated local ASSETS router option as original tests/lib/miniflare.mjs; browser invokes true, API/missing routes still nativeWorker"
+  ],
+  "limits": "Test-only actual emitted assets; no application response/body/status substitution/redirect or core/server policy change. All original migration/start/stop/disposal statements preserved."
+}
