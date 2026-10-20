@@ -32,7 +32,7 @@ Run the 148 Functional and 12 End to end cases of [the test catalogue](../../cur
 | Performance or control | 28 | 0 | not in this pack |
 | **Total** | 364 | 158 | |
 
-Of the 146 functional cases, 14 rest on a requirement assessed **implemented-local** and 132 on one assessed **partial**. The assessment is in [requirements/assessment.tsv](../../../requirements/assessment.tsv).
+Of the 146 functional cases, 15 rest on a requirement assessed **implemented-local** and 131 on one assessed **partial**. The assessment is in [requirements/assessment.tsv](../../../requirements/assessment.tsv).
 
 ## 4. Entry criteria
 
@@ -60,7 +60,7 @@ Meeting the exit criteria ends the run. It does not accept any requirement.
 
 | Script | Role | Cases | Default Blocked | Navigation entries (lib/saha/navigation.ts) |
 | --- | --- | ---: | ---: | --- |
-| [UAT-OWNER.md](UAT-OWNER.md) | Organisation owner / programme lead | 53 | 7 | My work, People, Submissions, Outreach, Care handover, Clinical governance, Pilot readiness, Expansion, Operations, Programmes, AI tools, Connections, Activity log, Organisation & team |
+| [UAT-OWNER.md](UAT-OWNER.md) | Organisation owner / programme lead | 53 | 6 | My work, People, Submissions, Outreach, Care handover, Clinical governance, Pilot readiness, Expansion, Operations, Programmes, AI tools, Connections, Activity log, Organisation & team |
 | [UAT-ASHA.md](UAT-ASHA.md) | ASHA worker | 44 | 0 | My work, People, Submissions, Outreach, Care handover, Organisation & team |
 | [UAT-SUPERVISOR.md](UAT-SUPERVISOR.md) | Supervisor | 13 | 0 | My work, People, Submissions, Outreach, Care handover, Pilot readiness, Operations, Connections, Activity log, Organisation & team |
 | [UAT-CLINICIAN.md](UAT-CLINICIAN.md) | Clinician | 29 | 0 | My work, People, Submissions, Outreach, Care handover, Clinical governance, Pilot readiness, Programmes, AI tools, Connections, Activity log, Organisation & team |
@@ -177,7 +177,7 @@ Sign-off records that the run met the exit criteria for the scripts named. It do
 
 | Script | Cases | of which implemented-local | of which partial |
 | --- | ---: | ---: | ---: |
-| Organisation owner / programme lead | 53 | 2 | 51 |
+| Organisation owner / programme lead | 53 | 3 | 50 |
 | ASHA worker | 44 | 6 | 38 |
 | Supervisor | 13 | 1 | 12 |
 | Clinician | 29 | 5 | 24 |
@@ -194,7 +194,6 @@ Sign-off records that the run met the exit criteria for the scripts named. It do
 | TC-BR-INT-22-A | BR-INT-22 | The assessment lists as remaining work “Approved legacy HL7 v2/CDA/REST/SOAP/file adapters as selected by buyer.” (BR-INT-22, remaining field of requirements/assessment.tsv). |
 | TC-BR-SEC-05-A | BR-SEC-05 | The assessment lists as remaining work “Independent storage/key-management, rotation, media and end-to-end encryption assessment.” (BR-SEC-05, remaining field of requirements/assessment.tsv). |
 | TC-BR-SEC-09-A | BR-SEC-09 | The assessment records the current state as “No record is deleted.” (BR-SEC-09, current field of requirements/assessment.tsv). |
-| TC-BR-SEC-14-A | BR-SEC-14 | The assessment lists as remaining work “Enforced legal data-location policy across storage, providers, backups, analytics and support.” (BR-SEC-14, remaining field of requirements/assessment.tsv). |
 | TC-BR-ID-03-A | BR-ID-03 | The assessment lists as remaining work “Verified privileged MFA, workforce recovery/device replacement and session revocation acceptance.” (BR-ID-03, remaining field of requirements/assessment.tsv). |
 | TC-BR-ID-09-A | BR-ID-09 | The assessment records the current state as “service accounts are documented as unsupported by both identity providers” (BR-ID-09, current field of requirements/assessment.tsv). |
 | TC-J02 (steps 3, 4, 5) | BR-AI-02 | The assessment records the current state as “clinical generation remains unavailable.” (BR-AI-02, current field of requirements/assessment.tsv). |

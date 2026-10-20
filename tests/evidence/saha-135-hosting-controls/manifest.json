@@ -1,0 +1,91 @@
+{
+  "schema": "saha-135-local-coding-evidence-v1",
+  "story": "SAHA-135",
+  "linearIssue": "APL-158",
+  "requirement": "BR-SEC-14",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "contract": {
+    "path": "../../outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-158.md",
+    "sha256": "0787b5e90c8ca7c7f427f19e3ba7e0eb6995631148c82b8f667740a0bda920b1"
+  },
+  "checks": {
+    "hostingControls": {
+      "passed": 36,
+      "failed": 0
+    },
+    "serviceDispatch": {
+      "passed": 104,
+      "failed": 0
+    },
+    "environmentContract": {
+      "status": "inherited-harness-failure",
+      "detail": "Base transpile list omits installed-transition-authority.js; no environment assertion ran."
+    },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "catalogue": "passed: 1045 suites, 100 component modules, 49 support files",
+    "requirements": "passed: 176 source IDs",
+    "lintBaseline": "passed: 1392 errors equals baseline",
+    "documentationIntegrity": "passed: 2077 current source files, 176 requirements, 364 preserved formal cases, 38 generated documents against r3 baseline",
+    "uatTooling": {
+      "passed": 63,
+      "failed": 0,
+      "formalCasesRun": 0
+    },
+    "nativeAuthorization": {
+      "passed": 71,
+      "failed": 0,
+      "principals": 8
+    }
+  },
+  "files": {
+    "app/api/hosting-controls/route.ts": "b4f77cdc8e4df77a49836e18ffe81adc9eb61c98325647fd333d9238f99f5b2d",
+    "app/hosting-controls/page.tsx": "afff74aed4551a356dd2dfecb6605caac39c9c329aff7458c7e0998ed0d29d17",
+    "app/workspace.tsx": "92c400425fbd320a91ea2b10a225206607498e341ae16b2240bf0396fbd95e00",
+    "docs/current/COMMAND-CATALOGUE.csv": "02ad083cbfbdc871e5f9d9f82664c859cf52a0e56d440137c8dde130d1907382",
+    "docs/current/CURRENT-API-INVENTORY.md": "068098154a305eb3cf7a37dfa1924de17a81f439f56a2d6de4abdb2128385d32",
+    "docs/current/HTTP-ROUTES.csv": "e1117f39150e366f422959bf2b68d9d8d03c2f497896ae32c4daec8ca651a25a",
+    "docs/current/SAHA-135-HOSTING-AND-CROSS-BORDER-CONTROLS.md": "3855588defab4d87379d7bf892f75cbfc03f20ec6cd8ce7e6ce969f01663d22e",
+    "docs/current/TEST-CATALOGUE.csv": "36331ae4651bddefa5e072aed8af8526550e920b96469b83c52a40bd1dc703ec",
+    "docs/testing/COVERAGE.md": "cee53158f4384ea752a7a090b2f4f544efcea8d480383218e8e1f7a2f499d007",
+    "docs/testing/coverage.csv": "01abf1a6974e97587e67e8d9e36c6292f01e8b6c7890bb48b57768ec1b781226",
+    "docs/testing/uat/UAT-OWNER.md": "88bce759d5bb45d15273283d299f07403c0dfe0d09ca8ccc5021b405b2276e0d",
+    "docs/testing/uat/UAT-PLAN.md": "46ef9603028dc0833403819ae882b38def690c88d201ecea15c31a95048860aa",
+    "docs/verification/application-saha135-hosting-controls-r1-sha256.json": "9c0f06c4daa0f9ec68463c913b4767f371872986d1ad0892e7e96cad19bf5c6c",
+    "docs/verification/application-saha135-hosting-controls-r2-sha256.json": "84cf847ea624450aecee34154642ee39b6e32f8e4e8a791410eedf7fde73c4b8",
+    "docs/verification/application-saha135-hosting-controls-r3-sha256.json": "bf378ea38d9607e410685913bd4a1a9b5e575c96d4b10edd4e4126120debcd49",
+    "docs/verification/current-baseline.json": "7aee38a6022483824150e5218ff59c15ad6a5ec23f5ea167be09583d803431a0",
+    "docs/verification/evidence-source-snapshots-saha135.json": "bb7d5e0374d8b1feb9899b74fe6cee5e120445cdb331f6be63a6feb0b3b21ee0",
+    "docs/verification/evidence-source-snapshots/5ab819fd1bfc7eb9453832309ce49921a8567dacd4058f4e060015855646b46c.txt": "5ab819fd1bfc7eb9453832309ce49921a8567dacd4058f4e060015855646b46c",
+    "docs/verification/evidence-source-snapshots/b97339c20f869d87838302bfc995b002ed062f0d558bfc5633b41d2abbce5832.txt": "b97339c20f869d87838302bfc995b002ed062f0d558bfc5633b41d2abbce5832",
+    "docs/verification/evidence-source-snapshots/d1917f3ec9844621c6697f0493f63ff72d3bbb78f5eb7dbf04a4e7137b4ac565.txt": "d1917f3ec9844621c6697f0493f63ff72d3bbb78f5eb7dbf04a4e7137b4ac565",
+    "docs/verification/evidence-source-snapshots/f45e5ba74f98c50ec0fb115d67c146a7fadcddd54aec0c8372cc8e65630007e3.txt": "f45e5ba74f98c50ec0fb115d67c146a7fadcddd54aec0c8372cc8e65630007e3",
+    "docs/verification/generated-inventory.json": "23a6ae12fd6cd07ac5fd30277ebe94572fb486577e45b2792c25647ac8305cc9",
+    "docs/verification/integration-source-preimages-20261013.json": "7301f4cb4381b9fc76a7d93b4dbbc7a1c4d717cf43fd8884c641df5cc4e444d2",
+    "lib/saha/core.ts": "6f5a3d8fb6db0eb976cc0f11005b14f777d5b4d70d8e9f4290f4c31fa23874f1",
+    "lib/saha/hosting-controls-server.ts": "b6c3a4fde92e9a81758a905455c8e216f2e3b3da74051b6f49b6cc32188f23bb",
+    "lib/saha/hosting-controls.ts": "d101f0d596ceb175452cecd71bcc17ce140bd393a1d8d8f789164989940ee1bf",
+    "lib/saha/indicators-server.ts": "5205427dbd6721b99f0d1d0439e4e9660adc0345b220aa4366e75742af059fbc",
+    "lib/saha/monitoring.ts": "6768b44b79af303a5134b83a648570b64420474476f5728f0ede5e62f031b111",
+    "lib/saha/operations-server.ts": "13947e2d05ac61b2710db11b68c42048db5a371406b212bf156cb096741ba2a5",
+    "lib/saha/operations.ts": "8b895f86d4205310a9a5f275048e093a6c044ff2e19dce964bf24677d399cba4",
+    "lib/saha/platform.ts": "c07a538e9b410565ffe8b79aaa40e0e13bbf966605211af405b682867aab25f7",
+    "lib/saha/server.ts": "f7dc825d6c7c2d6fade1c96ada2630d49e98b7019dbd28d50c7b818505f16ef1",
+    "lib/saha/service-dispatch.ts": "1f20260b833e12a700fa997f669376e0bd5e26304ac7b02160d750ccb2a11a4d",
+    "lib/saha/types.ts": "cd9de707ab07daae402b29cba5633217fdb382fe85ba685a060e6cf07233589c",
+    "scripts/check-documentation.py": "01ecda455bde58f249a5aa677212b5035c740b52b87222957c60592e9c57181c",
+    "tests/evidence/saha-135-hosting-controls/hosting-controls-contract.json": "48efbc46c5831c6447108076ea304def287fd9bb92d4a260640f9e8cf8040267",
+    "tests/hosting-controls-contract.mjs": "677726e95eabb0303df118c91d630479d5bff230c8e6b8681eead02128838f15",
+    "tests/lib/uat-selection.mjs": "e45802e42f7f83b80818e2400443a140cb4da633427afe2e0e5ad7b48da58bc2",
+    "tests/nfr/authorisation-matrix-current.mjs": "6ed00a9e47d9c1b0d166b819eb6b40cc8838ce5be46a36fac5c9741e6fb6e923",
+    "tests/service-dispatch-contract.mjs": "511feba367a5c61211b2309489b738df1e52ad4133aa140b47f6948e003b4add",
+    "tests/uat/generate-uat-pack.mjs": "e200373527ee16051cdcd806b4f706cb12b47105ffd09cfc5561b56a70157b55"
+  },
+  "boundaries": [
+    "synthetic local evidence only",
+    "no provider contacted",
+    "no legal location or agreement inferred",
+    "formal catalogue cases not run",
+    "exact-source CI, named security/privacy review, merge and observed deployment pending"
+  ]
+}
