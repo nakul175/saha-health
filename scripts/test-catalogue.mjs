@@ -34,6 +34,8 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/contextual-academy-contract.mjs': ['tests/evidence/saha-155-contextual-academy/contract.json'],
+  'tests/integration/contextual-academy-http.mjs': ['tests/evidence/saha-155-contextual-academy/http.json'],
   'tests/integration/routine-save-status-browser.mjs': ['tests/reports/routine-save-status-browser/result.json'],
  'tests/integration/routine-telemetry-retention-http.mjs':['tests/reports/routine-telemetry-retention-result.json'],
  'tests/test-runner-manual-intake-v2-contract.mjs':['tests/reports/runner-manual-intake-v2-result.json'],
@@ -310,6 +312,7 @@ export function classify(file){
  return classifyBase(file);
 }
 function classifyBase(file) {
+  if (file === 'tests/integration/contextual-academy-http.mjs') return { id: 'integration/contextual-academy-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'SAHA-155 source-bound optional Academy learning with assignment and role refusals plus a post-audit authority race' };
   if (file === 'tests/integration/routine-save-status-browser.mjs') return { id: 'integration/routine-save-status-browser', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'SAHA-006 actual synthetic backend and browser current-entry versus server-readback lifecycle regression' };
   if (file === 'tests/integration/routine-authority-http.mjs') return { id: 'integration/routine-authority-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'D03 native HTTP/D1 post-audit current ASHA authority, scoped refusal and committed exact-key replay' };
   if (file === 'tests/integration/routine-organisation-http.mjs') return { id: 'integration/routine-organisation-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'D03 whole-operation initial organisation pinning, mutable active-account controls and exact original receipt replay' };

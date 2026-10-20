@@ -1,0 +1,65 @@
+{
+  "storyId": "SAHA-155",
+  "taskId": "CWO-021",
+  "contract": {
+    "issue": "APL-178",
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-178.md",
+    "sha256": "22b9b679a53dc042772eaf0986420e08176580b7b406b4122a98c1cd77e15b06",
+    "frozenBy": "user approval in the project chat on 20 October 2026"
+  },
+  "baseCommit": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "localCodingComplete": true,
+  "knownApplicationCodeGaps": [],
+  "validation": {
+    "contract": {
+      "passed": 35,
+      "failed": 0,
+      "skipped": 0
+    },
+    "http": {
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0
+    },
+    "affectedRegression": {
+      "suites": 4,
+      "passed": 638,
+      "failed": 0,
+      "skipped": 0,
+      "guard": "passed"
+    },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "catalogue": "passed",
+    "authorizationMatrix": {
+      "passed": 72,
+      "failed": 0,
+      "guard": "passed"
+    },
+    "lintBaseline": "passed at 1392 inherited errors; changed source has no lint errors",
+    "ciPreparation": "original 389-record digest preserved; two additive observed minima registered; generated coverage refreshed"
+  },
+  "runtimeBoundary": {
+    "configuredContent": false,
+    "defaultStatus": "unavailable",
+    "externalProviderCalled": false,
+    "realPatientDataUsed": false,
+    "completionTracking": false,
+    "careGate": false
+  },
+  "separatePendingGates": [
+    "independent review of repaired final tree",
+    "exact-source GitHub CI",
+    "formal domain or clinical approval if required",
+    "merge",
+    "observed deployment"
+  ],
+  "evidence": [
+    "tests/evidence/saha-155-contextual-academy/contract.json",
+    "tests/evidence/saha-155-contextual-academy/http.json",
+    "tests/evidence/saha-155-contextual-academy/runner-summary.json",
+    "tests/evidence/saha-155-contextual-academy/affected-summary.json",
+    "tests/evidence/saha-155-contextual-academy/initial-routine-shape-failure.json",
+    "docs/current/saha-155/LOCAL-CODING-COMPLETION-20261020.md"
+  ]
+}
