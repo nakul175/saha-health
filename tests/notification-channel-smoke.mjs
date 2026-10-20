@@ -31,7 +31,8 @@ export async function notificationChannelSmoke({ get, post, check, accounts, sql
   const first = await get(o, url, 200, org);
   check(() => {
     assert.equal(first.available, true); assert.equal(first.environment, 'synthetic'); assert.equal(first.refusal, null); assert.match(first.rules.notice, /Nothing is sent to any email address or phone number/);
-    assert.equal(first.channel.version, 0); assert.equal(first.channel.enabled, false); assert.deepEqual(first.channel.recipients, []); assert.deepEqual([first.rules.escalateMinutes.min, first.rules.escalateMinutes.max], [5, 1440]); assert.equal(first.rules.kinds.length, 18);
+    assert.equal(first.channel.version, 0); assert.equal(first.channel.enabled, false); assert.deepEqual(first.channel.recipients, []); assert.deepEqual([first.rules.escalateMinutes.min, first.rules.escalateMinutes.max], [5, 1440]); assert.equal(first.rules.kinds.length, 23);
+    for (const kind of ['queue-stalled', 'connector-failures', 'model-unavailable', 'permission-refusals', 'telemetry-gap']) assert.ok(first.rules.kinds.some(x => x.id === kind), `SAHA-117 operational alert ${kind} remains available to the notification channel`);
     const m = id => first.members.find(x => x.userId === id);
     assert.ok(m(o.id) && m(a.id) && m(s.id), 'owner, administrator and supervisor may be listed'); assert.equal(m(w.id), undefined, 'an ASHA holds no alert kind and cannot be listed');
     assert.ok(m(a.id).kinds.includes(CRIT) && !m(a.id).kinds.includes('referrals-overdue'), 'an administrator may hold operations alerts, not clinical backlog alerts'); assert.ok(m(s.id).kinds.includes('referrals-overdue') && !m(s.id).kinds.includes(CRIT));
