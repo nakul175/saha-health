@@ -186,7 +186,7 @@ const {indicatorFreshnessSmoke}=await import('./indicator-freshness-privacy-regi
 const {alertDeliverySmoke}=await import('./alert-delivery-smoke.mjs');await alertDeliverySmoke({get,post,check,accounts,org,sql});
 // Slice 10b: owner-managed out-of-app notification channel (demonstration simulator). Runs right after 6v, which it builds on, and leaves the channel off.
 const {notificationChannelSmoke}=await import('./notification-channel-smoke.mjs');await notificationChannelSmoke({get,post,check,accounts,org,sql});
-const {noteAnswerSignOffSmoke}=await import('./note-answer-signoff-smoke.mjs');await noteAnswerSignOffSmoke({get,post,check,accounts,org,sql,base});
+const {noteAnswerSignOffSmoke}=await import('./verification-api-note-answer-signoff-current.mjs');await noteAnswerSignOffSmoke({get,post,check,accounts,org,sql,base});
 const {traceSmoke}=await import('./trace-smoke.mjs');await traceSmoke({get,post,check,accounts,org,sql,base});
 const {adapterOperationsSmoke}=await import('./adapter-operations-smoke.mjs');await adapterOperationsSmoke({get,post,check,accounts,org,base});
 const {aggregateDeliverySmoke}=await import('./aggregate-delivery-smoke.mjs');await aggregateDeliverySmoke({get,post,check,accounts,org,sql});
