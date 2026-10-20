@@ -109,12 +109,18 @@ export const EXCLUDED = [
 ];
 const MEDIA_EXT: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'audio/webm': 'webm', 'audio/ogg': 'ogg', 'audio/mpeg': 'mp3', 'audio/mp4': 'm4a' };
 export type ExportFile = { path: string; bytes: Uint8Array; table?: string; rows?: number; withheld?: number; withheldEntries?: number; otherMembersRows?: number; columns?: string[]; omitted?: string[]; note?: string };
-export type ExportInput = { orgId: string; member: Member; exporter: { userId: string; name: string; accountCode: string }; exportId: string; now: string; includeFhir: boolean; environment: string; mediaBytes?:(row:Row)=>Promise<Uint8Array> };
+export type ExportStage = {number:number; total:number; size:number; basis:string; patientIds:string[]};
+export type ExportInput = { orgId: string; member: Member; exporter: { userId: string; name: string; accountCode: string }; exportId: string; now: string; includeFhir: boolean; environment: string; fullScope?:boolean; stage?:ExportStage; mediaBytes?:(row:Row)=>Promise<Uint8Array> };
 const enc = new TextEncoder();
 const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join('');
 export const sha256Bytes = async (b: Uint8Array) => hex(await crypto.subtle.digest('SHA-256', b as unknown as ArrayBuffer));
 const fromB64 = (s: string) => { const bin = atob(s); const out = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i); return out; };
 const jsonl = (rows: unknown[]) => enc.encode(rows.map(r => JSON.stringify(r) + '\n').join(''));
+const JSON_TEXT=new Set(['data','changes','counts','team_ids','result','basis']);
+const fieldUnit=(path:string,value:unknown)=>{const k=path.split('.').at(-1)?.replace(/\[\]$/,'')??'';if(/^(at|.*At|.*_at|date|due|through|start|end|deadline|effectiveAt|created_at|updated_at)$/.test(k))return'ISO-8601 timestamp or date, as stored';if(/^(systolic|diastolic)$/.test(k))return'mmHg';if(k==='weight')return'kg';if(k==='temperature')return'degrees Celsius';if(k==='weeks')return'weeks';if(k==='coughDays')return'days';if(/^(lateHours|syncHours)$/.test(k))return'hours';if(/^(size|bytes)$/.test(k))return'bytes';if(/^(version|revision|sequence|attempts|rows|count|.*Count|.*_count)$/.test(k)&&typeof value==='number')return'integer count or ordinal';return null;};
+export function portableFieldDictionary(files:ExportFile[]){const out=new Map<string,any>();const walk=(value:unknown,file:string,path:string,source:string)=>{const key=file+'\0'+path;if(path&&!out.has(key))out.set(key,{file,path,type:value===null?'null':Array.isArray(value)?'array':typeof value,unit:fieldUnit(path,value),provenance:source,version:1});if(Array.isArray(value))for(const x of value)walk(x,file,path+'[]',source);else if(value&&typeof value==='object')for(const [k,v]of Object.entries(value))walk(v,file,path?path+'.'+k:k,source);};for(const file of files){if(!/\.jsonl?$/.test(file.path))continue;let records:unknown[];try{const text=new TextDecoder().decode(file.bytes);records=file.path.endsWith('.jsonl')?text.split('\n').filter(Boolean).map(line=>JSON.parse(line)):[JSON.parse(text)];}catch{continue;}const source=file.table?`Stored ${file.table} row at migration ${SCHEMA_MIGRATION}; omitted columns are listed in manifest.json.`:`Derived export record ${file.path}.`;for(const record of records){walk(record,file.path,'',source);if(file.table&&record&&typeof record==='object'&&!Array.isArray(record))for(const [name,raw]of Object.entries(record)){if(!JSON_TEXT.has(name)||typeof raw!=='string')continue;try{walk(JSON.parse(raw),file.path,name,`${file.table}.${name} JSON as stored; nested paths retain source-record provenance.`);}catch{}}}}return[...out.values()].sort((a,b)=>a.file.localeCompare(b.file)||a.path.localeCompare(b.path));}
+function portableDictionaryFile(files:ExportFile[]):ExportFile{const fields=portableFieldDictionary(files),value={format:'saha-portable-field-dictionary-v1',meaning:'Every observed JSON path in this archive. unit=null means explicitly dimensionless/not applicable; no record values are copied here.',fields};return{path:'schema/fields.json',bytes:enc.encode(JSON.stringify(value,null,2)+'\n'),note:`Value-free field paths, types, units and provenance for independent interpretation (${fields.length} descriptors).`};}
+export function providerDispositionRows(integrations:Array<Record<string,unknown>>,handover:Array<Record<string,unknown>>){return integrations.map(connection=>{const id=String(connection.id),kind=String(connection.kind??'unknown'),unresolved=handover.filter(item=>item.kind==='external-action'&&(String(item.destination??'')===id||String(item.system??'')===kind||kind==='mis'&&item.system==='programme-mis'||kind==='ehr'&&item.system==='ehr')).length;return{connectionId:id,connectionName:String(connection.name??id),kind,currentStatus:String(connection.status??'unknown'),unresolvedActions:unresolved,disposition:unresolved?'retain-and-handover':'no-open-action',instruction:unresolved?'Keep accepted local records and unresolved action evidence. Assign the receiving exit operator and reconcile the remote receipt before any retry; never resend blindly.':'No unresolved external action is present in this export. Keep accepted local records and audit evidence; do not infer remote deletion.'};});}
 
 async function readAll(db: D1Database, spec: TableSpec, orgId: string): Promise<Row[]> {
   const out: Row[] = [];
@@ -187,7 +193,10 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // Slice 6p: the sandbox provider role has no patient scope either (defence in depth; a sandbox holds none).
   const noPatients = m.role === 'admin' || m.role === 'provider';
   const inScope = (p: Row) => {try{return m.status==='active'&&!noPatients&&normallyAllowed(m,storedExportPerson(p));}catch{return false;}};
-  const people = new Set(data.patients.filter(inScope).map(p => String(p.id)));
+  const authorisedPeople = new Set(data.patients.filter(inScope).map(p => String(p.id)));
+  if(input.fullScope && authorisedPeople.size!==data.patients.length) fail(403,'A full exit requires current normal authority over every person in the organisation. No partial archive was downloaded.');
+  if(input.stage && input.stage.patientIds.some(id=>!authorisedPeople.has(id))) fail(403,'Staged exit scope changed. Prepare the exit plan again.');
+  const people = input.stage ? new Set(input.stage.patientIds) : authorisedPeople;
   const visits = new Set(data.visits.filter(v => people.has(String(v.person_id))).map(v => String(v.id)));
   const teamScope = (r: Row) => m.status === 'active' && !noPatients && m.role !== 'asha' && m.teamIds.includes(String(r.team_id));
   const allowed = (spec: TableSpec, r: Row) => spec.scope === 'org' ? true : spec.scope === 'person' ? people.has(String(r.person_id ?? r.id)) : spec.scope === 'visit' ? visits.has(String(r.visit_id)) : spec.scope === 'team' ? teamScope(r) : spec.scope === 'identity' ? people.has(String(r.survivor_id)) && people.has(String(r.duplicate_id)) : r.person_id == null || people.has(String(r.person_id));
@@ -286,6 +295,8 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   }
   const tasks = handover.filter(h => h.kind === 'patient-task');
   files.push({ path: 'handover/open-items.jsonl', bytes: jsonl(handover), rows: handover.length, note: 'Unresolved external actions and open patient tasks with their named owner, within the exported scope.' });
+  const dispositions=providerDispositionRows(data.integrations.map(r=>({...without(r),...parsed(r)})) as Array<Record<string,unknown>>,handover);
+  files.push({path:'handover/provider-disposition.jsonl',bytes:jsonl(dispositions),rows:dispositions.length,note:'Provider/platform termination rehearsal disposition. This file does not disable a provider or retry an action.'});
 
   // Optional FHIR document per current confirmed visit, authored by the confirming member.
   let fhirCount = 0;
@@ -303,6 +314,9 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       fhirCount++;
     }
   }
+  // SAHA-120: the archive documents each observed structured path with an explicit unit (or null) and
+  // provenance. This is generated from the already-scoped output and therefore cannot widen access.
+  files.push(portableDictionaryFile(files));
   // Slice 6p: no empty, '.' or '..' path segments (the character class alone allowed them).
   for (const f of files) if (!safePath(f.path)) fail(422, 'An export file name cannot be written to the archive.');
 
@@ -316,14 +330,15 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     organisation: { id: orgId, name: org.name, createdAt: org.created_at, revision: org.revision },
     exporter: { userId: input.exporter.userId, name: input.exporter.name, accountCode: input.exporter.accountCode, role: m.role, owner: m.isOwner },
     schema: { migration: SCHEMA_MIGRATION, workspaceSchemaVersion: 1, rowEncoding: 'One JSON object per line; keys are the stored column names; columns named data, changes, counts and team_ids hold JSON text.' },
-    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope. Figure metadata/history requires current reporting purpose and normal access to every original cohort member and included parent. Calendar governance and declared evidence require normal reporting scope for every configured team member. Private completeness snapshot bodies are omitted even when operational row scope is complete; scoped digest/basis metadata is not the original body. Protected counting material and disclosure ledgers are withheld; ordinary export is not full report or completeness reconstruction.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0 },
+    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. A full exit is refused unless that existing scope covers every current person; it never widens owner authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope. Figure metadata/history requires current reporting purpose and normal access to every original cohort member and included parent. Calendar governance and declared evidence require normal reporting scope for every configured team member. Private completeness snapshot bodies are omitted even when operational row scope is complete; scoped digest/basis metadata is not the original body. Protected counting material and disclosure ledgers are withheld; ordinary export is not full report or completeness reconstruction.', patients: data.patients.length, patientsAuthorised:authorisedPeople.size, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0, fullScopeRequested:!!input.fullScope },
     totals: { files: described.length, rows: totalRows, withheld: totalWithheld, withheldEntries: totalEntries, bytes },
     files: described,
     auditChain: { chainVersion: CHAIN_VERSION, hashing: HASHING, priorSeal: 'The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,"prior",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).', verification: { status: chain.status, events: chain.events, priorEvents: chain.priorEvents, head: chain.head, firstBreak: chain.firstBreak }, exportedHead: cut, note: 'Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive.' },
     handover: { externalActions: handover.length - tasks.length, patientTasks: tasks.length, withoutActiveOwner: tasks.filter(t => t.ownerStatus !== 'active').length },
+    stage: input.stage ? {number:input.stage.number,total:input.stage.total,size:input.stage.size,basis:input.stage.basis,note:'Every part is bound to the same non-audit source basis. Re-import all parts; the independent importer unions patient-scoped fragments in repeated organisation/team JSON rows and refuses every conflicting scalar.'} : null,
     fhir: { included: input.includeFhir, documents: fhirCount, note: input.includeFhir ? 'One FHIR R4 document Bundle per current confirmed visit in scope. Structural subset only; not profile-validated.' : 'Not requested.' },
     excluded: EXCLUDED,
-    verify: 'tar xf the archive, then sha256sum -c SHA256SUMS; node scripts/verify-export.mjs <archive> also checks row counts, relationships, media and the audit chain.',
+    verify: 'tar xf the archive, then sha256sum -c SHA256SUMS; node scripts/verify-export.mjs <archive> checks integrity; node scripts/reimport-export.mjs --output validation.sqlite <archive...> independently re-imports one full archive or every staged part.',
   };
   const manifestBytes = enc.encode(JSON.stringify(manifest, null, 2) + '\n');
   const readme = enc.encode(README(input.exportId, String(org.name), input.now));
@@ -348,6 +363,8 @@ Files
   media/*           photo and voice-note content; the sha256 column of tables/media.jsonl is its
                     SHA-256 in base64 (as computed at upload); SHA256SUMS lists it in hex
   handover/open-items.jsonl  unresolved external actions and open patient tasks with their named owner
+  handover/provider-disposition.jsonl  per-connection termination rehearsal and unresolved-action count
+  schema/fields.json  value-free observed JSON paths with type, unit and provenance
   fhir/*.json       optional FHIR R4 document per current confirmed visit
 
 Relationships
@@ -369,6 +386,8 @@ Checking
   Files are listed in the manifest in an order that satisfies foreign keys for re-import.
   node scripts/verify-export.mjs <archive.tar>   (from the Saha source) checks the manifest,
   checksums, row counts, relationships, media and the audit chain without the application.
+  node scripts/reimport-export.mjs --output validation.sqlite <archive.tar ...> verifies and re-imports
+  one full archive or every part of one staged plan into a new local validation database.
 `;
 
 export const safePath = (p: string) => /^[A-Za-z0-9._/-]{1,99}$/.test(p) && p.split('/').every(x => x !== '' && x !== '.' && x !== '..');
@@ -395,6 +414,20 @@ export function tar(files: { path: string; bytes: Uint8Array }[], mtime: number)
 // Exact immutable/new-source basis, excluding export audit rows and org revision changed by this read.
 const COMPLETENESS_BASIS_TABLES=['reporting_calendars','reporting_calendar_events','reporting_coverage','reporting_completeness_receipts','reporting_completeness_snapshots','integrations','memberships','patients','operations'];
 export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const rows=await Promise.all(COMPLETENESS_BASIS_TABLES.map(async table=>{const spec=TABLES.find(s=>s.table===table)!;return {table,rows:await readAll(db,spec,orgId)};}));return digest(rows);}
+
+// Stable across the export's own audit/receipt write. Any clinical, configuration, queue or membership
+// change invalidates every remaining staged part and requires a new plan.
+const PORTABLE_BASIS_OMIT=new Set(['audit_events','command_receipts']);
+export async function dataExitPortableBasis(db:D1Database,orgId:string){const rows=[];for(const spec of TABLES){if(PORTABLE_BASIS_OMIT.has(spec.table))continue;const value=await readAll(db,spec,orgId);rows.push({table:spec.table,rows:spec.table==='organisations'?value.map(({revision:_,last_command:__,...r})=>r):value});}return digest(rows);}
+
+export async function dataExitStagePlan(db:D1Database,orgId:string,m:Member,size:number){
+ if(!Number.isInteger(size)||size<1||size>5000)fail(422,'Stage size must be an integer from 1 to 5000 people.');
+ const rows=await readAll(db,TABLES.find(x=>x.table==='patients')!,orgId),noPatients=m.role==='admin'||m.role==='provider';
+ const authorised=rows.filter(r=>{try{return m.status==='active'&&!noPatients&&normallyAllowed(m,storedExportPerson(r));}catch{return false;}}).map(r=>String(r.id)).sort();
+ if(authorised.length!==rows.length)fail(403,'A staged full exit requires current normal authority over every person in the organisation.');
+ const basis=await dataExitPortableBasis(db,orgId),total=Math.max(1,Math.ceil(authorised.length/size));
+ return {format:'saha-data-exit-stage-plan-v1' as const,basis,people:authorised.length,size,total,patientIds:authorised};
+}
 
 // Database columns are authoritative; JSON keeps programme/facility/locality policy fields.
 function storedExportPerson(r:Row){return {...JSON.parse(String(r.data)),id:String(r.id),teamId:String(r.team_id),assignedTo:r.assigned_to} as import('./types').Person;}
