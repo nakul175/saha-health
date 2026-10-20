@@ -1,0 +1,89 @@
+{
+  "storyId": "SAHA-111",
+  "linearIssue": "APL-134",
+  "contractSha256": "ead624c7d731c013500ee024efa54c71560dc7f3568205667c69a39e556cc023",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "generatedAt": "2026-10-20T11:51:27.103Z",
+  "localCodingComplete": true,
+  "tests": [
+    {
+      "command": "node tests/governed-report-export-contract.mjs",
+      "passed": 24,
+      "failed": 0
+    },
+    {
+      "command": "node tests/governed-report-export-http.mjs",
+      "passed": 19,
+      "failed": 0,
+      "environment": "built Worker + fresh local D1"
+    },
+    {
+      "command": "node tests/operational-privacy-export-current-contract.mjs",
+      "passed": 7,
+      "failed": 0
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "status": "passed"
+    },
+    {
+      "command": "npm run build",
+      "status": "passed"
+    }
+  ],
+  "formalAcceptance": "not-run",
+  "independentReview": "pending",
+  "exactSourceCi": "not-run",
+  "merged": false,
+  "observedDeployed": false,
+  "files": [
+    {
+      "path": "app/api/report-exports/route.ts",
+      "sha256": "14f64e16b7934a61c48f0e4de3669ba4a3917d20fcf715c3f54bfe319a23eea3"
+    },
+    {
+      "path": "app/governed-report-export-panel.tsx",
+      "sha256": "cf6497a203cf804c86d2233dbaadd9918eb37341fd3937cd676861b412641825"
+    },
+    {
+      "path": "app/operations-panel.tsx",
+      "sha256": "91bec05634408b1ac73e8e2cd2213b610971b26d8d550a2e0966d19ca414b013"
+    },
+    {
+      "path": "docs/current/SAHA-111-LOCAL-CODING-COMPLETION-20261020.md",
+      "sha256": "1dc4737c827b8eb1b1792de6602901f8c9410ffa3437d3d19045f589a6ceced0"
+    },
+    {
+      "path": "lib/saha/governed-report-export-server.ts",
+      "sha256": "c141574f05bbfb1c0e209dc332d9ac5e83bf0b61291248a6c6c303bec825d080"
+    },
+    {
+      "path": "lib/saha/governed-report-export.ts",
+      "sha256": "13545f7b8ffeb6ba1544bc07c11c2f1811792113b35beebf405e992641ccb67a"
+    },
+    {
+      "path": "tests/evidence/saha111-local-coding-completion/contract.json",
+      "sha256": "e2c5a822fbc414a0280865180e7500729ba250426837dc7c17ea117db332e6c4"
+    },
+    {
+      "path": "tests/evidence/saha111-local-coding-completion/http.json",
+      "sha256": "ae3f4ae2f1dabfaddd5652f16cd4a5407eb36553dc6c890d61dc343a714e6efe"
+    },
+    {
+      "path": "tests/governed-report-export-contract.mjs",
+      "sha256": "be91b87fec63115f0538f9fb8cacfeae1701e848ac2d4822fdc0839e8bf2a76d"
+    },
+    {
+      "path": "tests/governed-report-export-http.mjs",
+      "sha256": "5d42f70777bcc10b768ebd056c41c1211f6202712a35003bb5f0cecf3b8ee9b9"
+    },
+    {
+      "path": "tests/operational-privacy-export-current-contract.mjs",
+      "sha256": "ce9feaba17c8a5ddf3477e9013093bc1801da2f1748bc8a1e44948276f58158c"
+    },
+    {
+      "path": "tests/report-export-contract-result.json",
+      "sha256": "a9dee72abf87e92094825c99a4a9c978b02753d754330a065341c56f7bb7360f"
+    }
+  ]
+}

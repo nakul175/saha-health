@@ -1,0 +1,64 @@
+import {z} from 'zod';
+import {identity,loadFor,db,json} from './server';
+import {scope,persist} from './store';
+import {careReport,defaultOperations} from './operations';
+import {reportingScope} from './delegation';
+import {ensurePurpose} from './purpose-scope';
+import {releaseOperational} from './operational-disclosure';
+import {exportCsv,REPORT_DEFINITION} from './report-export';
+import {boundedJsonBody} from './request-body';
+import {digest,fail,uuid} from './core';
+import {recordAggregateView} from './read-audit';
+import {recordExportAudit,sameCareScope,sameReach} from './export-audit';
+import {allowed,type Actor} from './store';
+import {approveGovernedExport,assertGovernedDownload,expireExports,exportsOf,governedExportView,prepareGovernedExport,GOVERNED_EXPORT_LIMIT,GOVERNED_EXPORT_TOTAL_LIMIT,type GovernedReportExport} from './governed-report-export';
+import type {Member,OrgState} from './types';
+
+const requestSchema=z.discriminatedUnion('type',[
+ z.object({type:z.literal('prepare'),expectedActorId:z.string().min(1).max(200),days:z.union([z.literal(7),z.literal(30),z.literal(90)])}).strict(),
+ z.object({type:z.literal('review'),expectedActorId:z.string().min(1).max(200),exportId:z.string().uuid(),decision:z.enum(['approve','reject']),reason:z.string().trim().min(10).max(300)}).strict()
+]);
+const reviewer=(m:Member)=>m.status==='active'&&(m.isOwner||['supervisor','clinician'].includes(m.role));
+function audit(s:OrgState,u:Actor,m:Member,action:string,subject:string,detail:string,at:string){s.workspace.audit.push({id:uuid(),at,actor:u.displayName,actorId:u.userId,role:m.role,action,subject,detail});}
+function authorize(s:OrgState,u:Actor){const m=scope(s,u.userId);ensurePurpose(m,'reporting');const reach=reportingScope(s,m);return {m,reach};}
+function basis(s:OrgState,m:Member,days:number,at:Date){const reach=reportingScope(s,m),people=s.workspace.people.filter(reach.include),ids=new Set(people.map(p=>p.id));return {days,at:at.toISOString(),teams:reach.teams,delegations:reach.delegations.map(d=>[d.id,d.version,d.grantorId,d.until]),people:people.map(p=>[p.id,p.version,p.consentVersion,p.teamId]),visits:s.workspace.visits.filter(v=>ids.has(v.personId)).map(v=>[v.id,v.version,v.recordVersion,v.state,v.voidedAt,v.supersededBy])};}
+async function build(s:OrgState,m:Member,u:Actor,days:7|30|90,id:string,at:Date){
+ const reach=reportingScope(s,m),raw=careReport(s,m,days,at,reach.include),rows=await db().prepare(`SELECT count(DISTINCT a.actor_id) AS n FROM audit_events a JOIN patients p ON p.org_id=a.org_id AND p.id=a.person_id WHERE a.org_id=? AND p.team_id IN (${reach.teams.map(()=>'?').join(',')||'NULL'}) AND a.at>=? AND a.at<=?`).bind(s.organisation.id,...reach.teams,raw.since,raw.until).first<{n:number}>();raw.activeWorkers=rows?.n??0;raw.activeWorkersCoverage='Distinct actors on authorised patient activity in the selected window.';
+ const report=await releaseOperational(db(),s,m,raw,reach.include,at.toISOString()),exported=await exportCsv(report,{exportId:id,generatedBy:u.displayName,role:m.role,teams:reach.teams.map(t=>s.teams.find(x=>x.id===t)?.name??t),days});
+ return {reach,exported,sourceHash:await digest(basis(s,m,days,at)),filterHash:await digest({definition:REPORT_DEFINITION,days,teamIds:reach.teams,delegationIds:reach.delegations.map(d=>d.id)}),at:at.toISOString()};
+}
+async function context(request:Request,trusted?:Actor,viewerScoped=false){const u=trusted??await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation'),undefined,viewerScoped),{m,reach}=authorize(s,u);return {u,s,m,reach};}
+function requireExport(s:OrgState,id:string){const record=exportsOf(s.operations).find(x=>x.id===id);if(!record)fail(404,'Governed export unavailable.');return record;}
+function authorityCurrent(s:OrgState,id:string,version:number|undefined,needsReview=false){const m=s.members.find(x=>x.userId===id);if(!m||m.status!=='active'||m.version!==version)return false;try{ensurePurpose(m,'reporting');reportingScope(s,m);return !needsReview||reviewer(m);}catch{return false;}}
+
+export async function governedReportExportsRead(request:Request){
+ const {u,s,m,reach}=await context(request),records=exportsOf(s.operations),at=new Date().toISOString();expireExports(records,at);
+ const receiptKey=new URL(request.url).searchParams.get('receiptKey');if(receiptKey){const expected=request.headers.get('x-saha-original-body-sha256');if(!expected||!/^[a-f0-9]{64}$/.test(expected))fail(422,'Use the original body SHA-256.');const receipt=await db().prepare('SELECT org_id,hash,result,command_type FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,receiptKey).first<{org_id:string;hash:string;result:string;command_type:string}>();if(!receipt||receipt.org_id!==s.organisation.id)fail(404,'No saved governed export outcome is currently available.');if(receipt.hash!==expected)fail(409,'Saved outcome belongs to different original input.');if(!['prepareGovernedReportExport','approveGovernedReportExport','rejectGovernedReportExport'].includes(receipt.command_type))fail(404,'No saved governed export outcome is currently available.');const result=JSON.parse(receipt.result),record=requireExport(s,result.exportId);if(!record.teamIds.every(t=>reach.teams.includes(t)))fail(403,'Current reporting scope does not cover this saved outcome.');return json({result,recovered:true});}
+ const visible=records.filter(r=>r.teamIds.every(t=>reach.teams.includes(t))).slice(-GOVERNED_EXPORT_LIMIT).reverse().map(governedExportView);
+ await recordAggregateView(db(),s,u,m,'governed report export history',`Reviewed export history viewed: ${visible.length}; metadata only, no report payload.`);
+ const fresh=await loadFor(u,s.organisation.id,undefined,true),current=scope(fresh,u.userId);ensurePurpose(current,'reporting');sameCareScope(m,current);sameReach(reach,reportingScope(fresh,current));
+ return json({records:visible,canReview:reviewer(m),viewerId:u.userId,approvalHours:24,notice:'A reviewed package remains a submission candidate. This workspace does not mark it officially submitted or accepted.'});
+}
+
+export async function governedReportExportsPost(request:Request){
+ const trusted=await identity(),origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin||request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Cross-origin export changes refused.');
+ if(!request.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON.');const raw=await boundedJsonBody(request,4000),parsed=requestSchema.safeParse(raw);if(!parsed.success)fail(422,'Use the governed export request contract.');const c=parsed.data;if(c.expectedActorId!==trusted.userId)fail(403,'Signed-in account changed. Refresh before acting.');
+ const {u,s,m,reach}=await context(request,trusted),key=request.headers.get('idempotency-key');if(!key||!/^[a-zA-Z0-9_-]{8,100}$/.test(key))fail(422,'Retain an original request key.');const hash=await digest(raw),expectedCommand=c.type==='prepare'?'prepareGovernedReportExport':c.decision==='approve'?'approveGovernedReportExport':'rejectGovernedReportExport',saved=await db().prepare('SELECT org_id,hash,result,command_type FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,key).first<{org_id:string;hash:string;result:string;command_type:string}>();if(saved){if(saved.org_id!==s.organisation.id||saved.hash!==hash)fail(409,'Original request key belongs to different input.');if(saved.command_type!==expectedCommand)fail(409,'Original request key belongs to another operation.');const result=JSON.parse(saved.result),record=requireExport(s,result.exportId);if(!record.teamIds.every(t=>reach.teams.includes(t)))fail(403,'Current reporting scope does not cover this saved outcome.');return json({...result,replayed:true});}const before=structuredClone(s),ops=(s.operations??=defaultOperations()) as any,records=exportsOf(ops);ops.governedReportExports=records;expireExports(records,new Date().toISOString());let result:any;
+ if(c.type==='prepare'){
+  if(records.filter(r=>['prepared','approved'].includes(r.state)).length>=GOVERNED_EXPORT_LIMIT)fail(409,'The governed export queue is full. Let approvals expire before preparing another package.');
+  const id=uuid(),at=new Date(),built=await build(s,m,u,c.days,id,at),record=prepareGovernedExport({id,definition:REPORT_DEFINITION,days:c.days,teamIds:built.reach.teams,delegationIds:built.reach.delegations.map(d=>d.id),filterHash:built.filterHash,sourceHash:built.sourceHash,payloadHash:built.exported.sha256,rows:built.exported.rows,payload:built.exported.csv,preparedAt:built.at,preparedBy:u.userId,preparedByName:u.displayName,preparedMemberVersion:m.version});records.push(record);if(new TextEncoder().encode(JSON.stringify(records)).byteLength>GOVERNED_EXPORT_TOTAL_LIMIT)fail(409,'Stored governed exports reached their bounded capacity. Let current approvals expire before preparing another package.');
+  audit(s,u,m,'prepareGovernedReportExport',id,`Prepared exact ${c.days}-day ${REPORT_DEFINITION.id} ${REPORT_DEFINITION.version} package; ${record.rows} rows; SHA-256 ${record.payloadHash}; independent review required; not submitted.`,built.at);result={exportId:id,state:record.state,sha256:record.payloadHash,rows:record.rows};
+ }else{
+  const record=requireExport(s,c.exportId);if(!record.teamIds.every(t=>reach.teams.includes(t)))fail(403,'Current reporting scope does not cover this export.');if(!reviewer(m)||u.userId===record.preparedBy)fail(403,'A different current reporting reviewer is required.');
+  const at=new Date().toISOString();if(c.decision==='reject'){if(record.state!=='prepared')fail(409,'Only a prepared export can be reviewed.');record.state='cancelled';audit(s,u,m,'rejectGovernedReportExport',record.id,`Export rejected: ${c.reason}. Nothing was submitted.`,at);}else{const prep=s.members.find(x=>x.userId===record.preparedBy);if(!prep||!authorityCurrent(s,record.preparedBy,record.preparedMemberVersion))fail(409,'The preparer authority changed. Prepare a new export.');approveGovernedExport(record,{userId:u.userId,displayName:u.displayName,memberVersion:m.version,canReview:true},at);audit(s,u,m,'approveGovernedReportExport',record.id,`Exact export SHA-256 ${record.payloadHash} approved until ${record.expiresAt}; not submitted. ${c.reason}`,at);}result={exportId:record.id,state:record.state,expiresAt:record.expiresAt??null};
+ }
+ await persist(db(),before,s,u,{type:expectedCommand},key,hash,result);return json(result);
+}
+
+export async function governedReportExportDownload(request:Request){
+ const {u,s,m,reach}=await context(request),url=new URL(request.url),id=url.searchParams.get('id')??'',days=Number(url.searchParams.get('days')),record=requireExport(s,id);if(!record.teamIds.every(t=>reach.teams.includes(t)))fail(403,'Current reporting scope does not cover this export.');if(days!==record.days)fail(409,'Reporting filters changed after approval. Prepare and review a new export.');
+ const at=new Date(record.preparedAt),built=await build(s,m,{...u,displayName:record.preparedByName},record.days,record.id,at),preparerCurrent=authorityCurrent(s,record.preparedBy,record.preparedMemberVersion),reviewerCurrent=!!record.approvedBy&&authorityCurrent(s,record.approvedBy,record.approvedMemberVersion,true);
+ assertGovernedDownload(record,{actorId:u.userId,days,filterHash:built.filterHash,sourceHash:built.sourceHash,payloadHash:built.exported.sha256,at:new Date().toISOString(),preparerCurrent,reviewerCurrent});
+ const orgId=s.organisation.id;await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId,undefined,true),authorize:current=>{const cm=scope(current,u.userId);ensurePurpose(cm,'reporting');sameCareScope(m,cm);sameReach(reach,reportingScope(current,cm));const stored=requireExport(current,id);if(stored.payloadHash!==record.payloadHash||stored.state!=='approved')fail(409,'Reviewed export changed before download.');return cm;},authorityDelegations:()=>reach.delegations.filter(d=>!reach.own||s.workspace.people.some(p=>d.teamIds.includes(p.teamId)&&!allowed(m,p))).map(d=>({id:d.id,kind:d.kind,grantorId:d.grantorId,until:d.until})),event:o=>({id:uuid(),at:new Date().toISOString(),actorId:u.userId,actor:u.displayName,role:o.role,action:'governedReportExportDownload',subject:id,detail:`Reviewed export downloaded; ${record.rows} rows; SHA-256 ${record.payloadHash}; approval expires ${record.expiresAt}; not submitted.`}),actor:u,type:'governedReportExportDownload',key:'reviewed_export_'+uuid(),hash:await digest({id,days,sha256:record.payloadHash})});
+ return new Response(record.payload,{headers:{'X-Saha-Export-Id':record.id,'X-Saha-Content-SHA256':record.payloadHash,'X-Saha-Submission-State':'not-submitted','Content-Type':'text/csv; charset=utf-8','Content-Disposition':`attachment; filename="saha-reviewed-report-${record.id}.csv"`,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
+}
