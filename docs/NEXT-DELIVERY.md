@@ -240,6 +240,8 @@ The 15 buildable slices R03, R06, R08, R09, R13, R17, R21, R23, R24, R26, R33, R
 | 13e | Audit log performance: indexes (organisation, time) and (organisation, actor, action, time) in migration 0017 keep workspace loads flat as the log grows (O-4); randomised backoff on audit-chain retries (O-1); O-2 memory growth measured again, unchanged | Delivered on a branch (see [slice 13e](current/SLICE-13E-PERFORMANCE.md)); not merged; O-2 remains open |
 | 13f | Fixes from an agent review of 13a–13e: cross-site gate independent of path encoding (high); corrected visit counted once in shadow and drift; indicator refusal limit counts only differencing refusals, CSV included; rotation cursor moves to the processed prefix, maintenance not due; receivers and assignees checked against the access policy; safety actions exempt from the operations bound | Delivered on a branch (see [slice 13f](current/SLICE-13F-REVIEW-FIXES.md)); not merged |
 
+| SAHA-114 | Tenant-scoped deployment configuration staging, independent source-bound review, activation/restore and active role/programme/language/provider/location/capacity enforcement | Local application candidate; contract 34/34, types and production build pass; formal cases, CI, review, merge and hosted observation pending |
+
 The external dependencies below are unchanged by this order; slices do not pass any acceptance gate.
 
 

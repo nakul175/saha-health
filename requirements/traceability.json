@@ -3926,10 +3926,10 @@
       "requirement": "Administrators shall configure organisation, geography, facilities, roles, programmes, languages, provider eligibility and operational limits. Changes shall be scoped to the deployment and validated before activation.",
       "acceptance": "Acceptance: Updating one tenant's configuration cannot change another tenant's behaviour or data visibility.",
       "sourceTextLine": 522,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R15",
-      "current": "Tenant/team/member and selected provider/connector settings are scoped; an owner-only read-only configuration check reports missing or unsafe deployment settings and per-connection credential, grant and allowlist state without secret values.",
-      "remaining": "Facilities, jurisdiction, full language/provider eligibility, validated deployment limits and validation before configuration changes take effect.",
+      "current": "SAHA-114 adds a tenant-scoped, versioned deployment configuration lifecycle. An organisation owner stages exact organisation, geography, facility, role, programme, language, provider-eligibility and operational-limit settings; a different current deployment operator independently reviews the exact source-bound revision; a different current owner activates it only after all references and authority are revalidated. Active settings enforce role, programme, language, provider, location, member, patient-record and external-connection boundaries on current command paths. Configuration history and audit are retained, no provider is activated by configuration, and one tenant record cannot affect another. Synthetic contract34/34, TypeScript and production build pass on 20 October 2026.",
+      "remaining": "Formal TC-BR-OPS-01-A/B remain not run; named human/domain approval, exact-source CI, protected merge and observed hosted deployment remain separate.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3944,7 +3944,15 @@
         "docs/current/SLICE-6N-ENVIRONMENTS.md",
         "tests/availability-contract.mjs",
         "tests/ui/availability.mjs",
-        "docs/current/SYNTHETIC-AVAILABILITY.md"
+        "docs/current/SYNTHETIC-AVAILABILITY.md",
+        "lib/saha/deployment-configuration.ts",
+        "lib/saha/deployment-configuration-server.ts",
+        "app/api/deployment-configuration/route.ts",
+        "app/deployment-configuration/page.tsx",
+        "app/deployment-configuration/screen.tsx",
+        "tests/deployment-configuration-contract.mjs",
+        "tests/evidence/saha-114-deployment-configuration/result.json",
+        "docs/current/SAHA-114-DEPLOYMENT-CONFIGURATION.md"
       ],
       "automatedAcceptanceClaim": false
     },

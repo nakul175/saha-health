@@ -40,6 +40,7 @@ import { expansionSchema } from './expansion';
 import { defaultOperations, operationsSchema } from './operations';
 import { facilityScopeSchema } from './facility-scope';
 import { purposeScopeSchema } from './purpose-scope';
+import { deploymentConfigurationSchema } from './deployment-configuration';
 import { chooseLanguage } from './messages';
 import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
@@ -114,6 +115,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...facilityScopeSchema.options,
  // Slice r09: owner-managed programme/purpose dimensions in the access policy (lib/saha/purpose-scope.ts).
  ...purposeScopeSchema.options,
+ ...deploymentConfigurationSchema.options,
  ...alertAckSchema.options,
  ...inboxSchema.options,
  ...notificationChannelSchema.options,
