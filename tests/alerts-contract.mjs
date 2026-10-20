@@ -1,21 +1,21 @@
 // Slice 6g contract: computed operational alerts, thresholds, ownership, ordering and scoping.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 const dir = mkdtempSync(join(process.cwd(), '.alerts-contract-'));
 let passed = 0;
 const check = fn => { fn(); passed++; };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const f of readdirSync('lib/saha').filter(file=>file.endsWith('.ts')).map(file=>file.slice(0,-3)))
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const A = await import(pathToFileURL(join(dir, 'alerts.js')));
   const backlog = over => ({ drafts: 0, openFollowUps: 0, overdueFollowUps: 0, openReferrals: 0, overdueReferrals: 0, undatedReferrals: 0, unresolvedSubmissions: 0, unresolvedEhr: 0, ...over });
   const report = (over = {}, usage = { missingUsage: 0 }) => ({ backlog: backlog(over), usage });
   const ops = (incidents = [], maintenance = false) => ({ maintenance, reason: 'Synthetic maintenance reason', incidents });
   const ids = a => a.map(x => x.id);
-  check(() => assert.equal(A.ALERT_RULES_VERSION, '1.2.0')); // slice 5e: budget alert rules; slice 5h: invoice alert rules
+  check(() => assert.equal(A.ALERT_RULES_VERSION, '1.3.0')); // slice 5e: budget alert rules; slice 5h: invoice alert rules
   check(() => assert.deepEqual(A.alertsFor({ report: report(), telemetry: { count: 500, serverErrors: 0, errorRate: 0 }, operations: ops() }), [], 'quiet data raises nothing'));
   const all = A.alertsFor({ report: report({ unresolvedSubmissions: 2, unresolvedEhr: 1, overdueReferrals: 3, overdueFollowUps: 4, undatedReferrals: 1 }, { missingUsage: 2 }), telemetry: { count: 100, serverErrors: 10, errorRate: 0.1 }, operations: ops([{ severity: 'critical', state: 'open' }, { severity: 'critical', state: 'resolved' }, { severity: 'high', state: 'investigating' }], true) });
   check(() => assert.deepEqual(ids(all), ['server-errors', 'incident-critical-open', 'referrals-overdue', 'destination-uncertain', 'ehr-uncertain', 'maintenance', 'followups-overdue', 'provider-usage-missing', 'incident-open', 'referrals-undated'], 'critical first, then by count'));
@@ -35,6 +35,12 @@ try {
   check(() => assert.deepEqual(ids(supervisor), ['destination-uncertain', 'referrals-overdue']));
   const admin = A.alertsFor({ report: null, telemetry: { count: 50, serverErrors: 0, errorRate: 0 }, operations: ops([{ severity: 'normal', state: 'open' }]) });
   check(() => assert.deepEqual(ids(admin), ['incident-open']));
+  // SAHA-117: all non-clinical operational failure families route to operations with an action.
+  const signals = {version:'1.0.0',asOf:'2026-09-30T03:00:00.000Z',queue:{stalled:2,oldestMinutes:17},connector:{unresolved:3},model:{unavailable:1},permission:{refused:4},telemetry:{configured:false,gap:true}};
+  const operational = A.alertsFor({report:null,telemetry:null,signals,operations:null});
+  check(() => assert.deepEqual(ids(operational), ['queue-stalled','telemetry-gap','connector-failures','model-unavailable','permission-refusals']));
+  check(() => { for(const x of operational){assert.equal(x.owner,'operations');assert.equal(x.tab,'service');assert.ok(x.action.length>20);} assert.match(operational.find(x=>x.id==='queue-stalled').action,/Do not resend/); assert.match(operational.find(x=>x.id==='telemetry-gap').action,/health as unknown/); });
+  check(() => assert.deepEqual(ids(A.alertsFor({report:null,telemetry:null,signals:{...signals,queue:{stalled:0,oldestMinutes:null},connector:{unresolved:0},model:{unavailable:0},permission:{refused:0},telemetry:{configured:true,gap:false}},operations:null})),[]));
   // Slice 6h: acknowledgement.
   const now = '2026-09-30T03:00:00.000Z', hourAgo = '2026-09-30T02:00:00.000Z', dayAgo = '2026-09-29T02:59:00.000Z';
   const base = { report: report({ overdueReferrals: 3, unresolvedSubmissions: 2 }), telemetry: null, operations: ops([{ severity: 'normal', state: 'open' }]), viewerId: 'sup1', now };

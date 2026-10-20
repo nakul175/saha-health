@@ -46,7 +46,7 @@ export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m
   const so=await ensureSendSignOff(s,sub.visitId,i);if(so)sub.signOff={id:so.id,by:so.by,byName:so.byName,at:so.at};}
  const before=structuredClone(s),operationId=uuid();sub.delivery.operationId=operationId;sub.delivery.startedAt=new Date().toISOString();if(!lookup){sub.state='sending';sub.attempts++;(sub.attemptLog??=[]).push({attempt:sub.attempts,at:sub.delivery.startedAt,destination:{id:sub.connectorId,name:sub.connectorName,connectorVersion:sub.delivery.connectorVersion},submittedVersion:sub.submittedVersion??sub.delivery.visitVersion,payloadHash:sub.payloadHash,initiatingAuthority:{actorId:sub.initiatingAuthority?.actorId??sub.delivery.actorId,role:sub.initiatingAuthority?.role??m.role},status:'sending'});}deliveryEvent(sub,lookup?'Receipt lookup reserved; no visit is resent.':'Delivery checkpoint saved before the programme request.');misAudit(s,u,m,c.type,sub.id,sub.message,sub.personId);
  // Slice 6y: the checkpoint step carries its command, receipt key and audit event.
- linkTrace(before,s,c.type,key,u.userId);
+ linkTrace(before,s,c.type,key,u.userId,undefined,lookup?'lookup_'+operationId:sub.delivery.key);
  await persist(db,before,s,u,c,key,hash,{submissionId:sub.id,state:sub.state});
  // Slice 7e: recheck the operation on the stored state after the checkpoint, immediately before the request.
  const op=lookup?'lookup' as const:misOperation(sub.delivery.payload);let withdrawn:string|null=null,refusal:Refusal|undefined,blocked:SendBlockRecord|undefined;

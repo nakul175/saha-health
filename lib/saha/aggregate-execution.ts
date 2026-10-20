@@ -93,7 +93,7 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
  await recordAccess(db,s,u,m,{action:'externalRequest',subject:r.id,personId:null,detail:`${c.type}: ${lookup?'receipt lookup':'aggregate report'} ${r.id} to ${i!.name} about to be sent (${r.rowCount} rows, SHA-256 ${r.payloadSha256}; no patient-level data). The outcome is recorded separately.`});
  const before=structuredClone(s),operationId=uuid();r.operationId=operationId;r.startedAt=now;if(!lookup){r.state='sending';r.attempts++;}
  reportEvent(r,now,lookup?'Receipt lookup reserved; the report is not sent again.':'Checkpoint saved before the request to the destination.');
- audit(s,u,m,c.type,r.id,r.message,now);linkTrace(before,s,c.type,key,u.userId);
+ audit(s,u,m,c.type,r.id,r.message,now);linkTrace(before,s,c.type,key,u.userId,undefined,lookup?'lookup_'+operationId:r.id);
  await persist(db,before,s,u,c,key,hash,{reportId:r.id,state:r.state});
  // Inside the checkpoint, on a fresh read: the operation, the stored payload, and (for a send) the destination's release ledger.
  let withdrawn:string|null=null,refusal:(Refusal&{reason?:string})|undefined,check:ReturnType<typeof minimisationCheck>|undefined;

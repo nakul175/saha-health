@@ -126,7 +126,7 @@ export type Referral = {need?:ReferralNeed;packRequests?:PackRequest[];sources?:
 export const ACCESS_ACTION_NAMES:readonly string[] = ['viewPatientRecord','viewActionPlan','viewRecordHistory','viewMedia','viewExternalRecords','downloadFhir','externalRequest','indicatorExport','abhaLinkReview','importRejectionsExport','viewWorkspace','openRecord','searchPatients','listPatients','viewAggregate','identifierSearch','identifierSearchMiss','identifierConflictReview','incentiveExport','viewHousehold'];
 // Slice 6y: the correlation reference stamped on each external-execution step from now on: the command that
 // caused it (type, receipt key, actor) and the audit event written with it. Older steps have none ("not linked").
-export type TraceRef = {command:string;key:string;actorId:string;auditId:string|null};
+export type TraceRef = {command:string;key:string;traceId?:string;actorId:string;auditId:string|null};
 export type TraceStep = {at:string;state:string;attempt?:number;ref:TraceRef};
 export type Audit = {id:string;at:string;actor:string;role:Role;action:string;subject:string;detail:string;actorId?:string;personId?:string|null;};
 export type Workspace = {schemaVersion:1;revision:number;role:Role;people:Person[];visits:Visit[];integrations:Integration[];submissions:Submission[];referrals:Referral[];audit:Audit[];receipts:Record<string,{hash:string;result:any}>};

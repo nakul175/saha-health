@@ -2,7 +2,7 @@
 // validation, older steps shown as not linked, no clinical content, and stamping before every persist.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -11,7 +11,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types'])
+  for (const f of readdirSync('lib/saha').filter(file=>file.endsWith('.ts')).map(file=>file.slice(0,-3)))
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const T = await import(pathToFileURL(join(dir, 'trace.js'))), X = await import(pathToFileURL(join(dir, 'exceptions.js')));
   const now = '2026-10-01T12:00:00.000Z', at = n => new Date(Date.parse(now) - n * 60000).toISOString();
@@ -88,9 +88,9 @@ try {
 
   // ---- source order: steps are stamped before every persist that records them ----
   const src = f => readFileSync(f, 'utf8'), before = (text, a, b, label) => { const i = text.indexOf(a), j = text.indexOf(b, i); assert.ok(i >= 0 && j > i, label); };
-  check(() => { const mis = src('lib/saha/mis-execution.ts'); before(mis, 'linkTrace(before,s,c.type,key,u.userId)', 'await persist(db,before,s,u,c,key,hash,{submissionId', 'MIS checkpoint'); before(mis, "linkTrace(old,after,action,'mis_finish_'+operationId", "persist(db,old,after,u,{type:action}", 'MIS receipt'); assert.match(mis, /const action=withdrawn\?\(blocked\?'sendBlocked':'adapterOperationRefused'\):'misReceipt'/); });
-  check(() => { const ehr = src('lib/saha/ehr-execution.ts'); before(ehr, 'linkTrace(before,s,c.type,key,u.userId)', 'await persist(db,before,s,u,c,key,hash,{operationId', 'EHR checkpoint'); before(ehr, "linkTrace(old,after,action,finish", "persist(db,old,after,u,{type:action},finish", 'EHR receipt'); assert.match(ehr, /const action=operationRefused&&!receipt\?'adapterOperationRefused':blocked&&!receipt\?'sendBlocked':'ehrReceipt'/); });
-  check(() => { const ag = src('lib/saha/agent-execution.ts'); before(ag, 'linkTrace(before,s,c.type,key,u.userId)', "await persist(db,before,s,u,c,key,hash,{runId:r.id,status:'running'})", 'agent checkpoint'); before(ag, "linkTrace(old,after,'agentResult','agent_finish_'+run.id", "persist(db,old,after,u,{type:'agentResult'},'agent_finish_'+run.id", 'agent result'); });
+  check(() => { const mis = src('lib/saha/mis-execution.ts'); before(mis, 'linkTrace(before,s,c.type,key,u.userId', 'await persist(db,before,s,u,c,key,hash,{submissionId', 'MIS checkpoint'); before(mis, "linkTrace(old,after,action,'mis_finish_'+operationId", "persist(db,old,after,u,{type:action}", 'MIS receipt'); assert.match(mis, /const action=withdrawn\?\(blocked\?'sendBlocked':'adapterOperationRefused'\):'misReceipt'/); });
+  check(() => { const ehr = src('lib/saha/ehr-execution.ts'); before(ehr, 'linkTrace(before,s,c.type,key,u.userId', 'await persist(db,before,s,u,c,key,hash,{operationId', 'EHR checkpoint'); before(ehr, "linkTrace(old,after,action,finish", "persist(db,old,after,u,{type:action},finish", 'EHR receipt'); assert.match(ehr, /const action=operationRefused&&!receipt\?'adapterOperationRefused':blocked&&!receipt\?'sendBlocked':'ehrReceipt'/); });
+  check(() => { const ag = src('lib/saha/agent-execution.ts'); before(ag, 'linkTrace(before,s,c.type,key,u.userId', "await persist(db,before,s,u,c,key,hash,{runId:r.id,status:'running'})", 'agent checkpoint'); before(ag, "linkTrace(old,after,'agentResult','agent_finish_'+run.id", "persist(db,old,after,u,{type:'agentResult'},'agent_finish_'+run.id", 'agent result'); });
   check(() => { before(src('app/api/mis/callback/route.ts'), "linkTrace(old,s,'misCallback',key,actor.userId)", "persist(db(),old,s,actor,{type:'misCallback'},key", 'callback'); before(src('lib/saha/server.ts'), 'linkTrace(before,state,c.type,key,u.userId)', 'await persist(db(),before,state,u,{...c,authorityDelegations},key,hash,result', 'generic command path'); });
   check(() => { const srv = src('lib/saha/trace-server.ts'); assert.equal(srv.includes('recordAccess'), false, 'not a material read'); assert.ok(srv.includes("cols='id,at,actor_name,role,action,subject,seq'") && !/SELECT (\*|detail)/.test(srv), 'audit detail text is never selected'); assert.ok(srv.includes('for(const part of chunks(l.subjects))') && srv.includes('for(const ids of chunks(l.auditIds))') && srv.includes('for(const part of chunks(l.receipts))') && /const CHUNK=40;/.test(srv), 'lookups are chunked under the D1 parameter limit (40 x 2 + 1 < 100)'); assert.ok(srv.includes("measured") === false && src('app/api/trace/route.ts').includes("measured(request,'trace'")); });
 

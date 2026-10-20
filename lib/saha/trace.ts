@@ -14,8 +14,8 @@ import { ACCESS_ACTION_NAMES, type Member, type OrgState, type Person, type Trac
 //
 // Content. Ids, states, times, attempt numbers, limits, command types and actor names only: no facts, notes,
 // payloads, document text, audit detail text or credentials.
-// Slice 6aa: 1.1.0 adds receiptExists (a redacted trace no longer carries the receipt itself) and truncated.
-export const TRACE_VERSION='1.1.0';
+// Slice 6aa: 1.1.0 adds receiptExists/truncation; SAHA-117 1.2.0 adds the opaque destination trace id.
+export const TRACE_VERSION='1.2.0';
 export const MIS_MAX_ATTEMPTS=3;
 // Audit actions that belong to a visit's external work (listed for the visit even when not linked to a step).
 export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused','sendBlocked','scheduledTimeoutReview'] as const;
@@ -23,11 +23,11 @@ const DESTINATION=new Set(['misReceipt','ehrReceipt','agentResult']),CALLBACK=ne
 const ID=/^[A-Za-z0-9_-]{1,200}$/;
 
 // ---- stamping (write side) ----
-export function linkTrace(before:OrgState,after:OrgState,command:string,key:string,actorId:string,now=new Date().toISOString()){
+export function linkTrace(before:OrgState,after:OrgState,command:string,key:string,actorId:string,now=new Date().toISOString(),traceId?:string){
  const seen=new Set((before.workspace.audit??[]).map(a=>a.id)),fresh=(after.workspace.audit??[]).filter(a=>!seen.has(a.id));
  // The audit event about the record itself, else its visit, else its patient, else the commit's first event.
  const audit=(subjects:string[])=>{for(const x of subjects){const a=fresh.find(e=>e.subject===x);if(a)return a.id;}return fresh[0]?.id??null;};
- const ref=(subjects:string[]):TraceRef=>({command,key,actorId,auditId:audit(subjects)});
+ const ref=(subjects:string[]):TraceRef=>({command,key,...(traceId?{traceId}:{}),actorId,auditId:audit(subjects)});
  const prevSubs=new Map((before.workspace.submissions??[]).map(x=>[x.id,x]));
  for(const x of after.workspace.submissions??[]){
   const old=prevSubs.get(x.id),subjects=[x.id,x.visitId,x.personId];
@@ -77,7 +77,7 @@ export function traceTarget(s:OrgState,m:Member,q:TraceQuery,now=new Date().toIS
 }
 export type TraceAuditRow={id:string;at:string;actor_name:string;role:string;action:string;subject:string;seq:number|null};
 export type TraceReceiptRow={actor_id:string;key:string;created_at:string};
-export type Step={at:string;state:string;attempt:number|null;source:'command'|'destination'|'callback'|'not linked';command:string|null;actor:string|null;receiptId:string|null;receiptAt:string|null;receiptFound:boolean|null;auditId:string|null;auditSeq:number|null;linked:boolean};
+export type Step={at:string;state:string;attempt:number|null;source:'command'|'destination'|'callback'|'not linked';command:string|null;traceId:string|null;actor:string|null;receiptId:string|null;receiptAt:string|null;receiptFound:boolean|null;auditId:string|null;auditSeq:number|null;linked:boolean};
 export type Thread={id:string;kind:'submission'|'ehr-publication'|'assistant';recordId:string;destination:string;state:string;receipt:string|null;receiptExists?:boolean;attempts:{used:number;limit:number|null;rule:string};limits:{timeMinutes:number|null;attempts:number|null}|null;taskAttempt:number|null;timedOut:boolean;steps:Step[];refusal:{operation:string;settingVersion:number;aggregateOnly:boolean;stage:string;at:string}|null};
 type Raw={thread:Thread;steps:{at:string;state:string;attempt?:number;ref?:TraceRef}[]};
 function threads(s:OrgState,t:Target,now:string):Raw[]{
@@ -127,9 +127,9 @@ export function assembleTrace(s:OrgState,m:Member,t:Target,audit:TraceAuditRow[]
  const raw=threads(s,t,now),linkedAudit=new Map<string,string[]>();
  for(const r of raw){
   r.thread.steps=r.steps.map((x):Step=>{
-   if(!x.ref)return {at:x.at,state:x.state,attempt:x.attempt??null,source:'not linked',command:null,actor:null,receiptId:null,receiptAt:null,receiptFound:null,auditId:null,auditSeq:null,linked:false};
+   if(!x.ref)return {at:x.at,state:x.state,attempt:x.attempt??null,source:'not linked',command:null,traceId:null,actor:null,receiptId:null,receiptAt:null,receiptFound:null,auditId:null,auditSeq:null,linked:false};
    const a=x.ref.auditId?byAudit.get(x.ref.auditId):undefined,rc=byReceipt.get(x.ref.actorId+'\u0000'+x.ref.key);if(a){const l=linkedAudit.get(a.id)??[];if(!l.includes(r.thread.id))l.push(r.thread.id);linkedAudit.set(a.id,l);}
-   return {at:x.at,state:x.state,attempt:x.attempt??null,source:DESTINATION.has(x.ref.command)?'destination':CALLBACK.has(x.ref.command)?'callback':'command',command:x.ref.command,actor:actor(x.ref.actorId),receiptId:x.ref.key,receiptAt:rc?.created_at??null,receiptFound:!!rc,auditId:x.ref.auditId,auditSeq:a?.seq??null,linked:true};
+   return {at:x.at,state:x.state,attempt:x.attempt??null,source:DESTINATION.has(x.ref.command)?'destination':CALLBACK.has(x.ref.command)?'callback':'command',command:x.ref.command,traceId:x.ref.traceId??x.ref.key,actor:actor(x.ref.actorId),receiptId:x.ref.key,receiptAt:rc?.created_at??null,receiptFound:!!rc,auditId:x.ref.auditId,auditSeq:a?.seq??null,linked:true};
   }).sort((a,b)=>a.at.localeCompare(b.at));
  }
  const access=new Set<string>(ACCESS_ACTION_NAMES);
