@@ -8,8 +8,8 @@
     "extraction": "Requirement and acceptance text extracted from the supplied BRD; sourceTextLine refers to the temporary paragraph extraction, not a Word page number."
   },
   "counts": {
-    "implemented-local": 14,
-    "partial": 151,
+    "implemented-local": 15,
+    "partial": 150,
     "not-built": 2,
     "unverified": 9
   },
@@ -3394,10 +3394,10 @@
       "requirement": "Workers and supervisors shall receive prioritised task lists based on approved urgency and due dates. Missed tasks shall escalate under programme rules while retaining the reason for delay and service constraints.",
       "acceptance": "Acceptance: An overdue case enters the correct supervisor queue and remains visible until completion or a documented resolution.",
       "sourceTextLine": 482,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R14",
-      "current": "Due dates and overdue counts; scoped handover exception queue. Slice 4a adds urgency, reasoned delays with constraint and history, and a computed escalation queue ordered by level, urgency and days overdue. Slice 3i: a queue of open field referral requests for clinicians, supervisors and owners in scope (clinical concern first, then oldest, with waiting time and a link to the visit); requests waiting 48 hours or more are also exception-queue rows. Slice 4d: in the action plan an item waiting on an open blocker is not counted as overdue and is listed after other work; an overdue blocker keeps its own place, and an ownership gap still escalates a waiting item. Slice 0b-4: in a workspace paged for a scope above 500 people, the follow-up list (due dates and overdue marks) and the referral tracker on My work cover the viewer's whole scope, built on the server page by page with the same order and counts as the unpaged workspace; before, they covered only opened records. Slice 10b: the overdue-referral, overdue-follow-up and undated-referral alerts can be sent out of the app to a listed recipient tier as simulated messages carrying a count and a link only, and an unacknowledged alert escalates to the next tier after an owner-set interval; every message has a receipt and an audit event (demonstration simulator in synthetic and training environments only).",
-      "remaining": "Approved urgency policy, delivery of real notifications to approved recipients, on-call escalation, and automatic reassignment. The referral escalation queue, caseload and handover counts do not yet apply action dependencies.",
+      "current": "Versioned organisation-owned urgency and missed-outcome policy with explicit IANA timezone; no threshold is inferred before activation. Viewer-scoped worker priorities and supervisor/delegated-supervisor escalation cover open follow-ups and referrals, apply action-plan dependencies, retain current and prior patient ownership, due dates, reasoned delays and service constraints, and preserve source/audit history through completion or documented resolution. Follow-up delays pin patient, prior due date and policy versions and refuse changed scope, assignment, dependency or source. Nothing is sent and work is never reassigned automatically. See docs/current/SAHA-102-DUE-WORK-AND-ESCALATION.md.",
+      "remaining": "Formal TC-BR-CARE-04-A/B, independent source review, exact-source CI, merge and observed deployment remain pending. Deployment-specific organisation/domain approval of thresholds and timezone, real recipient/on-call configuration and external notification delivery acceptance remain external gates.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",

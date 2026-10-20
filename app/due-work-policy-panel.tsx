@@ -1,0 +1,13 @@
+'use client';
+import {useState} from 'react';
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {Textarea} from '@/components/ui/textarea';
+import type {Snapshot} from '@/lib/saha/types';
+
+export function DueWorkPolicyPanel({data,operationsVersion,policy,busy,save}:{data:Snapshot;operationsVersion:number;policy:any;busy:boolean;save:(c:any)=>Promise<void>}){
+ const [timezone,setTimezone]=useState(policy?.timezone??'Asia/Kolkata'),[emergency,setEmergency]=useState(String(policy?.escalateAfterDays?.emergency??0)),[urgent,setUrgent]=useState(String(policy?.escalateAfterDays?.urgent??1)),[routine,setRoutine]=useState(String(policy?.escalateAfterDays?.routine??7)),[unknown,setUnknown]=useState(String(policy?.unknownOutcomeAfterDays??2)),[reason,setReason]=useState('');
+ if(!data.membership.isOwner)return null;
+ const submit=async(state:'draft'|'active')=>save({type:'opsDueWorkPolicy',version:operationsVersion,policyVersion:policy?.version??0,state,timezone,emergencyDays:Number(emergency),urgentDays:Number(urgent),routineDays:Number(routine),unknownOutcomeDays:Number(unknown),reason});
+ return <section className="panel ops-panel"><h2>Due-work escalation policy</h2><p className="ops-meta">Organisation-owned operational thresholds. Activating them does not claim clinical approval, send a notification, or reassign work.</p><div className="form-grid"><label>Timezone<Input required value={timezone} onChange={e=>setTimezone(e.target.value)} placeholder="Asia/Kolkata"/></label><label>Emergency · overdue days<Input type="number" min="0" max="30" required value={emergency} onChange={e=>setEmergency(e.target.value)}/></label><label>Urgent · overdue days<Input type="number" min="0" max="60" required value={urgent} onChange={e=>setUrgent(e.target.value)}/></label><label>Routine · overdue days<Input type="number" min="0" max="180" required value={routine} onChange={e=>setRoutine(e.target.value)}/></label><label>Unknown/missed outcome days<Input type="number" min="1" max="30" required value={unknown} onChange={e=>setUnknown(e.target.value)}/></label></div><label>Review reason<Textarea minLength={10} maxLength={500} required value={reason} onChange={e=>setReason(e.target.value)}/></label><div className="button-row"><Button variant="outline" disabled={busy||reason.trim().length<10} onClick={()=>submit('draft')}>Save draft</Button><Button disabled={busy||reason.trim().length<10} onClick={()=>submit('active')}>Activate reviewed policy</Button></div>{policy&&<p className="ops-meta">Current v{policy.version} · {policy.state} · {policy.timezone} · updated {new Date(policy.updatedAt).toLocaleString()}</p>}</section>;
+}

@@ -60,6 +60,7 @@ import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
 import { factReuseSchema, applyFactReuse } from './fact-reuse';
 import { destinationEnrolmentSchema } from './destination-enrolment';
+import { dueWorkSchema } from './due-work';
 import { z } from 'zod';
 import { commandSchema, digest, fail, person, visit, uuid } from './core';
 import type { Actor } from './store';
@@ -135,6 +136,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...factReuseSchema.options,
  // Slice r37: destination enrolment request/rejection/acceptance lifecycle (mock destination; lib/saha/destination-enrolment.ts).
  ...destinationEnrolmentSchema.options,
+ // SAHA-102: owner-approved due-work policy and version-checked follow-up delay recording.
+ ...dueWorkSchema.options,
  // Slice 9a: owner-only installation of the demonstration clinical package (synthetic environment only; lib/saha/demonstration.ts).
  z.object({type:z.literal('installDemonstrationPackage')}).strict(),
  z.object({type:z.literal('createOrganisation'),name:str}),

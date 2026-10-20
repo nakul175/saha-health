@@ -16,7 +16,7 @@ export const PATIENT_COMMANDS = new Set<string>([
   // corrections and assignment
   'amendVisit', 'voidVisit', 'correctIdentity', 'assignPatient',
   // programme episodes and follow-ups
-  'enrolProgramme', 'scheduleFollowUp', 'resolveFollowUp', 'closeEnrolment', 'saveProgrammeAnswers',
+  'enrolProgramme', 'scheduleFollowUp', 'resolveFollowUp', 'delayDueWork', 'closeEnrolment', 'saveProgrammeAnswers',
   // field grants and referral tracking
   'prepareFieldVisit', 'syncFieldVisit', 'revokeFieldLease', 'assignReferral', 'recordReferralEvent', 'referralDelay',
   // slice 4b: action-plan ownership of one patient's follow-ups and referrals
