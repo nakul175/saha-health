@@ -1,5 +1,9 @@
 # Development slice 6o — consent withdrawal and its downstream effects
 
+## SAHA-124 local follow-through — 20 October 2026
+
+[The exact local coding-completion record](SAHA-124-WITHDRAWAL-DISPOSITION-LOCAL-COMPLETION.md) adds an append-only, evidence-referenced trail for the request and reported destination outcome of an in-flight or already-sent copy. Current scoped care authority and the patient version are rechecked for every entry; completed deliveries and receipts remain unchanged; UI and audit text do not claim that Saha erased an external record. Fresh focused evidence records 30/30 contract checks and 38/38 built-Worker/D1 checks. Formal BR-SEC-03 acceptance, real recipient and ABDM behavior, policy approval, physical/hosted validation, independent review, CI, merge and observed deployment remain pending.
+
 30 September 2026 (IST). Stacked on the integrated round-1 build (slices 3g–6l). Synthetic data only; formal acceptance unchanged. No migration.
 
 ## What changed

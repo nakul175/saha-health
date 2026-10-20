@@ -72,6 +72,16 @@ export async function consentSmoke({get,post,check,accounts,org,sql}){
  check(()=>{assert.deepEqual(by('ehr-permission'),{[permissionId]:'stopped'});assert.equal(p.ehr.permissions.find(g=>g.id===permissionId).status,'revoked');assert.equal(p.ehr.links.find(l=>l.id===linkId).status,'active');});
  check(()=>{assert.deepEqual(by('abdm-consent'),{[granted]:'stopped',[requested]:'stopped'});assert.ok(p.abdmConsents.every(x=>x.status==='REVOKED'));assert.equal(Object.values(by('abdm-care-context'))[0],'kept');assert.equal(Object.values(by('abdm-received'))[0],'kept');});
  check(()=>assert.equal(e.items.some(i=>i.kind.startsWith('ai-')),false,'AI work is not part of a sharing withdrawal'));
+ // The accepted copy remains immutable while privacy operators append the manual request and observed destination outcome.
+ const externalRef=sub('mis_maternal').id,disposition=(over={})=>({type:'recordWithdrawalDisposition',personId:pid,version:person(pid).version,eventId:done.result.eventId,itemKind:'programme-submission',itemRef:externalRef,outcome:'request-recorded',evidenceReference:'DEST-CASE-1',note:'Restriction request sent through the destination process.',...over});
+ await post(a,disposition(),403,crypto.randomUUID(),org);await post(o,disposition({itemRef:sub(mis.id).id}),409);await post(o,disposition({itemRef:'missing'}),404);await post(o,disposition({evidenceReference:'x'}),422);
+ await get(c,'/api/workspace',200,org);const staleDispositionVersion=c.state.people.find(q=>q.id===pid).version;
+ const recorded=await post(o,disposition());
+ check(()=>{assert.equal(recorded.result.outcome,'request-recorded');assert.equal(recorded.result.history,1);assert.equal(sub('mis_maternal').state,'accepted','recording downstream work does not rewrite completed delivery');});
+ await post(c,disposition({version:staleDispositionVersion,outcome:'restriction-confirmed',evidenceReference:'DEST-RECEIPT-2',note:'Destination reported that access to its retained copy is restricted.'}),409,crypto.randomUUID(),org);
+ await get(c,'/api/workspace',200,org);const final=await post(c,disposition({version:c.state.people.find(q=>q.id===pid).version,outcome:'restriction-confirmed',evidenceReference:'DEST-RECEIPT-2',note:'Destination reported that access to its retained copy is restricted.'}),200,crypto.randomUUID(),org);await get(o,'/api/workspace',200,org);
+ check(()=>{const item=person(pid).consentHistory.find(x=>x.id===done.result.eventId).items.find(x=>x.ref===externalRef);assert.equal(final.result.history,2);assert.deepEqual(item.externalDisposition.map(x=>[x.outcome,x.evidenceReference]),[['request-recorded','DEST-CASE-1'],['restriction-confirmed','DEST-RECEIPT-2']]);assert.equal(item.externalDisposition[1].by,c.id);});
+ check(()=>{const rows=sql.prepare("SELECT action,detail FROM audit_events WHERE org_id=? AND person_id=? AND action='recordWithdrawalDisposition' ORDER BY at").all(org,pid);assert.equal(rows.length,2);assert.match(rows[1].detail,/does not claim Saha erased an external record/);});
  // Stopped work stays stopped.
  const held=await post(o,{type:'sendSubmission',submissionId:sub(mis.id).id});check(()=>assert.equal(held.result.state,'cancelled'));
  await post(o,{type:'abdmFetch',personId:pid,version:person(pid).version,consentId:granted},409);
