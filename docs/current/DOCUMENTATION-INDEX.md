@@ -65,6 +65,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 1f](SLICE-1F-EFFECTIVE-TRANSFERS.md) | Scheduled caseload transfers applied automatically at their effective time on the next use, with re-checks, exactly-once commits and a held state, and whole-household transfer |
 | [Development slice 4c](SLICE-4C-WORKER-ACTIVITY.md) | Worker activity evidence for supervisors |
 | [Development slice 4d](SLICE-4D-ACTION-DEPENDENCIES.md) | Action dependencies and referrals with several sources |
+| [SAHA-103 local coding evidence](SAHA-103-UNIFIED-ACTION-PLAN.md) | Exact unified-action equivalence, derived blockers and separate delivery gates |
 | [Development slice 4e](SLICE-4E-PACK-MIGRATION.md) | Reviewed migration of open programme episodes to a new pack version |
 | [Development slice 4f](SLICE-4F-PACK-INSTALLATION.md) | Governed installation of a programme pack or a new pack version (not clinically approved content) |
 | [Development slice 2e](SLICE-2E-OBSERVATION-VERIFICATION.md) | Author and clinician verification for each measurement |

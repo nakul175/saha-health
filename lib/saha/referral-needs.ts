@@ -16,8 +16,26 @@ export const NEED_LABEL: Record<NeedId, string> = {
 export const MAX_PACK_REQUESTS = 20;
 export const MAX_REQUESTS_PER_COMMAND = 12;
 // The need a referral records, and each programme episode that asked for it (kept after the referral is created).
-export type ReferralNeed = { code: NeedId; label: string; declarationGroup?:string; compatibilityKey?:string|null };
-export type PackRequest = { id: string; enrolmentId: string; packId: string; packVersion: number; packName: string; episodeLabel: string; reason: string; sourceId: string; requestedBy: string; requestedAt: string; declaration?:{id:string;compatibilityKey:string|null;urgency:import('./referral-rules').Urgency;manifestHash:string} };
+export type ReferralEquivalence = {
+  // These four values are the complete, server-recorded deduplication boundary for
+  // BR-CARE-05. A missing boundary means a pre-boundary referral and is never
+  // silently folded into a current one.
+  personId:string;
+  purposeKey:string;
+  destinationKey:string;
+  windowStart:string;
+  windowEnd:string;
+};
+export type ReferralNeed = { code: NeedId; label: string; declarationGroup?:string; compatibilityKey?:string|null; equivalence?:ReferralEquivalence };
+export type PackRequest = {
+  id: string; enrolmentId: string; packId: string; packVersion: number; packName: string; episodeLabel: string;
+  reason: string; sourceId: string; requestedBy: string; requestedAt: string;
+  // The episode is deliberately not completed by referral consolidation. Keeping
+  // its state at the decision point makes the independent programme state auditable.
+  episodeStateAtRequest?:'active'|'closed';
+  dependencyIds?:string[];
+  declaration?:{id:string;compatibilityKey:string|null;urgency:import('./referral-rules').Urgency;manifestHash:string;purposeKey:string};
+};
 export const normText = (s: string) => s.normalize('NFKC').toLocaleLowerCase().replace(/\s+/g, ' ').trim();
 // Two requests are the same need when this key matches (and they come from the same confirmed visit of the same person).
 export const needKey = (code: string, label: string, facility: string) => [code, code === 'other' ? normText(label) : '', normText(facility)].join('|');

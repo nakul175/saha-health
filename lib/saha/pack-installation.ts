@@ -41,7 +41,7 @@ const question=z.object({id:qid,label,required:z.boolean(),fact:z.enum(Object.ke
 const rule=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),label,condition:z.object({questionId:qid,operator:z.enum(['gte','lte','eq','missing']),value:z.string().trim().max(30)}).strict(),urgency:z.enum(['review','urgent_review'])}).strict();
 const condition=rule.shape.condition;
 const completionRule=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),label,requiredQuestions:z.array(qid).min(1).max(25).refine(x=>new Set(x).size===x.length,'List completion questions once.'),when:condition.optional()}).strict();
-const referralNeed=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),need:z.enum(NEED_IDS),needLabel:z.string().trim().min(3).max(100).optional(),compatibilityKey:z.string().regex(/^[a-z][a-z0-9-]{2,79}$/).nullable(),urgency:z.enum(['routine','urgent','emergency']),when:condition.optional()}).strict().refine(x=>(x.need==='other')===!!x.needLabel,'Name only the other need.');
+const referralNeed=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),need:z.enum(NEED_IDS),needLabel:z.string().trim().min(3).max(100).optional(),compatibilityKey:z.string().regex(/^[a-z][a-z0-9-]{2,79}$/).nullable(),urgency:z.enum(['routine','urgent','emergency']),when:condition.optional(),dependsOnCompletionRules:z.array(z.string().regex(/^[a-z][a-z0-9-]{0,40}$/)).max(10).refine(x=>new Set(x).size===x.length,'List each dependency once.').optional()}).strict().refine(x=>(x.need==='other')===!!x.needLabel,'Name only the other need.');
 const completeDefinition=z.object({
  population:z.object({description:z.string().trim().min(10).max(300),eligibility:z.array(z.string().trim().min(3).max(200)).min(1).max(20)}).strict(),
  mandatoryEvidence:z.array(z.string().trim().min(3).max(160)).min(1).max(20),
@@ -102,7 +102,7 @@ export function manifestIssues(x:PackManifest){
  for(const q of x.questions)if(q.renamedFrom&&ids.has(q.renamedFrom))issues.push(`Question ${q.id} is renamed from ${q.renamedFrom}, which is still a question in this version.`);
  const rules=new Set<string>();
  const completions=new Set<string>();for(const c of x.completionRules??[]){if(completions.has(c.id))issues.push(`Completion rule ${c.id} repeats.`);completions.add(c.id);for(const id of c.requiredQuestions)if(!byId.has(id))issues.push(`Completion rule ${c.id} refers to an unknown question ${id}.`);}
- const needs=new Set<string>();for(const n of x.referralNeeds??[]){if(needs.has(n.id))issues.push(`Referral need ${n.id} repeats.`);needs.add(n.id);}
+ const needs=new Set<string>();for(const n of x.referralNeeds??[]){if(needs.has(n.id))issues.push(`Referral need ${n.id} repeats.`);needs.add(n.id);for(const id of n.dependsOnCompletionRules??[])if(!completions.has(id))issues.push(`Referral need ${n.id} depends on unknown completion rule ${id}.`);}
  const declaredConditions=[...(x.completionRules??[]),...(x.referralNeeds??[])].filter(x=>x.when).map((x,i)=>({id:'__declared_condition_'+i,label:'Declared condition',condition:x.when!,urgency:'review' as const}));
  for(const r of [...(x.escalation??[]),...declaredConditions]){
   if(rules.has(r.id))issues.push(`Escalation rule ${r.id} appears more than once.`);rules.add(r.id);

@@ -5,6 +5,7 @@ import { activeOwner } from './referrals';
 import { escalation } from './referral-rules';
 import { PACKS } from './programmes';
 import type { Member, OrgState, Person } from './types';
+import { planItemWaiting } from './plan-dependency-state';
 
 // Slice 6i: item-level operational exception queue (BR-REP-01; item links for NFR-18). Computed on read
 // from the records that hold each problem. Supervisors and owners see rows for patients in their care
@@ -75,6 +76,7 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
    add({id:'safety-case:'+c.id,kind:'safety-case',severity:'critical',what:`Open clinical safety case (${c.kind.replace(/-/g,' ')})`,since:c.createdAt,owner:name(c.ownerId)??`Clinicians of ${team(p)}`,recovery:'The clinical owner reviews the evidence in Clinical governance and resolves or reassigns the case.'},c.visitId);
   // Escalated referrals (slice 4a rules).
   for(const r of refs.get(p.id)??[]){
+   if(planItemWaiting(s,p,{kind:'referral',id:r.id}))continue;
    const e=escalation(r,activeOwner(s,r,p),now);if(e.level!=='escalated')continue;
    add({id:'referral-overdue:'+r.id,kind:'referral-overdue',severity:(r.urgency??'routine')==='emergency'?'critical':'high',what:`Referral to ${r.facility}: ${e.reasons.join('; ')}`,since:r.due&&r.due<today?r.due+'T00:00:00.000Z':r.events?.at(-1)?.occurredAt??r.createdAt,
     owner:activeOwner(s,r,p)?name(r.ownerId)!:`Supervisors of ${team(p)}`,recovery:'Record the next referral event with evidence, a reasoned delay, or assign an owner from the patient\'s action plan.'},r.visitId);
@@ -96,7 +98,7 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
    add({id:'correction-task:'+t.id,kind:'correction-task',severity:t.external?'high':'normal',what:`${t.cause==='amend'?'Corrected':'Wrong-patient'} visit: ${t.output.label} (${t.output.stateAtCorrection}) ${t.external?'needs a correction with the destination':'needs review'}`,since:t.createdAt,owner:ok?o!.displayName:`Supervisors of ${team(p)}`,recovery:`${t.instruction} Close it from the patient's action plan with the correction receipt or a reason.`},v.id);
   }
   // Overdue programme follow-ups.
-  for(const t of p.followUps??[])if(t.state==='open'&&t.due<today){
+  for(const t of p.followUps??[])if(t.state==='open'&&t.due<today&&!planItemWaiting(s,p,{kind:'follow-up',id:t.id})){
    const o=members.get(t.ownerId),ok=!!o&&o.status==='active'&&['asha','clinician'].includes(o.role)&&normallyAllowed(o,p);
    add({id:'follow-up-overdue:'+t.id,kind:'follow-up-overdue',severity:'normal',what:`${PACKS.find(x=>x.id===t.packId)?.name??t.packId} follow-up "${t.title}" due ${t.due}${ok?'':'; owner has no current access'}`,since:t.due+'T00:00:00.000Z',owner:ok?o!.displayName:`Supervisors of ${team(p)}`,recovery:'Complete it, or reassign it from the patient\'s action plan.'},null);
   }

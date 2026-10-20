@@ -5,6 +5,7 @@ import { CONSTRAINTS, escalation, TERMINAL, URGENCIES } from './referral-rules';
 import type { Actor } from './store';
 import type { Member, OrgState, Person, Referral } from './types';
 import { supervises } from './delegation';
+import { planItemWaiting } from './plan-dependency-state';
 
 // Slice 4a: reasoned referral delays and the escalation queue (BR-CARE-03, BR-CARE-04).
 export const referralSchema=z.discriminatedUnion('type',[
@@ -56,9 +57,9 @@ export function applyReferral(s:OrgState,input:unknown,u:Actor,m:Member,now=new 
 export function escalationQueue(s:OrgState,m:Member,now=new Date().toISOString()){
  if(m.role==='admin')fail(403,'Referral escalations contain patient information.');
  const rank={escalated:0,watch:1,none:2},urg={emergency:0,urgent:1,routine:2};
- const items=s.workspace.referrals.flatMap(r=>{const p=s.workspace.people.find(x=>x.id===r.personId);if(!p?.assigned)return [];const mine=r.ownerId===m.userId,lead=steward(s,m,p);if(!mine&&!lead)return [];
+ const items=s.workspace.referrals.flatMap(r=>{const p=s.workspace.people.find(x=>x.id===r.personId);if(!p?.assigned||planItemWaiting(s,p,{kind:'referral',id:r.id}))return [];const mine=r.ownerId===m.userId,lead=steward(s,m,p);if(!mine&&!lead)return [];
   const e=escalation(r as any,activeOwner(s,r,p),now);if(e.level==='none')return [];
   return [{referralId:r.id,version:r.version??1,personId:p.id,name:p.name,facility:r.facility,state:r.state,urgency:r.urgency??'routine',due:r.due??null,owner:s.members.find(x=>x.userId===r.ownerId)?.displayName??null,mine,...e}];
  }).sort((a,b)=>rank[a.level]-rank[b.level]||urg[a.urgency]-urg[b.urgency]||b.daysOverdue-a.daysOverdue);
- return {items:items.slice(0,200),escalated:items.filter(i=>i.level==='escalated').length,rules:'Escalated: no active owner; overdue beyond 0 days (emergency), 1 day (urgent) or 7 days (routine); outcome unknown or appointment missed for 2 days; emergency referral not yet accepted. These are local defaults, not an approved urgency policy.'};
+ return {items:items.slice(0,200),escalated:items.filter(i=>i.level==='escalated').length,rules:'Escalated: no active owner; overdue beyond 0 days (emergency), 1 day (urgent) or 7 days (routine); outcome unknown or appointment missed for 2 days; emergency referral not yet accepted. A dependent referral waits without escalation while its recorded blocker remains open. These are local defaults, not an approved urgency policy.'};
 }

@@ -2,6 +2,7 @@ import { fail } from './core';
 import { openPatientWork } from './continuity';
 import { ABSENCE, own, questions, followUpOpen } from './programmes';
 import { PROGRAMMES, type Member, type OrgState, type Person, type Programme } from './types';
+import { planItemWaiting } from './plan-dependency-state';
 
 // Slice 6d: a versioned indicator registry, cohort queries with small-cell suppression, and a
 // governed question interpreter (BR-AG-11, BR-REP-02..05). Managers choose catalogue indicators
@@ -29,7 +30,7 @@ export const MEASURES:Measure[]=[
  {id:'patients-seen',label:'Patients with at least one visit confirmed in the window',sources:['patients','visits'],count:(c,p)=>confirmedIn(c,p).length?1:0},
  {id:'visits-confirmed',label:'Visits confirmed in the window',sources:['visits'],count:(c,p)=>confirmedIn(c,p).length},
  {id:'followups-open',label:'Open follow-ups today',sources:['follow-ups'],count:(c,p)=>(p.followUps??[]).filter(f=>followUpOpen(c.s,f)).length},
- {id:'followups-overdue',label:'Open follow-ups past their due date today',sources:['follow-ups'],count:(c,p)=>(p.followUps??[]).filter(f=>followUpOpen(c.s,f)&&f.due<c.today).length},
+ {id:'followups-overdue',label:'Open follow-ups past their due date today',sources:['follow-ups'],count:(c,p)=>(p.followUps??[]).filter(f=>followUpOpen(c.s,f)&&f.due<c.today&&!planItemWaiting(c.s,p,{kind:'follow-up',id:f.id})).length},
  {id:'referrals-created',label:'Referrals created in the window',sources:['referrals'],count:(c,p)=>c.s.workspace.referrals.filter(x=>x.personId===p.id&&inWindow(c,x.createdAt)).length},
  {id:'referrals-completed',label:'Referrals created in the window now completed',sources:['referrals'],count:(c,p)=>c.s.workspace.referrals.filter(x=>x.personId===p.id&&inWindow(c,x.createdAt)&&x.state==='completed').length},
  {id:'maternal-episodes-active',label:'Maternal episodes active today',sources:['enrolments'],count:(_c,p)=>(p.enrolments??[]).filter(e=>e.packId==='maternal'&&e.state==='active').length},

@@ -1857,6 +1857,12 @@ Exact2e18 complete CI38134954151 fails: units208/10895passes/14failures in uncha
 
 11 October2026 — Native-control CI51f90 prerequisite correction: permission63/calendar97 pass, original185 browser assertions not qualified because dedicated job lacked Chromium (installed no count/device32+1failed). Add existing pinned Playwright browser install before unchanged controls; no criterion lowered. FullCI/current-source controls pending.
 
+## 20 October 2026 — SAHA-103 unified action plan local coding candidate
+
+On exact main base `af2a9cd6866e3cd5c7c10094d781ff7623d413b0`, the APL-126 application boundary now consolidates programme referral work only across an exact person, declared purpose, normalised destination and time window. It retains every source, reason, declaration, independent episode state and declared blocker. Current commands are patient/visit-version bound; changed authority, stale state, invalid windows, unavailable blockers and unsafe legacy adoption refuse before mutation. Waiting dependencies now suppress escalation, exception and overdue reporting while the work remains open and visible.
+
+The synthetic engineering contract passes 30 checks, the action-plan compatibility contract passes 8, the household-completion contract passes 42, TypeScript typecheck passes and the production build passes with its existing large-chunk advisory. Formal TC-BR-CARE-05-A/B and TC-J11 remain Not run; independent review, CI, domain approval, merge and observed deployment remain pending. The unchanged household-visit contract's stale explicit transpile list remains a retained fixture gap and is not claimed green. See `docs/current/SAHA-103-UNIFIED-ACTION-PLAN.md` and `tests/evidence/saha-103-unified-action-plan/`.
+
 11 October2026 — ff31 complete engineeringCI38137184201 SUCCESS:208units10910/0/0,147workflow7691/0/0,9finalsmoke/security/UAT497/0/1(inheritedmedia skip). Dedicated63/97/121/64 +12/15/400slot controls pass. Add unchangedoriginal94backendperformance/4no-inspector-memory CI qualification; actual98/newheadfullCI pending. No criteria or originalbaselines changed; slow-profile and independentreview/livegate pending.
 
 ## 16 October 2026 — SAHA-062 provider self-service local coding completion
