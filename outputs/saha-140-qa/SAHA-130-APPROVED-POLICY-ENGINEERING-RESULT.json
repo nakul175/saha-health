@@ -1,0 +1,37 @@
+{
+  "story": "SAHA-130",
+  "recordedAt": "2026-10-21T03:22:00Z",
+  "approvalRecord": "outputs/saha-140-qa/SAHA-130-PRODUCT-POLICY-APPROVAL.json",
+  "approvalRecordSha256": "109041a0a2c377188ae4af17acd90b0b2d1c7335906cf814476a597b7a454bec",
+  "commits": {
+    "approval": "842dd6d40372f0cd7bc10cf813726e319d948bd8",
+    "providerGate": "e7acc2baa0f6e666a2df37db684a43801d6b9dfa",
+    "classPolicy": "3dfb7ea6",
+    "independentAuditGateRepair": "befad0a7"
+  },
+  "checks": {
+    "retentionClassPolicy": "30/30 pass",
+    "retentionPhysicalDisposal": "39/39 pass",
+    "typecheck": "pass",
+    "productionBuild": "pass with existing chunk-size advisory"
+  },
+  "implementedBoundary": [
+    "Explicit fail-closed disposition states for patient records, model outputs, field packages, local caches, audit events, exports and backups",
+    "Legal holds, clinical duties and recorded exceptions retain content",
+    "Cryptographic erasure remains distinct from verified physical deletion",
+    "Audit detail cannot complete without explicit unavailability evidence",
+    "Hosted private-object deletion requires an exact conditional/version-specific provider capability",
+    "Generic provider deletion is blocked and unconfirmed results remain retryable"
+  ],
+  "remainingInputs": [
+    "Jurisdiction-specific patient-record schedules and minimum retained evidence schema",
+    "Per-output clinical classification",
+    "Approved handling of unsynced clinical work and authoritative device evidence interface",
+    "Approved audit minimum envelope and detail-erasure adapter",
+    "Registered export destination and authoritative destination deletion interface",
+    "Approved backup recovery window and provider generation deletion interface",
+    "Verified conditional/version-specific hosted-object deletion provider primitive"
+  ],
+  "verdict": "QA_HOLD",
+  "reason": "The approved conservative policy enabled safe interfaces and refusal paths, but the authoritative class-specific and provider inputs required to execute and verify disposal do not yet exist. No whole-story, main, staging or production completion is claimed."
+}
