@@ -3,7 +3,7 @@ import type {AuditDetailKeyProvider,AuditDetailSeal} from './audit-detail-protec
 type VaultConfig={addr:string;roleId:string;secretId:string;mount:string};
 type VaultSession={token:string;renewable:boolean;expiresAt:number;renewAt:number};
 type StoredSeal={schema:'saha-audit-detail-v1';idempotencyKey:string;keyPurpose:'audit-detail';aadDigest:string;plaintextDigest:string;algorithm:'AES-256-GCM';dek:string;nonce:string;ciphertext:string;lifecycleToken:string};
-type VaultReply={auth?:{client_token?:string;lease_duration?:number;renewable?:boolean};data?:{data?:StoredSeal;metadata?:{version?:number};auth?:unknown;version?:number};request_id?:string};
+type VaultReply={auth?:{client_token?:string;lease_duration?:number;renewable?:boolean};data?:{data?:StoredSeal;metadata?:{version?:number};auth?:unknown;version?:number;versions?:Record<string,{destroyed?:boolean;deletion_time?:string}>};request_id?:string};
 
 const encoder=new TextEncoder(),decoder=new TextDecoder();
 const hex=(bytes:ArrayBuffer)=>Array.from(new Uint8Array(bytes),x=>x.toString(16).padStart(2,'0')).join('');
@@ -41,6 +41,7 @@ export class VaultKvV2AuditDetailKeyProvider implements AuditDetailKeyProvider{
  }
  private secretPath(idempotencyKey:string){if(!/^[0-9a-f]{64}$/.test(idempotencyKey))throw fault('Audit detail key identity is invalid.');return `saha-audit-detail/${idempotencyKey}`;}
  private async read(path:string,version?:string){const suffix=`${this.config.mount}/data/${path}${version?`?version=${encodeURIComponent(version)}`:''}`,reply=await this.call(suffix,{method:'GET'});if(reply.response.status===404)return null;if(!reply.response.ok)throw fault('Vault KV read failed.');const data=reply.body.data?.data,number=reply.body.data?.metadata?.version;if(!data||!Number.isSafeInteger(number)||number!<=0)throw fault('Vault KV evidence is incomplete.');return {data,version:String(number),requestId:reply.requestId};}
+ private async versionState(path:string,version:string){const reply=await this.call(`${this.config.mount}/metadata/${path}`,{method:'GET'});if(reply.response.status===404)return 'missing' as const;if(!reply.response.ok)throw fault('Vault KV version evidence is unavailable.');const versions=reply.body.data?.versions,entry=versions&&Object.prototype.hasOwnProperty.call(versions,version)?versions[version]:null;if(!entry)return 'missing' as const;return entry.destroyed===true?'destroyed' as const:'present' as const;}
  private async restore(data:StoredSeal,version:string,input:{plaintext:string;aad:string;keyPurpose:'audit-detail';idempotencyKey:string}):Promise<AuditDetailSeal>{
   if(data.schema!=='saha-audit-detail-v1'||data.idempotencyKey!==input.idempotencyKey||data.keyPurpose!==input.keyPurpose||data.algorithm!=='AES-256-GCM'||data.aadDigest!==await digest(input.aad)||data.plaintextDigest!==await digest(input.plaintext))throw fault('Vault idempotent key reservation does not match this audit event.',409);
   if(![data.dek,data.nonce,data.ciphertext,data.lifecycleToken].every(x=>safe(x,24000)))throw fault('Vault key reservation is incomplete.');
@@ -51,7 +52,7 @@ export class VaultKvV2AuditDetailKeyProvider implements AuditDetailKeyProvider{
   const path=this.secretPath(input.idempotencyKey),existing=await this.read(path);if(existing)return this.restore(existing.data,existing.version,input);
   const rawKey=random(32),nonce=random(12),key=await crypto.subtle.importKey('raw',rawKey,{name:'AES-GCM'},false,['encrypt']),ciphertext=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv:nonce,additionalData:encoder.encode(input.aad)},key,encoder.encode(input.plaintext)));
   const data:StoredSeal={schema:'saha-audit-detail-v1',idempotencyKey:input.idempotencyKey,keyPurpose:input.keyPurpose,aadDigest:await digest(input.aad),plaintextDigest:await digest(input.plaintext),algorithm:'AES-256-GCM',dek:b64(rawKey),nonce:b64(nonce),ciphertext:b64(ciphertext),lifecycleToken:b64(random(32))};
-  const write=await this.call(`${this.config.mount}/data/${path}`,{method:'POST',body:JSON.stringify({options:{cas:0},data})});
+  let write:Awaited<ReturnType<VaultKvV2AuditDetailKeyProvider['call']>>;try{write=await this.call(`${this.config.mount}/data/${path}`,{method:'POST',body:JSON.stringify({options:{cas:0},data})});}catch(error){const reconciled=await this.read(path);if(reconciled)return this.restore(reconciled.data,reconciled.version,input);throw error;}
   if(write.response.ok){const version=write.body.data?.version;if(!Number.isSafeInteger(version)||version!<=0)throw fault('Vault KV version receipt is incomplete.');return this.restore(data,String(version),input);}
   // CAS=0 permits only one creator. A concurrent winner is accepted only after
   // its complete reservation is read and cryptographically bound to this input.
@@ -59,10 +60,10 @@ export class VaultKvV2AuditDetailKeyProvider implements AuditDetailKeyProvider{
  }
  async destroy(input:{keyId:string;keyVersion:string;expectedLifecycleTokenDigest:string}){
   const prefix='vault-kv-v2:',path=input.keyId.startsWith(prefix)?input.keyId.slice(prefix.length):'';if(!/^saha-audit-detail\/[0-9a-f]{64}$/.test(path)||!/^[1-9][0-9]*$/.test(input.keyVersion)||!/^[0-9a-f]{64}$/.test(input.expectedLifecycleTokenDigest))return {state:'mismatch' as const,receipt:null};
-  const exact=await this.read(path,input.keyVersion);if(!exact)return {state:'inaccessible' as const,receipt:`vault-kv-v2:already-absent:${input.keyVersion}`};
+  const exact=await this.read(path,input.keyVersion);if(!exact){const state=await this.versionState(path,input.keyVersion);return state==='destroyed'?{state:'inaccessible' as const,receipt:`vault-kv-v2:already-destroyed:${input.keyVersion}`}:{state:state==='present'?'pending' as const:'mismatch' as const,receipt:null};}
   if(await digest(exact.data.lifecycleToken)!==input.expectedLifecycleTokenDigest)return {state:'mismatch' as const,receipt:null};
   const destroyed=await this.call(`${this.config.mount}/destroy/${path}`,{method:'POST',body:JSON.stringify({versions:[Number(input.keyVersion)]})});if(!destroyed.response.ok)throw fault('Vault exact-version destruction failed.');
-  const after=await this.read(path,input.keyVersion);if(after)return {state:'pending' as const,receipt:destroyed.requestId};return {state:'inaccessible' as const,receipt:destroyed.requestId??`vault-kv-v2:destroyed:${input.keyVersion}`};
+  const after=await this.read(path,input.keyVersion);if(after)return {state:'pending' as const,receipt:destroyed.requestId};const state=await this.versionState(path,input.keyVersion);if(state!=='destroyed')return {state:'pending' as const,receipt:destroyed.requestId};return {state:'inaccessible' as const,receipt:destroyed.requestId??`vault-kv-v2:destroyed:${input.keyVersion}`};
  }
 }
 

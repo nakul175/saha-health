@@ -10,7 +10,7 @@ try{
  const compiled=ts.transpileModule(readFileSync('lib/saha/vault-audit-detail-key-provider.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
  writeFileSync(join(dir,'provider.mjs'),compiled);
  const {VaultKvV2AuditDetailKeyProvider,vaultAuditDetailKeyProvider}=await import(pathToFileURL(join(dir,'provider.mjs')));
- const secrets=new Map(),requests=[];let token='token-1',logins=0,renewals=0,force403=false,raceNext=false,invalidVersion=false;
+ const secrets=new Map(),requests=[];let token='token-1',logins=0,renewals=0,force403=false,raceNext=false,dropWriteReply=false,invalidVersion=false;
  const readBody=req=>new Promise(resolve=>{let body='';req.on('data',c=>body+=c);req.on('end',()=>resolve(body?JSON.parse(body):{}));});
  server=createServer(async(req,res)=>{
   const url=new URL(req.url,'http://127.0.0.1'),body=await readBody(req);requests.push({method:req.method,path:url.pathname,body,token:req.headers['x-vault-token']});
@@ -19,12 +19,13 @@ try{
   if(req.headers['x-vault-token']!==token)return send(403);
   if(force403){force403=false;return send(403);}
   if(url.pathname==='/v1/auth/token/renew-self'){renewals++;return send(200,{auth:{client_token:token,lease_duration:4,renewable:true}});}
-  const dataPrefix='/v1/secret/data/',destroyPrefix='/v1/secret/destroy/';
+  const dataPrefix='/v1/secret/data/',destroyPrefix='/v1/secret/destroy/',metadataPrefix='/v1/secret/metadata/';
   if(url.pathname.startsWith(dataPrefix)){
    const path=url.pathname.slice(dataPrefix.length),record=secrets.get(path),version=url.searchParams.get('version');
    if(req.method==='GET'){if(!record||record.deleted||version&&version!=='1')return send(404);return send(200,{data:{data:record.data,metadata:{version:invalidVersion?'bad':1}}});}
-   if(req.method==='POST'){if(record)return send(400);secrets.set(path,{data:body.data,deleted:false});if(raceNext){raceNext=false;return send(400);}return send(200,{data:{version:1}},'write-1');}
+   if(req.method==='POST'){if(record)return send(400);secrets.set(path,{data:body.data,deleted:false});if(dropWriteReply){dropWriteReply=false;return req.socket.destroy();}if(raceNext){raceNext=false;return send(400);}return send(200,{data:{version:1}},'write-1');}
   }
+  if(url.pathname.startsWith(metadataPrefix)&&req.method==='GET'){const path=url.pathname.slice(metadataPrefix.length),record=secrets.get(path);if(!record)return send(404);return send(200,{data:{versions:{'1':{destroyed:record.deleted,deletion_time:''}}}});}
   if(url.pathname.startsWith(destroyPrefix)&&req.method==='POST'){const path=url.pathname.slice(destroyPrefix.length),record=secrets.get(path);if(record&&body.versions?.[0]===1)record.deleted=true;return send(204,{},'destroy-1');}
   return send(404);
  });
@@ -34,14 +35,16 @@ try{
  await new Promise(resolve=>setTimeout(resolve,2100));const replay=await provider.seal(base);assert.deepEqual(replay,first);assert.equal(requests.filter(x=>x.method==='POST'&&x.path.includes('/data/')).length,1);assert.equal(renewals,1);
  await assert.rejects(()=>provider.seal({...base,plaintext:'changed'}),e=>e.status===409);
  raceNext=true;const raced=await provider.seal({...base,idempotencyKey:'b'.repeat(64),aad:'race aad'});assert.equal(raced.keyVersion,'1');
+ dropWriteReply=true;const reconciled=await provider.seal({...base,idempotencyKey:'d'.repeat(64),aad:'lost write reply'});assert.equal(reconciled.keyVersion,'1');assert.equal(requests.filter(x=>x.method==='POST'&&x.path.endsWith('/'+'d'.repeat(64))).length,1);
  force403=true;const afterRelogin=await provider.seal({...base,idempotencyKey:'c'.repeat(64),aad:'relogin aad'});assert.equal(afterRelogin.keyVersion,'1');assert.equal(logins,2);
  const mismatch=await provider.destroy({keyId:first.keyId,keyVersion:first.keyVersion,expectedLifecycleTokenDigest:'0'.repeat(64)});assert.equal(mismatch.state,'mismatch');
  const lifecycleDigest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(first.lifecycleToken)).then(x=>Array.from(new Uint8Array(x),b=>b.toString(16).padStart(2,'0')).join(''));
  const destroyed=await provider.destroy({keyId:first.keyId,keyVersion:first.keyVersion,expectedLifecycleTokenDigest:lifecycleDigest});assert.equal(destroyed.state,'inaccessible');assert.match(destroyed.receipt,/destroy/);
  const repeatedDestroy=await provider.destroy({keyId:first.keyId,keyVersion:first.keyVersion,expectedLifecycleTokenDigest:lifecycleDigest});assert.equal(repeatedDestroy.state,'inaccessible');
+ const neverExisted=await provider.destroy({keyId:`vault-kv-v2:saha-audit-detail/${'e'.repeat(64)}`,keyVersion:'1',expectedLifecycleTokenDigest:'0'.repeat(64)});assert.equal(neverExisted.state,'mismatch');
  invalidVersion=true;await assert.rejects(()=>provider.seal({...base,idempotencyKey:'c'.repeat(64),aad:'relogin aad'}),e=>e.status===503);invalidVersion=false;
  assert.equal(logs.some(x=>x.includes('role-secret')||x.includes('app-secret')||x.includes(token)),false);console.error=oldError;console.warn=oldWarn;
  const missing=vaultAuditDetailKeyProvider({VAULT_ADDR:addr,ROLE_ID:'role-secret'});assert.equal(missing,null);const unavailable=new VaultKvV2AuditDetailKeyProvider({addr,roleId:'role-secret',secretId:'app-secret',mount:'secret'},async()=>{throw Error('synthetic network refusal');});await assert.rejects(()=>unavailable.seal({...base,idempotencyKey:'d'.repeat(64)}),e=>e.status===503);
  assert.equal(requests.some(x=>JSON.stringify(x).includes('app-secret')),true,'synthetic server received AppRole secret over loopback');
- console.log(JSON.stringify({suite:'Vault KV-v2 audit detail key provider',passed:16,logins,renewals,secretLogs:0}));
+ console.log(JSON.stringify({suite:'Vault KV-v2 audit detail key provider',passed:20,logins,renewals,secretLogs:0}));
 }finally{if(server)await new Promise(resolve=>server.close(resolve));rmSync(dir,{recursive:true,force:true});}
