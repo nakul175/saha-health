@@ -23,9 +23,27 @@ try {
   worker = await startMiniflare({ port: process.env.SAHA_TEST_PORT ?? 21743, name: 'programme-status-browser', state, assetsFirst: true });
   database = await worker.mf.getD1Database('DB');
   const api = client(worker.base), run = randomUUID().slice(0,8), owner = identity('owner',run), asha = identity('asha',run), outsider = identity('outsider',run);
+  const seedAssurance=async(orgId,ownerId)=>{
+    const operationsRow=await database.prepare('SELECT data FROM operations WHERE org_id=?').bind(orgId).first();
+    const operations=operationsRow?JSON.parse(operationsRow.data):{version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null};
+    const assuredAt=new Date().toISOString();
+    operations.supplyChain=[...(operations.supplyChain??[]),...['mis_maternal','mis_community'].map(componentId=>({
+      id:`programme-status-${componentId}-${run}`,kind:'provider',name:`Synthetic ${componentId} assurance`,release:'1',ownerId,
+      controls:['Signed synthetic demonstration connector release'],subprocessors:[{name:'None disclosed',purpose:'Explicit synthetic demonstration declaration',jurisdiction:'Not applicable'}],
+      incidentContact:'SECURITY-CASE-QUEUE',updateObligation:'Notify the accountable owner before this demonstration release changes.',supportUntil:'2099-01-01',
+      materialChange:'Exact synthetic release 1 assessed for the programme-status browser fixture.',componentId,version:1,updatedBy:ownerId,updatedAt:assuredAt,findings:[],history:[]
+    }))];
+    await database.prepare('INSERT INTO operations (org_id,data) VALUES (?,?) ON CONFLICT(org_id) DO UPDATE SET data=excluded.data').bind(orgId,JSON.stringify(operations)).run();
+  };
   const org = ok(await api.get(owner,'/api/workspace')).organisation.id;
   const account = ok(await api.get(asha,'/api/workspace'));
   const foreignOrg = ok(await api.get(outsider,'/api/workspace')).organisation.id;
+  // These are existing local demonstration connectors, but provider dispatch
+  // now fails closed unless the exact connector release has a complete
+  // assurance inventory. Seed only this synthetic organisation's version-1
+  // demo releases; the dedicated supply-chain contracts cover owner-managed
+  // creation, revision and refusal behavior.
+  await seedAssurance(org,owner.id);
   const invitation = ok(await api.command(owner,{type:'createInvite',accountCode:account.user.accountCode,label:'Synthetic programme status worker',role:'asha',teamIds:['default']},org));
   ok(await api.command(asha,{type:'joinOrganisation',token:invitation.result.token}));
   const person = () => api.get(owner,'/api/workspace',org).then(ok).then(w=>w.people.find(p=>p.id==='p_meena'));
@@ -61,6 +79,7 @@ try {
   const execution=[];
   for(const mode of ['activation','lookup','accepted-person','person','connector','membership','assignment']){
     const steward=identity('steward-'+mode,run),raceOrg=ok(await api.get(steward,'/api/workspace')).organisation.id;
+    await seedAssurance(raceOrg,steward.id);
     const raceInvite=ok(await api.command(steward,{type:'createInvite',accountCode:account.user.accountCode,label:'Synthetic checkpoint '+mode,role:'asha',teamIds:['default']},raceOrg));
     ok(await api.command(asha,{type:'joinOrganisation',token:raceInvite.result.token}));
     const racePerson=()=>api.get(steward,'/api/workspace',raceOrg).then(ok).then(w=>w.people.find(p=>p.id==='p_meena'));

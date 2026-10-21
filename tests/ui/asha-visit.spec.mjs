@@ -26,11 +26,12 @@ test('ASHA visit with a danger sign: assistant, urgent finding, confirmation, pr
     await expect(page.getByText('Draft field extraction')).toBeVisible();
     // More than one retained extraction may show the same supported proposal;
     // every proposal remains reviewable and this journey applies one explicitly.
-    await expect(page.getByText('Systolic BP · mmHg: 152').filter({ visible: true })).toBeVisible();
-    await expect(page.getByText('Diastolic BP · mmHg: 114').filter({ visible: true })).toBeVisible();
-    await expect(page.getByText('Weight · kg: 58').filter({ visible: true })).toBeVisible();
+    await expect(page.getByText('Systolic BP · mmHg: 152').filter({ visible: true }).first()).toBeVisible();
+    await expect(page.getByText('Diastolic BP · mmHg: 114').filter({ visible: true }).first()).toBeVisible();
+    await expect(page.getByText('Weight · kg: 58').filter({ visible: true }).first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Apply 0 reviewed fields' })).toBeDisabled();   // nothing is applied until the worker reviews
-    for (const label of [/^Systolic BP/, /^Diastolic BP/, /^Weight/, /^I checked the patient, selected values/]) await page.getByRole('checkbox', { name: label }).check();
+    for (const label of [/^Systolic BP/, /^Diastolic BP/, /^Weight/]) await page.getByRole('checkbox', { name: label }).first().check();
+    await page.getByRole('checkbox', { name: /^I checked the patient, selected values/ }).check();
     await lab.scan(page, 'ASHA · visit assistant, extraction under review');
     await page.getByRole('button', { name: 'Apply 3 reviewed fields' }).click();
     await expect(field(page, 'Systolic BP · mmHg')).toHaveValue('152');
