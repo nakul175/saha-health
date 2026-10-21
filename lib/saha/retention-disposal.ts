@@ -61,7 +61,7 @@ export async function recordRetentionDisposalOutcome(d:D1Database,j:DisposalJob,
  if(Number(results[0]?.meta?.changes)!==1||Number(results[1]?.meta?.changes)!==1)fail(503,'The disposal outcome could not be recorded durably. Reconciliation stopped.');
 }
 export type ConditionalObjectDeletionCapability={
- kind:'conditional-version-specific-delete-v1';
+ kind:'conditional-version-specific-delete-v1'|'exact-immutable-version-delete-v1';
  deleteExact:(request:{key:string;version:string;etag:string})=>Promise<'deleted'|'absent'|'mismatch'|'unconfirmed'>;
 };
 export type PurgeHooks={allowDelete?:boolean;beforeFinalHead?:()=>Promise<void>|void;afterDelete?:()=>Promise<void>|void;conditionalDelete?:ConditionalObjectDeletionCapability};
@@ -76,7 +76,7 @@ export async function purgeReservedPrivateObject(bucket:R2Bucket|null,j:Disposal
  // A HEAD followed by an unconditional key delete is not an atomic version binding. Refuse the
  // irreversible boundary unless a trusted storage adapter exposes an exact conditional delete.
  // The generic R2 binding currently has no such primitive, so production remains fail closed.
- if(hooks.conditionalDelete?.kind!=='conditional-version-specific-delete-v1')return {state:'blocked',outcome:'provider-conditional-delete-unavailable',error:'conditional-version-specific-delete-required'};
+ if(!hooks.conditionalDelete||!['conditional-version-specific-delete-v1','exact-immutable-version-delete-v1'].includes(hooks.conditionalDelete.kind))return {state:'blocked',outcome:'provider-conditional-delete-unavailable',error:'conditional-or-exact-version-delete-required'};
  const deletion=await hooks.conditionalDelete.deleteExact({key:j.object_key,version:j.object_version,etag:j.etag});
  if(deletion==='mismatch')return {state:'blocked',outcome:'object-replaced-at-delete',error:'reserved-object-version-mismatch'};
  if(deletion==='unconfirmed')return {state:'reserved',outcome:'delete-unconfirmed',error:'object-disposal-unconfirmed'};

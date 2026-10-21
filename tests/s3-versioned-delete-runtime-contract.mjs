@@ -32,6 +32,6 @@ try{
  status=412;outcome=await d.purgeReservedPrivateObject(bucket,job,{conditionalDelete:capability});assert.equal(outcome.outcome,'object-replaced-at-delete');
  status=503;outcome=await d.purgeReservedPrivateObject(bucket,job,{conditionalDelete:capability});assert.equal(outcome.outcome,'delete-unconfirmed');
  const success=a.productionS3ConditionalDelete({...valid,RETENTION_DELETE_SIGNER:{signedDelete:async request=>{calls++;assert.equal(request.versionId,exact.version);assert.equal(request.ifMatch,exact.etag);object=null;return{status:204}}}});outcome=await d.purgeReservedPrivateObject(bucket,job,{conditionalDelete:success});assert.equal(outcome.state,'completed');assert.equal(outcome.outcome,'delete-confirmed-absent');
- const server=readFileSync('lib/saha/retention-server.ts','utf8');assert.match(server,/productionS3ConditionalDelete\(providerRuntime\)/);assert.match(server,/conditionalDelete:conditionalDelete\?\?undefined/);
+ const server=readFileSync('lib/saha/retention-server.ts','utf8');assert.match(server,/productionObjectDeleteCapability\(providerRuntime\)/);assert.match(server,/conditionalDelete:conditionalDelete\?\?undefined/);
  console.log(JSON.stringify({suite:'production S3 conditional-delete runtime wiring contract',passed:25,networkCalls:0,credentialsUsed:0}));
 }finally{rmSync(dir,{recursive:true,force:true});}
