@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "story": "SAHA-130",
+  "decisionType": "product_policy_approval",
+  "decision": "APPROVED",
+  "approvedBy": {
+    "role": "human sponsor/product owner",
+    "identity": "conversation user",
+    "response": "Approved"
+  },
+  "decisionObservedAt": "2026-10-21T03:20:22Z",
+  "decisionObservedAtLocal": "2026-10-21T08:50:22+05:30",
+  "timestampBoundary": "Timestamp records when the approval message was observed and written into evidence; the chat surface did not expose a separate authoritative message timestamp.",
+  "approvedPolicyText": "Patient records and full audit-chain content will be retained by default until jurisdiction-specific clinical, privacy, legal, and audit retention schedules are separately approved. Model outputs will be treated as patient-record content unless a domain owner classifies them as non-authoritative assistance; only then may raw output be erased while provenance and the human decision are retained. Offline packages, exports, and backup generations will use expiring encryption keys plus accountable purge status. Hosted-object deletion will fail closed until the provider supports verifiable conditional/version-specific deletion. Legal holds, clinical duties, and recorded exceptions override routine disposal, and restores must reapply current holds and tombstones before data becomes available.",
+  "providerDecision": {
+    "option": 2,
+    "name": "provider-bound guarantee",
+    "effect": "Existing hosted-object deletion remains fail closed until a provider conditional/version-specific deletion primitive, object version policy, or equivalent provider-verifiable deletion receipt is verified."
+  },
+  "engineeringAuthority": [
+    "Design and implement class-specific state machines within the approved conservative defaults.",
+    "Implement redacted evidence envelopes, expiring-key lifecycle, accountable purge status, retry queues, refusal paths, and synthetic tests.",
+    "Fail closed wherever the approved policy still requires a jurisdiction, clinical/domain classification, minimum retained audit envelope, recovery window, destination control, or provider interface."
+  ],
+  "explicitLimits": [
+    "This is product/policy approval only; it is not formal clinical, legal, privacy, security, audit, or regulatory approval.",
+    "No jurisdiction-specific retention duration is approved.",
+    "No model output is classified as non-authoritative by this decision.",
+    "No minimum audit envelope, unsynced-clinical-work disposition, recovery window, destination/provider interface, or provider deletion semantic is supplied by this decision.",
+    "This approval does not make SAHA-130 QA_PASS and does not authorize a claim of main merge, staging deployment, staging testing, production deployment, or observed hosted deletion."
+  ],
+  "evidenceBasis": {
+    "policyBrief": "outputs/saha-140-qa/SAHA-130-POLICY-DECISION-BRIEF.md (programme evidence workspace)",
+    "frozenContract": "APL-153 / BR-SEC-09",
+    "frozenContractSha256": "db1b6f31cd18ab5754eb5f4b921ea28e31437c9c1a6aa307d04af857812c636e",
+    "integrationParent": "b6969014e085f4813eb4d508d310015ab91cb77d"
+  },
+  "statusAfterDecision": "Engineering may proceed within the approved defaults; SAHA-130 remains QA_HOLD until its remaining acceptance gates are implemented and verified."
+}

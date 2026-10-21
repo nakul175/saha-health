@@ -112,7 +112,7 @@ try {
   check(() => assert.equal(M.labelFor('hi', 'common.state', 'constructor'), 'constructor'));
   const signed = { byName: 'Dr Rao', at: '2026-10-02T09:30:00.000Z' };
   check(() => assert.ok(M.signOffLine('hi', signed).includes('Dr Rao') && M.signOffLine('hi', signed).includes('2026-10-02 09:30') && M.signOffLine('hi', signed).includes('UTC'), 'name and UTC time are not translated'));
-  check(() => assert.ok(devanagari.test(M.signOffLine('hi', signed)) && !devanagari.test(M.signOffLine('en', signed))));
+  check(() => assert.equal(M.signOffLine('hi', signed), M.signOffLine('en', signed), 'unqualified safety-critical receipt text fails closed to source English'));
   check(() => assert.equal(M.signOffLine('en', undefined), M.message('en', 'receipts.notSignedOff')));
   check(() => assert.equal(M.signOffLine('hi', undefined), M.message('hi', 'receipts.notSignedOff')));
 

@@ -6,6 +6,7 @@ import { FIELDS, FIELD_LABEL, localAssess, localExtract, validateOutput, type Ag
 import { normallyAllowed } from './access';
 import type { Actor } from './store';
 import type { Member, OrgState, Person, Visit } from './types';
+import { capabilityOutputContext, type CapabilityOutputContext } from './capability-lifecycle';
 // Slice 5f (BR-AI-04, BR-AI-10): shadow operation of a reviewed capability revision.
 //
 // An owner or clinician governance manager puts a reviewed (not yet active) capability revision into shadow
@@ -19,13 +20,14 @@ import type { Member, OrgState, Person, Visit } from './types';
 // processing is restricted, the person is outside the capability's age range, there is no recorded note, the
 // capability's monthly budget is reached (slice 5a), or the provider is external: this build calls only the
 // local rules provider in shadow. A suspended or retired revision does not run at all (slice 5d).
+const permissionCurrent=(p:{aiConsent:boolean;exchangeConsent:boolean;consentDecisions?:{purpose:'ai'|'exchange';decision:'granted'|'declined';expiresAt?:string}[]},purpose:'ai'|'exchange',now=new Date().toISOString())=>{const d=(p.consentDecisions??[]).filter(x=>x.purpose===purpose).at(-1);return d?d.decision==='granted'&&(!d.expiresAt||d.expiresAt>now):purpose==='ai'?p.aiConsent:p.exchangeConsent;};
 export const SHADOW_MAX_DAYS = 30, SHADOW_BATCH = 50, MAX_SHADOWS = 50, MAX_RESULTS = 2000;
 export type ShadowOutcome = 'agreement' | 'disagreement' | 'missing' | 'not-recorded' | 'unable';
 export const OUTCOMES: ShadowOutcome[] = ['agreement', 'disagreement', 'missing', 'not-recorded', 'unable'];
 export const NOT_RUN = ['consent', 'restricted', 'outside-scope', 'no-source', 'budget', 'external-provider'] as const;
 export type NotRunReason = typeof NOT_RUN[number];
 export const NOT_RUN_LABEL: Record<NotRunReason, string> = { consent: 'AI permission not current', restricted: 'Processing restricted', 'outside-scope': 'Outside the capability age range', 'no-source': 'No recorded visit note', budget: 'Monthly budget reached', 'external-provider': 'External provider not called in shadow' };
-export type ShadowResult = { visitId: string; personId: string; visitVersion: number; at: string; status: 'compared' | 'unable' | 'not-run'; reason?: NotRunReason; output?: AgentOutput; fields?: { field: AgentField; shadow: string | null; confirmed: string | null; outcome: ShadowOutcome }[] };
+export type ShadowResult = { visitId: string; personId: string; visitVersion: number; at: string; outputContext?: CapabilityOutputContext; status: 'compared' | 'unable' | 'not-run'; reason?: NotRunReason; output?: AgentOutput; fields?: { field: AgentField; shadow: string | null; confirmed: string | null; outcome: ShadowOutcome }[] };
 export type Shadow = { id: string; entryId: string; revision: number; manifestHash: string; key: string; scope: 'organisation' | 'teams'; teamIds: string[]; startedAt: string; until: string; startedBy: string; reason: string; state: 'active' | 'stopped'; version: number; stoppedAt?: string; stoppedBy?: string; stopReason?: string; results: ShadowResult[] };
 const id = z.string().trim().min(1).max(200), text = z.string().trim().min(10).max(1000), day = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 export const shadowSchema = z.discriminatedUnion('type', [
@@ -82,7 +84,7 @@ export function recompareShadow(s: OrgState, r: ShadowResult): { outcome: 'recom
 }
 function notRunReason(s: OrgState, e: GovernanceEntry, p: Person, v: Visit, now: string): NotRunReason | null {
   const spec = e.spec as Extract<GovernanceEntry['spec'], { kind: 'capability' }>;
-  if (!p.aiConsent) return 'consent';
+  if (!permissionCurrent(p,'ai')) return 'consent';
   if ((p.restrictions ?? []).some(r => !r.liftedAt)) return 'restricted';
   if (p.age < spec.ageMin || p.age > spec.ageMax) return 'outside-scope';
   if (!v.facts.notes?.trim()) return 'no-source';
@@ -139,9 +141,10 @@ export function applyShadow(s: OrgState, input: unknown, u: Actor, m: Member, no
   const batch = pending.slice(0, Math.min(SHADOW_BATCH, MAX_RESULTS - sh.results.length)), counts = { compared: 0, unable: 0, notRun: 0 };
   for (const v of batch) {
     const p = s.workspace.people.find(x => x.id === v.personId)!, reason = notRunReason(s, e, p, v, now);
-    if (reason) { sh.results.push({ visitId: v.id, personId: p.id, visitVersion: v.version, at: now, status: 'not-run', reason }); counts.notRun++; continue; }
+    const outputContext = capabilityOutputContext(s, e, 'shadow');
+    if (reason) { sh.results.push({ visitId: v.id, personId: p.id, visitVersion: v.version, at: now, outputContext, status: 'not-run', reason }); counts.notRun++; continue; }
     const output = runLocal(v.facts.notes);
-    sh.results.push({ visitId: v.id, personId: p.id, visitVersion: v.version, at: now, status: output.assessment ? 'unable' : 'compared', output, fields: compare(v, output) });
+    sh.results.push({ visitId: v.id, personId: p.id, visitVersion: v.version, at: now, outputContext, status: output.assessment ? 'unable' : 'compared', output, fields: compare(v, output) });
     if (output.assessment) counts.unable++; else counts.compared++;
   }
   sh.version++;

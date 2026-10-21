@@ -1,0 +1,41 @@
+{
+  "frozenAtUtc": "2026-10-12T20:17:52.017550+00:00",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "nativeStory": "SAHA008/APL31",
+  "nativeTask": "APL191/ENG-BR-UX08",
+  "scope": "Optional local-only public navigation audio on Today; existing capture and voice-recognition workflows stay unchanged. Written English/Hindi general guide, explicit Listen/Stop, no record data read aloud or cloud recognizer/provider.",
+  "ownedPaths": [
+    "app/today/today.tsx",
+    "app/today/today-guidance.tsx",
+    "app/today/today-instructions.ts",
+    "tests/today-guidance-contract.mjs",
+    "tests/smoke/today-guidance-browser.mjs"
+  ],
+  "reuse": {
+    "app/guided-instructions.ts": "Original reviewed strict localService/language and cancellation/late-event controller; wrapper replaces only static public instruction text, no original helper edit."
+  },
+  "scenarios": [
+    "No automatic playback and no mic/recognizer/provider calls",
+    "English local voice reads only fixed public Today instructions after explicit click; selected record name/reference absent from utterance",
+    "Hindi local voice explicit choice; written guide and noncolour status; no cloud/remote voice fallback",
+    "Unavailable/malformed/throwing voice engine leaves written instructions and manual Today navigation",
+    "Stop/hide/pagehide/offline/record-loading or selection-transition cancels; late callbacks never restart",
+    "Anonymous/suspended/out-of-scope Today refusal still server-authoritative, protected record cleared; no audio can disclose it",
+    "Audio controls alone cause zero HTTP commands and no clinical/assignment/receipt/institutional mutations; audited Today reads isolated",
+    "390px touch/focus/no overflow and actual AXE"
+  ],
+  "originalCriteria": "Original389 guards/9goldens/min26/TCBRUX08A/B intact; representative noisy/private field usability/formal/physical/domain/hosting not qualified. No recognition accuracy or confidence invented.",
+  "port": 21941,
+  "output": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/today-local-guidance",
+  "sourcePreimages": {
+    "app/today/today.tsx": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87",
+    "app/today/today.css": "f743b1e51aaae451e6eb21c60509bb9c110305605d5b1bf2b4795da76a52cd98",
+    "app/guided-instructions.ts": "1835034cdad3f67f2efe9db720c60a1c0a72e851b56a60f946db45eeca33eaae",
+    "app/guided-instruction-audio.tsx": "b8956e72b507cd51d92b1bc62a33a6ff06466b1228b0b48e146c6e7ad0c145d3",
+    "app/voice-input.tsx": "53ba9d96968261fff5634f2997d8074a5af0002e13d06932bd260a9eac29e476",
+    "lib/saha/speech.ts": "ad60e1b6a2a8a8e3f3f8f33785f9258365fb68d4fb5509eb4abcbd6f74829df1",
+    "tests/regression-baseline.json": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0",
+    ".github/workflows/ci.yml": "c3296908d8f5ac57ca56fb8d63252b5e82734c5e966ba6c657e70b4fadd61570"
+  },
+  "authority": "Latest root scoped next50 delegation and existing human parallel synthetic-local authority. Root owns shared metadata/publication; no push."
+}

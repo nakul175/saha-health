@@ -1,0 +1,175 @@
+{
+  "generatedAt": "2026-10-20T21:41:19.488Z",
+  "startedAt": "2026-10-20T21:41:11.399Z",
+  "command": "node scripts/test.mjs nfr --only nfr/authorisation-matrix --fast --guard --report /private/tmp/saha155-authorisation-current-summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "nfr",
+      "status": "failed",
+      "suites": 1,
+      "passed": 68,
+      "failed": 5,
+      "skipped": 0,
+      "durationMs": 7933,
+      "failedSuites": 1
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 68,
+    "failed": 5,
+    "skipped": 0,
+    "failedSuites": 1,
+    "durationMs": 8089
+  },
+  "suites": [
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix-current.mjs",
+      "tier": "extended",
+      "status": "failed",
+      "passed": 68,
+      "failed": 5,
+      "skipped": 0,
+      "durationMs": 7933,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-current-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 324,
+        "components": 0,
+        "suitesCitingNoRequirement": 166,
+        "requirementsCited": 146
+      },
+      "integration": {
+        "suites": 170,
+        "components": 84,
+        "suitesCitingNoRequirement": 87,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 30,
+        "components": 0,
+        "suitesCitingNoRequirement": 24,
+        "requirementsCited": 17
+      },
+      "ui": {
+        "suites": 2,
+        "components": 16,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 6,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 611,
+        "components": 0,
+        "suitesCitingNoRequirement": 484,
+        "requirementsCited": 146
+      }
+    },
+    "supportFiles": 50,
+    "suites": 1147,
+    "components": 100,
+    "requirementsCitedBySomeSuite": 162,
+    "suitesCitingNoRequirement": 765,
+    "componentsCitingNoRequirement": 23,
+    "requirementsCitedBySomeTest": 162
+  },
+  "routeExercise": [
+    {
+      "route": "/api/contextual-academy",
+      "request": "/api/contextual-academy?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 403,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 404,
+        "asha2": 200,
+        "clinician": 403,
+        "stranger": 403
+      }
+    }
+  ],
+  "contextualAcademyCheck": {
+    "label": "Contextual Academy permits only its assigned ASHA and refuses every other principal",
+    "ok": true,
+    "ms": 0
+  },
+  "currentSuiteFailures": [
+    {
+      "label": "route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)",
+      "error": "unclassified GET routes: /api/deployment-configuration, /api/prioritisation: 2 violation(s)\n  /api/deployment-configuration\n  /api/prioritisation"
+    },
+    {
+      "label": "control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes",
+      "error": "owner control: 2 violation(s)\n  /api/disagreement-review as owner: 403 unexpected owner status for declared role contract\n  /api/identity-link-review as owner: 403 unexpected owner status for declared role contract"
+    },
+    {
+      "label": "control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes",
+      "error": "owner control: 2 violation(s)\n  /api/local-registration as owner: 403 unexpected owner status for declared role contract\n  /api/shared-question-review as owner: 403 unexpected owner status for declared role contract"
+    },
+    {
+      "label": "command activateEhr (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "error": "admin got 423 (expected 403) Component ehr_fhir release 2 has no current complete provider assurance inventory. Record controls, \n  supervisor got 423 (expected 403) Component ehr_fhir release 2 has no current complete provider assurance inventory. Record controls, \n  asha1 got 423 (expected 403) Component ehr_fhir release 2 has no current complete provider assurance inventory. Record controls, \n  asha2 got 423 (expected 403) Component ehr_fhir release 2 has no current complete provider assurance inventory. Record controls, \n  clinician got 423 (expected 403) Component ehr_fhir release 2 has no current complete provider assurance inventory. Record controls, "
+    },
+    {
+      "label": "command activateMis (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "error": "admin got 423 (expected 403) Component mis_maternal release 2 has no current complete provider assurance inventory. Record contro\n  supervisor got 423 (expected 403) Component mis_maternal release 2 has no current complete provider assurance inventory. Record contro\n  asha1 got 423 (expected 403) Component mis_maternal release 2 has no current complete provider assurance inventory. Record contro\n  asha2 got 423 (expected 403) Component mis_maternal release 2 has no current complete provider assurance inventory. Record contro\n  clinician got 423 (expected 403) Component mis_maternal release 2 has no current complete provider assurance inventory. Record contro"
+    }
+  ],
+  "classification": "SAHA-155 authorization coverage PASS; aggregate current matrix HOLD on five inherited integration-line findings retained verbatim",
+  "immutableFixtures": [
+    {
+      "path": "tests/nfr/authorisation-matrix.mjs",
+      "sha256": "6e3bae7eeaf38c476e3ca01ce584670235f5f562bf27bc03fb1efb13aca916d1",
+      "modified": false
+    },
+    {
+      "path": "tests/nfr/authorisation-matrix-current-fixture.mjs",
+      "sha256": "cd2af3590c290f88cde76b756ed1e7d7c4a119fdc97488334464560d1edc85ac",
+      "modified": false
+    }
+  ]
+}

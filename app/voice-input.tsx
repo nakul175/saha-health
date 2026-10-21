@@ -54,14 +54,21 @@ function place(el: Field): Spot {
 
 export function VoiceInput({ lang, cloudAllowed, environment }: { lang: Language; cloudAllowed: boolean; environment?: string }) {
   const [field, setField] = useState<Field | null>(null), [spot, setSpot] = useState<Spot | null>(null), [phase, setPhase] = useState<Phase>({ kind: 'idle' });
-  const [speakLang, setSpeakLang] = useState<Language>(lang), [mode, setMode] = useState<SpeechMode | null>(null);
+  const [speakLang, setSpeakLang] = useState<Language>(lang), [mode, setMode] = useState<SpeechMode | null>(null), [audioUrl, setAudioUrl] = useState<string | null>(null);
   const recognition = useRef<any>(null), heard = useRef(''), noticed = useRef(false), fieldRef = useRef<Field | null>(null), phaseRef = useRef<Phase>(phase);
+  const media = useRef<{ recorder: MediaRecorder; stream: MediaStream; chunks: Blob[] } | null>(null), audioRef = useRef<string | null>(null);
   const t = (key: MessageKey, params?: Params) => message(lang, key, params);
   const say = (p: Problem) => p === 'noApi' ? t('common.voice.noApi') : p === 'cloudOff' ? t('common.voice.cloudOff') : p === 'offline' ? t('common.voice.offline') : p === 'denied' ? t('common.voice.denied') : p === 'noSpeech' ? t('common.voice.noSpeech') : t('common.voice.failed');
   useEffect(() => { phaseRef.current = phase; }, [phase]);
   useEffect(() => { setSpeakLang(lang); }, [lang]);
-  const stop = useCallback(() => { try { recognition.current?.abort?.(); } catch { /* already stopped */ } recognition.current = null; }, []);
-  const close = useCallback(() => { stop(); setPhase({ kind: 'idle' }); }, [stop]);
+  const clearAudio = useCallback(() => { if (audioRef.current) URL.revokeObjectURL(audioRef.current); audioRef.current = null; setAudioUrl(null); }, []);
+  const finishCapture = useCallback((keep: boolean) => { const active = media.current; if (!active) return; media.current = null;
+    if (keep) active.recorder.onstop = () => { const blob = new Blob(active.chunks, { type: active.recorder.mimeType || 'audio/webm' }); if (blob.size) { clearAudio(); const url = URL.createObjectURL(blob); audioRef.current = url; setAudioUrl(url); } active.stream.getTracks().forEach(track => track.stop()); };
+    else active.recorder.onstop = () => active.stream.getTracks().forEach(track => track.stop());
+    try { if (active.recorder.state !== 'inactive') active.recorder.stop(); else active.recorder.onstop?.(new Event('stop')); } catch { active.stream.getTracks().forEach(track => track.stop()); }
+  }, [clearAudio]);
+  const stop = useCallback(() => { try { recognition.current?.abort?.(); } catch { /* already stopped */ } recognition.current = null; finishCapture(false); }, [finishCapture]);
+  const close = useCallback(() => { stop(); clearAudio(); setPhase({ kind: 'idle' }); }, [clearAudio, stop]);
 
   // Follow the focused field. The panel keeps its field while it is open, even when focus moves into the panel.
   useEffect(() => {
@@ -71,7 +78,7 @@ export function VoiceInput({ lang, cloudAllowed, environment }: { lang: Language
     document.addEventListener('focusin', onFocus); window.addEventListener('scroll', onMove, true); window.addEventListener('resize', onMove); document.addEventListener('keydown', onKey);
     return () => { document.removeEventListener('focusin', onFocus); window.removeEventListener('scroll', onMove, true); window.removeEventListener('resize', onMove); document.removeEventListener('keydown', onKey); };
   }, [close, stop]);
-  useEffect(() => () => { stop(); unpad(fieldRef.current); }, [stop]);
+  useEffect(() => () => { stop(); clearAudio(); unpad(fieldRef.current); }, [clearAudio, stop]);
 
   const R = typeof window === 'undefined' ? null : ((window as any).SpeechRecognition ?? (window as any).webkitSpeechRecognition ?? null);
   const decide = async (language: string): Promise<SpeechMode> => {
@@ -80,17 +87,21 @@ export function VoiceInput({ lang, cloudAllowed, environment }: { lang: Language
     return speechMode({ hasApi: !!R, local, cloudAllowed, environment, online: navigator.onLine });
   };
   const listen = async (m: SpeechMode, language: string) => {
-    heard.current = '';
+    heard.current = ''; clearAudio();
+    // Keep an ephemeral, device-local copy so the worker can play back or discard exactly what they recorded.
+    // SpeechRecognition itself does not expose audio. Failure to create this preview does not remove the typed/guided
+    // fallback or make the recognizer run in the background; the browser still owns its permission/refusal UI.
+    if (navigator.mediaDevices?.getUserMedia && typeof MediaRecorder !== 'undefined') { try { const stream = await navigator.mediaDevices.getUserMedia({ audio: true }); const recorder = new MediaRecorder(stream); const chunks: Blob[] = []; recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); }; recorder.start(); media.current = { recorder, stream, chunks }; } catch { /* recognition reports its own permission outcome; typed and guided entry remain available */ } }
     const rec = new R(); recognition.current = rec;
     if (m.mode === 'local') rec.processLocally = true;
     rec.lang = language; rec.continuous = false; rec.interimResults = false; rec.maxAlternatives = 1;
     let error = '';
     rec.onresult = (e: any) => { heard.current = Array.from(e.results as ArrayLike<any>).map((r: any) => r[0]?.transcript ?? '').join(' ').trim().slice(0, 3000); };
     rec.onerror = (e: any) => { error = e?.error ?? 'failed'; };
-    rec.onend = () => { if (recognition.current !== rec) return; recognition.current = null;
+    rec.onend = () => { if (recognition.current !== rec) return; recognition.current = null; finishCapture(!!heard.current);
       if (heard.current) setPhase({ kind: 'review', text: heard.current });
       else setPhase({ kind: 'error', problem: error === 'not-allowed' || error === 'service-not-allowed' ? 'denied' : error === 'network' ? 'offline' : error && error !== 'no-speech' && error !== 'aborted' ? 'failed' : 'noSpeech' }); };
-    try { rec.start(); setPhase({ kind: 'listening' }); } catch { recognition.current = null; setPhase({ kind: 'error', problem: 'failed' }); }
+    try { rec.start(); setPhase({ kind: 'listening' }); } catch { recognition.current = null; finishCapture(false); setPhase({ kind: 'error', problem: 'failed' }); }
   };
   const begin = async (next?: Language) => {
     const language = speechLanguage(next ?? speakLang), m = await decide(language); setMode(m);
@@ -112,7 +123,7 @@ export function VoiceInput({ lang, cloudAllowed, environment }: { lang: Language
   const ui = <div data-voice-ui="" lang={lang === 'hi' ? 'hi' : undefined}>
     <button type="button" className="voice-mic" data-listening={phase.kind === 'listening' ? 'true' : undefined} style={pos(spot.mic)} onPointerDown={keep} onMouseDown={keep}
       aria-label={phase.kind === 'listening' ? t('common.voice.stop') : t('common.voice.mic')} title={t('common.voice.mic')}
-      onClick={() => { if (phase.kind === 'listening') { try { recognition.current?.stop(); } catch { close(); } } else void begin(); }}>
+      onClick={() => { if (phase.kind === 'listening') { try { recognition.current?.stop(); finishCapture(true); } catch { close(); } } else void begin(); }}>
       {phase.kind === 'listening' ? <Square size={14} aria-hidden="true" /> : <Mic size={16} aria-hidden="true" />}
     </button>
     {phase.kind !== 'idle' && <div className="voice-panel" role="dialog" aria-label={t('common.voice.mic')} style={pos(spot.panel, { width: spot.panel.width })} onPointerDown={e => { if (!(e.target as HTMLElement).closest('input,textarea')) keep(e); }}>
@@ -125,7 +136,8 @@ export function VoiceInput({ lang, cloudAllowed, environment }: { lang: Language
         <label className="voice-field"><span>{t('common.voice.heard')}</span><Input data-voice="off" value={review.text} onChange={e => setPhase({ kind: 'review', text: e.target.value })} maxLength={3000} /></label>
         {isNumber && <p className="voice-note" role="status">{parsed?.value ? <>{t('common.voice.number')}: <strong className="voice-number">{parsed.value}</strong>{parsed.others.length ? ` · ${t('common.voice.otherNumbers', { numbers: parsed.others.join(', ') })}` : ''}</> : t('common.voice.noNumber')}</p>}
         <p className="voice-hint">{t('common.voice.check')}{mode?.mode === 'local' ? ` ${t('common.voice.local')}` : ''}</p>
-        <div className="voice-actions"><Button size="sm" disabled={isNumber ? !parsed?.value : !review.text.trim()} onClick={() => insert(review.text)}>{t('common.voice.insert')}</Button><Button size="sm" variant="outline" onClick={() => void begin()}>{t('common.voice.again')}</Button><Button size="sm" variant="ghost" onClick={() => { close(); field.focus(); }}>{t('common.voice.cancel')}</Button></div>
+        {audioUrl && <audio src={audioUrl} controls preload="metadata" aria-label={t('common.voice.playback')} />}
+        <div className="voice-actions"><Button size="sm" disabled={isNumber ? !parsed?.value : !review.text.trim()} onClick={() => insert(review.text)}>{t('common.voice.insert')}</Button><Button size="sm" variant="outline" onClick={() => void begin()}>{t('common.voice.again')}</Button><Button size="sm" variant="ghost" onClick={() => { close(); field.focus(); }}>{t('common.voice.discard')}</Button></div>
       </>}
     </div>}
   </div>;

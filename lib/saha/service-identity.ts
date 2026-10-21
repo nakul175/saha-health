@@ -8,7 +8,7 @@
 // (fail closed). Human identity resolution is unchanged.
 import { z } from 'zod';
 import { fail, uuid } from './core';
-import { serviceIdentityIsValid, type ServiceIdentity, type ServiceIdentityScope } from './identity';
+import { serviceIdentityIsValid, type ServiceIdentity, type ServiceIdentityScope, type ServiceIntent } from './identity';
 import type { Actor } from './store';
 import type { OrgState, Member, Integration } from './types';
 import type { Operations } from './operations';
@@ -17,9 +17,11 @@ const name = z.string().trim().min(3, 'Name the service identity in at least 3 c
 const id = z.string().trim().min(1).max(200);
 const version = z.number().int().min(0);
 const isoDateTime = z.string().trim().min(1).max(40).refine(x => !Number.isNaN(Date.parse(x)), 'Enter a valid expiry date and time.');
+const intents = z.array(z.enum(['send', 'lookup', 'probe'])).min(1).max(3).refine(x => new Set(x).size === x.length, 'Choose each service tool once.');
 
 export const serviceIdentitySchema = z.discriminatedUnion('type', [
-  z.object({ type: z.literal('serviceIdentityCreate'), version, name, kind: z.enum(['connector', 'agent']), targetId: id, ownerId: id, expiresAt: isoDateTime }).strict(),
+  z.object({ type: z.literal('serviceIdentityCreate'), version, name, kind: z.enum(['connector', 'agent']), targetId: id, ownerId: id, expiresAt: isoDateTime, intents: intents.optional() }).strict(),
+  z.object({ type: z.literal('serviceIdentityRotate'), version, id, name: name.optional(), expiresAt: isoDateTime, intents: intents.optional() }).strict(),
   z.object({ type: z.literal('serviceIdentityRevoke'), version, id }).strict(),
   z.object({ type: z.literal('serviceIdentityBind'), version, targetId: id, serviceIdentityId: id }).strict(),
 ]);
@@ -68,9 +70,23 @@ export function applyServiceIdentity(s: OrgState, input: unknown, u: Actor, m: M
     resolveServiceIdentityTarget(s, c.kind, c.targetId);
     const owner = s.members.find(x => x.userId === c.ownerId && x.status === 'active' && (x.isOwner || x.role === 'admin'));
     if (!owner) fail(422, 'Choose an active owner or administrator as the accountable owner.');
-    const si: ServiceIdentity = { id: uuid(), name: c.name, kind: c.kind, targetId: c.targetId, ownerId: owner.userId, ownerName: owner.displayName, createdAt: now, createdBy: u.userId, expiresAt, status: 'active' };
+    const si: ServiceIdentity = { id: uuid(), name: c.name, kind: c.kind, targetId: c.targetId, ownerId: owner.userId, ownerName: owner.displayName, createdAt: now, createdBy: u.userId, expiresAt, intents: c.intents ?? ['send', 'lookup'], status: 'active' };
     list.push(si);
     result = { serviceIdentityId: si.id, expiresAt };
+  } else if (c.type === 'serviceIdentityRotate') {
+    const previous = list.find(x => x.id === c.id);
+    if (!previous) fail(404, 'Service identity not found.');
+    if (previous.status !== 'active') fail(409, 'Only an active service identity can be rotated.');
+    requireServiceIdentity(s, previous.id, previous.kind, previous.targetId);
+    const expiresAt = new Date(c.expiresAt).toISOString();
+    if (Date.parse(expiresAt) <= Date.now()) fail(422, 'The expiry must be in the future.');
+    const nextName = c.name ?? `${previous.name} rotation`;
+    if (list.some(x => x.id !== previous.id && x.name.toLowerCase() === nextName.toLowerCase())) fail(409, 'A service identity with this name already exists.');
+    const successor: ServiceIdentity = { id: uuid(), name: nextName, kind: previous.kind, targetId: previous.targetId, ownerId: previous.ownerId, ownerName: previous.ownerName, createdAt: now, createdBy: u.userId, expiresAt, intents: c.intents ?? previous.intents ?? ['send', 'lookup'], rotatedFrom: previous.id, status: 'active' };
+    previous.status = 'revoked'; previous.revokedAt = now; previous.revokedBy = u.userId; previous.rotatedTo = successor.id;
+    list.push(successor);
+    if (ops.serviceBindings?.[previous.targetId] === previous.id) ops.serviceBindings[previous.targetId] = successor.id;
+    result = { serviceIdentityId: successor.id, rotatedFrom: previous.id, expiresAt };
   } else if(c.type === 'serviceIdentityBind') {
     const kind=s.workspace.integrations.find(x=>x.id===c.targetId)?.kind==='ai'||independentTargets.includes(c.targetId)?'agent':'connector';
     if(s.workspace.integrations.find(x=>x.id===c.targetId)?.kind==='abdm')fail(422,'ABDM is a local simulator. Live service dispatch is not available to bind.');
@@ -86,7 +102,7 @@ export function applyServiceIdentity(s: OrgState, input: unknown, u: Actor, m: M
     result = { serviceIdentityId: si.id, revoked: true };
   }
   ops.version++; ops.updatedAt = now;
-  s.workspace.audit.push({ id: uuid(), at: now, actor: u.displayName, actorId: u.userId, role: m.role, action: c.type, subject: s.organisation.id, detail: c.type === 'serviceIdentityCreate' ? `Service identity "${c.name}" created for ${c.kind} "${c.targetId}"; accountable owner ${s.members.find(x => x.userId === c.ownerId)?.displayName ?? c.ownerId}; expires ${c.expiresAt}.` : c.type==='serviceIdentityBind'?`Service identity ${c.serviceIdentityId} bound to ${c.targetId} by ${u.displayName}.`:`Service identity ${c.id} revoked by ${u.displayName}.` });
+  s.workspace.audit.push({ id: uuid(), at: now, actor: u.displayName, actorId: u.userId, role: m.role, action: c.type, subject: s.organisation.id, detail: c.type === 'serviceIdentityCreate' ? `Service identity "${c.name}" created for ${c.kind} "${c.targetId}"; accountable owner ${s.members.find(x => x.userId === c.ownerId)?.displayName ?? c.ownerId}; tools ${(c.intents ?? ['send','lookup']).join(', ')}; expires ${c.expiresAt}.` : c.type === 'serviceIdentityRotate' ? `Service identity ${c.id} rotated to ${result.serviceIdentityId}; target and accountable owner retained; tools ${(list.find(x=>x.id===result.serviceIdentityId)?.intents ?? []).join(', ')}; expires ${c.expiresAt}.` : c.type==='serviceIdentityBind'?`Service identity ${c.serviceIdentityId} bound to ${c.targetId} by ${u.displayName}.`:`Service identity ${c.id} revoked by ${u.displayName}.` });
   return result;
 }
 
@@ -107,4 +123,10 @@ export function requireServiceIdentity(s: OrgState, serviceIdentityId: string, k
 export function validServiceIdentity(s: OrgState, serviceIdentityId: string, kind: ServiceIdentityScope, targetId: string, now: number | string = Date.now()): boolean {
   const si = (s.operations?.serviceIdentities ?? []).find(x => x.id === serviceIdentityId);
   return !!si && s.members.some(x=>x.userId===si.ownerId&&x.status==='active'&&(x.isOwner||x.role==='admin')) && si.kind === kind && si.targetId === targetId && serviceIdentityIsValid(si, now);
+}
+
+export function requireServiceIntent(si: ServiceIdentity, intent: ServiceIntent): ServiceIdentity {
+  if (si.intents === undefined) return si;
+  if (!Array.isArray(si.intents) || !si.intents.includes(intent)) fail(403, `This service identity is not allowed to ${intent}.`);
+  return si;
 }

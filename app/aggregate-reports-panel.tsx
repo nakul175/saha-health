@@ -6,6 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { NativeSelect } from '@/components/ui/native-select';
 import { operationsOf } from '@/lib/saha/adapter-operations';
 import type { Integration, Snapshot } from '@/lib/saha/types';
+import CompletenessNotice from './reporting-completeness-notice';
 type Command=(c:any,s?:string)=>Promise<any>;
 const STATE:Record<string,string>={prepared:'Awaiting approval',approved:'Approved, not sent',sending:'Sending',accepted:'Received',rejected:'Rejected by destination',uncertain:'Outcome unknown',cancelled:'Not sent'};
 const GROUP:Record<string,string>={none:'No grouping',village:'By village','programme':'By programme','age-band':'By age band'};
@@ -39,6 +40,7 @@ export function AggregateReportsPanel({i,data,busy,command}:{i:Integration;data:
    <div><strong>{STATE[r.state]??r.state}</strong> · {r.period.start} to {r.period.end} · {r.teamNames.join(', ')} · {GROUP[r.group]??r.group}</div>
    <div className="text-sm">{r.definitions.join(', ')} · {r.rowCount} rows · SHA-256 <code>{r.payloadSha256.slice(0,16)}…</code>{r.receipt&&<> · Receipt <strong>{r.receipt}</strong></>} · attempts {r.attempts}</div>
    <div className="text-sm muted">Prepared by {r.preparedByName} {new Date(r.preparedAt).toLocaleString()}{r.approvedByName&&<> · approved by {r.approvedByName}</>}{last&&<> · minimisation check ({last.stage}): {last.passed?`passed, ${last.fields} fields and ${last.cells} cells checked`:`failed: ${last.problems[0]}`}</>}</div>
+   {r.reporting&&<><CompletenessNotice value={r.reporting} label="Aggregate report source completeness"/><div className="text-sm muted" aria-label="Aggregate report source freshness">{r.reporting.freshness.teams.flatMap((t:any)=>t.sources.map((s:any)=><p key={`${t.team}:${s.source}`}>{t.team} · {s.label}: latest {s.latestAt??'unknown'}; arrivals {s.arrivals}; late {s.late}{s.lateShare===null?'':` (${s.lateShare}%)`}.</p>))}</div></>}
    <p className="text-sm">{r.message}</p>
    <div className="button-row">
     {r.state==='prepared'&&!mine&&<Button size="sm" variant="outline" disabled={busy} onClick={()=>run({type:'approveAggregateReport',reportId:r.id,payloadSha256:r.payloadSha256},'Aggregate report approved')}>Approve this report</Button>}

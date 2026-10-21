@@ -20,7 +20,7 @@ export async function indicatorRegistrySmoke({get,post,check,accounts,org,sql,ba
  const spec=(over={})=>({title:`Visits ${tag}`,unit:'count',numerator:'visits-confirmed',denominator:null,filters:{},exclude:[],exclusionsNote:'Voided and superseded visits',owner:'Programme manager',cadence:'Weekly',minimumCohort:5,...over});
  // Catalogue: built-ins are version 1 registry entries; only owners may maintain.
  const cat=(await ask(o,{})).j,supCat=(await ask(s,{})).j;
- check(()=>{assert.ok(cat.registry.filter(r=>r.builtIn).length===12&&cat.registry.filter(r=>r.builtIn).every(r=>r.version===1&&r.by==='Saha release'));assert.ok(cat.vocabulary.measures.some(m=>m.id==='patients'));assert.deepEqual(cat.vocabulary.exclusions,['identity-provisional','no-programme']);assert.equal(cat.canMaintain,true);assert.equal(supCat.canMaintain,false);});
+ check(()=>{assert.ok(cat.registry.filter(r=>r.builtIn).length===16&&cat.registry.filter(r=>r.builtIn).every(r=>r.version===1&&r.by==='Saha release'));assert.ok(cat.vocabulary.measures.some(m=>m.id==='patients'));assert.deepEqual(cat.vocabulary.exclusions,['identity-provisional','no-programme']);assert.equal(cat.canMaintain,true);assert.equal(supCat.canMaintain,false);});
  const add={type:'addIndicatorDefinition',id,spec:spec(),reason:'Weekly visit count for the smoke review'};
  await as(s,add,403);await as(w,add,403);
  await as(o,{...add,spec:spec({numerator:'patient-names'})},422);await as(o,{...add,spec:{...spec(),sql:'select 1'}},422);await as(o,{...add,spec:spec({unit:'proportion'})},422);

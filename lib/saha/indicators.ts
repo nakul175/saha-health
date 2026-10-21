@@ -1,7 +1,8 @@
 import { fail } from './core';
 import { openPatientWork } from './continuity';
-import { own, questions, followUpOpen } from './programmes';
+import { ABSENCE, own, questions, followUpOpen } from './programmes';
 import { PROGRAMMES, type Member, type OrgState, type Person, type Programme } from './types';
+import { planItemWaiting } from './plan-dependency-state';
 
 // Slice 6d: a versioned indicator registry, cohort queries with small-cell suppression, and a
 // governed question interpreter (BR-AG-11, BR-REP-02..05). Managers choose catalogue indicators
@@ -13,30 +14,36 @@ const visitsOf=(c:Ctx,p:Person)=>c.s.workspace.visits.filter(v=>v.personId===p.i
 const inWindow=(c:Ctx,t?:string)=>!!t&&t>=c.since&&t<=c.until;
 // Slice 2a: reuse metering, reproducible from stored visits. A question shared by N programme packs in
 // one visit is N-1 reuse opportunities; answering it once reuses it for all N; an absence reason blocks it.
-export function reuseOf(v:{facts:Record<string,any>;programmeCapture?:any}){const c=v.programmeCapture;let opportunities=0,reused=0,blocked=0;if(!c)return {opportunities,reused,blocked};
- for(const q of questions(c)){const k=q.programmes.length-1;if(k<=0)continue;opportunities+=k;const value=q.fact?v.facts[q.fact]:own(c.answers,q.id);if(String(value??'').trim())reused+=k;else if(own(c.absence,q.id))blocked+=k;}
- return {opportunities,reused,blocked};}
+export function reuseOf(v:{facts:Record<string,any>;programmeCapture?:any}){const c=v.programmeCapture,blockedBy=Object.fromEntries(ABSENCE.map(x=>[x,0])) as Record<typeof ABSENCE[number],number>;let opportunities=0,reused=0,blocked=0,unresolved=0;if(!c)return {opportunities,reused,blocked,unresolved,blockedBy};
+ const current=new Map(questions(c).map(q=>[q.id,q])),snapshot=Array.isArray(c.reuseOpportunities)?c.reuseOpportunities:questions(c).filter(q=>q.programmes.length>1).map(q=>({questionId:q.id,links:q.programmes.length-1}));
+ for(const o of snapshot){const k=Number(o.links);if(!Number.isInteger(k)||k<1)continue;opportunities+=k;const q=current.get(String(o.questionId)),value=q?.fact?v.facts[q.fact]:own(c.answers,String(o.questionId)),reason=own(c.absence,String(o.questionId));if(String(value??'').trim())reused+=k;else if(ABSENCE.includes(reason as any)){blocked+=k;blockedBy[reason as typeof ABSENCE[number]]+=k;}else unresolved+=k;}
+ return {opportunities,reused,blocked,unresolved,blockedBy};}
 const confirmedIn=(c:Ctx,p:Person)=>visitsOf(c,p).filter(v=>v.state==='confirmed'&&inWindow(c,v.confirmedAt??v.createdAt));
 const signature=(v:{facts:Record<string,any>})=>[String(v.facts.date??'').slice(0,10),v.facts.weight,v.facts.systolic,v.facts.diastolic,v.facts.temperature].join('|');
 // Slice 6s: the computation vocabulary. Every definition, built-in or owner-maintained, is a numerator
 // and optional denominator drawn from these per-patient measures, cohort filters from a fixed list and
 // exclusions from a fixed list. Bounded versioned calculations can combine these measures; free field access is refused.
-export type MeasureId='patients'|'patients-seen'|'visits-confirmed'|'followups-open'|'followups-overdue'|'referrals-created'|'referrals-completed'|'maternal-episodes-active'|'open-work-unowned'|'submissions-unresolved'|'reuse-opportunities'|'reuse-served'|'reuse-blocked'|'repeat-entries'|'corrections'|'identity-provisional';
+export type MeasureId='patients'|'patients-seen'|'visits-confirmed'|'followups-open'|'followups-overdue'|'referrals-created'|'referrals-completed'|'maternal-episodes-active'|'open-work-unowned'|'submissions-accepted'|'submissions-unresolved'|'reuse-opportunities'|'reuse-served'|'reuse-blocked'|'reuse-blocked-unknown'|'reuse-blocked-not-measured'|'reuse-blocked-declined'|'reuse-blocked-unable'|'repeat-entries'|'corrections'|'identity-provisional';
 type Measure={id:MeasureId;label:string;sources:string[];count:(c:Ctx,p:Person)=>number};
 export const MEASURES:Measure[]=[
  {id:'patients',label:'Patients in the cohort',sources:['patients'],count:()=>1},
  {id:'patients-seen',label:'Patients with at least one visit confirmed in the window',sources:['patients','visits'],count:(c,p)=>confirmedIn(c,p).length?1:0},
  {id:'visits-confirmed',label:'Visits confirmed in the window',sources:['visits'],count:(c,p)=>confirmedIn(c,p).length},
  {id:'followups-open',label:'Open follow-ups today',sources:['follow-ups'],count:(c,p)=>(p.followUps??[]).filter(f=>followUpOpen(c.s,f)).length},
- {id:'followups-overdue',label:'Open follow-ups past their due date today',sources:['follow-ups'],count:(c,p)=>(p.followUps??[]).filter(f=>followUpOpen(c.s,f)&&f.due<c.today).length},
+ {id:'followups-overdue',label:'Open follow-ups past their due date today',sources:['follow-ups'],count:(c,p)=>(p.followUps??[]).filter(f=>followUpOpen(c.s,f)&&f.due<c.today&&!planItemWaiting(c.s,p,{kind:'follow-up',id:f.id})).length},
  {id:'referrals-created',label:'Referrals created in the window',sources:['referrals'],count:(c,p)=>c.s.workspace.referrals.filter(x=>x.personId===p.id&&inWindow(c,x.createdAt)).length},
  {id:'referrals-completed',label:'Referrals created in the window now completed',sources:['referrals'],count:(c,p)=>c.s.workspace.referrals.filter(x=>x.personId===p.id&&inWindow(c,x.createdAt)&&x.state==='completed').length},
  {id:'maternal-episodes-active',label:'Maternal episodes active today',sources:['enrolments'],count:(_c,p)=>(p.enrolments??[]).filter(e=>e.packId==='maternal'&&e.state==='active').length},
  {id:'open-work-unowned',label:'Open items whose owner is not an active member',sources:['follow-ups','referrals','outreach'],count:(c,p)=>{const active=new Set(c.s.members.filter(m=>m.status==='active').map(m=>m.userId));return openPatientWork(c.s,p).filter(w=>!w.ownerId||!active.has(w.ownerId)).length;}},
+ {id:'submissions-accepted',label:'Programme submissions accepted in the window',sources:['submissions'],count:(c,p)=>c.s.workspace.submissions.filter(x=>x.personId===p.id&&x.state==='accepted'&&inWindow(c,x.updatedAt)).length},
  {id:'submissions-unresolved',label:'Submissions queued, sending, retryable or uncertain today',sources:['submissions'],count:(c,p)=>c.s.workspace.submissions.filter(x=>x.personId===p.id&&['queued','sending','retryable','uncertain'].includes(x.state)).length},
  {id:'reuse-opportunities',label:'Reuse opportunities: programme links beyond the first for questions shared by several packs in a confirmed visit',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).opportunities,0)},
  {id:'reuse-served',label:'Programme links served by one shared answer beyond the first',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).reused,0)},
  {id:'reuse-blocked',label:'Reuse opportunities where the shared answer was recorded as unknown, declined, not measured or unobtainable',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blocked,0)},
+ {id:'reuse-blocked-unknown',label:'Blocked reuse links recorded as unknown',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blockedBy.Unknown,0)},
+ {id:'reuse-blocked-not-measured',label:'Blocked reuse links recorded as not measured',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blockedBy['Not measured'],0)},
+ {id:'reuse-blocked-declined',label:'Blocked reuse links recorded as declined',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blockedBy.Declined,0)},
+ {id:'reuse-blocked-unable',label:'Blocked reuse links recorded as unable to obtain',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blockedBy['Unable to obtain'],0)},
  {id:'repeat-entries',label:'Confirmed visits repeating the date and core measurements of an earlier confirmed visit for the same person',sources:['visits'],count:(c,p)=>{const all=visitsOf(c,p).filter(v=>v.state==='confirmed').sort((a,b)=>(a.confirmedAt??a.createdAt).localeCompare(b.confirmedAt??b.createdAt));const seen=new Set<string>();let n=0;for(const v of all){const k=signature(v);if(seen.has(k)&&inWindow(c,v.confirmedAt??v.createdAt))n++;seen.add(k);}return n;}},
  {id:'corrections',label:'Correction drafts started and visits marked wrong-patient in the window',sources:['visits'],count:(c,p)=>c.s.workspace.visits.filter(v=>v.personId===p.id&&((v.amendsVisitId&&inWindow(c,v.createdAt))||inWindow(c,v.voidedAt))).length},
  {id:'identity-provisional',label:'Patients whose identity review is provisional today',sources:['patients'],count:(_c,p)=>p.identityReview?.state==='provisional'&&!p.mergedInto?1:0},
@@ -88,6 +95,10 @@ const BUILT_IN=[
  b('submissions-unresolved','Unresolved programme submissions','count','submissions-unresolved',null,'Accepted, rejected and cancelled','Data manager','Daily',['submission','submissions','unresolved','uncertain','programme record','mis']),
  b('reuse-shared-answers','Shared answers reused across programmes','proportion','reuse-served','reuse-opportunities','Voided and superseded visits; visits with one pack','Programme manager','Monthly',['reuse','reused','shared','re-entry','duplication']),
  b('reuse-blocked','Reuse blocked by a missing shared answer','count','reuse-blocked',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','missing answer','absence']),
+ b('reuse-blocked-unknown','Reuse blocked: unknown','count','reuse-blocked-unknown',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','unknown','reuse reason']),
+ b('reuse-blocked-not-measured','Reuse blocked: not measured','count','reuse-blocked-not-measured',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','not measured','reuse reason']),
+ b('reuse-blocked-declined','Reuse blocked: declined','count','reuse-blocked-declined',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','declined','reuse reason']),
+ b('reuse-blocked-unable','Reuse blocked: unable to obtain','count','reuse-blocked-unable',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','unable to obtain','reuse reason']),
  b('repeat-entry','Possible repeated entries','count','repeat-entries',null,'Voided and superseded visits','Data manager','Monthly',['repeat','repeated','duplicate entry','entered twice','double entry']),
  b('corrections','Visit corrections','count','corrections',null,'None','Data manager','Monthly',['correction','corrections','amended','voided','wrong patient']),
  b('identity-provisional','Provisional identities','count','identity-provisional',null,'Merged records','Identity steward','Weekly',['identity','provisional','duplicate','unverified']),
@@ -137,7 +148,7 @@ export type Series={key:string;f:Record<string,string>;cells:Record<string,numbe
  // Slice 6ad (ninth review, finding 2): the window end, set by an aggregate report for a period that ended in the past.
  u?:string};
 // Slice 6aa: measures counted over the query window; the others describe today and do not depend on it.
-const PRIMITIVE_WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','reuse-opportunities','reuse-served','reuse-blocked','repeat-entries','corrections']);
+const PRIMITIVE_WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','submissions-accepted','reuse-opportunities','reuse-served','reuse-blocked','reuse-blocked-unknown','reuse-blocked-not-measured','reuse-blocked-declined','reuse-blocked-unable','repeat-entries','corrections']);
 export const WINDOWED=new class extends Set<string>{has(id:string){if(PRIMITIVE_WINDOWED.has(id as MeasureId))return true;if(MEASURE_IDS.includes(id as MeasureId))return false;return expressionLeaves(referenceExpression(id)!).some(x=>PRIMITIVE_WINDOWED.has(x));}}(PRIMITIVE_WINDOWED);
 // A person's value of one measure over the window starting at `since` (ISO) and ending now.
 // Slice 6ad: `now` is the window end (and the moment a measure describing today is counted at).
@@ -178,6 +189,7 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date(),governan
   if(composite)for(const leaf of dependencies){const counts:Record<string,number>={};for(const p of cohort)for(const k of keysFor(s,p,q.group))counts[k]=(counts[k]??0)+measure(leaf).count(ctx,p);const key=`${base}|${leaf}/`,id=key+'#'+JSON.stringify(defF)+'#count',sr=series.get(id)??{key,f:defF,cells:pc,m:Object.fromEntries(Object.entries(counts).map(([k,n])=>[k,[n,0] as [number,number]])),n:leaf,d:null,gd:q.group,x:[...sp.exclude].sort(),w:ctx0.since,shown,ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(id,sr);}
   return {...head,rows:out};});
  const result={computedAt:ctx0.until,window:{since:ctx0.since,until:ctx0.until,days:q.days},cohort:{people:people.length,team:q.team??null,village:q.village??null,programme:q.programme??null},group:q.group,latestSourceRecord:latest,minimumCell:MIN_CELL,results,
+  analysis:{contract:'saha-programme-analysis-v1',method:'Approved versioned indicator definitions over current authorised assigned records; merged records are excluded and small cells are suppressed.',filters:{team:q.team??null,village:q.village??null,programme:q.programme??null},definitionLineage:defs.map(def=>({ref:`${def.id}@${def.version}`,recordedAt:def.at,owner:def.spec.owner,sources:[...new Set([...operandLeaves(def.spec.numerator),...(def.spec.denominator?operandLeaves(def.spec.denominator):[])].flatMap(x=>measure(x).sources))].sort(),canonicalSpec:canonicalSpec(def)})),missingness:{latestSourceRecord:latest,note:latest?'Source completeness and freshness are reported separately; a latest record time does not prove complete capture.':'No source record was found in the selected result window; zero values must not be read as complete capture.'}},
   scope:'Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.'};
  return {result,series:[...series.values()]};
 }
@@ -221,9 +233,11 @@ export const vocabulary=()=>({measures:MEASURES.map(m=>({id:m.id,label:m.label})
 // Governed question interpreter: maps words to catalogue entries and never runs anything itself.
 export function interpret(question:string,s?:OrgState){
  const t=question.toLowerCase().replace(/[^a-z0-9\s-]/g,' ');const words=new Set(t.split(/\s+/).filter(Boolean));
+ const disclosure=/\b(list|names?|phone|address|details?|records?|individual|person-level|patient-level)\b/.test(t)&&/\b(patient|patients|people|person|beneficiar|recipient)\w*\b/.test(t);
+ if(disclosure)return {ids:[],group:'none' as Group,days:30,understood:false,refused:'person-list' as const,note:'Programme analysis returns protected aggregates only. Patient lists, names and person-level records cannot be produced by reformulating a question.'};
  const active=new Set(catalogue(s).map(d=>d.id)),owned=catalogue(s).filter(d=>!d.builtIn&&t.includes(d.title.toLowerCase().replace(/[^a-z0-9\s-]/g,' '))).map(d=>d.id);
  const ids=[...BUILT_IN.filter(d=>active.has(d.record.id)&&d.keywords.some(k=>k.includes(' ')?t.includes(k):words.has(k))).map(d=>d.record.id),...owned].slice(0,8);
  const group:Group=/\bby (team|teams)\b/.test(t)?'team':/\bby (village|villages|locality)\b/.test(t)?'village':/\bby (programme|programmes|program)\b/.test(t)?'programme':/\bby age\b/.test(t)?'age-band':'none';
  const m=t.match(/\blast (\d{1,3}) days?\b/);const days=m?Math.min(366,Math.max(1,Number(m[1]))):/\blast week\b|\bthis week\b/.test(t)?7:/\blast month\b|\bthis month\b/.test(t)?30:/\blast year\b|\bthis year\b/.test(t)?365:30;
- return {ids,group,days,understood:ids.length>0,note:ids.length?'Review this interpretation before running it. Only catalogue indicators can be answered.':'No catalogue indicator matches. Choose one from the list.'};
+ return {ids,group,days,understood:ids.length>0,refused:null,note:ids.length?'Review this interpretation before running it. Only catalogue indicators can be answered.':'No catalogue indicator matches. Choose one from the list.'};
 }

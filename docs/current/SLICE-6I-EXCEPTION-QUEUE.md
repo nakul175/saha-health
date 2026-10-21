@@ -24,3 +24,7 @@
 - Nothing is pushed to anyone; the queue is seen when someone opens Operations. Links reach the patient and visit, not a trace of provider calls and destination receipts. (Slice 6y adds a trace for submission and EHR publication rows.)
 
 A self-review after slice 6k found that the queue scanned every submission, referral, visit and safety case once per patient, which took 36 seconds for 30,000 patients in the contract fixture. Records are now indexed by patient once per read; see the slice 6i follow-up in `VALIDATION.md` and `tests/evidence/slice-6i-followup/`.
+
+## SAHA-107 completion overlay — 20 October 2026
+
+The original limits above are superseded for local application code by [SAHA-107 operational exception queues](SAHA-107-OPERATIONAL-EXCEPTION-QUEUES.md): rows are assignable with current-scope/version/race guards; open identity conflicts and redacted server-known device diagnostics are explicit rows; offline diagnostics use a metadata-only stable outbox for trusted reconnect; and the demonstration channel plans opaque individual item occurrences. Formal catalogue acceptance, CI, merge and observed deployment remain separate.

@@ -28,7 +28,12 @@ class D1 {
 }
 
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programme-migration', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const file of readdirSync('lib/saha').filter(name => name.endsWith('.ts'))) {
+    const f = file.replace(/\.ts$/, '');
+    writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${file}`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
+  }
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'installed-transition-authority', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programme-migration', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'team-pack-adoption', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programme-migration', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const M = await import(pathToFileURL(join(dir, 'programme-migration.js')));
   const P = await import(pathToFileURL(join(dir, 'programmes.js')));
@@ -67,9 +72,10 @@ try {
 
   // 2. Dry run: counts, blocked reasons, ids only.
   let s = makeState('org_pm_a');
-  check(() => assert.deepEqual(M.migratablePacks(s), ['maternal']));
+  check(() => assert.deepEqual(M.migratablePacks(s), ['maternal','hypertension']));
   let plan = await M.planProgrammeMigration(s, owner, 'maternal');
   check(() => { assert.equal(plan.targetVersion, 2); assert.equal(plan.adoptedVersion, 1); assert.equal(plan.adopts, true); assert.equal(plan.examined, 5); assert.equal(plan.outOfScope, 1); assert.deepEqual(plan.candidates.map(c => c.enrolmentId).sort(), ['e_aarav', 'e_meena']); assert.deepEqual(Object.fromEntries(plan.blocked.map(b => [b.enrolmentId, b.code])), { e_farida: 'open-visit', e_rajesh: 'restricted' }); assert.match(plan.planHash, /^[0-9a-f]{64}$/); assert.equal(plan.changes.length, 1); });
+  check(() => { assert.deepEqual(plan.changeControl, { effectiveDate: 'When this reviewed dry run is applied', affectedPopulation: { inScope: 4, candidates: 2, manualAction: 2, outOfScope: 1 }, transitionRule: { kind: 'reviewed-open-case-migration', fromVersions: [1], toVersion: 2, keepsHistoricalActions: true, blocksOpenVisits: true, requiresExactPlan: true } }); });
   check(() => { const meena = plan.candidates.find(c => c.enrolmentId === 'e_meena'); assert.deepEqual({ openFollowUps: meena.openFollowUps, keptVisits: meena.keptVisits, fromVersion: meena.fromVersion, version: meena.version }, { openFollowUps: 1, keptVisits: 1, fromVersion: 1, version: 1 }); assert.match(plan.blocked.find(b => b.code === 'open-visit').reason, /confirm or discard it/); });
   check(() => { const text = JSON.stringify(plan); for (const name of ['Meena Devi', 'Aarav Singh', 'Farida Begum', 'Rajesh Kumar', 'Kamla Devi', 'Synthetic episode label']) assert.equal(text.includes(name), false, name); });
   // Defensive blockers: an episode version missing from the catalogue, and a target without a reviewed mapping.
@@ -81,6 +87,11 @@ try {
   const bumped = makeState('org_pm_a'); bumped.workspace.people.find(p => p.id === 'p_meena').version = 2;
   const bumpedPlan = await M.planProgrammeMigration(bumped, owner, 'maternal');
   check(() => assert.notEqual(bumpedPlan.planHash, plan.planHash));
+  const clinician = { ...owner, isOwner: false };
+  const clinicianPlan = await M.planProgrammeMigration(makeState('org_pm_a'), clinician, 'maternal');
+  const reassigned = makeState('org_pm_a'); reassigned.workspace.people.find(p => p.id === 'p_meena').teamId = 'north';
+  const reassignedPlan = await M.planProgrammeMigration(reassigned, clinician, 'maternal');
+  check(() => { assert.notEqual(reassignedPlan.planHash, clinicianPlan.planHash); assert.equal(reassignedPlan.changeControl.affectedPopulation.outOfScope, 2, 'changed care-team scope changes the reviewed affected population'); });
   const cmd = (planHash, extra = {}) => ({ type: 'programmeMigrationApply', packId: 'maternal', targetVersion: 2, planHash, reason: 'Move open maternal episodes to v2', ...extra });
   await rejects(() => M.applyProgrammeMigration(bumped, cmd(plan.planHash), actor, owner, now), /Episodes changed since the dry run/);
   await rejects(() => M.applyProgrammeMigration(makeState('org_pm_a'), cmd(plan.planHash, { targetVersion: 1 }), actor, owner, now), /different version is now the latest/);

@@ -10,6 +10,23 @@ export type Language = 'en' | 'hi';
 export const LANGUAGES: readonly Language[] = ['en', 'hi'];
 export const DEFAULT_LANGUAGE: Language = 'en';
 export const LANGUAGE_NAME: Record<Language, string> = { en: 'English', hi: 'हिन्दी' };
+export type LanguageResourceState = 'qualified' | 'draft' | 'unavailable';
+// Resource state is code configuration, not a claim of human acceptance. English is the
+// preserved source text. Hindi remains a draft until a qualified review is recorded in a
+// future, versioned resource. Safety-critical screens therefore fail closed to English.
+export const LANGUAGE_RESOURCES = {
+  en: { revision: 'source-en-v1', state: 'qualified' as const, reviewReference: 'preserved-source-text' },
+  hi: { revision: 'draft-hi-v1', state: 'draft' as const, reviewReference: null },
+} as const;
+export const SAFETY_CRITICAL_SCREENS = ['capture', 'review', 'receipts', 'clinical'] as const;
+export function languageResource(language: Language, key: string) {
+  const requested = LANGUAGE_RESOURCES[language];
+  const safetyCritical = (SAFETY_CRITICAL_SCREENS as readonly string[]).includes(screenOf(key));
+  const available = language === 'en' || !safetyCritical || requested.state === 'qualified';
+  return { requestedLanguage: language, effectiveLanguage: available ? language : 'en' as Language,
+    revision: requested.revision, state: requested.state as LanguageResourceState, safetyCritical, available,
+    fallbackReason: available ? null : 'qualified-language-resource-unavailable' as const };
+}
 export type Params = Record<string, string | number>;
 type Entry = readonly [en: string, hi?: string];
 
@@ -21,6 +38,7 @@ export const CATALOGUE = {
   'common.untranslatedNotice': ['This screen is not translated yet and is shown in English.', 'यह स्क्रीन अभी अनूदित नहीं है और अंग्रेज़ी में दिखाई गई है।'],
   'common.choose': ['Choose…', 'चुनें…'],
   'common.noticeLabel': ['Translation notice', 'अनुवाद सूचना'],
+  'common.criticalUnavailable': ['Safety-critical Hindi content is unavailable until qualified review. It is shown in English.', 'योग्य समीक्षा होने तक सुरक्षा-महत्वपूर्ण हिंदी सामग्री उपलब्ध नहीं है। इसे अंग्रेज़ी में दिखाया जाता है।'],
   'common.state.accepted': ['accepted', 'स्वीकार किया गया'],
   'common.state.uncertain': ['uncertain', 'अनिश्चित'],
   'common.state.rejected': ['rejected', 'अस्वीकार किया गया'],
@@ -46,6 +64,8 @@ export const CATALOGUE = {
   'common.voice.otherNumbers': ['also heard {numbers}; only the first number is used', 'यह भी सुना: {numbers}; केवल पहली संख्या ली जाएगी'],
   'common.voice.noNumber': ['No number was heard. Type it, or try again.', 'कोई संख्या नहीं सुनी गई। उसे टाइप करें या फिर से कोशिश करें।'],
   'common.voice.insert': ['Insert', 'डालें'],
+  'common.voice.playback': ['Play recording', 'रिकॉर्डिंग सुनें'],
+  'common.voice.discard': ['Discard recording', 'रिकॉर्डिंग हटाएँ'],
   'common.voice.again': ['Try again', 'फिर से कोशिश करें'],
   'common.voice.cancel': ['Cancel', 'रद्द करें'],
   'common.voice.check': ['Check the text before you insert it. Nothing is saved until you save the form.', 'डालने से पहले पाठ जाँचें। फ़ॉर्म सहेजने तक कुछ भी सहेजा नहीं जाता।'],
@@ -147,6 +167,9 @@ export const CATALOGUE = {
   'work.merged': [' · merged record', ' · मर्ज किया गया रिकॉर्ड'],
   'work.status.confirmed': ['Confirmed', 'पुष्टि हुई'],
   'work.status.inProgress': ['In progress', 'प्रगति में'],
+  'work.resumeDraft': ['Resume saved draft', 'सहेजा हुआ ड्राफ़्ट जारी रखें'],
+  'work.noAssigned': ['No assigned work right now', 'अभी कोई सौंपा गया कार्य नहीं है'],
+  'work.noAssignedHint': ['Refresh to check again. Saha will never invent a visit or programme task.', 'दोबारा जाँचने के लिए रिफ़्रेश करें। साहा कभी कोई विज़िट या प्रोग्राम कार्य नहीं गढ़ेगा।'],
   'work.noMatch': ['No matching people', 'कोई मेल खाता व्यक्ति नहीं'],
   'work.noMatchHint': ['Try a different name or programme.', 'कोई दूसरा नाम या कार्यक्रम आज़माएँ।'],
   'work.noPeople': ['No people in your care scope.', 'आपके देखभाल क्षेत्र में कोई व्यक्ति नहीं।'],
@@ -184,6 +207,10 @@ export const CATALOGUE = {
   'patient.backWork': ['Back to my work', 'मेरे कार्य पर वापस'],
   'patient.backWorkspace': ['Back to workspace', 'कार्यक्षेत्र पर वापस'],
   'patient.record': ['Record', 'रिकॉर्ड'],
+  'patient.activePerson': ['Active person:', 'सक्रिय व्यक्ति:'],
+  'patient.activeVisit': ['Active visit:', 'सक्रिय विज़िट:'],
+  'patient.noActiveVisit': ['No active visit', 'कोई सक्रिय विज़िट नहीं'],
+  'patient.activeContextAria': ['Active person {person}; active visit {visit}', 'सक्रिय व्यक्ति {person}; सक्रिय विज़िट {visit}'],
   'patient.permissions': ['Permissions', 'अनुमतियाँ'],
   'patient.newVisit': ['New visit', 'नई विज़िट'],
   'patient.noVisitTitle': ['No visit recorded yet', 'अभी कोई विज़िट दर्ज नहीं'],
@@ -380,6 +407,10 @@ export const CATALOGUE = {
   'receipts.trace': ['Trace: commands, checkpoints, receipts and audit events', 'ट्रेस: कमांड, चेकपॉइंट, रसीदें और ऑडिट घटनाएँ'],
   'receipts.dialogTitle': ['Destination receipt', 'गंतव्य की रसीद'],
   'receipts.status': ['Status', 'स्थिति'],
+  'receipts.destination': ['Destination', 'गंतव्य'],
+  'receipts.submittedVersion': ['Submitted visit revision', 'भेजा गया विज़िट संशोधन'],
+  'receipts.initiatingAuthority': ['Initiating authority', 'आरंभ करने वाला प्राधिकरण'],
+  'receipts.destinationOutcome': ['Destination outcome', 'गंतव्य परिणाम'],
   'receipts.receipt': ['Receipt', 'रसीद'],
   'receipts.notYet': ['Not yet confirmed', 'अभी पुष्टि नहीं हुई'],
   'receipts.sendAttempts': ['Send attempts', 'भेजने के प्रयास'],
@@ -478,13 +509,13 @@ export function createTranslator(catalogue: Record<string, Entry>) {
   return { message, plural, has };
 }
 const real = createTranslator(CATALOGUE);
-export const message = (language: Language, key: MessageKey, params?: Params): string => real.message(language, key, params);
-export const plural = (language: Language, key: 'patient.consentWithdrawn' | 'patient.mergedFrom' | 'clinical.urgentCount' | 'clinical.needReview', n: number, params?: Params): string => real.plural(language, key, n, params);
+export const message = (language: Language, key: MessageKey, params?: Params): string => real.message(languageResource(language, key).effectiveLanguage, key, params);
+export const plural = (language: Language, key: 'patient.consentWithdrawn' | 'patient.mergedFrom' | 'clinical.urgentCount' | 'clinical.needReview', n: number, params?: Params): string => real.plural(languageResource(language, key).effectiveLanguage, key, n, params);
 export const hasMessage = (key: string): key is MessageKey => real.has(key);
 // A state or choice value shown as a label: the translated label when one exists, the stored value otherwise.
-export const labelFor = (language: Language, group: string, value: string): string => (real.has(`${group}.${value}`) ? real.message(language, `${group}.${value}`) : value);
+export const labelFor = (language: Language, group: string, value: string): string => (real.has(`${group}.${value}`) ? real.message(languageResource(language, `${group}.${value}`).effectiveLanguage, `${group}.${value}`) : value);
 // "signed off by X, <time> UTC" in either language, from the stored sign-off.
-export const signOffLine = (language: Language, signOff: { byName: string; at: string } | undefined): string => signOff ? real.message(language, 'receipts.signedOff', { name: signOff.byName, at: signOff.at.slice(0, 16).replace('T', ' ') }) : real.message(language, 'receipts.notSignedOff');
+export const signOffLine = (language: Language, signOff: { byName: string; at: string } | undefined): string => signOff ? message(language, 'receipts.signedOff', { name: signOff.byName, at: signOff.at.slice(0, 16).replace('T', ' ') }) : message(language, 'receipts.notSignedOff');
 
 // ---- The per-member language choice, saved in the organisation's operations record (slice 10j) ---------------------------
 // Stored as operations.memberLanguages[userId]. It follows the member in this organisation only, is versioned like the

@@ -1,0 +1,114 @@
+{
+  "storyId": "SAHA-108",
+  "linearIssue": "APL-131",
+  "requirement": "BR-REP-02",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "frozenContract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-131.md",
+    "sha256": "489cc4143cf0e3191ee60ed3d8fbc5dbbed9b81690f827be6039985789e67eb0"
+  },
+  "applicationCodeGapsIdentified": 0,
+  "codingComplete": true,
+  "implementedOutcome": {
+    "definition": "versioned numerator, denominator, exclusions, period, sources, cadence, owner, cohort minimum and canonical digest",
+    "acceptedSubmissions": "a fixed submissions-accepted measure counts accepted programme events by recorded acceptance update time",
+    "distinctGrains": "visits-confirmed counts encounters, patients-seen counts unique people, and submissions-accepted counts programme events",
+    "governance": "owner proposal, distinct active supervisor/clinician review, effective-date release, retirement and reviewed rollback",
+    "reproduction": "explicit released versions and protected point-in-time figure material reproduce historical calculations",
+    "privacy": "scope, minimum cohort, primary/complementary suppression and same-viewer differencing protection remain enforced"
+  },
+  "checks": {
+    "indicatorsContract": {
+      "passed": 9,
+      "failed": 0
+    },
+    "indicatorRegistryContract": {
+      "passed": 13,
+      "failed": 0
+    },
+    "indicatorGovernanceContract": {
+      "passed": 42,
+      "failed": 0
+    },
+    "indicatorFigureMaterialContract": {
+      "passed": 92,
+      "failed": 0
+    },
+    "indicatorFreshnessContract": {
+      "passed": 10,
+      "failed": 0
+    },
+    "indicatorHouseholdCountingContract": {
+      "passed": 35,
+      "failed": 0
+    },
+    "reportExportContract": {
+      "passed": 7,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "diffCheck": "passed"
+  },
+  "fixtureRepairs": [
+    "Direct contract runners transpile the current installed-transition-authority dependency imported by programmes.ts; original oracles are unchanged.",
+    "The report-export compatibility assertion pins the current 1.2.0 definition already emitted by production source."
+  ],
+  "formalAcceptance": "pending",
+  "domainApproval": "pending",
+  "independentSourceReview": "pending",
+  "exactSourceCi": "not-run",
+  "merged": false,
+  "observedDeployed": false,
+  "externalPending": [
+    "clinical/programme approval of definitions and denominators",
+    "official publication approval",
+    "hosted formal catalogue execution"
+  ],
+  "files": [
+    {
+      "path": "lib/saha/indicators.ts",
+      "sha256": "0a44119eaa8dfd014cdab84bd6417a2381458c47a297dfd7d34a23dc9d255503"
+    },
+    {
+      "path": "lib/saha/indicator-registry.ts",
+      "sha256": "170ede89a4fa69771cefdc362f3bdf69cba32a46976f2a56eed444a7ecc365cb"
+    },
+    {
+      "path": "lib/saha/indicator-figure-material.ts",
+      "sha256": "e9a8d5ec0d7da6f4e13226934c073d0ac685c3846b1e7e351977cd5723c2bbe4"
+    },
+    {
+      "path": "app/indicator-registry-panel.tsx",
+      "sha256": "9a0e08c383ed01c3b6c6d3d1c8c1bd32fd7ee578863618cb2b30572a8f67cdf0"
+    },
+    {
+      "path": "tests/indicators-contract.mjs",
+      "sha256": "7c15b3609239fcd946e2d50825402bd2bb69c693062b21ce1c687a5ae35791c7"
+    },
+    {
+      "path": "tests/indicator-registry-contract.mjs",
+      "sha256": "9be1fe4f1ce8868c483a8359e50748cc6e33bd3cdb6eca06bc784692970d1f15"
+    },
+    {
+      "path": "tests/indicator-governance-contract.mjs",
+      "sha256": "6718afc35fcb1196a7c110705663bfbdc19f657ea283420c5f218727b7ee3bc8"
+    },
+    {
+      "path": "tests/indicator-figure-material-contract.mjs",
+      "sha256": "38b9713f1132df2be983131eb59febf0386deeb902ca37f0c461033cf395b9fd"
+    },
+    {
+      "path": "tests/indicator-freshness-contract.mjs",
+      "sha256": "d66259fd71cc6362d59056248fdb0470a2aedea07e080aa6cee4e512b1531c5f"
+    },
+    {
+      "path": "tests/indicator-household-counting-contract.mjs",
+      "sha256": "91fc8f65badccdd041d2ee606b508861d61a128ff1251c14a1ad1b8f2e49707c"
+    },
+    {
+      "path": "tests/report-export-contract.mjs",
+      "sha256": "ce0227e4bb2b416635d6ab972e74192b9470e2d761e37bf1cacd0ee6b5d3c31c"
+    }
+  ]
+}

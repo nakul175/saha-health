@@ -22,7 +22,7 @@ export async function workSupportWrite(request:Request){
  if(!v||!p||!normallyAllowed(m,p)||m.role==='provider')fail(403,'Current scoped human support access required.');
  if(!s.operations?.workBurden?.enabled)return json({recorded:false,disabled:true});
  const authorizeResponse=async()=>{const fresh=await loadFor(u,s.organisation.id,async()=>[p.id]),fm=scope(fresh,u.userId),fp=fresh.workspace.people.find(x=>x.id===p.id);if(!fp||!normallyAllowed(fm,fp)||c.type==='assign'&&!operator(fm))fail(403,'Current support access required.');if(tail){const rm=fresh.members.find(x=>x.userId===tail.requester_id),hm=fresh.members.find(x=>x.userId===(c.type==='assign'?c.helperId:tail.helper_id));if(!rm||!normallyAllowed(rm,fp)||!['asha','clinician'].includes(rm.role)||!hm||!normallyAllowed(hm,fp))fail(403,'Current requester and helper scope required.');}};
- let requester=m,helper=null,requestId=c.type==='request'?c.key:c.requestId,sequence=1,helperId:string|null=null;
+ let requester=m,helper=null,sequence=1,helperId:string|null=null;const requestId=c.type==='request'?c.key:c.requestId;
  if(c.type==='request'){if(!['asha','clinician'].includes(m.role))fail(403,'Current care requester required.');if(v.voidedAt||v.supersededBy)fail(409,'Choose the current visit context.');}
  else{
   if(!tail)fail(404,'Support request unavailable.');requester=s.members.find(x=>x.userId===tail.requester_id&&x.status==='active')!;if(!requester||!normallyAllowed(requester,p)||!['asha','clinician'].includes(requester.role))fail(403,'Current requester care scope required.');

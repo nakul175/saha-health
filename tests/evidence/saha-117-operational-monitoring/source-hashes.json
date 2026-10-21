@@ -1,0 +1,141 @@
+{
+  "story": "SAHA-117",
+  "issue": "APL-140",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "contract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-140.md",
+    "sha256": "5499cec72d7c62b1e8e20f4bb4e733a29ff1b9b817d1267aa77daf84de659954"
+  },
+  "files": [
+    {
+      "path": "lib/saha/agent-execution.ts",
+      "sha256": "8fe7c285e54cabc7403224e560eadaf1bb8058f8fe29e1ea71849e858f3b93f4",
+      "bytes": 5181
+    },
+    {
+      "path": "lib/saha/agent-provider.ts",
+      "sha256": "5e415f782e8e330cbd9a8ac504f2f28749f02586d9e6eb2f6d9e8c27953b10f4",
+      "bytes": 7706
+    },
+    {
+      "path": "lib/saha/aggregate-execution.ts",
+      "sha256": "b464bc3f2710450f94804441adb6a5d87916fc0635bd26d4e67cb0268d16fbae",
+      "bytes": 21391
+    },
+    {
+      "path": "lib/saha/alert-delivery-server.ts",
+      "sha256": "00d94cab905e2ab38d0fa9127674c1158ab572a15c7b6ddc4d48829e153490fe",
+      "bytes": 22292
+    },
+    {
+      "path": "lib/saha/alerts.ts",
+      "sha256": "5801ba9ac1d252081d51481f33e35c574e76da6beeaa31876582e3e6495279ca",
+      "bytes": 12365
+    },
+    {
+      "path": "lib/saha/anaemia.ts",
+      "sha256": "0d9259906f200ae693cedaf80cc12de30d41feaa6dd68bfcce716b7f34a1c379",
+      "bytes": 10217
+    },
+    {
+      "path": "lib/saha/ehr-execution.ts",
+      "sha256": "1e23ab538fbb0256a2d3851c52640dfcd7fae7ce4aa8ac29b5674a0cc6a3d25c",
+      "bytes": 20304
+    },
+    {
+      "path": "lib/saha/ehr-probe.ts",
+      "sha256": "0b0aa4cce6f2c6a3607ea43340d4b19b27f4ced8659d49478bc149c728667ab5",
+      "bytes": 2318
+    },
+    {
+      "path": "lib/saha/ehr-provider.ts",
+      "sha256": "834d15bae61c940d0a2752e2b78c0bf63594725ece77943ecf08bb129e8f731a",
+      "bytes": 7289
+    },
+    {
+      "path": "lib/saha/frontline.ts",
+      "sha256": "72b0d4a61a7dcfb0c98c6c2bb2ec3d3ddf995446c2cfa8a8f5c4f080c7582b5c",
+      "bytes": 9892
+    },
+    {
+      "path": "lib/saha/mis-execution.ts",
+      "sha256": "70283c60e66d4b31927894695ae0f80cf1de4789ab54620077b61fee8775bbf0",
+      "bytes": 12278
+    },
+    {
+      "path": "lib/saha/mis.ts",
+      "sha256": "3c1bc32187261a9f9728c2c597edcab5b5128e849752b9cf1417cdc29a9b8b1c",
+      "bytes": 40251
+    },
+    {
+      "path": "lib/saha/monitoring.ts",
+      "sha256": "374ae6071f86e147069599ed4a907087cfc68835da77304ab371c8cfb0594176",
+      "bytes": 3614
+    },
+    {
+      "path": "lib/saha/operational-monitoring.ts",
+      "sha256": "5a5452b1b5c9b53787c63509e0ec6c5e5c5554812d9c7f9c81f0fa0338a88b6b",
+      "bytes": 2915
+    },
+    {
+      "path": "lib/saha/operations-server.ts",
+      "sha256": "3573fd9feaf8110b2a06e1532c6e5e16c3c84b43831451a97feb528d5c095397",
+      "bytes": 12700
+    },
+    {
+      "path": "lib/saha/server.ts",
+      "sha256": "83824aefa85e9268130fa27fd3ed3d67d64cec2aecea1379aea8f81e04e62f89",
+      "bytes": 45388
+    },
+    {
+      "path": "lib/saha/trace.ts",
+      "sha256": "7cde98c88083648586bfbdff31b04ed0fc055cd0d2a04eb9593496e6dae46203",
+      "bytes": 15052
+    },
+    {
+      "path": "lib/saha/types.ts",
+      "sha256": "8c7435ea4a2586b094b845e59410e93187884e1484d7a5943d73c88f50090068",
+      "bytes": 23853
+    },
+    {
+      "path": "tests/alert-delivery-contract.mjs",
+      "sha256": "c558d6823865fa7d8983aa7008ebaace2b841485c1c53fdc26e6a4db1ba1fd18",
+      "bytes": 15037
+    },
+    {
+      "path": "tests/alerts-contract.mjs",
+      "sha256": "680919ea6c3261daa7d8044f4545ccfb3707e3de2efc4efc96346b22ec5a56f6",
+      "bytes": 10467
+    },
+    {
+      "path": "tests/provider-ehr-headers-contract.mjs",
+      "sha256": "7a9ed85a42646c6ad2840f66367e4f6fdbc2446419bba583aaa2762a97cc5d13",
+      "bytes": 9761
+    },
+    {
+      "path": "tests/provider-ehr-headers-independent-contract.mjs",
+      "sha256": "fbe9ae38e9612a00434422dc63fdec5efafc2f09ddc6841917be8a400839d19e",
+      "bytes": 5621
+    },
+    {
+      "path": "tests/saha-117-operational-signals-contract.mjs",
+      "sha256": "ea9c873678f7591d780dee57597d68042916210e0e92814d60f29703ea29369c",
+      "bytes": 3852
+    },
+    {
+      "path": "tests/scheduled-job-contract.mjs",
+      "sha256": "1eb71f28a35cf17b2efea8fd099cc40c1860482431fbc140777b83ebc05a0858",
+      "bytes": 38850
+    },
+    {
+      "path": "tests/trace-contract.mjs",
+      "sha256": "51e6a2d010ca41da38f3b68080bfd0ce35f4bdcc7be76f077ad3c7c3e9bd0e89",
+      "bytes": 17629
+    },
+    {
+      "path": "tests/trace-smoke.mjs",
+      "sha256": "350d002bec9c2f3717f19f1c909519b09d8a224bf80dcb40bb181437232768b8",
+      "bytes": 8541
+    }
+  ]
+}

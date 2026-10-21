@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "receiptType": "exact-staged-successor-integration",
+  "story": "SAHA-158",
+  "scope": "Purpose-limited event geotags with a usable no-GPS path and governed coordinate expiry across current and revision storage",
+  "createdAt": "2026-10-20T23:07:30.000Z",
+  "integration": {
+    "baseCommit": "774d2a044665d152e48ff8b3c1e56ed4d2cb3cd7",
+    "historicalCandidateHead": "0366685d0d9c0936f474a62d74773c02ba497e9f",
+    "historicalFeatureCommit": "da7a0ab6037e10d1a050e7cf76f2002b97ceca63",
+    "historicalCandidateBase": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+    "historicalReceiptsApplicable": false
+  },
+  "fixedPopulation": {
+    "story": "SAHA-158",
+    "issue": "APL-181",
+    "workPackage": "WP09",
+    "candidateWorktree": "work/saha-remaining40-saha158-20261020"
+  },
+  "contract": {
+    "nativePortableSnapshot": "docs/verification/saha-158-apl-181-native-contract-20261021.json",
+    "nativeDescriptionSha256": "201c806850964dd8e85fba5edf9578e26e75945353d3f244cc204b4fb9d7a5be",
+    "localPlanningPath": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-181.md",
+    "localPlanningSha256": "2f567c5d359a4c8ef077ebe3fae3f498cc09d0a992569543932f4c9c0dd27708"
+  },
+  "semanticSuccessor": {
+    "expiredCoordinatesWithheldAt": [
+      "event-specific read",
+      "general workspace snapshot",
+      "revision history",
+      "organisation data exit"
+    ],
+    "physicalExpiry": [
+      "current visit eventGeotags",
+      "stored visit revision eventGeotags",
+      "every bare or dotted sensitive location-bearing revision change, while retaining unrelated changes"
+    ],
+    "revisionIntegrityPreserved": [
+      "id",
+      "organisation",
+      "person",
+      "entity",
+      "version",
+      "actor",
+      "action",
+      "reason",
+      "created time",
+      "append-only trigger"
+    ],
+    "transactionBoundary": "Current and revision coordinate cleanup occurs in the guarded D1 command batch; token gating and D1 rollback prevent partial cleanup.",
+    "importedVisitCommandsClassified": [
+      "recordEventGeotag",
+      "supportCaseOpen"
+    ],
+    "contractHarnessRepair": "Current lib/saha modules compile exactly once by recursive inventory; no assertions or minima removed."
+  },
+  "review": {
+    "status": "PENDING_CURRENT_PARENT_INDEPENDENT_REVIEW",
+    "priorSemanticReview": {
+      "status": "PASS",
+      "applicability": "22 staged successor blobs unchanged; current-parent object binding requires new review"
+    }
+  },
+  "validation": {
+    "eventGeotagContract": "66/66 PASS on current parent",
+    "actualWorkerD1": "10/10 PASS on current parent",
+    "commandAuthority": "14/14 PASS on current parent",
+    "visitImport": "54/54 PASS on current parent",
+    "dataExit": "46/46 PASS on current parent",
+    "authorisationMatrix": "SAHA-158 route/role check PASS; aggregate 69/74 with five inherited unrelated failures retained",
+    "typecheck": "PASS on current parent",
+    "productionBuild": "PASS on current parent",
+    "retainedHold": "device-work-purge-failure-browser reproduced: page.waitForResponse timeout after 30 seconds; no pass claimed"
+  },
+  "unclaimedGates": [
+    "current-parent independent review",
+    "exact-source CI",
+    "formal privacy/domain/clinical/field acceptance",
+    "merge",
+    "observed staging deployment",
+    "production deployment"
+  ],
+  "indexedFiles": {
+    "app/api/event-geotags/route.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "f987edf354b4b1b089002cbbe8c8924a77c12526",
+      "stagedSha256": "a320f3c84dcc0d037e8b94197e93ffaebc8bd47353e72e24088541556ae89263"
+    },
+    "app/event-geotag-policy/page.tsx": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "ba12ef644438e556753c9fa156e28bfae3bd3644",
+      "stagedSha256": "ce1fa4d0d478863861cd6c8e644678595e85345b3db967eee0c7b9571e0d5379"
+    },
+    "app/event-geotag/page.tsx": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "e5fbfd164c818f4dc35eef81f548216f44f299d8",
+      "stagedSha256": "664cc8d8c5531c2667a2a6776b44a180999e4e777d869764ed79a3bf5b17fe34"
+    },
+    "app/organisation.tsx": {
+      "changeStatus": "M",
+      "baseBlobOid": "efeda231e46422cc20981b36ac64dd59b5312441",
+      "baseSha256": "e4c7e8bad9208692e1d99d4dc693a414431c46021858d0d9bad5ecb14f62d13b",
+      "stagedBlobOid": "30d63eeaaf36d122bbce280fe95239d7d5f873f7",
+      "stagedSha256": "3b27e139175eeaf7eedbe20a84a3b68eb789847bae8820a8c60cf339d321b2bb"
+    },
+    "app/routine-visit/routine-visit.tsx": {
+      "changeStatus": "M",
+      "baseBlobOid": "496c4c04f520054b9970b0544423810c90fc6695",
+      "baseSha256": "045b6fe7f37359489561591233383e77471ba6fbdec6da5de4fa300a90b71f11",
+      "stagedBlobOid": "f4d860a14d25a635c5b8d840626fffd28dc599ca",
+      "stagedSha256": "4c846c3b96aed7d1b0e3e60bcfdde002169ea5d7f2312b0e0453316a40c9653c"
+    },
+    "docs/current/CURRENT-API-INVENTORY.md": {
+      "changeStatus": "M",
+      "baseBlobOid": "b8c0bc24036f1ccd22818093b34517309dafe860",
+      "baseSha256": "6aa99fdec1118e2d101ed530a7cab2b112583a19eb41bc5866c09ad158718d1b",
+      "stagedBlobOid": "6f43ad76dd5ce80fd935eaaf8a5b8ba8e885cb28",
+      "stagedSha256": "a4992a3b34dff47a3a5d0b93e1a09d8440b743cfbdbd19f48996379fb66a3577"
+    },
+    "docs/current/HTTP-ROUTES.csv": {
+      "changeStatus": "M",
+      "baseBlobOid": "42c4930f1539d8063df19886394f0b8f174aa282",
+      "baseSha256": "bccf182a9f6b341ba5c3e3f46be9cd2ba21dfe94bccfb586c314ea81465a90c7",
+      "stagedBlobOid": "606df1dae4153d6fc72e67d5a0dc38ca101ebbeb",
+      "stagedSha256": "f1b3ee1d7ee24d73ecdd6660f55033d6a05ab1097504ab9f499c5ec8867fb486"
+    },
+    "docs/current/SAHA-158-PURPOSE-LIMITED-EVENT-GEOTAGS.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "5a61e604520559e390370ad3c72d9833a5e1e6e7",
+      "stagedSha256": "3e207e1f2fac8a823aaa638e5ca146ddec22427d3ce48e4952e1bf7b31ef8b6d"
+    },
+    "docs/verification/saha-158-apl-181-native-contract-20261021.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "17b6de3807bf6fc8c19ee7b211d5fcb612095741",
+      "stagedSha256": "5c45f401ee5566b83bcb2e2dd8b87b65e8aa785a8c10271912d404f84c440beb"
+    },
+    "lib/saha/data-exit.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "4b5cfec14c169b1e163448660d61b6973a41ccee",
+      "baseSha256": "1865691ea2dd7398b45b5f3f73a9198058acc84853fa75185629f75b66c04e94",
+      "stagedBlobOid": "f6a360c7c727e5209dfb7cbb92937c94048ba66a",
+      "stagedSha256": "913a5b86eaa5c0cff21ba53a014f4d8ccb72c60178ff9de4e476c1a3c03b0671"
+    },
+    "lib/saha/event-geotag-server.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "aae3c2c447de9b3daf32068ed9205b5b131ee81e",
+      "stagedSha256": "e3a42d51b00c2b353e81a2106f43fe2acbbff72a446d7b2a6fe041fd13a73236"
+    },
+    "lib/saha/event-geotag.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "bad443fe7cac275a152230df368ae0cc509bf8b1",
+      "stagedSha256": "f03695cb886a7b506f68ea10f295eeb3100a7f32ec7fd2518708ae0a354a0223"
+    },
+    "lib/saha/imported-visits.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "370ca0433ebca4e61b5629eb20de1e57d05ecc26",
+      "baseSha256": "42835b5ae697b45eec173dba7b7eab752b56cd391fdaf3678d5a70cc749adc96",
+      "stagedBlobOid": "e61b485dbf591af5e417ed2a5e78648e1024209a",
+      "stagedSha256": "4b050a1d7b6b0b3d4977aa6840efe220fd5ed61e44f2fd954bda698b0754a725"
+    },
+    "lib/saha/server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "d8ab44baa10178577840554c73e98224a6a6191d",
+      "baseSha256": "0c2f6b878c5c4dd8df07bd5fefb7859608d8f2a4c0df89d722c4618fbb038637",
+      "stagedBlobOid": "470bb9dc7c7ed71b3e2a2c50ab7f56756ad5e061",
+      "stagedSha256": "f2f0e0ebcf687f261fe906fc8b0d6b880cb3c1e256c4cdfb1cf17c1b7469b36d"
+    },
+    "lib/saha/store.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "46107d0c88ca467940018ea448e5a68b26b99da0",
+      "baseSha256": "4700ef8b9becdc76087e6d77ab57649fdaf8d2495544a24b9aabd113b3e8b8a2",
+      "stagedBlobOid": "cbbc8c519d817ff65c6ef73afb6a8ca33c6538a5",
+      "stagedSha256": "eaddda8484f93d3b9cba72af3b8d12ed0a756e76839ccb9ab9dc6db1506d1cdd"
+    },
+    "scripts/test-catalogue.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "6f058d76a40fed59e393d56f07d766e88b11d5da",
+      "baseSha256": "fe2b6dcacd402af7c0a7223a72ecffd252ff572b793fa0ddada0c14e3f96a682",
+      "stagedBlobOid": "e679ed33f1559decedbb1ba8ac8c4c3574051f63",
+      "stagedSha256": "06f20bff65c8fb7d77ecbf8f0434014cd34d8c781f57a3c0b690525cd30535c8"
+    },
+    "tests/data-exit-contract.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "b0190b04bdf2ec5c011d1d57995acd23d6406f44",
+      "baseSha256": "485966f5dd49c386e16097a8d21f1c5b70b6d706939365661eaef056358cc51d",
+      "stagedBlobOid": "27a0f258812d959d94fcdaf6768476a6a5bb0097",
+      "stagedSha256": "ae0674bf935d1cbef3e65c68f132801702ebbd92e12cc75046e4df4ec426508f"
+    },
+    "tests/event-geotag-contract.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "934c0ce2c370886e60c18cd08dd6ecd81c9a784e",
+      "stagedSha256": "62e50b06b15ffdf96174ec35060d9f49850bc044ec4a67af612a6dd95feeb3ca"
+    },
+    "tests/evidence/saha-158-event-geotag/worker-d1-result.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "b58a9c540cbdb914c58b6053457a93d9da491f2e",
+      "stagedSha256": "b135866c156e0af5577a68b19e825d0a804e3bae2602b8c1288a1809dcae4ff5"
+    },
+    "tests/nfr/authorisation-matrix-current.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "f0f3b580d409f9b69b6b344271f360a5e20fe204",
+      "baseSha256": "0b5c2d88ec8e5c7ca62ce516d4c19a802467cb80aeefab9fab985d483e086ab9",
+      "stagedBlobOid": "50ef1fb1900d5bb124d37aef695c40b9cc4b8a6f",
+      "stagedSha256": "bde45b4b397b8dd45ac09c9188211817126eefeebaf1021e82a73854db63662d"
+    },
+    "tests/smoke/event-geotag-worker.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "22e491ef3195ae1438c2a3977c57783e71217f4d",
+      "stagedSha256": "c750291f9ea535b48a4d08899a8c184465a6809929f1dfcd3f8e547aabb1bb1c"
+    },
+    "tests/visit-import-contract.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "48e60da457a80271cf782506c2536e754dcbc275",
+      "baseSha256": "05afb7542bddb94a5ce8d969c07d8ab31976bb1a659d5114009db14fe0171819",
+      "stagedBlobOid": "14bd3900117ae37895c82a192807b29dc733eb33",
+      "stagedSha256": "b2a00c3494e7d8b1da33286f9b1d95cf662f327ce7937922ed88d5016c3e59c3"
+    }
+  },
+  "semanticPatchSha256": "8129bf86f9b8e330e80398780b387d325b2f504732a23301cc103a2e30d90e1e",
+  "semanticPatchConvention": "SHA-256 of git diff --cached --binary HEAD -- the sorted indexedFiles paths before adding this receipt",
+  "hashConvention": {
+    "algorithm": "SHA-256",
+    "semanticPatch": "SHA-256 of git diff --cached --binary excluding this receipt",
+    "manifestDigest": "SHA-256 of UTF-8 canonical JSON (recursively sorted keys, compact separators) after removing entire integrity object",
+    "receiptSelfHandling": "receipt excluded from indexedFiles"
+  },
+  "integrity": {
+    "manifestSha256": "7248679f77b5c227b9c78d4ffea9aac896d383f5b1143cc75a6edc4fcceacafe"
+  }
+}

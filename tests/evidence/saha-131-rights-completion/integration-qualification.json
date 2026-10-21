@@ -1,0 +1,55 @@
+{
+  "storyId": "SAHA-131",
+  "linearIssue": "APL-154",
+  "parent": "b915a22a84bff126ff8a49be51e98fe7aac1c303",
+  "candidate": "18450ddd",
+  "qualifiedAt": "2026-10-20T20:02:58.759Z",
+  "sourceSha256": {
+    "app/api/rights/package/route.ts": "b9c4fc2ace277a9bdeaace34d06e2cb0eef26e199c0264e67725797fb109cb19",
+    "app/rights-panel.tsx": "613c671d96966209eebc7a2364ac9710dac15c14caf447a77c32a91c599df6f2",
+    "lib/saha/operations.ts": "a180d2b3a63773d4e1ec353ec49b82f7565673cd65428d63db530818b2ff9e71",
+    "lib/saha/rights-server.ts": "53fe01759fb530b60647a6f093b122a269ab33754b4671b0749f30926881250e",
+    "lib/saha/rights.ts": "bc81b989bc7650f8b9b89e3f49bebc85050ed80f92f880cab151c8ce1b105153",
+    "tests/agent-smoke.mjs": "2a01ca3d68ab5e1d8577644264fbdaea162074c6232e99215fef2e1c90d876a3",
+    "tests/operations-privacy-registration-current.mjs": "160c41a7596c4de9e89a38973ffb1211e50ff246f0062e37ef3f0f7da9e5dfaf",
+    "tests/rights-contract.mjs": "c1e734d1cdc323f6fa092f3e7df66e21f52c4ddabebc586e1045a8e7bb660353",
+    "tests/rights-smoke.mjs": "153c006463a02ffa2eb065d9735ca3cc17c927431a6e80c42b9aaf8b7a3981bf",
+    "tests/saha-125-sensitive-proxy-contract.mjs": "979428a6cab7ea2eafe16edfb4151519fb64e4bb7c6c5bd4595e1fb4eab91be6"
+  },
+  "checks": [
+    {
+      "name": "rights contract",
+      "status": "passed",
+      "assertions": 22
+    },
+    {
+      "name": "SAHA-125 proxy regression",
+      "status": "passed",
+      "assertions": 15
+    },
+    {
+      "name": "TypeScript",
+      "status": "passed"
+    },
+    {
+      "name": "production build",
+      "status": "passed"
+    },
+    {
+      "name": "independent source review",
+      "status": "passed"
+    },
+    {
+      "name": "full API integration",
+      "status": "failed",
+      "failure": "pre-existing governance Hindi evaluation expectation at tests/governance-smoke.mjs:64; retained separately",
+      "receipt": "tests/evidence/saha-131-rights-completion/integration-api-failed.json"
+    }
+  ],
+  "claimsExcluded": [
+    "exact-source CI",
+    "merge",
+    "deployment",
+    "formal privacy or clinical acceptance"
+  ]
+}

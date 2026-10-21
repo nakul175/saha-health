@@ -258,8 +258,14 @@ try {
     'A6: client calls only narrow story API',
   );
   check(
-    (await page.locator('input,textarea,select,a').count()) === 0,
-    'A6: no editing or legacy navigation controls',
+    (await page.locator('input,textarea,select,form').count()) === 0,
+    'A6: no editing controls',
+  );
+  const navigationPaths = await page.locator('a').evaluateAll((links) => links.map((link) => new URL(link.href).pathname));
+  const approvedReadPaths = new Set(['/routine-visit', '/shared-question-review', '/follow-ups', '/record-matching', '/fact-freshness', '/plan-review', '/household-proxy-review', '/care-permissions', '/local-registration']);
+  check(
+    navigationPaths.every((path) => approvedReadPaths.has(path)) && !navigationPaths.some((path) => path === '/app' || path.startsWith('/api/')),
+    'A6: navigation is limited to approved read and review journeys',
   );
   check(
     await page.evaluate(() => localStorage.length === 0 && sessionStorage.length === 0),

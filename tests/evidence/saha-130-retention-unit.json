@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "story": "SAHA-130",
+  "evidenceType": "exact-current-parent-direct-contract",
+  "parentCommit": "9b2ccf34f1929c5b677b3b901b01f43ca7408c21",
+  "command": "node tests/retention-contract.mjs",
+  "sourcePath": "tests/retention-contract.mjs",
+  "stagedSourceSha256": "41c18b3afbeb7e1b5ed0b7b3a77e4ddf0ea4eea07ad3a040beee9e8cc188e471",
+  "result": {
+    "suite": "retention contract (slice 6c)",
+    "passed": 19,
+    "failed": 0,
+    "completedAt": "2026-10-20T23:19:05.938Z"
+  },
+  "limits": [
+    "Synthetic local direct contract only",
+    "Independent review, exact-source CI, formal privacy/security acceptance, merge and deployment remain separate",
+    "Full SAHA-130 remains HOLD for patient/model/offline/audit/export/backup physical-disposal policy"
+  ]
+}

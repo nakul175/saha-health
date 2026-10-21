@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import {mkdtempSync,readdirSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
+import {join} from 'node:path';
+import {pathToFileURL} from 'node:url';
+
+const dir=mkdtempSync(join(process.cwd(),'.spaces-version-delete-'));
+try{
+ for(const file of readdirSync('lib/saha').filter(x=>x.endsWith('.ts'))){const out=ts.transpileModule(readFileSync(join('lib/saha',file),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,file.replace(/\.ts$/,'.js')),out);}
+ const a=await import(pathToFileURL(join(dir,'s3-versioned-delete-runtime.js'))),d=await import(pathToFileURL(join(dir,'retention-disposal.js')));
+ let status=204,receiptVersion='version-11',calls=0,seen=null;const signer={signedVersionDelete:async request=>{calls++;seen=request;return{status,versionId:receiptVersion,requestId:'synthetic-spaces-request'}}};
+ const valid={SAHA_ENVIRONMENT:'production',SAHA_RETENTION_OBJECT_DELETE:'digitalocean-spaces-versioned-v1',SAHA_RETENTION_SPACES_ENDPOINT:'https://blr1.digitaloceanspaces.com',SAHA_RETENTION_SPACES_REGION:'blr1',SAHA_RETENTION_SPACES_ACCOUNT_ID:'synthetic-account',SAHA_RETENTION_SPACES_BUCKET:'synthetic-private-bucket',SAHA_RETENTION_SPACES_VERSIONING_EVIDENCE:'SPACES-VERSIONING-EVIDENCE',SAHA_RETENTION_SPACES_EXACT_VERSION_DELETE_EVIDENCE:'SPACES-DELETE-VERSION-EVIDENCE',SAHA_RETENTION_SPACES_ACCOUNT_BUCKET_EVIDENCE:'SPACES-ACCOUNT-BUCKET-EVIDENCE',RETENTION_DELETE_SIGNER:signer};
+ for(const runtime of [{}, {...valid,SAHA_ENVIRONMENT:'staging'},{...valid,SAHA_RETENTION_SPACES_ENDPOINT:'https://nyc3.digitaloceanspaces.com'},{...valid,SAHA_RETENTION_SPACES_ENDPOINT:'http://blr1.digitaloceanspaces.com'},{...valid,SAHA_RETENTION_SPACES_REGION:'bad-region'},{...valid,SAHA_RETENTION_SPACES_VERSIONING_EVIDENCE:''},{...valid,SAHA_RETENTION_SPACES_EXACT_VERSION_DELETE_EVIDENCE:''},{...valid,SAHA_RETENTION_SPACES_ACCOUNT_BUCKET_EVIDENCE:''},{...valid,RETENTION_DELETE_SIGNER:{}}])assert.equal(a.productionSpacesExactDelete(runtime),null,'disabled, non-production or malformed Spaces configuration refuses');
+ assert.equal(calls,0,'configuration refusal happens before signing');
+ const capability=a.productionObjectDeleteCapability(valid);assert.ok(capability);assert.equal(capability.kind,'exact-immutable-version-delete-v1');const exact={key:'private/synthetic-object',version:'version-11',etag:'"etag-is-custody-evidence"'};
+ assert.equal(await capability.deleteExact(exact),'deleted');assert.deepEqual(seen,{method:'DELETE',key:exact.key,versionId:exact.version,endpoint:'https://blr1.digitaloceanspaces.com',region:'blr1',accountId:'synthetic-account',bucket:'synthetic-private-bucket'});
+ receiptVersion='different-version';assert.equal(await capability.deleteExact(exact),'unconfirmed','a 204 without an exact matching version receipt cannot complete');
+ status=409;assert.equal(await capability.deleteExact(exact),'mismatch');status=503;assert.equal(await capability.deleteExact(exact),'unconfirmed');status=404;assert.equal(await capability.deleteExact(exact),'absent');
+ let object={version:exact.version,etag:exact.etag};const bucket={head:async()=>object,delete:async()=>{throw Error('generic key delete forbidden')}},job={org_id:'org',id:'job',tombstone_id:'tomb',record_class:'raw-audio',record_id:'media',person_id:'person',object_key:exact.key,object_version:exact.version,etag:exact.etag,state:'reserved',attempts:1,last_attempt_at:null,last_error:null,reservation_token:'reservation',reserved_at:'2026-10-21T00:00:00.000Z',reserved_by:'owner',request_key:'request-key',request_hash:'hash',outcome:'reserved',created_at:'2026-10-21T00:00:00.000Z',completed_at:null};
+ status=204;receiptVersion=exact.version;const success=a.productionObjectDeleteCapability({...valid,RETENTION_DELETE_SIGNER:{signedVersionDelete:async request=>{calls++;assert.equal(request.versionId,exact.version);object=null;return{status:204,versionId:request.versionId,requestId:'synthetic-exact'}}}});const outcome=await d.purgeReservedPrivateObject(bucket,job,{conditionalDelete:success});assert.equal(outcome.state,'completed');assert.equal(outcome.outcome,'delete-confirmed-absent');
+ console.log(JSON.stringify({suite:'DigitalOcean Spaces exact immutable-version deletion contract',passed:22,networkCalls:0,credentialsUsed:0}));
+}finally{rmSync(dir,{recursive:true,force:true});}

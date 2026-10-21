@@ -1,0 +1,117 @@
+import { z } from 'zod';
+import { fail, uuid } from './core.js';
+import { PROGRAMMES } from './types.js';
+import { operandError, operandRef, AGE_BANDS, BUILT_IN_IDS, CADENCES, EXCLUSIONS, MEASURE_IDS, MIN_CELL, SEXES, registryRecords, definitionEvents, definitionLifecycle } from './indicators.js';
+const reason = z.string().trim().min(10, 'Write at least 10 characters.').max(300), id = z.string().regex(/^[a-z][a-z0-9-]{2,39}$/, 'Use 3 to 40 lowercase letters, digits and hyphens.'), version = z.number().int().min(1);
+const operand = z.union([z.enum(MEASURE_IDS), z.unknown().superRefine((x, ctx) => { const error = operandError(x); if (error)
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: error }); })]);
+const spec = z.object({ title: z.string().trim().min(3).max(80), unit: z.enum(['count', 'proportion']), numerator: operand, denominator: operand.nullable(), filters: z.object({ programme: z.enum(PROGRAMMES).optional(), ageBand: z.enum(AGE_BANDS).optional(), sex: z.enum(SEXES).optional() }).strict(), exclude: z.array(z.enum(EXCLUSIONS)).max(EXCLUSIONS.length).refine(x => new Set(x).size === x.length, 'Choose each exclusion once.'), exclusionsNote: z.string().trim().max(200), owner: z.string().trim().min(2).max(60), cadence: z.enum(CADENCES), minimumCohort: z.number().int().min(MIN_CELL).max(1000) }).strict();
+export const indicatorRegistrySchema = z.discriminatedUnion('type', [
+    z.object({ type: z.literal('addIndicatorDefinition'), id, spec, reason }).strict(),
+    z.object({ type: z.literal('reviseIndicatorDefinition'), id, expectedVersion: version, spec, reason }).strict(),
+    z.object({ type: z.literal('retireIndicatorDefinition'), id, expectedVersion: version, reason }).strict(),
+    z.object({ type: z.literal('rollbackIndicatorDefinition'), id, expectedVersion: version, sourceVersion: version, reason }).strict(),
+    z.object({ type: z.literal('reviewIndicatorDefinition'), id, expectedVersion: version, expectedGovernanceVersion: version, decision: z.enum(['approve', 'reject']), reason }).strict(),
+    z.object({ type: z.literal('releaseIndicatorDefinition'), id, expectedVersion: version, expectedGovernanceVersion: version, reviewEventId: z.string().uuid(), effectiveAt: z.string().datetime(), reason }).strict(),
+    z.object({ type: z.literal('withdrawIndicatorDefinition'), id, expectedVersion: version, expectedGovernanceVersion: version, reason }).strict(),
+]);
+const TYPES = new Set(indicatorRegistrySchema.options.map(x => x.shape.type.value));
+export const indicatorReviewer = (m) => m.status === 'active' && ['supervisor', 'clinician'].includes(m.role);
+function currentReview(s, r, reviewEventId) { const review = definitionEvents(s).find(e => e.id === reviewEventId && e.definitionId === r.id && e.definitionVersion === r.version && e.kind === 'approved'), m = review && s.members.find(x => x.userId === review.by); if (!review || review.by === r.by || !m || !indicatorReviewer(m) || m.role !== review.role || m.version !== review.memberVersion)
+    fail(409, 'Independent reviewer authority changed. Reprepare a definition for a fresh review.'); return review; }
+// Receipt replay still checks fresh original actor authority; saved output cannot grant care access.
+export function authorizeIndicatorRegistry(s, m, c) { if (!TYPES.has(c.type))
+    return; if (c.type === 'reviewIndicatorDefinition') {
+    if (!indicatorReviewer(m))
+        fail(403, 'An active supervisor or clinician must review indicator definitions.');
+    const r = registryRecords(s).find(r => r.id === c.id && r.version === c.expectedVersion);
+    if (r?.by === m.userId)
+        fail(403, 'Another supervisor or clinician must independently review this definition.');
+}
+else if (m.status !== 'active' || !m.isOwner)
+    fail(403, 'Only an owner can maintain indicator definitions.'); if (c.type === 'releaseIndicatorDefinition') {
+    const r = registryRecords(s).find(r => r.id === c.id && r.version === c.expectedVersion);
+    if (r)
+        currentReview(s, r, c.reviewEventId);
+} }
+function consistent(sp) { if (sp.unit === 'proportion' && !sp.denominator)
+    fail(422, 'A proportion needs a denominator measure.'); if (sp.unit === 'count' && sp.denominator)
+    fail(422, 'A count has no denominator. Choose proportion or remove the denominator.'); if (sp.denominator && operandRef(sp.denominator) === operandRef(sp.numerator))
+    fail(422, 'Choose a denominator different from the numerator.'); }
+export function applyIndicatorRegistry(s, input, u, m, now = new Date().toISOString()) {
+    const parsed = indicatorRegistrySchema.safeParse(input);
+    if (!parsed.success) {
+        if (input && typeof input === 'object' && TYPES.has(input.type))
+            fail(422, parsed.error.issues[0]?.message ?? 'Check the definition.');
+        return null;
+    }
+    const c = parsed.data;
+    authorizeIndicatorRegistry(s, m, c);
+    const records = registryRecords(s).filter(r => r.id === c.id), latest = records.reduce((a, r) => !a || r.version > a.version ? r : a, undefined), ops = s.operations ??= { version: 0, maintenance: false, reason: '', updatedAt: '', incidents: [], rates: null };
+    let record, eventKind = 'proposed', extra = {};
+    if (c.type === 'addIndicatorDefinition' || c.type === 'reviseIndicatorDefinition' || c.type === 'retireIndicatorDefinition' || c.type === 'rollbackIndicatorDefinition') {
+        if (c.type === 'addIndicatorDefinition') {
+            if (latest || BUILT_IN_IDS.includes(c.id))
+                fail(409, 'An indicator with this identifier already exists. Revise it instead.');
+        }
+        else {
+            if (!latest)
+                fail(404, 'Indicator not found.');
+            if (latest.version !== c.expectedVersion)
+                fail(409, 'This indicator changed. Refresh and review the latest version.');
+            if ((latest.intendedStatus ?? latest.status) === 'retired' && definitionLifecycle(s, latest, new Date(now)).eligible && c.type !== 'rollbackIndicatorDefinition')
+                fail(409, 'This indicator is retired. Propose an explicitly reviewed rollback or add a new identifier.');
+        }
+        let next;
+        if (c.type === 'addIndicatorDefinition' || c.type === 'reviseIndicatorDefinition')
+            next = c.spec;
+        else if (c.type === 'rollbackIndicatorDefinition') {
+            const source = records.find(r => r.version === c.sourceVersion);
+            if (!source || !definitionLifecycle(s, source, new Date(now)).eligible || (source.intendedStatus ?? source.status) === 'retired')
+                fail(422, 'Rollback requires an earlier released effective active definition.');
+            next = structuredClone(source.spec);
+        }
+        else
+            next = structuredClone(latest.spec);
+        consistent(next);
+        record = { id: c.id, version: (latest?.version ?? 0) + 1, status: 'proposed', intendedStatus: c.type === 'retireIndicatorDefinition' ? 'retired' : 'active', spec: next, reason: c.reason, by: u.userId, byName: u.displayName, at: now, ...(c.type === 'rollbackIndicatorDefinition' ? { rollbackFrom: c.sourceVersion } : {}) };
+        (ops.indicatorDefinitions ??= []).push(record);
+    }
+    else {
+        const selected = records.find(r => r.version === c.expectedVersion);
+        if (!selected || (c.type !== 'withdrawIndicatorDefinition' && latest?.version !== c.expectedVersion))
+            fail(409, 'This indicator changed. Refresh and review the latest version.');
+        record = selected;
+        const life = definitionLifecycle(s, record, new Date(now));
+        if (record.status !== 'proposed')
+            fail(409, 'Legacy released definitions cannot be edited. Propose a new version.');
+        if (life.governanceVersion !== c.expectedGovernanceVersion)
+            fail(409, 'Definition review changed. Refresh before continuing.');
+        if (c.type === 'reviewIndicatorDefinition') {
+            if (life.status !== 'proposed')
+                fail(409, 'Only a proposed definition can be independently reviewed.');
+            eventKind = c.decision === 'approve' ? 'approved' : 'rejected';
+        }
+        else if (c.type === 'releaseIndicatorDefinition') {
+            if (life.status !== 'approved' || life.review?.id !== c.reviewEventId)
+                fail(409, 'Select the current independent approval before release.');
+            currentReview(s, record, c.reviewEventId);
+            const effective = Date.parse(c.effectiveAt);
+            if (effective < Date.parse(now))
+                fail(422, 'Choose an effective time at or after this server check.');
+            if (records.some(r => r.version > record.version && definitionLifecycle(s, r, new Date(now)).release))
+                fail(409, 'A newer definition was already released.');
+            eventKind = 'released';
+            extra = { effectiveAt: c.effectiveAt, reviewEventId: c.reviewEventId };
+        }
+        else {
+            if (!['proposed', 'approved', 'scheduled'].includes(life.status))
+                fail(409, 'Only an unreleased or future scheduled definition can be withdrawn. Use a reviewed retirement or rollback for an effective definition.');
+            eventKind = 'withdrawn';
+        }
+    }
+    const events = (ops.indicatorDefinitionEvents ??= []), event = { id: uuid(), definitionId: c.id, definitionVersion: record.version, sequence: events.filter(e => e.definitionId === c.id).length + 1, kind: eventKind, by: u.userId, byName: u.displayName, at: now, reason: c.reason, role: m.role, memberVersion: m.version, ...extra };
+    events.push(event);
+    s.workspace.audit.push({ id: uuid(), at: now, actor: u.displayName, actorId: u.userId, role: m.role, action: 'indicatorDefinition', subject: c.id, detail: `Indicator ${c.id} v${record.version}: ${eventKind}; governance event ${event.sequence}. Reason: ${c.reason}` });
+    return { id: record.id, version: record.version, status: definitionLifecycle(s, record, new Date(now)).status, governanceVersion: event.sequence, eventId: event.id, ...(extra.effectiveAt ? { effectiveAt: extra.effectiveAt } : {}) };
+}

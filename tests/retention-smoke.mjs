@@ -6,8 +6,9 @@ export async function retentionSmoke({get,post,check,accounts,org,sql,base}){
  const counts=()=>['patients','visits','submissions','record_revisions'].map(t=>sql.prepare(`SELECT count(*) AS n FROM ${t} WHERE org_id=?`).get(org).n);
  await view(s,403);await view(w,403);await view(a,403);
  let v=await view(o);
- check(()=>{assert.equal(v.policy,null);assert.equal(v.review.length,6);assert.match(v.disposal,/never deletes/);});
- const rules=v.classes.map(c=>({recordClass:c.recordClass,years:7}));
+ check(()=>{assert.equal(v.policy,null);assert.equal(v.review.length,12);assert.match(v.disposal,/tombstones/);});
+ const meta={purpose:'synthetic care evidence',location:'local test store',jurisdiction:'synthetic jurisdiction'};
+ const rules=v.classes.map(c=>({recordClass:c.recordClass,years:7,...meta}));
  await post(s,{type:'retentionPolicySet',rules,basis:'Synthetic records policy for the test'},403);
  await post(o,{type:'retentionPolicySet',rules:[{recordClass:'audit-event',years:60}],basis:'Synthetic records policy for the test'},422);
  await post(o,{type:'retentionPolicySet',rules,basis:'short'},422);
@@ -17,7 +18,7 @@ export async function retentionSmoke({get,post,check,accounts,org,sql,base}){
  sql.prepare('INSERT INTO audit_events (org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at) VALUES (?,?,?,?,?,?,?,?,?,?)').run(org,`retention-old-${crypto.randomUUID()}`,null,o.id,'Owner','clinician','fixture',org,'Synthetic old event for retention review','2001-01-01T00:00:00.000Z');
  const before=counts();
  v=await view(o);const row=c=>v.review.find(r=>r.recordClass===c);
- check(()=>{assert.equal(v.policy.version,set.result.version);assert.ok(row('audit-event').pastSchedule>=1);assert.equal(row('audit-event').eligible,row('audit-event').pastSchedule);assert.equal(row('patient-record').eligible,row('patient-record').pastSchedule);});
+ check(()=>{assert.equal(v.policy.version,set.result.version);assert.ok(row('audit-event').pastSchedule>=1);assert.equal(row('audit-event').eligible,0);assert.equal(row('patient-record').eligible,0);assert.equal(row('programme-receipt').disposalSupported,true);});
  await get(o,'/api/workspace',200,org);const p=o.state.people[0];
  await post(a,{type:'retentionHoldPlace',scope:'organisation',reason:'Admin attempt at a hold',reference:'ADM-1'},403);
  await post(o,{type:'retentionHoldPlace',scope:'person',reason:'Missing patient reference',reference:'CASE-0'},422);
@@ -28,7 +29,7 @@ export async function retentionSmoke({get,post,check,accounts,org,sql,base}){
  await post(s,{type:'retentionHoldRelease',holdId:orgHold.result.holdId,reason:'Supervisor release attempt'},403);
  await post(o,{type:'retentionHoldRelease',holdId:orgHold.result.holdId,reason:'Inquiry closed in synthetic test'});
  await post(o,{type:'retentionHoldRelease',holdId:orgHold.result.holdId,reason:'Inquiry closed in synthetic test'},409);
- v=await view(o);check(()=>assert.ok(row('audit-event').eligible>=1));
+ v=await view(o);check(()=>assert.equal(row('audit-event').eligible,0));
  check(()=>{const after=counts();assert.deepEqual(after.slice(0,3),before.slice(0,3),'no record was deleted');assert.ok(after[3]>=before[3]);});
  check(()=>assert.equal(sql.prepare("SELECT count(*) AS n FROM audit_events WHERE org_id=? AND action LIKE 'retention%'").get(org).n,4));
 }

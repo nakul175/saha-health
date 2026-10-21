@@ -1,0 +1,92 @@
+{
+  "story": "SAHA-103",
+  "issue": "APL-126",
+  "requirement": "BR-CARE-05",
+  "baseCommit": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "frozenContract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-126.md",
+    "sha256": "3d7f1dacc4364713c310df6c695ae3ed724434e2c35f161b750611e702c2b84c"
+  },
+  "syntheticDataOnly": true,
+  "applicationCodeGapIdentified": false,
+  "files": {
+    "tests/unified-action-plan-contract-result.json": {
+      "sha256": "e9b0f67b64f53d55ff73e6e1f0657fa2ef936a36557546a541b37cf637555953"
+    },
+    "unified-contract.log": {
+      "sha256": "c1141e577ea76a903e16a538c30c6ccc0a1665111707772a53f23d971c1711cd"
+    },
+    "action-plan-compatibility.log": {
+      "sha256": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835"
+    },
+    "household-completion-compatibility.log": {
+      "sha256": "73976a97847e64f33d5d5a587b7ee6fda8e91d13e76566dd88559e28c1457b60"
+    },
+    "typecheck.log": {
+      "sha256": "c35f2424235ba232f059514b72746d95f8a42286c454677ef748954aed7c5f36"
+    },
+    "build.log": {
+      "sha256": "1a726c67212304bfb5165f3398c423fdde8a71ff545a08451a22e8a3b1ec2a85"
+    },
+    "lint-baseline.log": {
+      "sha256": "79e90c621acd21b9be040c88b56018cf9bc4e19841b9d011c90ed9bf7cd065d9"
+    }
+  },
+  "checks": [
+    {
+      "command": "node tests/unified-action-plan-contract.mjs",
+      "result": "pass",
+      "assertions": 30,
+      "log": "unified-contract.log",
+      "sha256": "c1141e577ea76a903e16a538c30c6ccc0a1665111707772a53f23d971c1711cd"
+    },
+    {
+      "command": "node tests/action-plan-contract.mjs",
+      "result": "pass",
+      "assertions": 8,
+      "log": "action-plan-compatibility.log",
+      "sha256": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835"
+    },
+    {
+      "command": "node tests/household-completion-contract.mjs",
+      "result": "pass",
+      "assertions": 42,
+      "log": "household-completion-compatibility.log",
+      "sha256": "73976a97847e64f33d5d5a587b7ee6fda8e91d13e76566dd88559e28c1457b60"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "pass",
+      "log": "typecheck.log",
+      "sha256": "c35f2424235ba232f059514b72746d95f8a42286c454677ef748954aed7c5f36"
+    },
+    {
+      "command": "npm run build",
+      "result": "pass-with-existing-large-chunk-advisory",
+      "log": "build.log",
+      "sha256": "1a726c67212304bfb5165f3398c423fdde8a71ff545a08451a22e8a3b1ec2a85"
+    },
+    {
+      "command": "npm run lint:baseline",
+      "result": "pass-errors-1392-equal-baseline-warnings-632-observed",
+      "log": "lint-baseline.log",
+      "sha256": "79e90c621acd21b9be040c88b56018cf9bc4e19841b9d011c90ed9bf7cd065d9"
+    }
+  ],
+  "retainedFailure": {
+    "suite": "tests/household-visit-contract.mjs",
+    "classification": "current-main explicit-transpile fixture drift",
+    "firstMissingModule": "installed-transition-authority",
+    "nextMissingModuleAfterDiagnosticOnlyAdjustment": "aggregate-alert-disclosure",
+    "claimedPassing": false
+  },
+  "formalAcceptance": {
+    "TC-BR-CARE-05-A": "not-run",
+    "TC-BR-CARE-05-B": "not-run",
+    "TC-J11": "not-run"
+  },
+  "independentReview": "not-performed",
+  "ci": "not-run",
+  "merged": false,
+  "observedDeployed": false
+}

@@ -1,6 +1,7 @@
 import { fail } from './core';
 import { identityConfig } from './identity';
 import type { OrgState, Workspace } from './types';
+import { secretRotationChecks } from './secrets';
 // Slice 6n: environment separation (BR-OPS-02) and deployment configuration checks (BR-OPS-01).
 //
 // A deployment declares its environment in SAHA_ENVIRONMENT. Unset means `synthetic`, the
@@ -31,6 +32,37 @@ export const POLICY: Record<EnvironmentName, { fixtures: boolean; live: 'switch'
 type Env = Record<string, string | undefined>;
 export type Check = { id: string; area: 'environment' | 'identity' | 'live-services' | 'organisation'; status: 'ok' | 'warning' | 'error'; message: string };
 
+const NAMESPACE_BINDINGS = [
+  ['SAHA_IDENTITY_NAMESPACE', 'identity'],
+  ['SAHA_DATA_NAMESPACE', 'data'],
+  ['SAHA_CREDENTIAL_NAMESPACE', 'credentials'],
+] as const;
+
+// An environment-bound namespace is an opaque deployment identifier, never a credential. Requiring
+// the declared environment as its prefix makes accidental reuse across training/staging/production
+// visible and fail-closed before a live call. The suffix lets operators rotate or distinguish tenants.
+const bindingMatches = (value: string | undefined, environment: EnvironmentName, kind: string) =>
+  environment !== 'misconfigured' && typeof value === 'string' && value.startsWith(`${environment}:${kind}:`) && value.length > `${environment}:${kind}:`.length;
+
+export function outboundEnvironment(env: Env): Exclude<EnvironmentName, 'misconfigured'> {
+  const current = environmentOf(env).name;
+  if (current === 'misconfigured') fail(409, 'The environment is not configured correctly. Outbound content is withheld.');
+  return current;
+}
+
+// Training must never reveal a record from another deployment. This is checked after every state
+// read, not only on writes, so a mistakenly shared database fails closed before patient data leaves.
+export function ensureEnvironmentDataBoundary(s: OrgState, env: Env) {
+  if (environmentOf(env).name === 'training' && s.workspace.people.some(person => person.synthetic !== true))
+    fail(409, 'Training storage contains a record that is not explicitly synthetic. Patient data is withheld until the environment boundary is corrected.');
+}
+
+// Records created in either practice environment keep an explicit synthetic mark even when they
+// are not seeded fixtures. The server applies this immediately after a local registration.
+export function markEnvironmentRecord(person: { synthetic?: boolean }, env: Env) {
+  if (POLICY[environmentOf(env).name].fixtures) person.synthetic = true;
+}
+
 export function environmentOf(env: Env): { name: EnvironmentName; declared: string | null; source: 'configured' | 'default' | 'invalid' } {
   const raw = String(env.SAHA_ENVIRONMENT ?? '').trim();
   if (!raw) return { name: 'synthetic', declared: null, source: 'default' };
@@ -41,7 +73,7 @@ const safeOrigin = (o: string) => { try { const u = new URL(o); return u.protoco
 const grants = (env: Env, key: string): unknown[] | null => { try { const g = JSON.parse(env[key] ?? '[]'); return Array.isArray(g) ? g : null; } catch { return null; } };
 
 // Deployment-level checks, from configuration alone. Errors here withhold live calls in staging and production.
-export function deploymentChecks(env: Env): Check[] {
+export function deploymentChecks(env: Env, checkedAt = new Date().toISOString()): Check[] {
   const e = environmentOf(env), out: Check[] = [], switchValue = String(env.SAHA_EXTERNAL_APIS_ENABLED ?? '').trim();
   const add = (c: Check) => out.push(c);
   if (e.source === 'invalid') add({ id: 'environment', area: 'environment', status: 'error', message: `SAHA_ENVIRONMENT is "${e.declared}", which is not one of ${ENVIRONMENTS.join(', ')}. Fixtures and live services are refused until it is corrected.` });
@@ -49,6 +81,11 @@ export function deploymentChecks(env: Env): Check[] {
   else add({ id: 'environment', area: 'environment', status: 'ok', message: `SAHA_ENVIRONMENT is ${e.name}.` });
   const id = identityConfig(env);
   add(id.error ? { id: 'identity', area: 'identity', status: 'error', message: `Sign-in is not configured: ${id.error}` } : { id: 'identity', area: 'identity', status: 'ok', message: `Sign-in provider: ${id.provider}.` });
+  for (const [key, kind] of NAMESPACE_BINDINGS) {
+    const value = env[key];
+    if (bindingMatches(value, e.name, kind)) add({ id: `namespace:${kind}`, area: kind === 'identity' ? 'identity' : 'environment', status: 'ok', message: `${kind[0].toUpperCase()+kind.slice(1)} namespace is bound to ${e.name}.` });
+    else add({ id: `namespace:${kind}`, area: kind === 'identity' ? 'identity' : 'environment', status: e.name === 'synthetic' && value === undefined ? 'warning' : 'error', message: `${key} must be an opaque ${e.name}:${kind}:… identifier for this deployment; its value is never displayed.` });
+  }
   if (!['', 'true', 'false'].includes(switchValue)) add({ id: 'external-switch', area: 'live-services', status: 'warning', message: 'SAHA_EXTERNAL_APIS_ENABLED has an unrecognised value and is treated as off. Use true or false.' });
   else if (switchValue === 'true' && POLICY[e.name].live === 'never') add({ id: 'external-switch', area: 'live-services', status: 'error', message: `SAHA_EXTERNAL_APIS_ENABLED is true, but the ${e.name} environment never calls live services. Calls are refused; turn the switch off.` });
   else add({ id: 'external-switch', area: 'live-services', status: 'ok', message: `External services switch is ${switchValue === 'true' ? 'on' : 'off'}.` });
@@ -56,18 +93,21 @@ export function deploymentChecks(env: Env): Check[] {
   if (unsafe.length) add({ id: 'allowed-origins', area: 'live-services', status: 'error', message: `SAHA_ALLOWED_ORIGINS has ${unsafe.length} entr${unsafe.length === 1 ? 'y' : 'ies'} that ${unsafe.length === 1 ? 'is' : 'are'} not a bare public HTTPS origin.` });
   else if (listed.length) add({ id: 'allowed-origins', area: 'live-services', status: 'ok', message: `${listed.length} approved AI provider origin${listed.length === 1 ? '' : 's'}.` });
   for (const [key, label] of [['SAHA_MIS_CONNECTIONS', 'programme'], ['SAHA_EHR_CONNECTIONS', 'EHR']] as const) if (env[key] !== undefined && grants(env, key) === null) add({ id: key.toLowerCase(), area: 'live-services', status: 'error', message: `${key} is not a JSON list, so no ${label} connection can be used.` });
-  // Outbound programme messages, probes and FHIR documents from this build carry a fixed synthetic label.
-  if (e.name === 'production') add({ id: 'outbound-labels', area: 'live-services', status: 'error', message: 'Programme messages, probes and FHIR documents from this build are labelled synthetic. Live calls from production are refused until those labels follow the environment.' });
-  else if (e.name === 'staging') add({ id: 'outbound-labels', area: 'live-services', status: 'warning', message: 'Programme messages, probes and FHIR documents from this build are labelled synthetic; staging partners must accept that label.' });
+  // Production-like environments require current owner and rotation metadata for every
+  // configured provider credential. Values remain server-only and are never emitted.
+  if (['staging', 'production'].includes(e.name)) for (const rotation of secretRotationChecks(env, checkedAt)) add({ id: rotation.binding ? `secret-rotation:${rotation.binding}` : 'secret-rotation-records', area: 'live-services', status: rotation.status, message: rotation.message });
+  add(e.name === 'misconfigured'
+    ? { id: 'outbound-labels', area: 'live-services', status: 'error', message: 'Outbound labels are unavailable until SAHA_ENVIRONMENT is corrected.' }
+    : { id: 'outbound-labels', area: 'live-services', status: 'ok', message: `Programme messages, provider requests and FHIR documents are labelled ${e.name}.` });
   return out;
 }
 
 // Whether live provider calls may happen at all in this deployment, and why not.
-export function livePolicy(env: Env): { allowed: boolean; reason: string } {
+export function livePolicy(env: Env, checkedAt = new Date().toISOString()): { allowed: boolean; reason: string } {
   const e = environmentOf(env), p = POLICY[e.name];
   if (String(env.SAHA_EXTERNAL_APIS_ENABLED ?? '').trim() !== 'true') return { allowed: false, reason: 'The external services switch is off.' };
   if (p.live === 'never') return { allowed: false, reason: e.name === 'misconfigured' ? 'The environment is not configured correctly.' : `The ${e.name} environment never calls live services.` };
-  if (p.live === 'checked') { const errors = deploymentChecks(env).filter(c => c.status === 'error'); if (errors.length) return { allowed: false, reason: `Deployment configuration has ${errors.length} error${errors.length === 1 ? '' : 's'}: ${errors.map(c => c.id).join(', ')}.` }; }
+  if (p.live === 'checked') { const errors = deploymentChecks(env, checkedAt).filter(c => c.status === 'error'); if (errors.length) return { allowed: false, reason: `Deployment configuration has ${errors.length} error${errors.length === 1 ? '' : 's'}: ${errors.map(c => c.id).join(', ')}.` }; }
   return { allowed: true, reason: `Live calls are allowed in the ${e.name} environment when each connection is granted and configured.` };
 }
 // The runtime every provider path receives: the external switch is forced off when policy withholds live calls.
@@ -81,6 +121,7 @@ export function fixturesFor(env: Env, w: Workspace): Workspace {
 
 // Command guard: demonstration connectors and synthetic fixture records stay out of non-synthetic destinations.
 export function ensureEnvironment(s: OrgState, c: any, env: Env) {
+  ensureEnvironmentDataBoundary(s, env);
   if(c.type==='opsAvailability'&&c.enabled&&!POLICY[environmentOf(env).name].fixtures)fail(403,'Synthetic availability checks require a synthetic or training environment.');
   const e = environmentOf(env), p = POLICY[e.name], w = s.workspace;
   if(!['synthetic','training'].includes(e.name)){const v=w.visits.find(x=>x.id===c.visitId),active=s.operations?.valueRangeProtocols?.find(x=>x.state==='active');if(v?.valueRangeCapture?.mode==='population-demo'&&['saveVisit','confirmVisit','applyAgent','confirmUnusualValue','refreshVisitRanges'].includes(c.type)||active?.mode==='population-demo'&&['startVisit','prepareFieldVisit','registerFieldPerson','recordImportApply'].includes(c.type))fail(409,'Illustrative population ranges require a synthetic or training environment while clinical approval is pending.');}
@@ -101,7 +142,7 @@ export function ensureEnvironment(s: OrgState, c: any, env: Env) {
 
 // Owner-visible report: deployment checks plus this organisation's connections. No secret values.
 export function configurationReport(env: Env, s: OrgState, checkedAt = new Date().toISOString()) {
-  const e = environmentOf(env), live = livePolicy(env), checks = deploymentChecks(env), w = s.workspace;
+  const e = environmentOf(env), live = livePolicy(env, checkedAt), checks = deploymentChecks(env, checkedAt), w = s.workspace;
   const set = (name?: string) => !!name && typeof env[name] === 'string' && env[name]!.length > 0;
   for (const i of w.integrations.filter(i => i.mode === 'http')) {
     const binding = i.credentialBinding;
@@ -116,5 +157,5 @@ export function configurationReport(env: Env, s: OrgState, checkedAt = new Date(
   const fixtures = w.people.filter(p => p.synthetic).length;
   if (fixtures && !POLICY[e.name].syntheticRecordsLive) checks.push({ id: 'synthetic-records', area: 'organisation', status: 'warning', message: `${fixtures} synthetic fixture record${fixtures === 1 ? ' is' : 's are'} present; ${fixtures === 1 ? 'it' : 'they'} cannot be sent to any destination from ${e.name}.` });
   const counts = { ok: checks.filter(c => c.status === 'ok').length, warning: checks.filter(c => c.status === 'warning').length, error: checks.filter(c => c.status === 'error').length };
-  return { environment: e.name, label: ENVIRONMENT_LABEL[e.name], source: e.source, policy: POLICY[e.name], live, checks, counts, checkedAt, notice: 'Read-only. Names and states only; no secret value is read into this report.' };
+  return { environment: e.name, label: ENVIRONMENT_LABEL[e.name], source: e.source, policy: POLICY[e.name], live, checks, counts, checkedAt, notice: 'Read-only. Binding names, owners, dates and states only; no secret value is read into this report.' };
 }

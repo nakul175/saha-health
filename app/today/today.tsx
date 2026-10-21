@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TodayRecord, TodayRow, TodayResponse } from '@/lib/saha/today';
+import { TodayGuidance } from './today-guidance';
 import './today.css';
 
 type View =
   | { kind: 'loading' | 'unavailable' | 'refused' | 'unsupported' }
-  | { kind: 'list'; records: TodayRow[] }
+  | { kind: 'list'; records: TodayRow[]; organisationId:string }
   | { kind: 'record'; record: TodayRecord; organisationId: string };
 
 const notices = {
@@ -65,7 +66,7 @@ export default function Today() {
       if (id && 'record' in body && body.record.id === id)
         setView({ kind: 'record', record: body.record, organisationId });
       else if (!id && 'records' in body && Array.isArray(body.records))
-        setView({ kind: 'list', records: body.records });
+        setView({ kind: 'list', records: body.records,organisationId });
       else setView({ kind: 'unsupported' });
     } catch {
       if (!controller.signal.aborted) setView({ kind: 'unavailable' });
@@ -112,6 +113,8 @@ export default function Today() {
       <h1 ref={heading} tabIndex={-1}>
         {record ? record.name : 'Today'}
       </h1>
+      {(view.kind === 'list' || view.kind === 'record') &&
+        <TodayGuidance contextKey={view.kind === 'record' ? view.organisationId + ':' + view.record.id : 'assigned-list'} />}
       {record ? (
         <>
           <p>Read-only record context</p>
@@ -126,8 +129,10 @@ export default function Today() {
             <dd>{record.sex || 'Not recorded'}</dd>
           </dl>
           <button onClick={() => void load()}>Back to Today</button>
+          <a href={'/identity-link-review?personId='+encodeURIComponent(record.id)+'&organisationId='+encodeURIComponent(view.kind==='record'?view.organisationId:'')}>Review programme identity corrections</a>
           <a href={'/routine-visit?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
             encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review routine visit</a>
+          <a href={'/shared-question-review?personId=' + encodeURIComponent(record.id) + '&organisationId=' + encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review shared encounter questions</a>
           <a href={'/follow-ups?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
             encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>View planned follow-ups</a>
           <a href={'/record-matching?organisationId=' + encodeURIComponent(
@@ -144,6 +149,7 @@ export default function Today() {
           <p>Assigned records. This list is not a dated daily schedule.</p>
           {view.kind === 'list' ? (
             <>
+              <a href={'/local-registration?organisationId='+encodeURIComponent(view.organisationId)}>Register a local person without national identifier</a>
               <h2>Assigned records</h2>
               {view.records.length === 0 ? (
                 <p role="status">No assigned records.</p>

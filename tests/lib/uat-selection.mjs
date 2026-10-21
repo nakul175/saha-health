@@ -106,7 +106,7 @@ const CLINICAL_GENERATION = { req: 'BR-AI-02', field: 'current', quote: 'clinica
 export const BLOCKED_JOURNEY_STEPS = {
   'TC-J02': { steps: [3, 4, 5], ...CLINICAL_GENERATION },
   'TC-J08': { steps: [3, 4], ...CLINICAL_GENERATION },
-  'TC-J10': { steps: [3], req: 'BR-CARE-03', field: 'remaining', quote: 'Facility-verified outcomes and external outcome evidence.' },
+  'TC-J10': { steps: [3], req: 'BR-CARE-03', field: 'remaining', quote: 'Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.' },
 };
 const FIELD_LABEL = { current: 'The assessment records the current state as', remaining: 'The assessment lists as remaining work' };
 function verifiedReason(assessment, req, field, quote) {

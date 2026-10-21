@@ -1,0 +1,44 @@
+// SAHA-107 / BR-REP-01: discover and assign each seeded operational exception without transcripts.
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+
+const dir=mkdtempSync(join(process.cwd(),'.exception-assignment-contract-'));
+let passed=0;const check=fn=>{fn();passed++},status=(fn,code)=>{const before=JSON.stringify(state);try{fn();assert.fail(`expected ${code}`)}catch(e){assert.equal(e.status,code,e.message)}assert.equal(JSON.stringify(state),before,'refusal has no side effect');passed++};
+const now='2026-10-20T09:00:00.000Z',ago=n=>new Date(Date.parse(now)-n*86400000).toISOString();
+const member=(userId,role,over={})=>({userId,displayName:userId.toUpperCase(),accountCode:'X',role,isOwner:false,status:'active',version:1,teamIds:['t1'],createdAt:now,...over});
+const person=(id,name,over={})=>({id,name,age:40,sex:'Female',village:'Synthetic',programmes:['General care'],task:'Visit',due:'Today',status:'due',aiConsent:false,exchangeConsent:false,consentVersion:1,createdAt:ago(20),version:1,teamId:'t1',assignedTo:'asha',assigned:false,...over});
+let state;
+try{
+ for(const file of readdirSync('lib/saha').filter(x=>x.endsWith('.ts'))){const source=readFileSync('lib/saha/'+file,'utf8'),js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,file.replace(/\.ts$/,'.js')),js);}
+ const X=await import(pathToFileURL(join(dir,'exceptions.js')));
+ const members=[member('sup','supervisor'),member('sup2','supervisor'),member('asha','asha'),member('doc','clinician'),member('adm','admin',{isOwner:true,teamIds:[]}),member('owner','clinician',{isOwner:true}),member('outside','supervisor',{teamIds:['t2']})];
+ const p1=person('p1','Queue Person'),p2=person('p2','Possible Duplicate'),p3=person('p3','Other Team',{teamId:'t2',assignedTo:null});
+ p1.followUps=[{id:'f1',enrolmentId:'e1',packId:'tb',title:'Overdue sputum check',due:'2026-10-15',ownerId:'asha',state:'open',createdAt:ago(8)}];
+ p1.fieldLeases=[{id:'lease1',actorId:'asha',visitId:'v1',status:'active',expiresAt:ago(2)}];
+ state={organisation:{id:'org',name:'Synthetic',revision:1,createdAt:ago(30)},teams:[{id:'t1',name:'Team One',createdAt:ago(30)},{id:'t2',name:'Team Two',createdAt:ago(30)}],members,invitations:[],operations:{version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null},identityCases:[{id:'case1',version:1,survivorId:'p1',duplicateId:'p2',state:'proposed',reason:'Synthetic possible duplicate',evidence:'fixture',snapshot:{survivor:{name:p1.name,age:40,sex:'Female',village:'Synthetic'},duplicate:{name:p2.name,age:40,sex:'Female',village:'Synthetic'}},proposedBy:'doc',proposedAt:ago(4),items:[]}],workspace:{schemaVersion:1,revision:1,role:'supervisor',people:[p1,p2,p3],visits:[{id:'v1',personId:'p1',version:1,recordVersion:1,state:'confirmed',facts:{},aiResults:[],createdAt:ago(7),protocolChecks:[{id:'review1',at:ago(3),findings:[{label:'Synthetic review',urgency:'review'}]}]}],integrations:[],submissions:[{id:'sub1',visitId:'v1',personId:'p1',connectorId:'mis',connectorName:'Synthetic MIS',state:'rejected',mode:'demo',payloadHash:'h',attempts:1,message:'Rejected fixture',createdAt:ago(5),updatedAt:ago(5)}],referrals:[],receipts:{},audit:[]}};
+ const sup=members[0],adm=members[4],actor=id=>({userId:id,displayName:id.toUpperCase(),email:id+'@example.invalid'}),queue=m=>X.exceptionQueue(state,m,now);
+ check(()=>{const kinds=new Set(queue(sup).items.map(x=>x.kind));for(const kind of ['follow-up-overdue','identity-conflict','submission','protocol-review','field-grant-expired'])assert.ok(kinds.has(kind),kind);assert.equal(queue(members[6]).total,0);});
+ const follow=queue(sup).items.find(x=>x.id==='follow-up-overdue:f1');
+ check(()=>{const out=X.applyExceptionAssignment(state,{type:'assignException',itemId:follow.id,itemSince:follow.since,rulesVersion:'1.4.0',expectedAssignmentVersion:0,assigneeId:'asha',reason:'ASHA will recover the overdue field task.'},actor('sup'),sup,now);assert.equal(out.assignmentVersion,1);const row=queue(sup).items.find(x=>x.id===follow.id);assert.equal(row.owner,'ASHA');assert.equal(row.assignment.assignedTo,'asha');assert.equal(state.workspace.audit.at(-1).personId,'p1');});
+ status(()=>X.applyExceptionAssignment(state,{type:'assignException',itemId:follow.id,itemSince:follow.since,rulesVersion:'1.4.0',expectedAssignmentVersion:0,assigneeId:'doc',reason:'Stale competing assignment must be refused.'},actor('sup'),sup,now),409);
+ status(()=>X.applyExceptionAssignment(state,{type:'assignException',itemId:follow.id,itemSince:ago(99),rulesVersion:'1.4.0',expectedAssignmentVersion:1,assigneeId:'doc',reason:'Observed row age is stale and must be refused.'},actor('sup'),sup,now),409);
+ status(()=>X.applyExceptionAssignment(state,{type:'assignException',itemId:follow.id,itemSince:follow.since,rulesVersion:'1.4.0',expectedAssignmentVersion:1,assigneeId:'outside',reason:'Outside-team assignment must be refused.'},actor('sup'),sup,now),422);
+ status(()=>X.authorizeExceptionAssignment(state,members[6],{type:'assignException',itemId:follow.id},'p1'),403);
+ const diagnostic=X.deviceDiagnosticRows(state,sup,[{id:'diagnostic1',actorId:'asha',at:ago(1),code:'sync-transport',draftCount:2,pendingCount:1}],now)[0];
+ check(()=>{assert.equal(diagnostic.kind,'device-diagnostic');assert.equal(diagnostic.patient,null);assert.equal(diagnostic.diagnosticActorId,'asha');assert.match(diagnostic.recovery,/same-key recovery/);assert.equal(X.deviceDiagnosticRows(state,members[6],[{id:'diagnostic1',actorId:'asha',at:ago(1),code:'sync-transport',draftCount:2,pendingCount:1}],now).length,0);});
+ status(()=>X.applyExceptionAssignment(state,{type:'assignException',itemId:diagnostic.id,itemSince:diagnostic.since,rulesVersion:'1.4.0',expectedAssignmentVersion:0,assigneeId:'asha',reason:'Worker cannot supervise their own device recovery.'},actor('sup'),sup,now,[diagnostic]),422);
+ check(()=>{X.applyExceptionAssignment(state,{type:'assignException',itemId:diagnostic.id,itemSince:diagnostic.since,rulesVersion:'1.4.0',expectedAssignmentVersion:0,assigneeId:'sup',reason:'Supervisor owns the redacted device recovery.'},actor('sup'),sup,now,[diagnostic]);assert.equal(X.deviceDiagnosticRows(state,sup,[{id:'diagnostic1',actorId:'asha',at:ago(1),code:'sync-transport',draftCount:2,pendingCount:1}],now)[0].owner,'SUP');});
+ const rejected=queue(adm).items.find(x=>x.id==='submission:sub1');
+ status(()=>X.applyExceptionAssignment(state,{type:'assignException',itemId:rejected.id,itemSince:rejected.since,rulesVersion:'1.4.0',expectedAssignmentVersion:0,assigneeId:'adm',reason:'Supervisor cannot assign destination operations work.'},actor('sup'),sup,now),403);
+ check(()=>{X.applyExceptionAssignment(state,{type:'assignException',itemId:rejected.id,itemSince:rejected.since,rulesVersion:'1.4.0',expectedAssignmentVersion:0,assigneeId:'adm',reason:'Administrator owns destination rejection recovery.'},actor('adm'),adm,now);const row=queue(adm).items.find(x=>x.id===rejected.id);assert.equal(row.owner,'ADM');assert.equal(row.patient,null);assert.equal(row.link,null);assert.ok(!JSON.stringify(queue(adm)).includes('Queue Person'));});
+ const conflict=queue(sup).items.find(x=>x.id==='identity-conflict:case1');
+ status(()=>X.applyExceptionAssignment(state,{type:'assignException',itemId:conflict.id,itemSince:conflict.since,rulesVersion:'1.4.0',expectedAssignmentVersion:0,assigneeId:'asha',reason:'Identity work requires a qualified steward.'},actor('sup'),sup,now),422);
+ status(()=>X.authorizeExceptionAssignment(state,members[6],{type:'assignException',itemId:conflict.id},'p2'),403);
+ check(()=>{X.applyExceptionAssignment(state,{type:'assignException',itemId:conflict.id,itemSince:conflict.since,rulesVersion:'1.4.0',expectedAssignmentVersion:0,assigneeId:'doc',reason:'Clinician compares both synthetic identity records.'},actor('sup'),sup,now);assert.equal(queue(sup).items.find(x=>x.id===conflict.id).owner,'DOC');});
+ check(()=>{p1.followUps[0].state='completed';const before=JSON.stringify(state);try{X.applyExceptionAssignment(state,{type:'assignException',itemId:follow.id,itemSince:follow.since,rulesVersion:'1.4.0',expectedAssignmentVersion:1,assigneeId:'doc',reason:'Resolved work cannot be assigned from stale UI.'},actor('sup'),sup,now);assert.fail('expected 409')}catch(e){assert.equal(e.status,409)}assert.equal(JSON.stringify(state),before);});
+ writeFileSync('tests/exception-assignment-contract-result.json',JSON.stringify({suite:'SAHA-107 operational exception queue assignment contract',passed,completedAt:new Date().toISOString()},null,2)+'\n');
+ console.log(JSON.stringify({passed}));
+} finally {rmSync(dir,{recursive:true,force:true});}

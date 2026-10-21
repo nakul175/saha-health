@@ -20,7 +20,7 @@ let passed = 0;
 const check = async fn => { await fn(); passed++; };
 const status = async (fn, code, pattern) => { try { await fn(); } catch (e) { assert.equal(e.status, code, e.message); if (pattern) assert.match(e.message, pattern); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'service-dispatch','core', 'delegation', 'ehr', 'ehr-execution','ehr-probe', 'ehr-provider', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'service-dispatch','core', 'delegation', 'ehr', 'ehr-execution','ehr-probe', 'ehr-provider', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'installed-transition-authority', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types', 'verification-disputes'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   writeFileSync(join(dir, 'store.js'), `import {AppError} from './core.js';
 export let saved;let hook=null;export function setup(s){saved=structuredClone(s);hook=null}export function setHook(f){hook=f}export function edit(f){f(saved)}
@@ -36,7 +36,7 @@ export async function recordAccess(db,s,u,m,a){if(failing)throw new AppError(503
   const at = new Date().toISOString();
   const mem = (userId, displayName, role, isOwner) => ({ userId, displayName, accountCode: 'X', role, isOwner, status: 'active', version: 1, teamIds: ['t1'], createdAt: at });
   const owner = mem('own', 'Owner Olu', 'clinician', true), admin = mem('adm', 'Admin Ada', 'admin', false), care = mem('care', 'Care Chidi', 'clinician', false);
-  const i = { id: 'ehr1', kind: 'ehr', mode: 'http', status: 'active', version: 1, name: 'Synthetic EHR', endpoint: 'https://ehr.example/fhir', credentialBinding: 'SAHA_EHR_TEST', ehr: { read: true, write: true } };
+  const i = { id: 'ehr1', kind: 'ehr', mode: 'http', status: 'active', version: 1, name: 'Synthetic EHR', endpoint: 'https://ehr.example/fhir', credentialBinding: 'SAHA_EHR_TEST', ehr: { attribution: { facility: { system: 'HFR', identifier: 'HFR-SYNTH', localFacilityId: null, verifiedAt: '2020-01-01T00:00:00.000Z', expiresAt: '2099-01-01T00:00:00.000Z' }, professional: { system: 'HPR', identifier: 'HPR-SYNTH', userId: 'care', role: 'clinician', verifiedAt: '2020-01-01T00:00:00.000Z', expiresAt: '2099-01-01T00:00:00.000Z' }, deploymentOrganisationId: 'org', version: 1, setBy: 'fixture', setAt: '2020-01-01T00:00:00.000Z', reason: 'Synthetic verified attribution fixture' }, read: true, write: true } };
   const p = { id: 'p', name: 'Test Person', sex: 'Other', age: 30, village: 'Test village', version: 1, consentVersion: 1, exchangeConsent: true, assigned: true, teamId: 't1', createdAt: at };
   const v = { id: 'v', personId: 'p', version: 1, state: 'confirmed', facts: { date: at.slice(0, 16), source: 'reported', weight: '55', notes: 'Synthetic visit' } };
   const env = { SAHA_EXTERNAL_APIS_ENABLED: 'true', SAHA_EHR_TEST: 'test-secret', SAHA_EHR_CONNECTIONS: JSON.stringify([{ organisationId: 'org', integrationId: i.id, baseUrl: i.endpoint, credentialBinding: i.credentialBinding }]) };
@@ -137,7 +137,7 @@ export async function recordAccess(db,s,u,m,a){if(failing)throw new AppError(503
     assert.notEqual(r2.operationId, notStoredOp.id); assert.equal(s.workspace.people[0].ehr.operations.at(-1).state, 'prepared');
     // The exception queue lists it as not stored (normal severity) until that new publication exists.
     const q = exceptionQueue(store.saved, admin), row = q.items.find(x => x.id === 'ehr-publication:' + notStoredOp.id);
-    assert.equal(row.severity, 'normal'); assert.match(row.what, /not stored/); assert.match(row.recovery, /Nothing was resent/); assert.equal(q.rulesVersion, '1.3.0');
+    assert.equal(row.severity, 'normal'); assert.match(row.what, /not stored/); assert.match(row.recovery, /Nothing was resent/); assert.equal(q.rulesVersion, '1.4.0');
     assert.equal(exceptionQueue(s, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), false);
     // Preparation can append within the same millisecond. Only a later appended operation suppresses the resolved row.
     const sameTime = structuredClone(s), operations = sameTime.workspace.people[0].ehr.operations;
@@ -152,9 +152,11 @@ export async function recordAccess(db,s,u,m,a){if(failing)throw new AppError(503
   await check(async () => {
     // Several documents under one identifier: a conflict for the named reconciliation owner.
     const op = await fresh0(true); requests = [];
-    const r = await lookup(op, 'c1', searchTransport(set([{ resource: { ...op.bundle, id: 'a' } }, { resource: { ...op.bundle, id: 'b' } }], 2)));
+    const remoteA={...op.bundle,id:'a',meta:{versionId:'remote-a'}},remoteB={...op.bundle,id:'b',meta:{versionId:'remote-b'}};
+    const r = await lookup(op, 'c1', searchTransport(set([{ resource: remoteA }, { resource: remoteB }], 2)));
     assert.equal(r.state, 'conflict'); assert.match(r.message, /^Conflict: 2 documents .* Admin Ada, the reconciliation owner, resolves this with the partner; do not publish again\./);
-    assert.equal(opNow(op.id).resolution.outcome, 'conflict'); assert.equal(opNow(op.id).resolution.matches, 2);
+    assert.equal(opNow(op.id).resolution.outcome, 'conflict'); assert.equal(opNow(op.id).resolution.matches, 2);const evidence=opNow(op.id).writeConflict;
+    assert.equal(evidence.ownerId,'adm');assert.equal(evidence.local.hash,op.hash);assert.deepEqual(evidence.remote.map(x=>[x.resourceId,x.versionId]),[['a','remote-a'],['b','remote-b']]);assert.deepEqual(evidence.remote.map(x=>x.bundle),[remoteA,remoteB]);
     const q = exceptionQueue(store.saved, admin), row = q.items.find(x => x.id === 'ehr-publication:' + op.id);
     assert.equal(row.severity, 'high'); assert.equal(row.owner, 'Admin Ada (reconciliation owner)'); assert.match(row.what, /conflict: 2 documents/); assert.equal(row.patient, null, 'an administrator sees the row redacted');
     // No new publication of that visit while the conflict stands, and the conflicted one is never resent or looked up again.
@@ -162,6 +164,12 @@ export async function recordAccess(db,s,u,m,a){if(failing)throw new AppError(503
     const again = await executeEhr({}, structuredClone(store.saved), { type: 'executeEhrPublish', personId: 'p', operationId: op.id, hash: op.hash }, care, care, 'c2', 'h', env, async () => { throw Error('Must not be resent'); });
     assert.equal(again.state, 'conflict');
     await status(() => lookup(op, 'c3', searchTransport(set([], 0))), 409);
+    const before=structuredClone(store.saved),resolve={type:'recordEhrConflictResolution',personId:'p',operationId:op.id,conflictHash:evidence.hash,resolutionReference:'SYNTHETIC-EHR-CASE-42',reason:'Partner review retained both synthetic versions and closed the collision.'};
+    await status(()=>E.applyEhr(structuredClone(before),resolve,care,care,env),403,/named active reconciliation owner/);
+    await status(()=>E.applyEhr(structuredClone(before),{...resolve,conflictHash:'stale'}, {userId:'adm',displayName:'Admin Ada'},admin,env),409,/evidence changed/);
+    const resolved=structuredClone(before),done=await E.applyEhr(resolved,resolve,{userId:'adm',displayName:'Admin Ada'},admin,env),closed=resolved.workspace.people[0].ehr.operations.find(x=>x.id===op.id);
+    assert.equal(done.state,'blocked');assert.equal(closed.writeConflict.resolvedBy,'adm');assert.equal(closed.writeConflict.resolutionReference,'SYNTHETIC-EHR-CASE-42');assert.match(closed.message,/No document was resent/);assert.deepEqual(closed.writeConflict.local.bundle,op.bundle);assert.deepEqual(closed.writeConflict.remote.map(x=>x.bundle),[remoteA,remoteB]);
+    const fresh=await E.applyEhr(resolved,{type:'prepareEhrPublish',personId:'p',linkId,permissionId,visitId:'v'},care,care,env);assert.notEqual(fresh.operationId,op.id);
   });
   await check(async () => {
     // One match that differs from the published document is a conflict too.

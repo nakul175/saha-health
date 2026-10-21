@@ -36,6 +36,18 @@ function readDir(dir) {
 const lines = b => b.toString('utf8').split('\n').filter(Boolean).map(l => JSON.parse(l));
 const content = e => sha(JSON.stringify([e.org_id, e.id, e.person_id ?? null, e.actor_id, e.actor_name, e.role, e.action, e.subject, e.detail, e.at]));
 
+export function verifyPortableDictionary(files) {
+  const failures=[],raw=files.get('schema/fields.json');
+  if(!raw)return {ok:false,failures:['schema/fields.json is missing.'],fields:0};
+  let dictionary;try{dictionary=JSON.parse(raw.toString('utf8'));}catch{return {ok:false,failures:['schema/fields.json is not JSON.'],fields:0};}
+  if(dictionary?.format!=='saha-portable-field-dictionary-v1'||!Array.isArray(dictionary.fields))failures.push('unsupported field dictionary format');
+  const keys=new Set();for(const field of dictionary?.fields??[]){const shape=field&&typeof field==='object'&&!Array.isArray(field)&&Object.keys(field).sort().join()==='file,path,provenance,type,unit,version';if(!shape||typeof field.file!=='string'||typeof field.path!=='string'||!field.path||typeof field.provenance!=='string'||!field.provenance||typeof field.type!=='string'||field.version!==1||field.unit!==null&&typeof field.unit!=='string')failures.push('invalid field descriptor');const key=field.file+'\0'+field.path;if(keys.has(key))failures.push(`duplicate field descriptor ${field.file}:${field.path}`);keys.add(key);}
+  const jsonText=new Set(['data','changes','counts','team_ids','result','basis']);
+  const walk=(value,file,path)=>{if(path&&!keys.has(file+'\0'+path))failures.push(`undocumented path ${file}:${path}`);if(Array.isArray(value))for(const x of value)walk(x,file,path+'[]');else if(value&&typeof value==='object')for(const [k,v]of Object.entries(value))walk(v,file,path?path+'.'+k:k);};
+  for(const [file,bytes]of files){if(file==='schema/fields.json'||file==='manifest.json'||!(/\.jsonl?$/.test(file)))continue;let records;try{const text=bytes.toString('utf8');records=file.endsWith('.jsonl')?text.split('\n').filter(Boolean).map(line=>JSON.parse(line)):[JSON.parse(text)];}catch{continue;}for(const record of records){walk(record,file,'');if(record&&typeof record==='object'&&!Array.isArray(record))for(const [name,value]of Object.entries(record)){if(!jsonText.has(name)||typeof value!=='string')continue;try{walk(JSON.parse(value),file,name);}catch{}}}}
+  return {ok:failures.length===0,failures:[...new Set(failures)],fields:dictionary?.fields?.length??0};
+}
+
 export function verifyFiles(files) {
   const report = { format: null, exportId: null, ok: true, checks: [], failures: [] };
   const pass = (name, detail) => report.checks.push({ name, ok: true, ...(detail !== undefined ? { detail } : {}) });

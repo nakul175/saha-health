@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import {readFileSync,writeFileSync,mkdtempSync,rmSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdtempSync,rmSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.mis-contract-'));let passed=0;
 try{
- for(const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'mis-callback', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types']){const code=ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,f+'.js'),code);}
+ for(const file of readdirSync('lib/saha').filter(file=>file.endsWith('.ts'))){const code=ts.transpileModule(readFileSync(`lib/saha/${file}`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,file.replace(/\.ts$/,'.js')),code);}
  const {digest}=await import(pathToFileURL(join(dir,'core.js')));
- const {misCredential,mappedPayload,applyReceipt,misRequest,mappingSchema,deliveryCurrent}=await import(pathToFileURL(join(dir,'mis.js')));
+ const {misCredential,mappedPayload,applyReceipt,misRequest,mappingSchema,deliveryCurrent,configureMis}=await import(pathToFileURL(join(dir,'mis.js')));
  const {verifyMisSignature}=await import(pathToFileURL(join(dir,'mis-callback.js')));
  const {apply}=await import(pathToFileURL(join(dir,'core.js')));
  const check=fn=>{fn();passed++},rejects=async(fn,re)=>{await assert.rejects(fn,re);passed++};
@@ -38,6 +38,26 @@ try{
  for(const [field,value] of [['exchangeConsent',false],['consentVersion',4],['version',3]]){const changed=structuredClone(s);changed.workspace.people[0][field]=value;check(()=>assert.throws(()=>deliveryCurrent(changed,base,{userId:'worker'},{role:'clinician'},env),/changed/));}
  check(()=>assert.throws(()=>deliveryCurrent(s,base,{userId:'other'},{role:'clinician'},env),/approving worker/));
  check(()=>assert.throws(()=>deliveryCurrent(s,{...base,delivery:{...base.delivery,expiresAt:'2020'}},{userId:'worker'},{role:'clinician'},env),/window/));
+ // SAHA-078: schema upgrades are staged and reviewed without rewriting queued, in-flight or historical work.
+ const upgradeState=structuredClone(s);upgradeState.workspace.submissions=[
+  {...structuredClone(base),id:'queued-old',state:'queued',attempts:0},
+  {...structuredClone(base),id:'uncertain-old',state:'uncertain'},
+  {...structuredClone(base),id:'accepted-old',state:'accepted',receipt:'HIST-1'}
+ ];
+ const owner={role:'admin',isOwner:true},ownerActor={userId:'owner',displayName:'Owner'};
+ await rejects(()=>configureMis(upgradeState,{type:'stageMisUpgrade',integrationId:'mis1',version:2,programmes:['General care'],mapping:i.mis.mapping,corrections:true,reason:'Unauthorised synthetic upgrade attempt'},ownerActor,{role:'admin',isOwner:false},env),/organisation owner/);
+ const breaking=await configureMis(upgradeState,{type:'stageMisUpgrade',integrationId:'mis1',version:2,programmes:['General care'],mapping:[{source:'personId',target:'person_ref',required:true},{source:'notes',target:'new_mandatory',required:true}],corrections:true,reason:'Synthetic breaking mapping verification'},ownerActor,owner,env);
+ check(()=>{assert.equal(breaking.state,'blocked');assert.ok(breaking.issues.some(x=>x.includes('weight_kg')));assert.ok(breaking.issues.some(x=>x.includes('new_mandatory')));assert.equal(upgradeState.workspace.integrations[0].version,2);assert.deepEqual(upgradeState.workspace.submissions.map(x=>[x.id,x.state,x.receipt]),[['queued-old','queued',undefined],['uncertain-old','uncertain',undefined],['accepted-old','accepted','HIST-1']]);});
+ await rejects(()=>configureMis(upgradeState,{type:'reviewMisUpgrade',integrationId:'mis1',version:2,upgradeId:breaking.upgradeId,decision:'approve',evidence:'Synthetic regression evidence reference'},ownerActor,owner,env),/breaking upgrade/);
+ const compatibleMapping=[...i.mis.mapping,{source:'notes',target:'optional_note',required:false}];
+ const staged=await configureMis(upgradeState,{type:'stageMisUpgrade',integrationId:'mis1',version:2,programmes:['General care'],mapping:compatibleMapping,corrections:true,reason:'Synthetic compatible mapping verification'},ownerActor,owner,env);
+ check(()=>{assert.equal(staged.state,'staged');assert.deepEqual(staged.issues,[]);assert.deepEqual(upgradeState.workspace.integrations[0].mis.upgrade.queued,['queued-old']);assert.deepEqual(upgradeState.workspace.integrations[0].mis.upgrade.inFlight,['uncertain-old']);assert.equal(upgradeState.workspace.integrations[0].mis.upgrade.historical,1);});
+ await rejects(()=>configureMis(upgradeState,{type:'reviewMisUpgrade',integrationId:'mis1',version:3,upgradeId:staged.upgradeId,decision:'approve',evidence:'Synthetic regression evidence reference'},ownerActor,owner,env),/changed/);
+ await configureMis(upgradeState,{type:'reviewMisUpgrade',integrationId:'mis1',version:2,upgradeId:staged.upgradeId,decision:'approve',evidence:'Queued, receipt, amendment and historical regression suite passed'},ownerActor,owner,env);
+ const activated=await configureMis(upgradeState,{type:'activateMisUpgrade',integrationId:'mis1',version:2,upgradeId:staged.upgradeId},ownerActor,owner,env);
+ check(()=>{const upgraded=upgradeState.workspace.integrations[0];assert.equal(activated.version,3);assert.equal(upgraded.version,3);assert.ok(upgraded.mis.compatibleVersions.includes(2));assert.equal(upgraded.mis.test,undefined);assert.equal(upgraded.mis.upgrade.state,'activated');assert.equal(upgradeState.workspace.submissions[2].receipt,'HIST-1');});
+ check(()=>assert.equal(deliveryCurrent(upgradeState,upgradeState.workspace.submissions[0],{userId:'worker'},{role:'clinician'},env).version,3));
+ await rejects(()=>configureMis(upgradeState,{type:'activateMisUpgrade',integrationId:'mis1',version:2,upgradeId:staged.upgradeId},ownerActor,owner,env),/changed/);
  const corrected=structuredClone(s);corrected.workspace.submissions=[{...base,state:'accepted',receipt:'PARTNER-1'}];const correction=mappedPayload(i,{...v,id:'v2',amendsVisitId:'v'},corrected);check(()=>{assert.equal(correction.operation,'correct');assert.equal(correction.replaces.receipt,'PARTNER-1')});
  check(()=>assert.throws(()=>mappedPayload({...i,mis:{...i.mis,corrections:false}},{...v,amendsVisitId:'v'},corrected),/correction support/));
  corrected.workspace.visits.push({...v,id:'v2',amendsVisitId:'v'});check(()=>assert.equal(mappedPayload(i,{...v,id:'v3',amendsVisitId:'v2'},corrected).replaces.receipt,'PARTNER-1'));

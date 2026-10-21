@@ -1,0 +1,88 @@
+import { z } from 'zod';
+import { AppError, fail, uuid, visit } from './core.js';
+import { normallyAllowed } from './access.js';
+import { activeRestriction } from './rights.js';
+import { openDisputes } from './send-gate.js';
+import { IMPORTED_REFUSAL } from './imported-visits.js';
+import { environmentOf, livePolicy } from './environment.js';
+import { MODEL_VERSION, MODEL_SHA256, CONTRACT_VERSION, API_PATH, imageSchema, requestSchema, idSchema, hashInput, verifyBoundResult } from './anaemia/contract.js';
+export class AnaemiaTransportError extends Error {
+    status;
+    constructor(status) {
+        super('Provider returned HTTP ' + status + '.');
+        this.status = status;
+    }
+}
+export const runSchema = z.object({ action: z.literal('run'), visitId: z.string().min(1).max(200), version: z.number().int().positive(), consentVersion: z.number().int().positive(), providerVersion: z.number().int().positive(), syntheticImageConfirmed: z.literal(true), image: imageSchema }).strict();
+export const lookupSchema = z.object({ action: z.literal('lookup'), visitId: z.string().min(1).max(200), runId: idSchema }).strict();
+export const reviewSchema = z.object({ action: z.literal('review'), visitId: z.string().min(1).max(200), runId: idSchema, decision: z.enum(['acknowledged', 'rejected']), reason: z.string().trim().min(5).max(500) }).strict();
+export const configSchema = z.object({ active: z.boolean(), version: z.number().int().min(0), agreementRef: z.string().trim().min(5).max(100) }).strict();
+export const DEMO_ORIGIN = 'https://anaemia-screen.nakul1729233.chatgpt.site';
+export function provider(s, e) { return s.operations?.anaemiaProvider ?? { active: e.SAHA_ANAEMIA_DEMO_BOOTSTRAP === 'true', version: e.SAHA_ANAEMIA_DEMO_BOOTSTRAP === 'true' ? 1 : 0, agreementRef: 'DEMO-SERVICE-AGREEMENT-v1', updatedAt: '', by: 'deployment-demo-configuration' }; }
+export function connection(e) { if (environmentOf(e).name !== 'synthetic' || !livePolicy(e).allowed || e.SAHA_ANAEMIA_DEMO_ENABLED !== 'true')
+    fail(409, 'Image screening is enabled only in the configured synthetic demonstration.'); if (e.SAHA_ANAEMIA_ORIGIN !== DEMO_ORIGIN || !(e.SAHA_ALLOWED_ORIGINS ?? '').split(',').map(x => x.trim()).includes(DEMO_ORIGIN))
+    fail(409, 'The independent provider origin is not approved on this server.'); const key = e.SAHA_ANAEMIA_API_KEY ?? '', dispatch = e.SAHA_ANAEMIA_DISPATCH_TOKEN ?? ''; if (key.length < 32 || !dispatch)
+    fail(409, 'The independent provider service credentials are not configured.'); return { origin: DEMO_ORIGIN, key, dispatch }; }
+export function readiness(s, e) { let configured = true, reason = 'Ready for synthetic image screening.'; try {
+    connection(e);
+}
+catch (err) {
+    configured = false;
+    reason = err instanceof AppError ? err.message : 'Provider unavailable.';
+} const c = provider(s, e); return { providerId: 'anaemia-screen', providerName: 'Anaemia Screen', providerOrganisation: 'Independent image screening company', customerOrganisation: s.organisation.name, origin: DEMO_ORIGIN, modelVersion: MODEL_VERSION, modelSha256: MODEL_SHA256, schemaVersion: CONTRACT_VERSION, active: c.active, version: c.version, agreementRef: c.agreementRef, configured, reason: !c.active ? 'This organisation suspended the provider connection.' : reason, clinicalUse: false }; }
+export function patientAccess(s, m, visitId) { const v = visit(s.workspace, visitId), p = s.workspace.people.find(p => p.id === v.personId); if (!normallyAllowed(m, p) || !['asha', 'clinician'].includes(m.role))
+    fail(403, 'An assigned care role is required for image screening.'); return { v, p }; }
+export function current(s, m, visitId, e, run) { const { v, p } = patientAccess(s, m, visitId); if (v.imported)
+    fail(409, IMPORTED_REFUSAL); if (s.operations?.maintenance)
+    fail(423, 'This organisation is paused for maintenance.'); if (v.voidedAt || v.supersededBy || v.state !== 'confirmed')
+    fail(409, 'Open a current confirmed visit before screening.'); if (p.mergedInto || p.identityReview?.state === 'provisional')
+    fail(409, 'Resolve this patient identity before screening.'); if (p.synthetic !== true)
+    fail(409, 'Only an explicitly marked synthetic patient can use this demonstration.'); if (!p.aiConsent || activeRestriction(p))
+    fail(409, 'Current AI permission without a processing restriction is required.'); if (openDisputes(v).length)
+    fail(409, 'Resolve open visit disputes before screening.'); const c = provider(s, e); if (!c.active)
+    fail(409, 'The independent provider connection is suspended.'); const conn = connection(e); if (run && (run.visitVersion !== v.version || run.personVersion !== p.version || run.consentVersion !== p.consentVersion || run.providerVersion !== c.version || run.providerOrigin !== conn.origin))
+    fail(409, 'Patient, visit, permission or provider agreement changed after this request.'); return { v, p, c, conn }; }
+export async function reserve(s, m, u, input, requestId, e) { const { v, p, c } = current(s, m, input.visitId, e); if (v.version !== input.version || p.consentVersion !== input.consentVersion || c.version !== input.providerVersion)
+    fail(409, 'Refresh the visit, permission and provider agreement before screening.'); if ((v.anaemiaRuns ?? []).some(r => ['running', 'uncertain'].includes(r.status)))
+    fail(409, 'An unresolved screening exists. Look up its receipt before starting another.'); if ((v.anaemiaRuns ?? []).length >= 8)
+    fail(409, 'This visit reached the demonstration screening limit.'); const request = { schemaVersion: CONTRACT_VERSION, requestId, customerId: 'saha-demo', environment: 'synthetic', purpose: 'engineering-demonstration', modelVersion: MODEL_VERSION, syntheticImageConfirmed: true, image: input.image }; const r = { id: uuid(), requestId, inputHash: await hashInput(request), actorId: u.userId, visitVersion: v.version, personVersion: p.version, consentVersion: p.consentVersion, providerVersion: c.version, providerOrigin: DEMO_ORIGIN, modelVersion: MODEL_VERSION, modelSha256: MODEL_SHA256, schemaVersion: CONTRACT_VERSION, status: 'running', createdAt: new Date().toISOString(), message: 'Request checkpoint saved before sending. One inference attempt; no automatic retry.' }; (v.anaemiaRuns ??= []).push(r); return { v, r, request }; }
+export function audit(s, u, m, v, action, detail) { s.workspace.audit.push({ id: uuid(), at: new Date().toISOString(), actorId: u.userId, actor: u.displayName, role: m.role, action, subject: v.id, personId: v.personId, detail }); }
+export async function invoke(r, e, request, send = fetch) { const c = connection(e); if (request && (!requestSchema.safeParse(request).success || request.requestId !== r.requestId || await hashInput(request) !== r.inputHash))
+    fail(409, 'Image request differs from its approved contract or digest. Review the original screening; nothing was sent.'); const response = await send(c.origin + API_PATH + (request ? '' : '/' + encodeURIComponent(r.requestId)), { method: request ? 'POST' : 'GET', headers: { Authorization: 'Bearer ' + c.key, 'OAI-Sites-Authorization': 'Bearer ' + c.dispatch, ...(request ? { 'Content-Type': 'application/json', 'Idempotency-Key': r.requestId } : {}) }, ...(request ? { body: JSON.stringify(request) } : {}), redirect: 'manual', signal: AbortSignal.timeout(20000) }); if (response.status === 202)
+    return null; if (response.status !== 200)
+    throw new AnaemiaTransportError(response.status); const reader = response.body?.getReader(); if (!reader)
+    throw Error('Provider result missing.'); const chunks = []; let size = 0; try {
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done)
+            break;
+        size += value.length;
+        if (size > 16000) {
+            await reader.cancel();
+            throw Error('Provider result is too large.');
+        }
+        chunks.push(value);
+    }
+}
+finally {
+    reader.releaseLock();
+} const bytes = new Uint8Array(size); let at = 0; for (const x of chunks) {
+    bytes.set(x, at);
+    at += x.length;
+} return verifyBoundResult(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)), { requestId: r.requestId, customerId: 'saha-demo', inputHash: r.inputHash }, c.key); }
+export function finish(s, m, visitId, runId, e, result) { const v = s.workspace.visits.find(v => v.id === visitId), r = v?.anaemiaRuns?.find(r => r.id === runId); if (!v || !r)
+    fail(409, 'The screening checkpoint is unavailable.'); if (!['running', 'uncertain'].includes(r.status))
+    return r; try {
+    current(s, m, visitId, e, r);
+}
+catch {
+    r.status = 'blocked';
+    r.message = 'Result withheld: patient access, permission, visit or provider changed during execution.';
+    r.finishedAt = new Date().toISOString();
+    delete r.result;
+    return r;
+} r.status = result ? 'review' : 'uncertain'; r.finishedAt = new Date().toISOString(); r.message = result ? (result.status === 'completed' ? 'Research result received from Anaemia Screen. Staff review and measured haemoglobin are required.' : 'Provider could not assess image quality. No model score was produced.') : 'No result confirmed. Look up the provider receipt; this image will not be resent.'; if (result)
+    r.result = result; return r; }
+export function review(s, m, u, input, e) { const { v } = current(s, m, input.visitId, e), r = v.anaemiaRuns?.find(r => r.id === input.runId); if (!r || !r.result)
+    fail(404, 'Screening result not found.'); current(s, m, v.id, e, r); if (r.status !== 'review')
+    fail(409, 'This screening was already reviewed or withheld.'); r.status = 'reviewed'; r.review = { by: u.userId, at: new Date().toISOString(), decision: input.decision, reason: input.reason }; audit(s, u, m, v, 'anaemiaReview', 'Independent research result ' + input.decision + '; no observations, diagnosis or treatment were changed.'); return r; }

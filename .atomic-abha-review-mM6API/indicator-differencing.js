@@ -1,0 +1,278 @@
+// Slice 6s: differencing protection across one viewer's indicator queries (BR-REP-04, BR-AG-11).
+// A release records, for one viewer and one series (grouping, exclusions and, for a measure series, the
+// numerator and denominator measures), the hashed query filters and definition filters, the number of
+// people in each released cell and, for a measure series, the numerator and denominator of each cell.
+// It holds no patient identifiers, names, villages or values: viewer, series, filter values and group
+// labels are hashed by the caller. A new query is refused when, nested with the viewer's recent releases
+// of the same series, it would leave a remainder of 1 to 4 in any cell (for example all villages minus
+// one village, or a parent cohort minus the sum of its one-filter children).
+//
+// Slice 6w (fifth review): the remainder test covers numerators, denominators and denominator minus
+// numerator, not only people (finding 1); definition filters (sex, age band, programme) are nesting
+// dimensions, so complementary definitions are compared (finding 3); the ledger is pruned by time only
+// and, when a viewer or the organisation reaches its bound, new releases are refused instead of older
+// protecting releases being dropped (finding 2).
+export const DIFFERENCING_WINDOW_HOURS = 168;
+// Slice 6aa: the residual risk, stated to owners in the indicator registry and with every result.
+export const RESIDUAL_RISK = 'Small-group protection has limits. Saha compares each new indicator result with everything the same person was shown in the last seven days and withholds it if any sum or difference of those results could single out a group of 1 to 4 people, visits or referrals in today\'s records. It does not protect against two people combining what they were each shown, against changes in the records between two queries (repeating a query after a new visit reveals that visit), against queries older than seven days, or against differences between indicators that measure unrelated things. The check is conservative: for small teams and narrow filters it withholds more results than strictly necessary.';
+// Distinct (viewer, series, filters) releases kept inside the window; a repeat of the same query replaces
+// its earlier release, which the check would not use anyway. Reaching a bound refuses new releases.
+export const VIEWER_LEDGER_LIMIT = 400;
+export const LEDGER_LIMIT = 4000;
+// Slice 6aa (seventh review, finding 4): the ledger lives in the operations row, and D1 refuses a value over 2 MB.
+// It is bounded by serialized size too, well below that, so the rest of the operations document keeps room.
+export const LEDGER_BYTES = 1_000_000;
+export const VIEWER_LEDGER_BYTES = 250_000;
+export const FILTER_KEYS = ['team', 'village', 'programme', 'sex', 'ageBand', 'defProgramme'];
+// Slice 6ad (ninth review, finding 2): `u` is the window end for a release whose window ended before it was made (an
+// aggregate report for a past period). A release without `u` covers a window ending when it was made, as before.
+const filterKey = (f) => FILTER_KEYS.map(k => `${k}=${f[k] ?? ''}`).join('&');
+// Slice 6aa (finding 2): the window is part of a measure release's identity, so a query over another window never
+// replaces a protecting release. People series do not depend on the window.
+const windowKey = (r) => (r.m ? `${r.w ?? ''}|${r.u ?? ''}` : '');
+const sameExcept = (child, parent, key) => FILTER_KEYS.every(k => k === key ? !!child[k] && !parent[k] : (child[k] ?? '') === (parent[k] ?? ''));
+export const recent = (ledger, now) => { const since = Date.parse(now) - DIFFERENCING_WINDOW_HOURS * 3600000; return ledger.filter(r => Date.parse(r.at) >= since); };
+// The quantities a cell releases: people, and for a measure series numerator, denominator and their difference.
+const parts = (r, g) => { const people = r.c[g] ?? 0, m = r.m?.[g]; return m ? [people, m[0], m[1], m[1] - m[0]] : [people]; };
+// Returns the smallest remainder (1..min-1) a candidate would reveal, or null when it is safe.
+export function differencingRisk(ledger, candidate, min, now) {
+    const latest = new Map();
+    for (const r of recent(ledger, now))
+        if (r.v === candidate.v && r.k === candidate.k && windowKey(r) === windowKey(candidate))
+            latest.set(filterKey(r.f), r);
+    latest.set(filterKey(candidate.f), candidate);
+    const all = [...latest.values()];
+    let worst = null;
+    for (const parent of all)
+        for (const key of FILTER_KEYS) {
+            if (parent.f[key])
+                continue;
+            const children = all.filter(x => x !== parent && sameExcept(x.f, parent.f, key));
+            if (!children.length || (parent !== candidate && !children.includes(candidate)))
+                continue;
+            for (const g of Object.keys(parent.c)) {
+                parts(parent, g).forEach((value, i) => {
+                    const rest = value - children.reduce((n, x) => n + (parts(x, g)[i] ?? 0), 0);
+                    if (rest > 0 && rest < min && (worst === null || rest < worst))
+                        worst = rest;
+                });
+            }
+        }
+    return worst;
+}
+// Keeps releases inside the window, newest last. Nothing inside the window is dropped for space: only a
+// release for the same viewer, series and filters is replaced by its newer one, which the check uses instead.
+export function pruneLedger(ledger, now) {
+    const out = new Map();
+    for (const r of recent(ledger, now)) {
+        const id = `${r.v}|${r.k}|${filterKey(r.f)}|${r.w ?? ''}|${r.u ?? ''}|${r.n ?? ''}/${r.d ?? ''}`;
+        out.delete(id);
+        out.set(id, r);
+    }
+    return [...out.values()];
+}
+// Whether adding these releases would take the viewer or the organisation past its bound.
+export function ledgerFull(ledger, adding, now) {
+    const next = pruneLedger([...ledger, ...adding], now), viewers = new Set(adding.map(r => r.v));
+    return next.length > LEDGER_LIMIT || ledgerBytes(next) > LEDGER_BYTES
+        || [...viewers].some(v => { const own = next.filter(r => r.v === v); return own.length > VIEWER_LEDGER_LIMIT || ledgerBytes(own) > VIEWER_LEDGER_BYTES; });
+}
+export const ledgerBytes = (rs) => new TextEncoder().encode(JSON.stringify(rs)).length;
+// Checks a query's candidate releases in order (the cohort first), each against the ledger plus the
+// candidates already accepted from the same query, so definitions in one request are compared too.
+// Slice 6aa: with a population, each measure release is also checked by populationRisk (below).
+export function screenReleases(ledger, cands, min, now, population) {
+    let working = [...ledger];
+    const accepted = [], refused = [];
+    for (const c of cands) {
+        if (differencingRisk(working, c.release, min, now) === null && (!population || populationRisk(working, c.release, min, now, population) === null)) {
+            accepted.push(c);
+            working = [...working, c.release];
+        }
+        else
+            refused.push(c);
+    }
+    return { accepted, refused };
+}
+export const CONTAINED_PAIRS = [['patients-seen', 'patients'], ['identity-provisional', 'patients'], ['followups-overdue', 'followups-open'], ['referrals-completed', 'referrals-created'], ['reuse-served', 'reuse-opportunities'], ['reuse-blocked', 'reuse-opportunities']];
+const shownCells = (r) => Object.keys(r.c).filter(g => !(r.z ?? []).includes(g));
+const predicate = (r, g) => JSON.stringify([Object.entries(r.f).sort(), [...(r.x ?? [])].sort(), r.gd ?? 'none', g]);
+function memberOf(u, r) {
+    for (const [k, v] of Object.entries(r.f))
+        if (!(u.f[k] ?? []).includes(v))
+            return false;
+    for (const e of r.x ?? [])
+        if (u.x.includes(e))
+            return false;
+    return true;
+}
+function cellsOf(rs, measure, pop) {
+    const out = new Map();
+    for (const { r, cand } of rs)
+        if (r.n === measure || (r.d && r.d === measure))
+            for (const g of shownCells(r)) {
+                const w = windowOf(r, pop.windowed.has(measure)), pred = predicate(r, g), id = pred + '|' + w, had = out.get(id);
+                out.set(id, had ? { ...had, cand: had.cand && cand } : { pred, r, g, w, cand });
+            }
+    return [...out.values()];
+}
+// Slice 6ad (finding 2): a release's window key. A windowed measure is counted over [w, u] (u absent: until the release
+// was made); a measure describing a moment is counted at u (absent: now), so two moments are two windows.
+export const windowOf = (r, windowed) => windowed ? (r.u ? `${r.w ?? ''}|${r.u}` : r.w ?? '') : (r.u ? `|${r.u}` : '');
+const bounds = (w) => { const [since, until] = w.split('|'); return { since, until: until ?? '' }; };
+// Windows ordered smallest first; null when they do not form a chain, each inside the next (then the increments
+// between windows are not defined and atomRisk falls back to whole profiles).
+export function windowChain(ws) {
+    const xs = [...new Set(ws)].map(w => ({ w, ...bounds(w) })), end = (u) => u || '\uffff';
+    if (xs.length > 1 && xs.some(x => x.w.startsWith('|')))
+        return null;
+    xs.sort((a, b) => b.since.localeCompare(a.since) || end(a.until).localeCompare(end(b.until)));
+    for (let k = 0; k + 1 < xs.length; k++)
+        if (end(xs[k].until) > end(xs[k + 1].until))
+            return null;
+    return xs.map(x => x.w);
+}
+// Slice 6ad: when the windows are not a chain, each unit is one atom keyed by its whole profile (its value in every
+// shown cell). Every released figure is a sum over profiles, so a profile held by 1 to min-1 units that a candidate
+// cell involves or that splits an earlier profile is refused. This is more conservative than the increments split.
+function profileRisk(units, cells, windows, value, min) {
+    const widx = cells.map(c => windows.indexOf(c.w)), atoms = new Map(), splits = new Map();
+    for (const u of units) {
+        const vals = cells.map((c, i) => memberOf(u, c.r) && (u.g[c.r.gd ?? 'none'] ?? []).includes(c.g) ? value(u, widx[i]) : 0);
+        if (!vals.some(v => v !== 0))
+            continue;
+        const key = vals.join(','), oldKey = vals.filter((_, i) => !cells[i].cand).join(','), a = atoms.get(key) ?? { v: 0, old: oldKey, cand: vals.some((v, i) => v !== 0 && cells[i].cand) };
+        a.v += 1;
+        atoms.set(key, a);
+        const sp = splits.get(oldKey) ?? new Set();
+        sp.add(key);
+        splits.set(oldKey, sp);
+    }
+    let worst = null;
+    for (const a of atoms.values())
+        if ((a.cand || (splits.get(a.old)?.size ?? 0) > 1) && a.v > 0 && a.v < min && (worst === null || a.v < worst))
+            worst = a.v;
+    return worst;
+}
+// Smallest |atom| in 1..min-1 among the atoms that involve a candidate cell or split an earlier atom.
+function atomRisk(units, cells, windows0, value0, increments, min) {
+    if (!cells.some(c => c.cand))
+        return null;
+    // Slice 6ad: increments need windows that nest; otherwise every unit's whole profile is its atom.
+    const chain = increments ? windowChain(windows0) : windows0;
+    if (!chain)
+        return profileRisk(units, cells, windows0, value0, min);
+    const windows = chain, value = (u, k) => value0(u, windows0.indexOf(windows[k]));
+    const widx = cells.map(c => windows.indexOf(c.w)), atoms = new Map(), splits = new Map();
+    const mem = new Map();
+    for (const u of units) {
+        mem.clear();
+        const inCell = cells.map(c => { let b = mem.get(c.r); if (b === undefined) {
+            b = memberOf(u, c.r);
+            mem.set(c.r, b);
+        } return b && (u.g[c.r.gd ?? 'none'] ?? []).includes(c.g); });
+        if (!inCell.some(Boolean))
+            continue;
+        let prev = 0;
+        for (let k = 0; k < windows.length; k++) {
+            const total = value(u, k), d = increments ? total - prev : total;
+            prev = total;
+            if (d === 0)
+                continue;
+            const sig = [], old = [];
+            cells.forEach((c, i) => { if (inCell[i] && (increments ? widx[i] >= k : widx[i] === k)) {
+                sig.push(i);
+                if (!c.cand)
+                    old.push(i);
+            } });
+            if (!sig.length)
+                continue;
+            const key = sig.join(','), oldKey = (increments ? '' : k + ':') + old.join(','), a = atoms.get(key) ?? { v: 0, old: oldKey, cand: sig.some(i => cells[i].cand) };
+            a.v += d;
+            atoms.set(key, a);
+            const sp = splits.get(oldKey) ?? new Set();
+            sp.add(key);
+            splits.set(oldKey, sp);
+        }
+    }
+    let worst = null;
+    for (const a of atoms.values()) {
+        const v = Math.abs(a.v);
+        if ((a.cand || (splits.get(a.old)?.size ?? 0) > 1) && v > 0 && v < min && (worst === null || v < worst))
+            worst = v;
+    }
+    return worst;
+}
+// Owner calculations create relationships beyond the legacy fixed contained pairs. Compare the
+// actual joint per-person profiles of every disclosed operand whenever a calculation participates.
+// The profile is protected runtime material, never metadata or a stored patient-value record.
+// Repeated identical cells stay old: only a newly involved small profile or a split is refused.
+function expressionProfileRisk(rs, pop, min) {
+    if (!rs.some(({ r }) => [r.n, r.d].some(id => id?.startsWith('expr-v1:'))))
+        return null;
+    const cells = new Map();
+    for (const { r, cand } of rs)
+        for (const measure of [r.n, r.d].filter((x) => !!x))
+            for (const g of shownCells(r)) {
+                const w = windowOf(r, pop.windowed.has(measure)), pred = predicate(r, g), key = JSON.stringify([measure, pred, w]), old = cells.get(key);
+                cells.set(key, { pred, r, g, w, measure, cand: old ? old.cand && cand : cand });
+            }
+    const list = [...cells.values()];
+    if (!list.some(c => c.cand))
+        return null;
+    const atoms = new Map(), splits = new Map();
+    for (const u of pop.units) {
+        const membership = list.map(c => memberOf(u, c.r) && (u.g[c.r.gd ?? 'none'] ?? []).includes(c.g));
+        if (!membership.some(Boolean))
+            continue;
+        const values = list.map((c, i) => membership[i] ? u.q(c.measure, c.w) : 0);
+        const key = JSON.stringify(values), old = JSON.stringify(values.filter((_, i) => !list[i].cand)), atom = atoms.get(key) ?? { size: 0, old, candidate: membership.some((inside, i) => inside && list[i].cand) };
+        atom.size++;
+        atoms.set(key, atom);
+        const split = splits.get(old) ?? new Set();
+        split.add(key);
+        splits.set(old, split);
+    }
+    let worst = null;
+    for (const a of atoms.values())
+        if ((a.candidate || (splits.get(a.old)?.size ?? 0) > 1) && a.size > 0 && a.size < min && (worst === null || a.size < worst))
+            worst = a.size;
+    return worst;
+}
+export function populationRisk(ledger, candidate, min, now, pop) {
+    if (!candidate.n)
+        return null;
+    const same = (a, b) => a.k === b.k && filterKey(a.f) === filterKey(b.f) && (a.w ?? '') === (b.w ?? '') && (a.u ?? '') === (b.u ?? '') && a.n === b.n && (a.d ?? null) === (b.d ?? null);
+    const rs = [...recent(ledger, now).filter(r => r.v === candidate.v && r.n && !same(r, candidate)).map(r => ({ r, cand: false })), { r: candidate, cand: true }];
+    const desc = (ws) => [...new Set(ws)].sort((a, b) => b.localeCompare(a));
+    let worst = null;
+    const note = (x) => { if (x !== null && (worst === null || x < worst))
+        worst = x; };
+    for (const measure of [candidate.n, ...(candidate.d ? [candidate.d] : [])]) {
+        const cells = cellsOf(rs, measure, pop), windows = desc(cells.map(c => c.w));
+        // atomRisk orders these windows by containment (slice 6ad); `windows[k]` stays the key the value is read for.
+        note(atomRisk(pop.units, cells, windows, (u, k) => u.q(measure, windows[k]), true, min));
+    }
+    note(expressionProfileRisk(rs, pop, min));
+    const pairs = new Map();
+    for (const [a, b] of [...CONTAINED_PAIRS, ...rs.filter(x => x.r.d).map(x => [x.r.n, x.r.d])])
+        if ([a, b].some(x => x === candidate.n || x === candidate.d))
+            pairs.set(a + '/' + b, [a, b]);
+    for (const [a, b] of pairs.values()) {
+        const ca = cellsOf(rs, a, pop), cb = cellsOf(rs, b, pop), cells = [];
+        // Slice 6ad: a measure describing a moment (`|end`) pairs with a window ending at that moment.
+        const moment = (w) => !w || w.startsWith('|'), meets = (m, w) => !m || bounds(m).until === bounds(w).until;
+        for (const x of cb)
+            for (const y of ca)
+                if (x.pred === y.pred && (x.w === y.w || (moment(x.w) && meets(x.w, y.w)) || (moment(y.w) && meets(y.w, x.w))))
+                    cells.push({ ...x, w: moment(x.w) ? y.w || x.w : x.w, cand: x.cand && y.cand ? true : (x.cand || y.cand) });
+        const seen = new Map();
+        for (const c of cells) {
+            const id = c.pred + '|' + c.w, had = seen.get(id);
+            seen.set(id, had ? { ...had, cand: had.cand && c.cand } : c);
+        }
+        const list = [...seen.values()], windows = desc(list.map(c => c.w));
+        note(atomRisk(pop.units, list, windows, (u, k) => u.q(b, windows[k]) - u.q(a, windows[k]), false, min));
+    }
+    return worst;
+}

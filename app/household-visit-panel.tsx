@@ -45,7 +45,7 @@ function PlanDialog({ data, p, busy, command }: { data: Snapshot; p: Person; bus
     if (r) { setChosen([]); await load(); }
   };
   return <><Button variant="outline" onClick={() => setOpen(true)}>Household visit plan</Button>
-    <Dialog open={open} onOpenChange={setOpen}><DialogContent className="wide-dialog"><DialogHeader><DialogTitle>Household visit plan · {household?.label ?? p.name}</DialogTitle><DialogDescription>Each member's due work in one place. Choose the items one household visit will cover. Nothing is sent, no due date changes, and each member keeps their own visit, observations and permissions.</DialogDescription></DialogHeader>
+    <Dialog open={open} onOpenChange={setOpen}><DialogContent className="wide-dialog"><DialogHeader><DialogTitle>Household visit plan · {household?.label ?? p.name}</DialogTitle><DialogDescription>Each member&apos;s due work in one place. Choose the items one household visit will cover. Nothing is sent, no due date changes, and each member keeps their own visit, observations and permissions.</DialogDescription></DialogHeader>
       {error && <p role="alert" className="notice amber-notice">{error}</p>}
       {loading && !view ? <p className="notice">Loading household visit plan…</p> : !plan ? <p className="muted">This person is not in a household.</p> : <>
         {plan.outsideScope > 0 && <p className="muted">{plan.outsideScope} other household member{plan.outsideScope > 1 ? 's are' : ' is'} outside your care scope and not shown.</p>}

@@ -486,7 +486,7 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
    - Observed: ______
 2. Send through the destination supported route and record acknowledgement.
    - Observed: ______
-3. The receiving service records assessment, attendance and result in its own authoritative system. **Blocked by default.** Not testable in current build: The assessment lists as remaining work “Facility-verified outcomes and external outcome evidence.” (BR-CARE-03, remaining field of requirements/assessment.tsv).
+3. The receiving service records assessment, attendance and result in its own authoritative system. **Blocked by default.** Not testable in current build: The assessment lists as remaining work “Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.” (BR-CARE-03, remaining field of requirements/assessment.tsv).
    - Observed: ______ (Blocked)
 4. Receive the result through the authorised EHR, ABDM or controlled document route.
    - Observed: ______
@@ -501,13 +501,13 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 **Known gaps** (assessment, remaining work per requirement):
 
-- BR-CARE-03 (partial): Facility-verified outcomes and external outcome evidence.
+- BR-CARE-03 (partial): Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.
 - BR-INT-12 (partial): Element-level author/device, receipt/effective time and transformation lineage for all resources.
 - BR-INT-20 (partial): Reference-partner profile covering all declared search/update/version/receipt/support behaviour.
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
-- **BR-CARE-03:** Dated referral events with evidence. Slice 4a adds accepted, scheduled (with appointment time), attended, did-not-attend, declined, cancelled and unknown states under an explicit transition table; closed states are immutable.
+- **BR-CARE-03:** Dated referral events with evidence. SAHA-101 locally distinguishes proposed, authorised, sent, received, scheduled, attended and completed states; completion requires prior attendance, a coded service outcome, evidence source/reference and the recording actor. Declined, cancelled, not-attended and unknown dispositions remain distinct; closed states are immutable.
 - **BR-INT-12:** Imported source documents, timestamps and local submission provenance retained.
 - **BR-INT-20:** Native FHIR capability profile gates document retrieval/publication.
 

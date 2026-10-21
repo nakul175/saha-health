@@ -9,6 +9,7 @@ import { CHAIN_VERSION, HASHING, chainHead, contentDigest, verifyChain, type Eve
 import { fhirDocument } from './fhir-document';
 import { TERMINAL } from './referral-rules';
 import type { Member } from './types';
+import {eventGeotagDisclosureRevision,eventGeotagDisclosureVisit} from './event-geotag';
 // Slice 6m: organisation data exit (BR-OPS-07, NFR-22).
 //
 // An owner exports the organisation's stored records as one uncompressed POSIX tar archive:
@@ -28,7 +29,7 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0032_installed_pack_transition';
+export const SCHEMA_MIGRATION = '0034_retention_disposal';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
@@ -109,12 +110,18 @@ export const EXCLUDED = [
 ];
 const MEDIA_EXT: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'audio/webm': 'webm', 'audio/ogg': 'ogg', 'audio/mpeg': 'mp3', 'audio/mp4': 'm4a' };
 export type ExportFile = { path: string; bytes: Uint8Array; table?: string; rows?: number; withheld?: number; withheldEntries?: number; otherMembersRows?: number; columns?: string[]; omitted?: string[]; note?: string };
-export type ExportInput = { orgId: string; member: Member; exporter: { userId: string; name: string; accountCode: string }; exportId: string; now: string; includeFhir: boolean; environment: string; mediaBytes?:(row:Row)=>Promise<Uint8Array> };
+export type ExportStage = {number:number; total:number; size:number; basis:string; patientIds:string[]};
+export type ExportInput = { orgId: string; member: Member; exporter: { userId: string; name: string; accountCode: string }; exportId: string; now: string; includeFhir: boolean; environment: string; fullScope?:boolean; stage?:ExportStage; mediaBytes?:(row:Row)=>Promise<Uint8Array> };
 const enc = new TextEncoder();
 const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join('');
 export const sha256Bytes = async (b: Uint8Array) => hex(await crypto.subtle.digest('SHA-256', b as unknown as ArrayBuffer));
 const fromB64 = (s: string) => { const bin = atob(s); const out = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i); return out; };
 const jsonl = (rows: unknown[]) => enc.encode(rows.map(r => JSON.stringify(r) + '\n').join(''));
+const JSON_TEXT=new Set(['data','changes','counts','team_ids','result','basis']);
+const fieldUnit=(path:string,value:unknown)=>{const k=path.split('.').at(-1)?.replace(/\[\]$/,'')??'';if(/^(at|.*At|.*_at|date|due|through|start|end|deadline|effectiveAt|created_at|updated_at)$/.test(k))return'ISO-8601 timestamp or date, as stored';if(/^(systolic|diastolic)$/.test(k))return'mmHg';if(k==='weight')return'kg';if(k==='temperature')return'degrees Celsius';if(k==='weeks')return'weeks';if(k==='coughDays')return'days';if(/^(lateHours|syncHours)$/.test(k))return'hours';if(/^(size|bytes)$/.test(k))return'bytes';if(/^(version|revision|sequence|attempts|rows|count|.*Count|.*_count)$/.test(k)&&typeof value==='number')return'integer count or ordinal';return null;};
+export function portableFieldDictionary(files:ExportFile[]){const out=new Map<string,any>();const walk=(value:unknown,file:string,path:string,source:string)=>{const key=file+'\0'+path;if(path&&!out.has(key))out.set(key,{file,path,type:value===null?'null':Array.isArray(value)?'array':typeof value,unit:fieldUnit(path,value),provenance:source,version:1});if(Array.isArray(value))for(const x of value)walk(x,file,path+'[]',source);else if(value&&typeof value==='object')for(const [k,v]of Object.entries(value))walk(v,file,path?path+'.'+k:k,source);};for(const file of files){if(!/\.jsonl?$/.test(file.path))continue;let records:unknown[];try{const text=new TextDecoder().decode(file.bytes);records=file.path.endsWith('.jsonl')?text.split('\n').filter(Boolean).map(line=>JSON.parse(line)):[JSON.parse(text)];}catch{continue;}const source=file.table?`Stored ${file.table} row at migration ${SCHEMA_MIGRATION}; omitted columns are listed in manifest.json.`:`Derived export record ${file.path}.`;for(const record of records){walk(record,file.path,'',source);if(file.table&&record&&typeof record==='object'&&!Array.isArray(record))for(const [name,raw]of Object.entries(record)){if(!JSON_TEXT.has(name)||typeof raw!=='string')continue;try{walk(JSON.parse(raw),file.path,name,`${file.table}.${name} JSON as stored; nested paths retain source-record provenance.`);}catch{}}}}return[...out.values()].sort((a,b)=>a.file.localeCompare(b.file)||a.path.localeCompare(b.path));}
+function portableDictionaryFile(files:ExportFile[]):ExportFile{const fields=portableFieldDictionary(files),value={format:'saha-portable-field-dictionary-v1',meaning:'Every observed JSON path in this archive. unit=null means explicitly dimensionless/not applicable; no record values are copied here.',fields};return{path:'schema/fields.json',bytes:enc.encode(JSON.stringify(value,null,2)+'\n'),note:`Value-free field paths, types, units and provenance for independent interpretation (${fields.length} descriptors).`};}
+export function providerDispositionRows(integrations:Array<Record<string,unknown>>,handover:Array<Record<string,unknown>>){return integrations.map(connection=>{const id=String(connection.id),kind=String(connection.kind??'unknown'),unresolved=handover.filter(item=>item.kind==='external-action'&&(String(item.destination??'')===id||String(item.system??'')===kind||kind==='mis'&&item.system==='programme-mis'||kind==='ehr'&&item.system==='ehr')).length;return{connectionId:id,connectionName:String(connection.name??id),kind,currentStatus:String(connection.status??'unknown'),unresolvedActions:unresolved,disposition:unresolved?'retain-and-handover':'no-open-action',instruction:unresolved?'Keep accepted local records and unresolved action evidence. Assign the receiving exit operator and reconcile the remote receipt before any retry; never resend blindly.':'No unresolved external action is present in this export. Keep accepted local records and audit evidence; do not infer remote deletion.'};});}
 
 async function readAll(db: D1Database, spec: TableSpec, orgId: string): Promise<Row[]> {
   const out: Row[] = [];
@@ -157,6 +164,54 @@ export function scopeEntries(value: unknown, keep: (personId: string) => boolean
   return { value: walk(value), withheld };
 }
 
+// SAHA-130: data exit reads the storage tables directly, rather than through readState.
+// Bind those reads to the same append-only retention authority before any scope, count,
+// handover, FHIR or staged-basis calculation. Audit rows deliberately remain untouched:
+// audit-event disposal is refused at the retention command boundary because the chained
+// immutable representation cannot be removed or rewritten by an ordinary data exit.
+const EXIT_RETENTION_CLASSES=['patient-record','programme-receipt','audit-event','outreach-message','rights-request','field-package','transcript','raw-audio','model-output','local-cache','export','backup'] as const;
+type ExitRetentionClass=typeof EXIT_RETENTION_CLASSES[number];
+const exitTombstone=z.object({id:z.string().min(1),recordClass:z.enum(EXIT_RETENTION_CLASSES),recordId:z.string().min(1),personId:z.string().min(1).optional(),policyVersion:z.number().int().positive(),triggerAt:z.string().datetime({offset:true}),purpose:z.string().min(1),location:z.string().min(1),jurisdiction:z.string().min(1),disposedBy:z.string().min(1),disposedAt:z.string().datetime({offset:true}),reason:z.string().min(1)}).passthrough();
+const exitRetention=z.object({tombstones:z.array(exitTombstone).optional()}).passthrough();
+const retentionKey=(recordClass:ExitRetentionClass,recordId:unknown)=>`${recordClass}\u0000${String(recordId)}`;
+type ExitRetentionProjection={disposedPeople:Set<string>;tombstones:ReadonlyArray<z.infer<typeof exitTombstone>>};
+export function scopedExitTombstones(tombstones:ExitRetentionProjection['tombstones'],people:ReadonlySet<string>){return tombstones.filter(t=>!t.personId||people.has(t.personId));}
+
+function retentionAuthority(data:Record<string,Row[]>):ExitRetentionProjection{
+ const rows=data.retention??[];if(rows.length>1)fail(503,'Retention authority is invalid. No export was produced.');
+ if(!rows.length)return{disposedPeople:new Set(),tombstones:[]};
+ let raw:unknown;try{raw=JSON.parse(String(rows[0].data));}catch{fail(503,'Retention authority is invalid. No export was produced.');}
+ const parsed=exitRetention.safeParse(raw);if(!parsed.success)fail(503,'Retention authority is invalid. No export was produced.');
+ const tombstones=parsed.data.tombstones??[],seen=new Set<string>();
+ for(const t of tombstones){const key=retentionKey(t.recordClass,t.recordId);if(seen.has(key))fail(503,'Retention authority contains duplicate tombstones. No export was produced.');seen.add(key);if(t.recordClass==='audit-event')fail(503,'Immutable audit events cannot be disposed by data exit. No export was produced.');}
+ return{disposedPeople:new Set(tombstones.filter(t=>t.recordClass==='patient-record').map(t=>t.recordId)),tombstones};
+}
+const parseRowDocument=(row:Row,table:string)=>{try{const value=JSON.parse(String(row.data));if(!value||typeof value!=='object'||Array.isArray(value))throw new Error();return value as Record<string,unknown>;}catch{fail(503,`Stored ${table} retention projection is invalid. No export was produced.`);}};
+const filterObjects=(value:unknown,drop:(value:Record<string,unknown>)=>boolean):unknown=>{
+ if(Array.isArray(value))return value.filter(x=>!(x&&typeof x==='object'&&!Array.isArray(x)&&drop(x as Record<string,unknown>))).map(x=>filterObjects(x,drop));
+ if(value&&typeof value==='object'){const out:Record<string,unknown>={};for(const[k,v]of Object.entries(value))out[k]=filterObjects(v,drop);return out;}return value;
+};
+
+export function projectDataExitTombstones(data:Record<string,Row[]>):ExitRetentionProjection{
+ const authority=retentionAuthority(data),dead=new Set(authority.tombstones.map(t=>retentionKey(t.recordClass,t.recordId))),disposed=authority.disposedPeople;
+ if(!dead.size)return authority;
+ const rows=(table:string)=>data[table]??[],dropPeople=(table:string)=>{data[table]=rows(table).filter(r=>r.person_id==null||!disposed.has(String(r.person_id)));};
+ data.patients=rows('patients').filter(r=>!disposed.has(String(r.id))).map(r=>{const doc=parseRowDocument(r,'patients'),leases=Array.isArray(doc.fieldLeases)?doc.fieldLeases.filter(x=>!x||typeof x!=='object'||!dead.has(retentionKey('field-package',(x as any).id))&&!dead.has(retentionKey('local-cache',(x as any).id))):doc.fieldLeases;return leases===doc.fieldLeases?r:{...r,data:JSON.stringify({...doc,fieldLeases:leases})};});
+ const disposedVisits=new Set(rows('visits').filter(r=>disposed.has(String(r.person_id))).map(r=>String(r.id)));
+ data.visits=rows('visits').filter(r=>!disposed.has(String(r.person_id))).map(r=>{const doc=parseRowDocument(r,'visits'),media=Array.isArray(doc.media)?doc.media.filter(x=>!x||typeof x!=='object'||!dead.has(retentionKey('raw-audio',(x as any).id))&&!dead.has(retentionKey('transcript',(x as any).id))):doc.media;return media===doc.media?r:{...r,data:JSON.stringify({...doc,media})};});
+ data.plans=rows('plans').filter(r=>!disposedVisits.has(String(r.visit_id)));
+ data.ai_results=rows('ai_results').filter(r=>!disposedVisits.has(String(r.visit_id))&&!dead.has(retentionKey('model-output',r.id)));
+ for(const table of ['submissions','referrals','record_revisions','media','rights_requests','work_burden_samples','work_support_events','device_work_grants','device_registration_grants','device_registration_receipts','offline_open_subjects','indicator_figure_units'])dropPeople(table);
+ data.submissions=rows('submissions').filter(r=>!dead.has(retentionKey('programme-receipt',r.id)));
+ data.rights_requests=rows('rights_requests').filter(r=>!dead.has(retentionKey('rights-request',r.id)));
+ data.media=rows('media').filter(r=>!dead.has(retentionKey('raw-audio',r.id))&&!dead.has(retentionKey('transcript',r.id)));
+ data.identity_cases=rows('identity_cases').filter(r=>!disposed.has(String(r.survivor_id))&&!disposed.has(String(r.duplicate_id)));
+ for(const table of ['operations','pilot','outreach','expansions','governance','households','caseload_transfers'])data[table]=rows(table).map(r=>{const doc=parseRowDocument(r,table),patientProjected=scopeEntries(doc,id=>!disposed.has(id),PATIENT_ID_LISTS,PATIENT_ID_MAPS).value,projected=filterObjects(patientProjected,x=>table==='outreach'&&x.id!=null&&dead.has(retentionKey('outreach-message',x.id)));return{...r,data:JSON.stringify(projected)};});
+ return authority;
+}
+
+async function projectedTables(db:D1Database,orgId:string,specs:TableSpec[]){const data:Record<string,Row[]>={};for(const spec of specs)data[spec.table]=await readAll(db,spec,orgId);if(!('retention'in data))data.retention=await readAll(db,TABLES.find(x=>x.table==='retention')!,orgId);projectDataExitTombstones(data);return data;}
+
 // Builds every file of the archive. Pure over the database: nothing is written.
 export async function buildExport(db: D1Database, input: ExportInput) {
   const { orgId, member: m } = input;
@@ -166,7 +221,14 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // Other tables are read page by page, not in one transaction: records changed during the export may
   // appear in their newer state.
   const chain = await verifyChain(db, orgId, undefined, input.now), cut = await chainHead(db, orgId);
-  for (const spec of TABLES) data[spec.table] = await readAll(db, spec, orgId);
+  // These reads are independent and the export already documents that they are not one
+  // transactional snapshot. Starting them together avoids serialising one D1 round trip
+  // per table as the portable schema grows, while preserving TABLES order below when the
+  // archive is assembled.
+  const tableRows = await Promise.all(TABLES.map(spec => readAll(db, spec, orgId)));
+  for (let i = 0; i < TABLES.length; i++) data[TABLES[i].table] = tableRows[i];
+  const retentionProjection=projectDataExitTombstones(data);
+  const retentionBasis=await digest(data.retention);
   // Actor ownership and today's scope cannot certify a historical clinical aggregate.
   // Filter before any row/withheld/other-member/column totals; do not expose an omitted count.
   const protectedAlertSubjects=new Set<string>(),protectedAlertAuditIds=new Set<string>();
@@ -182,7 +244,10 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // Slice 6p: the sandbox provider role has no patient scope either (defence in depth; a sandbox holds none).
   const noPatients = m.role === 'admin' || m.role === 'provider';
   const inScope = (p: Row) => {try{return m.status==='active'&&!noPatients&&normallyAllowed(m,storedExportPerson(p));}catch{return false;}};
-  const people = new Set(data.patients.filter(inScope).map(p => String(p.id)));
+  const authorisedPeople = new Set(data.patients.filter(inScope).map(p => String(p.id)));
+  if(input.fullScope && authorisedPeople.size!==data.patients.length) fail(403,'A full exit requires current normal authority over every person in the organisation. No partial archive was downloaded.');
+  if(input.stage && input.stage.patientIds.some(id=>!authorisedPeople.has(id))) fail(403,'Staged exit scope changed. Prepare the exit plan again.');
+  const people = input.stage ? new Set(input.stage.patientIds) : authorisedPeople;
   const visits = new Set(data.visits.filter(v => people.has(String(v.person_id))).map(v => String(v.id)));
   const teamScope = (r: Row) => m.status === 'active' && !noPatients && m.role !== 'asha' && m.teamIds.includes(String(r.team_id));
   const allowed = (spec: TableSpec, r: Row) => spec.scope === 'org' ? true : spec.scope === 'person' ? people.has(String(r.person_id ?? r.id)) : spec.scope === 'visit' ? visits.has(String(r.visit_id)) : spec.scope === 'team' ? teamScope(r) : spec.scope === 'identity' ? people.has(String(r.survivor_id)) && people.has(String(r.duplicate_id)) : r.person_id == null || people.has(String(r.person_id));
@@ -233,13 +298,19 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       }
       if (spec.table === 'media' && !r.deleted_at && (r.data || r.storage_ref)) { if(r.storage_ref&&!input.mediaBytes)fail(503,'Private media resolver unavailable; no incomplete archive was produced.'); if(media.reduce((n,f)=>n+f.bytes.length,0)+Number(r.size)>MAX_BYTES)fail(413,'Media exceeds the bounded export budget. Ask for a staged export.'); const content=input.mediaBytes?await input.mediaBytes(r):fromB64(String(r.data)); if(media.reduce((n,f)=>n+f.bytes.length,0)+content.length>MAX_BYTES)fail(413,'Media exceeds the bounded export budget. Ask for a staged export.'); media.push({path:`media/${r.id}.${MEDIA_EXT[String(r.mime)]??'bin'}`,bytes:content,note:`Media ${r.id} for visit ${r.visit_id}`}); }
       const out = without(r, spec.omit);
+      if(spec.table==='visits'&&typeof out.data==='string'){
+        try{out.data=JSON.stringify(eventGeotagDisclosureVisit(JSON.parse(out.data) as Record<string,unknown>,input.now));}catch{fail(409,'A visit record could not be checked for location retention; no archive was produced.');}
+      }
+      if(spec.table==='record_revisions'&&out.entity_type==='visit'&&typeof out.data==='string'&&typeof out.changes==='string'){
+        try{const disclosed=eventGeotagDisclosureRevision({entityType:'visit',data:JSON.parse(out.data),changes:JSON.parse(out.changes)},input.now);out.data=JSON.stringify(disclosed.data);out.changes=JSON.stringify(disclosed.changes);}catch{fail(409,'A visit revision could not be checked for location retention; no archive was produced.');}
+      }
       // Slice 6p: patient-linked entries inside an organisation document follow the same care scope.
       // The data text is re-serialised only when something was left out; otherwise it stays as stored.
       // Slice 6u: team-scoped rows (households, caseload transfers) too: a member or transferred patient outside
       // the exporter's patient scope is left out of the row's data, with its relationship and any end reason.
       if ((spec.scope === 'org' || spec.scope === 'team') && typeof r.data === 'string' && r.data) {
         let doc: unknown = null; try { doc = JSON.parse(r.data); } catch { doc = null; }
-        if (doc && typeof doc === 'object') { const scoped = spec.scope === 'team' ? scopeEntries(doc, id => people.has(id), PATIENT_ID_LISTS, PATIENT_ID_MAPS) : scopeEntries(doc, id => people.has(id)); if (scoped.withheld) { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
+        if (doc && typeof doc === 'object') { const scoped = spec.scope === 'team' ? scopeEntries(doc, id => people.has(id), PATIENT_ID_LISTS, PATIENT_ID_MAPS) : scopeEntries(doc, id => people.has(id));if(spec.table==='retention'&&scoped.value&&typeof scoped.value==='object'&&!Array.isArray(scoped.value))(scoped.value as Record<string,unknown>).tombstones=scopedExitTombstones(retentionProjection.tombstones,people); if (scoped.withheld||spec.table==='retention') { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
       }
       // Slice 6w (fifth review, finding 6): the indicator differencing ledger is server-side protection state
       // (hashed filters and unsuppressed per-cell counts from every viewer's queries); it is not exported.
@@ -281,6 +352,8 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   }
   const tasks = handover.filter(h => h.kind === 'patient-task');
   files.push({ path: 'handover/open-items.jsonl', bytes: jsonl(handover), rows: handover.length, note: 'Unresolved external actions and open patient tasks with their named owner, within the exported scope.' });
+  const dispositions=providerDispositionRows(data.integrations.map(r=>({...without(r),...parsed(r)})) as Array<Record<string,unknown>>,handover);
+  files.push({path:'handover/provider-disposition.jsonl',bytes:jsonl(dispositions),rows:dispositions.length,note:'Provider/platform termination rehearsal disposition. This file does not disable a provider or retry an action.'});
 
   // Optional FHIR document per current confirmed visit, authored by the confirming member.
   let fhirCount = 0;
@@ -298,6 +371,9 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       fhirCount++;
     }
   }
+  // SAHA-120: the archive documents each observed structured path with an explicit unit (or null) and
+  // provenance. This is generated from the already-scoped output and therefore cannot widen access.
+  files.push(portableDictionaryFile(files));
   // Slice 6p: no empty, '.' or '..' path segments (the character class alone allowed them).
   for (const f of files) if (!safePath(f.path)) fail(422, 'An export file name cannot be written to the archive.');
 
@@ -311,21 +387,22 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     organisation: { id: orgId, name: org.name, createdAt: org.created_at, revision: org.revision },
     exporter: { userId: input.exporter.userId, name: input.exporter.name, accountCode: input.exporter.accountCode, role: m.role, owner: m.isOwner },
     schema: { migration: SCHEMA_MIGRATION, workspaceSchemaVersion: 1, rowEncoding: 'One JSON object per line; keys are the stored column names; columns named data, changes, counts and team_ids hold JSON text.' },
-    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope. Figure metadata/history requires current reporting purpose and normal access to every original cohort member and included parent. Calendar governance and declared evidence require normal reporting scope for every configured team member. Private completeness snapshot bodies are omitted even when operational row scope is complete; scoped digest/basis metadata is not the original body. Protected counting material and disclosure ledgers are withheld; ordinary export is not full report or completeness reconstruction.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0 },
+    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. A full exit is refused unless that existing scope covers every current person; it never widens owner authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope. Figure metadata/history requires current reporting purpose and normal access to every original cohort member and included parent. Calendar governance and declared evidence require normal reporting scope for every configured team member. Private completeness snapshot bodies are omitted even when operational row scope is complete; scoped digest/basis metadata is not the original body. Protected counting material and disclosure ledgers are withheld; ordinary export is not full report or completeness reconstruction.', patients: data.patients.length, patientsAuthorised:authorisedPeople.size, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0, fullScopeRequested:!!input.fullScope },
     totals: { files: described.length, rows: totalRows, withheld: totalWithheld, withheldEntries: totalEntries, bytes },
     files: described,
     auditChain: { chainVersion: CHAIN_VERSION, hashing: HASHING, priorSeal: 'The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,"prior",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).', verification: { status: chain.status, events: chain.events, priorEvents: chain.priorEvents, head: chain.head, firstBreak: chain.firstBreak }, exportedHead: cut, note: 'Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive.' },
     handover: { externalActions: handover.length - tasks.length, patientTasks: tasks.length, withoutActiveOwner: tasks.filter(t => t.ownerStatus !== 'active').length },
+    stage: input.stage ? {number:input.stage.number,total:input.stage.total,size:input.stage.size,basis:input.stage.basis,note:'Every part is bound to the same non-audit source basis. Re-import all parts; the independent importer unions patient-scoped fragments in repeated organisation/team JSON rows and refuses every conflicting scalar.'} : null,
     fhir: { included: input.includeFhir, documents: fhirCount, note: input.includeFhir ? 'One FHIR R4 document Bundle per current confirmed visit in scope. Structural subset only; not profile-validated.' : 'Not requested.' },
     excluded: EXCLUDED,
-    verify: 'tar xf the archive, then sha256sum -c SHA256SUMS; node scripts/verify-export.mjs <archive> also checks row counts, relationships, media and the audit chain.',
+    verify: 'tar xf the archive, then sha256sum -c SHA256SUMS; node scripts/verify-export.mjs <archive> checks integrity; node scripts/reimport-export.mjs --output validation.sqlite <archive...> independently re-imports one full archive or every staged part.',
   };
   const manifestBytes = enc.encode(JSON.stringify(manifest, null, 2) + '\n');
   const readme = enc.encode(README(input.exportId, String(org.name), input.now));
   const listed = [{ path: 'README.txt', bytes: readme }, { path: 'manifest.json', bytes: manifestBytes }, ...files];
   const sums = enc.encode((await Promise.all(listed.map(async f => `${await sha256Bytes(f.bytes)}  ${f.path}`))).join('\n') + '\n');
   const archive = tar([...listed, { path: 'SHA256SUMS', bytes: sums }], Math.floor(Date.parse(input.now) / 1000));
-  return { archive, manifest, figureCohort, calendarTeams, completenessBasis, exportedPeople:[...people], manifestSha256: await sha256Bytes(manifestBytes), archiveSha256: await sha256Bytes(archive) };
+  return { archive, manifest, figureCohort, calendarTeams, completenessBasis, retentionBasis, exportedPeople:[...people], manifestSha256: await sha256Bytes(manifestBytes), archiveSha256: await sha256Bytes(archive) };
 }
 
 const README = (id: string, name: string, at: string) => `Saha organisation data export ${id}
@@ -343,6 +420,8 @@ Files
   media/*           photo and voice-note content; the sha256 column of tables/media.jsonl is its
                     SHA-256 in base64 (as computed at upload); SHA256SUMS lists it in hex
   handover/open-items.jsonl  unresolved external actions and open patient tasks with their named owner
+  handover/provider-disposition.jsonl  per-connection termination rehearsal and unresolved-action count
+  schema/fields.json  value-free observed JSON paths with type, unit and provenance
   fhir/*.json       optional FHIR R4 document per current confirmed visit
 
 Relationships
@@ -364,6 +443,8 @@ Checking
   Files are listed in the manifest in an order that satisfies foreign keys for re-import.
   node scripts/verify-export.mjs <archive.tar>   (from the Saha source) checks the manifest,
   checksums, row counts, relationships, media and the audit chain without the application.
+  node scripts/reimport-export.mjs --output validation.sqlite <archive.tar ...> verifies and re-imports
+  one full archive or every part of one staged plan into a new local validation database.
 `;
 
 export const safePath = (p: string) => /^[A-Za-z0-9._/-]{1,99}$/.test(p) && p.split('/').every(x => x !== '' && x !== '.' && x !== '..');
@@ -389,8 +470,23 @@ export function tar(files: { path: string; bytes: Uint8Array }[], mtime: number)
 
 // Exact immutable/new-source basis, excluding export audit rows and org revision changed by this read.
 const COMPLETENESS_BASIS_TABLES=['reporting_calendars','reporting_calendar_events','reporting_coverage','reporting_completeness_receipts','reporting_completeness_snapshots','integrations','memberships','patients','operations'];
-export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const rows=[];for(const table of COMPLETENESS_BASIS_TABLES){const spec=TABLES.find(s=>s.table===table)!;rows.push({table,rows:await readAll(db,spec,orgId)});}return digest(rows);}
+export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const data=await projectedTables(db,orgId,COMPLETENESS_BASIS_TABLES.map(table=>TABLES.find(s=>s.table===table)!));return digest(COMPLETENESS_BASIS_TABLES.map(table=>({table,rows:data[table]})));}
+
+// Stable across the export's own audit/receipt write. Any clinical, configuration, queue or membership
+// change invalidates every remaining staged part and requires a new plan.
+const PORTABLE_BASIS_OMIT=new Set(['audit_events','command_receipts']);
+export async function dataExitPortableBasis(db:D1Database,orgId:string){const specs=TABLES.filter(spec=>!PORTABLE_BASIS_OMIT.has(spec.table)),data=await projectedTables(db,orgId,specs),rows=[];for(const spec of specs){const value=data[spec.table];rows.push({table:spec.table,rows:spec.table==='organisations'?value.map(({revision:_,last_command:__,...r})=>r):value});}return digest(rows);}
+export async function dataExitRetentionBasis(db:D1Database,orgId:string){const data={retention:await readAll(db,TABLES.find(x=>x.table==='retention')!,orgId)};projectDataExitTombstones(data);return digest(data.retention);}
+
+export async function dataExitStagePlan(db:D1Database,orgId:string,m:Member,size:number){
+ if(!Number.isInteger(size)||size<1||size>5000)fail(422,'Stage size must be an integer from 1 to 5000 people.');
+ const data=await projectedTables(db,orgId,[TABLES.find(x=>x.table==='patients')!]),rows=data.patients,noPatients=m.role==='admin'||m.role==='provider';
+ const authorised=rows.filter(r=>{try{return m.status==='active'&&!noPatients&&normallyAllowed(m,storedExportPerson(r));}catch{return false;}}).map(r=>String(r.id)).sort();
+ if(authorised.length!==rows.length)fail(403,'A staged full exit requires current normal authority over every person in the organisation.');
+ const basis=await dataExitPortableBasis(db,orgId),total=Math.max(1,Math.ceil(authorised.length/size));
+ return {format:'saha-data-exit-stage-plan-v1' as const,basis,people:authorised.length,size,total,patientIds:authorised};
+}
 
 // Database columns are authoritative; JSON keeps programme/facility/locality policy fields.
 function storedExportPerson(r:Row){return {...JSON.parse(String(r.data)),id:String(r.id),teamId:String(r.team_id),assignedTo:r.assigned_to} as import('./types').Person;}
-export async function assertDataExitPatientScope(db:D1Database,orgId:string,m:Member,ids:string[]){if(!ids.length)return;const rows=(await db.prepare('SELECT id,team_id,assigned_to,data FROM patients WHERE org_id=? AND id IN (SELECT value FROM json_each(?))').bind(orgId,JSON.stringify(ids)).all<Row>()).results;if(rows.length!==ids.length||rows.some(r=>{try{return !normallyAllowed(m,storedExportPerson(r));}catch{return true;}}))fail(403,'Normal patient export scope changed. Nothing was downloaded.');}
+export async function assertDataExitPatientScope(db:D1Database,orgId:string,m:Member,ids:string[]){if(!ids.length)return;const rows=(await db.prepare('SELECT id,team_id,assigned_to,data FROM patients WHERE org_id=? AND id IN (SELECT value FROM json_each(?))').bind(orgId,JSON.stringify(ids)).all<Row>()).results,retention=await readAll(db,TABLES.find(x=>x.table==='retention')!,orgId),data={patients:rows,retention};projectDataExitTombstones(data);if(data.patients.length!==ids.length||data.patients.some(r=>{try{return !normallyAllowed(m,storedExportPerson(r));}catch{return true;}}))fail(403,'Normal patient export scope changed. Nothing was downloaded.');}

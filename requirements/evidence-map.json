@@ -100,7 +100,9 @@
     "lib/saha/governance.ts",
     "tests/governance-smoke.mjs",
     "tests/governance-contract.mjs",
-    "AI-GOVERNANCE.md"
+    "AI-GOVERNANCE.md",
+    "lib/saha/approved-execution.ts",
+    "tests/approved-execution-contract.mjs"
   ],
   "BR-AI": [
     "lib/saha/agent-provider.ts",
@@ -158,6 +160,16 @@
     "lib/saha/pilot.ts",
     "tests/operations-smoke.mjs"
   ],
+  "BR-REP-06": [
+    "lib/saha/prioritisation.ts",
+    "lib/saha/prioritisation-server.ts",
+    "app/prioritisation/page.tsx",
+    "app/api/prioritisation/route.ts",
+    "tests/prioritisation-contract.mjs",
+    "tests/prioritisation-contract-result.json",
+    "docs/current/SAHA-112-LOCAL-CODING-COMPLETION.md",
+    "docs/verification/saha-112-local-coding-evidence-sha256.json"
+  ],
   "BR-OPS": [
     "lib/saha/operations.ts",
     "lib/saha/pilot.ts",
@@ -168,7 +180,10 @@
     "lib/saha/server.ts",
     "lib/saha/access.ts",
     "lib/saha/store.ts",
-    "REMAINING-RELEASES.md"
+    "REMAINING-RELEASES.md",
+    "lib/saha/consent.ts",
+    "app/consent-panel.tsx",
+    "tests/notice-consent-contract.mjs"
   ],
   "BR-RULE": [
     "lib/saha/core.ts",
@@ -489,7 +504,11 @@
     "docs/current/SLICE-6P-REVIEW-FIXES.md",
     "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
     "tests/sixth-review-fixes-contract.mjs",
-    "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
+    "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md",
+    "app/data-exit-panel.tsx",
+    "scripts/reimport-export.mjs",
+    "tests/data-exit-portability-contract.mjs",
+    "docs/current/SAHA-120-DATA-EXIT-LOCAL-CODING-COMPLETION.md"
   ],
   "NFR-23": [
     "scripts/recovery.mjs",
@@ -730,7 +749,10 @@
     "lib/saha/retention.ts",
     "app/retention-panel.tsx",
     "tests/fourth-review-fixes-contract.mjs",
-    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+    "tests/retention-contract.mjs",
+    "tests/retention-smoke.mjs",
+    "docs/current/SAHA-130-LOCAL-CODING-COMPLETION-20261020.md"
   ],
   "BR-SEC-10": [
     "lib/saha/server.ts",
@@ -753,7 +775,13 @@
     "tests/main-review-fixes-contract.mjs",
     "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
     "tests/fourth-review-fixes-contract.mjs",
-    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+    "lib/saha/exceptional-server.ts",
+    "lib/saha/access-audit.ts",
+    "tests/exceptional-contract.mjs",
+    "tests/exceptional-smoke.mjs",
+    "docs/current/SAHA-132-EMERGENCY-SUPPORT-ACCESS.md",
+    "tests/access-audit-contract.mjs"
   ],
   "BR-OFF-08": [
     "lib/saha/field.ts",
@@ -1004,7 +1032,18 @@
     "docs/current/SCOPE-FOLLOWUP-INDEPENDENT-REVIEW.md",
     "tests/evidence/device-work-fail-closed",
     "tests/evidence/device-privacy-fixed-independent-review",
-    "tests/evidence/scope-followup-independent-review"
+    "tests/evidence/scope-followup-independent-review",
+    "app/exceptions-panel.tsx",
+    "app/operations-panel.tsx",
+    "lib/saha/exception-diagnostics.ts",
+    "lib/saha/exceptions-server.ts",
+    "lib/saha/notification-sources.ts",
+    "lib/saha/platform.ts",
+    "lib/saha/server.ts",
+    "tests/exception-assignment-contract.mjs",
+    "tests/exception-assignment-contract-result.json",
+    "tests/notification-sources-contract.mjs",
+    "docs/current/SAHA-107-OPERATIONAL-EXCEPTION-QUEUES.md"
   ],
   "BR-REP-05": [
     "lib/saha/operations.ts",
@@ -1158,7 +1197,9 @@
     "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
     "docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md",
     "docs/current/d03/telemetry-retention-evidence-20261011/MANIFEST.json",
-    "tests/integration/routine-telemetry-retention-http.mjs"
+    "tests/integration/routine-telemetry-retention-http.mjs",
+    "lib/saha/observability.ts",
+    "docs/current/SAHA-128-LOCAL-CODING-COMPLETION-20261020.md"
   ],
   "BR-AG-08": [
     "lib/saha/agent.ts",
@@ -1242,7 +1283,11 @@
     "tests/fourth-review-fixes-contract.mjs",
     "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
     "tests/sixth-review-fixes-contract.mjs",
-    "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
+    "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md",
+    "app/data-exit-panel.tsx",
+    "scripts/reimport-export.mjs",
+    "tests/data-exit-portability-contract.mjs",
+    "docs/current/SAHA-120-DATA-EXIT-LOCAL-CODING-COMPLETION.md"
   ],
   "BR-OPS-01": [
     "lib/saha/operations.ts",
@@ -1257,7 +1302,15 @@
     "docs/current/SLICE-6N-ENVIRONMENTS.md",
     "tests/availability-contract.mjs",
     "tests/ui/availability.mjs",
-    "docs/current/SYNTHETIC-AVAILABILITY.md"
+    "docs/current/SYNTHETIC-AVAILABILITY.md",
+    "lib/saha/deployment-configuration.ts",
+    "lib/saha/deployment-configuration-server.ts",
+    "app/api/deployment-configuration/route.ts",
+    "app/deployment-configuration/page.tsx",
+    "app/deployment-configuration/screen.tsx",
+    "tests/deployment-configuration-contract.mjs",
+    "tests/evidence/saha-114-deployment-configuration/result.json",
+    "docs/current/SAHA-114-DEPLOYMENT-CONFIGURATION.md"
   ],
   "BR-OPS-02": [
     "lib/saha/operations.ts",
@@ -1266,10 +1319,22 @@
     "tests/pilot-smoke.mjs",
     "lib/saha/environment.ts",
     "lib/saha/environment-server.ts",
+    "lib/saha/server.ts",
+    "lib/saha/core.ts",
+    "lib/saha/mis.ts",
+    "lib/saha/mis-execution.ts",
+    "lib/saha/fhir-document.ts",
+    "lib/saha/fhir.ts",
+    "lib/saha/ehr.ts",
+    "lib/saha/ehr-provider.ts",
+    "lib/saha/agent-minimisation.ts",
+    "app/api/fhir/[id]/route.ts",
     "app/environment-panel.tsx",
     "tests/environment-contract.mjs",
     "tests/environment-smoke.mjs",
-    "docs/current/SLICE-6N-ENVIRONMENTS.md"
+    "tests/environment-separation-contract.mjs",
+    "docs/current/SLICE-6N-ENVIRONMENTS.md",
+    "docs/current/SAHA-115-ENVIRONMENT-SEPARATION-LOCAL-COMPLETION.md"
   ],
   "BR-DATA-11": [
     "lib/saha/core.ts",
@@ -1336,9 +1401,15 @@
     "lib/saha/store.ts",
     "REMAINING-RELEASES.md",
     "lib/saha/consent.ts",
+    "app/consent-panel.tsx",
     "tests/consent-contract.mjs",
     "tests/consent-smoke.mjs",
+    "tests/withdrawal-disposition-contract.mjs",
+    "tests/withdrawal-disposition-http.mjs",
+    "tests/evidence/withdrawal-disposition/contract.json",
+    "tests/evidence/withdrawal-disposition/http.json",
     "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md",
+    "docs/current/SAHA-124-WITHDRAWAL-DISPOSITION-LOCAL-COMPLETION.md",
     "app/api/device-work/route.ts",
     "lib/saha/device-work.ts",
     "public/field/device-work.js",
@@ -2059,7 +2130,11 @@
     "docs/current/WORK-SUPPORT-CURRENT-HELPERS.md",
     "docs/current/WORK-SUPPORT-CURRENT-SNAPSHOT.md",
     "docs/current/WORK-SUPPORT-FIX-INDEPENDENT-REVIEW.md",
-    "docs/current/WORK-SUPPORT-WORKFLOW-RACE-REVIEW.md"
+    "docs/current/WORK-SUPPORT-WORKFLOW-RACE-REVIEW.md",
+    "tests/tenant-record-isolation-http.mjs",
+    "tests/evidence/tenant-record-isolation/http.json",
+    "tests/evidence/tenant-record-isolation/authorisation-matrix-boundary.json",
+    "docs/current/SAHA-127-TENANT-RECORD-ISOLATION-LOCAL-COMPLETION-20261020.md"
   ],
   "BR-ID-03": [
     "lib/saha/continuity.ts",
@@ -2197,6 +2272,14 @@
     "docs/current/ANDROID-APP.md"
   ],
   "BR-CARE-07": [
+    "lib/saha/outreach.ts",
+    "lib/saha/outreach-server.ts",
+    "app/outreach-panel.tsx",
+    "tests/external-messaging-contract.mjs",
+    "tests/outreach-smoke.mjs",
+    "tests/evidence/saha-105-external-messaging/contract-result.json",
+    "tests/evidence/saha-105-external-messaging/http-report.json",
+    "docs/current/SAHA-105-LOCAL-CODING-COMPLETION.md",
     "lib/saha/reminder-optout.ts",
     "lib/saha/reminder-optout-server.ts",
     "app/reminder-optout-panel.tsx",
@@ -2498,5 +2581,17 @@
     "lib/saha/store.ts",
     "REMAINING-RELEASES.md",
     "docs/current/d03/SECURITY-QUALIFICATION-20261011.md"
+  ],
+  "BR-CARE-06": [
+    "lib/saha/outreach.ts",
+    "lib/saha/consent.ts",
+    "lib/saha/outreach-server.ts",
+    "app/outreach-panel.tsx",
+    "app/consent-panel.tsx",
+    "tests/safe-communication-preferences-contract.mjs",
+    "tests/outreach-contract.mjs",
+    "tests/consent-contract.mjs",
+    "tests/contact-import-contract.mjs",
+    "docs/current/SAHA-104-LOCAL-CODING-COMPLETION-20261020.md"
   ]
 }

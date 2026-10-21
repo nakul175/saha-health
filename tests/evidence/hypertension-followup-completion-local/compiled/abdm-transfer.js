@@ -1,0 +1,153 @@
+import { z } from 'zod';
+import { fail, person, uuid } from './core.js';
+import { assertPatientDocumentNotes, assertOutboundPrivacy, fhirDocument } from './fhir-document.js';
+import { validateOutbound } from './fhir-validate.js';
+import { abdmConfig, abdmOperation, consentAllows, effective } from './abdm.js';
+const id = z.string().trim().min(1).max(200), version = z.number().int().positive();
+export const transferSchema = z.discriminatedUnion('type', [
+    z.object({ type: z.literal('abdmCareContextLink'), personId: id, version, visitIds: z.array(id).min(1).max(20).refine(x => new Set(x).size === x.length, 'List each visit once.') }).strict(),
+    z.object({ type: z.literal('abdmFetch'), personId: id, version, consentId: id }).strict(),
+    z.object({ type: z.literal('abdmReceivedReview'), personId: id, version, recordId: id, decision: z.enum(['accepted', 'rejected']), note: z.string().trim().min(5).max(1000) }).strict(),
+]);
+const TYPES = new Set(['abdmCareContextLink', 'abdmFetch', 'abdmReceivedReview']);
+export function authorizeTransfer(_s, m, c) { if (TYPES.has(c?.type) && m.role !== 'clinician')
+    fail(403, 'A clinician with access to the patient is required.'); }
+const b64 = (b) => { const u = b instanceof Uint8Array ? b : new Uint8Array(b); let s = ''; for (const x of u)
+    s += String.fromCharCode(x); return btoa(s); };
+const unb64 = (s) => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const buf = (u) => u;
+const sha = async (text) => b64(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)));
+async function sessionKey(priv, peerRaw, nonceA, nonceB) {
+    const peer = await crypto.subtle.importKey('raw', buf(peerRaw), { name: 'X25519' }, false, []);
+    const shared = await crypto.subtle.deriveBits({ name: 'X25519', public: peer }, priv, 256);
+    const mix = nonceA.map((x, i) => x ^ nonceB[i]);
+    const base = await crypto.subtle.importKey('raw', shared, 'HKDF', false, ['deriveKey']);
+    const key = await crypto.subtle.deriveKey({ name: 'HKDF', hash: 'SHA-256', salt: buf(mix.slice(0, 20)), info: new TextEncoder().encode('saha-mock-hi-transfer') }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+    return { key, iv: buf(mix.slice(20, 32)) };
+}
+const pair = () => crypto.subtle.generateKey({ name: 'X25519' }, true, ['deriveBits']);
+// Mock HIP: encrypt each permitted care context for the requester's public key.
+export async function mockHip(p, s, consentId, hiu, now) {
+    const hip = await pair(), nonce = crypto.getRandomValues(new Uint8Array(32));
+    const { key, iv } = await sessionKey(hip.privateKey, unb64(hiu.publicKey), nonce, unb64(hiu.nonce));
+    const entries = [];
+    for (const cc of p.careContexts ?? []) {
+        const check = consentAllows(p, consentId, { hiType: cc.hiType, date: cc.recordDate }, now);
+        if (!check.allowed || cc.abhaNumber !== p.abha?.number)
+            continue;
+        const v = s.workspace.visits.find(x => x.id === cc.visitId);
+        if (!v || v.state !== 'confirmed' || v.voidedAt || v.supersededBy)
+            continue;
+        // Slice 7c: each care context is sent as a FHIR document that must pass the pinned rule set first.
+        const doc = fhirDocument(p, v, s.organisation.name, 'Saha mock HIP');
+        validateOutbound(doc, p.id.replace(/_/g, '-'), now);
+        assertOutboundPrivacy(doc);
+        assertPatientDocumentNotes(s, p.id, doc);
+        const text = JSON.stringify(doc);
+        entries.push({ careContextId: cc.id, hiType: cc.hiType, recordDate: cc.recordDate, media: 'application/fhir+json', checksum: await sha(text), content: b64(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(text))) });
+    }
+    return { hipPublicKey: b64(await crypto.subtle.exportKey('raw', hip.publicKey)), hipNonce: b64(nonce), entries };
+}
+// HIU: decrypt with the session key, verify each checksum, and keep entries for human review.
+export async function receive(hiuPrivate, hiuNonce, payload) {
+    const { key, iv } = await sessionKey(hiuPrivate, unb64(payload.hipPublicKey), unb64(payload.hipNonce), hiuNonce);
+    const out = [];
+    for (const e of payload.entries) {
+        let text;
+        try {
+            text = new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, buf(unb64(e.content))));
+        }
+        catch {
+            fail(502, 'A received entry could not be decrypted. Nothing was stored.');
+        }
+        if (await sha(text) !== e.checksum)
+            fail(502, 'A received entry failed its checksum. Nothing was stored.');
+        let bundle;
+        try {
+            bundle = JSON.parse(text);
+        }
+        catch {
+            fail(502, 'A received entry is not valid JSON. Nothing was stored.');
+        }
+        if (bundle?.resourceType !== 'Bundle')
+            fail(502, 'A received entry is not a FHIR Bundle. Nothing was stored.');
+        let validation;
+        try {
+            validation = validateOutbound(bundle);
+        }
+        catch (err) {
+            fail(502, 'A received entry failed validation. Nothing was stored. ' + String(err?.message ?? ''));
+        }
+        out.push({ ...e, bundle, validation: validation });
+    }
+    return out;
+}
+export async function applyTransfer(s, input, u, m, now = new Date().toISOString()) {
+    const parsed = transferSchema.safeParse(input);
+    if (!parsed.success)
+        return null;
+    const c = parsed.data;
+    authorizeTransfer(s, m, c);
+    abdmOperation(s, c.type);
+    const w = s.workspace, p = person(w, c.personId);
+    if (p.version !== c.version)
+        fail(409, 'Patient changed. Refresh before continuing.');
+    const cfg = abdmConfig(s);
+    let detail = '', result = { ok: true };
+    if (c.type === 'abdmCareContextLink') {
+        if (!cfg?.modules.hip || !cfg.approvals.some(a => a.module === 'hip'))
+            fail(409, 'The ABDM HIP module is not enabled with a recorded approval for this organisation.');
+        if (p.abha?.state !== 'linked')
+            fail(409, 'Link an ABHA before linking care contexts.');
+        const added = [];
+        for (const vid of c.visitIds) {
+            const v = w.visits.find(x => x.id === vid && x.personId === p.id);
+            if (!v || v.state !== 'confirmed' || v.voidedAt || v.supersededBy)
+                fail(422, 'Choose current confirmed visits of this patient.');
+            if ((p.careContexts ?? []).some(x => x.visitId === vid && x.abhaNumber === p.abha.number))
+                continue;
+            added.push({ id: uuid(), visitId: vid, display: `OP consultation ${(v.confirmedAt ?? v.createdAt).slice(0, 10)}`, hiType: 'OPConsultation', recordDate: (v.facts.date || v.createdAt).slice(0, 10), linkedAt: now, linkedBy: u.userId, abhaNumber: p.abha.number });
+        }
+        if (!added.length)
+            fail(409, 'These visits are already linked as care contexts.');
+        if ((p.careContexts ?? []).length + added.length > 200)
+            fail(422, 'Care context limit reached.');
+        (p.careContexts ??= []).push(...added);
+        detail = `${added.length} care context${added.length > 1 ? 's' : ''} linked to the ABHA on the mock gateway (HIP).`;
+        result = { linked: added.length };
+    }
+    else if (c.type === 'abdmFetch') {
+        if (!cfg?.modules.hiu || !cfg.approvals.some(a => a.module === 'hiu'))
+            fail(409, 'The ABDM HIU module is not enabled with a recorded approval for this organisation.');
+        const consent = (p.abdmConsents ?? []).find(x => x.id === c.consentId);
+        if (!consent)
+            fail(404, 'Consent artefact not found.');
+        if (effective(consent, now) !== 'GRANTED')
+            fail(409, `Consent is ${effective(consent, now)}; nothing can be fetched.`);
+        if ((p.abdmTransfers ?? []).length >= 100)
+            fail(422, 'Transfer history limit reached for this patient.');
+        const hiu = await pair(), nonce = crypto.getRandomValues(new Uint8Array(32));
+        const payload = await mockHip(p, s, consent.id, { publicKey: b64(await crypto.subtle.exportKey('raw', hiu.publicKey)), nonce: b64(nonce) }, now);
+        const entries = await receive(hiu.privateKey, nonce, payload);
+        if ((p.abdmReceived ?? []).length + entries.length > 200)
+            fail(422, 'Received-record limit reached for this patient; review and archive first.');
+        const t = { id: uuid(), consentId: consent.id, requestedAt: now, requestedBy: u.userId, state: 'delivered', entries: entries.length, acknowledgedAt: now, message: entries.length ? 'Entries decrypted, checksums verified, awaiting clinician review.' : 'No care context matched the consent.' };
+        (p.abdmTransfers ??= []).push(t);
+        for (const e of entries)
+            (p.abdmReceived ??= []).push({ id: uuid(), consentId: consent.id, transferId: t.id, careContextId: e.careContextId, hiType: e.hiType, recordDate: e.recordDate, checksum: e.checksum, bundle: e.bundle, validation: e.validation, state: 'review', receivedAt: now });
+        detail = `Mock HIU transfer under consent ${consent.purpose}: ${entries.length} encrypted entr${entries.length === 1 ? 'y' : 'ies'} received, decrypted and checksum-verified; held for review. Nothing is added to the record until reviewed.`;
+        result = { transferId: t.id, entries: entries.length };
+    }
+    else {
+        const r = (p.abdmReceived ?? []).find(x => x.id === c.recordId);
+        if (!r)
+            fail(404, 'Received record not found.');
+        if (r.state !== 'review')
+            fail(409, 'This received record is already reviewed.');
+        Object.assign(r, { state: c.decision, reviewedBy: u.userId, reviewedAt: now, note: c.note });
+        detail = `Received ${r.hiType} dated ${r.recordDate} ${c.decision} after review. ${c.note}`;
+    }
+    p.version++;
+    w.audit.push({ id: uuid(), at: now, actorId: u.userId, actor: u.displayName, role: m.role, action: c.type, subject: p.id, personId: p.id, detail });
+    return result;
+}

@@ -1,6 +1,25 @@
 import type { OrgState, Visit } from './types';
 import type { AgentRun } from './agent';
 import type { GovernanceEntry } from './governance';
+import { fail } from './core';
+import { DATA_RELEASE, PROMPT_RELEASE, TOOL_RELEASE } from './ai-version-pin';
+
+export const EXPERIMENTAL_OUTPUT_USES=['trial','shadow','training','synthetic-evaluation'] as const;
+export type ExperimentalOutputUse=typeof EXPERIMENTAL_OUTPUT_USES[number];
+export type CapabilityOutputUse='operational'|ExperimentalOutputUse;
+export type CapabilityOutputContext={use:CapabilityOutputUse;organisationId:string;entryId:string;entryVersion:number;revision:number;manifestHash:string};
+// Every result carries its exact deployment and immutable package version. Experimental evidence shares the
+// envelope for reproducibility, but can never pass the operational boundary below.
+export function capabilityOutputContext(s:OrgState,e:GovernanceEntry,use:CapabilityOutputUse):CapabilityOutputContext{return {use,organisationId:s.organisation.id,entryId:e.id,entryVersion:e.version,revision:e.revision,manifestHash:e.manifestHash};}
+// The only boundary that permits a capability output to influence a clinical draft.
+export function assertOperationalCapabilityOutput(s:OrgState,c:CapabilityOutputContext,now=new Date().toISOString()){
+ if(c.use!=='operational')fail(409,`${c.use} capability output is evaluation evidence only and cannot influence care.`);
+ if(c.organisationId!==s.organisation.id)fail(403,'Capability output belongs to another deployment.');
+ const e=entries(s).find(x=>x.id===c.entryId);if(!e)fail(404,'Capability output package not found.');
+ if(e.spec.kind!=='capability'||e.version!==c.entryVersion||e.revision!==c.revision||e.manifestHash!==c.manifestHash)fail(409,'Capability output version is stale. Prepare a fresh request.');
+ if(e.state!=='active')fail(409,e.state==='suspended'?'Capability is suspended; new use and clinical application are blocked.':'Capability is not active for this deployment.');
+ if(e.spec.effectiveFrom>now.slice(0,10)||e.spec.reviewBy<now.slice(0,10))fail(409,'Capability deployment dates are no longer current.');return e;
+}
 // Slice 5d (BR-AI-04): the BRD lifecycle vocabulary derived from governance packages, which runs used which
 // package version, and the in-progress work a suspended, retired or replaced capability leaves behind.
 // Everything here is computed on read from records that already exist; nothing is copied or changed.
@@ -42,19 +61,23 @@ export function capabilityImpact(visits:Visit[],e:GovernanceEntry){
  const counts:Record<RequiredAction,number>={cancel:0,'await-outcome':0,review:0,'check-applied':0};for(const i of items)counts[i.action]++;
  return {items,counts};
 }
+export function affectedCapabilityEncounters(s:OrgState,e:GovernanceEntry,now=new Date().toISOString(),days=30){
+ const since=Date.parse(now)-days*86400000;
+ return runsOf(s.workspace.visits,e.id).filter(({r})=>['pending','running','review','applied'].includes(r.status)&&Date.parse(r.createdAt)>=since).map(({v,r})=>({visit:v,run:r}));
+}
 export const impactSummary=(c:Record<RequiredAction,number>)=>{const parts=[c.cancel&&`${c.cancel} unsent request${c.cancel===1?'':'s'} to cancel`,c['await-outcome']&&`${c['await-outcome']} in flight (results will be withheld)`,c.review&&`${c.review} result${c.review===1?'':'s'} to review`,c['check-applied']&&`${c['check-applied']} applied to draft visits to check`].filter(Boolean);return parts.length?parts.join(', '):'no in-progress work';};
 // Slice 5g (BR-AI-07): provider and model history per capability key. Each revision pins one provider, model and
 // agent version; a new revision may change them, and each change went through its own evaluation, independent
 // review and owner activation. Derived on read; counts only, no patient detail.
-export type HistoryChange='provider'|'model'|'agent-version';
+export type HistoryChange='provider'|'model'|'agent-version'|'capability'|'prompt'|'tool'|'data'|'evaluation';
 export function providerHistory(s:OrgState,key:string){
  const revs=entries(s).filter(e=>e.spec.kind==='capability'&&e.spec.key===key).sort((a,b)=>a.revision-b.revision);
  return revs.map((e,i)=>{
   const spec=e.spec as Extract<GovernanceEntry['spec'],{kind:'capability'}>,prev=i?revs[i-1].spec as typeof spec:null;
   const activatedAt=e.history.find(h=>h.state==='active')?.at??null,endedAt=e.state==='active'||!activatedAt?null:e.history.filter(h=>h.at>=activatedAt&&['suspended','retired'].includes(h.state)).at(-1)?.at??null;
   const changes:HistoryChange[]=prev?([prev.providerId!==spec.providerId&&'provider',prev.model!==spec.model&&'model',prev.agentVersion!==spec.agentVersion&&'agent-version'].filter(Boolean) as HistoryChange[]):[];
-  const usage=capabilityUsage(s.workspace.visits,e);
-  return {entryId:e.id,revision:e.revision,providerId:spec.providerId,model:spec.model,agentVersion:spec.agentVersion,state:e.state,stage:lifecycleStage(s,e).stage,reviewedAt:e.review?.at??null,activatedAt,endedAt,changes,requests:usage.total,lastUsedAt:usage.lastUsedAt};
+  const usage=capabilityUsage(s.workspace.visits,e),evaluation=e.review?.evaluationId?(s.governance?.evaluations??[]).find(x=>x.id===e.review!.evaluationId):undefined;
+  return {entryId:e.id,revision:e.revision,capabilityManifestHash:e.manifestHash,providerId:spec.providerId,providerRelease:s.workspace.integrations.find(x=>x.id===spec.providerId)?.version??(spec.providerId==='local'?2:null),model:spec.model,agentVersion:spec.agentVersion,prompt:PROMPT_RELEASE,tool:TOOL_RELEASE,data:DATA_RELEASE,evaluation:evaluation?{id:evaluation.id,corpusVersion:evaluation.corpusVersion,corpusHash:evaluation.corpusHash,manifestHash:evaluation.manifestHash}:null,state:e.state,stage:lifecycleStage(s,e).stage,reviewedAt:e.review?.at??null,activatedAt,endedAt,changes,requests:usage.total,lastUsedAt:usage.lastUsedAt};
  });
 }
 export function capabilityHistories(s:OrgState,keys?:Set<string>){

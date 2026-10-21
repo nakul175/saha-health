@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 // Slice 6n: declared environment, fixture marking and the owner-only configuration check over HTTP.
 // The test Worker declares no SAHA_ENVIRONMENT, so it runs as the default synthetic environment.
-export async function environmentSmoke({ get, post, check, accounts, org, base }) {
+export async function environmentSmoke({ get, post, check, accounts, org, base, sql }) {
   const { owner: o, worker: w, supervisor: sv, admin: a, clinician: c, stranger: x } = accounts;
   const read = async (who, orgId = org, status = 200) => { const r = await fetch(`${base}/api/environment`, { headers: { ...who.headers, 'x-saha-organisation': orgId } }); const j = await r.json(); check(() => assert.equal(r.status, status, JSON.stringify(j).slice(0, 300))); return j; };
   for (const who of [w, sv, a, c]) { const j = await read(who, org, 403); check(() => assert.match(j.error, /Only an organisation owner/)); }
@@ -23,6 +23,14 @@ export async function environmentSmoke({ get, post, check, accounts, org, base }
   const demo = fresh.state.integrations.find(i => i.mode === 'demo' && i.status === 'active');
   await post(fresh, { type: 'toggleIntegration', integrationId: demo.id, version: demo.version }, 200, undefined, fresh.state.organisation.id);
   const paused = fresh.state.integrations.find(i => i.id === demo.id);
+  // SAHA-133: reactivation targets the exact post-toggle release. Seed only this
+  // synthetic fixture's release-3 assurance inventory; the command still has to
+  // pass the product's provider-assurance activation gate.
+  const assuranceRow = sql.prepare('SELECT data FROM operations WHERE org_id=?').get(fresh.state.organisation.id);
+  const assuranceOperations = assuranceRow ? JSON.parse(assuranceRow.data) : { version: 0, maintenance: false, reason: '', updatedAt: '', incidents: [], rates: null };
+  const assuranceAt = new Date().toISOString();
+  assuranceOperations.supplyChain = [...(assuranceOperations.supplyChain ?? []), { id: `environment-smoke-${demo.id}`, kind: 'provider', name: 'Synthetic completeness assistant assurance', release: '3', ownerId: fresh.state.user.userId, controls: ['Signed synthetic provider release'], subprocessors: [{ name: 'None disclosed', purpose: 'Explicit synthetic provider declaration', jurisdiction: 'Not applicable' }], incidentContact: 'SECURITY-CASE-QUEUE', updateObligation: 'Notify the accountable owner before this supported release changes.', supportUntil: '2099-01-01', materialChange: 'Exact synthetic release 3 assessed for the environment activation fixture.', componentId: demo.id, version: 1, updatedBy: fresh.state.user.userId, updatedAt: assuranceAt, findings: [], history: [] }];
+  sql.prepare('INSERT INTO operations (org_id,data) VALUES (?,?) ON CONFLICT(org_id) DO UPDATE SET data=excluded.data').run(fresh.state.organisation.id, JSON.stringify(assuranceOperations));
   await post(fresh, { type: 'toggleIntegration', integrationId: demo.id, version: paused.version }, 200, undefined, fresh.state.organisation.id);
   check(() => assert.equal(fresh.state.integrations.find(i => i.id === demo.id).status, 'active'));
 }

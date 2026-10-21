@@ -1,0 +1,336 @@
+import { adoptedVersionForTeam } from './team-pack-adoption.js';
+import { CONTACT_COLUMNS, authorizeContactImport, planContactRows, applyContactRows, contactBatch, applyContactReversal } from './contact-import.js';
+import { z } from 'zod';
+import { digest, fail, uuid } from './core.js';
+import { allowed, normallyAllowed } from './access.js';
+import { environmentOf } from './environment.js';
+import { csvBytes, importsInto, MAX_CSV, MAX_ROWS, mayImport, parseCsv } from './patient-import.js';
+import { catalogueOf, enrollableAt, packAt } from './programmes.js';
+import { currentIdentifiers, identifierRef } from './types.js';
+import { VISIT_COLUMNS, VISIT_REFUSED, applyVisitRows, fileDigest, mayImportVisits, planVisitRows } from './visit-import.js';
+import { defaultOperations } from './operations.js';
+// Slice 2h: controlled import of programme enrolments and external identifiers for existing people (BR-DATA-11), on
+// the slice 2f pattern. The same importers (an owner or supervisor with a clinician or supervisor role, or a
+// supervision delegate, for teams they belong to) dry-run a CSV; the dry run resolves each row's person by a Saha
+// record id or an exact external identifier written issuer:value, classifies the row as accepted or rejected with
+// reasons, and returns row numbers, record ids, versions, counts and reasons only (never names or identifier values)
+// under a plan hash. Apply recomputes the dry run, accepts only that exact plan, changes the accepted records (one
+// revision each) and writes one counted audit event. Slice 10i adds kind `visits` (historical visits with clinical content, imported
+// as confirmed visits marked IMPORTED; lib/saha/visit-import.ts) on the same dry run, plan hash and apply, for owners and clinicians.
+export const RECORD_IMPORT = 'record-import-v1';
+export const KINDS = ['enrolments', 'identifiers', 'visits', 'contacts'];
+export const COLUMNS = { contacts: CONTACT_COLUMNS, enrolments: ['person', 'pack', 'version', 'episode_label', 'start_date'], identifiers: ['person', 'issuer', 'identifier'], visits: VISIT_COLUMNS };
+// Known issuers and their formats. Illustrative: the formats are not validated against the issuing registries.
+// ABHA numbers and addresses are linked through the ABHA verification flow (slice 7a), never imported.
+export const KNOWN_ISSUERS = {
+    rch: { label: 'RCH ID', pattern: /^\d{12}$/, format: 'An RCH ID is 12 digits.' },
+    nikshay: { label: 'Ni-kshay ID', pattern: /^\d{6,10}$/, format: 'A Ni-kshay ID is 6 to 10 digits.' },
+};
+export const REFUSED_ISSUERS = ['abha', 'abha_address', 'abha-address'];
+// Slice 6aa (seventh review, finding 5): issuers are an allowlist (KNOWN_ISSUERS); a value shaped like an ABHA number
+// (14 digits, optionally grouped 2-4-4-4) or an issuer code naming ABHA or a health id is refused under any issuer, so
+// ABHA verification and organisation-wide ABHA uniqueness cannot be skipped by naming the issuer differently.
+export const ABHA_LIKE_VALUE = /^\d{2}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}$/;
+export const ABHA_LIKE_ISSUER = /abha|health|hid|phr/;
+export const ISSUER = /^[a-z][a-z0-9_-]{1,31}$/, VALUE = /^[A-Za-z0-9][A-Za-z0-9/._-]{0,63}$/;
+const reason = z.string().trim().min(10, 'Explain the reason in at least 10 characters.').max(500);
+const tooLarge = `The file is larger than ${MAX_CSV.toLocaleString('en-IN')} bytes. Split it into smaller batches.`;
+const csv = z.string().min(1, 'Paste or choose a CSV file.').max(MAX_CSV, tooLarge).refine(x => csvBytes(x) <= MAX_CSV, tooLarge);
+export const recordImportInput = z.object({ kind: z.enum(KINDS), csv }).strict();
+export const recordImportSchema = z.discriminatedUnion('type', [
+    z.object({ type: z.literal('recordImportContactsReverse'), batchId: z.string().min(1).max(100), planHash: z.string().regex(/^[0-9a-f]{64}$/), reason }).strict(),
+    z.object({ type: z.literal('recordImportReverse'), kind: z.enum(['enrolments', 'identifiers']), batchId: z.string().min(1).max(100), planHash: z.string().regex(/^[0-9a-f]{64}$/), reason }).strict(),
+    z.object({ type: z.literal('recordImportApply'), kind: z.enum(KINDS), csv, planHash: z.string().regex(/^[0-9a-f]{64}$/), reason }).strict(),
+]);
+const NO_RECORD = 'No record in the teams you may import into matches this person.';
+const live = (p) => !p.mergedInto;
+// Slice 10e: identifiers are an append-only ledger (types.ts); a record holds the entries not replaced by a later correction or
+// withdrawal (currentIdentifiers), so a corrected or withdrawn value neither matches a record nor blocks the same value elsewhere.
+// Resolve a row's person: a Saha record id, or issuer:value naming an identifier already recorded on one record.
+// Not found and outside the importer's teams answer the same neutral reason, so the dry run is not an existence oracle.
+export function resolvePerson(s, m, ref, now, inScope = p => allowed(m, p, now) && importsInto(s, m, p.teamId, now)) {
+    const text = ref.trim();
+    if (!text)
+        return { reason: 'Person is required: a Saha record id or an identifier written issuer:value.' };
+    let found;
+    const at = text.indexOf(':');
+    if (at > 0) {
+        const issuer = text.slice(0, at).trim().toLowerCase(), value = text.slice(at + 1).trim();
+        found = s.workspace.people.filter(p => live(p) && currentIdentifiers(p).some(i => i.issuer === issuer && i.value === value));
+    }
+    else
+        found = s.workspace.people.filter(p => p.id === text);
+    const mine = found.filter(inScope);
+    if (found.length !== 1 || mine.length !== 1)
+        return { reason: NO_RECORD };
+    if (mine[0].mergedInto)
+        return { person: mine[0], reason: 'This record was merged into another record. Use the surviving record.' };
+    return { person: mine[0] };
+}
+const header = (kind, table) => {
+    const cols = COLUMNS[kind], h = table[0].map(x => x.trim().toLowerCase()), missing = cols.filter(c => !h.includes(c)), extra = h.filter(x => !cols.includes(x));
+    if (missing.length || extra.length || new Set(h).size !== h.length)
+        fail(422, `The header must name exactly these columns once each: ${cols.join(', ')}.${missing.length ? ` Missing: ${missing.join(', ')}.` : ''}${extra.length ? ` Not recognised: ${extra.length} column${extra.length === 1 ? '' : 's'}.` : ''}`);
+    return h;
+};
+const today = (now) => now.slice(0, 10);
+const validDate = (x) => /^\d{4}-\d{2}-\d{2}$/.test(x) && !isNaN(Date.parse(x)) && new Date(x).toISOString().slice(0, 10) === x;
+export async function planRecordImport(s, m, kind, text, envName, now = new Date().toISOString()) {
+    if (!(kind === 'visits' ? mayImportVisits(m) : mayImport(s, m, now)))
+        fail(403, kind === 'visits' ? VISIT_REFUSED : 'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');
+    const table = parseCsv(text);
+    if (!table.length)
+        fail(422, 'The CSV is empty.');
+    const h = header(kind, table);
+    const body = table.slice(1);
+    if (!body.length)
+        fail(422, 'The CSV has a header but no rows.');
+    if (body.length > MAX_ROWS)
+        fail(422, `At most ${MAX_ROWS} rows per import; this file has ${body.length}.`);
+    if (kind === 'contacts') {
+        const plan = await planContactRows(s, m, h, body, text, envName, now, ref => resolvePerson(s, m, ref, now, p => normallyAllowed(m, p) && importsInto(s, m, p.teamId, now)));
+        return { import: RECORD_IMPORT, kind, environment: envName, ...plan, quality: { sourceRows: body.length, parsedRows: plan.counts.rows, accepted: plan.counts.accepted, rejected: plan.counts.rejected, duplicateCandidates: plan.rows.filter(r => r.reasons.some(x => /already|same person|duplicate/i.test(x))).length, merged: 0 } };
+    }
+    if (kind === 'visits') {
+        // Slice 10i: visits are resolved within the importer's normal care scope only (no emergency access, no owner widening).
+        const plan = await planVisitRows(s, m, h, body, envName, now, await fileDigest(text), ref => resolvePerson(s, m, ref, now, p => normallyAllowed(m, p) && m.teamIds.includes(p.teamId)));
+        return { import: RECORD_IMPORT, kind, environment: envName, counts: plan.counts, quality: { sourceRows: body.length, parsedRows: plan.counts.rows, accepted: plan.counts.accepted, rejected: plan.counts.rejected, duplicateCandidates: plan.rows.filter(r => r.reasons.some(x => /already|overlap|duplicate/i.test(x))).length, merged: 0 }, rows: plan.rows, planHash: plan.planHash, accepted: plan.accepted, fileDigest: plan.fileDigest, notice: plan.notice };
+    }
+    const col = (r, c) => (r[h.indexOf(c)] ?? '').trim();
+    const rows = [], accepted = [], teams = new Set();
+    for (const [n, r] of body.entries()) {
+        const row = n + 1, reasons = [];
+        let conflict;
+        if (r.length !== h.length)
+            reasons.push(`Row ${row} has ${r.length} fields; the header has ${h.length}.`);
+        const who = resolvePerson(s, m, col(r, 'person'), now), p = who.person;
+        if (who.reason)
+            reasons.push(who.reason);
+        if (p)
+            teams.add(p.teamId);
+        let item = null;
+        if (kind === 'enrolments') {
+            const packId = col(r, 'pack').toLowerCase(), versionText = col(r, 'version'), label = col(r, 'episode_label'), start = col(r, 'start_date');
+            let version = 0;
+            if (!catalogueOf(s).some(x => x.id === packId))
+                reasons.push('Programme pack is not in this organisation\'s catalogue.');
+            else if (!versionText) {
+                version = adoptedVersionForTeam(s, packId, p?.teamId ?? '', now);
+                if (!version)
+                    reasons.push('This programme pack cannot open new episodes.');
+            }
+            else if (!/^\d{1,4}$/.test(versionText) || !enrollableAt(packId, Number(versionText), s))
+                reasons.push('Pack version must be a compiled or activated version of this pack, or left empty for the adopted version.');
+            else
+                version = Number(versionText);
+            if (label.length < 3 || label.length > 200)
+                reasons.push('Episode label is required, 3 to 200 characters.');
+            if (start && !validDate(start))
+                reasons.push('Start date must be a date written YYYY-MM-DD, or left empty.');
+            else if (start && start > today(now))
+                reasons.push('Start date cannot be in the future.');
+            if (p && !p.mergedInto && version && (p.enrolments ?? []).some(e => e.packId === packId && e.state === 'active'))
+                reasons.push('This record already has an open episode of this pack.');
+            const earlier = p ? accepted.find(a => a.kind === 'enrolments' && a.personId === p.id && a.packId === packId) : undefined;
+            if (earlier)
+                reasons.push(`Row ${earlier.row} in this file already opens this pack for this record.`);
+            if (!reasons.length && p)
+                item = { kind, row, personId: p.id, packId, packVersion: version, episodeLabel: label, startDate: start || null };
+        }
+        else {
+            const issuer = col(r, 'issuer').toLowerCase(), value = col(r, 'identifier');
+            if (REFUSED_ISSUERS.includes(issuer) || ABHA_LIKE_ISSUER.test(issuer) || ABHA_LIKE_VALUE.test(value))
+                reasons.push('ABHA numbers and addresses are linked through ABHA verification, not imported.');
+            else if (!ISSUER.test(issuer))
+                reasons.push('Issuer must be a short lower-case code such as rch or nikshay.');
+            if (!VALUE.test(value))
+                reasons.push('Identifier must be 1 to 64 letters, digits or the characters / . _ - and start with a letter or digit.');
+            else if (Object.hasOwn(KNOWN_ISSUERS, issuer) && !KNOWN_ISSUERS[issuer].pattern.test(value))
+                reasons.push(KNOWN_ISSUERS[issuer].format);
+            if (ISSUER.test(issuer) && !reasons.some(x => x.startsWith('ABHA')) && !Object.hasOwn(KNOWN_ISSUERS, issuer))
+                reasons.push(`Issuer must be one of: ${Object.keys(KNOWN_ISSUERS).join(', ')}. Other issuers are not imported.`);
+            if (p && !p.mergedInto && Object.hasOwn(KNOWN_ISSUERS, issuer) && VALUE.test(value) && !ABHA_LIKE_VALUE.test(value)) {
+                const own = currentIdentifiers(p).filter(i => i.issuer === issuer);
+                if (own.some(i => i.value === value))
+                    reasons.push('This identifier is already recorded on this record.');
+                else if (own.length)
+                    reasons.push('This record already has a different identifier from this issuer; an import does not replace it.');
+                // Organisation-wide, as slice 6u checks ABHA: a record outside the importer's scope is never named.
+                const other = s.workspace.people.find(o => o.id !== p.id && live(o) && currentIdentifiers(o).some(i => i.issuer === issuer && i.value === value));
+                if (other) {
+                    if (allowed(m, other, now)) {
+                        reasons.push('This identifier is already recorded on another record you can see. Review whether the records are the same person.');
+                        conflict = { personId: other.id, version: other.version };
+                    }
+                    else
+                        reasons.push('This identifier cannot be recorded here. Ask an identity steward to review before importing it.');
+                }
+            }
+            const same = accepted.find(a => a.kind === 'identifiers' && a.issuer === issuer && a.value === value);
+            if (same)
+                reasons.push(`Row ${same.row} in this file already carries this identifier.`);
+            const twice = p ? accepted.find(a => a.kind === 'identifiers' && a.personId === p.id && a.issuer === issuer && a.value !== value) : undefined;
+            if (twice)
+                reasons.push(`Row ${twice.row} in this file already gives this record an identifier from this issuer.`);
+            if (!reasons.length && p)
+                item = { kind, row, personId: p.id, issuer, value };
+        }
+        const ids = p ? { personId: p.id, version: p.version } : {};
+        if (item) {
+            accepted.push(item);
+            rows.push({ row, status: 'accepted', reasons: [], ...ids });
+        }
+        else
+            rows.push({ row, status: 'rejected', reasons, ...ids, ...(conflict ? { conflict } : {}) });
+    }
+    // Bound to the rows as parsed and classified and to every permitted record in the teams of the matched records.
+    const records = s.workspace.people.filter(p => teams.has(p.teamId) && allowed(m, p, now)).map(p => [p.id, p.version]).sort((a, b) => String(a[0]).localeCompare(String(b[0])));
+    const planHash = await digest({ import: RECORD_IMPORT, kind, environment: envName, importer: m.userId, rows: rows.map(r => [r.row, r.status, r.personId ?? null, r.version ?? null, r.conflict ?? null, r.reasons]), accepted, records });
+    const counts = { rows: rows.length, accepted: accepted.length, rejected: rows.length - accepted.length };
+    const quality = { sourceRows: body.length, parsedRows: rows.length, accepted: accepted.length, rejected: rows.length - accepted.length, duplicateCandidates: rows.filter(r => r.reasons.some(x => /already|same person|duplicate/i.test(x))).length, merged: 0 };
+    return { import: RECORD_IMPORT, kind, environment: envName, counts, quality, rows, planHash, accepted, notice: 'Row numbers, record ids, versions, counts and reasons only. Rejected rows are never applied. Duplicate candidates are review items; this import never merges records.' };
+}
+// The dry run as returned over HTTP: the parsed rows (labels and identifier values) stay on the server.
+export const publicRecordPlan = ({ accepted, ...plan }) => plan;
+export function authorizeRecordImport(s, m, c) { if (c?.type === 'recordImportContactsReverse') {
+    contactBatch(s, m, c.batchId);
+    return;
+} if (c?.type === 'recordImportReverse') {
+    legacyImportBatch(s, m, c.kind, c.batchId);
+    return;
+} if (c?.type !== 'recordImportApply')
+    return; if (c.kind === 'contacts') {
+    authorizeContactImport(s, m);
+    const batches = new Set(s.workspace.people.flatMap(p => (p.importedContacts ?? []).filter(e => e.planHash === c.planHash && e.by === m.userId).map(e => e.batchId)));
+    for (const batchId of batches)
+        contactBatch(s, m, batchId);
+    return;
+} if (c.kind === 'visits') {
+    if (!mayImportVisits(m))
+        fail(403, VISIT_REFUSED);
+    return;
+} if (!mayImport(s, m))
+    fail(403, 'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.'); }
+export function legacyImportBatch(s, m, kind, batchId) {
+    if (!mayImport(s, m))
+        fail(403, 'Current supervised care-team import authority is required.');
+    const batch = s.operations?.legacyImportBatches?.find(b => b.id === batchId && b.kind === kind);
+    if (!batch)
+        fail(404, 'Legacy import batch not found.');
+    const records = s.workspace.people.filter(p => kind === 'enrolments' ? (p.enrolments ?? []).some(e => e.imported?.batchId === batchId) : (p.identifiers ?? []).some(e => e.imported?.batchId === batchId));
+    if (!records.length)
+        fail(409, 'This batch has no retained source lineage.');
+    for (const p of records)
+        if (p.mergedInto || !importsInto(s, m, p.teamId) || !normallyAllowed(m, p))
+            fail(403, 'Current supervised care access to every batch record is required.');
+    return { batch, records };
+}
+export async function planLegacyImportReversal(s, m, kind, batchId, envName) {
+    const { batch, records } = legacyImportBatch(s, m, kind, batchId);
+    if (batch.reversal)
+        fail(409, 'This batch already has a recorded reversal.');
+    const rows = [];
+    for (const p of records)
+        if (kind === 'enrolments')
+            for (const e of p.enrolments ?? []) {
+                if (e.imported?.batchId !== batchId)
+                    continue;
+                if (e.imported.reversal || e.state !== 'active' || e.registration !== 'not_submitted' || (p.followUps ?? []).some(f => f.enrolmentId === e.id) || (s.workspace.visits ?? []).some(v => v.personId === p.id && v.programmeCapture?.packs.some(x => x.enrolmentId === e.id)))
+                    fail(409, 'An imported enrolment changed or gained dependent work. Review it individually; batch reversal cannot overwrite current care records.');
+                rows.push({ personId: p.id, version: p.version, row: e.imported.row, entry: e.id });
+            }
+        else
+            for (const e of p.identifiers ?? []) {
+                if (e.imported?.batchId !== batchId)
+                    continue;
+                const ref = identifierRef(e);
+                if (e.kind || currentIdentifiers(p).every(x => identifierRef(x) !== ref))
+                    fail(409, 'An imported identifier was corrected or withdrawn. Review it individually; batch reversal cannot overwrite identity history.');
+                rows.push({ personId: p.id, version: p.version, row: e.imported.row, entry: ref });
+            }
+    const planHash = await digest({ import: 'record-import-reversal-v1', kind, batchId, environment: envName, importer: m.userId, rows, batch: { planHash: batch.planHash, accepted: batch.accepted } });
+    return { kind: `${kind}-reversal`, batchId, rows, counts: { rows: rows.length, accepted: rows.length, rejected: 0, merged: 0 }, planHash, notice: 'Reversal changes only unchanged imported entries. Original source lineage and the reversal decision remain append-only.' };
+}
+export async function applyLegacyImportReversal(s, m, u, c, envName, now) {
+    const plan = await planLegacyImportReversal(s, m, c.kind, c.batchId, envName);
+    if (plan.planHash !== c.planHash)
+        fail(409, 'Batch records changed. Review a new reversal dry run.');
+    const { batch, records } = legacyImportBatch(s, m, c.kind, c.batchId);
+    for (const p of records) {
+        if (c.kind === 'enrolments') {
+            for (const e of p.enrolments ?? [])
+                if (e.imported?.batchId === c.batchId) {
+                    e.state = 'closed';
+                    e.closedAt = now;
+                    e.outcome = 'Imported batch reversed';
+                    e.imported.reversal = { at: now, by: u.userId, reason: c.reason, planHash: plan.planHash };
+                }
+            const removable = new Set((p.enrolments ?? []).filter(e => e.imported?.batchId === c.batchId && e.imported.programmeAdded).map(e => packAt(e.packId, e.packVersion, s)?.programme).filter((x) => !!x)), active = new Set((p.enrolments ?? []).filter(e => e.state === 'active').map(e => packAt(e.packId, e.packVersion, s)?.programme));
+            p.programmes = p.programmes.filter(x => !removable.has(x) || active.has(x));
+        }
+        else
+            for (const e of (p.identifiers ?? []).filter(e => e.imported?.batchId === c.batchId)) {
+                p.identifiers.push({ issuer: e.issuer, value: e.value, verified: false, recordedAt: now, recordedBy: u.userId, source: 'crosswalk', id: uuid(), kind: 'withdraw', corrects: identifierRef(e), origin: 'programme-system', verification: 'unverified', reason: c.reason });
+            }
+        p.version++;
+    }
+    batch.reversal = { at: now, by: u.userId, reason: c.reason, planHash: plan.planHash, reversed: plan.rows.length };
+    s.workspace.audit.push({ id: uuid(), at: now, actorId: u.userId, actor: u.displayName, role: m.role, action: 'recordImportReverse', subject: s.organisation.id, detail: `Legacy ${c.kind} import batch ${c.batchId} reversed under reviewed plan ${plan.planHash}; ${plan.rows.length} unchanged entries reversed; source lineage retained. Reason: ${c.reason}` });
+    return { batchId: c.batchId, kind: `${c.kind}-reversal`, counts: { ...plan.counts, applied: plan.rows.length, records: records.length }, rows: plan.rows.map(x => x.row) };
+}
+export async function applyRecordImport(s, input, u, m, env, now = new Date().toISOString()) {
+    const parsed = recordImportSchema.safeParse(input);
+    if (!parsed.success)
+        return null;
+    const c = parsed.data;
+    authorizeRecordImport(s, m, c);
+    const e = environmentOf(env);
+    if (e.name === 'misconfigured')
+        fail(409, 'The environment is not configured correctly. Imports are refused until it is corrected.');
+    if (c.type === 'recordImportContactsReverse')
+        return applyContactReversal(s, m, u, c, e.name, now);
+    if (c.type === 'recordImportReverse')
+        return applyLegacyImportReversal(s, m, u, c, e.name, now);
+    const plan = await planRecordImport(s, m, c.kind, c.csv, e.name, now);
+    if (plan.planHash !== c.planHash)
+        fail(409, 'The file or the records changed since the dry run. Run the dry run again and review it before applying.');
+    if (!plan.accepted.length)
+        fail(409, 'The dry run has no rows to apply.');
+    if (c.kind === 'contacts')
+        return applyContactRows(s, plan, c.reason, u, m, now);
+    if (c.kind === 'visits')
+        return applyVisitRows(s, plan, c.reason, u, m, now);
+    const batchId = uuid(), people = new Set(), w = s.workspace, lineage = (row) => ({ batchId, row, planHash: plan.planHash });
+    for (const a of plan.accepted) {
+        if (a.kind === 'visits' || a.kind === 'contacts')
+            continue;
+        const p = w.people.find(x => x.id === a.personId);
+        importsInto(s, m, p.teamId, now, true);
+        people.add(p.id);
+        if (a.kind === 'enrolments') {
+            const pack = enrollableAt(a.packId, a.packVersion, s);
+            p.enrolments ??= [];
+            p.followUps ??= [];
+            const programmeAdded = !p.programmes.includes(pack.programme);
+            p.enrolments.push({ id: uuid(), packId: pack.id, packVersion: pack.version, state: 'active', episodeLabel: a.episodeLabel, startDate: a.startDate, createdAt: now, createdBy: u.userId, registration: 'not_submitted', imported: { ...lineage(a.row), at: now, by: u.userId, programmeAdded } });
+            if (programmeAdded)
+                p.programmes.push(pack.programme);
+            for (const v of w.visits.filter(v => v.personId === p.id))
+                if (v.plan && v.plan.state !== 'completed')
+                    v.plan.state = 'blocked';
+        }
+        else {
+            p.identifiers ??= [];
+            p.identifiers.push({ issuer: a.issuer, value: a.value, verified: false, recordedAt: now, recordedBy: u.userId, source: 'import', imported: lineage(a.row) });
+        }
+    }
+    const k = plan.counts, what = c.kind === 'enrolments' ? 'episodes opened (official registration not submitted)' : 'identifiers recorded (not verified with the issuer)';
+    const duplicateCandidates = plan.rows.filter(r => r.reasons.some(x => /already|same person|duplicate/i.test(x))).length, ops = s.operations ??= defaultOperations(), batches = ops.legacyImportBatches ??= [];
+    if (batches.length >= 100)
+        fail(422, 'Legacy import batch history limit reached.');
+    const batch = { id: batchId, kind: c.kind, planHash: plan.planHash, at: now, by: u.userId, reason: c.reason, sourceRows: k.rows, parsedRows: k.rows, accepted: plan.accepted.length, rejected: k.rejected, duplicateCandidates, merged: 0 };
+    batches.push(batch);
+    w.audit.push({ id: uuid(), at: now, actorId: u.userId, actor: u.displayName, role: m.role, action: c.type, subject: s.organisation.id, detail: `Import ${RECORD_IMPORT} (${c.kind}) batch ${batchId} applied from dry run ${plan.planHash}: ${k.rows} rows, ${plan.accepted.length} ${what} on ${people.size} record${people.size === 1 ? '' : 's'}, ${k.rejected} rejected. Reason: ${c.reason}` });
+    // Counts and row numbers only: a replay by key returns no record ids.
+    return { batchId, kind: c.kind, counts: { ...k, source: k.rows, parsed: k.rows, duplicates: duplicateCandidates, merged: 0, applied: plan.accepted.length, records: people.size }, rows: plan.accepted.map(a => a.row), reversible: true };
+}

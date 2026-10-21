@@ -13,10 +13,11 @@ import { z } from 'zod';
 import { fail, uuid } from './core';
 import type { Actor } from './store';
 import type { Member, OrgState } from './types';
-export const ALERT_RULES_VERSION='1.2.0';
+import { QUEUE_STALL_MINUTES, type OperationalSignals } from './operational-monitoring';
+export const ALERT_RULES_VERSION='1.3.0';
 export const ERROR_RATE_THRESHOLD=0.05,ERROR_MIN_REQUESTS=20;
 export type Alert={id:string;severity:'critical'|'high'|'normal';title:string;count:number;owner:'operations'|'supervisors'|'owners';action:string;tab:'overview'|'service';acknowledged?:{by:string;at:string;note:string}|null};
-export const ALERT_OWNERS={'destination-uncertain':'operations','ehr-uncertain':'operations','referrals-overdue':'supervisors','followups-overdue':'supervisors','referrals-undated':'supervisors','provider-usage-missing':'operations','server-errors':'operations','incident-critical-open':'operations','incident-open':'operations','maintenance':'operations','ai-budget-reached':'owners','ai-budget-near':'owners','ai-invoice-variance':'owners','ai-invoice-unreconciled':'owners'} as const;
+export const ALERT_OWNERS={'destination-uncertain':'operations','ehr-uncertain':'operations','referrals-overdue':'supervisors','followups-overdue':'supervisors','referrals-undated':'supervisors','provider-usage-missing':'operations','server-errors':'operations','queue-stalled':'operations','connector-failures':'operations','model-unavailable':'operations','permission-refusals':'operations','telemetry-gap':'operations','incident-critical-open':'operations','incident-open':'operations','maintenance':'operations','ai-budget-reached':'owners','ai-budget-near':'owners','ai-invoice-variance':'owners','ai-invoice-unreconciled':'owners'} as const;
 export const BUDGET_NEAR=0.8;
 export type BudgetRow={capabilityKey:string;title:string;monthlyUsd:number|null;spentUsd:number|null;reservedUsd:number|null;state:string};
 export const ACK_HOURS=24,MAX_ACKS=200;
@@ -35,9 +36,9 @@ export function applyAlertAck(s:OrgState,input:unknown,u:Actor,m:Member,now=new 
 }
 
 export type InvoiceAlertInputs={month:string;unreconciled:string[];flagged:{provider:string;invoiceReference:string;flaggedLines:number}[]};
-type Inputs={budgets?:BudgetRow[]|null;invoices?:InvoiceAlertInputs|null;report:any|null;telemetry:any|null;operations:{maintenance:boolean;reason:string;incidents:{severity:string;state:string}[]}|null;acknowledgements?:AlertAck[];viewerId?:string;now?:string};
+type Inputs={budgets?:BudgetRow[]|null;invoices?:InvoiceAlertInputs|null;report:any|null;telemetry:any|null;signals?:OperationalSignals|null;operations:{maintenance:boolean;reason:string;incidents:{severity:string;state:string}[]}|null;acknowledgements?:AlertAck[];viewerId?:string;now?:string};
 const RANK={critical:0,high:1,normal:2} as const;
-export function alertsFor({budgets,invoices,report,telemetry,operations,acknowledgements=[],viewerId,now=new Date().toISOString()}:Inputs):Alert[]{
+export function alertsFor({budgets,invoices,report,telemetry,signals,operations,acknowledgements=[],viewerId,now=new Date().toISOString()}:Inputs):Alert[]{
  const out:Alert[]=[],add=(a:Alert)=>{if(a.count>0)out.push(a);},b=report?.backlog;
  if(b){
   add({id:'destination-uncertain',severity:'high',title:'Programme submissions not yet confirmed by the destination',count:b.unresolvedSubmissions,owner:'operations',action:'Check each one: look up the receipt of any uncertain submission before a resend; queued and retryable ones may be retried with their original key.',tab:'overview'});
@@ -48,6 +49,13 @@ export function alertsFor({budgets,invoices,report,telemetry,operations,acknowle
  }
  if(report?.usage)add({id:'provider-usage-missing',severity:'normal',title:'Provider calls without reported usage',count:report.usage.missingUsage,owner:'operations',action:'Reconcile these calls with the provider before relying on cost estimates.',tab:'overview'});
  if(telemetry&&telemetry.count>=ERROR_MIN_REQUESTS&&telemetry.errorRate!==null&&telemetry.errorRate>ERROR_RATE_THRESHOLD)add({id:'server-errors',severity:'critical',title:`Server error rate above ${ERROR_RATE_THRESHOLD*100}% in the last 24 hours`,count:telemetry.serverErrors,owner:'operations',action:'Open an incident, check the failing routes, and pause the organisation if records are at risk.',tab:'service'});
+ if(signals){
+  add({id:'queue-stalled',severity:'critical',title:`Outbound work stalled for at least ${QUEUE_STALL_MINUTES} minutes`,count:signals.queue.stalled,owner:'operations',action:`Inspect the redacted execution trace and receipt state. Oldest stalled item: ${signals.queue.oldestMinutes??0} minutes. Do not resend an uncertain request.`,tab:'service'});
+  add({id:'connector-failures',severity:'high',title:'Connector work needs receipt reconciliation',count:signals.connector.unresolved,owner:'operations',action:'Open the redacted destination trace, look up an uncertain receipt, and keep automatic resend disabled.',tab:'service'});
+  add({id:'model-unavailable',severity:'high',title:'Model requests failed, were blocked or exceeded the local action target',count:signals.model.unavailable,owner:'operations',action:'Inspect provider availability and the redacted task trace. Continue structured capture; do not infer or retry automatically.',tab:'service'});
+  add({id:'permission-refusals',severity:'normal',title:'External operations refused by current authority in the last 24 hours',count:signals.permission.refused,owner:'operations',action:'Review the redacted audit action and current service binding. Do not override withdrawn permission.',tab:'service'});
+  add({id:'telemetry-gap',severity:'critical',title:'Request telemetry collector is disabled',count:signals.telemetry.gap?1:0,owner:'operations',action:'Treat platform health as unknown. Restore the approved telemetry configuration and verify observations before closing this alert.',tab:'service'});
+ }
  if(operations){
   const open=operations.incidents.filter(i=>i.state!=='resolved');
   add({id:'incident-critical-open',severity:'critical',title:'Critical incidents not resolved',count:open.filter(i=>i.severity==='critical').length,owner:'operations',action:'The incident owner updates the incident with evidence, or resolves it.',tab:'service'});

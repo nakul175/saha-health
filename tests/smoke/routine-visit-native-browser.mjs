@@ -23,7 +23,7 @@ try{
  const clinical=()=>JSON.stringify({people:sql.prepare('SELECT data,version FROM patients ORDER BY org_id,id').all(),visits:sql.prepare('SELECT data,version FROM visits ORDER BY org_id,id').all()});
  const visitCount=()=>sql.prepare('SELECT count(*) AS n FROM visits WHERE org_id=?').get(org).n;
  let count=visitCount();let current=ok(await api.get(asha,'/api/routine-visit?personId=p_meena',org));check(visitCount()===count,'A1 open creates no draft');
- check(Object.keys(current).sort().join(',')==='organisationId,person,visit','A5 one-person projection only');
+ check(Object.keys(current).sort().join(',')==='lifecycle,organisationId,person,visit'&&current.lifecycle?.local==='not-started'&&current.lifecycle?.server==='not-saved','A5 one-person projection plus exact lifecycle only');
  for(const [who,path,tenant] of [[null,'personId=p_meena',org],[owner,'personId=p_meena',org],[other,'personId=p_meena',org],[asha,'personId=p_sunita',org],[asha,'personId=p_meena',wo.organisation.id],[asha,'personId=p_meena&personId=p_farida',org]]){const before=clinical(),r=await api.get(who,'/api/routine-visit?'+path,tenant);check(r.status>=400&&r.status<500&&Object.keys(r.json).join(',')==='error'&&clinical()===before,'A5 refusal '+(who?.label??'anonymous')+' '+path+' tenant '+tenant);}
  const write=async(c,personId='p_meena',key=crypto.randomUUID())=>{const r=await api.call(asha,'/api/routine-visit',{method:'POST',org,headers:{'Idempotency-Key':key},body:{personId,command:c}});timings.server.push({type:c.type,status:r.status,ms:r.ms});return r};
  const start={type:'startVisit',personId:'p_meena'},startKey=crypto.randomUUID();let r=await write(start,'p_meena',startKey);current=ok(r).context;const id=current.visit.id;

@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import {mkdtempSync,readFileSync,writeFileSync,readdirSync,rmSync} from 'node:fs';
+import {join} from 'node:path';
+import {pathToFileURL} from 'node:url';
+const dir=mkdtempSync(join(process.cwd(),'.service-rotation-'));let passed=0;
+const check=fn=>{fn();passed++},status=(fn,code)=>{try{fn()}catch(e){assert.equal(e.status,code,e.message);return}assert.fail(`expected ${code}`)};
+try{
+ for(const f of readdirSync('lib/saha').filter(x=>x.endsWith('.ts')))writeFileSync(join(dir,f.replace('.ts','.mjs')),ts.transpileModule(readFileSync('lib/saha/'+f,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.mjs'"));
+ const service=await import(pathToFileURL(join(dir,'service-identity.mjs'))),ops=await import(pathToFileURL(join(dir,'operations.mjs')));
+ const future='2099-01-01T00:00:00.000Z',member={userId:'owner',displayName:'Synthetic owner',role:'clinician',isOwner:true,status:'active',version:1,teamIds:['t']},actor={userId:'owner',displayName:'Synthetic owner',email:'owner@example.invalid'},state={organisation:{id:'org',name:'Synthetic',revision:1,createdAt:'2026-01-01T00:00:00Z'},teams:[{id:'t',name:'Team'}],members:[member,{...member,userId:'worker',displayName:'Worker',isOwner:false}],workspace:{schemaVersion:1,revision:1,role:'clinician',receipts:{},audit:[],referrals:[],visits:[],submissions:[],people:[],integrations:[{id:'mis',name:'Synthetic MIS',kind:'mis',mode:'demo',status:'active',version:1,programmes:['General care']}]}};
+ const apply=c=>service.applyServiceIdentity(state,c,actor,member);
+ check(()=>assert.equal(ops.operationsSchema.safeParse({type:'serviceIdentityCreate',version:0,name:'Scoped MIS',kind:'connector',targetId:'mis',ownerId:'owner',expiresAt:future,intents:[]}).success,false));
+ check(()=>assert.equal(ops.operationsSchema.safeParse({type:'serviceIdentityCreate',version:0,name:'Scoped MIS',kind:'connector',targetId:'mis',ownerId:'owner',expiresAt:future,intents:['send','send']}).success,false));
+ const created=apply({type:'serviceIdentityCreate',version:0,name:'Scoped MIS',kind:'connector',targetId:'mis',ownerId:'owner',expiresAt:future,intents:['send']});
+ const first=state.operations.serviceIdentities.find(x=>x.id===created.serviceIdentityId);
+ check(()=>assert.deepEqual(first.intents,['send']));
+ check(()=>assert.equal(service.requireServiceIntent(first,'send').id,first.id));
+ check(()=>status(()=>service.requireServiceIntent(first,'lookup'),403));
+ apply({type:'serviceIdentityBind',version:state.operations.version,targetId:'mis',serviceIdentityId:first.id});
+ const oldVersion=state.operations.version,rotated=apply({type:'serviceIdentityRotate',version:oldVersion,id:first.id,expiresAt:future,intents:['send','lookup']});
+ const next=state.operations.serviceIdentities.find(x=>x.id===rotated.serviceIdentityId);
+ check(()=>{assert.equal(first.status,'revoked');assert.equal(first.rotatedTo,next.id);assert.equal(next.rotatedFrom,first.id);assert.equal(state.operations.serviceBindings.mis,next.id);assert.deepEqual(next.intents,['send','lookup'])});
+ check(()=>status(()=>service.requireServiceIdentity(state,first.id,'connector','mis'),403));
+ check(()=>assert.equal(service.requireServiceIntent(service.requireServiceIdentity(state,next.id,'connector','mis'),'lookup').id,next.id));
+ check(()=>status(()=>apply({type:'serviceIdentityRotate',version:oldVersion,id:next.id,expiresAt:future}),409));
+ check(()=>status(()=>service.applyServiceIdentity(state,{type:'serviceIdentityRotate',version:state.operations.version,id:next.id,expiresAt:future},actor,state.members[1]),403));
+ check(()=>{const audit=state.workspace.audit.at(-1);assert.equal(audit.action,'serviceIdentityRotate');assert.match(audit.detail,/rotated to/);assert.match(audit.detail,/tools send, lookup/)});
+ const legacy={...next,id:'legacy',intents:undefined};check(()=>assert.equal(service.requireServiceIntent(legacy,'probe').id,'legacy'));
+ writeFileSync('tests/service-identity-rotation-contract-result.json',JSON.stringify({suite:'SAHA-018 scoped service rotation',passed,failed:0,scope:'Synthetic local metadata and dispatch guard only; no real credential/provider/domain/formal acceptance.'},null,2)+'\n');
+ console.log(JSON.stringify({passed,failed:0}));
+}finally{rmSync(dir,{recursive:true,force:true})}

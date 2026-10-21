@@ -13,12 +13,13 @@
 import { driftReport } from './drift';
 import { currentFields } from './shadow';
 import { timedOut } from './task-limits';
-import { exceptionQueue } from './exceptions';
+import { deviceDiagnosticRows, exceptionQueue, withDeviceDiagnostics, type DeviceDiagnostic } from './exceptions';
 import { referralRequestQueue } from './referral-request-queue';
+import { digest } from './core';
 import type { Member, OrgState } from './types';
-import { SOURCE_OWNERS, type OwnerRole, type SourceKind, type SourcePresent } from './notification-channel';
+import { SOURCE_OWNERS, type OwnerRole, type SourcePresent } from './notification-channel';
 
-export const SOURCE_RULES_VERSION = '1.0.0';
+export const SOURCE_RULES_VERSION = '1.1.0';
 
 // Who holds an owner role (mirrors `canAcknowledge` in alerts.ts): owners, owners/administrators, or supervisors and
 // non-administrator owners. Used only to pick which members get a count in their own view.
@@ -26,7 +27,7 @@ const holds = (m: Member, owner: OwnerRole) => m.status === 'active' && (owner =
 const earliest = (xs: string[]) => (xs.length ? xs.reduce((a, b) => (a < b ? a : b)) : undefined);
 
 // Pure: build the source occurrences for an organisation. No storage, no network, no clock beyond `now`.
-export function channelSources(s: OrgState, now = new Date().toISOString()): SourcePresent[] {
+export async function channelSources(s: OrgState, now = new Date().toISOString(), diagnostics: readonly DeviceDiagnostic[] = []): Promise<SourcePresent[]> {
   const out: SourcePresent[] = [];
 
   // BR-AI-10: drift — capability revisions with an agreement drop over the last periods, counted only.
@@ -43,13 +44,11 @@ export function channelSources(s: OrgState, now = new Date().toISOString()): Sou
     out.push({ kind: 'agent-timed-out', scopeKey: 'org', severity: 'high', title: 'Assistant requests timed out without a confirmed result', openedAt, recipients: orgRecipients(s, 'operations', timedOutRuns.length) });
   }
 
-  // BR-REP-01: individual exception-queue items, per care scope (one occurrence per supervisor who sees any).
+  // BR-REP-01: one occurrence per individual visible queue item. The occurrence key uses an opaque digest so patient,
+  // visit and task identifiers never enter the notification table or simulator message.
   for (const m of s.members) {
     if (!holds(m, SOURCE_OWNERS['exception-item'])) continue;
-    let count = 0, openedAt = now;
-    try { const q = exceptionQueue(s, m, now); count = q.total; openedAt = earliest(q.items.map(r => r.since)) ?? now; } catch { count = 0; }
-    if (!count) continue;
-    out.push({ kind: 'exception-item', scopeKey: m.userId, severity: 'high', title: 'Exception queue items awaiting a decision', openedAt, recipients: [{ userId: m.userId, count }] });
+    try { const items=withDeviceDiagnostics(exceptionQueue(s,m,now),deviceDiagnosticRows(s,m,diagnostics,now)).items; for(const item of items)out.push({kind:'exception-item',scopeKey:`${m.userId}:${await digest(['exception-item',item.id])}`,severity:item.severity==='normal'?'normal':'high',title:`${item.kind.replaceAll('-',' ')} exception awaiting recovery`,openedAt:item.since,recipients:[{userId:m.userId,count:1}]}); } catch { /* A refused/scoped queue produces no notification source. */ }
   }
 
   // BR-CARE-01: open field referral requests, per care scope.

@@ -1,0 +1,37 @@
+import { fail } from './core.js';
+// Optional trusted transport drain discards excess bytes without parsing or retaining them.
+// Existing callers keep their original immediate size refusal; an opted-in receiver may consume
+// a bounded surplus to EOF so a refused streamed body does not close the next connection.
+// Bound bytes while streaming; a post-read length check alone permits memory exhaustion.
+export async function boundedJsonBody(request, maxBytes, transportDrainBytes = maxBytes) { if (!Number.isSafeInteger(maxBytes) || maxBytes < 1 || !Number.isSafeInteger(transportDrainBytes) || transportDrainBytes < 1)
+    fail(500, 'Invalid request size policy.'); const drainLimit = Math.min(Math.max(maxBytes, transportDrainBytes), maxBytes + 262144); const declared = request.headers.get('content-length'); if (declared && (!/^\d+$/.test(declared) || Number(declared) > maxBytes))
+    fail(413, 'This command is too large.'); const reader = request.body?.getReader(); if (!reader)
+    fail(400, 'A JSON body is required.'); const chunks = []; let size = 0; try {
+    while (true) {
+        const { value, done } = await reader.read();
+        if (done)
+            break;
+        size += value.byteLength;
+        if (size > maxBytes) {
+            chunks.length = 0;
+            if (size >= drainLimit) {
+                await reader.cancel();
+                fail(413, 'This command is too large.');
+            }
+            continue;
+        }
+        chunks.push(value);
+    }
+}
+finally {
+    reader.releaseLock();
+} if (size > maxBytes)
+    fail(413, 'This command is too large.'); const buffer = new Uint8Array(size); let at = 0; for (const chunk of chunks) {
+    buffer.set(chunk, at);
+    at += chunk.byteLength;
+} try {
+    return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(buffer));
+}
+catch {
+    fail(400, 'Invalid JSON.');
+} }

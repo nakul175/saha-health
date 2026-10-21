@@ -47,7 +47,11 @@ const recipes = (visitId, org) => ({
   '/api/work-burden/support': `?visitId=${encodeURIComponent(visitId)}`,
 });
 // Routes that cannot be exercised in this run, with the reason. Anything else that answers 4xx without a parameter recipe is skipped and reported too.
-const unsuppliable = { '/api/media/[id]': 'needs the id of an uploaded media file; this run uploads none' };
+const unsuppliable = {
+  '/api/media/[id]': 'needs the id of an uploaded media file; this run uploads none',
+  '/api/disagreement-review': 'requires an active ASHA task; the route sweep uses the organisation owner',
+  '/api/identity-link-review': 'requires an assigned ASHA person; the route sweep uses the organisation owner',
+};
 
 const state = resolve('.wrangler/saha-smoke-local-state');
 let worker = null, timings = {};

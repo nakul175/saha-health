@@ -30,6 +30,7 @@ import { workforceImportSchema } from './workforce-import';
 import { abdmSchema } from './abdm';
 import { transferSchema } from './abdm-transfer';
 import { governanceSchema } from './governance';
+import { deploymentAuthorisationSchema } from './deployment-authorisation';
 import { evaluationSchema } from './evaluation';
 import { sandboxSchema } from './provider-sandbox';
 import { continuitySchema, transferPatientWork } from './continuity';
@@ -39,10 +40,12 @@ import { expansionSchema } from './expansion';
 import { defaultOperations, operationsSchema } from './operations';
 import { facilityScopeSchema } from './facility-scope';
 import { purposeScopeSchema } from './purpose-scope';
+import { deploymentConfigurationSchema } from './deployment-configuration';
 import { chooseLanguage } from './messages';
 import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
 import { notificationChannelSchema } from './notification-channel';
+import {hostingControlsSchema} from './hosting-controls';
 import { speechPolicySchema } from './speech';
 import { invoiceSchema } from './ai-invoice';
 import { fieldSchema } from './field';
@@ -51,6 +54,7 @@ import { referralRequestSchema } from './referral-request';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
 import { adapterOperationsSchema } from './adapter-operations';
+import { integrationReadinessSchema } from './integration-readiness';
 import { aggregateSchema } from './aggregate-delivery';
 import { incentiveSchema } from './incentives';
 import { agentSchema } from './agent';
@@ -58,6 +62,12 @@ import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
 import { factReuseSchema, applyFactReuse } from './fact-reuse';
 import { destinationEnrolmentSchema } from './destination-enrolment';
+import { routeSuggestionSchema } from './route-suggestions';
+import { dueWorkSchema } from './due-work';
+import { exceptionAssignmentSchema } from './exceptions';
+import { prioritisationSchema } from './prioritisation';
+import { supportCaseSchema } from './support-case';
+import { dataFlowAuthoritySchema } from './data-flow-authority';
 import { z } from 'zod';
 import { commandSchema, digest, fail, person, visit, uuid } from './core';
 import type { Actor } from './store';
@@ -100,6 +110,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...abdmSchema.options,
  ...transferSchema.options,
  ...governanceSchema.options,
+ ...deploymentAuthorisationSchema.options,
  ...evaluationSchema.options,
  ...sandboxSchema.options,
  ...shadowSchema.options,
@@ -108,9 +119,11 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...facilityScopeSchema.options,
  // Slice r09: owner-managed programme/purpose dimensions in the access policy (lib/saha/purpose-scope.ts).
  ...purposeScopeSchema.options,
+ ...deploymentConfigurationSchema.options,
  ...alertAckSchema.options,
  ...inboxSchema.options,
  ...notificationChannelSchema.options,
+ ...hostingControlsSchema.options,
  ...speechPolicySchema.options,
  ...invoiceSchema.options,
  ...pilotSchema.options,
@@ -121,6 +134,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...referralRequestSchema.options,
  ...misSchema.options,
  adapterOperationsSchema.innerType(),
+ ...integrationReadinessSchema.options,
  ...aggregateSchema.options,
  // Slice 10c: synthetic worker incentive claims (lib/saha/incentives.ts).
  ...incentiveSchema.options,
@@ -131,6 +145,15 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...factReuseSchema.options,
  // Slice r37: destination enrolment request/rejection/acceptance lifecycle (mock destination; lib/saha/destination-enrolment.ts).
  ...destinationEnrolmentSchema.options,
+ ...routeSuggestionSchema.options,
+ // SAHA-102: owner-approved due-work policy and version-checked follow-up delay recording.
+ ...dueWorkSchema.options,
+ // SAHA-107: auditable operational exception assignment and reassignment.
+ ...exceptionAssignmentSchema.options,
+ // SAHA-112: server-scoped prioritisation policy, scoring and review workflow.
+ ...prioritisationSchema.options,
+ ...supportCaseSchema.options,
+ ...dataFlowAuthoritySchema.options,
  // Slice 9a: owner-only installation of the demonstration clinical package (synthetic environment only; lib/saha/demonstration.ts).
  z.object({type:z.literal('installDemonstrationPackage')}).strict(),
  z.object({type:z.literal('createOrganisation'),name:str}),
@@ -158,10 +181,10 @@ export function validTeams(state:OrgState,ids:string[],r:Role){if(r!=='admin'&&!
 // Slice 2j: the audit line names how many downstream tasks were created and how many need a person.
 const taskSummary=(t:{state:string}[])=>`${t.length} downstream output${t.length===1?'':'s'} recorded as correction tasks (${t.filter(x=>x.state==='open').length} open).`;
 function clinical(member:Member){if(!['asha','clinician'].includes(member.role))fail(403,'A care role is required for this action.');}
-export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:Member):Promise<{handled:boolean;result?:any}>{
+export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:Member):Promise<{handled:boolean;result?:unknown}>{
  const programmeResult=programmeApply(state,c,u,m);if(programmeResult)return {handled:true,result:programmeResult};
  const factReuseResult=applyFactReuse(state,c,u,m);if(factReuseResult)return {handled:true,result:factReuseResult};
- const w=state.workspace,now=new Date().toISOString();let subject=state.organisation.id,detail='',patientId:string|undefined,result:any={ok:true};
+ const w=state.workspace,now=new Date().toISOString();let subject=state.organisation.id,detail='',patientId:string|undefined,result:unknown={ok:true};
  switch(c.type){
  case 'renameOrganisation':manage(m);if(c.version!==state.organisation.revision)fail(409,'Organisation settings changed. Refresh and try again.');state.organisation.name=c.name;detail='Organisation name updated.';break;
  case 'setMyDisplayName':{const ops=state.operations??=defaultOperations(),names=ops.memberNames??={},own=names[u.userId],version=own?.version??0;if(c.version!==version)fail(409,'Your name in this organisation changed. Refresh and try again.');const me=state.members.find(x=>x.userId===u.userId)!,prior=me.displayName;if(c.name===prior&&me.nameSource==='self')fail(422,'This is already your name in this organisation.');if(Object.keys(names).length>=2000&&!own)fail(422,'Display name limit reached for this organisation.');names[u.userId]={name:c.name,version:version+1,at:now};Object.assign(me,{displayName:c.name,nameSource:'self',nameVersion:version+1});subject=u.userId;detail=`Display name in this organisation changed from "${prior}" to "${c.name}". Sign-in identity and access unchanged.`;result={name:c.name,version:version+1};break;}

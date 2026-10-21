@@ -1,0 +1,325 @@
+import { normallyAllowed } from './access.js';
+import { ensurePurpose } from './purpose-scope.js';
+import { executeEhrProbe } from './ehr-probe.js';
+import { serviceDispatch } from './service-dispatch.js';
+import { ensureOperating } from './operations.js';
+import { AppError, digest, fail, person, uuid, visit } from './core.js';
+import { EHR_HOLDING_STATES, EHR_LOOKUP_LIMIT, EHR_WRITE_DEADLINE_SECONDS, ehrAccess, ehrAudit, ehrCredential, ehrIntegration, ehrState, identityHash, lookupPolicyOf, stageDocument, ehrServiceAuthority, withinPermission } from './ehr.js';
+import { assertFhirEnvelope, checkRemotePatient, classifySearch, fhirRequest, publicationReceipt } from './ehr-provider.js';
+import { assertPatientDocumentNotes, assertOutboundPrivacy, inspectDocument } from './fhir-document.js';
+import { persist, readState, scope } from './store.js';
+import { recordAccess } from './access-audit.js';
+import { linkTrace } from './trace.js';
+import { operationRefusal, refusalOf } from './adapter-operations.js';
+import { sendBlock } from './send-gate.js';
+export async function publishAuthority(s, p, op, u) { const current = await ehrAccess(s, p, op.linkId, op.permissionId, 'write'); const v = visit(s.workspace, op.visitId); if (op.actorId !== u.userId || op.approvalUntil <= new Date().toISOString() || op.identityHash !== await identityHash(p) || op.consentVersion !== p.consentVersion || op.visitVersion !== v.version || v.state !== 'confirmed' || v.voidedAt || v.supersededBy || current.i.version !== op.integrationVersion || current.i.status !== 'active')
+    fail(409, 'Publication approval, identity, permission, visit or connection changed.'); assertOutboundPrivacy(op.bundle); assertPatientDocumentNotes(s, p.id, op.bundle); if (await digest(op.bundle) !== op.hash)
+    fail(409, 'Prepared document differs from its approved digest; review and prepare a fresh publication.'); withinPermission(inspectDocument(op.bundle, current.link.externalId), current.permission); return current; }
+export async function executeEhr(db, s, c, u, m, key, hash, env, transport = fhirRequest) {
+    let serviceRefusal = '';
+    const send = transport;
+    transport = async (i, ...args) => {
+        try {
+            await serviceDispatch(db, s, u, m, i.id, 'personId' in c ? c.personId : null, { intent: c.type === 'lookupEhrPublish' ? 'lookup' : c.type === 'probeEhr' ? 'probe' : 'send', purpose: c.type === 'probeEhr' ? undefined : 'care-coordination', authorize: async (latest, member) => {
+                    const li = ehrIntegration(latest, i.id);
+                    if (li.version !== i.version || (c.type === 'probeEhr' ? li.status !== i.status : li.status !== 'active'))
+                        fail(409, 'EHR connection changed before request.');
+                    if (c.type === 'probeEhr') {
+                        if (!['active', 'suspended'].includes(li.status) || !li.ehr)
+                            fail(409, 'Configure this EHR connection before testing.');
+                        if (!member.isOwner)
+                            fail(403, 'Owner access changed.');
+                        return;
+                    }
+                    if (!('personId' in c) || !['asha', 'clinician'].includes(member.role))
+                        fail(403, 'Care access changed.');
+                    const p = person(latest.workspace, c.personId);
+                    if (c.type !== 'lookupEhrPublish') {
+                        const prepared = person(s.workspace, c.personId);
+                        if (p.version !== prepared.version || p.consentVersion !== prepared.consentVersion)
+                            fail(409, 'Patient record or permission version changed before request.');
+                    }
+                    if (c.type === 'retrieveEhrDocument') {
+                        await ehrAccess(latest, p, c.linkId, c.permissionId, 'read');
+                        return;
+                    }
+                    if (c.type !== 'executeEhrPublish' && c.type !== 'lookupEhrPublish')
+                        fail(422, 'Unsupported request.');
+                    const prepared = ehrState(person(s.workspace, c.personId)).operations.find(o => o.id === c.operationId), op = ehrState(p).operations.find(o => o.id === c.operationId);
+                    if (!op || !prepared || op.state !== 'running' || op.hash !== prepared.hash || op.publishStartedAt !== prepared.publishStartedAt)
+                        fail(409, 'Publication checkpoint changed.');
+                    const refused = operationRefusal(li, c.type === 'lookupEhrPublish' ? 'lookup' : 'create', c.type === 'lookupEhrPublish' ? 'none' : 'patient');
+                    if (refused)
+                        fail(409, refused);
+                    if (c.type === 'lookupEhrPublish')
+                        return; // Receipt only: no clinical body and no new consent required.
+                    await publishAuthority(latest, p, op, u);
+                    const g = await sendBlock(latest, visit(latest.workspace, op.visitId), li, 'checkpoint');
+                    if (g.block)
+                        fail(409, g.block.text);
+                    if (Date.now() - Date.parse(op.publishStartedAt) > EHR_WRITE_DEADLINE_SECONDS * 1000)
+                        fail(409, 'Publication write window expired.');
+                } });
+            assertFhirEnvelope(args[2], args[3]);
+        }
+        catch (e) {
+            serviceRefusal = e instanceof Error ? e.message : 'Service authority unavailable.';
+            throw e;
+        }
+        return send(i, ...args);
+    };
+    if (c.type === 'probeEhr')
+        return executeEhrProbe(db, s, c, u, m, key, hash, env, transport);
+    if (!('personId' in c) || !['asha', 'clinician'].includes(m.role))
+        fail(403, 'A care role is required.');
+    const p = person(s.workspace, c.personId);
+    if (c.type === 'retrieveEhrDocument') {
+        const { i, link } = await ehrAccess(s, p, c.linkId, c.permissionId, 'read');
+        if (i.status !== 'active')
+            fail(409, 'Activate this EHR connection before retrieval.');
+        // Slice 6t: the partner request is recorded in the audit chain before it is sent; if that fails nothing is requested.
+        await recordAccess(db, s, u, m, { action: 'externalRequest', subject: p.id, personId: p.id, detail: `retrieveEhrDocument: request to ${i.name} for linked record ${link.externalId}, document ${c.bundleId}, about to be sent. The outcome is recorded separately.` });
+        checkRemotePatient(await transport(i, s.organisation.id, env, 'Patient/' + link.externalId), link.externalId, link.externalName);
+        const bundle = await transport(i, s.organisation.id, env, 'Bundle/' + c.bundleId);
+        if (JSON.stringify(bundle).length > 12000)
+            fail(422, 'Document exceeds this release’s 12 KB review limit.');
+        const after = await readState(db, s.organisation.id), member = scope(after, u.userId);
+        if (!['asha', 'clinician'].includes(member.role))
+            fail(403, 'Care access changed.');
+        const target = person(after.workspace, p.id), before = structuredClone(after);
+        if (!normallyAllowed(member, target))
+            fail(403, 'Current patient scope changed while reading. Document withheld.');
+        ensurePurpose(member, 'care-coordination', after.operations?.purposeGrants);
+        ensureOperating(after, c);
+        if (target.version !== p.version || target.consentVersion !== p.consentVersion)
+            fail(409, 'Patient record or permission changed while reading. Document withheld.');
+        const current = await ehrAccess(after, target, c.linkId, c.permissionId, 'read');
+        if (current.i.version !== i.version || current.i.status !== 'active')
+            fail(409, 'EHR connection changed while reading. Document withheld.');
+        if ((s.operations?.serviceBindings?.[i.id] ?? null) !== (after.operations?.serviceBindings?.[i.id] ?? null))
+            fail(403, 'Source service binding changed while reading. Document withheld.');
+        ehrServiceAuthority(after, i.id);
+        const document = await stageDocument(after, target, c.linkId, c.permissionId, bundle, 'ehr', { actorId: u.userId, receiptKey: key });
+        const result = { documentId: document.id, ...('inboundCandidateId' in document ? { inboundCandidateId: document.inboundCandidateId } : {}) };
+        ehrAudit(after, u, member, c.type, p.id, 'inboundCandidateId' in document ? 'Changed retrieved version retained for explicit independent conflict review; first version and local facts unchanged.' : 'Retrieved document staged for review; current visit facts unchanged.', p.id);
+        await persist(db, before, after, u, c, key, hash, result);
+        return result;
+    }
+    if (c.type !== 'executeEhrPublish' && c.type !== 'lookupEhrPublish')
+        fail(422, 'Unsupported EHR operation.');
+    const op = ehrState(p).operations.find(o => o.id === c.operationId);
+    if (!op)
+        fail(404, 'Publication not found.');
+    if (op.state === 'accepted')
+        return { operationId: op.id, state: op.state };
+    const lookup = c.type === 'lookupEhrPublish';
+    const link = ehrState(p).links.find(l => l.id === op.linkId);
+    let i = ehrIntegration(s, link.integrationId);
+    if (lookup) {
+        if (!['running', 'uncertain'].includes(op.state))
+            fail(409, 'Only an unresolved publication needs lookup.');
+        if (op.state === 'running' && Date.parse(op.at) > Date.now() - 45000)
+            fail(409, 'Publication may still be running. Refresh shortly.');
+        if (i.version !== op.integrationVersion)
+            fail(409, 'EHR connection version changed. Reconcile with the partner.');
+        {
+            const refused = operationRefusal(i, 'lookup', 'none');
+            if (refused)
+                fail(409, refused + ' The outcome stays unknown; do not publish again.');
+        }
+        // Slice 7f: a bounded number of lookups per publication (5e-style attempt limit); after that the reconciliation owner resolves it with the partner.
+        if ((op.lookups ?? 0) >= EHR_LOOKUP_LIMIT)
+            fail(409, `This publication has had ${EHR_LOOKUP_LIMIT} receipt lookups, the limit. Its reconciliation owner resolves it with the partner; do not publish again.`);
+        ehrCredential(i, s.organisation.id, env);
+    }
+    else {
+        if (op.state !== 'prepared')
+            return { operationId: op.id, state: op.state };
+        if (c.hash !== op.hash)
+            fail(409, 'Review the exact document before approval.');
+        // Slice 7e: if creating records was withdrawn after preparation, the publication is closed as not sent.
+        {
+            const refused = operationRefusal(i, 'create', 'patient');
+            if (refused) {
+                if (op.actorId !== u.userId)
+                    fail(409, 'Publication approval, identity, permission, visit or connection changed.');
+                const before = structuredClone(s);
+                op.state = 'blocked';
+                op.refusal = refusalOf(i, 'create', 'before-send');
+                op.at = new Date().toISOString();
+                op.message = `Not sent: ${refused} Nothing was sent to the EHR; this publication is closed. Prepare a new publication if it is still needed.`;
+                ehrAudit(s, u, m, 'adapterOperationRefused', p.id, op.message, p.id);
+                linkTrace(before, s, c.type, key, u.userId);
+                await persist(db, before, s, u, c, key, hash, { operationId: op.id, state: op.state, refused: true });
+                return { operationId: op.id, state: op.state, refused: true, message: op.message };
+            }
+        }
+        ({ i } = await publishAuthority(s, p, op, u));
+        ehrCredential(i, s.organisation.id, env);
+        // Slice 10g: an open dispute on anything the document carries, a withdrawn sign-off or a sign-off rule for this connection
+        // stops the publication before its checkpoint; it stays prepared (nothing was sent) until that is resolved.
+        {
+            const g = await sendBlock(s, s.workspace.visits.find(x => x.id === op.visitId), i, 'plan');
+            if (g.block)
+                fail(409, g.block.text);
+            if (g.signOff)
+                op.signOff = { id: g.signOff.id, by: g.signOff.by, byName: g.signOff.byName, at: g.signOff.at };
+        }
+        if (ehrState(p).operations.some(o => o.id !== op.id && o.linkId === op.linkId && o.visitId === op.visitId && EHR_HOLDING_STATES.includes(o.state)))
+            fail(409, 'Another publication already exists for this visit and destination.');
+    }
+    // Slice 7f: the publication checkpoint time bounds when its write could have reached the partner; each lookup is counted.
+    const before = structuredClone(s), priorAt = op.at;
+    op.state = 'running';
+    op.at = new Date().toISOString();
+    if (lookup)
+        op.lookups = (op.lookups ?? 0) + 1;
+    else
+        op.publishStartedAt = op.at;
+    const settleFrom = op.publishStartedAt ?? priorAt;
+    op.message = lookup ? 'Receipt lookup started; no document resent.' : 'Publication checkpoint saved before external requests.';
+    ehrAudit(s, u, m, c.type, p.id, op.message, p.id);
+    linkTrace(before, s, c.type, key, u.userId);
+    await persist(db, before, s, u, c, key, hash, { operationId: op.id, state: op.state });
+    let receipt, message = 'No definitive EHR acknowledgement. Look up the document identifier before further action.';
+    // Slice 6u (fourth review): `sent` is set immediately before the write request. A refusal or failure before it
+    // (patient check, authority recheck, operating state) is definitive: nothing was sent, so the publication is
+    // closed as not sent ('blocked') instead of staying 'uncertain' with no way to resolve it. Once the write may
+    // have started, a failure stays 'uncertain' and needs a receipt lookup; it is never retried blindly.
+    let sent = false, refusal, operationRefused, blocked;
+    // Slice 7f: a definitive lookup answer under the policy read just before the request, and the request's audit event.
+    let resolution, policy = lookupPolicyOf(i), requestAuditId = null, requestAt = '';
+    try {
+        if (lookup) {
+            // Slice 7e: recheck the lookup operation on the stored state before the request.
+            {
+                const latest = await readState(db, s.organisation.id), li = latest.workspace.integrations.find(x => x.id === i.id);
+                const refused = li ? operationRefusal(li, 'lookup', 'none') : 'The EHR connection no longer exists.';
+                if (refused) {
+                    message = `Receipt lookup not made: ${refused} The outcome stays unknown; do not publish again.`;
+                    fail(409, refused);
+                }
+                policy = lookupPolicyOf(li);
+            }
+            // Slice 7f: the lookup is an external request, recorded in the audit chain before it is sent (slice 6t); if that
+            // fails nothing is requested. It carries the identifier only: no document is ever sent by a lookup.
+            message = 'Receipt lookup not made: it could not be recorded in the audit log. The outcome stays unknown; do not publish again.';
+            requestAt = new Date().toISOString();
+            requestAuditId = (await recordAccess(db, s, u, m, { action: 'externalRequest', subject: p.id, personId: p.id, detail: `lookupEhrPublish: identifier search at ${i.name} for publication ${op.id} (lookup ${op.lookups} of at most ${EHR_LOOKUP_LIMIT}; search ${policy.authoritative ? `authoritative, policy version ${policy.version}` : 'not authoritative'}) about to be sent. No document is sent. The outcome is recorded separately.` }))?.id ?? null;
+            message = 'No definitive EHR acknowledgement. Look up the document identifier before further action.';
+            const found = classifySearch(await transport(i, s.organisation.id, env, 'Bundle?identifier=' + encodeURIComponent('urn:saha:documents|' + op.id) + '&_count=2'), op.bundle, link.externalId, policy, settleFrom);
+            if (found.outcome === 'found')
+                receipt = found.receipt;
+            else if (found.outcome === 'wait')
+                message = `No matching document yet, but the partner's ${policy.consistencySeconds}-second consistency delay has not passed since this publication was attempted. Look up again after ${found.due}; do not publish again.`;
+            else
+                resolution = found.outcome === 'conflict' ? { outcome: 'conflict', matches: found.matches, detail: found.detail } : { outcome: 'not-stored', matches: 0, detail: `No document with this identifier after the partner's ${policy.consistencySeconds}-second consistency delay.` };
+        }
+        else {
+            // Slice 6ab (eighth review): the create operation is rechecked on a fresh read before the patient read goes out, so a
+            // withdrawn create sends nothing at all (not even the Patient/<id> read); it is checked again after the read below.
+            {
+                const early = await readState(db, s.organisation.id), li = early.workspace.integrations.find(x => x.id === i.id);
+                const refused = li ? operationRefusal(li, 'create', 'patient') : 'The EHR connection no longer exists.';
+                if (refused) {
+                    if (li)
+                        operationRefused = refusalOf(li, 'create', 'checkpoint');
+                    fail(409, refused);
+                }
+                // Slice 10g: disputes and sign-off are rechecked on this fresh read, before the patient read goes out.
+                const g = await sendBlock(early, early.workspace.visits.find(x => x.id === op.visitId), li, 'checkpoint');
+                if (g.block) {
+                    blocked = { kind: g.block.kind === 'dispute' ? 'dispute' : 'sign-off', stage: 'checkpoint', at: new Date().toISOString(), ...(g.block.disputeIds.length ? { disputeIds: g.block.disputeIds } : {}) };
+                    fail(409, g.block.text);
+                }
+            }
+            checkRemotePatient(await transport(i, s.organisation.id, env, 'Patient/' + link.externalId), link.externalId, link.externalName);
+            // Recheck authorisation immediately before the write, after patient lookup.
+            const latest = await readState(db, s.organisation.id), member = scope(latest, u.userId);
+            if (!['asha', 'clinician'].includes(member.role))
+                fail(403, 'Care access changed.');
+            ensureOperating(latest, c);
+            const personNow = person(latest.workspace, p.id);
+            // Slice 7e: the create operation is rechecked inside the checkpoint; a withdrawal closes the publication as not sent.
+            {
+                const li = latest.workspace.integrations.find(x => x.id === i.id);
+                const refused = li ? operationRefusal(li, 'create', 'patient') : null;
+                if (refused) {
+                    operationRefused = refusalOf(li, 'create', 'checkpoint');
+                    fail(409, refused);
+                }
+                // Slice 10g: and again immediately before the write, after the remote patient check.
+                const g = li ? await sendBlock(latest, latest.workspace.visits.find(x => x.id === op.visitId), li, 'checkpoint') : null;
+                if (g?.block) {
+                    blocked = { kind: g.block.kind === 'dispute' ? 'dispute' : 'sign-off', stage: 'checkpoint', at: new Date().toISOString(), ...(g.block.disputeIds.length ? { disputeIds: g.block.disputeIds } : {}) };
+                    fail(409, g.block.text);
+                }
+            }
+            await publishAuthority(latest, personNow, op, u);
+            // Slice 7f: the write starts inside the attempt window or not at all (a lookup relies on that bound).
+            if (Date.now() - Date.parse(op.publishStartedAt) > EHR_WRITE_DEADLINE_SECONDS * 1000)
+                fail(409, `The publication did not reach its write step within ${EHR_WRITE_DEADLINE_SECONDS} seconds of its checkpoint.`);
+            sent = true;
+            const raw = await transport(i, s.organisation.id, env, 'Bundle', { method: 'POST', headers: { 'Content-Type': 'application/fhir+json', Prefer: 'return=representation', 'If-None-Exist': 'identifier=' + encodeURIComponent('urn:saha:documents|' + op.id) }, body: JSON.stringify(op.bundle) });
+            receipt = publicationReceipt(raw, op.bundle, link.externalId);
+        }
+        if (receipt)
+            message = 'EHR acknowledged storage of this document. This does not confirm ingestion into its clinical workflow.';
+    }
+    catch (e) {
+        if (!lookup && (!sent || serviceRefusal)) {
+            refusal = e instanceof AppError ? e.message : 'The EHR could not be reached before the document was sent.';
+            message = `Not sent: ${refusal} Nothing was sent to the EHR; this publication is closed. Prepare a new publication if it is still needed.`;
+        }
+    }
+    for (let n = 0; n < 3; n++) {
+        const after = await readState(db, s.organisation.id), old = structuredClone(after), target = after.workspace.people.find(x => x.id === p.id)?.ehr?.operations.find(x => x.id === op.id);
+        if (!target)
+            fail(409, 'Publication checkpoint unavailable.');
+        if (target.state === 'accepted')
+            return { operationId: target.id, state: target.state };
+        // Slice 7f: a definitive answer stored by another lookup is never overwritten; a definitive answer of this lookup
+        // stands only if the connection's lookup policy is still the one the request was made under.
+        if (target.state === 'not-stored' || target.state === 'conflict')
+            return { operationId: target.id, state: target.state };
+        let outcome = resolution, text = message;
+        if (outcome) {
+            const li = after.workspace.integrations.find(x => x.id === i.id), now = li ? lookupPolicyOf(li) : null;
+            if (!now?.authoritative || now.version !== policy.version) {
+                outcome = undefined;
+                text = 'The lookup policy changed during the lookup, so its answer is not treated as definitive. Look up again; do not publish again.';
+            }
+            else if (outcome.outcome === 'not-stored')
+                text = `Not stored: the EHR's authoritative identifier search found no document for this publication after the partner's ${policy.consistencySeconds}-second consistency delay. Nothing was resent. If the document is still needed, prepare a new publication and approve it.`;
+            else {
+                const owner = after.members.find(x => x.userId === now.ownerId);
+                text = `Conflict: ${outcome.detail} Saha does not choose between them. ${owner ? owner.displayName + ', the reconciliation owner,' : 'The reconciliation owner'} resolves this with the partner; do not publish again.`;
+            }
+        }
+        target.state = receipt ? 'accepted' : outcome ? outcome.outcome : refusal ? 'blocked' : 'uncertain';
+        target.receipt = receipt;
+        target.message = text;
+        if (lookup && (receipt || outcome))
+            target.resolution = { outcome: receipt ? 'found' : outcome.outcome, matches: receipt ? 1 : outcome.matches, policyVersion: policy.version, at: new Date().toISOString(), key, detail: receipt ? 'One matching document equal to the published document.' : outcome.detail };
+        // Slice 7f: the lookup request step, linked to its external-request audit event.
+        if (lookup && requestAuditId)
+            (target.events ??= []).push({ at: requestAt, state: 'lookup request', ref: { command: c.type, key, actorId: u.userId, auditId: requestAuditId } });
+        if (operationRefused && !receipt)
+            target.refusal = operationRefused;
+        if (blocked && !receipt)
+            target.block = blocked;
+        const action = operationRefused && !receipt ? 'adapterOperationRefused' : blocked && !receipt ? 'sendBlocked' : 'ehrReceipt';
+        ehrAudit(after, u, m, action, p.id, text, p.id);
+        const finish = 'ehr_finish_' + uuid();
+        linkTrace(old, after, action, finish, u.userId);
+        try {
+            await persist(db, old, after, u, { type: action }, finish, hash, { operationId: target.id, state: target.state });
+            return { operationId: target.id, state: target.state, ...(refusal || outcome ? { message: target.message } : {}) };
+        }
+        catch (e) {
+            if (!(e instanceof AppError && e.status === 409) || n === 2)
+                throw e;
+        }
+    }
+    fail(409, 'Publication result is unresolved. Look up its document identifier; do not resend.');
+}

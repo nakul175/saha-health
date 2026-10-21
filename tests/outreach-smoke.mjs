@@ -19,7 +19,11 @@ export async function outreachSmoke({get,post,check,accounts,org,sql}){
  await post(o,{type:'messageTemplateReview',templateId,version:1,state:'approved',reference:'SYNTHETIC-REVIEW',reason:'Independent approval is required for template content'},403);
  await post(a,{type:'messageTemplateReview',templateId,version:1,state:'approved',reference:'SYNTHETIC-REVIEW',reason:'Neutral English template reviewed for synthetic use'});
  await post(o,{type:'messageTemplatePropose',language:'en'},409);
- const scheduledAt=new Date(Date.now()-1000).toISOString(),message={type:'messageCreate',planId,itemId:item.id,templateId,scheduledAt};
+ const capabilities={deliveryEvidence:true,optOutHandling:true,recoveryWork:true},channelProposal={type:'externalChannelPropose',kind:'sms',capabilities,reason:'Synthetic channel readiness covers delivery, opt-out and accountable recovery.'};
+ await post(w,channelProposal,403);const channelId=(await post(o,channelProposal)).result.channelId;
+ await post(o,{type:'externalChannelReview',channelId,version:1,state:'ready',reference:'SYNTHETIC-CHANNEL-SELF',reason:'The proposing operator cannot approve their own channel readiness.'},403);
+ await post(a,{type:'externalChannelReview',channelId,version:1,state:'ready',reference:'SYNTHETIC-CHANNEL-READY',reason:'Independent synthetic readiness review; no provider or credential configured.'});
+ const scheduledAt=new Date(Date.now()-1000).toISOString(),message={type:'messageCreate',planId,itemId:item.id,templateId,channelId,scheduledAt};
  await post(o,message,409);
  const prefs={method:'sms',destination:'TEST-OUTREACH-001',ownership:'shared',language:'en',timezone:new Date().getUTCHours()===23?'Etc/GMT+12':'UTC',from:'00:00',to:'23:59',permission:true,privateContact:false,reference:'SYNTHETIC-PREFERENCE'};
  const preferences=async(changes={},status=200,who=o)=>{await get(who,'/api/workspace',200,org);const p=who.state.people.find(p=>p.id===id);return post(who,{type:'setContactPreferences',personId:id,version:p.version,preferences:{...prefs,...changes}},status);};
@@ -30,11 +34,11 @@ export async function outreachSmoke({get,post,check,accounts,org,sql}){
  await post(o,message,409);report=await get(c,'/api/outreach',200,org);let msg=report.messages.find(v=>v.id===messageId);check(()=>{assert.ok(msg.preview.hash);assert.ok(!msg.body.includes('Synthetic outreach'));assert.equal(report.liveMessaging,false)});
  await post(o,{type:'messageApprove',messageId,version:1,hash:msg.preview.hash},403);await post(w,{type:'messageApprove',messageId,version:1,hash:msg.preview.hash},403);await post(c,{type:'messageApprove',messageId,version:1,hash:'a'.repeat(64)},409);
  await post(c,{type:'messageApprove',messageId,version:1,hash:msg.preview.hash});
- const failureKey=crypto.randomUUID(),failure={type:'messageSimulate',messageId,version:2,outcome:'failed'};const failed=await post(w,failure,200,failureKey),replay=await post(w,failure,200,failureKey);check(()=>{assert.equal(failed.result.realMessageSent,false);assert.equal(failed.result.receipt,replay.result.receipt);assert.equal(replay.replayed,true)});
+ const failureKey=crypto.randomUUID(),failure={type:'messageSimulate',messageId,version:2,outcome:'failed'};const failed=await post(w,failure,200,failureKey),replay=await post(w,failure,200,failureKey);check(()=>{assert.equal(failed.result.realMessageSent,false);assert.equal(failed.result.delivery,'failed');assert.equal(failed.result.patientAcknowledgement,'unconfirmed');assert.equal(failed.result.receipt,replay.result.receipt);assert.equal(replay.replayed,true)});
  report=await get(o,'/api/outreach',200,org);msg=report.messages.find(v=>v.id===messageId);check(()=>{assert.equal(msg.attempts.length,1);assert.equal(msg.recovery.state,'open');assert.equal(msg.recovery.ownerId,w.id)});
  await post(w,{type:'messageRetry',messageId,version:3,scheduledAt:new Date(Date.now()-1000).toISOString(),reason:'Synthetic retry reuses the existing message record'});
  await post(w,{type:'messageSimulate',messageId,version:4,outcome:'simulated'},409);
- report=await get(c,'/api/outreach',200,org);msg=report.messages.find(v=>v.id===messageId);await post(c,{type:'messageApprove',messageId,version:4,hash:msg.preview.hash});await post(w,{type:'messageSimulate',messageId,version:5,outcome:'simulated'});
+ report=await get(c,'/api/outreach',200,org);msg=report.messages.find(v=>v.id===messageId);await post(c,{type:'messageApprove',messageId,version:4,hash:msg.preview.hash});const delivered=await post(w,{type:'messageSimulate',messageId,version:5,outcome:'simulated'});check(()=>{assert.equal(delivered.result.delivery,'delivered');assert.equal(delivered.result.patientAcknowledgement,'unconfirmed');assert.equal(delivered.result.realMessageSent,false)});
  report=await get(w,'/api/outreach',200,org);msg=report.messages.find(v=>v.id===messageId);check(()=>{assert.equal(msg.state,'simulated');assert.equal(msg.attempts.length,2);assert.equal(msg.recovery.state,'open');assert.equal(report.plans.find(p=>p.id===planId).items[0].state,'planned')});
  await post(w,{type:'messageResolve',messageId,version:6,note:'Synthetic follow-up reviewed without claiming patient acknowledgement.',reference:'SYNTHETIC-FOLLOW-UP'});
  await post(w,{type:'messageCancel',messageId,version:7,reason:'A simulated receipt cannot be cancelled retrospectively'},409);

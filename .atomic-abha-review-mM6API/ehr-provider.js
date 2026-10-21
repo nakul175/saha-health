@@ -1,0 +1,101 @@
+import { fail } from './core.js';
+import { ehrCredential, EHR_ATTEMPT_WINDOW_SECONDS } from './ehr.js';
+import { assertOutboundPrivacy, inspectDocument } from './fhir-document.js';
+export function assertFhirEnvelope(path, init = {}) {
+    const refuse = () => fail(409, 'FHIR request differs from its approved mapped transport contract; review before sending.');
+    if (Object.keys(init).some(k => !['method', 'headers', 'body'].includes(k)))
+        refuse();
+    const method = init.method ?? 'GET', headers = new Headers(init.headers);
+    if (method === 'GET') {
+        if (init.body !== undefined || [...headers.keys()].length || !(/^(?:metadata|(?:Patient|Bundle)\/[A-Za-z0-9.-]{1,64})$/.test(path) || /^Bundle\?identifier=urn%3Asaha%3Adocuments%7C[A-Za-z0-9.-]{1,64}&_count=2$/.test(path)))
+            refuse();
+        return;
+    }
+    if (method !== 'POST' || path !== 'Bundle' || typeof init.body !== 'string' || init.body.length > 64000 || [...headers.keys()].some(k => !['content-type', 'prefer', 'if-none-exist'].includes(k)) || headers.get('content-type') !== 'application/fhir+json' || headers.get('prefer') !== 'return=representation')
+        refuse();
+    let body;
+    try {
+        body = JSON.parse(init.body);
+    }
+    catch {
+        refuse();
+    }
+    assertOutboundPrivacy(body);
+    if (headers.get('if-none-exist') !== 'identifier=' + encodeURIComponent('urn:saha:documents|' + body.id))
+        refuse();
+}
+export async function fhirRequest(i, orgId, env, path, init = {}, send = fetch) {
+    assertFhirEnvelope(path, init);
+    const token = ehrCredential(i, orgId, env), response = await send(i.endpoint.replace(/\/$/, '') + '/' + path, { ...init, headers: { ...Object.fromEntries(new Headers(init.headers)), Accept: 'application/fhir+json', Authorization: `Bearer ${token}` }, redirect: 'manual', signal: AbortSignal.timeout(15000) });
+    if (!response.ok)
+        fail(502, `FHIR endpoint returned HTTP ${response.status}.`);
+    if (!response.headers.get('content-type')?.includes('json'))
+        fail(502, 'FHIR endpoint did not return JSON.');
+    const reader = response.body?.getReader();
+    if (!reader)
+        fail(502, 'Empty FHIR response.');
+    let size = 0;
+    const chunks = [];
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done)
+            break;
+        size += value.length;
+        if (size > 64000) {
+            await reader.cancel();
+            fail(502, 'FHIR response exceeds 64 KB.');
+        }
+        chunks.push(value);
+    }
+    const bytes = new Uint8Array(size);
+    let at = 0;
+    for (const chunk of chunks) {
+        bytes.set(chunk, at);
+        at += chunk.length;
+    }
+    try {
+        return JSON.parse(new TextDecoder().decode(bytes));
+    }
+    catch {
+        fail(502, 'Invalid FHIR JSON.');
+    }
+}
+export function capabilities(raw) {
+    if (raw?.resourceType !== 'CapabilityStatement' || raw.fhirVersion !== '4.0.1' || !raw.format?.some((f) => ['json', 'application/fhir+json'].includes(f)))
+        fail(422, 'This adapter requires FHIR R4 4.0.1 JSON capabilities.');
+    const resources = raw.rest?.filter((r) => r.mode === 'server').flatMap((r) => r.resource ?? []) ?? [], patient = resources.find((r) => r.type === 'Patient'), bundle = resources.find((r) => r.type === 'Bundle');
+    const supports = (r, op) => r?.interaction?.some((x) => x.code === op) === true;
+    return { read: supports(patient, 'read') && supports(bundle, 'read'), write: supports(patient, 'read') && supports(bundle, 'create') && bundle.conditionalCreate === true && supports(bundle, 'search-type') && bundle.searchParam?.some((p) => p.name === 'identifier' && p.type === 'token') === true };
+}
+export function checkRemotePatient(raw, externalId, externalName) { const name = raw?.name?.[0]?.text ?? [...(raw?.name?.[0]?.given ?? []), raw?.name?.[0]?.family ?? ''].join(' ').trim(); if (raw?.resourceType !== 'Patient' || raw.id !== externalId || raw.active === false || typeof name !== 'string' || name.trim().replace(/\s+/g, ' ').toLowerCase() !== externalName.trim().replace(/\s+/g, ' ').toLowerCase())
+    fail(409, 'Remote patient identity differs from the worker-confirmed link. Reconcile identity before exchange.'); }
+export function publicationReceipt(raw, expected, externalId) { inspectDocument(raw, externalId); if (raw.identifier.system !== expected.identifier.system || raw.identifier.value !== expected.identifier.value || typeof raw.id !== 'string' || !/^[A-Za-z0-9.-]{1,64}$/.test(raw.id))
+    fail(502, 'EHR acknowledgement does not match the published document identifier.'); if (JSON.stringify(raw.entry) !== JSON.stringify(expected.entry))
+    fail(502, 'EHR returned changed document content. Reconcile with the partner.'); return 'Bundle/' + raw.id; }
+export function classifySearch(raw, expected, externalId, policy, settleFrom, now = Date.now()) {
+    if (!policy.authoritative) {
+        if (raw?.resourceType !== 'Bundle' || raw.type !== 'searchset' || raw.entry?.length !== 1)
+            fail(502, 'EHR lookup did not return exactly one matching document.');
+        return { outcome: 'found', receipt: publicationReceipt(raw.entry[0].resource, expected, externalId), matches: 1 };
+    }
+    if (raw?.resourceType !== 'Bundle' || raw.type !== 'searchset' || (raw.entry !== undefined && !Array.isArray(raw.entry)))
+        fail(502, 'EHR lookup did not return a search result.');
+    const entries = (raw.entry ?? []).filter((e) => (e?.search?.mode ?? 'match') === 'match'), total = raw.total;
+    if (total !== undefined && (!Number.isInteger(total) || total < 0 || entries.length > total || entries.length < Math.min(total, 2)))
+        fail(502, 'EHR search result is inconsistent: its total does not match its entries.');
+    const matches = Math.max(entries.length, total ?? 0);
+    if (matches === 0) {
+        const due = Date.parse(settleFrom) + (EHR_ATTEMPT_WINDOW_SECONDS + policy.consistencySeconds) * 1000;
+        if (!Number.isFinite(due))
+            fail(409, 'The publication attempt time is unknown.');
+        return now < due ? { outcome: 'wait', matches: 0, due: new Date(due).toISOString() } : { outcome: 'not-stored', matches: 0 };
+    }
+    if (matches > 1)
+        return { outcome: 'conflict', matches, detail: `${matches} documents in the EHR carry this publication's identifier.` };
+    try {
+        return { outcome: 'found', receipt: publicationReceipt(entries[0].resource, expected, externalId), matches: 1 };
+    }
+    catch (e) {
+        return { outcome: 'conflict', matches: 1, detail: `The one document with this publication's identifier is not the published document (${e instanceof Error ? e.message : 'unrecognised response'})` };
+    }
+}

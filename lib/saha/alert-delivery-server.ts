@@ -7,7 +7,7 @@ import {recordAggregateView} from './read-audit';
 // the command already loaded). A read evaluates at most once a minute per Worker instance unless the
 // organisation or a patient record changed since its last evaluation, so detection time depends on traffic.
 import type { D1Database } from '@cloudflare/workers-types';
-import { activeOrg, db, identity, json } from './server';
+import { activeOrg, db, identity, json, rawRuntime } from './server';
 import { readState, type Actor } from './store';
 import { careReport, defaultOperations, operator } from './operations';
 import { reportingScope } from './delegation';
@@ -19,10 +19,11 @@ import { CLEARED_DAYS, DELIVERY_RULES_VERSION, ESCALATE_AFTER_MINUTES, ESCALATIO
 import { evaluateChannel, evaluateChannelSources } from './notification-channel-server';
 import { authorizeChannelCommand } from './notification-channel';
 import type { Member, OrgState } from './types';
+import { operationalSignals, telemetryConfigured } from './operational-monitoring';
 const last = new Map<string, { basis: string; at: number }>();
 const basisOf = async (d: D1Database, orgId: string) => { const r = await d.prepare('SELECT revision,patient_revision FROM organisations WHERE id=?').bind(orgId).first<{ revision: number; patient_revision: number | null }>(); return r ? `${r.revision}:${r.patient_revision ?? 0}` : ''; };
 // The alert views of every member who owns at least one alert kind, each computed exactly as their Operations page would be.
-export async function memberViews(d: D1Database, s: OrgState, now: string) {
+export async function memberViews(d: D1Database, s: OrgState, now: string, env:Record<string,string|undefined>=rawRuntime()) {
   const recipients = s.members.filter(m => m.status === 'active' && (['operations', 'supervisors', 'owners'] as const).some(o => canAcknowledge(m, o)));
   if (!recipients.length) return [];
   const ops = s.operations ?? defaultOperations();
@@ -33,7 +34,7 @@ export async function memberViews(d: D1Database, s: OrgState, now: string) {
   // The committed-state recheck of each context is made once, in evaluateDelivery, before anything is planned, written or sent
   // (it was repeated here immediately before, with no use of the result in between: one full state read per recipient saved).
   for(const m of recipients){const context=await captureAggregateAlerts(d,s,m.userId,now);
-    const nonclinical=alertsFor({budgets:operator(m)?budgets:null,invoices:operator(m)?invoices:null,report:null,telemetry:operator(m)?telemetry:null,operations:operator(m)?ops:null,acknowledgements:ops.acknowledgements??[],viewerId:m.userId,now});
+    const nonclinical=alertsFor({signals:operator(m)?operationalSignals(s,now,telemetryConfigured(env)):null,budgets:operator(m)?budgets:null,invoices:operator(m)?invoices:null,report:null,telemetry:operator(m)?telemetry:null,operations:operator(m)?ops:null,acknowledgements:ops.acknowledgements??[],viewerId:m.userId,now});
     views.push({member:m,alerts:[...nonclinical,...context.current],aggregateAvailable:context.available,aggregateContext:context});}
   // An unavailable recipient is unknown, never evidence that their clinical work resolved.
   // Hold the clinical occurrence family conservatively rather than silently closing another view.
@@ -42,7 +43,7 @@ export async function memberViews(d: D1Database, s: OrgState, now: string) {
 }
 // One evaluation: read open occurrences, plan, write. Every write is idempotent (unique keys, guarded updates).
 export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Date().toISOString(), env?: Record<string, string | undefined>) {
-  const orgId = s.organisation.id, views = await memberViews(d, s, now);
+  const runtime=env??rawRuntime(),orgId = s.organisation.id, views = await memberViews(d, s, now, runtime);
   for(const view of views)try{await checkAggregateAlertContext(d,orgId,view.aggregateContext);}catch{view.aggregateAvailable=false;view.aggregateContext.available=false;view.aggregateContext.current=[];view.alerts=view.alerts.filter(a=>!clinicalAggregateAlert(a.id));}
   if(views.some(v=>v.member.role!=='admin'&&!v.aggregateAvailable))for(const view of views)view.alerts=view.alerts.filter(a=>!clinicalAggregateAlert(a.id));
   const present = presentFrom(views);
@@ -91,11 +92,11 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
   // undoes or blocks the in-app delivery above; the next evaluation tries again (messages are unique per occurrence, tier and recipient).
   let channel: Awaited<ReturnType<typeof evaluateChannel>> | { error: string } | null = null;
   // The committed-state recheck runs inside evaluateChannel, after its disabled/no-occurrence exits and before any disclosure or send, so a disabled channel costs no state read.
-  try {const recheck=async()=>{for(const view of views)if(view.aggregateAvailable)await checkAggregateAlertContext(d,orgId,view.aggregateContext);};channel = await evaluateChannel(d, s, present, now, env, new Map(views.map(v => [v.member.userId, v.aggregateContext])), recheck); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
+  try {const recheck=async()=>{for(const view of views)if(view.aggregateAvailable)await checkAggregateAlertContext(d,orgId,view.aggregateContext);};channel = await evaluateChannel(d, s, present, now, runtime, new Map(views.map(v => [v.member.userId, v.aggregateContext])), recheck); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
   // Slice r03: additional sources (drift, timed-out requests, exception items, referral requests) in the same
   // demonstration-simulator channel. Isolated so a failure never undoes or blocks the in-app delivery above.
   let sources: Awaited<ReturnType<typeof evaluateChannelSources>> | { error: string } | null = null;
-  try { sources = await evaluateChannelSources(d, s, now, env); } catch (e) { sources = { error: e instanceof Error ? e.name : 'unknown' }; }
+  try { sources = await evaluateChannelSources(d, s, now, runtime); } catch (e) { sources = { error: e instanceof Error ? e.name : 'unknown' }; }
   return { opened: plan.open.length, closed: plan.close.length, escalated: plan.escalate.length, recipients: views.length, writes, channel, sources };
 }
 // Reads: evaluate when the organisation changed since the last evaluation, or a minute has passed. Best effort:

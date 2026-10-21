@@ -1,0 +1,172 @@
+import { z } from 'zod';
+import { db, identity, loadFor, json } from './server.js';
+import { scope } from './store.js';
+import { normallyAllowed } from './access.js';
+import { operator } from './operations.js';
+import { digest, fail, uuid } from './core.js';
+import { boundedJsonBody } from './request-body.js';
+import { recordAggregateView } from './read-audit.js';
+import { recordAccess } from './access-audit.js';
+import { burdenCareDenominator } from './work-burden-server.js';
+import { appendBurdenLedger } from './work-burden-ledger-store.js';
+const id = z.string().min(1).max(200), schema = z.object({ key: z.string().uuid(), expectedActorId: id, visitId: id, receiptKey: id, sessionId: z.string().uuid(), stage: z.enum(['capture', 'correction', 'reconciliation']), phase: z.enum(['start', 'segment', 'complete']), activeSeconds: z.number().int().min(0).max(86400), source: z.enum(['online', 'encrypted-field']), taskId: id.optional() }).strict();
+export async function burdenAttribution(request) {
+    const u = await identity();
+    const origin = request.headers.get('origin');
+    if (request.headers.get('sec-fetch-site') === 'cross-site' || origin && origin !== new URL(request.url).origin)
+        fail(403, 'Same-origin request required.');
+    if (!request.headers.get('content-type')?.startsWith('application/json'))
+        fail(415, 'Use fixed JSON work metadata.');
+    const parsed = schema.safeParse(await boundedJsonBody(request, 2000));
+    if (!parsed.success)
+        fail(422, 'Use a fixed stage, bounded active seconds and receipt reference.');
+    const c = parsed.data;
+    if (c.expectedActorId !== u.userId)
+        fail(403, 'The original work account is no longer current.');
+    const s = await loadFor(u, request.headers.get('x-saha-organisation'), async (org) => { const row = await db().prepare('SELECT person_id FROM visits WHERE org_id=? AND id=?').bind(org, c.visitId).first(); return row ? [row.person_id] : []; }), m = scope(s, u.userId), v = s.workspace.visits.find(x => x.id === c.visitId), p = s.workspace.people.find(x => x.id === v?.personId);
+    if (!p || !v || !normallyAllowed(m, p) || !(['asha', 'clinician'].includes(m.role) || c.stage === 'reconciliation' && m.role === 'supervisor'))
+        fail(403, 'Current scoped human work access required.');
+    if (!s.operations?.workBurden?.enabled)
+        return json({ disabled: true, recorded: false });
+    const authorizeResponse = async () => { const fresh = await loadFor(u, s.organisation.id, async () => [p.id]), fm = scope(fresh, u.userId), fp = fresh.workspace.people.find(x => x.id === p.id); if (!fp || !normallyAllowed(fm, fp) || !(['asha', 'clinician'].includes(fm.role) || c.stage === 'reconciliation' && fm.role === 'supervisor'))
+        fail(403, 'Current scoped human work access required.'); };
+    const prior = await db().prepare('SELECT input_hash FROM work_burden_samples WHERE org_id=? AND actor_id=? AND id=?').bind(s.organisation.id, u.userId, c.key).first();
+    if (prior) {
+        if (prior.input_hash !== await digest(c))
+            fail(409, 'This work entry key identifies another entry.');
+        await authorizeResponse();
+        return json({ recorded: false, replayed: true });
+    }
+    if (c.phase === 'start' && c.stage !== 'reconciliation' && v.state !== 'draft')
+        fail(409, 'An observed capture origin must be recorded before confirmation.');
+    if (v.imported)
+        fail(409, 'Imported work has no comparable local timing origin.');
+    const receipt = await db().prepare('SELECT * FROM command_receipts WHERE org_id=? AND actor_id=? AND key=?').bind(s.organisation.id, u.userId, c.receiptKey).first();
+    if (!receipt?.command_type || !receipt.mutation_event_id || !receipt.mutation_subject_id || receipt.person_id !== p.id)
+        fail(409, 'An exactly linked saved local mutation receipt is required.');
+    const event = await db().prepare('SELECT action,subject,actor_id,person_id FROM audit_events WHERE org_id=? AND id=?').bind(s.organisation.id, receipt.mutation_event_id).first();
+    if (!event || event.action !== receipt.command_type || event.actor_id !== u.userId || event.person_id !== p.id || event.subject !== receipt.mutation_subject_id)
+        fail(409, 'Receipt mutation provenance is unavailable.');
+    const result = JSON.parse(receipt.result), type = receipt.command_type;
+    const programmeBinding = type === 'saveProgrammeAnswers' && event.subject === p.id && receipt.mutation_context && JSON.parse(receipt.mutation_context).visitId === v.id;
+    const ownVisit = event.subject === v.id || programmeBinding;
+    const preparing = type === 'startVisit' && result.visitId === v.id && event.subject === p.id || type === 'prepareFieldVisit' && result.packet?.payload?.visitId === v.id && event.subject === p.id;
+    const correctionOrigin = type === 'amendVisit' && result.visitId === v.id && event.subject === v.amendsVisitId;
+    const captureTypes = ['saveVisit', 'saveProgrammeAnswers', 'confirmVisit', 'syncFieldVisit'];
+    if (c.stage === 'capture') {
+        if (c.taskId || !(c.phase === 'start' ? preparing || correctionOrigin : ownVisit && captureTypes.includes(type) || type === 'syncFieldVisit' && result.visitId === v.id))
+            fail(409, 'Receipt does not identify this capture stage.');
+        if (c.phase === 'complete' && (type !== 'confirmVisit' || v.state !== 'confirmed' || v.voidedAt || v.supersededBy))
+            fail(409, 'Capture completion requires the current confirmed visit receipt.');
+    }
+    else if (c.stage === 'correction') {
+        if (c.taskId || !v.amendsVisitId || !(c.phase === 'start' ? correctionOrigin : ownVisit && captureTypes.includes(type) || c.phase === 'segment' && correctionOrigin))
+            fail(409, 'Receipt does not identify this correction lineage.');
+        if (c.phase === 'complete' && (type !== 'confirmVisit' || v.state !== 'confirmed' || v.voidedAt || v.supersededBy))
+            fail(409, 'Correction completion requires its current confirmed visit receipt.');
+    }
+    else {
+        const task = v.correctionTasks?.find(t => t.id === c.taskId), fromAmend = type === 'amendVisit' && event.subject === v.id && task?.correctionVisitId === result.visitId, binding = receipt.mutation_context ? JSON.parse(receipt.mutation_context) : null;
+        if (!task || !fromAmend && (binding?.taskId !== task.id || binding.parentId !== v.id || binding.kind !== 'correction'))
+            fail(409, 'Exact current correction task receipt binding required.');
+        if (c.phase === 'start' && !fromAmend && !['assignReconciliationTask', 'acknowledgeReconciliationTask'].includes(type) || c.phase === 'complete' && (type !== 'closeCorrectionTask' || task.state === 'open') || c.phase === 'segment' && !['assignReconciliationTask', 'acknowledgeReconciliationTask', 'closeCorrectionTask'].includes(type))
+            fail(409, 'Receipt does not prove this reconciliation stage.');
+        if (c.phase === 'start' && task.state !== 'open')
+            fail(409, 'An observed reconciliation origin requires an open task.');
+        if (c.phase !== 'complete' && task.ownerId !== u.userId)
+            fail(403, 'Current task ownership required.');
+    }
+    if (c.phase === 'start' && c.activeSeconds !== 0)
+        fail(422, 'Stage origin has zero accumulated time.');
+    const lineage = [];
+    let cursor = v;
+    const seen = new Set();
+    while (cursor) {
+        if (seen.has(cursor.id) || lineage.length >= 32)
+            fail(409, 'Correction lineage is ambiguous or too long.');
+        seen.add(cursor.id);
+        lineage.push(cursor);
+        cursor = cursor.amendsVisitId ? s.workspace.visits.find(x => x.id === cursor.amendsVisitId && x.personId === p.id) : undefined;
+        if (lineage.at(-1).amendsVisitId && !cursor)
+            fail(409, 'Correction ancestor is missing.');
+    }
+    if (c.phase !== 'start') {
+        const origin = await db().prepare("SELECT context FROM work_burden_samples WHERE org_id=? AND actor_id=? AND session_id=? AND visit_id=? AND stage=? AND phase='start' LIMIT 1").bind(s.organisation.id, u.userId, c.sessionId, v.id, c.stage).first();
+        if (!origin || JSON.parse(origin.context).taskId !== (c.taskId ?? null))
+            fail(409, 'An exact saved stage origin is required; missing timing remains unknown.');
+    }
+    const context = { format: 'saha-work-attribution-v1', source: c.source, requiredStages: ['capture', ...(v.amendsVisitId ? ['correction'] : []), ...(lineage.some(x => x.correctionTasks?.some(t => t.action !== 'recomputed')) ? ['reconciliation'] : [])], programmes: (v.programmeCapture?.packs ?? []).map(x => ({ id: x.pack.id, version: x.pack.version })).sort((a, b) => a.id.localeCompare(b.id)), lineage: lineage.map(x => x.id), taskId: c.taskId ?? null, origin: c.phase === 'start' };
+    const inputHash = await digest(c), entryDigest = await digest({ input: c, context, memberVersion: m.version, mutationEventId: receipt.mutation_event_id }), at = new Date().toISOString(), response = await appendBurdenLedger(db(), s, u, m, { table: 'work_burden_samples', keys: ['org_id', 'actor_id', 'id'], append: true, values: { org_id: s.organisation.id, actor_id: u.userId, id: c.key, person_id: p.id, visit_id: v.id, receipt_key: c.receiptKey, session_id: c.sessionId, stage: c.stage, phase: c.phase, active_seconds: c.activeSeconds, complete: c.phase === 'complete' ? 1 : 0, input_hash: inputHash, member_version: m.version, provenance: 'client-active-v1', context: JSON.stringify(context), at } }, { id: uuid(), at, actor: u.displayName, actorId: u.userId, role: m.role, action: 'workBurdenAttribution', subject: c.key, personId: p.id, detail: `Protected client-reported work stage ${c.stage}/${c.phase}; immutable entry digest ${entryDigest}. No clinical facts or free text.` });
+    await authorizeResponse();
+    return json(response);
+}
+export async function burdenAttributionReport(request) {
+    const url = new URL(request.url);
+    if ([...url.searchParams.keys()].some(k => k !== 'week') || url.searchParams.getAll('week').length > 1)
+        fail(422, 'Choose one UTC Monday.');
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    today.setUTCDate(today.getUTCDate() - ((today.getUTCDay() + 6) % 7));
+    const week = url.searchParams.get('week') ?? today.toISOString().slice(0, 10), start = new Date(week + 'T00:00:00.000Z');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(week) || !Number.isFinite(+start) || start.toISOString().slice(0, 10) !== week || start.getUTCDay() !== 1 || +start > +today || +start < +today - 365 * 86400000)
+        fail(422, 'Choose a UTC Monday in the last year.');
+    const until = new Date(+start + 7 * 86400000).toISOString();
+    const u = await identity(), s = await loadFor(u, request.headers.get('x-saha-organisation'), async () => []), m = scope(s, u.userId);
+    if (!operator(m))
+        fail(403, 'Current operations access required.');
+    // One bounded grouped query; per-visit sample overflow and incomplete ancestry
+    // are explicit unknowns, not silently treated as zero time.
+    const visits = await db().prepare(`WITH RECURSIVE
+ candidates AS (SELECT id,data FROM visits WHERE org_id=? AND state='confirmed' AND json_extract(data,'$.confirmedAt')>=? AND json_extract(data,'$.confirmedAt')<? AND json_extract(data,'$.voidedAt') IS NULL AND json_extract(data,'$.supersededBy') IS NULL AND json_extract(data,'$.imported') IS NULL ORDER BY id LIMIT 1001),
+ lineage(root,id,data,depth,path) AS (SELECT id,id,data,0,','||id||',' FROM candidates UNION ALL SELECT l.root,v.id,v.data,l.depth+1,l.path||v.id||',' FROM lineage l JOIN visits v ON v.org_id=? AND v.id=json_extract(l.data,'$.amendsVisitId') WHERE l.depth<31 AND instr(l.path,','||v.id||',')=0),
+ sample_summary AS (SELECT l.root,count(s.id) n,COALESCE(sum(s.active_seconds),0) seconds FROM lineage l LEFT JOIN work_burden_samples s ON s.org_id=? AND s.visit_id=l.id AND (l.depth=0 OR s.stage='reconciliation') GROUP BY l.root)
+ SELECT c.id,c.data,ss.n,ss.seconds,
+ NOT EXISTS (SELECT 1 FROM lineage l WHERE json_extract(l.data,'$.amendsVisitId') IS NOT NULL AND NOT EXISTS (SELECT 1 FROM lineage x WHERE x.root=l.root AND x.id=json_extract(l.data,'$.amendsVisitId'))) ancestry_ok,
+ EXISTS (SELECT 1 FROM work_burden_samples a WHERE a.org_id=? AND a.visit_id=c.id AND a.stage='capture' AND a.phase='complete' AND EXISTS (SELECT 1 FROM work_burden_samples b WHERE b.org_id=a.org_id AND b.actor_id=a.actor_id AND b.visit_id=a.visit_id AND b.stage=a.stage AND b.session_id=a.session_id AND b.phase='start')) capture_ok,
+ EXISTS (SELECT 1 FROM work_burden_samples a WHERE a.org_id=? AND a.visit_id=c.id AND a.stage='correction' AND a.phase='complete' AND EXISTS (SELECT 1 FROM work_burden_samples b WHERE b.org_id=a.org_id AND b.actor_id=a.actor_id AND b.visit_id=a.visit_id AND b.stage=a.stage AND b.session_id=a.session_id AND b.phase='start')) correction_ok,
+ NOT EXISTS (SELECT 1 FROM lineage l,json_each(l.data,'$.correctionTasks') t WHERE l.root=c.id AND COALESCE(json_extract(t.value,'$.action'),'')!='recomputed' AND (json_extract(t.value,'$.state')='open' OR NOT (COALESCE(json_extract(t.value,'$.closed.verified'),0)=1 OR json_extract(t.value,'$.closed.reference') IS NOT NULL) OR NOT EXISTS (SELECT 1 FROM work_burden_samples a WHERE a.org_id=? AND a.visit_id=l.id AND a.stage='reconciliation' AND a.phase='complete' AND json_extract(a.context,'$.taskId')=json_extract(t.value,'$.id') AND EXISTS (SELECT 1 FROM work_burden_samples b WHERE b.org_id=a.org_id AND b.actor_id=a.actor_id AND b.session_id=a.session_id AND b.visit_id=a.visit_id AND b.stage=a.stage AND b.phase='start')))) reconciliation_ok,
+ NOT EXISTS (SELECT 1 FROM lineage l JOIN work_burden_samples a ON a.org_id=? AND a.visit_id=l.id AND (l.depth=0 OR a.stage='reconciliation') WHERE l.root=c.id AND a.phase='start' AND NOT EXISTS (SELECT 1 FROM work_burden_samples b WHERE b.org_id=a.org_id AND b.actor_id=a.actor_id AND b.session_id=a.session_id AND b.visit_id=a.visit_id AND b.stage=a.stage AND b.phase='complete')) sessions_ok
+ FROM candidates c JOIN sample_summary ss ON ss.root=c.id ORDER BY c.id`).bind(s.organisation.id, start.toISOString(), until, s.organisation.id, s.organisation.id, s.organisation.id, s.organisation.id, s.organisation.id, s.organisation.id).all();
+    let complete = 0, unknown = 0;
+    const totals = [], mix = {};
+    for (const row of visits.results.slice(0, 1000)) {
+        const v = JSON.parse(row.data), codes = (v.programmeCapture?.packs ?? []).map((x) => x.pack.id + '@' + x.pack.version).sort().join('+') || 'no-pinned-programme', group = mix[codes] ??= { complete: 0, unknown: 0, activeSeconds: 0 };
+        const covered = row.n <= 500 && row.ancestry_ok && row.capture_ok && (!v.amendsVisitId || row.correction_ok) && row.reconciliation_ok && row.sessions_ok;
+        if (covered) {
+            complete++;
+            group.complete++;
+            group.activeSeconds += row.seconds;
+            totals.push(row.seconds);
+        }
+        else {
+            unknown++;
+            group.unknown++;
+        }
+    }
+    const support = await db().prepare("SELECT kind,count(DISTINCT request_id) n FROM work_support_events WHERE org_id=? AND at>=? AND at<? AND kind IN ('request','attest','ack') GROUP BY kind").bind(s.organisation.id, start.toISOString(), until).all(), supportCounts = Object.fromEntries(support.results.map(x => [x.kind, x.n])), denominator = (await burdenCareDenominator(db(), s.organisation.id, start.toISOString(), until))?.n ?? 0;
+    totals.sort((a, b) => a - b);
+    await recordAggregateView(db(), s, u, m, 'work-burden completed visit attribution', `UTC week ${week}; ${visits.results.length} bounded candidate rows; ${complete} covered client-reported totals; ${unknown} unknown. No patient facts or identifiers returned.`);
+    const fresh = await loadFor(u, s.organisation.id, async () => []), fm = scope(fresh, u.userId);
+    if (!operator(fm) || fm.role !== m.role || fm.isOwner !== m.isOwner)
+        fail(403, 'Current operations access required.');
+    return json({ week, until, completedVisits: Math.min(visits.results.length, 1000), coveredVisits: complete, unknownVisits: unknown, overflow: visits.results.length > 1000, meanActiveSeconds: complete ? totals.reduce((a, b) => a + b, 0) / complete : null, medianActiveSeconds: complete ? (totals[Math.floor((totals.length - 1) / 2)] + totals[Math.floor(totals.length / 2)]) / 2 : null, programmeMix: mix, internalSupportRequests: supportCounts.request ?? 0, helperAttestations: supportCounts.attest ?? 0, requesterAcknowledgedAssistance: supportCounts.ack ?? 0, careActiveWorkers: denominator, acknowledgedPer100CareActive: denominator && supportCounts.ack !== undefined ? 100 * supportCounts.ack / denominator : null, provenance: 'Client-reported foreground active time linked to saved local mutation receipts. No observed pilot savings claim.', coverage: 'Only current confirmed local visits with explicit origin and completion for every required stage. Missing/partial/imported histories and open downstream obligations remain unknown. Independent fixed-band counters are excluded.' });
+}
+// A scoped continuation read is actor-private even when the caller owns the org.
+export async function burdenOpenSessions(request) {
+    const url = new URL(request.url);
+    if ([...url.searchParams.keys()].some(k => k !== 'visitId') || url.searchParams.getAll('visitId').length !== 1 || !id.safeParse(url.searchParams.get('visitId')).success)
+        fail(422, 'Choose one current visit for work continuation.');
+    const visitId = url.searchParams.get('visitId'), u = await identity(), s = await loadFor(u, request.headers.get('x-saha-organisation'), async (org) => { const row = await db().prepare('SELECT person_id FROM visits WHERE org_id=? AND id=?').bind(org, visitId).first(); return row ? [row.person_id] : []; }), m = scope(s, u.userId), v = s.workspace.visits.find(x => x.id === visitId), p = s.workspace.people.find(x => x.id === v?.personId);
+    if (!v || !p || !normallyAllowed(m, p) || !['asha', 'clinician'].includes(m.role))
+        fail(403, 'Current scoped care continuation required.');
+    if (!s.operations?.workBurden?.enabled)
+        return json({ disabled: true, sessions: [] });
+    if (v.state !== 'draft' || v.voidedAt || v.supersededBy)
+        fail(409, 'Current draft continuation required.');
+    const rows = await db().prepare("SELECT a.session_id,a.stage,a.receipt_key,a.context FROM work_burden_samples a WHERE a.org_id=? AND a.actor_id=? AND a.visit_id=? AND a.phase='start' AND json_extract(a.context,'$.source')='encrypted-field' AND NOT EXISTS (SELECT 1 FROM work_burden_samples b WHERE b.org_id=a.org_id AND b.actor_id=a.actor_id AND b.visit_id=a.visit_id AND b.stage=a.stage AND b.session_id=a.session_id AND b.phase='complete') ORDER BY a.at,a.id LIMIT 33").bind(s.organisation.id, u.userId, v.id).all();
+    await recordAccess(db(), s, u, m, { action: 'viewActionPlan', subject: p.id, personId: p.id, detail: `Protected own encrypted-field work continuation; ${Math.min(rows.results.length, 32)} fixed stage references returned; no facts or raw timing.` });
+    const fresh = await loadFor(u, s.organisation.id, async () => [p.id]), fm = scope(fresh, u.userId), fp = fresh.workspace.people.find(x => x.id === p.id), fv = fresh.workspace.visits.find(x => x.id === v.id);
+    if (!fp || !fv || !normallyAllowed(fm, fp) || !['asha', 'clinician'].includes(fm.role) || fm.version !== m.version || fm.role !== m.role || !fresh.operations?.workBurden?.enabled || fresh.operations.workBurden.version !== s.operations.workBurden.version || fv.state !== 'draft' || fv.version !== v.version || fv.voidedAt || fv.supersededBy)
+        fail(403, 'Current enabled draft continuation required.');
+    return json({ organisationId: s.organisation.id, userId: u.userId, visitId: v.id, sessions: rows.results.slice(0, 32).map(row => ({ sessionId: row.session_id, stage: row.stage, originReceiptKey: row.receipt_key, taskId: JSON.parse(row.context).taskId ?? null, source: 'encrypted-field' })), overflow: rows.results.length > 32 });
+}

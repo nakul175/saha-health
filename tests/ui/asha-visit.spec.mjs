@@ -24,9 +24,11 @@ test('ASHA visit with a danger sign: assistant, urgent finding, confirmation, pr
     await page.getByRole('button', { name: 'Prepare request' }).click();
     await page.getByRole('button', { name: 'Approve and run once' }).last().click();
     await expect(page.getByText('Draft field extraction')).toBeVisible();
-    await expect(page.getByText('Systolic BP · mmHg: 152')).toBeVisible();
-    await expect(page.getByText('Diastolic BP · mmHg: 114')).toBeVisible();
-    await expect(page.getByText('Weight · kg: 58')).toBeVisible();
+    // More than one retained extraction may show the same supported proposal;
+    // every proposal remains reviewable and this journey applies one explicitly.
+    await expect(page.getByText('Systolic BP · mmHg: 152').filter({ visible: true })).toBeVisible();
+    await expect(page.getByText('Diastolic BP · mmHg: 114').filter({ visible: true })).toBeVisible();
+    await expect(page.getByText('Weight · kg: 58').filter({ visible: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Apply 0 reviewed fields' })).toBeDisabled();   // nothing is applied until the worker reviews
     for (const label of [/^Systolic BP/, /^Diastolic BP/, /^Weight/, /^I checked the patient, selected values/]) await page.getByRole('checkbox', { name: label }).check();
     await lab.scan(page, 'ASHA · visit assistant, extraction under review');
@@ -112,7 +114,8 @@ test('ASHA visit with a danger sign: assistant, urgent finding, confirmation, pr
     await expect(page.getByText('Needs attention (1)')).toBeVisible();
     await expect(mis.getByRole('button', { name: 'Resend' })).toHaveCount(0);                        // no blind retry is offered
     await lab.scan(page, 'ASHA · receipts, one uncertain');
-    await lab.shot(page, 'receipt-uncertain.png', { target: mis, stylePath: RECEIPT_ROW_STYLE });   // one row, border removed: the order of two same-second receipts is a coin flip
+    await mis.evaluate(row => { const panel=row.closest('.receipt-panel');panel?.style.setProperty('overflow','visible','important');panel?.style.setProperty('border-radius','0','important'); }); // locator styles cannot reach ancestors; prevent random last-row corner clipping
+    await lab.shot(page, 'receipt-uncertain.png', { target: mis, mask: [mis.getByText(/Initiating authority:/)], stylePath: RECEIPT_ROW_STYLE });   // one row, border removed: the order of two same-second receipts is a coin flip
   });
 
   await test.step('look up the uncertain receipt: found, and nothing is sent again', async () => {

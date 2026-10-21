@@ -38,15 +38,18 @@ export const ACCESS_PURPOSE_LABEL: Record<AccessPurpose, string> = {
 // may start only flows of those purposes. Lookups that resolve an uncertain outcome of a flow already started are
 // not listed: refusing them could leave an outcome unknown, and they send no new data.
 export const COMMAND_PURPOSE: Readonly<Record<string, AccessPurpose>> = {
+  setContactPreferences: 'care-coordination',
   preparePlan: 'programme-delivery', approvePlan: 'programme-delivery', executePlan: 'programme-delivery', sendSubmission: 'programme-delivery',
   requestDestinationEnrolment: 'programme-delivery', activateDestinationEnrolment: 'programme-delivery',
   prepareIdentifierCorrection: 'programme-delivery', approveIdentifierCorrection: 'programme-delivery', sendIdentifierCorrection: 'programme-delivery',
   prepareIncentiveClaim: 'programme-delivery', prepareIncentiveCorrection: 'programme-delivery',
-  prepareEhrPublish: 'care-coordination', executeEhrPublish: 'care-coordination', retrieveEhrDocument: 'care-coordination', importEhrDocument: 'care-coordination',
+  prepareEhrPublish: 'care-coordination', executeEhrPublish: 'care-coordination', retrieveEhrDocument: 'care-coordination', importEhrDocument: 'care-coordination', recordEhrConflictResolution: 'care-coordination',
   linkEhr: 'care-coordination', grantEhrPermission: 'care-coordination', abdmConsentRequest: 'care-coordination', abdmCareContextLink: 'care-coordination', abdmFetch: 'care-coordination',
+  createProgrammeReferrals: 'care-coordination',
   prepareAgent: 'ai-assistance', executeAgent: 'ai-assistance', applyAgent: 'ai-assistance',
   prepareAggregateReport: 'reporting', approveAggregateReport: 'reporting', sendAggregateReport: 'reporting',
   householdAddMember: 'household-sharing', householdVisitSchedule: 'household-sharing', householdVisitReschedule: 'household-sharing', householdVisitRecord:'household-sharing',householdVisitOutreach:'household-sharing', proxyGrant: 'household-sharing',
+  prioritisationCreate: 'care-coordination', prioritisationOverride: 'care-coordination', prioritisationConfirm: 'care-coordination', prioritisationCancel: 'care-coordination',
 };
 export function purposeRefusal(m: Member, purpose: AccessPurpose, grants?: readonly PurposeGrant[]): string | null {
   if (purposePermits(m, purpose, grants)) return null;
@@ -111,13 +114,13 @@ export function programmeScopeOf(s: OrgState, m: Member): Programme | null {
 }
 
 // Replay check: only an owner may manage purpose-limited access.
-export function authorizePurposeScope(s: OrgState, m: Member, c: any) {
-  if (!TYPES.has(c?.type)) return;
+export function authorizePurposeScope(s: OrgState, m: Member, c: unknown) {
+  if (!TYPES.has(String((c as {type?:unknown}|null)?.type??''))) return;
   if (!m.isOwner) fail(403, 'Only an organisation owner can manage a member’s programme or purpose scope.');
 }
 
 export function applyPurposeScope(s: OrgState, input: unknown, u: Actor, m: Member, now = new Date().toISOString()): any | null {
-  if (!TYPES.has((input as any)?.type)) return null;
+  if (!TYPES.has(String((input as {type?:unknown}|null)?.type??''))) return null;
   if (!m.isOwner) fail(403, 'Only an organisation owner can manage a member’s programme or purpose scope.');
   const parsed = purposeScopeSchema.safeParse(input);
   if (!parsed.success) fail(422, parsed.error.issues[0]?.message ?? 'Invalid access-purpose setting.');
@@ -126,7 +129,7 @@ export function applyPurposeScope(s: OrgState, input: unknown, u: Actor, m: Memb
   const ops = s.operations ?? { version: 0, maintenance: false, reason: '', updatedAt: '', incidents: [], rates: null };
   s.operations = ops;
   const list = ops.purposeGrants ?? [];
-  let g: PurposeGrant, detail: string, result: any;
+  let g: PurposeGrant, detail: string, result: Record<string, unknown>;
   if (c.type === 'setAccessPurpose') {
     const target = member(s, c.memberId);
     if (!target || target.status !== 'active') fail(422, 'Choose an active member.');

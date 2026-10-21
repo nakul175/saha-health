@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
 import { effective } from './abdm';
+import { activeGrant } from './household';
 import type { Actor } from './store';
 import type { Member, OrgState, Person, Role } from './types';
 
@@ -12,9 +13,15 @@ import type { Member, OrgState, Person, Role } from './types';
 export type ConsentPurpose='ai'|'exchange'|'contact';
 export type Disposition='stopped'|'in-flight'|'already-sent'|'kept';
 export type DownstreamKind='programme-plan'|'programme-submission'|'ehr-permission'|'ehr-publication'|'abdm-consent'|'abdm-care-context'|'abdm-received'|'ai-request'|'ai-result'|'outreach-message';
-export type DownstreamItem={kind:DownstreamKind;ref:string;before:string;after:string;disposition:Disposition;detail:string};
+export type ExternalDispositionOutcome='request-recorded'|'restriction-confirmed'|'erasure-confirmed'|'retention-confirmed'|'not-found'|'failed';
+export type ExternalDispositionRecord={id:string;outcome:ExternalDispositionOutcome;at:string;by:string;byName:string;role:Role;evidenceReference:string;note:string};
+export type DownstreamItem={kind:DownstreamKind;ref:string;before:string;after:string;disposition:Disposition;detail:string;external?:boolean;externalDisposition?:ExternalDispositionRecord[]};
 export type ConsentChannel='in-person'|'phone'|'written'|'switch'|'contact-preferences';
 export type ConsentEvent={id:string;purpose:ConsentPurpose;action:'granted'|'withdrawn';at:string;by:string;byName:string;role:Role;channel:ConsentChannel;reference:string;reason:string;fromVersion:number;toVersion:number;items:DownstreamItem[];omitted?:number};
+export const CONSENT_SCOPES=['ai-assistance','optional-audio-recording','external-record-sharing'] as const;
+export type ConsentScope=typeof CONSENT_SCOPES[number];
+export type ConsentNotice={id:string;purpose:'ai'|'exchange';language:'en'|'hi';version:string;title:string;body:string;scopes:ConsentScope[];expiryRequired:boolean;proposedBy:string;proposedAt:string;review?:{decision:'approved'|'changes';by:string;at:string;reference:string;note:string}};
+export type ConsentDecision={id:string;purpose:'ai'|'exchange';noticeId:string;noticeVersion:string;language:'en'|'hi';scopes:ConsentScope[];decision:'granted'|'declined';authority:'self'|'representative';representativePersonId?:string;proxyGrantId?:string;expiresAt?:string;at:string;by:string;channel:'in-person'|'phone'|'written'};
 // Bounds on the copy kept on the patient record. Every event is also in the audit chain, and every
 // patient change writes a record revision holding the full patient document at that version.
 export const MAX_ITEMS=100,MAX_HISTORY=100;
@@ -22,17 +29,32 @@ export const PURPOSE_LABEL:Record<ConsentPurpose,string>={ai:'Optional AI assist
 const id=z.string().trim().min(1).max(200);
 export const consentSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('withdrawConsent'),personId:id,version:z.number().int().positive(),purpose:z.enum(['ai','exchange','contact']),channel:z.enum(['in-person','phone','written']),reference:z.string().trim().min(3,'Give a reference of at least 3 characters.').max(200),reason:z.string().trim().min(10,'Write at least 10 characters.').max(1000)}).strict(),
+ z.object({type:z.literal('consentNoticePropose'),language:z.enum(['en','hi']),version:z.string().trim().regex(/^v[1-9][0-9]{0,5}$/),purpose:z.enum(['ai','exchange']),title:z.string().trim().min(5).max(160),body:z.string().trim().min(30).max(4000),scopes:z.array(z.enum(CONSENT_SCOPES)).min(1).max(CONSENT_SCOPES.length).refine(x=>new Set(x).size===x.length,'List each scope once.'),expiryRequired:z.boolean()}).strict(),
+ z.object({type:z.literal('consentNoticeReview'),noticeId:id,decision:z.enum(['approved','changes']),reference:z.string().trim().min(3).max(200),note:z.string().trim().min(10).max(1000)}).strict(),
+ z.object({type:z.literal('recordConsentDecision'),personId:id,version:z.number().int().positive(),noticeId:id,decision:z.enum(['granted','declined']),authority:z.enum(['self','representative']),representativePersonId:id.optional(),proxyGrantId:id.optional(),expiresAt:z.string().datetime().nullable(),channel:z.enum(['in-person','phone','written'])}).strict(),
+ z.object({type:z.literal('recordWithdrawalDisposition'),personId:id,version:z.number().int().positive(),eventId:id,itemKind:z.enum(['programme-submission','ehr-publication','ai-request','outreach-message']),itemRef:id,outcome:z.enum(['request-recorded','restriction-confirmed','erasure-confirmed','retention-confirmed','not-found','failed']),evidenceReference:z.string().trim().min(3,'Give an evidence reference of at least 3 characters.').max(200),note:z.string().trim().min(10,'Describe the destination response or unresolved action in at least 10 characters.').max(1000)}).strict(),
 ]);
 // Same shape as the core setConsent command; this module handles it so the switch cannot skip the downstream stop.
 const setConsentSchema=z.object({type:z.enum(['setConsent']),personId:z.string().trim().min(1).max(200),purpose:z.enum(['ai','exchange']),active:z.boolean(),version:z.number().int().positive()});
 const care=(m:Member)=>m.status==='active'&&['asha','clinician'].includes(m.role);
 export function authorizeConsent(s:OrgState,m:Member,c:any){
- if(c?.type!=='withdrawConsent'&&c?.type!=='setConsent')return;
+ if(!['withdrawConsent','setConsent','consentNoticePropose','consentNoticeReview','recordConsentDecision','recordWithdrawalDisposition'].includes(c?.type))return;
+ if(c.type==='consentNoticePropose'){if(!m.isOwner)fail(403,'Only an organisation owner can propose a consent notice.');return;}
+ if(c.type==='consentNoticeReview'){if(!m.isOwner&&m.role!=='admin')fail(403,'An owner or administrator must review consent notices from their own account.');return;}
  if(!care(m))fail(403,'A care role with access to this patient records permission changes.');
  if(typeof c.personId==='string')person(s.workspace,c.personId);
 }
-export function granted(p:Person,purpose:ConsentPurpose){return purpose==='ai'?p.aiConsent:purpose==='exchange'?p.exchangeConsent:!!p.contactPreferences?.permission;}
-const version=(p:Person,purpose:ConsentPurpose)=>purpose==='contact'?p.contactPreferences?.version??0:p.consentVersion;
+export const approvedNotices=(s:OrgState,language?:'en'|'hi')=>{
+ const current=new Map<string,ConsentNotice>();
+ for(const n of s.operations?.consentNotices??[])if(n.review?.decision==='approved'&&(!language||n.language===language)){
+  const key=`${n.purpose}:${n.language}`,existing=current.get(key),number=(x:ConsentNotice)=>Number(x.version.slice(1));
+  if(!existing||number(n)>number(existing))current.set(key,n);
+ }
+ return [...current.values()];
+};
+export const consentNoticesFor=(s:OrgState,m:Member)=>m.isOwner||m.role==='admin'?(s.operations?.consentNotices??[]):approvedNotices(s,m.language);
+export function granted(p:Person,purpose:ConsentPurpose){return purpose==='ai'?p.aiConsent:purpose==='exchange'?p.exchangeConsent:[...(p.contactPreferenceRecords??[]),...(p.contactPreferences?[p.contactPreferences]:[])].some(x=>x.permission);}
+const version=(p:Person,purpose:ConsentPurpose)=>purpose==='contact'?Math.max(0,...(p.contactPreferenceRecords??[]).map(x=>x.version),p.contactPreferences?.version??0):p.consentVersion;
 export function recordConsent(p:Person,e:Omit<ConsentEvent,'id'>){
  const items=e.items.slice(0,MAX_ITEMS),omitted=e.items.length-items.length;
  const event:ConsentEvent={id:uuid(),...e,items,...(omitted?{omitted}:{})};
@@ -69,8 +91,8 @@ function ai(s:OrgState,p:Person,now:string,items:DownstreamItem[]){
  for(const v of s.workspace.visits){
   if(v.personId!==p.id)continue;
   for(const r of v.agentRuns??[]){
-   if(r.status==='pending'||r.status==='review'){const before=r.status,returned=r.finishedAt;r.status='cancelled';r.finishedAt=now;r.message=before==='pending'?'Stopped: AI permission withdrawn before the request was sent. Nothing was sent to a provider.':'Stopped: AI permission withdrawn. The returned output can no longer be applied; the request already sent is not recalled.';r.steps.filter(x=>x.state==='pending').forEach(x=>x.state='blocked');items.push({kind:'ai-request',ref:r.id,before,after:'cancelled',disposition:before==='pending'?'stopped':'already-sent',detail:before==='pending'?`${r.provider.name}: unsent request stopped. Nothing was sent.`:`${r.provider.name}: output from ${day(returned)} withdrawn from review and cannot be applied. ${r.provider.mode==='local'?'Local rules only; no data left Saha.':'The provider already received the input; it is not recalled.'}`});}
-   else if(r.status==='running')items.push({kind:'ai-request',ref:r.id,before:'running',after:'running',disposition:'in-flight',detail:`${r.provider.name}: request in progress. Its output will be withheld on return because the permission changed.`});
+   if(r.status==='pending'||r.status==='review'){const before=r.status,returned=r.finishedAt;r.status='cancelled';r.finishedAt=now;r.message=before==='pending'?'Stopped: AI permission withdrawn before the request was sent. Nothing was sent to a provider.':'Stopped: AI permission withdrawn. The returned output can no longer be applied; the request already sent is not recalled.';r.steps.filter(x=>x.state==='pending').forEach(x=>x.state='blocked');items.push({kind:'ai-request',ref:r.id,before,after:'cancelled',disposition:before==='pending'?'stopped':'already-sent',external:r.provider.mode!=='local',detail:before==='pending'?`${r.provider.name}: unsent request stopped. Nothing was sent.`:`${r.provider.name}: output from ${day(returned)} withdrawn from review and cannot be applied. ${r.provider.mode==='local'?'Local rules only; no data left Saha.':'The provider already received the input; it is not recalled.'}`});}
+   else if(r.status==='running')items.push({kind:'ai-request',ref:r.id,before:'running',after:'running',disposition:'in-flight',external:r.provider.mode!=='local',detail:`${r.provider.name}: request in progress. Its output will be withheld on return because the permission changed.`});
   }
   for(const r of v.aiResults)items.push({kind:'ai-result',ref:r.id,before:r.reviewed?'reviewed':'unreviewed',after:r.reviewed?'reviewed':'unreviewed',disposition:'kept',detail:`${r.providerName} output from ${day(r.createdAt)} stays with the visit as a record of what was shown. ${r.mode==='demo'?'Demo output; no data left Saha.':'The provider already received the input; it is not recalled.'}`});
  }
@@ -88,25 +110,75 @@ const summary=(items:DownstreamItem[])=>{const n=(d:Disposition)=>items.filter(i
 // Withdraws one permission and applies its downstream effects. Returns the recorded event.
 function withdraw(s:OrgState,p:Person,purpose:ConsentPurpose,u:Actor,m:Member,now:string,channel:ConsentChannel,reference:string,reason:string){
  const from=version(p,purpose),items:DownstreamItem[]=[];
- if(purpose==='contact'){const c=p.contactPreferences;if(c){c.permission=false;c.version++;c.updatedAt=now;c.by=u.userId;}items.push(...contactWithdrawalItems(s,p,now,'Contact permission withdrawn.'));}
+ if(purpose==='contact'){const records=[...(p.contactPreferenceRecords??[])];if(p.contactPreferences&&!records.includes(p.contactPreferences))records.push(p.contactPreferences);for(const c of records){if(!c.permission)continue;c.permission=false;c.version++;c.updatedAt=now;c.by=u.userId;}items.push(...contactWithdrawalItems(s,p,now,'Contact permission withdrawn.'));}
  else {if(purpose==='ai')p.aiConsent=false;else p.exchangeConsent=false;p.consentVersion++;(purpose==='ai'?ai:exchange)(s,p,now,items);}
  return recordConsent(p,{purpose,action:'withdrawn',at:now,by:u.userId,byName:u.displayName,role:m.role,channel,reference,reason,fromVersion:from,toVersion:version(p,purpose),items});
 }
 export function applyConsent(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
- const t=(input as any)?.type;if(t!=='withdrawConsent'&&t!=='setConsent')return null;
- authorizeConsent(s,m,input);const w=s.workspace;let e:ConsentEvent,action=t;
- if(t==='withdrawConsent'){
-  const parsed=consentSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid permission withdrawal.');const c=parsed.data,p=person(w,c.personId);
+ const t=(input as any)?.type;if(!['withdrawConsent','setConsent','consentNoticePropose','consentNoticeReview','recordConsentDecision','recordWithdrawalDisposition'].includes(t))return null;
+ authorizeConsent(s,m,input);const w=s.workspace;
+ if(t==='consentNoticePropose'){
+  const parsed=consentSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid consent notice.');const c=parsed.data;if(c.type!=='consentNoticePropose')return null;
+  if(c.purpose==='ai'&&!c.scopes.includes('ai-assistance'))fail(422,'An AI notice must name AI assistance in its scope.');
+  if(c.purpose==='exchange'&&!c.scopes.includes('external-record-sharing'))fail(422,'A sharing notice must name external record sharing in its scope.');
+  if(c.purpose==='ai'&&c.scopes.includes('external-record-sharing'))fail(422,'External record sharing requires its own notice and decision.');
+  if(c.purpose==='exchange'&&c.scopes.some(x=>x!=='external-record-sharing'))fail(422,'AI assistance and recording require their own notice and decision.');
+  const ops=s.operations??={version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null},notices=ops.consentNotices??=[];
+  if(notices.length>=100)fail(422,'Consent notice history limit reached.');
+  if(notices.some(n=>n.purpose===c.purpose&&n.language===c.language&&n.version===c.version))fail(409,'This notice purpose, language and version already exists.');
+  const notice:ConsentNotice={id:uuid(),purpose:c.purpose,language:c.language,version:c.version,title:c.title,body:c.body,scopes:c.scopes,expiryRequired:c.expiryRequired,proposedBy:u.userId,proposedAt:now};notices.push(notice);ops.consentNotices=notices;ops.version++;ops.updatedAt=now;
+  w.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:t,subject:notice.id,detail:`Consent notice ${notice.version} proposed for ${notice.purpose}, ${notice.language}; scopes ${notice.scopes.join(', ')}. It cannot be used until a different authorised account reviews it.`});
+  return {noticeId:notice.id,status:'review-required'};
+ }
+ if(t==='consentNoticeReview'){
+  const parsed=consentSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid consent notice review.');const c=parsed.data;if(c.type!=='consentNoticeReview')return null;
+  const ops=s.operations??={version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null},notice=(ops.consentNotices??[]).find(n=>n.id===c.noticeId);if(!notice)fail(404,'Consent notice not found.');if(notice.review)fail(409,'This notice already has a retained review. Propose a new version for changes.');if(notice.proposedBy===u.userId)fail(403,'The notice author cannot review their own notice.');
+  notice.review={decision:c.decision,by:u.userId,at:now,reference:c.reference,note:c.note};ops.version++;ops.updatedAt=now;w.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:t,subject:notice.id,detail:`Consent notice ${notice.version} (${notice.language}) review recorded as ${c.decision}; reference ${c.reference}. This application review does not replace formal privacy, language or clinical acceptance.`});return {noticeId:notice.id,status:c.decision};
+ }
+ let e:ConsentEvent,action=t;
+ if(t==='recordWithdrawalDisposition'){
+  const parsed=consentSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid downstream disposition record.');const c=parsed.data;
+  if(c.type!=='recordWithdrawalDisposition')fail(422,'Invalid downstream disposition record.');const p=person(w,c.personId);
+  if(p.version!==c.version)fail(409,'This patient record has changed. Refresh before recording a destination outcome.');
+  e=(p.consentHistory??[]).find(x=>x.id===c.eventId&&x.action==='withdrawn')!;if(!e)fail(404,'Withdrawal record not found.');
+  const item=e.items.find(x=>x.kind===c.itemKind&&x.ref===c.itemRef);if(!item)fail(404,'Downstream item not found in this withdrawal.');
+  if(!['in-flight','already-sent'].includes(item.disposition))fail(409,'Only an external copy or uncertain external attempt needs a downstream disposition.');
+  if(item.kind==='ai-request'&&item.external!==true)fail(409,'This assistant ran inside Saha; no external copy needs a destination disposition.');
+  const records=item.externalDisposition??=[];if(records.length>=20)fail(422,'This downstream item has reached the 20-entry evidence limit; preserve the existing history and open a separate governed review.');
+  const record:ExternalDispositionRecord={id:uuid(),outcome:c.outcome,at:now,by:u.userId,byName:u.displayName,role:m.role,evidenceReference:c.evidenceReference,note:c.note};records.push(record);item.externalDisposition=records;
+  w.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:t,subject:c.personId,personId:c.personId,detail:`Withdrawal ${c.eventId} downstream ${c.itemKind} ${c.itemRef}: ${c.outcome}; evidence ${c.evidenceReference}. This records the reported destination disposition and does not claim Saha erased an external record.`});
+  return {eventId:e.id,itemKind:item.kind,itemRef:item.ref,outcome:record.outcome,dispositionId:record.id,history:records.length};
+ } else if(t==='withdrawConsent'){
+  const parsed=consentSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid permission withdrawal.');const c=parsed.data;
+  if(c.type!=='withdrawConsent')fail(422,'Invalid permission withdrawal.');const p=person(w,c.personId);
   if(p.version!==c.version)fail(409,'This patient record has changed. Refresh before recording the withdrawal.');
   if(!granted(p,c.purpose))fail(409,`${PURPOSE_LABEL[c.purpose]} is not currently permitted, so there is nothing to withdraw.`);
-  if(c.purpose==='contact'&&!p.contactPreferences)fail(409,'No contact preferences are recorded for this patient.');
+  if(c.purpose==='contact'&&!p.contactPreferences&&!(p.contactPreferenceRecords?.length))fail(409,'No contact preferences are recorded for this patient.');
   e=withdraw(s,p,c.purpose,u,m,now,c.channel,c.reference,c.reason);
- } else {
+ } else if(t==='setConsent'){
   const parsed=setConsentSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data,p=person(w,c.personId);
   if(p.version!==c.version)fail(409,'This patient record has changed. Refresh before updating permission.');
+  if((p.consentDecisions??[]).some(d=>d.purpose===c.purpose))fail(409,'Use a current reviewed notice to change this scoped permission.');
   if(c.active){const from=p.consentVersion;if(c.purpose==='ai')p.aiConsent=true;else p.exchangeConsent=true;p.consentVersion++;const items:DownstreamItem[]=[];plans(s,p,items);e=recordConsent(p,{purpose:c.purpose,action:'granted',at:now,by:u.userId,byName:u.displayName,role:m.role,channel:'switch',reference:'',reason:'',fromVersion:from,toVersion:p.consentVersion,items});}
   else e=withdraw(s,p,c.purpose,u,m,now,'switch','','Recorded with the permission switch.');
   action='setConsent';
+ } else {
+  const parsed=consentSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid consent decision.');const c=parsed.data;if(c.type!=='recordConsentDecision')return null;const p=person(w,c.personId);
+  if(p.version!==c.version)fail(409,'This patient record has changed. Refresh before recording the decision.');
+  const notice=(s.operations?.consentNotices??[]).find(n=>n.id===c.noticeId&&n.review?.decision==='approved');if(!notice||!approvedNotices(s,notice.language).some(n=>n.id===notice.id))fail(409,'Use a current independently reviewed notice.');
+  if(notice.language!==m.language)fail(409,'Use the current reviewed notice in the patient-facing language for this care interaction.');
+  if(c.authority==='self'&&(c.representativePersonId||c.proxyGrantId))fail(422,'A self decision cannot name representative authority.');
+  if(c.authority==='representative'){
+   if(!c.representativePersonId||!c.proxyGrantId)fail(422,'Choose the authorised representative and current proxy grant.');
+   person(w,c.representativePersonId);const grant=(p.proxies??[]).find(g=>g.id===c.proxyGrantId&&g.proxyPersonId===c.representativePersonId&&g.purposes.includes('care-coordination')&&activeGrant(g,now));if(!grant)fail(409,'The representative needs a current care-coordination proxy grant for this person.');
+  }
+  if(c.decision==='granted'&&notice.expiryRequired&&!c.expiresAt)fail(422,'This notice requires a decision expiry.');
+  if(c.expiresAt){const days=(Date.parse(c.expiresAt)-Date.parse(now))/86400000;if(days<=0||days>365)fail(422,'Set a future expiry within 365 days.');}
+  const decisions=p.consentDecisions??=[];if(decisions.length>=100)fail(422,'Consent decision history limit reached.');
+  const decision:ConsentDecision={id:uuid(),purpose:notice.purpose,noticeId:notice.id,noticeVersion:notice.version,language:notice.language,scopes:[...notice.scopes],decision:c.decision,authority:c.authority,...(c.representativePersonId?{representativePersonId:c.representativePersonId}:{}),...(c.proxyGrantId?{proxyGrantId:c.proxyGrantId}:{}),...(c.expiresAt?{expiresAt:c.expiresAt}:{}),at:now,by:u.userId,channel:c.channel};decisions.push(decision);p.consentDecisions=decisions;
+  if(c.decision==='declined')e=withdraw(s,p,notice.purpose,u,m,now,c.channel,`${notice.id}@${notice.version}`,`Optional use declined after notice in ${notice.language}; ordinary care remains available.`);
+  else{const from=p.consentVersion;if(notice.purpose==='ai')p.aiConsent=true;else p.exchangeConsent=true;p.consentVersion++;const items:DownstreamItem[]=[];plans(s,p,items);e=recordConsent(p,{purpose:notice.purpose,action:'granted',at:now,by:u.userId,byName:u.displayName,role:m.role,channel:c.channel,reference:`${notice.id}@${notice.version}`,reason:`Scoped ${notice.purpose} decision recorded from reviewed ${notice.language} notice.`,fromVersion:from,toVersion:p.consentVersion,items});}
+  action='recordConsentDecision';
  }
  const label=PURPOSE_LABEL[e.purpose];
  w.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action,subject:(input as any).personId,personId:(input as any).personId,detail:e.action==='granted'?`${label} permission recorded (version ${e.fromVersion} to ${e.toVersion}).`:`${label} permission withdrawn (version ${e.fromVersion} to ${e.toVersion}${e.channel!=='switch'?`, ${e.channel}, reference ${e.reference}`:''}). ${summary(e.items)} Already shared records are not recalled.`});

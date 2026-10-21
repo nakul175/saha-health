@@ -1,0 +1,95 @@
+{
+  "story": "SAHA-029",
+  "linear": "APL-52",
+  "requirement": "BR-DATA-10",
+  "atUtc": "2026-10-20T10:47:11Z",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "frozenContract": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-52.md",
+    "sha256": "d6157c61ecd4026bb598255c4b6ef473b42ad92e6fc90d7703e2bb230265f03f"
+  },
+  "applicationSource": {
+    "lib/saha/selective-reuse.ts": "86ff602112c96174d7c93bb42d66908d219bcea76b1c7228def93aa2215837ef",
+    "lib/saha/selective-reuse-server.ts": "f07e0fc97b5798bef92d4cd5fb78adf87eb930e4ad22edd53375883eab63b1f8",
+    "lib/saha/selective-reuse-read-guard.ts": "c27033d36dbc1114d0dc52697ee85200c52de8b5042af11a96ebbb1c06f8bdbd",
+    "app/api/selective-reuse/route.ts": "100025aaf65bf5baa3707734ef780e70f6c6183bb029bf2cce7da353281805c7",
+    "app/selective-reuse/screen.tsx": "20a48d433693f33d16c313f60b917c8fffb02a6cf7e05d815267db26346d3e21",
+    "lib/saha/mis-execution.ts": "baf89eddd9df9a02d07487875921e91ada73861a1464fc5cb350071f6ca22723",
+    "lib/saha/service-dispatch.ts": "e5b56fbc33c47c66d63c1cef3ec59dba28f8b0f027839b5b30a873ca5b9bca75",
+    "lib/saha/purpose-scope.ts": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+    "tests/selective-reuse-contract.mjs": "670006cfba24560e494e16c9162f558f8812524e5e2a95da1772891357f0553b",
+    "tests/smoke/selective-reuse-browser.mjs": "b253020c5172d1195bd41b13fe7c9090bc78204fa3ce2b196eb4352952857d9a",
+    "tests/lib/selective-reuse-browser-driver.mjs": "5f3fa20c7c453eff046ebf28af3bbcfc343d03355c28c7ae942600e5a681da3f"
+  },
+  "checks": {
+    "selectiveReuseContract": {
+      "passed": 46,
+      "failed": 0,
+      "skipped": 0,
+      "path": "selective-reuse-contract.json"
+    },
+    "ownedNativeBrowser": {
+      "passed": 60,
+      "failed": 0,
+      "skipped": 0,
+      "path": "native-browser-result.json",
+      "externalRequests": 0,
+      "runtimeErrors": 0
+    },
+    "serviceDispatchContract": {
+      "passed": 100,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typecheck": {
+      "exitCode": 0
+    },
+    "productionBuild": {
+      "exitCode": 0
+    },
+    "documentation": {
+      "status": "passed",
+      "integrityChecks": {
+        "generatedFiles": 38,
+        "requirements": 176,
+        "formalAccepted": 0,
+        "testCases": 364,
+        "formalCatalogueCasesRun": 0
+      }
+    }
+  },
+  "retainedFailures": [
+    {
+      "check": "purpose-scope-contract.mjs",
+      "exitCode": 1,
+      "classification": "pre-existing harness module list omits lib/saha/installed-transition-authority.ts",
+      "message": "ERR_MODULE_NOT_FOUND .purpose-scope-*/installed-transition-authority.js"
+    },
+    {
+      "check": "mis-contract.mjs",
+      "exitCode": 1,
+      "classification": "pre-existing harness module list omits lib/saha/installed-transition-authority.ts",
+      "message": "ERR_MODULE_NOT_FOUND .mis-contract-*/installed-transition-authority.js"
+    }
+  ],
+  "codingAssessment": {
+    "applicationCodeGapIdentified": false,
+    "localCodingComplete": true,
+    "basis": "Destination-specific field mapping; purpose-specific refusal; original actor/record/destination/consent/mapping/receipt rechecks; invalid or malformed policy source refuses without payload; dispatch-time purpose withdrawal leaves queued submission unchanged and records zero egress.",
+    "separateOpenGates": [
+      "independent source review",
+      "exact-source CI",
+      "formal frontline and programme-data-owner acceptance",
+      "approved policy vocabulary/content",
+      "merge",
+      "observed deployed synthetic journey"
+    ]
+  },
+  "limits": "Synthetic local engineering evidence only. No clinical/policy approval, real provider, real patient, merge, deployment or formal acceptance.",
+  "sha256": {
+    "selective-reuse-contract.json": "df82264362457cd12b9b2e32cfc79c9f4d111bd4955cbd13018eac8bba0d6151",
+    "native-browser-result.json": "e3918e7680cfbb63a452e6fe6818139979daccf353247159b6de19b6368c5c02",
+    "native-browser-axe.json": "c6c5c5ddfb7d7a5198b30c5bc2f9ee0ebb6156dfabc193837c10fd97251ed3ca",
+    "native-browser-cleanup.json": "f8eed3904d388faad6f85dfdd5360e6deb72bbc342f7e3be20ea140738e73e69"
+  }
+}

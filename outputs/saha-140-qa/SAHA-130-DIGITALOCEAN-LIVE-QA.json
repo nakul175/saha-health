@@ -1,0 +1,26 @@
+{
+  "bucket": "saha-health-records",
+  "checks": {
+    "cleanup_exact_v2_succeeded": true,
+    "delete_receipt_matches_requested_v1": true,
+    "deleted_v1_not_retrievable": true,
+    "exact_v1_delete_succeeded": true,
+    "latest_before_delete_is_v2": true,
+    "synthetic_key_absent_after_cleanup": true,
+    "two_distinct_versions_created": true,
+    "v2_survived_v1_delete": true
+  },
+  "cleanup_receipt_version_sha256": "542b8526c25755f3a4e6ab11cdb5fc525ebf71d6be307fc18a964f685ac0a786",
+  "completed_at": "2026-10-21T05:53:13.630789+00:00",
+  "credential_material_recorded": false,
+  "delete_receipt_version_sha256": "d2df143735275f8acbea30f0e5ad56eb40e620b378344f2061df0bb538928019",
+  "endpoint": "https://saha-health-records.sgp1.digitaloceanspaces.com",
+  "object_key_sha256": "30577095c9f2cc25cf7486f08f9ae7c2aba9bf2deb8a7418ac5379c604ed3a99",
+  "provider": "DigitalOcean Spaces",
+  "region": "sgp1",
+  "story": "SAHA-130",
+  "synthetic_only": true,
+  "verdict": "QA_PASS",
+  "version_1_sha256": "d2df143735275f8acbea30f0e5ad56eb40e620b378344f2061df0bb538928019",
+  "version_2_sha256": "542b8526c25755f3a4e6ab11cdb5fc525ebf71d6be307fc18a964f685ac0a786"
+}

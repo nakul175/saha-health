@@ -10,7 +10,7 @@ const dir=mkdtempSync(join(process.cwd(),'.adapter-operations-'));let passed=0;c
 const check=async(name,f)=>{try{await f();passed++;}catch(e){failures.push(name+': '+(e?.message??e));}};
 const rejects=async(f,status,re)=>{let err;try{await f();}catch(e){err=e;}assert.ok(err,'expected a refusal');assert.equal(err.status,status,err.message);if(re)assert.match(err.message,re);return err;};
 try{
- for(const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'service-dispatch','core', 'delegation', 'ehr', 'ehr-execution','ehr-probe', 'ehr-provider', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'mis-execution', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types', 'visit-signoff']){writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));}
+ for(const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'service-dispatch','core', 'delegation', 'ehr', 'ehr-execution','ehr-probe', 'ehr-provider', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'installed-transition-authority', 'media', 'merge', 'mis', 'mis-execution', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'plan-dependency-state', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types', 'verification-disputes', 'visit-signoff']){writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));}
  // Injectable persistence with a hook that runs after each commit (used to withdraw an operation between the
  // checkpoint and the external request). The HTTP suite exercises the real D1 persistence.
  writeFileSync(join(dir,'store.js'),`import {AppError} from './core.js'; export let saved;let hook=null;export function setup(s,h=null){saved=structuredClone(s);hook=h}export async function readState(){return structuredClone(saved)}export function scope(s,id){const m=s.members.find(m=>m.userId===id);if(!m||m.status==='suspended')throw new AppError(403,'Member revoked');return m}export async function persist(db,before,after,u,c){if(before.organisation.revision!==saved.organisation.revision)throw new AppError(409,'CAS conflict');saved=structuredClone(after);saved.organisation.revision++;if(hook)hook(saved,c);}`);
@@ -43,6 +43,9 @@ try{
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['create','aggregate'],aggregateOnly:true,reason:'Aggregate only'}).success,false);
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['lookup'],aggregateOnly:true,reason:'Aggregate only'}).success,false);
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['aggregate','lookup'],aggregateOnly:true,reason:'Aggregate only'}).success,true);
+  assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['aggregate','lookup'],aggregateOnly:true,aggregateFields:['contract','blocks','value'],reason:'Destination contract'}).success,true);
+  assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['aggregate'],aggregateOnly:true,aggregateFields:['value','value'],reason:'Duplicate fields'}).success,false);
+  assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['aggregate'],aggregateOnly:true,aggregateFields:['personId'],reason:'Prohibited field'}).success,false);
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['lookup','lookup'],aggregateOnly:false,reason:'Duplicate'}).success,false);
   assert.equal(s.safeParse({type:'setAdapterOperations',integrationId:'m',version:0,allowed:['read'],aggregateOnly:false,reason:'Unknown op'}).success,false);
  });
@@ -62,6 +65,10 @@ try{
   A.applyAdapterOperations(s,{...cmd,version:1,allowed:['aggregate','lookup'],aggregateOnly:true},owner,owner,fail,uuid);
   assert.equal(i.operations.version,2);assert.equal(i.operations.aggregateOnly,true);assert.deepEqual(i.operations.history.map(h=>[h.version,h.allowed]),[[1,['create','lookup']]]);
   assert.match(s.workspace.audit.at(-1).detail,/aggregate reports only/);
+  const fields=['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','blocks','team','indicator','unit','withheld','cells','value','suppressed'];
+  const configured=A.applyAdapterOperations(s,{...cmd,version:2,allowed:['aggregate','lookup'],aggregateOnly:true,aggregateFields:fields,reason:'District count contract'},owner,owner,fail,uuid);
+  assert.deepEqual(configured.aggregateFields,fields);assert.deepEqual(A.aggregateFieldsOf(i),{version:3,fields,explicit:true});
+  assert.match(s.workspace.audit.at(-1).detail,/authorised aggregate fields: contract, environment/);
   assert.equal(JSON.stringify(s).includes('SAHA_'),false);
  });
 
@@ -99,7 +106,7 @@ try{
   store.setup(s,(saved,c)=>{if(c.type==='sendSubmission'&&!withdrawn){withdrawn=true;saved.workspace.integrations[0].operations=setting(['update','lookup']);}});calls=0;
   const r=await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k4','h',env,transport);
   const sub=store.saved.workspace.submissions[0];
-  assert.equal(calls,0,'no request after the withdrawal');assert.equal(r.refused,true);assert.equal(sub.state,'cancelled');assert.equal(sub.attempts,0,'reserved attempt released');
+  assert.equal(calls,0,'no request after the withdrawal');assert.equal(r.refused,true);assert.equal(sub.state,'cancelled');assert.equal(sub.attempts,0,'reserved attempt released');assert.deepEqual(sub.attemptLog,[],'a checkpoint stopped before transport is not recorded as an attempted external write');
   assert.deepEqual([sub.refusal.operation,sub.refusal.stage,sub.refusal.settingVersion],['create','checkpoint',1]);
   assert.deepEqual(sub.delivery.events.map(e=>e.state),['sending','cancelled']);assert.equal(sub.delivery.events[1].ref.command,'adapterOperationRefused');assert.match(sub.delivery.events[1].detail,/withdrawn after the checkpoint and before the request, so nothing was sent/);
   // Replaying the original command key finds a closed delivery and sends nothing.
@@ -107,7 +114,7 @@ try{
  });
  await check('MIS default setting still sends',async()=>{
   const s=misState('queued');store.setup(s);calls=0;
-  const r=await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k5','h',env,transport);assert.equal(calls,1);assert.equal(r.state,'accepted');assert.equal(store.saved.workspace.submissions[0].refusal,undefined);
+  const r=await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k5','h',env,transport),sub=store.saved.workspace.submissions[0];assert.equal(calls,1);assert.equal(r.state,'accepted');assert.equal(sub.refusal,undefined);assert.deepEqual({destination:sub.attemptLog[0].destination.name,version:sub.attemptLog[0].submittedVersion,actor:sub.attemptLog[0].initiatingAuthority.actorId,status:sub.attemptLog[0].status,receipt:sub.attemptLog[0].receipt},{destination:'Programme MIS',version:1,actor:'worker',status:'accepted',receipt:'PARTNER-1'});
  });
  await check('MIS receipt lookup refused before and inside the checkpoint',async()=>{
   const s=misState('uncertain',setting(['create','update']));store.setup(s);calls=0;
@@ -121,14 +128,14 @@ try{
  await check('exception queue row',async()=>{
   const s=misState('queued',setting(['lookup']));store.setup(s);await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k8','h',env,transport);
   const st=await store.readState();st.workspace.referrals=[];st.governance={safety:[]};const q=exceptionQueue(st,owner);
-  const row=q.items.find(x=>x.kind==='operation-refused');assert.ok(row,'row present');assert.equal(q.rulesVersion,'1.3.0');
+  const row=q.items.find(x=>x.kind==='operation-refused');assert.ok(row,'row present');assert.equal(q.rulesVersion,'1.4.0');
   assert.equal(row.id,'operation-refused:submission:sub');assert.match(row.what,/Programme MIS: not sent, create not permitted \(setting version 1\)/);assert.deepEqual(row.trace,{query:'submission',id:'sub'});
   st.workspace.submissions.push({...st.workspace.submissions[0],id:'sub2',state:'accepted',refusal:undefined,createdAt:new Date(Date.now()+1000).toISOString()});
   assert.equal(exceptionQueue(st,owner).items.some(x=>x.kind==='operation-refused'),false,'a later submission resolves it');
  });
 
  // 6. EHR publication: refused at preparation, closed as not sent before the checkpoint and inside it.
- const ehrI={id:'ehr1',kind:'ehr',mode:'http',name:'District EHR',status:'active',version:1,endpoint:'https://ehr.example/fhir',credentialBinding:'SAHA_EHR_TEST',ehr:{read:true,write:true}};
+ const ehrI={id:'ehr1',kind:'ehr',mode:'http',name:'District EHR',status:'active',version:1,endpoint:'https://ehr.example/fhir',credentialBinding:'SAHA_EHR_TEST',ehr:{attribution:{facility:{system:'HFR',identifier:'HFR-SYNTH',localFacilityId:null,verifiedAt:'2020-01-01T00:00:00.000Z',expiresAt:'2099-01-01T00:00:00.000Z'},professional:{system:'HPR',identifier:'HPR-SYNTH',userId:'worker',role:'clinician',verifiedAt:'2020-01-01T00:00:00.000Z',expiresAt:'2099-01-01T00:00:00.000Z'},deploymentOrganisationId:'org',version:1,setBy:'fixture',setAt:'2020-01-01T00:00:00.000Z',reason:'Synthetic verified attribution fixture'},read:true,write:true}};
  const eenv={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_EHR_TEST:'test-secret',SAHA_EHR_CONNECTIONS:JSON.stringify([{organisationId:'org',integrationId:'ehr1',baseUrl:ehrI.endpoint,credentialBinding:ehrI.credentialBinding}])};
  const prepared=async()=>{
   const p={id:'p',name:'Test Person',sex:'Other',age:30,village:'Test village',version:1,consentVersion:1,exchangeConsent:true,assigned:true,teamId:'t1'},v={id:'v',personId:'p',version:1,state:'confirmed',facts:{date:new Date().toISOString().slice(0,16),source:'reported',weight:'55',notes:'Synthetic visit'}};

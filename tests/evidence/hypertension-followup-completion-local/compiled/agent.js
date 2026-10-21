@@ -1,0 +1,484 @@
+import { capabilityEligibility, checkCapability, checkCapabilityBudget, checkCapabilityInput, entryFor } from './governance.js';
+import { checkTaskAttempts, expiryMinutes, limitsOf, timedOut } from './task-limits.js';
+import { z } from 'zod';
+import { digest, fail, uuid, visit } from './core.js';
+import { unresolved } from './programmes.js';
+import { measureOf, rangeProblem, rangeContextProblem, selectionForVisit } from './fact-provenance.js';
+import { normallyAllowed } from './access.js';
+import { checkAgentSource } from './agent-minimisation.js';
+import { approvedExecutionFor } from './approved-execution.js';
+import { activeAgentRelease } from './agent-release-control.js';
+import { sameVersionPin, versionPin } from './ai-version-pin.js';
+import { assertOperationalCapabilityOutput, capabilityOutputContext } from './capability-lifecycle.js';
+// 1.2.0 (slice 5c): explicit unable-to-assess outcome in the output contract.
+export const AGENT_VERSION = 'saha-agent-1.2.0';
+export const FIELDS = ['systolic', 'diastolic', 'weight', 'temperature', 'weeks', 'coughDays'];
+export const FIELD_LABEL = { systolic: 'Systolic BP · mmHg', diastolic: 'Diastolic BP · mmHg', weight: 'Weight · kg', temperature: 'Temperature · °C', weeks: 'Gestational age · weeks', coughDays: 'Cough duration · days' };
+export const REVIEW_REASONS = ['negation', 'ambiguous_quantity', 'identity', 'date', 'medicine', 'other_speaker', 'uncertainty'];
+// Slice 5c (BR-AI-06): a provider that cannot assess its input says so explicitly and proposes nothing.
+export const ASSESSMENT_REASONS = ['insufficient_input', 'noisy_input', 'unsupported_case'];
+export const INPUT_QUALITY_DIMENSIONS = ['field_support', 'language_support', 'signal_noise', 'required_input', 'uncertainty'];
+export const ASSESSMENT_LABEL = { insufficient_input: 'Insufficient input', noisy_input: 'Noisy or illegible input', unsupported_case: 'Unsupported case' };
+const evidence = z.object({ quote: z.string().min(1).max(600), start: z.number().int().min(0), end: z.number().int().positive() });
+const reviewFlag = evidence.extend({ reason: z.enum(REVIEW_REASONS), detail: z.string().trim().min(1).max(300) }).strict();
+export const assessmentSchema = z.object({ status: z.literal('unable_to_assess'), reason: z.enum(ASSESSMENT_REASONS), detail: z.string().trim().min(1).max(300), retry: z.string().trim().min(1).max(300) }).strict();
+export const agentOutputSchema = z.object({ proposals: z.array(evidence.extend({ field: z.enum(FIELDS), value: z.string().regex(/^\d+(\.\d+)?$/).max(12) }).strict()).max(12), highlights: z.array(evidence.strict()).max(8), reviewFlags: z.array(reviewFlag).max(12).optional(), assessment: assessmentSchema.nullable().optional() }).strict();
+const id = z.string().min(1).max(200), ver = z.number().int().positive();
+export const agentSchema = z.discriminatedUnion('type', [
+    z.object({ type: z.literal('prepareAgent'), visitId: id, version: ver, providerId: id, task: z.enum(['extract', 'summary', 'review']), input: z.string().trim().max(3000), context: z.object({ language: z.enum(['en', 'hi']), setting: z.enum(['community', 'facility']), device: z.literal('browser'), jurisdiction: z.literal('IN').default('IN'), connectivity: z.enum(['online', 'offline']).default('online'), intendedUse: z.literal('documentary-evidence').default('documentary-evidence') }).strict().optional() }).strict(),
+    z.object({ type: z.literal('executeAgent'), visitId: id, runId: id, inputHash: id }).strict(),
+    z.object({ type: z.literal('cancelAgent'), visitId: id, runId: id }).strict(),
+    // Slice 5e: a person records the decision on a sent request that timed out; it is never resent.
+    z.object({ type: z.literal('closeTimedOutAgent'), visitId: id, runId: id, reason: z.string().trim().min(10, 'Give a reason of at least 10 characters.').max(500) }).strict(),
+    z.object({ type: z.literal('applyAgent'), visitId: id, runId: id, version: ver, fields: z.array(z.enum(FIELDS)).min(1).max(6), includeNote: z.boolean().default(false), resolve: z.array(z.enum(FIELDS)).max(6).default([]), conflictReason: z.string().trim().min(10).max(500).optional(), source: z.enum(['measured', 'reported']), date: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/) }).strict(),
+    z.object({ type: z.literal('enableAgentContract'), integrationId: id, version: ver, model: z.string().trim().min(1).max(120) }).strict()
+]);
+export function providers(integrations, runtime) {
+    const openai = runtime.SAHA_EXTERNAL_APIS_ENABLED === 'true' && !!runtime.OPENAI_API_KEY;
+    return [{ id: 'local', name: 'Local record assistant', mode: 'local', model: 'structured-parser-v2', version: 2, available: true, reason: 'Rules only; no language model or external data transfer.' }, { id: 'openai', name: 'OpenAI extraction & evidence', mode: 'openai', model: 'gpt-4.1-mini-2025-04-14', version: 1, available: openai, reason: openai ? 'Configured · synthetic records only' : 'Live model unavailable: server API key and external API switch required.' }, ...integrations.filter(i => i.kind === 'ai' && i.mode === 'http' && i.agentContract).map(i => { let allowed = false; try {
+            allowed = (runtime.SAHA_ALLOWED_ORIGINS ?? '').split(',').map(x => x.trim()).includes(new URL(i.endpoint).origin);
+        }
+        catch { } const ready = i.status === 'active' && runtime.SAHA_EXTERNAL_APIS_ENABLED === 'true' && !!runtime[i.credentialBinding] && allowed; return { id: i.id, name: i.name, mode: 'http', model: i.agentContract.model, version: i.version, available: ready, reason: ready ? 'Configured · Saha agent contract v1' : 'Suspended or missing approved origin / server credential.' }; })];
+}
+export function auditAgent(s, u, m, v, action, detail) { s.workspace.audit.push({ id: uuid(), at: new Date().toISOString(), actor: u.displayName, actorId: u.userId, role: m.role, action, subject: v.id, personId: v.personId, detail }); }
+export function eligible(s, m, v, provider) { if (!['asha', 'clinician'].includes(m.role))
+    fail(403, 'A care role is required to use the record assistant.'); const p = s.workspace.people.find(p => p.id === v.personId); if (v.voidedAt || v.supersededBy)
+    fail(409, 'Use the current patient visit.'); if (!p.aiConsent)
+    fail(409, 'Current permission for AI assistance is required.'); if (!provider.available)
+    fail(409, provider.reason); return p; }
+const taskFields = (task) => task === 'extract' ? ['source.numeric-observations'] : task === 'summary' ? ['facts.date', ...FIELDS.map(x => 'facts.' + x)] : ['programme.unresolved-requirements'];
+export function agentTaskScope(s, v, task, governance) {
+    const entry = governance ? (s.governance?.entries ?? []).find(e => e.id === governance.id) : undefined;
+    const purpose = entry?.spec.kind === 'capability' ? entry.spec.purpose : governance ? 'approved-agent-task' : 'local-record-assistance';
+    const policyVersion = governance?.manifestHash ?? AGENT_VERSION, fields = taskFields(task);
+    return { tenantId: s.organisation.id, personId: v.personId, encounterId: v.id, purpose, policyVersion, fields, key: [s.organisation.id, v.personId, v.id, purpose, policyVersion].map(encodeURIComponent).join('|') };
+}
+export function sourceForAgentTask(v, task, provided) {
+    if (task === 'extract')
+        return provided;
+    if (task === 'summary')
+        return [['date', v.facts.date], ...FIELDS.map(field => [field, v.facts[field]])].filter(([, value]) => typeof value === 'string' && value).map(([key, value]) => `${key}: ${value}`).join('\n');
+    return JSON.stringify(unresolved(v).map(q => q.label));
+}
+export function current(s, v, r, m, u, ps) { const live = ps.find(x => x.id === r.provider.id); if (!live || live.version !== r.provider.version || live.model !== r.provider.model)
+    fail(409, 'The provider configuration changed. Prepare a new request.'); const p = eligible(s, m, v, live); const governance = checkCapability(s, m, p, live, r.task, r.context ?? { language: 'en', setting: 'community', device: 'browser' }, AGENT_VERSION); if (JSON.stringify(governance) !== JSON.stringify(r.governance ?? null))
+    fail(409, 'Capability review changed. Prepare a fresh request.'); let livePin; try {
+    livePin = versionPin(s, live, AGENT_VERSION, governance);
+}
+catch {
+    fail(409, 'Approved version evidence changed or is unavailable. Prepare a fresh request.');
+} if (!sameVersionPin(r.versionPin, livePin))
+    fail(409, 'Provider, model, prompt, tool, data or evaluation version changed. Prepare a fresh request.'); if (r.outputContext)
+    assertOperationalCapabilityOutput(s, r.outputContext); if (!r.taskScope || JSON.stringify(r.taskScope) !== JSON.stringify(agentTaskScope(s, v, r.task, governance ?? undefined)))
+    fail(409, 'The authorised task scope changed. Prepare a fresh request.'); if (r.release) {
+    if (!s.agentReleases || !governance)
+        fail(409, 'Agent release control changed. Prepare a fresh request.');
+    const entry = entryFor(s, governance.id), active = activeAgentRelease(s.agentReleases, s.members, entry.spec.key).binding;
+    if (JSON.stringify(active) !== JSON.stringify(r.release))
+        fail(409, 'The approved agent release changed. Prepare a fresh request.');
+} if (r.actorId !== u.userId)
+    fail(403, 'Only the worker who prepared this request can approve or apply it.'); if (v.version !== r.visitVersion || p.version !== r.personVersion || p.consentVersion !== r.consentVersion)
+    fail(409, 'The patient, permission or visit changed. Prepare a new request.'); if (r.expiresAt < new Date().toISOString())
+    fail(409, 'This request expired. Prepare a new request.'); return p; }
+export async function agentApply(s, input, u, m, ps) {
+    const parsed = agentSchema.safeParse(input);
+    if (!parsed.success || parsed.data.type === 'executeAgent')
+        return null;
+    const c = parsed.data;
+    if (c.type === 'enableAgentContract') {
+        if (!m.isOwner)
+            fail(403, 'Only an organisation owner can set an agent contract.');
+        const i = s.workspace.integrations.find(i => i.id === c.integrationId && i.kind === 'ai' && i.mode === 'http');
+        if (!i || i.version !== c.version)
+            fail(409, 'Reload the current HTTP AI profile.');
+        i.agentContract = { version: 1, model: c.model };
+        i.version++;
+        i.status = 'suspended';
+        s.workspace.audit.push({ id: uuid(), at: new Date().toISOString(), actor: u.displayName, actorId: u.userId, role: m.role, action: c.type, subject: i.id, detail: 'Saha agent contract v1 attached; profile remains suspended for review.' });
+        return { ok: true };
+    }
+    const v = visit(s.workspace, c.visitId);
+    if (c.type !== 'cancelAgent' && c.type !== 'closeTimedOutAgent' && !['asha', 'clinician'].includes(m.role))
+        fail(403, 'A care role is required.');
+    v.agentRuns ??= [];
+    if (c.type === 'prepareAgent') {
+        if (v.version !== c.version)
+            fail(409, 'The visit changed. Refresh before preparing a request.');
+        const p = s.workspace.people.find(x => x.id === v.personId);
+        const provider = ps.find(p => p.id === c.providerId);
+        if (!provider)
+            fail(422, 'Choose a registered provider.');
+        eligible(s, m, v, provider);
+        if (provider.mode !== 'local' && !c.context)
+            fail(422, 'Confirm language, setting and device before external AI use.');
+        if (c.task === 'extract' && v.state !== 'draft')
+            fail(409, 'Extraction requires a draft visit.');
+        if (c.task === 'review' && provider.id !== 'local')
+            fail(422, 'Programme review uses the local requirements engine.');
+        if (c.task === 'extract' && c.input.length < 5)
+            fail(422, 'Enter at least 5 characters of synthetic visit notes.');
+        if (v.agentRuns.length >= 30)
+            fail(429, 'This visit reached the 30-request limit. Continue with structured capture.');
+        const recent = s.workspace.visits.flatMap(v => v.agentRuns ?? []).filter(r => r.actorId === u.userId && r.createdAt.slice(0, 10) === new Date().toISOString().slice(0, 10));
+        if (recent.length >= 60)
+            fail(429, 'Daily assistant limit reached for this organisation.');
+        const source = sourceForAgentTask(v, c.task, c.input);
+        // Privacy refusal precedes eligibility/ranking so identifiers never influence
+        // provider selection and the caller receives the established neutral refusal.
+        if (provider.mode !== 'local' && (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(source) || (source.match(/\+?\d[\d ()-]{8,}\d/g) ?? []).some(x => x.replace(/\D/g, '').length >= 10) || [p.name, p.village].filter(x => x.length >= 3).some(x => source.toLowerCase().includes(x.toLowerCase()))))
+            fail(422, 'Remove names, village names, contact details and identifiers from the external AI source before preparing it. This check is a safeguard, not a de-identification guarantee.');
+        // Slice R42: comprehensive minimisation — refuse any patient identifier, name, village, ABHA or crosswalk
+        // identifier anywhere in the organisation (not only this patient) before the request is prepared.
+        if (provider.mode !== 'local')
+            checkAgentSource(source, s);
+        const inputQuality = c.task === 'extract' && localAssess(source) ? 'insufficient' : 'adequate';
+        const context = { ...(c.context ?? { language: 'en', setting: 'community', device: 'browser', jurisdiction: 'IN', connectivity: 'online', intendedUse: 'documentary-evidence' }), inputQuality };
+        const eligibility = capabilityEligibility(s, m, p, provider, c.task, context, AGENT_VERSION);
+        const governance = checkCapability(s, m, p, provider, c.task, context, AGENT_VERSION);
+        const entry = governance ? entryFor(s, governance.id) : undefined;
+        if (entry) {
+            checkCapabilityBudget(s, entry);
+            checkTaskAttempts(s, entry, v, c.task);
+        }
+        const limits = limitsOf(entry);
+        const release = s.agentReleases && entry ? activeAgentRelease(s.agentReleases, s.members, entry.spec.key).binding : undefined;
+        if (release && release.model !== `${provider.id}@${provider.model}`)
+            fail(409, 'The active agent release does not match the selected provider model.');
+        if (entry && provider.mode !== 'local')
+            checkCapabilityInput(entry, source);
+        const approvedExecution = approvedExecutionFor(c.task, provider.mode, m.role);
+        const taskScope = agentTaskScope(s, v, c.task, governance ?? undefined);
+        const pin = versionPin(s, provider, AGENT_VERSION, governance);
+        const inputHash = await digest({ actor: u.userId, scope: taskScope, version: v.version, personVersion: p.version, consentVersion: p.consentVersion, provider, task: c.task, input: source, context, governance, approvedExecution, release, versionPin: pin, agent: AGENT_VERSION });
+        const now = new Date().toISOString();
+        const run = { versionPin: pin, context, taskScope, approvedExecution, eligibility, ...(governance ? { governance, outputContext: capabilityOutputContext(s, entry, 'operational') } : {}), ...(release ? { release } : {}), id: uuid(), actorId: u.userId, task: c.task, status: 'pending', createdAt: now, expiresAt: new Date(Date.now() + expiryMinutes(limits) * 60000).toISOString(), ...(limits ? { limits } : {}), version: AGENT_VERSION, provider, visitVersion: v.version, personVersion: p.version, consentVersion: p.consentVersion, inputHash, input: source, warnings: [], message: 'Review the exact source, authorised task scope, provider and approved tool before approving.', callCount: 0, steps: [{ name: 'Check scope and permission', state: 'done', detail: `${approvedExecution.toolId}; eligibility checked before limits or ranking; ${eligibility.exclusions.length} exclusion reasons. Tenant, person, encounter, purpose, policy and ${taskScope.fields.length} allowed field reference(s) bound.` }, { name: c.task === 'review' ? 'Check programme requirements' : 'Extract source evidence', state: 'pending', detail: provider.name }, { name: 'Human review', state: 'pending', detail: 'No automatic record changes or external programme writes.' }] };
+        v.agentRuns.push(run);
+        auditAgent(s, u, m, v, c.type, `${run.task} proposed using ${approvedExecution.toolId} from ${approvedExecution.catalogueVersion}; task scope ${taskScope.key}; ${provider.name}; ${AGENT_VERSION}${release ? `; release ${release.releaseId} ${release.manifestHash}` : ''}.`);
+        return { runId: run.id };
+    }
+    const r = v.agentRuns.find(r => r.id === c.runId);
+    if (!r)
+        fail(404, 'Assistant request not found.');
+    if (c.type === 'closeTimedOutAgent') { // Slice 5e: the requester, or a clinician or supervisor with normal care scope for this patient, records what
+        // happens to a sent request that passed its time limit. Its outcome is uncertain; it is not resent or retried.
+        const p = s.workspace.people.find(x => x.id === v.personId);
+        if (!p || !(r.actorId === u.userId && ['asha', 'clinician'].includes(m.role) || ['clinician', 'supervisor'].includes(m.role) && normallyAllowed(m, p)))
+            fail(403, 'Only the requesting worker, or a clinician or supervisor caring for this patient, can record this decision.');
+        const now = new Date().toISOString();
+        if (!timedOut(r, now))
+            fail(409, r.status === 'running' ? 'This request has not reached its time limit. Wait for its outcome.' : 'Only a sent request that passed its time limit needs this decision.');
+        r.status = 'failed';
+        r.outcome = 'uncertain';
+        r.finishedAt = now;
+        r.timeoutDecision = { by: u.userId, byName: u.displayName, at: now, reason: c.reason };
+        r.message = `Timed out after ${r.limits.timeMinutes} minutes without a confirmed result. The outcome is uncertain: the provider may or may not have processed it. It was not resent or retried, and any result that arrives later is withheld. Decision by ${u.displayName}: ${c.reason}`;
+        r.steps.filter(x => x.state === 'pending').forEach(x => x.state = 'blocked');
+        auditAgent(s, u, m, v, c.type, `Timed-out assistant request closed with an uncertain outcome; not retried. Reason: ${c.reason}`);
+        return { runId: r.id, outcome: 'uncertain' };
+    }
+    if (c.type === 'cancelAgent' && r.actorId !== u.userId) {
+        // Slice 5a: a clinician or supervisor with normal care scope for this patient may stop another
+        // worker's request that has not been sent. Nothing reached a provider, so nothing is reversed.
+        const p = s.workspace.people.find(x => x.id === v.personId);
+        if (!p || !['clinician', 'supervisor'].includes(m.role) || !normallyAllowed(m, p))
+            fail(403, 'Only the requesting worker, or a clinician or supervisor caring for this patient, can stop this request.');
+        if (r.status !== 'pending')
+            fail(409, r.status === 'running' || r.status === 'review' ? 'This request was already sent to the provider. Only the requesting worker can close it; a sent request is not recalled.' : 'This request is already closed.');
+        r.status = 'cancelled';
+        r.finishedAt = new Date().toISOString();
+        r.message = `Stopped by ${u.displayName} before it was sent. Nothing was sent to a provider; its reserved budget is released.`;
+        r.steps.filter(x => x.state === 'pending').forEach(x => x.state = 'blocked');
+        auditAgent(s, u, m, v, c.type, 'Pending assistant request stopped by a care-team member before sending; reserved budget released.');
+        return { runId: r.id };
+    }
+    if (c.type === 'cancelAgent') {
+        if (!['asha', 'clinician'].includes(m.role))
+            fail(403, 'A care role is required.');
+        if (!['pending', 'running', 'review'].includes(r.status))
+            fail(409, 'This request is already closed.');
+        r.status = 'cancelled';
+        r.finishedAt = new Date().toISOString();
+        r.message = 'Cancelled. No further output can be applied. Any request already sent to a provider is not recalled.';
+        r.steps.filter(x => x.state === 'pending').forEach(x => x.state = 'blocked');
+        auditAgent(s, u, m, v, c.type, 'Assistant request cancelled; pending application blocked.');
+        return { runId: r.id };
+    }
+    current(s, v, r, m, u, ps);
+    if (r.status !== 'review' || v.state !== 'draft' || r.task !== 'extract')
+        fail(409, 'Choose a reviewed extraction on a current draft.');
+    if (v.version !== c.version)
+        fail(409, 'The visit changed. Review a fresh extraction.');
+    const validDate = Date.parse(c.date + 'Z');
+    if (!Number.isFinite(validDate) || new Date(validDate).toISOString().slice(0, 16) !== c.date || validDate > Date.now() + 300000)
+        fail(422, 'Choose a valid observation time, not in the future.');
+    if (r.assessment)
+        fail(409, 'This result could not assess its input, so it has no values to apply. Record the measurement manually or prepare a new request.');
+    const fields = [...new Set(c.fields)], resolve = [...new Set(c.resolve)], conflicts = conflictsFor(v, r), next = { ...v.facts };
+    for (const f of fields) {
+        const proposal = r.output?.proposals.find(p => p.field === f);
+        if (!proposal)
+            fail(422, 'Select only proposed fields.');
+        next[f] = proposal.value;
+    }
+    // Slice 5c: a value that conflicts with a recorded fact or another open result needs an explicit choice and a reason.
+    for (const f of resolve)
+        if (!fields.includes(f) || !conflicts.some(x => x.field === f))
+            fail(422, 'Resolve only selected fields that have a conflict.');
+    for (const f of fields) {
+        const x = conflicts.filter(k => k.field === f);
+        if (x.length && !resolve.includes(f))
+            fail(409, `${FIELD_LABEL[f]}: ${describeConflicts(x)}. Choose explicitly to use the proposed value, with a reason, or leave the field unselected.`);
+    }
+    if (resolve.length && !c.conflictReason)
+        fail(422, 'Give a reason for choosing between conflicting values.');
+    if (!!next.systolic !== !!next.diastolic)
+        fail(422, 'Select both blood pressure readings or neither.');
+    // Slice 2i: an applied value replaces any alternative-unit entry and unusual-value reason for that field; a proposal
+    // outside the placeholder expected range is refused (the worker enters it with a reason instead).
+    for (const f of fields) {
+        if (next.entered && f in next.entered) {
+            const e = { ...next.entered };
+            delete e[f];
+            if (Object.keys(e).length)
+                next.entered = e;
+            else
+                delete next.entered;
+        }
+        if (next.unusual && f in next.unusual) {
+            const u2 = { ...next.unusual };
+            delete u2[f];
+            if (Object.keys(u2).length)
+                next.unusual = u2;
+            else
+                delete next.unusual;
+        }
+    }
+    {
+        const stale = rangeContextProblem(v, s.workspace.people.find(p => p.id === v.personId));
+        if (stale)
+            fail(409, stale);
+        const problem = rangeProblem(next, undefined, selectionForVisit(v));
+        if (problem)
+            fail(422, `Assistant value not applied. ${problem}`);
+    }
+    next.date = c.date;
+    next.source = c.source;
+    // Slice 2c: applied fields take the reviewed visit-level source and time, so their own entries are cleared.
+    if (next.provenance) {
+        const own = { ...next.provenance };
+        for (const f of fields) {
+            const m = measureOf(f);
+            if (m)
+                delete own[m];
+        }
+        if (Object.keys(own).length)
+            next.provenance = own;
+        else
+            delete next.provenance;
+    }
+    if (c.includeNote)
+        next.notes = r.input;
+    v.facts = next;
+    v.version++;
+    if (v.programmeCapture)
+        for (const f of fields)
+            delete v.programmeCapture.absence[f];
+    if (resolve.length)
+        r.resolutions = resolve.map(f => ({ field: f, proposed: next[f], replaced: conflicts.filter(x => x.field === f).map(x => x.kind === 'recorded' ? 'recorded ' + x.other : `${x.otherProvider} ${x.other}`), reason: c.conflictReason, by: u.userId, at: new Date().toISOString() }));
+    r.status = 'applied';
+    r.appliedFields = fields;
+    r.finishedAt = new Date().toISOString();
+    r.message = 'Selected fields applied to the draft after worker review. Visit confirmation remains separate.';
+    r.steps[2] = { name: 'Human review', state: 'done', detail: `${fields.length} fields accepted by ${u.displayName}.` };
+    auditAgent(s, u, m, v, c.type, `Reviewed fields applied: ${fields.join(', ')}. Source retained in request ${r.id}.${resolve.length ? ` Conflicts resolved by explicit choice: ${r.resolutions.map(x => `${x.field} ${x.proposed} over ${x.replaced.join(' and ')}`).join('; ')}. Reason: ${c.conflictReason}` : ''}`);
+    return { runId: r.id };
+}
+export const unsafeEvidence = (text) => /\b(no|not|denies|denied|previous|previously|last|yesterday|ago|mother|father|husband|wife|daughter|son|sister|brother|speaker|background|maybe|possibly|uncertain|approximately|about|around|example|ignore|instructions?|pretend|invent|guess|might|would|could|should)\b/i.test(text) || /(?:नहीं|माँ|माता|पिता|शायद|लगभग)/.test(text);
+function reviewFlags(input) {
+    const out = [];
+    for (const match of input.matchAll(/[^;\n]+/g)) {
+        const quote = match[0].trim();
+        if (!quote)
+            continue;
+        const start = match.index + match[0].indexOf(quote), end = start + quote.length;
+        let reason = null, detail = '';
+        if (/\b(no|not|denies|denied)\b|नहीं/i.test(quote)) {
+            reason = 'negation';
+            detail = 'Negated text must be checked; it is not a positive fact.';
+        }
+        else if (/\b(maybe|possibly|uncertain|approximately|about|around)\b|[?？]|शायद|लगभग/i.test(quote)) {
+            reason = 'uncertainty';
+            detail = 'Uncertain or approximate text needs manual confirmation.';
+        }
+        else if (/\b(mother|father|husband|wife|daughter|son|sister|brother|speaker|background)\b|माँ|माता|पिता/i.test(quote)) {
+            reason = 'other_speaker';
+            detail = 'The subject or speaker may not be the current patient.';
+        }
+        else if (/\b(?:medicine|medication|tablet|capsule|syrup|dose|mg|mcg|ml)\b/i.test(quote)) {
+            reason = 'medicine';
+            detail = 'Medicine names and quantities require explicit review.';
+        }
+        else if (/\b(?:date|dob|born|birthday)\b|\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/i.test(quote)) {
+            reason = 'date';
+            detail = 'The date and what it refers to require explicit review.';
+        }
+        else if (/\b(?:name|identity|identifier|id)\b/i.test(quote)) {
+            reason = 'identity';
+            detail = 'Identity text requires explicit review against the current patient.';
+        }
+        else if ((quote.match(/\d+(?:\.\d+)?/g) ?? []).length > 2 && !/\b(?:BP|blood pressure)\b/i.test(quote)) {
+            reason = 'ambiguous_quantity';
+            detail = 'Several quantities occur together; their field mapping is ambiguous.';
+        }
+        if (reason)
+            out.push({ quote, start, end, reason, detail });
+    }
+    return out.slice(0, 12);
+}
+// Conservative, non-generative fallback. Historical, negated and conflicting clauses
+// are excluded rather than silently selecting a measurement.
+export function localExtract(input) {
+    const proposals = [];
+    const patterns = [['weight', /\bweight\s*(?:is|was|:|=)?\s*(\d+(?:\.\d+)?)\s*kg\b/gi], ['temperature', /\b(?:temperature|temp)\s*(?:is|:|=)?\s*(\d+(?:\.\d+)?)\s*(?:°\s*)?C\b/gi], ['weeks', /\b(?:gestational age|pregnancy)\s*(?:is|:|=)?\s*(\d+(?:\.\d+)?)\s*weeks\b/gi], ['coughDays', /\bcough\s*(?:for|:|=)?\s*(\d+)\s*days\b/gi]];
+    for (const match of input.matchAll(/[^;\n]+/g)) {
+        const quote = match[0].trim(), start = match.index + match[0].indexOf(quote), end = start + quote.length;
+        if (quote.length > 600 || unsafeEvidence(quote))
+            continue;
+        for (const [field, re] of patterns) {
+            re.lastIndex = 0;
+            for (const found of quote.matchAll(re))
+                proposals.push({ field, value: found[1], quote, start, end });
+        }
+        for (const found of quote.matchAll(/\b(?:BP|blood pressure)\s*(?:is|:|=)?\s*(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)\s*(?:mmHg)?\b/gi)) {
+            proposals.push({ field: 'systolic', value: found[1], quote, start, end }, { field: 'diastolic', value: found[2], quote, start, end });
+        }
+    }
+    for (const match of input.matchAll(/(?:वजन)\s*(\d+(?:\.\d+)?)\s*(?:किलोग्राम|किलो)/g)) {
+        const quote = match[0], start = match.index, end = start + quote.length;
+        if (!unsafeEvidence(quote))
+            proposals.push({ field: 'weight', value: match[1], quote, start, end });
+    }
+    const flags = reviewFlags(input);
+    return { proposals, highlights: [], ...(flags.length ? { reviewFlags: flags } : {}) };
+}
+export function validateOutput(raw, input, task) {
+    const parsed = agentOutputSchema.safeParse(raw);
+    if (!parsed.success)
+        fail(502, 'Provider output did not match the approved evidence contract.');
+    const out = parsed.data;
+    for (const e of [...out.proposals, ...out.highlights, ...(out.reviewFlags ?? [])])
+        if (e.end <= e.start || input.slice(e.start, e.end) !== e.quote)
+            fail(502, 'Provider evidence did not match the submitted source.');
+    if (task !== 'extract' && out.proposals.length)
+        fail(502, 'This task cannot propose record changes.');
+    for (const p of out.proposals) {
+        const tokens = p.quote.match(/\d+(?:\.\d+)?/g) ?? [];
+        if (!tokens.includes(p.value))
+            fail(502, 'A proposed value is not present in its cited source.');
+        const left = Math.max(input.lastIndexOf(';', p.start - 1), input.lastIndexOf('\n', p.start - 1)) + 1;
+        const after = input.slice(p.end).search(/[;\n]/);
+        const clause = input.slice(left, after < 0 ? input.length : p.end + after);
+        if (unsafeEvidence(clause) || !localExtract(p.quote).proposals.some(q => q.field === p.field && q.value === p.value))
+            fail(502, 'Proposed measurement does not match its full source context, units and field.');
+        const unit = { weight: /(?:\bkg\b|किलोग्राम|किलो)/i, temperature: /(?:°\s*)?C\b/, weeks: /\bweeks\b/i, coughDays: /\bdays\b/i, systolic: /\b(?:BP|blood pressure)\b/i, diastolic: /\b(?:BP|blood pressure)\b/i }[p.field];
+        if (!unit.test(p.quote) || unsafeEvidence(p.quote))
+            fail(502, 'Proposed measurement has incompatible units, history, negation or subject context.');
+    }
+    // Slice 5c: an unable-to-assess answer carries no values.
+    if (out.assessment) {
+        if (out.proposals.length)
+            fail(502, 'A provider that could not assess the input must not propose values.');
+        return { output: { proposals: [], highlights: out.highlights, ...(out.reviewFlags?.length ? { reviewFlags: out.reviewFlags } : {}), assessment: out.assessment }, warnings: [] };
+    }
+    const warnings = [];
+    const proposals = [];
+    for (const field of FIELDS) {
+        const rows = out.proposals.filter(p => p.field === field);
+        if (new Set(rows.map(r => r.value)).size > 1) {
+            warnings.push('Conflicting ' + FIELD_LABEL[field] + ' values: enter a verified measurement manually.');
+            continue;
+        }
+        if (rows.length)
+            proposals.push(rows[0]);
+    }
+    if (!!proposals.find(p => p.field === 'systolic') !== !!proposals.find(p => p.field === 'diastolic')) {
+        warnings.push('Incomplete or conflicting blood pressure: both readings withheld.');
+        for (let i = proposals.length - 1; i >= 0; i--)
+            if (['systolic', 'diastolic'].includes(proposals[i].field))
+                proposals.splice(i, 1);
+    }
+    const deterministic = reviewFlags(input), flags = [...(out.reviewFlags ?? [])];
+    for (const f of deterministic)
+        if (!flags.some(x => x.start === f.start && x.end === f.end && x.reason === f.reason))
+            flags.push(f);
+    return { output: { proposals, highlights: out.highlights, ...(flags.length ? { reviewFlags: flags.slice(0, 12) } : {}) }, warnings };
+}
+// Slice 5c (BR-AI-06): conservative input-quality checks for the local rules provider. A noisy or illegible
+// measurement, an unsupported unit, or a note without any supported measurement is reported as unable to
+// assess, with no values, rather than as an empty or normal result. The whole note is withheld, not only a clause.
+const MEASUREMENT = /\b(?:weight|temp|temperature|BP|blood pressure|cough|gestational age|pregnancy)\b|वजन|तापमान|रक्तचाप/i;
+const UNSUPPORTED_FIELD = /\b(?:pulse|heart rate|spo2|oxygen saturation|glucose|blood sugar|haemoglobin|hemoglobin|respiratory rate)\b/i;
+const UNCERTAIN_MEASUREMENT = /\b(?:maybe|possibly|uncertain|approximately|about|around|guess(?:ed)?|not sure)\b/i;
+const noisy = (input) => /\[(?:inaudible|unclear|illegible|noise)\]|\uFFFD|\b(?:heavy )?(?:background )?noise\b/i.test(input) || [...input.matchAll(/[^;\n]+/g)].some(m => MEASUREMENT.test(m[0]) && /\d\s*\?|\?\s*\d|\/\s*\?|\d_|_\d/.test(m[0]));
+const assessment = (reason, detail, retry) => ({ status: 'unable_to_assess', reason, detail, retry });
+/** Deterministic preflight. A failed gate always selects structured capture and never emits a clinical value. */
+export function assessInputQuality(input, context, supportedLanguages = ['en']) {
+    const devanagari = /[\u0900-\u097f]/.test(input), latin = /[A-Za-z]/.test(input), declared = context.language;
+    const languageOk = supportedLanguages.includes(declared) && !(declared === 'en' && devanagari) && !(declared === 'hi' && latin && !devanagari);
+    const fieldOk = !UNSUPPORTED_FIELD.test(input) && !(/\d+(?:\.\d+)?\s*(?:pounds?|lbs?\b|°\s*F\b|F\b|fahrenheit|inch(?:es)?\b)/i.test(input));
+    const noiseOk = !noisy(input), uncertaintyOk = !(MEASUREMENT.test(input) && UNCERTAIN_MEASUREMENT.test(input));
+    const parsed = localExtract(input).proposals, requiredOk = MEASUREMENT.test(input) && parsed.length > 0 && !(/\b(?:BP|blood pressure)\b/i.test(input) && !(/\b(?:BP|blood pressure)\s*(?:is|:|=)?\s*\d+(?:\.\d+)?\s*\/\s*\d+(?:\.\d+)?(?:\s*mmHg)?\b/i.test(input)));
+    const gates = [
+        { dimension: 'field_support', state: fieldOk ? 'pass' : 'fail', detail: fieldOk ? 'Only supported measurement fields and units detected.' : 'The note contains an unsupported measurement field or unit.' },
+        { dimension: 'language_support', state: languageOk ? 'pass' : 'fail', detail: languageOk ? `Declared ${declared} input matches this capability.` : `Declared ${declared} input is not supported by this capability or does not match the detected script.` },
+        { dimension: 'signal_noise', state: noiseOk ? 'pass' : 'fail', detail: noiseOk ? 'No explicit unreadable or noisy signal marker detected.' : 'The input is marked noisy, unreadable or incomplete.' },
+        { dimension: 'required_input', state: requiredOk ? 'pass' : 'fail', detail: requiredOk ? 'At least one complete supported measurement with its unit is present.' : 'A complete supported measurement and required unit are missing.' },
+        { dimension: 'uncertainty', state: uncertaintyOk ? 'pass' : 'fail', detail: uncertaintyOk ? 'No uncertain measurement wording detected.' : 'A measurement is qualified as uncertain and cannot be converted into a value.' }
+    ];
+    let result = null;
+    if (!noiseOk)
+        result = assessment('noisy_input', gates[2].detail, 'Repeat the capture using the approved instructions, or record a verified measurement manually.');
+    else if (!languageOk)
+        result = assessment('unsupported_case', gates[1].detail, 'Choose a capability approved for this language, or continue with structured capture.');
+    else if (!fieldOk)
+        result = assessment('unsupported_case', gates[0].detail, 'Use a capability approved for that field and unit, or record it manually without converting it here.');
+    // An uncertain clause does not erase a separate, complete current measurement
+    // that the deterministic extractor can retain.  When no clean proposal remains,
+    // refuse the whole input rather than converting uncertainty into a value.
+    else if (!uncertaintyOk && parsed.length === 0)
+        result = assessment('insufficient_input', gates[4].detail, 'Verify the measurement from the source, or leave it unset and continue with structured capture.');
+    else if (!requiredOk)
+        result = assessment('insufficient_input', gates[3].detail, 'Add a complete current measurement with its supported unit, or record it manually.');
+    return { version: 'saha-input-quality-1', gates, assessment: result, fallback: 'structured_capture' };
+}
+export function localAssess(input) { return assessInputQuality(input, { language: 'en' }).assessment; }
+// Slice 5c (BR-AG-08): conflicts are shown as such; nothing is averaged or combined.
+export function conflictsFor(v, r) {
+    if (r.task !== 'extract' || !r.output || r.assessment)
+        return [];
+    const out = [];
+    for (const p of r.output.proposals) {
+        const recorded = v.facts[p.field];
+        if (recorded && recorded !== p.value)
+            out.push({ field: p.field, kind: 'recorded', proposed: p.value, other: recorded });
+        for (const o of v.agentRuns ?? []) {
+            if (o.id === r.id || o.task !== 'extract' || o.status !== 'review' || o.assessment || o.visitVersion !== r.visitVersion)
+                continue;
+            const q = o.output?.proposals.find(x => x.field === p.field);
+            if (q && q.value !== p.value)
+                out.push({ field: p.field, kind: 'other-run', proposed: p.value, other: q.value, otherRunId: o.id, otherProvider: o.provider.name });
+        }
+    }
+    return out;
+}
+export const describeConflicts = (xs) => xs.map(x => x.kind === 'recorded' ? `proposed ${x.proposed}, recorded ${x.other}` : `proposed ${x.proposed}, another request (${x.otherProvider}) proposed ${x.other}`).join('; ');
+// Recomputed for every open extraction on the visit when a result arrives, so both sides of a disagreement show it.
+export function markConflicts(v) { for (const o of v.agentRuns ?? []) {
+    if (o.task !== 'extract' || o.status !== 'review')
+        continue;
+    const x = conflictsFor(v, o);
+    if (x.length)
+        o.conflicts = x;
+    else
+        delete o.conflicts;
+} }

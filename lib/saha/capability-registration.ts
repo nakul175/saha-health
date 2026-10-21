@@ -1,0 +1,31 @@
+import { z } from 'zod';
+import { governanceSchema,governanceSpec,entryIssues,governanceState } from './governance';
+import { providers,AGENT_VERSION } from './agent';
+import { authorizeSandbox } from './provider-sandbox';
+import { digest,fail } from './core';
+import type { OrgState } from './types';
+const ref=z.string().trim().min(1).max(200),hash=z.string().regex(/^[0-9a-f]{64}$/),version=z.number().int().positive().safe();
+export const capabilityRegistrationInput=z.object({contextHash:hash,spec:governanceSpec,replacesId:ref.optional(),affirmed:z.literal(true)}).strict().refine(x=>x.spec.kind==='capability','Choose a capability manifest.').refine(x=>x.spec.kind==='capability'&&!!x.spec.registration,'Complete the versioned capability registration contract.');
+export type CapabilityRegistrationInput=z.infer<typeof capabilityRegistrationInput>;
+const provider=z.object({id:ref,name:ref,model:ref,version,mode:z.enum(['local','openai','http']),available:z.boolean(),reason:z.string().min(1)}).strict();
+export const capabilityRegistrationContext=z.object({actorId:z.string().min(1),organisationId:ref,organisationName:ref,contextHash:hash,refreshAt:z.string().datetime().nullable(),agentVersion:ref,providers:z.array(provider),owners:z.array(z.object({id:z.string().min(1),name:z.string().min(1),version,teamIds:z.array(ref)}).strict()),teams:z.array(z.object({id:ref,name:z.string().min(1)}).strict()),entries:z.array(z.object({id:ref,key:ref,title:ref,revision:version,version,manifestHash:hash,providerId:ref,state:z.enum(['draft','reviewed','active','suspended','retired']),issues:z.array(z.string().min(1))}).strict()),contract:z.literal('saha-agent-1.2.0'),clinicalDeployment:z.literal(false)}).strict();
+export type CapabilityRegistrationContext=z.infer<typeof capabilityRegistrationContext>;
+export const capabilityRegistrationSaved=z.object({context:capabilityRegistrationContext,operation:z.object({key:z.string().uuid(),entryId:ref,manifestHash:hash,replayed:z.boolean()}).strict()}).strict();
+export function registrationOrganisation(q:URLSearchParams){if(q.size!==1||q.getAll('organisationId').length!==1)throw Error('Choose one explicit organisation.');return ref.parse(q.get('organisationId'));}
+export function registrationCommand(input:unknown){const c=capabilityRegistrationInput.parse(input);return governanceSchema.parse({type:'createGovernance',spec:c.spec,...(c.replacesId?{replacesId:c.replacesId}:{})});}
+export function registrationProvider(c:CapabilityRegistrationInput,context:CapabilityRegistrationContext){
+ if(c.spec.kind!=='capability')fail(422,'Choose a capability manifest.');const spec=c.spec,p=context.providers.find(p=>p.id===spec.providerId);if(!p||p.model!==c.spec.model||context.agentVersion!==c.spec.agentVersion)fail(409,'Choose the exact existing provider/model and agent contract. No alternate provider was inferred.');
+ const details=c.spec.registration;if(!details)fail(422,'Complete the versioned capability registration contract.');
+ const owner=context.owners.find(o=>o.id===c.spec.ownerId);if(!owner||!c.spec.teamIds.every(t=>owner.teamIds.includes(t)&&context.teams.some(x=>x.id===t)))fail(422,'Choose a current clinical owner covering every selected team.');
+ if(c.spec.ageMin>c.spec.ageMax||c.spec.effectiveFrom>c.spec.reviewBy)fail(422,'Review the original age and date order.');
+ const incidentOwner=context.owners.find(o=>o.id===details.incidentOwnerId);if(!incidentOwner||!c.spec.teamIds.every(t=>incidentOwner.teamIds.includes(t)))fail(422,'Choose a current safety and incident owner covering every selected team.');
+ if(c.replacesId){const old=context.entries.find(e=>e.id===c.replacesId);if(!old||old.key!==c.spec.key||old.providerId!==c.spec.providerId)fail(409,'Choose the original package key/provider when revising.');}
+}
+export async function registrationProjection(s:OrgState,actorId:string,source:unknown,runtime:Record<string,string|undefined>,refreshAt:string|null){
+ const m=s.members.find(m=>m.userId===actorId&&m.status==='active');if(!m?.isOwner)fail(403,'A current deployment owner is required.');const g=governanceState(s);if(!Array.isArray(g.entries)||!Array.isArray(g.evaluations)||!Array.isArray(g.safety))fail(503,'Current governance source is unavailable.');
+ const entries=[];for(const e of g.entries){if(e.spec?.kind!=='capability')continue;const parsed=governanceSpec.safeParse(e.spec);if(!parsed.success||parsed.data.kind!=='capability'||JSON.stringify(parsed.data)!==JSON.stringify(e.spec)||e.manifestHash!==await digest(parsed.data)||!Number.isSafeInteger(e.version)||e.version<1||!Number.isSafeInteger(e.revision)||e.revision<1||!Array.isArray(e.history))fail(503,'A stored capability manifest is unavailable.');entries.push({id:e.id,key:e.spec.key,title:e.spec.title,revision:e.revision,version:e.version,manifestHash:e.manifestHash,providerId:e.spec.providerId,state:e.state,issues:entryIssues(s,e)});}
+ const choices=providers(s.workspace.integrations,runtime).filter(p=>!g.sandbox||p.id===g.sandbox.providerId);
+ return capabilityRegistrationContext.parse({actorId,organisationId:s.organisation.id,organisationName:s.organisation.name,contextHash:await digest({actorId,source,choices,agentVersion:AGENT_VERSION}),refreshAt,agentVersion:AGENT_VERSION,providers:choices,owners:s.members.filter(o=>o.status==='active'&&o.role==='clinician').map(o=>({id:o.userId,name:o.displayName,version:o.version,teamIds:o.teamIds})),teams:s.teams.map(t=>({id:t.id,name:t.name})),entries,contract:AGENT_VERSION,clinicalDeployment:false});
+}
+export function registrationOriginalAuthority(s:OrgState,actorId:string,c:CapabilityRegistrationInput){const m=s.members.find(m=>m.userId===actorId&&m.status==='active');if(!m?.isOwner)fail(403,'Current deployment-owner access is required.');authorizeSandbox(s,m,registrationCommand(c));}
+export async function registrationReceipt(c:CapabilityRegistrationInput,result:unknown,s:OrgState,actorId:string){const r=z.object({entryId:ref}).strict().parse(result),e=governanceState(s).entries.find(e=>e.id===r.entryId);if(!e||e.spec.kind!=='capability'||e.createdBy!==actorId||e.manifestHash!==await digest(c.spec)||JSON.stringify(e.spec)!==JSON.stringify(c.spec)||e.replacesId!==c.replacesId)throw Error('Original registered manifest/author/result unavailable.');return{entryId:e.id,manifestHash:e.manifestHash};}
