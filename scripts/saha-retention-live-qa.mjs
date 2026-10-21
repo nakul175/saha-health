@@ -6,6 +6,8 @@ import {pathToFileURL} from 'node:url';
 const sha=value=>createHash('sha256').update(String(value)).digest('hex');
 const required=(value,name)=>{if(typeof value!=='string'||value.trim().length<3)throw Error(`${name} is required.`);return value.trim();};
 const safeEndpoint=(value,region)=>{const u=new URL(required(value,'SAHA_RETENTION_SPACES_ENDPOINT'));if(u.protocol!=='https:'||u.username||u.password||u.search||u.hash||(u.pathname!==''&&u.pathname!=='/')||u.origin!==`https://${region}.digitaloceanspaces.com`)throw Error('The trusted Spaces endpoint must be the regional HTTPS endpoint.');return u.origin;};
+export const RETENTION_LIVE_QA_ROOT='saha-retention-live-qa';
+const uuid='[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}',syntheticRun=new RegExp(`^synthetic-run-${uuid}$`,'i'),syntheticTombstone=new RegExp(`^synthetic-tombstone-${uuid}$`,'i');
 
 export function retentionLiveQaPlan(env,input){
  const region=required(env.SAHA_RETENTION_SPACES_REGION,'SAHA_RETENTION_SPACES_REGION');if(!/^[a-z]{2,8}[0-9]$/.test(region))throw Error('The trusted Spaces region is malformed.');
@@ -13,10 +15,10 @@ export function retentionLiveQaPlan(env,input){
  const endpoint=safeEndpoint(env.SAHA_RETENTION_SPACES_ENDPOINT,region),accountId=required(env.SAHA_RETENTION_SPACES_ACCOUNT_ID,'SAHA_RETENTION_SPACES_ACCOUNT_ID'),bucket=required(env.SAHA_RETENTION_SPACES_BUCKET,'SAHA_RETENTION_SPACES_BUCKET');
  for(const name of ['SAHA_RETENTION_SPACES_VERSIONING_EVIDENCE','SAHA_RETENTION_SPACES_EXACT_VERSION_DELETE_EVIDENCE','SAHA_RETENTION_SPACES_ACCOUNT_BUCKET_EVIDENCE'])if(required(env[name],name).length<8)throw Error(`${name} is too short.`);
  if(!input||input.syntheticOnly!==true)throw Error('The manifest must explicitly declare syntheticOnly=true.');
- const runId=required(input.runId,'runId'),prefix=required(env.SAHA_RETENTION_LIVE_QA_PREFIX,'SAHA_RETENTION_LIVE_QA_PREFIX');
- if(!/^[A-Za-z0-9][A-Za-z0-9._-]{2,99}$/.test(runId)||!prefix.split('/').every(segment=>/^[A-Za-z0-9][A-Za-z0-9._-]{1,99}$/.test(segment)&&segment!=='.'&&segment!=='..'))throw Error('The live QA prefix or run identifier is unsafe.');
+ const runId=required(input.runId,'runId'),prefix=required(env.SAHA_RETENTION_LIVE_QA_PREFIX,'SAHA_RETENTION_LIVE_QA_PREFIX'),segments=prefix.split('/');
+ if(segments[0]!==RETENTION_LIVE_QA_ROOT||!segments.every(segment=>/^[A-Za-z0-9][A-Za-z0-9._-]{1,99}$/.test(segment)&&segment!=='.'&&segment!=='..')||!syntheticRun.test(runId))throw Error('The live QA namespace or synthetic run identifier is unsafe.');
  const exportKey=`${prefix}/${runId}/export.json`,backupKey=`${prefix}/${runId}/backup.json`;if(input.exportObjectKey!==exportKey||input.backupObjectKey!==backupKey)throw Error('Synthetic object keys must be derived from the configured QA prefix and run identifier.');
- if(!Array.isArray(input.tombstones)||input.tombstones.length<1||input.tombstones.some(x=>typeof x!=='string'||x.length<3))throw Error('At least one synthetic tombstone identifier is required.');
+ if(!Array.isArray(input.tombstones)||input.tombstones.length<1||input.tombstones.some(x=>typeof x!=='string'||!syntheticTombstone.test(x))||new Set(input.tombstones).size!==input.tombstones.length)throw Error('Unique generated synthetic tombstone identifiers are required.');
  return {schemaVersion:1,story:'SAHA-130',runId,syntheticOnly:true,provider:'digitalocean-spaces',trustedConfiguration:{endpoint,region,accountIdSha256:sha(accountId),bucketSha256:sha(bucket)},objects:{export:{keySha256:sha(exportKey),policy:{destinationOwner:'Saha Health system owner pending named human',requireServerPayloadAbsent:true,requireKeyInaccessible:true}},backup:{keySha256:sha(backupKey),policy:{cadence:'daily',dailyRecoveryDays:35,monthlyCheckpointMonths:12,exactVersionDeletionAfterWindow:true,restoreMustReapplyTombstones:true},tombstoneSetSha256:sha([...input.tombstones].sort().join('\n'))}},steps:['create exact immutable versions','register exact custody','prove export server payload absent and export key inaccessible','restore backup inside the approved 35-day daily recovery window and prove tombstones reapplied','delete each exact version','prove each exact version absent'],liveCallsPlanned:10,secretsRecorded:false};
 }
 
