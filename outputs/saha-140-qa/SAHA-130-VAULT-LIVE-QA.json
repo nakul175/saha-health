@@ -1,0 +1,22 @@
+{
+  "story": "SAHA-130",
+  "provider": "self-hosted-hashicorp-vault",
+  "recordedAt": "2026-10-21T08:21:09Z",
+  "vaultVersion": "v1.18.5",
+  "networkBoundary": "localhost-only",
+  "storage": "persistent-file",
+  "auth": "restricted-approle",
+  "keyPathSha256": "65a6e9a7c93c86ea5e9379ba8880325c7d2e7b140b3440f3f4ce5ef4d8d0cf57",
+  "kvVersion": 1,
+  "checks": {
+    "approleLogin": true,
+    "createExactVersion": true,
+    "readBeforeHttp": 200,
+    "destroyExactVersionHttp": 204,
+    "readAfterHttp": 404,
+    "destroyedVersionConfirmed": true,
+    "syntheticMetadataCleanupHttp": 204
+  },
+  "secretsRecorded": false,
+  "verdict": "QA_PASS"
+}
