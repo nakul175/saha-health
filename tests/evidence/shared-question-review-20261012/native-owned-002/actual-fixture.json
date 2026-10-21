@@ -1,0 +1,942 @@
+{
+  "org": "org_38c368d7a56bd9176e46cc99de1a9aac",
+  "actor": "auth0|opaque/shared-worker/4a16b505",
+  "first": "96db7d6c-839f-4b3d-b20c-faa4eb485a5f",
+  "visitId": "bf82b08f-7177-49ec-a3ac-9117dcd8eec4",
+  "visit": {
+    "id": "bf82b08f-7177-49ec-a3ac-9117dcd8eec4",
+    "personId": "96db7d6c-839f-4b3d-b20c-faa4eb485a5f",
+    "version": 2,
+    "state": "draft",
+    "facts": {
+      "date": "2026-10-12T19:01",
+      "systolic": "",
+      "diastolic": "",
+      "weight": "",
+      "temperature": "",
+      "weeks": "",
+      "coughDays": "",
+      "notes": "",
+      "source": "measured"
+    },
+    "createdAt": "2026-10-12T19:01:20.874Z",
+    "recordVersion": 2,
+    "programmeCapture": {
+      "packs": [
+        {
+          "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+          "pack": {
+            "id": "maternal",
+            "version": 1,
+            "name": "Maternal care",
+            "programme": "Maternal care",
+            "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+            "questions": [
+              {
+                "id": "weight",
+                "label": "Weight",
+                "unit": "kg",
+                "fact": "weight",
+                "required": true
+              },
+              {
+                "id": "systolic",
+                "label": "Systolic blood pressure",
+                "unit": "mmHg",
+                "fact": "systolic",
+                "required": true
+              },
+              {
+                "id": "diastolic",
+                "label": "Diastolic blood pressure",
+                "unit": "mmHg",
+                "fact": "diastolic",
+                "required": true
+              },
+              {
+                "id": "weeks",
+                "label": "Gestational age, reported",
+                "unit": "weeks",
+                "fact": "weeks",
+                "required": true
+              },
+              {
+                "id": "maternal_contact",
+                "label": "Was a care appointment discussed?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              }
+            ]
+          }
+        },
+        {
+          "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+          "pack": {
+            "id": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "programme": "TB screening",
+            "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+            "questions": [
+              {
+                "id": "weight",
+                "label": "Weight",
+                "unit": "kg",
+                "fact": "weight",
+                "required": true
+              },
+              {
+                "id": "cough",
+                "label": "Does the person report a cough?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              },
+              {
+                "id": "coughDays",
+                "label": "Cough duration, reported",
+                "unit": "days",
+                "fact": "coughDays",
+                "when": {
+                  "id": "cough",
+                  "value": "Yes"
+                },
+                "required": true
+              },
+              {
+                "id": "testing",
+                "label": "Is a testing follow-up already arranged?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              }
+            ]
+          }
+        },
+        {
+          "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+          "pack": {
+            "id": "hypertension",
+            "version": 1,
+            "name": "Hypertension follow-up",
+            "programme": "Chronic care",
+            "purpose": "Record current measurements and reported medication access; no prescribing.",
+            "questions": [
+              {
+                "id": "weight",
+                "label": "Weight",
+                "unit": "kg",
+                "fact": "weight",
+                "required": true
+              },
+              {
+                "id": "systolic",
+                "label": "Systolic blood pressure",
+                "unit": "mmHg",
+                "fact": "systolic",
+                "required": true
+              },
+              {
+                "id": "diastolic",
+                "label": "Diastolic blood pressure",
+                "unit": "mmHg",
+                "fact": "diastolic",
+                "required": true
+              },
+              {
+                "id": "medication_access",
+                "label": "Reported access to prescribed medicines",
+                "options": [
+                  "Available",
+                  "Access difficulty",
+                  "No medicines reported"
+                ],
+                "required": true
+              }
+            ]
+          }
+        },
+        {
+          "enrolmentId": "2e4f91b0-4886-472f-a1ce-131b9bcf9339",
+          "pack": {
+            "id": "child_growth",
+            "version": 1,
+            "name": "Child growth check",
+            "programme": "Child health",
+            "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+            "questions": [
+              {
+                "id": "weight",
+                "label": "Weight",
+                "required": true,
+                "fact": "weight",
+                "unit": "kg"
+              },
+              {
+                "id": "feeding_concern",
+                "label": "Does the carer report a feeding concern?",
+                "required": true,
+                "options": [
+                  "Yes",
+                  "No"
+                ]
+              }
+            ],
+            "changeNote": "Existing originalsynthetic installation fixture; notclinically approved.",
+            "installed": {
+              "installationId": "7c9f9d4b-0e4f-49d6-871a-1c98f449488f",
+              "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+            }
+          }
+        }
+      ],
+      "answers": {
+        "cough": "Yes"
+      },
+      "absence": {},
+      "savedBy": "auth0|opaque/shared-worker/4a16b505",
+      "savedAt": "2026-10-12T19:01:20.888Z"
+    },
+    "answerAuthors": {
+      "cough": {
+        "userId": "auth0|opaque/shared-worker/4a16b505",
+        "name": "asha-4a16b505@example.invalid",
+        "accountCode": "DBB5C97FD5DA0BC78103B77C",
+        "role": "asha",
+        "at": "2026-10-12T19:01:20.888Z"
+      }
+    },
+    "aiResults": []
+  },
+  "inst": {
+    "id": "7c9f9d4b-0e4f-49d6-871a-1c98f449488f",
+    "packId": "child_growth",
+    "version": 1,
+    "state": "staged",
+    "name": "Child growth check",
+    "programme": "Child health",
+    "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+    "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2",
+    "questions": [
+      {
+        "id": "weight",
+        "label": "Weight",
+        "required": true,
+        "fact": "weight",
+        "unit": "kg"
+      },
+      {
+        "id": "feeding_concern",
+        "label": "Does the carer report a feeding concern?",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ],
+    "schedule": null,
+    "escalation": null,
+    "escalationRules": [],
+    "migratesFrom": [],
+    "changeNote": "Existing originalsynthetic installation fixture; notclinically approved.",
+    "stagedBy": "owner-4a16b505@example.invalid",
+    "stagedAt": "2026-10-12T19:01:20.820Z",
+    "reason": "Existing synthetic structure fixture only",
+    "review": null,
+    "activatedAt": null,
+    "retiredAt": null,
+    "history": [
+      {
+        "state": "staged",
+        "at": "2026-10-12T19:01:20.820Z",
+        "by": "owner-4a16b505@example.invalid",
+        "reason": "Existing synthetic structure fixture only"
+      }
+    ],
+    "changes": [],
+    "conflicts": [],
+    "openEpisodes": 0,
+    "canReview": false,
+    "canActivate": false,
+    "canRetire": true,
+    "uploadedByYou": true
+  },
+  "packet": {
+    "organisationId": "org_38c368d7a56bd9176e46cc99de1a9aac",
+    "actorId": "auth0|opaque/shared-worker/4a16b505",
+    "person": {
+      "id": "96db7d6c-839f-4b3d-b20c-faa4eb485a5f",
+      "name": "Synthetic shared question person",
+      "version": 7
+    },
+    "visits": [
+      {
+        "id": "bf82b08f-7177-49ec-a3ac-9117dcd8eec4",
+        "version": 2,
+        "state": "draft",
+        "createdAt": "2026-10-12T19:01:20.874Z"
+      }
+    ],
+    "selected": {
+      "id": "bf82b08f-7177-49ec-a3ac-9117dcd8eec4",
+      "version": 2,
+      "state": "draft",
+      "createdAt": "2026-10-12T19:01:20.874Z",
+      "packs": [
+        {
+          "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+          "packId": "maternal",
+          "version": 1,
+          "name": "Maternal care",
+          "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+          "installationId": null,
+          "manifestHash": null
+        },
+        {
+          "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+          "packId": "tb",
+          "version": 1,
+          "name": "TB screening",
+          "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+          "installationId": null,
+          "manifestHash": null
+        },
+        {
+          "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+          "packId": "hypertension",
+          "version": 1,
+          "name": "Hypertension follow-up",
+          "purpose": "Record current measurements and reported medication access; no prescribing.",
+          "installationId": null,
+          "manifestHash": null
+        },
+        {
+          "enrolmentId": "2e4f91b0-4886-472f-a1ce-131b9bcf9339",
+          "packId": "child_growth",
+          "version": 1,
+          "name": "Child growth check",
+          "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+          "installationId": "7c9f9d4b-0e4f-49d6-871a-1c98f449488f",
+          "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+        }
+      ],
+      "questions": [
+        {
+          "question": {
+            "id": "weight",
+            "label": "Weight",
+            "required": true,
+            "fact": "weight",
+            "unit": "kg"
+          },
+          "destinations": [
+            {
+              "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+              "packId": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+              "packId": "hypertension",
+              "version": 1,
+              "name": "Hypertension follow-up",
+              "purpose": "Record current measurements and reported medication access; no prescribing.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "2e4f91b0-4886-472f-a1ce-131b9bcf9339",
+              "packId": "child_growth",
+              "version": 1,
+              "name": "Child growth check",
+              "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+              "installationId": "7c9f9d4b-0e4f-49d6-871a-1c98f449488f",
+              "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "systolic",
+            "label": "Systolic blood pressure",
+            "required": true,
+            "fact": "systolic",
+            "unit": "mmHg"
+          },
+          "destinations": [
+            {
+              "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+              "packId": "hypertension",
+              "version": 1,
+              "name": "Hypertension follow-up",
+              "purpose": "Record current measurements and reported medication access; no prescribing.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "diastolic",
+            "label": "Diastolic blood pressure",
+            "required": true,
+            "fact": "diastolic",
+            "unit": "mmHg"
+          },
+          "destinations": [
+            {
+              "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+              "packId": "hypertension",
+              "version": 1,
+              "name": "Hypertension follow-up",
+              "purpose": "Record current measurements and reported medication access; no prescribing.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "weeks",
+            "label": "Gestational age, reported",
+            "required": true,
+            "fact": "weeks",
+            "unit": "weeks"
+          },
+          "destinations": [
+            {
+              "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "maternal_contact",
+            "label": "Was a care appointment discussed?",
+            "required": true,
+            "options": [
+              "Yes",
+              "No"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "cough",
+            "label": "Does the person report a cough?",
+            "required": true,
+            "options": [
+              "Yes",
+              "No"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+              "packId": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "coughDays",
+            "label": "Cough duration, reported",
+            "required": true,
+            "fact": "coughDays",
+            "unit": "days",
+            "when": {
+              "id": "cough",
+              "value": "Yes"
+            }
+          },
+          "destinations": [
+            {
+              "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+              "packId": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "testing",
+            "label": "Is a testing follow-up already arranged?",
+            "required": true,
+            "options": [
+              "Yes",
+              "No"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+              "packId": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "medication_access",
+            "label": "Reported access to prescribed medicines",
+            "required": true,
+            "options": [
+              "Available",
+              "Access difficulty",
+              "No medicines reported"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+              "packId": "hypertension",
+              "version": 1,
+              "name": "Hypertension follow-up",
+              "purpose": "Record current measurements and reported medication access; no prescribing.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "feeding_concern",
+            "label": "Does the carer report a feeding concern?",
+            "required": true,
+            "options": [
+              "Yes",
+              "No"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "2e4f91b0-4886-472f-a1ce-131b9bcf9339",
+              "packId": "child_growth",
+              "version": 1,
+              "name": "Child growth check",
+              "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+              "installationId": "7c9f9d4b-0e4f-49d6-871a-1c98f449488f",
+              "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+            }
+          ]
+        }
+      ],
+      "conditionalDeferred": []
+    }
+  },
+  "observed": {
+    "status": 200,
+    "body": {
+      "organisationId": "org_38c368d7a56bd9176e46cc99de1a9aac",
+      "actorId": "auth0|opaque/shared-worker/4a16b505",
+      "person": {
+        "id": "96db7d6c-839f-4b3d-b20c-faa4eb485a5f",
+        "name": "Synthetic shared question person",
+        "version": 7
+      },
+      "visits": [
+        {
+          "id": "bf82b08f-7177-49ec-a3ac-9117dcd8eec4",
+          "version": 2,
+          "state": "draft",
+          "createdAt": "2026-10-12T19:01:20.874Z"
+        }
+      ],
+      "selected": {
+        "id": "bf82b08f-7177-49ec-a3ac-9117dcd8eec4",
+        "version": 2,
+        "state": "draft",
+        "createdAt": "2026-10-12T19:01:20.874Z",
+        "packs": [
+          {
+            "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+            "packId": "maternal",
+            "version": 1,
+            "name": "Maternal care",
+            "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+            "installationId": null,
+            "manifestHash": null
+          },
+          {
+            "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+            "packId": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+            "installationId": null,
+            "manifestHash": null
+          },
+          {
+            "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+            "packId": "hypertension",
+            "version": 1,
+            "name": "Hypertension follow-up",
+            "purpose": "Record current measurements and reported medication access; no prescribing.",
+            "installationId": null,
+            "manifestHash": null
+          },
+          {
+            "enrolmentId": "2e4f91b0-4886-472f-a1ce-131b9bcf9339",
+            "packId": "child_growth",
+            "version": 1,
+            "name": "Child growth check",
+            "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+            "installationId": "7c9f9d4b-0e4f-49d6-871a-1c98f449488f",
+            "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+          }
+        ],
+        "questions": [
+          {
+            "question": {
+              "id": "weight",
+              "label": "Weight",
+              "required": true,
+              "fact": "weight",
+              "unit": "kg"
+            },
+            "destinations": [
+              {
+                "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+                "packId": "maternal",
+                "version": 1,
+                "name": "Maternal care",
+                "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+                "installationId": null,
+                "manifestHash": null
+              },
+              {
+                "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+                "packId": "tb",
+                "version": 1,
+                "name": "TB screening",
+                "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+                "installationId": null,
+                "manifestHash": null
+              },
+              {
+                "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+                "packId": "hypertension",
+                "version": 1,
+                "name": "Hypertension follow-up",
+                "purpose": "Record current measurements and reported medication access; no prescribing.",
+                "installationId": null,
+                "manifestHash": null
+              },
+              {
+                "enrolmentId": "2e4f91b0-4886-472f-a1ce-131b9bcf9339",
+                "packId": "child_growth",
+                "version": 1,
+                "name": "Child growth check",
+                "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+                "installationId": "7c9f9d4b-0e4f-49d6-871a-1c98f449488f",
+                "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+              }
+            ]
+          },
+          {
+            "question": {
+              "id": "systolic",
+              "label": "Systolic blood pressure",
+              "required": true,
+              "fact": "systolic",
+              "unit": "mmHg"
+            },
+            "destinations": [
+              {
+                "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+                "packId": "maternal",
+                "version": 1,
+                "name": "Maternal care",
+                "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+                "installationId": null,
+                "manifestHash": null
+              },
+              {
+                "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+                "packId": "hypertension",
+                "version": 1,
+                "name": "Hypertension follow-up",
+                "purpose": "Record current measurements and reported medication access; no prescribing.",
+                "installationId": null,
+                "manifestHash": null
+              }
+            ]
+          },
+          {
+            "question": {
+              "id": "diastolic",
+              "label": "Diastolic blood pressure",
+              "required": true,
+              "fact": "diastolic",
+              "unit": "mmHg"
+            },
+            "destinations": [
+              {
+                "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+                "packId": "maternal",
+                "version": 1,
+                "name": "Maternal care",
+                "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+                "installationId": null,
+                "manifestHash": null
+              },
+              {
+                "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+                "packId": "hypertension",
+                "version": 1,
+                "name": "Hypertension follow-up",
+                "purpose": "Record current measurements and reported medication access; no prescribing.",
+                "installationId": null,
+                "manifestHash": null
+              }
+            ]
+          },
+          {
+            "question": {
+              "id": "weeks",
+              "label": "Gestational age, reported",
+              "required": true,
+              "fact": "weeks",
+              "unit": "weeks"
+            },
+            "destinations": [
+              {
+                "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+                "packId": "maternal",
+                "version": 1,
+                "name": "Maternal care",
+                "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+                "installationId": null,
+                "manifestHash": null
+              }
+            ]
+          },
+          {
+            "question": {
+              "id": "maternal_contact",
+              "label": "Was a care appointment discussed?",
+              "required": true,
+              "options": [
+                "Yes",
+                "No"
+              ]
+            },
+            "destinations": [
+              {
+                "enrolmentId": "ad741f5a-7058-42c7-81d1-a56fa84e3fd9",
+                "packId": "maternal",
+                "version": 1,
+                "name": "Maternal care",
+                "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+                "installationId": null,
+                "manifestHash": null
+              }
+            ]
+          },
+          {
+            "question": {
+              "id": "cough",
+              "label": "Does the person report a cough?",
+              "required": true,
+              "options": [
+                "Yes",
+                "No"
+              ]
+            },
+            "destinations": [
+              {
+                "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+                "packId": "tb",
+                "version": 1,
+                "name": "TB screening",
+                "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+                "installationId": null,
+                "manifestHash": null
+              }
+            ]
+          },
+          {
+            "question": {
+              "id": "coughDays",
+              "label": "Cough duration, reported",
+              "required": true,
+              "fact": "coughDays",
+              "unit": "days",
+              "when": {
+                "id": "cough",
+                "value": "Yes"
+              }
+            },
+            "destinations": [
+              {
+                "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+                "packId": "tb",
+                "version": 1,
+                "name": "TB screening",
+                "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+                "installationId": null,
+                "manifestHash": null
+              }
+            ]
+          },
+          {
+            "question": {
+              "id": "testing",
+              "label": "Is a testing follow-up already arranged?",
+              "required": true,
+              "options": [
+                "Yes",
+                "No"
+              ]
+            },
+            "destinations": [
+              {
+                "enrolmentId": "d3e0305a-1f5a-4c00-b9b3-bec7d0b7c5cc",
+                "packId": "tb",
+                "version": 1,
+                "name": "TB screening",
+                "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+                "installationId": null,
+                "manifestHash": null
+              }
+            ]
+          },
+          {
+            "question": {
+              "id": "medication_access",
+              "label": "Reported access to prescribed medicines",
+              "required": true,
+              "options": [
+                "Available",
+                "Access difficulty",
+                "No medicines reported"
+              ]
+            },
+            "destinations": [
+              {
+                "enrolmentId": "d589539e-c5ba-45f7-b40e-ab0bde5440a9",
+                "packId": "hypertension",
+                "version": 1,
+                "name": "Hypertension follow-up",
+                "purpose": "Record current measurements and reported medication access; no prescribing.",
+                "installationId": null,
+                "manifestHash": null
+              }
+            ]
+          },
+          {
+            "question": {
+              "id": "feeding_concern",
+              "label": "Does the carer report a feeding concern?",
+              "required": true,
+              "options": [
+                "Yes",
+                "No"
+              ]
+            },
+            "destinations": [
+              {
+                "enrolmentId": "2e4f91b0-4886-472f-a1ce-131b9bcf9339",
+                "packId": "child_growth",
+                "version": 1,
+                "name": "Child growth check",
+                "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+                "installationId": "7c9f9d4b-0e4f-49d6-871a-1c98f449488f",
+                "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+              }
+            ]
+          }
+        ],
+        "conditionalDeferred": []
+      }
+    }
+  },
+  "races": [
+    {
+      "name": "assignment",
+      "status": 404
+    },
+    {
+      "name": "role",
+      "status": 403
+    },
+    {
+      "name": "capturedsource",
+      "status": 409
+    },
+    {
+      "name": "visitversion",
+      "status": 409
+    }
+  ],
+  "clinicalApproval": false
+}

@@ -1,0 +1,14 @@
+layer        suites  components  suites citing no requirement  requirement ids cited
+unit            237           0                            90                    140
+integration     161          84                            80                    123
+resilience        1           0                             0                      2
+smoke            25           0                            19                     17
+ui                2          16                             0                     12
+nfr               6           0                             1                     10
+uat               3           0                             3                      0
+manual          610           0                           485                    147
+
+1045 suites, 100 component modules (run through their entry), 49 support files.
+367 of 1045 suites are cited by at least one requirement in requirements/evidence-map.json (678 cite none); 76 of 100 component modules are cited (24 cite none); 157 of 176 requirements cite at least one test file. A citation is evidence context, not acceptance.
+
+Catalogue check passed: every test file is classified and every *-smoke.mjs module is imported by tests/api-smoke.mjs.

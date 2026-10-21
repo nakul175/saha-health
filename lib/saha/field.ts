@@ -6,7 +6,7 @@ import { apply, digest, factsSchema, programmeRecord, fail, person, uuid, visit 
 import { programmeApply } from './programme-commands';
 import { ABSENCE } from './programmes';
 import type { OrgState, Member } from './types';
-import { NEXT, REFERRAL_EVENTS, TERMINAL, URGENCIES } from './referral-rules';
+import { NEXT, REFERRAL_EVENTS, REFERRAL_OUTCOMES, TERMINAL, URGENCIES } from './referral-rules';
 import type { Actor } from './store';
 export type FieldLease={id:string;actorId:string;memberVersion:number;visitId:string;visitVersion:number;identityHash:string;consentVersion:number;expiresAt:string;status:'active'|'revoked'|'synced';packageHash:string;createdAt:string;offlineWorkHash?:string};
 const id=z.string().min(1).max(200),ver=z.number().int().positive(),note=z.string().trim().min(5).max(1000);
@@ -15,7 +15,7 @@ export const fieldSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('revokeFieldLease'),personId:id,leaseId:id}).strict(),
  z.object({type:z.literal('syncFieldVisit'),personId:id,leaseId:id,packageHash:z.string().length(64),offlineWorkHash:z.string().regex(/^[0-9a-f]{64}$/).optional(),facts:factsSchema,answers:programmeRecord(z.string().max(500)),absence:programmeRecord(z.enum(ABSENCE))}).strict(),
  z.object({type:z.literal('assignReferral'),referralId:id,version:ver,ownerId:id,due:z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>!isNaN(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x),urgency:z.enum(URGENCIES).optional(),reason:note}).strict(),
- z.object({type:z.literal('recordReferralEvent'),referralId:id,version:ver,event:z.enum(REFERRAL_EVENTS as [string,...string[]]),appointmentAt:z.string().datetime().optional(),note,source:z.enum(['worker-observed','facility-reported','patient-reported']),evidenceReference:z.string().trim().min(3).max(200),occurredAt:z.string().datetime(),confirmed:z.literal(true)}).strict()
+ z.object({type:z.literal('recordReferralEvent'),referralId:id,version:ver,event:z.enum(REFERRAL_EVENTS as [string,...string[]]),appointmentAt:z.string().datetime().optional(),outcomeCode:z.enum(REFERRAL_OUTCOMES).optional(),note,source:z.enum(['worker-observed','facility-reported','patient-reported']),evidenceReference:z.string().trim().min(3).max(200),occurredAt:z.string().datetime(),confirmed:z.literal(true)}).strict()
 ]);
 export async function fieldIdentity(p:{name:string;age:number;sex:string;village:string;teamId:string;assignedTo:string|null}){return digest([p.name,p.age,p.sex,p.village,p.teamId,p.assignedTo]);}
 export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString(),environment='synthetic'):Promise<any|null>{
@@ -29,15 +29,19 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
   if(TERMINAL.has(r.state))fail(409,`A ${r.state} referral is closed; its evidence is immutable.`);
   if(c.type==='assignReferral'){
    const owner=state.members.find(x=>x.userId===c.ownerId&&x.status==='active'&&['asha','clinician'].includes(x.role)&&x.teamIds.includes(p.teamId)&&(x.role!=='asha'||p.assignedTo===x.userId)&&withinPolicy(x,p));if(!owner)fail(422,'Choose a care worker with current patient access.');
-   r.ownerId=owner.userId;r.due=c.due;if(c.urgency)r.urgency=c.urgency;detail=`Referral owner and due date recorded${c.urgency?`; urgency ${c.urgency}`:''}. `+c.reason;
+   r.ownerId=owner.userId;r.due=c.due;if(c.urgency)r.urgency=c.urgency;if(r.state==='draft')r.state='authorised';detail=`Referral authorised with a named owner and due date${c.urgency?`; urgency ${c.urgency}`:''}. `+c.reason;
   }else{
    if(!r.ownerId||!r.due)fail(409,'Assign an owner and due date first.');
    const owner=state.members.find(x=>x.userId===r.ownerId&&x.status==='active'&&x.teamIds.includes(p.teamId)&&['asha','clinician'].includes(x.role)&&(x.role!=='asha'||p.assignedTo===x.userId)&&withinPolicy(x,p));if(!owner)fail(409,'Reassign this referral to an active care worker.');
    if(r.ownerId!==u.userId&&!m.isOwner)fail(403,'Only the referral owner or organisation owner can record its outcome.');
    if(!(NEXT as any)[r.state]?.includes(c.event))fail(409,`A referral that is ${r.state} cannot move to ${c.event}. Record referral events in order.`);
+   if(c.event==='completed'){
+    if(!c.outcomeCode)fail(422,'Completion requires a coded verified service outcome.');
+    if(!r.events?.some(e=>e.state==='attended'))fail(409,'Attendance evidence is required before completed care can be recorded.');
+   }else if(c.outcomeCode)fail(422,'A service outcome code applies only to completed care.');
    if(c.event==='scheduled'){if(!c.appointmentAt)fail(422,'Record the appointment time for a scheduled referral.');r.appointmentAt=new Date(c.appointmentAt).toISOString();}else if(c.appointmentAt)fail(422,'An appointment time applies only to a scheduled referral.');
    if(Date.parse(c.occurredAt)>Date.parse(now)+300000||Date.parse(c.occurredAt)<Math.floor(Date.parse(r.createdAt)/1000)*1000||Date.parse(c.occurredAt)<Math.floor(Date.parse(r.events?.at(-1)?.occurredAt??r.createdAt)/1000)*1000)fail(422,'Event time must follow the previous event and cannot be in the future.');
-   r.events??=[];r.events.push({id:uuid(),state:c.event,note:c.note,source:c.source,evidenceReference:c.evidenceReference,occurredAt:c.occurredAt,recordedAt:now,actorId:u.userId});r.state=c.event as any;detail=`Referral ${c.event}${c.event==='scheduled'?` for ${r.appointmentAt}`:''}; ${c.source}; evidence recorded manually. No facility API verification or message sent.`;
+   r.events??=[];r.events.push({id:uuid(),state:c.event,note:c.note,source:c.source,evidenceReference:c.evidenceReference,...(c.outcomeCode?{outcomeCode:c.outcomeCode}:{}),occurredAt:c.occurredAt,recordedAt:now,actorId:u.userId});r.state=c.event as any;detail=`Referral ${c.event}${c.event==='scheduled'?` for ${r.appointmentAt}`:''}${c.outcomeCode?`; outcome ${c.outcomeCode}`:''}; ${c.source}; evidence recorded manually by ${u.userId}. No facility API verification or message sent.`;
   }
   r.version=(r.version??1)+1;
  }else{
@@ -50,7 +54,7 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
    p.fieldLeases=p.fieldLeases.filter(l=>l.expiresAt>now).slice(-19);
    const lease:FieldLease={id:uuid(),actorId:u.userId,memberVersion:m.version,visitId:v.id,visitVersion:v.version,identityHash:await fieldIdentity(p),consentVersion:p.consentVersion,expiresAt:new Date(Date.parse(now)+24*3600000).toISOString(),status:'active',packageHash:'',createdAt:now};
    let prepared;try{prepared=offlineWorkFor(v.programmeCapture)}catch{fail(422,'Prepared programme work exceeds the notebook limit.');}const offlineWork={...prepared!,hash:await digest(prepared!)};lease.offlineWorkHash=offlineWork.hash;
-   const payload={schema:1,offlineWork,leaseId:lease.id,userId:u.userId,organisationId:state.organisation.id,personId:p.id,personName:p.name,identityHash:lease.identityHash,visitId:v.id,visitVersion:v.version,expiresAt:lease.expiresAt,issuedAt:now,facts:v.facts,programmeCapture:v.programmeCapture??null,...(v.valueRangeCapture?{valueRangeCapture:v.valueRangeCapture}:{})};
+   const payload={schema:1,offlineWork,leaseId:lease.id,userId:u.userId,organisationId:state.organisation.id,personId:p.id,personName:p.name,identityHash:lease.identityHash,consentVersion:p.consentVersion,visitId:v.id,visitVersion:v.version,expiresAt:lease.expiresAt,issuedAt:now,facts:v.facts,programmeCapture:v.programmeCapture??null,...(v.valueRangeCapture?{valueRangeCapture:v.valueRangeCapture}:{})};
    const keys=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
    const bytes=new TextEncoder().encode(JSON.stringify(payload));const signature=Array.from(new Uint8Array(await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},keys.privateKey,bytes)));
    const packet={payload,signature,publicKey:await crypto.subtle.exportKey('jwk',keys.publicKey)};lease.packageHash=await digest(packet);p.fieldLeases.push(lease);

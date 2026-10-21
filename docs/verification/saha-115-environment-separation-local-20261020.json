@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "saha-local-story-evidence-v1",
+  "story": "SAHA-115",
+  "issue": "APL-138",
+  "requirement": "BR-OPS-02",
+  "title": "Separation of environments",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "contract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-138.md",
+    "sha256": "d115d0f8b8f0062b22498801dc7231c4d71b79c7e04bf1bfbfd3de5afc1e3427"
+  },
+  "scope": "Local application behavior only; no real identities, databases, credentials, providers, hosting, merge or deployment.",
+  "sourceSha256": {
+    ".env.example": "29419dcc1fa66bdfed267211cdbecb9ffd0f840a99beff03fcfcaff03f241410",
+    "app/api/fhir/[id]/route.ts": "dfda7d25006b1a01deaf428a4f61390112c224bceb495c0d7561a4ee3150a582",
+    "lib/saha/agent-minimisation.ts": "d45f078a9b15c36302b5b8d296d434590710ffee26ba8b3f07b820d4a185cddd",
+    "lib/saha/ehr-provider.ts": "98e7c6ca0d73e5e9efa2fdf9630f18da547603437559f5b134eb87114448017f",
+    "lib/saha/ehr.ts": "debf298f34f54482964b6bb3fcd1f5f43163d5c55c69cf77ea592aaf216fcfeb",
+    "lib/saha/environment.ts": "a59002080594680d1ef97b7df307fe040dacb13bb39f5d590b48d8bf455eebbb",
+    "lib/saha/fhir-document.ts": "1055087b93755b13fba4a6da3cb8f5c3c35b983e50373f1bedcff265a3751996",
+    "lib/saha/fhir.ts": "ea6208c63672ee217b89c8bada33c5eea16bac05ed88a8939cc3f30d1ef7fd8a",
+    "lib/saha/mis-execution.ts": "a42b01ea9bc5c5dd16b1e3a5cd40a409988ca98c31d829eae873c9dc9f941f3e",
+    "lib/saha/mis.ts": "1df821752230c53496556dc2ec33b766566c58bb4234df8341a1405ec4b933f8",
+    "lib/saha/server.ts": "cd00647722ede74f8855cb8d024f22e0540b1a83be5bacf960dd8dace25b2580",
+    "tests/environment-separation-contract.mjs": "d6198bb4b2d03acd9d84e813135bd3a6e51bc0de59c378d6b71ac573415090d5"
+  },
+  "checks": [
+    {
+      "command": "node tests/environment-separation-contract.mjs",
+      "result": "pass",
+      "passed": 17,
+      "failed": 0
+    },
+    {
+      "command": "original tests/environment-contract.mjs",
+      "result": "retained-byte-for-byte; historical result not reused for changed source"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "result": "pass"
+    },
+    {
+      "command": "npm run build",
+      "result": "pass"
+    },
+    {
+      "command": "node tests/agent-minimisation-contract.mjs",
+      "result": "harness-failure-before-assertions",
+      "detail": "Inherited fixed transpile list does not emit installed-transition-authority.js imported by programmes.js. The new recursive focused suite directly executes the changed legacy minimiser."
+    }
+  ],
+  "knownApplicationCodeGaps": [],
+  "pendingSeparateGates": [
+    "Physical separation and observation of training/production identity tenants, databases and credential stores",
+    "Formal TC-BR-OPS-02-A and TC-BR-OPS-02-B execution with deployment operations",
+    "Independent code review and exact-source CI",
+    "Merge and observed deployment",
+    "Formal human/domain approval"
+  ],
+  "sourcesReadOnly": true,
+  "status": "local-application-coding-complete; canonical requirement remains partial"
+}

@@ -12,11 +12,11 @@ import type { D1Database } from '@cloudflare/workers-types';
 export const PATIENT_COMMANDS = new Set<string>([
   // core visit, plan, consent and referral work
   'startVisit', 'saveVisit', 'confirmVisit', 'preparePlan', 'approvePlan', 'executePlan', 'reconcile',
-  'setConsent', 'withdrawConsent', 'runAI', 'reviewAI', 'createReferral',
+  'setConsent', 'withdrawConsent', 'recordConsentDecision', 'recordWithdrawalDisposition', 'runAI', 'reviewAI', 'createReferral',
   // corrections and assignment
   'amendVisit', 'voidVisit', 'correctIdentity', 'assignPatient',
   // programme episodes and follow-ups
-  'enrolProgramme', 'scheduleFollowUp', 'resolveFollowUp', 'closeEnrolment', 'saveProgrammeAnswers',
+  'enrolProgramme', 'scheduleFollowUp', 'resolveFollowUp', 'delayDueWork', 'closeEnrolment', 'saveProgrammeAnswers',
   // field grants and referral tracking
   'prepareFieldVisit', 'syncFieldVisit', 'revokeFieldLease', 'assignReferral', 'recordReferralEvent', 'referralDelay',
   // slice 4b: action-plan ownership of one patient's follow-ups and referrals
@@ -36,7 +36,7 @@ export const PATIENT_COMMANDS = new Set<string>([
   // unsent programme delivery cancellation
   'cancelSubmission',
   // slice 2b: visit media attach and draft removal
-  'attachMedia', 'removeMedia',
+  'attachMedia', 'reviewMedia', 'removeMedia',
   // slice 2e: clinician verification of one measurement on a confirmed visit
   'verifyFact',
   // slice 2g: clinician review of notes and programme answers, and supervisor sign-off of one confirmed visit

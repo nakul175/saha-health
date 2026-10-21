@@ -49,7 +49,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 | TC-BR-INT-19-A | Health Information User operation acceptance | BR-INT-19 (partial) | Not run |
 | TC-BR-CARE-02-A | Service directory acceptance | BR-CARE-02 (partial) | Not run |
 | TC-BR-CARE-03-A | Referral lifecycle acceptance | BR-CARE-03 (partial) | Not run |
-| TC-BR-SEC-11-A | Emergency and support access acceptance | BR-SEC-11 (partial) | Not run |
+| TC-BR-SEC-11-A | Emergency and support access acceptance | BR-SEC-11 (implemented-local) | Not run |
 | TC-BR-RULE-03-A | Review depends on unchanged evidence acceptance | BR-RULE-03 (implemented-local) | Not run |
 | TC-BR-RULE-05-A | No false model equivalence acceptance | BR-RULE-05 (implemented-local) | Not run |
 | TC-BR-RULE-07-A | No experimental output in care acceptance | BR-RULE-07 (partial) | Not run |
@@ -892,11 +892,11 @@ Versioned service metadata, contacts, constraints, verification and expiry gate 
 
 **Expected result** (catalogue): Completion requires a defined evidence source and actor; unsupported closure attempts are rejected.
 
-**Known gaps** (assessment, remaining work for BR-CARE-03): Facility-verified outcomes and external outcome evidence.
+**Known gaps** (assessment, remaining work for BR-CARE-03): Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.
 
 <details><summary>What the build does today (assessment, current state of BR-CARE-03)</summary>
 
-Dated referral events with evidence. Slice 4a adds accepted, scheduled (with appointment time), attended, did-not-attend, declined, cancelled and unknown states under an explicit transition table; closed states are immutable.
+Dated referral events with evidence. SAHA-101 locally distinguishes proposed, authorised, sent, received, scheduled, attended and completed states; completion requires prior attendance, a coded service outcome, evidence source/reference and the recording actor. Declined, cancelled, not-attended and unknown dispositions remain distinct; closed states are immutable.
 
 </details>
 
@@ -908,7 +908,7 @@ Dated referral events with evidence. Slice 4a adds accepted, scheduled (with app
 
 ### TC-BR-SEC-11-A — Emergency and support access acceptance
 
-- **Requirement:** BR-SEC-11 — Emergency and support access. Assessment: **partial**. Target R15. Priority Must, BRD phase R1.
+- **Requirement:** BR-SEC-11 — Emergency and support access. Assessment: **implemented-local**. Target R15. Priority Must, BRD phase R1.
 - **Catalogue:** Functional, fixture FX-SEC-11, catalogue owner "QA with Privacy and security owners".
 - **Run as:** Clinician. Basis: emergency access is a clinician action (assessment, slice 6a).
 - **Default result:** Not run
@@ -926,11 +926,11 @@ Dated referral events with evidence. Slice 4a adds accepted, scheduled (with app
 
 **Expected result** (catalogue): A break-glass event is visible to the designated reviewer and automatically expires; an ordinary worker cannot invoke it unless specifically authorised.
 
-**Known gaps** (assessment, remaining work for BR-SEC-11): Approved eligibility policy, support-staff access, step-up authentication, team notification and material-read audit during access.
+**Known gaps** (assessment, remaining work for BR-SEC-11): Production-approved eligibility and default-limit policy; support-staff access only if explicitly authorised; identity-provider step-up and proactive team notification; independent review, exact-source CI, merge, observed deployment, TC-BR-SEC-11-A/B and formal clinical/domain acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-11)</summary>
 
-Slice 6a: clinician emergency access to one out-of-scope patient by record reference, 15 minutes to 4 hours, with reason, caps, urgent-care actions only, audit and single independent review by the patient's team. Slice 6r: the urgent-care-only restriction resolves every patient a command names (merge survivor/duplicate, identity and safety cases, legal holds, visits) and fails closed; reviewers need normal access to the patient and the review queue follows it. Slice 6u: outreach item and plan commands and reminder creation are restricted too (an item's patient, or every patient on the plan).
+Slice 6a: clinician emergency access to one out-of-scope patient by record reference, 15 minutes to 4 hours, with reason, caps, urgent-care actions only, audit and single independent review by the patient team. Slice 6r: every patient reference is resolved and restricted fail-closed; reviewers need normal access. Slice 6u: outreach item, plan and reminder references are restricted. SAHA-132: the emergency register and designated review queue now append a minimised, patient-linked material-read event before disclosure (including an organisation-level empty-queue event), recheck current membership, and compare the same-time register after audit so changed authority or grant state refuses stale content. Synthetic direct contract 19/0, typecheck, production build and guarded built-Worker/fresh-D1 integration 5023/0 pass.
 
 </details>
 

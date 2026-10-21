@@ -22,6 +22,31 @@ export async function incentiveClaimsSmoke({ get, post, check, accounts, org, sq
   await read(c, '', 403); await read(a, '', 403); await read(x, '', 403);
   const before = await view(w);
   check(() => { assert.match(before.notice, /^SYNTHETIC\./); assert.match(before.notice, /not an incentive rate of any government or programme/); assert.equal(before.unit, 'SYN'); assert.equal(before.canPrepare, false, 'no schedule yet'); assert.equal(before.schedule.current, null); });
+  // SAHA-154: optional synthetic assignment alongside routine work. It is a worker invitation and evidence record only;
+  // no amount, claim approval, payment provider, settlement or care privilege is created.
+  const routineBefore = JSON.stringify({ people: w.state.people, visits: w.state.visits, submissions: w.state.submissions });
+  const offer = { type: 'offerOptionalAssignment', workerId: w.id, teamId: 'default', title: `Optional programme activity ${tag}`, summary: 'Review the synthetic programme register and record the agreed count.', evidencePrompt: 'Record what was checked and the synthetic reference.', dueAt: new Date(Date.now() + 7 * 86400000).toISOString() };
+  await as(w, offer, 403); await as(s, offer, 403); await as(o, { ...offer, workerId: c.id }, 422); await as(o, { ...offer, dueAt: new Date(Date.now() - 60000).toISOString() }, 422);
+  const offerKey = crypto.randomUUID(), offered = await as(o, offer, 200, offerKey), offeredReplay = await as(o, offer, 200, offerKey), assignmentId = offered.result.assignmentId;
+  check(() => { assert.equal(offeredReplay.replayed, true); assert.equal(offeredReplay.result.assignmentId, assignmentId); assert.equal(JSON.stringify({ people: w.state.people, visits: w.state.visits, submissions: w.state.submissions }), routineBefore); });
+  check(() => { const mine = before.optionalAssignments; assert.match(mine.notice, /does not promise or trigger payment/); });
+  let assignments = await view(w), otherAssignments = await view(other), ownerAssignments = await view(o);
+  check(() => { assert.equal(assignments.optionalAssignments.rows.find(r => r.id === assignmentId).actions.choose, true); assert.equal(otherAssignments.optionalAssignments.rows.some(r => r.id === assignmentId), false); assert.equal(ownerAssignments.optionalAssignments.rows.find(r => r.id === assignmentId).actions.cancel, true); });
+  await as(other, { type: 'chooseOptionalAssignment', assignmentId, version: 1, decision: 'accepted' }, 404);
+  const choice = { type: 'chooseOptionalAssignment', assignmentId, version: 1, decision: 'accepted' }, raced = await Promise.all([fetch(`${base}/api/commands`, { method: 'POST', headers: { ...w.headers, 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID(), 'x-saha-organisation': org }, body: JSON.stringify(choice) }), fetch(`${base}/api/commands`, { method: 'POST', headers: { ...w.headers, 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID(), 'x-saha-organisation': org }, body: JSON.stringify(choice) })]);
+  check(() => assert.deepEqual(raced.map(r => r.status).sort(), [200, 409])); await Promise.all(raced.map(r => r.json()));
+  await as(w, { type: 'submitOptionalAssignmentEvidence', assignmentId, version: 2, note: 'short' }, 422);
+  const evidenceKey = crypto.randomUUID(), evidence = await as(w, { type: 'submitOptionalAssignmentEvidence', assignmentId, version: 2, note: 'Checked the synthetic register and recorded the total.', reference: `SYN-${tag}-A` }, 200, evidenceKey), evidenceReplay = await as(w, { type: 'submitOptionalAssignmentEvidence', assignmentId, version: 2, note: 'Checked the synthetic register and recorded the total.', reference: `SYN-${tag}-A` }, 200, evidenceKey);
+  check(() => { assert.equal(evidence.result.evidenceVersion, 1); assert.equal(evidenceReplay.replayed, true); });
+  await as(w, { type: 'submitOptionalAssignmentEvidence', assignmentId, version: 3, note: 'Corrected the synthetic register count after a second check.', reference: `SYN-${tag}-B` });
+  await as(w, { type: 'withdrawOptionalAssignmentEvidence', assignmentId, version: 4, reason: 'The synthetic count needs another review' });
+  await as(o, { type: 'cancelOptionalAssignment', assignmentId, version: 5, reason: 'The synthetic programme activity is no longer needed' });
+  assignments = await view(w);
+  check(() => { const row = assignments.optionalAssignments.rows.find(r => r.id === assignmentId); assert.equal(row.state, 'cancelled'); assert.deepEqual(row.evidence.map(e => [e.version, e.active]), [[1, false], [2, false]]); assert.equal(assignments.claims.length, 0); assert.equal(assignments.schedule.current, null); assert.equal(JSON.stringify({ people: w.state.people, visits: w.state.visits, submissions: w.state.submissions }), routineBefore); });
+  const declined = await as(o, { ...offer, title: `Declined optional activity ${tag}` }), declinedId = declined.result.assignmentId;
+  await as(w, { type: 'chooseOptionalAssignment', assignmentId: declinedId, version: 1, decision: 'declined' });
+  await as(w, { type: 'submitOptionalAssignmentEvidence', assignmentId: declinedId, version: 2, note: 'Evidence cannot follow a declined invitation.' }, 409);
+  check(() => { const rows = sql.prepare("SELECT action,person_id,detail FROM audit_events WHERE org_id=? AND action IN ('offerOptionalAssignment','chooseOptionalAssignment','submitOptionalAssignmentEvidence','withdrawOptionalAssignmentEvidence','cancelOptionalAssignment')").all(org); assert.equal(rows.length, 8); assert.ok(rows.every(r => r.person_id === null)); assert.ok(rows.every(r => !/INR|rupee|paid|settlement provider/i.test(r.detail))); });
   // The schedule: owner only, validated, versioned, replay-safe.
   const schedule = { type: 'setIncentiveSchedule', expectedVersion: 0, label: 'Synthetic placeholder schedule', lines: [{ kind: 'visit-confirmed', amount: 10 }, { kind: 'visit-submitted', amount: 15 }, { kind: 'outreach-completed', amount: 20 }], reason: 'Placeholder amounts to test the claim workflow' };
   await as(w, schedule, 403); await as(s, schedule, 403); await as(c, schedule, 403);
@@ -137,5 +162,5 @@ export async function incentiveClaimsSmoke({ get, post, check, accounts, org, sq
   assert.equal((await view(s)).schedule.history, undefined, 'the schedule history is the owner\'s');
   // Slice 10k (combined review, finding H1): the Operations view returns an allow-list of the operations document, so an
   // administrator (no patient scope) and an owner never receive the claims, their patient ids or evidence visit ids there.
-  for (const who of [o, a]) { const ops = await get(who, '/api/operations?format=json', 200, org); check(() => { assert.equal(ops.operations.incentives, undefined, 'claims are read through their own scoped route'); assert.equal(JSON.stringify(ops.operations).includes(pid), false, 'no patient id in the operations document'); assert.deepEqual(Object.keys(ops.operations).filter(k => !['version', 'maintenance', 'reason', 'updatedAt', 'incidents', 'rates', 'budgets', 'staffIds'].includes(k)), []); }); }
+  for (const who of [o, a]) { const ops = await get(who, '/api/operations?format=json', 200, org); check(() => { assert.equal(ops.operations.incentives, undefined, 'claims are read through their own scoped route'); assert.equal(JSON.stringify(ops.operations).includes(pid), false, 'no patient id in the operations document'); assert.deepEqual(Object.keys(ops.operations).filter(k => !['version', 'maintenance', 'reason', 'updatedAt', 'incidents', 'rates', 'budgets', 'staffIds', 'clinicalAuthorities', 'supplyChain'].includes(k)), []); }); }
 }

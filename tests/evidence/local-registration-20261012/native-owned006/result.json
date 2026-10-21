@@ -1,0 +1,139 @@
+{
+  "passed": 51,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Actual trusted opaque ASHA/org/currentteam metadata binds explicit registration",
+    "Context returns no patient list credentials external identifiers or accountcodes",
+    "Actual original scoped match predicate finds no candidate without fabricating identifier verification",
+    "Actual initial context/match read leaves all60tables unchanged except originalauditmetrics",
+    "Actual anonymous context refuses protected registration data",
+    "Actual clinician context refuses protected registration data",
+    "Actual foreignorganisation context refuses protected registration data",
+    "Actual foreignaccount context refuses protected registration data",
+    "Actual changedactor context refuses protected registration data",
+    "Authority context refusals preserve every60table exceptmetrics",
+    "Unknown trusted subject refuses withzero account/org/patient/receipt bootstrap",
+    "Actual inventedidentifier source validation refuses without clinical or receipt writes",
+    "Actual unknownage source validation refuses without clinical or receipt writes",
+    "Actual wrongwriter source validation refuses without clinical or receipt writes",
+    "Actual staleMembership source validation refuses without clinical or receipt writes",
+    "Actual wrongteam source validation refuses without clinical or receipt writes",
+    "Explicit original createPerson returns localUUID/currentassignment/exactreceipt",
+    "Actual local record has no ABHA phone biometric fabricatedidentity or inferredconsent",
+    "Successfulregistration preserves all existingclinical rows and createszero unwantedvisits",
+    "One explicit original create adds one receipt",
+    "Explicit original samekey/body replay returns exactlocalrecord withzero duplicatepatient/visit/receipt",
+    "Reused receipt key withchanged demographics refuses originalhashbinding",
+    "Existing permitted candidate prevents new duplicate creation despite explicitcreate request",
+    "New candidate after preparation refuses changedreviewhash without anotherrecord",
+    "Actual post-audit changedmember proof withholds candidates",
+    "Actual unavailable match audit yields503/no create/clinical or receipt writes",
+    "Actual postcommit assignment loss refuses protected savedrecord response while preserving its receipt",
+    "Restored exactrecord scope explicitlyreconciles originalreceipt withoutanotherpatient",
+    "Actual visibleToday registration link binds existingorganisation withoutlegacymonolith",
+    "Actual mobile startswithno fabricated person/team/sex defaults",
+    "Explicit precommitcancel clearsinput withzero person/visit/receipt mutation",
+    "Actual mobile possiblematch cannot fabricate newdistinct or bypasscandidate review",
+    "Explicit human detailreview required before create",
+    "Actual phone390 AXEzero",
+    "Actual phone390 nooverflow/alltouchcontrols44",
+    "Actual200 committedregistration response lost preserves exactlyone localpatient/receipt/no unwantedvisit",
+    "Uncertainoutcome clearsprotectedinput and blocksnewcreate",
+    "Explicitlostresponse recovery usesexactoriginalkey/body andchangeszero clinical/receipt rows",
+    "Existinglocalrecord opens originalroutineGET contextwithoutautoencounter/newvisit",
+    "Actual offlineclearsunsaved protecteddemographics withzero implicitregistration",
+    "Actualpagehideclearsprotectedform/no automaticresume",
+    "Duplicatedorganisation URLcannotchooseconvenientscope",
+    "Actual unknowntrusted create attempt refusesbeforeoriginalbootstrap withzero60table creation",
+    "Actual changedrolebeforecreate denieszero clinical/receipt writes",
+    "Existingrecorded programmegrant excludesGeneralcare before originalwriter without newclinicalpolicy",
+    "Originalfuture assignment pins exactfreshness boundary without any60table changes exceptauditmetrics",
+    "Actualfutureassignment time clears registrationform before stalecontext reuse",
+    "Actualdue assignment read refuses409 withoutscheduler/bootstrap/assignment/history/receipt or60table writes",
+    "Actualmobilezero pageerrors/externalproviders",
+    "Currentapp/lib/tests/compiledcustody stable duringactualnative",
+    "Ownedsyntheticruntime disposed/portfree"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/today",
+      "body": null,
+      "key": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/local-registration",
+      "body": null,
+      "key": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/local-registration",
+      "body": "{\"kind\":\"search\",\"memberVersion\":1,\"input\":{\"name\":\"Synthetic Cancelled 87168e1c\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"teamId\":\"default\",\"programme\":\"General care\"}}",
+      "key": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/local-registration",
+      "body": "{\"kind\":\"search\",\"memberVersion\":1,\"input\":{\"name\":\"Synthetic Local One 87168e1c\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"teamId\":\"default\",\"programme\":\"General care\"}}",
+      "key": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/local-registration",
+      "body": "{\"kind\":\"search\",\"memberVersion\":1,\"input\":{\"name\":\"Synthetic Mobile Local 87168e1c\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"teamId\":\"default\",\"programme\":\"General care\"}}",
+      "key": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/local-registration",
+      "body": "{\"kind\":\"create\",\"memberVersion\":1,\"input\":{\"name\":\"Synthetic Mobile Local 87168e1c\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"teamId\":\"default\",\"programme\":\"General care\"},\"reviewHash\":\"b3ef1e70136bd10371e5cda69a1ad7bea4c27663f22994697a0e091ed88d482a\"}",
+      "key": "8ab4073d-2ceb-4ad4-8994-cdd098bdfbe1"
+    },
+    {
+      "method": "GET",
+      "path": "/api/local-registration",
+      "body": null,
+      "key": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/local-registration",
+      "body": "{\"kind\":\"create\",\"memberVersion\":1,\"input\":{\"name\":\"Synthetic Mobile Local 87168e1c\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"teamId\":\"default\",\"programme\":\"General care\"},\"reviewHash\":\"b3ef1e70136bd10371e5cda69a1ad7bea4c27663f22994697a0e091ed88d482a\"}",
+      "key": "8ab4073d-2ceb-4ad4-8994-cdd098bdfbe1"
+    },
+    {
+      "method": "GET",
+      "path": "/api/routine-visit",
+      "body": null,
+      "key": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/local-registration",
+      "body": null,
+      "key": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/local-registration",
+      "body": null,
+      "key": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/local-registration",
+      "body": null,
+      "key": null
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "disposed": true,
+  "portFree": true,
+  "statePreservedOnFailure": null,
+  "completedAt": "2026-10-12T20:03:51.864Z",
+  "limits": "Minimalconnected Generalcare local registration viaoriginalcreatePerson/receipt only; no new DB/writer/provider/nationalID/phone/biometric/clinicalpolicy/automaticencounter. Deliberate synthetic SQL authorityraces restored separately; no formalpilot/clinical/physical/domain/currentheadCI/hosting acceptance."
+}

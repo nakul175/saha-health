@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "receiptType": "exact-staged-successor-integration",
+  "story": "SAHA-155",
+  "scope": "Contextual Aplyd Academy learning",
+  "createdAt": "2026-10-20T21:57:55Z",
+  "integration": {
+    "baseCommit": "ea9d2e5cb98552f814da908e1a7c397af8af6f38",
+    "historicalCandidateCommit": "f4cd5cc5",
+    "historicalReceiptsApplicable": false,
+    "successorNote": "Exact current-parent successor preserves every accumulated parent path, including the indicator-registry privacy adapter, and reapplies the independently reviewed 22-path SAHA-155 semantic/evidence set. The active registered current-source smoke and authorization adapters retain the required person selector and assigned-ASHA boundary. Three unrelated current-parent test files remain unclassified by the parent catalogue and are explicitly retained as a catalogue HOLD."
+  },
+  "contract": {
+    "nativeIssue": "APL-178",
+    "nativeUpdatedAt": "2026-10-20T15:47:03.936Z",
+    "frozenSectionPath": "docs/current/saha-155/APL-178-FROZEN-V1.0.md",
+    "frozenSectionSha256": "1f3d5b084620aceac527f9fac9b12d8ff517bc42d6f6bc6065ecfe5871c2ae44",
+    "historicalProjectSnapshotPath": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-178.md",
+    "historicalProjectSnapshotSha256": "22b9b679a53dc042772eaf0986420e08176580b7b406b4122a98c1cd77e15b06",
+    "separation": "The project snapshot predates and does not contain the native frozen v1.0 section."
+  },
+  "review": {
+    "status": "PENDING_DIFFERENT_AGENT_REVIEW",
+    "reviewer": null
+  },
+  "validation": {
+    "contextualAcademyContract": "35/35 PASS on exact current staged source (fresh current-parent rerun)",
+    "routineSaveStatus": "20/20 PASS on exact current staged source (fresh current-parent rerun)",
+    "conflictDisagreement": "36/36 PASS on exact current staged source (fresh current-parent rerun)",
+    "contextualAcademyWorkerD1": "18/18 PASS on exact current staged source (fresh current-parent rerun)",
+    "localSmoke": "40/40 PASS with 3 documented skips on the exact registered adapter executed directly; runner dispatch is held before execution by three inherited unrelated unclassified parent tests",
+    "authorisationMatrix": "SAHA-155 row PASS: assigned ASHA 200, other ASHA 404, owner/admin/supervisor/clinician/stranger 403, anonymous 401. Aggregate matrix remains HOLD: 68 passed, 5 unrelated failures.",
+    "routineRegressions": "638/638 PASS: routine authority 245, organisation 52, attempt browser 97, native routine browser 244",
+    "testCatalogue": "HOLD before dispatch on three inherited current-parent files: point-of-need-help-browser.mjs, point-of-need-help-component.mjs, saha154-optional-assignment-uncertainty-browser.mjs. SAHA-155 integration suite remains explicitly classified.",
+    "typecheck": "PASS on exact current staged source",
+    "productionBuild": "PASS on exact current staged source; /api/contextual-academy included"
+  },
+  "evidence": {
+    "currentContractResult": {
+      "path": "tests/evidence/saha-155-contextual-academy/contract.json",
+      "sha256": "cb32f063331ddd1647c5f76802941b4a1f535d3717673bd387ca2430642d9a86",
+      "status": "35/35 current staged source"
+    },
+    "currentWorkerResult": {
+      "path": "tests/evidence/saha-155-contextual-academy/http-current.json",
+      "sha256": "dff70badc4eb8b46508e9c80054425824458ebf4a729e7637ea0183f679c4b39",
+      "status": "18/18 current staged source"
+    },
+    "currentSmokeResult": {
+      "path": "tests/evidence/saha-155-contextual-academy/smoke-current.json",
+      "sha256": "28ff2443ddf6ff0e7e472274dce00a4b97bc7c50578faff66e9acdddcb91d49e",
+      "status": "40/40 current staged source, 3 skipped, guard pass"
+    },
+    "historicalWorkerResult": {
+      "path": "tests/evidence/saha-155-contextual-academy/http.json",
+      "sha256": "cf9545e9e9df81fc2e3b12e6292a9b559f8ff42bb3e63a97beee8483ca4da538",
+      "status": "historical candidate 18/18"
+    },
+    "currentAuthorisationResult": {
+      "path": "tests/evidence/saha-155-contextual-academy/authorisation-current.json",
+      "sha256": "b91608af3829b5faae2209465351006f47dedbaf01306079b2e5bdb43cf8cf71",
+      "status": "SAHA-155 coverage PASS; aggregate current matrix HOLD 68/5; guard pass"
+    }
+  },
+  "indexedFiles": {
+    "app/api/contextual-academy/route.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "4b419c2e4544cf64d757e370c0b0a9381ac52585",
+      "stagedSha256": "ff30efb4021acb630e114c094439c539d44caa1c596e02c95d97abcbc547373d"
+    },
+    "app/routine-visit/contextual-academy.tsx": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "001859096936ddd6376be6d48fd108b1cf01cb85",
+      "stagedSha256": "e8882da13faff5dabdad06e9c8f69dacd25da3b61fddbd75918d1185726366ec"
+    },
+    "app/routine-visit/routine-visit.tsx": {
+      "changeStatus": "M",
+      "baseBlobOid": "293e172370a4569ee4fb77e4efd32ab4a5f4d71a",
+      "baseSha256": "f97259f0ac8b247b2994da8c339345bdf6c3542c6d265a1822ffb30b34696663",
+      "stagedBlobOid": "496c4c04f520054b9970b0544423810c90fc6695",
+      "stagedSha256": "045b6fe7f37359489561591233383e77471ba6fbdec6da5de4fa300a90b71f11"
+    },
+    "docs/current/HTTP-ROUTES.csv": {
+      "changeStatus": "M",
+      "baseBlobOid": "343025273b44a9862b5bc1164044402aa47a8509",
+      "baseSha256": "165b3bd743f2bb9fb16d8c36947fb5e80f67a8f9673cbc6dddb80157a29fa786",
+      "stagedBlobOid": "42c4930f1539d8063df19886394f0b8f174aa282",
+      "stagedSha256": "bccf182a9f6b341ba5c3e3f46be9cd2ba21dfe94bccfb586c314ea81465a90c7"
+    },
+    "docs/current/saha-155/APL-178-FROZEN-V1.0.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "66613e2c83daa82a47b2b88c8381e758a3474c08",
+      "stagedSha256": "1f3d5b084620aceac527f9fac9b12d8ff517bc42d6f6bc6065ecfe5871c2ae44"
+    },
+    "docs/current/saha-155/LOCAL-CODING-COMPLETION-20261020.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "376af770c109458e858ab920f4adbcdca66e3d23",
+      "stagedSha256": "516df7547477875f0ab5429dba2ef1d897d8cefb3b4b508ae9a45bc60f22322a"
+    },
+    "lib/saha/contextual-academy-server.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "ee270345da9b3d535d5b99420f82861362eec34d",
+      "stagedSha256": "a19d9ee83a572962eba9d64f0139b01300289ed7ea7eea860551c9c93eaa98fb"
+    },
+    "lib/saha/contextual-academy.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "196128c0f96ef5de2756872fcb2b983414496d75",
+      "stagedSha256": "cb141274ede648b8c64db8bb7008b9ee3fecbb7d1b13e4363cb3b90795f9ac40"
+    },
+    "scripts/test-catalogue.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "656fb1d591fef7ca5bc870f492778e9964af2b89",
+      "baseSha256": "a317e0de9966043d36ef2d93996509414037a2bc1b317251217c61b052f6f052",
+      "stagedBlobOid": "6f058d76a40fed59e393d56f07d766e88b11d5da",
+      "stagedSha256": "fe2b6dcacd402af7c0a7223a72ecffd252ff572b793fa0ddada0c14e3f96a682"
+    },
+    "tests/contextual-academy-contract.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "73faac909ac1b46221ba6704967e3184551f5873",
+      "stagedSha256": "408f761844688d9a221353474121baf3e69c5edc4ded273e3341e5113e9d9807"
+    },
+    "tests/evidence/saha-155-contextual-academy/affected-summary.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "86bffc37fbcfb0f5edf909ded81dce06bbf12850",
+      "stagedSha256": "3ef515b6c2e63ccabfad84d546e26efb61dbeb45e5888112e6c0d597b46affd0"
+    },
+    "tests/evidence/saha-155-contextual-academy/authorisation-current.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "dc668a6373b23b8be30101b46263030043e8e141",
+      "stagedSha256": "b91608af3829b5faae2209465351006f47dedbaf01306079b2e5bdb43cf8cf71"
+    },
+    "tests/evidence/saha-155-contextual-academy/contract.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "c5833ba951f7663e19ce045071e9b9054eb6711e",
+      "stagedSha256": "cb32f063331ddd1647c5f76802941b4a1f535d3717673bd387ca2430642d9a86"
+    },
+    "tests/evidence/saha-155-contextual-academy/http-current.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "43899f0d72736e65c14b2ad98d66b871c8a3bef8",
+      "stagedSha256": "dff70badc4eb8b46508e9c80054425824458ebf4a729e7637ea0183f679c4b39"
+    },
+    "tests/evidence/saha-155-contextual-academy/http.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "3dfae8ebdb5adcaadeec874d67aae8619c6f6267",
+      "stagedSha256": "cf9545e9e9df81fc2e3b12e6292a9b559f8ff42bb3e63a97beee8483ca4da538"
+    },
+    "tests/evidence/saha-155-contextual-academy/initial-routine-shape-failure.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "3865d334271e477b767d377e92086bafd78fc4ee",
+      "stagedSha256": "3b1d380d87a5d833a63c870d68785aeb1603ea4da97e456f8ef6868d3d3bfad5"
+    },
+    "tests/evidence/saha-155-contextual-academy/local-coding-completion.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "fb6b0ce38b5381ef61c92401818910c3dbba9303",
+      "stagedSha256": "9c7a06b925b9016221750d373f3210788fc1b075eb7b18d059d2e7e8a70c2c9f"
+    },
+    "tests/evidence/saha-155-contextual-academy/runner-summary.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "d88163e0c787a56493f00f4173d2665cecee9634",
+      "stagedSha256": "4c1ce215c704ce7d5d4b8b82ddd26f09f535a41d39b5def4afc8150d04a4e9a8"
+    },
+    "tests/evidence/saha-155-contextual-academy/smoke-current.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "6d83e238f0d75724a49a16dc9a2bc0c7baeae8a2",
+      "stagedSha256": "28ff2443ddf6ff0e7e472274dce00a4b97bc7c50578faff66e9acdddcb91d49e"
+    },
+    "tests/integration/contextual-academy-http.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "45a081fcf41f7d87cc43b117de6cb91ebaccfd05",
+      "stagedSha256": "d2e7e5794855643b2c149e3ab0f0ec66c179a68e7273cf9616033a48d48b507d"
+    },
+    "tests/nfr/authorisation-matrix-current.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "4731959a29f0c3d45cd2f1768e73220cb21d1162",
+      "baseSha256": "058c5bb91318df174fd80d18ca83de47b62d1e3c05760aae427205f1e1d9699e",
+      "stagedBlobOid": "f0f3b580d409f9b69b6b344271f360a5e20fe204",
+      "stagedSha256": "0b5c2d88ec8e5c7ca62ce516d4c19a802467cb80aeefab9fab985d483e086ab9"
+    },
+    "tests/smoke/local-routine-current-smoke.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "dd43b567fefa6dec0e03ebae796189f8e6c8c66d",
+      "baseSha256": "26190fe35064d73aaf4c49533dfb83582bbe2827139c317c98c3374cab9e8983",
+      "stagedBlobOid": "81c708a6460ebc3ab72429f6964288aa37c924c3",
+      "stagedSha256": "14466e822931c1c4a51f82cf98d1cf91ca53be56cef2d0a06e1e169be09bd89d"
+    }
+  },
+  "patch": {
+    "pathCountExcludingReceipt": 22,
+    "sha256": "8faef3c5f8451189a6ad61641f1b56d51022d718aabea00b1e2606ddd8ba2eae"
+  },
+  "hashConvention": {
+    "algorithm": "SHA-256",
+    "manifestDigest": "SHA-256 of UTF-8 canonical JSON (sorted keys, compact separators) after removing the entire integrity object",
+    "receiptSelfHandling": "receipt excluded from indexedFiles and patch to avoid recursive self-hashing"
+  },
+  "updatedAt": "2026-10-20T21:57:55Z",
+  "integrity": {
+    "manifestSha256": "14124ee10b2d7a6e8f07ffa59307a4465898d48a3802cf2e4b1bb42e98be5f1d"
+  }
+}

@@ -23,12 +23,25 @@ async function context(request: Request, id: string, sourceId?: string, correcti
   // A committed correction can move its source beyond the discovery window.
   // Keep the explicit original source/result in its own authorised recovery read.
   for (const wanted of [sourceId, correctionId]) { const v = all.find(v => v.id === wanted); if (v && !displayed.some(x => x.id === v.id)) displayed.push(v); }
+  type AmendmentRevision = { entity_id: string; version: number; actor_id: string; actor_name: string; reason: string; created_at: string; data: string };
+  const superseded = displayed.filter(v => v.supersededBy);
+  const revisionBatches = superseded.length ? await db().batch(superseded.map(v => db().prepare(
+    "SELECT entity_id,version,actor_id,actor_name,reason,created_at,data FROM record_revisions WHERE org_id=? AND person_id=? AND entity_type='visit' AND entity_id=? AND action='amendVisit' ORDER BY version DESC LIMIT 1"
+  ).bind(state.organisation.id,id,v.id))) : [];
+  const amendments = new Map<string,AmendmentContext['visits'][number]['amendment']>();
+  for (let i=0;i<superseded.length;i++) {
+    const row=(revisionBatches[i].results as AmendmentRevision[])[0];
+    if (!row) continue;
+    let correctionVisitId='';
+    try { const data=JSON.parse(row.data) as { supersededBy?: unknown }; if (typeof data.supersededBy==='string') correctionVisitId=data.supersededBy; } catch { /* Refuse to present malformed history as trace evidence. */ }
+    if (correctionVisitId && correctionVisitId===superseded[i].supersededBy) amendments.set(row.entity_id,{ actorId:row.actor_id,actorName:row.actor_name,at:row.created_at,reason:row.reason,correctionVisitId,sourceVersion:row.version });
+  }
   const value: AmendmentContext = { organisationId: state.organisation.id, actorId: actor.userId, person: { id: p.id, name: p.name, village: p.village },
     truncated: all.length > 50, visits: displayed.map(v => ({ id: v.id, personId: v.personId, state: v.state, recordVersion: v.recordVersion,
       createdAt: v.createdAt, confirmedAt: v.confirmedAt, supersededBy: v.supersededBy, amendsVisitId: v.amendsVisitId, voidedAt: v.voidedAt,
       imported: !!v.imported, facts: v.facts, plan: v.plan ? { id: v.plan.id, state: v.plan.state } : null,
       ai: v.aiResults.map(a => ({ id: a.id, status: a.status, reviewed: a.reviewed })),
-      submissions: state.workspace.submissions.filter(s => s.visitId === v.id).map(s => ({ id: s.id, state: s.state, receipt: s.receipt ?? null })), tasks: v.correctionTasks ?? [] })) };
+      submissions: state.workspace.submissions.filter(s => s.visitId === v.id).map(s => ({ id: s.id, state: s.state, receipt: s.receipt ?? null })), tasks: v.correctionTasks ?? [], amendment: amendments.get(v.id) ?? null })) };
   await recordAccess(db(), state, actor, member, { action: 'viewRecordHistory', subject: id, personId: id, detail: 'Bounded local amendment source and existing downstream obligations review.' + accessRoute(member,p) });
   await assertAssignedRead(db(), member, state.organisation.id, { personId: id });
   return value;

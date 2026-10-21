@@ -1,0 +1,918 @@
+{
+  "disposition": "Original raw bytes preserved outsideGit; exact receipt result bytes replaced by SHA256 solely to omit ephemeral synthetic invitation credentials. No source/result/status/count relabeling.",
+  "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/local-registration/native-owned005/committed-response-loss-custody.json",
+  "originalSha256": "db46a0764f6a08cd3df381b3699d187cd6366e573f771b4c03fc863794416300",
+  "originalBytes": 62627,
+  "observedRedacted": {
+    "originalAttempt": {
+      "body": "{\"kind\":\"create\",\"memberVersion\":1,\"input\":{\"name\":\"Synthetic Mobile Local 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"teamId\":\"default\",\"programme\":\"General care\"},\"reviewHash\":\"a1be18fadf45ff57d5d808d34560a253d6e261a7b540db9c1e7397ed703bbc1a\"}",
+      "key": "2782ffbd-6abc-4510-b18a-232164b968d9"
+    },
+    "before": {
+      "patients": [
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_aarav",
+          "version": 1,
+          "name": "Aarav Singh",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_farida",
+          "version": 1,
+          "name": "Farida Begum",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_farida\",\"name\":\"Farida Begum\",\"age\":47,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Facility follow-up\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_kamla",
+          "version": 1,
+          "name": "Kamla Devi",
+          "team_id": "default",
+          "assigned_to": null,
+          "data": "{\"id\":\"p_kamla\",\"name\":\"Kamla Devi\",\"age\":62,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Medication history review\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":null,\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_meena",
+          "version": 1,
+          "name": "Meena Devi",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_rajesh",
+          "version": 1,
+          "name": "Rajesh Kumar",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_sunita",
+          "version": 1,
+          "name": "Sunita Bai",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_sunita\",\"name\":\"Sunita Bai\",\"age\":38,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"TB screening\",\"General care\"],\"task\":\"Symptom screening\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_aarav",
+          "version": 1,
+          "name": "Aarav Singh",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_farida",
+          "version": 1,
+          "name": "Farida Begum",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_farida\",\"name\":\"Farida Begum\",\"age\":47,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Facility follow-up\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_kamla",
+          "version": 1,
+          "name": "Kamla Devi",
+          "team_id": "default",
+          "assigned_to": null,
+          "data": "{\"id\":\"p_kamla\",\"name\":\"Kamla Devi\",\"age\":62,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Medication history review\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":null,\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_meena",
+          "version": 1,
+          "name": "Meena Devi",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_rajesh",
+          "version": 1,
+          "name": "Rajesh Kumar",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_sunita",
+          "version": 1,
+          "name": "Sunita Bai",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_sunita\",\"name\":\"Sunita Bai\",\"age\":38,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"TB screening\",\"General care\"],\"task\":\"Symptom screening\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "48ca6483-92d8-40bd-b762-ffe4244577b6",
+          "version": 1,
+          "name": "Synthetic Late Candidate 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"48ca6483-92d8-40bd-b762-ffe4244577b6\",\"name\":\"Synthetic Late Candidate 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:29.732Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:29.732Z\",\"reason\":\"No candidate found in the permitted local records; no national identity verification claimed.\",\"candidateCount\":0}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "b5912904-07ae-4c28-a3ad-6215f0b454ee",
+          "version": 1,
+          "name": "Synthetic Registration Assignment Race 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"b5912904-07ae-4c28-a3ad-6215f0b454ee\",\"name\":\"Synthetic Registration Assignment Race 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:29.787Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:29.787Z\",\"reason\":\"No candidate found in the current permitted local search; no national identity verification claimed.\",\"candidateCount\":0,\"reviewHash\":\"d9716675f221f4e080c9c8988c90a7306ee3953ecf185cb7a4b5db5e303d54f7\"}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "fed91203-b922-4a35-b9a4-fa1e35f73495",
+          "version": 1,
+          "name": "Synthetic Local One 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"fed91203-b922-4a35-b9a4-fa1e35f73495\",\"name\":\"Synthetic Local One 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:29.678Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:29.678Z\",\"reason\":\"No candidate found in the current permitted local search; no national identity verification claimed.\",\"candidateCount\":0,\"reviewHash\":\"a7f6206cd58703996b32b2da39a30828786825b888d3ebd3e6d8dbe1d7405e00\"}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_aarav",
+          "version": 1,
+          "name": "Aarav Singh",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_farida",
+          "version": 1,
+          "name": "Farida Begum",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_farida\",\"name\":\"Farida Begum\",\"age\":47,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Facility follow-up\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_kamla",
+          "version": 1,
+          "name": "Kamla Devi",
+          "team_id": "default",
+          "assigned_to": null,
+          "data": "{\"id\":\"p_kamla\",\"name\":\"Kamla Devi\",\"age\":62,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Medication history review\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":null,\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_meena",
+          "version": 1,
+          "name": "Meena Devi",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_rajesh",
+          "version": 1,
+          "name": "Rajesh Kumar",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_sunita",
+          "version": 1,
+          "name": "Sunita Bai",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_sunita\",\"name\":\"Sunita Bai\",\"age\":38,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"TB screening\",\"General care\"],\"task\":\"Symptom screening\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        }
+      ],
+      "visits": [],
+      "receipts": [
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "2d51af38-75d5-4c64-9407-7740611b74d3",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "ad39f0489559cffab28debd5ee0a9c2b949a65186c30bb396cfe46f337bb399b",
+          "person_id": null,
+          "created_at": "2026-10-12T20:02:28.474Z",
+          "command_type": "joinOrganisation",
+          "mutation_subject_id": null,
+          "mutation_event_id": null,
+          "mutation_context": null,
+          "resultSha256": "3db17ac125dce80b3927135947f726888c1049f5aaea2093af9c75b0e95d5856"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "40a114f8-8090-4271-b3af-03f0dae073b2",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "33540d0d6821b485cf0a18700436088433dc60d866277d88c766e7f0ae912b2c",
+          "person_id": "fed91203-b922-4a35-b9a4-fa1e35f73495",
+          "created_at": "2026-10-12T20:02:29.678Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "fed91203-b922-4a35-b9a4-fa1e35f73495",
+          "mutation_event_id": "d56dea50-a60b-4479-8efc-104f2149e182",
+          "mutation_context": null,
+          "resultSha256": "d444b0110bf407ce90bb4ffd5ad473339bccd0b6d355567b20d0aa2fa7ad4792"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "76596b82-56a4-4708-b8f9-a5b8d6ebf943",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "5d667731d2f63f0cf3ee95560fed76bd2a98c501c98fe1c9f8258d89e445ba2a",
+          "person_id": "b5912904-07ae-4c28-a3ad-6215f0b454ee",
+          "created_at": "2026-10-12T20:02:29.787Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "b5912904-07ae-4c28-a3ad-6215f0b454ee",
+          "mutation_event_id": "36a68b87-14af-44c2-82ed-403c68331419",
+          "mutation_context": null,
+          "resultSha256": "f5552fc84bfa4ed864f797a3f62ff4ecf79cb98bf112bfc7402b5089226df1b0"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "8d1677dd-f89d-4b11-84ed-f54781519b6f",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "e2b5e36b9548b6500adebf6972248f997fefb3424b7bd62909043451e4cbe91a",
+          "person_id": "48ca6483-92d8-40bd-b762-ffe4244577b6",
+          "created_at": "2026-10-12T20:02:29.732Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "48ca6483-92d8-40bd-b762-ffe4244577b6",
+          "mutation_event_id": "1654fd2a-3ad4-4680-a0a5-9ca2f128fae4",
+          "mutation_context": null,
+          "resultSha256": "b7280613d0db0a5a035852039abbefd7709dc939f683583e7d6bab935735e42e"
+        },
+        {
+          "actor_id": "t-13bf56b2-owner",
+          "key": "75635198-b2b0-433d-92e1-68153befe02e",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "5f9cc4d96b325d7ca8f2fbbe745cced91f367615b82419373424425c746a1d2c",
+          "person_id": null,
+          "created_at": "2026-10-12T20:02:28.461Z",
+          "command_type": "createInvite",
+          "mutation_subject_id": "8ae521cf-b9cb-426c-9e88-209817b55375",
+          "mutation_event_id": "1da81026-9182-4031-afdb-1c32a3c14948",
+          "mutation_context": null,
+          "resultSha256": "0c443a326b158b5704178316070e92c295bfac8c5fb838e50649da7bae672cfb"
+        }
+      ]
+    },
+    "afterLost": {
+      "patients": [
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_aarav",
+          "version": 1,
+          "name": "Aarav Singh",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_farida",
+          "version": 1,
+          "name": "Farida Begum",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_farida\",\"name\":\"Farida Begum\",\"age\":47,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Facility follow-up\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_kamla",
+          "version": 1,
+          "name": "Kamla Devi",
+          "team_id": "default",
+          "assigned_to": null,
+          "data": "{\"id\":\"p_kamla\",\"name\":\"Kamla Devi\",\"age\":62,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Medication history review\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":null,\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_meena",
+          "version": 1,
+          "name": "Meena Devi",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_rajesh",
+          "version": 1,
+          "name": "Rajesh Kumar",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_sunita",
+          "version": 1,
+          "name": "Sunita Bai",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_sunita\",\"name\":\"Sunita Bai\",\"age\":38,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"TB screening\",\"General care\"],\"task\":\"Symptom screening\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_aarav",
+          "version": 1,
+          "name": "Aarav Singh",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_farida",
+          "version": 1,
+          "name": "Farida Begum",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_farida\",\"name\":\"Farida Begum\",\"age\":47,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Facility follow-up\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_kamla",
+          "version": 1,
+          "name": "Kamla Devi",
+          "team_id": "default",
+          "assigned_to": null,
+          "data": "{\"id\":\"p_kamla\",\"name\":\"Kamla Devi\",\"age\":62,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Medication history review\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":null,\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_meena",
+          "version": 1,
+          "name": "Meena Devi",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_rajesh",
+          "version": 1,
+          "name": "Rajesh Kumar",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_sunita",
+          "version": 1,
+          "name": "Sunita Bai",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_sunita\",\"name\":\"Sunita Bai\",\"age\":38,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"TB screening\",\"General care\"],\"task\":\"Symptom screening\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "48ca6483-92d8-40bd-b762-ffe4244577b6",
+          "version": 1,
+          "name": "Synthetic Late Candidate 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"48ca6483-92d8-40bd-b762-ffe4244577b6\",\"name\":\"Synthetic Late Candidate 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:29.732Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:29.732Z\",\"reason\":\"No candidate found in the permitted local records; no national identity verification claimed.\",\"candidateCount\":0}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "603d8263-f388-4a40-be9d-d58bd5c340f3",
+          "version": 1,
+          "name": "Synthetic Mobile Local 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"603d8263-f388-4a40-be9d-d58bd5c340f3\",\"name\":\"Synthetic Mobile Local 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:30.688Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:30.688Z\",\"reason\":\"No candidate found in the current permitted local search; no national identity verification claimed.\",\"candidateCount\":0,\"reviewHash\":\"a1be18fadf45ff57d5d808d34560a253d6e261a7b540db9c1e7397ed703bbc1a\"}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "b5912904-07ae-4c28-a3ad-6215f0b454ee",
+          "version": 1,
+          "name": "Synthetic Registration Assignment Race 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"b5912904-07ae-4c28-a3ad-6215f0b454ee\",\"name\":\"Synthetic Registration Assignment Race 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:29.787Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:29.787Z\",\"reason\":\"No candidate found in the current permitted local search; no national identity verification claimed.\",\"candidateCount\":0,\"reviewHash\":\"d9716675f221f4e080c9c8988c90a7306ee3953ecf185cb7a4b5db5e303d54f7\"}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "fed91203-b922-4a35-b9a4-fa1e35f73495",
+          "version": 1,
+          "name": "Synthetic Local One 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"fed91203-b922-4a35-b9a4-fa1e35f73495\",\"name\":\"Synthetic Local One 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:29.678Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:29.678Z\",\"reason\":\"No candidate found in the current permitted local search; no national identity verification claimed.\",\"candidateCount\":0,\"reviewHash\":\"a7f6206cd58703996b32b2da39a30828786825b888d3ebd3e6d8dbe1d7405e00\"}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_aarav",
+          "version": 1,
+          "name": "Aarav Singh",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_farida",
+          "version": 1,
+          "name": "Farida Begum",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_farida\",\"name\":\"Farida Begum\",\"age\":47,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Facility follow-up\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_kamla",
+          "version": 1,
+          "name": "Kamla Devi",
+          "team_id": "default",
+          "assigned_to": null,
+          "data": "{\"id\":\"p_kamla\",\"name\":\"Kamla Devi\",\"age\":62,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Medication history review\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":null,\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_meena",
+          "version": 1,
+          "name": "Meena Devi",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_rajesh",
+          "version": 1,
+          "name": "Rajesh Kumar",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_sunita",
+          "version": 1,
+          "name": "Sunita Bai",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_sunita\",\"name\":\"Sunita Bai\",\"age\":38,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"TB screening\",\"General care\"],\"task\":\"Symptom screening\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        }
+      ],
+      "visits": [],
+      "receipts": [
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "2782ffbd-6abc-4510-b18a-232164b968d9",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "e9c27dc31d7292479f21b49f8f4a3d37a213f32917139705809cced9871c6ed0",
+          "person_id": "603d8263-f388-4a40-be9d-d58bd5c340f3",
+          "created_at": "2026-10-12T20:02:30.688Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "603d8263-f388-4a40-be9d-d58bd5c340f3",
+          "mutation_event_id": "06ad37e0-03f7-4aad-ac87-e5f8d67d68c2",
+          "mutation_context": null,
+          "resultSha256": "30a39be1557fb03708dc8ee55cb01bb6ef1397717ca6a441c221e7f41a4b5fbc"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "2d51af38-75d5-4c64-9407-7740611b74d3",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "ad39f0489559cffab28debd5ee0a9c2b949a65186c30bb396cfe46f337bb399b",
+          "person_id": null,
+          "created_at": "2026-10-12T20:02:28.474Z",
+          "command_type": "joinOrganisation",
+          "mutation_subject_id": null,
+          "mutation_event_id": null,
+          "mutation_context": null,
+          "resultSha256": "3db17ac125dce80b3927135947f726888c1049f5aaea2093af9c75b0e95d5856"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "40a114f8-8090-4271-b3af-03f0dae073b2",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "33540d0d6821b485cf0a18700436088433dc60d866277d88c766e7f0ae912b2c",
+          "person_id": "fed91203-b922-4a35-b9a4-fa1e35f73495",
+          "created_at": "2026-10-12T20:02:29.678Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "fed91203-b922-4a35-b9a4-fa1e35f73495",
+          "mutation_event_id": "d56dea50-a60b-4479-8efc-104f2149e182",
+          "mutation_context": null,
+          "resultSha256": "d444b0110bf407ce90bb4ffd5ad473339bccd0b6d355567b20d0aa2fa7ad4792"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "76596b82-56a4-4708-b8f9-a5b8d6ebf943",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "5d667731d2f63f0cf3ee95560fed76bd2a98c501c98fe1c9f8258d89e445ba2a",
+          "person_id": "b5912904-07ae-4c28-a3ad-6215f0b454ee",
+          "created_at": "2026-10-12T20:02:29.787Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "b5912904-07ae-4c28-a3ad-6215f0b454ee",
+          "mutation_event_id": "36a68b87-14af-44c2-82ed-403c68331419",
+          "mutation_context": null,
+          "resultSha256": "f5552fc84bfa4ed864f797a3f62ff4ecf79cb98bf112bfc7402b5089226df1b0"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "8d1677dd-f89d-4b11-84ed-f54781519b6f",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "e2b5e36b9548b6500adebf6972248f997fefb3424b7bd62909043451e4cbe91a",
+          "person_id": "48ca6483-92d8-40bd-b762-ffe4244577b6",
+          "created_at": "2026-10-12T20:02:29.732Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "48ca6483-92d8-40bd-b762-ffe4244577b6",
+          "mutation_event_id": "1654fd2a-3ad4-4680-a0a5-9ca2f128fae4",
+          "mutation_context": null,
+          "resultSha256": "b7280613d0db0a5a035852039abbefd7709dc939f683583e7d6bab935735e42e"
+        },
+        {
+          "actor_id": "t-13bf56b2-owner",
+          "key": "75635198-b2b0-433d-92e1-68153befe02e",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "5f9cc4d96b325d7ca8f2fbbe745cced91f367615b82419373424425c746a1d2c",
+          "person_id": null,
+          "created_at": "2026-10-12T20:02:28.461Z",
+          "command_type": "createInvite",
+          "mutation_subject_id": "8ae521cf-b9cb-426c-9e88-209817b55375",
+          "mutation_event_id": "1da81026-9182-4031-afdb-1c32a3c14948",
+          "mutation_context": null,
+          "resultSha256": "0c443a326b158b5704178316070e92c295bfac8c5fb838e50649da7bae672cfb"
+        }
+      ]
+    },
+    "afterRecovery": {
+      "patients": [
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_aarav",
+          "version": 1,
+          "name": "Aarav Singh",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_farida",
+          "version": 1,
+          "name": "Farida Begum",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_farida\",\"name\":\"Farida Begum\",\"age\":47,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Facility follow-up\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_kamla",
+          "version": 1,
+          "name": "Kamla Devi",
+          "team_id": "default",
+          "assigned_to": null,
+          "data": "{\"id\":\"p_kamla\",\"name\":\"Kamla Devi\",\"age\":62,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Medication history review\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":null,\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_meena",
+          "version": 1,
+          "name": "Meena Devi",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_rajesh",
+          "version": 1,
+          "name": "Rajesh Kumar",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_10fc3887edb9ccf0ff23fc571873b60e",
+          "id": "p_sunita",
+          "version": 1,
+          "name": "Sunita Bai",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-foreign",
+          "data": "{\"id\":\"p_sunita\",\"name\":\"Sunita Bai\",\"age\":38,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"TB screening\",\"General care\"],\"task\":\"Symptom screening\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.443Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-foreign\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_aarav",
+          "version": 1,
+          "name": "Aarav Singh",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_farida",
+          "version": 1,
+          "name": "Farida Begum",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_farida\",\"name\":\"Farida Begum\",\"age\":47,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Facility follow-up\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_kamla",
+          "version": 1,
+          "name": "Kamla Devi",
+          "team_id": "default",
+          "assigned_to": null,
+          "data": "{\"id\":\"p_kamla\",\"name\":\"Kamla Devi\",\"age\":62,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Medication history review\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":null,\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_meena",
+          "version": 1,
+          "name": "Meena Devi",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_rajesh",
+          "version": 1,
+          "name": "Rajesh Kumar",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_3a25a0b63ee259878dec04ae58cb6676",
+          "id": "p_sunita",
+          "version": 1,
+          "name": "Sunita Bai",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"p_sunita\",\"name\":\"Sunita Bai\",\"age\":38,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"TB screening\",\"General care\"],\"task\":\"Symptom screening\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.432Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "48ca6483-92d8-40bd-b762-ffe4244577b6",
+          "version": 1,
+          "name": "Synthetic Late Candidate 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"48ca6483-92d8-40bd-b762-ffe4244577b6\",\"name\":\"Synthetic Late Candidate 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:29.732Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:29.732Z\",\"reason\":\"No candidate found in the permitted local records; no national identity verification claimed.\",\"candidateCount\":0}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "603d8263-f388-4a40-be9d-d58bd5c340f3",
+          "version": 1,
+          "name": "Synthetic Mobile Local 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"603d8263-f388-4a40-be9d-d58bd5c340f3\",\"name\":\"Synthetic Mobile Local 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:30.688Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:30.688Z\",\"reason\":\"No candidate found in the current permitted local search; no national identity verification claimed.\",\"candidateCount\":0,\"reviewHash\":\"a1be18fadf45ff57d5d808d34560a253d6e261a7b540db9c1e7397ed703bbc1a\"}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "b5912904-07ae-4c28-a3ad-6215f0b454ee",
+          "version": 1,
+          "name": "Synthetic Registration Assignment Race 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"b5912904-07ae-4c28-a3ad-6215f0b454ee\",\"name\":\"Synthetic Registration Assignment Race 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:29.787Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:29.787Z\",\"reason\":\"No candidate found in the current permitted local search; no national identity verification claimed.\",\"candidateCount\":0,\"reviewHash\":\"d9716675f221f4e080c9c8988c90a7306ee3953ecf185cb7a4b5db5e303d54f7\"}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "fed91203-b922-4a35-b9a4-fa1e35f73495",
+          "version": 1,
+          "name": "Synthetic Local One 13bf56b2",
+          "team_id": "default",
+          "assigned_to": "auth0|local-worker/opaque/13bf56b2",
+          "data": "{\"id\":\"fed91203-b922-4a35-b9a4-fa1e35f73495\",\"name\":\"Synthetic Local One 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"programmes\":[\"General care\"],\"task\":\"New home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":false,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:29.678Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"auth0|local-worker/opaque/13bf56b2\",\"identityReview\":{\"state\":\"local\",\"by\":\"auth0|local-worker/opaque/13bf56b2\",\"at\":\"2026-10-12T20:02:29.678Z\",\"reason\":\"No candidate found in the current permitted local search; no national identity verification claimed.\",\"candidateCount\":0,\"reviewHash\":\"a7f6206cd58703996b32b2da39a30828786825b888d3ebd3e6d8dbe1d7405e00\"}}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_aarav",
+          "version": 1,
+          "name": "Aarav Singh",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_aarav\",\"name\":\"Aarav Singh\",\"age\":3,\"sex\":\"Male\",\"village\":\"Kheda\",\"programmes\":[\"Child health\",\"General care\"],\"task\":\"Growth follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_farida",
+          "version": 1,
+          "name": "Farida Begum",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_farida\",\"name\":\"Farida Begum\",\"age\":47,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Facility follow-up\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_kamla",
+          "version": 1,
+          "name": "Kamla Devi",
+          "team_id": "default",
+          "assigned_to": null,
+          "data": "{\"id\":\"p_kamla\",\"name\":\"Kamla Devi\",\"age\":62,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Medication history review\",\"due\":\"Tomorrow\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":null,\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_meena",
+          "version": 1,
+          "name": "Meena Devi",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_rajesh",
+          "version": 1,
+          "name": "Rajesh Kumar",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_rajesh\",\"name\":\"Rajesh Kumar\",\"age\":54,\"sex\":\"Male\",\"village\":\"Rampur\",\"programmes\":[\"Chronic care\",\"General care\"],\"task\":\"Blood pressure follow-up\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        },
+        {
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "id": "p_sunita",
+          "version": 1,
+          "name": "Sunita Bai",
+          "team_id": "default",
+          "assigned_to": "t-13bf56b2-owner",
+          "data": "{\"id\":\"p_sunita\",\"name\":\"Sunita Bai\",\"age\":38,\"sex\":\"Female\",\"village\":\"Kheda\",\"programmes\":[\"TB screening\",\"General care\"],\"task\":\"Symptom screening\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T20:02:28.410Z\",\"version\":1,\"teamId\":\"default\",\"assignedTo\":\"t-13bf56b2-owner\",\"synthetic\":true}",
+          "rev": 0
+        }
+      ],
+      "visits": [],
+      "receipts": [
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "2782ffbd-6abc-4510-b18a-232164b968d9",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "e9c27dc31d7292479f21b49f8f4a3d37a213f32917139705809cced9871c6ed0",
+          "person_id": "603d8263-f388-4a40-be9d-d58bd5c340f3",
+          "created_at": "2026-10-12T20:02:30.688Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "603d8263-f388-4a40-be9d-d58bd5c340f3",
+          "mutation_event_id": "06ad37e0-03f7-4aad-ac87-e5f8d67d68c2",
+          "mutation_context": null,
+          "resultSha256": "30a39be1557fb03708dc8ee55cb01bb6ef1397717ca6a441c221e7f41a4b5fbc"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "2d51af38-75d5-4c64-9407-7740611b74d3",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "ad39f0489559cffab28debd5ee0a9c2b949a65186c30bb396cfe46f337bb399b",
+          "person_id": null,
+          "created_at": "2026-10-12T20:02:28.474Z",
+          "command_type": "joinOrganisation",
+          "mutation_subject_id": null,
+          "mutation_event_id": null,
+          "mutation_context": null,
+          "resultSha256": "3db17ac125dce80b3927135947f726888c1049f5aaea2093af9c75b0e95d5856"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "40a114f8-8090-4271-b3af-03f0dae073b2",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "33540d0d6821b485cf0a18700436088433dc60d866277d88c766e7f0ae912b2c",
+          "person_id": "fed91203-b922-4a35-b9a4-fa1e35f73495",
+          "created_at": "2026-10-12T20:02:29.678Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "fed91203-b922-4a35-b9a4-fa1e35f73495",
+          "mutation_event_id": "d56dea50-a60b-4479-8efc-104f2149e182",
+          "mutation_context": null,
+          "resultSha256": "d444b0110bf407ce90bb4ffd5ad473339bccd0b6d355567b20d0aa2fa7ad4792"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "76596b82-56a4-4708-b8f9-a5b8d6ebf943",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "5d667731d2f63f0cf3ee95560fed76bd2a98c501c98fe1c9f8258d89e445ba2a",
+          "person_id": "b5912904-07ae-4c28-a3ad-6215f0b454ee",
+          "created_at": "2026-10-12T20:02:29.787Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "b5912904-07ae-4c28-a3ad-6215f0b454ee",
+          "mutation_event_id": "36a68b87-14af-44c2-82ed-403c68331419",
+          "mutation_context": null,
+          "resultSha256": "f5552fc84bfa4ed864f797a3f62ff4ecf79cb98bf112bfc7402b5089226df1b0"
+        },
+        {
+          "actor_id": "auth0|local-worker/opaque/13bf56b2",
+          "key": "8d1677dd-f89d-4b11-84ed-f54781519b6f",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "e2b5e36b9548b6500adebf6972248f997fefb3424b7bd62909043451e4cbe91a",
+          "person_id": "48ca6483-92d8-40bd-b762-ffe4244577b6",
+          "created_at": "2026-10-12T20:02:29.732Z",
+          "command_type": "createPerson",
+          "mutation_subject_id": "48ca6483-92d8-40bd-b762-ffe4244577b6",
+          "mutation_event_id": "1654fd2a-3ad4-4680-a0a5-9ca2f128fae4",
+          "mutation_context": null,
+          "resultSha256": "b7280613d0db0a5a035852039abbefd7709dc939f683583e7d6bab935735e42e"
+        },
+        {
+          "actor_id": "t-13bf56b2-owner",
+          "key": "75635198-b2b0-433d-92e1-68153befe02e",
+          "org_id": "org_b741437a946f3b16128e803bd4c99bfe",
+          "hash": "5f9cc4d96b325d7ca8f2fbbe745cced91f367615b82419373424425c746a1d2c",
+          "person_id": null,
+          "created_at": "2026-10-12T20:02:28.461Z",
+          "command_type": "createInvite",
+          "mutation_subject_id": "8ae521cf-b9cb-426c-9e88-209817b55375",
+          "mutation_event_id": "1da81026-9182-4031-afdb-1c32a3c14948",
+          "mutation_context": null,
+          "resultSha256": "0c443a326b158b5704178316070e92c295bfac8c5fb838e50649da7bae672cfb"
+        }
+      ]
+    },
+    "createRequests": [
+      {
+        "method": "POST",
+        "path": "/api/local-registration",
+        "body": "{\"kind\":\"create\",\"memberVersion\":1,\"input\":{\"name\":\"Synthetic Mobile Local 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"teamId\":\"default\",\"programme\":\"General care\"},\"reviewHash\":\"a1be18fadf45ff57d5d808d34560a253d6e261a7b540db9c1e7397ed703bbc1a\"}",
+        "key": "2782ffbd-6abc-4510-b18a-232164b968d9"
+      },
+      {
+        "method": "POST",
+        "path": "/api/local-registration",
+        "body": "{\"kind\":\"create\",\"memberVersion\":1,\"input\":{\"name\":\"Synthetic Mobile Local 13bf56b2\",\"age\":31,\"sex\":\"Unknown\",\"village\":\"Synthetic local village\",\"teamId\":\"default\",\"programme\":\"General care\"},\"reviewHash\":\"a1be18fadf45ff57d5d808d34560a253d6e261a7b540db9c1e7397ed703bbc1a\"}",
+        "key": "2782ffbd-6abc-4510-b18a-232164b968d9"
+      }
+    ]
+  }
+}

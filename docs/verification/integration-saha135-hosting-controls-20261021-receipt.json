@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "receiptType": "exact-staged-successor-integration",
+  "story": "SAHA-135",
+  "scope": "Hosting and cross-border deployment controls",
+  "createdAt": "2026-10-20T22:24:04.278Z",
+  "integration": {
+    "baseCommit": "f3c536f6725721bd371c5ef71c38807e2181eafe",
+    "candidateCommit": "e324f6d3ec22fba1e18022e3146c79e21b331bba",
+    "historicalCandidateBase": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+    "historicalReceiptsApplicable": false
+  },
+  "contract": {
+    "portableSnapshot": "docs/verification/saha135-apl158-contract-snapshot.json",
+    "decodedSourceSha256": "0787b5e90c8ca7c7f427f19e3ba7e0eb6995631148c82b8f667740a0bda920b1"
+  },
+  "review": {
+    "status": "PENDING_CURRENT_PARENT_INDEPENDENT_REVIEW",
+    "historicalReview": {
+      "status": "PASS",
+      "reviewer": "independent-agent:/root/saha113_server"
+    },
+    "historicalReviewApplicable": false
+  },
+  "validation": {
+    "hostingControls": "51/51 PASS",
+    "serviceDispatch": "115/115 PASS",
+    "supplyChain": "45/45 PASS",
+    "incidentResponse": "24/24 PASS",
+    "importedEvidence": "26/26 PASS",
+    "media": "5/5 PASS",
+    "objectMedia": "22/22 PASS",
+    "nativeObjectStorageBoundary": "17/17 PASS",
+    "frontlineProvider": "109/109 PASS",
+    "frontlineFollowup": "33/33 PASS",
+    "anaemiaProvider": "58/58 PASS",
+    "environment": "29/29 PASS",
+    "saha155ContextualAcademy": "35/35 contract and 18/18 actual Worker/D1 HTTP PASS",
+    "saha156PointOfNeedHelp": "30/30 contract, 16/16 actual component, 11/11 actual Worker/D1/Chromium PASS",
+    "aggregateAdapters": "current indicator, reuse and report-export privacy registration adapters PASS",
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "reportExportHarness": "HOLD: inherited static transpile inventory omits data-flow-authority.js before assertions",
+    "testCatalogue": "HOLD: inherited current parent has three later unclassified test files",
+    "requirementsAudit": "HOLD: inherited current traceability differs from generated programme-wide state",
+    "uat": "HOLD: inherited catalogue guard failed before execution",
+    "authorisationMatrix": "SAHA-135 owner route PASS; aggregate 68/73 with five inherited unrelated failures retained"
+  },
+  "unclaimedGates": [
+    "current-parent independent review",
+    "exact-source CI",
+    "named privacy/security owner review",
+    "formal BR-SEC-14 execution",
+    "merge",
+    "observed deployment"
+  ],
+  "indexedFiles": {
+    "app/api/hosting-controls/route.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "25ec92c37bc51f0a9dfbceba318a7a49b5153122",
+      "stagedSha256": "b4f77cdc8e4df77a49836e18ffe81adc9eb61c98325647fd333d9238f99f5b2d"
+    },
+    "app/hosting-controls/page.tsx": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "71ef9d3cf6b5d283061e47106d65d99e816b6943",
+      "stagedSha256": "bcd71030c5d264a1956fdfd50a8fcb6dcf88c69c06f067031f389194a6be3003"
+    },
+    "app/workspace.tsx": {
+      "changeStatus": "M",
+      "baseBlobOid": "7a85ffc7617072ebbeff249dd26a7863f88b3478",
+      "baseSha256": "36b57cc446d6d604fa31a1ee73e7252194865984d0834ebccda30f78ddb29a1e",
+      "stagedBlobOid": "a751fb3f6880ff852a785e4920cb53001edcad43",
+      "stagedSha256": "b0b3c3a110ced703f070acf3fa1066a3d0102822416d1e0977ad891b4f245b15"
+    },
+    "docs/current/SAHA-135-HOSTING-AND-CROSS-BORDER-CONTROLS.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "ec1563d302b1850d55623a5db5ee5dea2c730e77",
+      "stagedSha256": "29d49cab172428aaee644905b7f2cf96c794d351685eabda61e02c0be3df06c1"
+    },
+    "docs/verification/saha135-apl158-contract-snapshot.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "ab7fffacf0e1164777cf1515549ed9e1c6cba3e9",
+      "stagedSha256": "f701c575929c196220791aeb1e9506c2fbd6d58c13b6f0d2cbffed7cb1ca97e9"
+    },
+    "lib/saha/core.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "dc9f59b2e75557378a6140c5947e64d1b3b686ec",
+      "baseSha256": "0174581ad2845fe50523ecc7c72afcfb30faa0e114419b4eaa65ccd0143016a2",
+      "stagedBlobOid": "ba7a32f291c4ffc64307c9e6d54ffbda6bf6654f",
+      "stagedSha256": "119b49223c1fcd7e6494609ca896a16f398526492b41b5a35b4c5e4c474d39b7"
+    },
+    "lib/saha/hosting-controls-server.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "8dfe64a4f085da1f1b6241120b3a563cbec84979",
+      "stagedSha256": "b6c3a4fde92e9a81758a905455c8e216f2e3b3da74051b6f49b6cc32188f23bb"
+    },
+    "lib/saha/hosting-controls.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "c5336a10206ffffdeaaa3682135f65d072351b23",
+      "stagedSha256": "31d8a4dde74a37921b29d6cdbb9ff2dc33dc5e0f6af8bcc84b11704510df5315"
+    },
+    "lib/saha/indicators-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "6d112f0a38d7531fb3f4f8275fe38f89ba13fabf",
+      "baseSha256": "72aaf9c6e32d2b2780ef04b3071c8a1f23a6fd663114342de83c5525202e10fa",
+      "stagedBlobOid": "81fdf21899599ec45df88e00e15d0396c53a580d",
+      "stagedSha256": "3d74963bb4a8fd0344a4ce190d09509338352b578acea7aac3ce079cb9b3442b"
+    },
+    "lib/saha/media-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "d742147136d8d2a35eaf77e62920438d29eeeb0a",
+      "baseSha256": "0918f4f65c1ec5f5f2856511fd1297a2b56c4579070969ff9675a47b25554745",
+      "stagedBlobOid": "20672fd5e2f9f50331aefb1878cf6977c38e515f",
+      "stagedSha256": "6c4c99e26e04b7889f7691b7e296e90efb4a96782f31be3cfa7dd4bc3a1c4f63"
+    },
+    "lib/saha/monitoring.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "5a7b644fb3d2f2b55d221917ad50f628ef971312",
+      "baseSha256": "4678422f2961b9344855f12154fd99bb8c339a35f4d9f67c623b9f3ff522de80",
+      "stagedBlobOid": "c5e01bc16a44249f43a89b26be6a65240417b29c",
+      "stagedSha256": "b35565f02c27ab986fb1067939aaa3800fcbfad6baffaa43727d4bde1c5c3f70"
+    },
+    "lib/saha/operations-server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "40a9cfed507030a6da2f8c7f4a7508a793d495d5",
+      "baseSha256": "64a33bfcc6e9d0792f0ee5125c4f89b887e3057a84e7872ea013f6ae7466faf0",
+      "stagedBlobOid": "0f675aba2b6f7bbc3e2f2ebd07ce5207c5c905ee",
+      "stagedSha256": "442cffa08135704f22027e3c7c367597e9cf08dd0f9cb865108cb56ba221f939"
+    },
+    "lib/saha/operations.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "61e0c012475ea952b5ca1486f20c796a51b3c803",
+      "baseSha256": "6eba714a98253f03b658a89e268c35c10eb5b6a1509cbd872d7f0c201b19425c",
+      "stagedBlobOid": "889ab65259b2949d710d8e1d7a6e4e22f33d8469",
+      "stagedSha256": "9ba409d42fc6592f34f65a20461e27bf693286b0a513cdecfa7b6c689ecf5613"
+    },
+    "lib/saha/platform.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "ee969ceb3f6878aeda7213aacb67105d5c02b45f",
+      "baseSha256": "989152dce2025acf45fdb253880077b6d97ca3b41f0227fa9b8cf751910696f6",
+      "stagedBlobOid": "120c5209ce9438734854ad5a48826ad1cc6df2b0",
+      "stagedSha256": "756dd3aefeb44e9dcc2e97db6a99852d82565bd87fec5d0d4c2fc05ee6d6c213"
+    },
+    "lib/saha/server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "71add1395a6b0096655bd75c7dd2218096125057",
+      "baseSha256": "ace4711c81b8e5e0d6acb55cc8a9b8f3063f810ab2c6d1f92748d1c5e7641dfd",
+      "stagedBlobOid": "d8ab44baa10178577840554c73e98224a6a6191d",
+      "stagedSha256": "0c2f6b878c5c4dd8df07bd5fefb7859608d8f2a4c0df89d722c4618fbb038637"
+    },
+    "lib/saha/service-dispatch.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "bbbfbfd0e863313f102cb38cfe2e2ca77ae3f49d",
+      "baseSha256": "9524020995f2aaff812a4fb9155cc4a155380a8a0587515c22af4e1c1780a1a6",
+      "stagedBlobOid": "0b0d8d67d5b0d99f90c95f44d09e573655fafcc5",
+      "stagedSha256": "360421e08e683169c072ece6cba91115d55e3291fa7988c2e8e1136b8c283bc2"
+    },
+    "lib/saha/store.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "7880ddf47ff6799d4156fad83eac0d22c37247bc",
+      "baseSha256": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+      "stagedBlobOid": "46107d0c88ca467940018ea448e5a68b26b99da0",
+      "stagedSha256": "4700ef8b9becdc76087e6d77ab57649fdaf8d2495544a24b9aabd113b3e8b8a2"
+    },
+    "lib/saha/types.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "f068543b404d300a629fd67eb0590ce09049f07f",
+      "baseSha256": "4455ce60d3dbcdf418f4eb7b74674f02b585116baeb6026be3251838bfce7a0a",
+      "stagedBlobOid": "c27a6207ee2a9da28aa145add279b441f637ac21",
+      "stagedSha256": "042b82fa32cf4210482798254b664ad4f10b7d5c95bbc0e960764e8de41b36c8"
+    },
+    "tests/hosting-controls-contract.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "07f4a0aab3b6cbdb1a566e05380432a24a80b6b4",
+      "stagedSha256": "9d8a8a7811e391550433729749914db60b1debf447fef4225e70370326e8717a"
+    },
+    "tests/service-dispatch-contract.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "6ba21272a7644467468bffd269f64f85ad4529c4",
+      "baseSha256": "0c6aae62c3c2f05c70281e99b7ddd55631dca9df11a1505bebad157be55ac586",
+      "stagedBlobOid": "2b2c463bfce975a3e035675acbbfff7792dbbc5d",
+      "stagedSha256": "d5c7838cd7b3d3d03935fe4e08852fcd3c6b863d1d40fbe8ee5da03d28aa4e8f"
+    }
+  },
+  "semanticPatchSha256": "79e899059f1fdedcc2ce9e31008140dab950c78914848d56285909b27660a42a",
+  "hashConvention": {
+    "algorithm": "SHA-256",
+    "manifestDigest": "SHA-256 of UTF-8 canonical JSON (recursively sorted keys, compact separators) after removing entire integrity object",
+    "receiptSelfHandling": "receipt excluded from indexedFiles"
+  },
+  "integrity": {
+    "manifestSha256": "b9c637ca52aa2547313c14ccd27e0297c47fdabf224bf24ea749b736cd7348d3"
+  }
+}

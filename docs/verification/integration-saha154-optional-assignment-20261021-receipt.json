@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "receiptType": "exact-staged-successor-integration",
+  "story": "SAHA-154",
+  "scope": "Optional assignment alongside routine work",
+  "createdAt": "2026-10-20T20:57:38.821335Z",
+  "integration": {
+    "baseCommit": "89fa9a216ac5892a6fa0a4716acfe2a3f694007c",
+    "candidateCommit": "fcebd1dc6d8c63b195da79d516e06f1b208342a0",
+    "historicalCandidateBase": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+    "historicalReceiptsApplicable": false
+  },
+  "contract": {
+    "portableSnapshot": "docs/verification/saha154-apl177-contract-snapshot.json",
+    "decodedSourceSha256": "7daa9f2e7aea4c364228da611911bed1dd528c60cbdd33664000867e89a3fcc5"
+  },
+  "review": {
+    "status": "PASS",
+    "reviewer": "independent-agent:/root/saha113_server",
+    "semanticPatchSha256": "a9feaccd9c91c7e336afe10cb4abc45b302a575aa6a35aab5c2cccc436bd46d6"
+  },
+  "validation": {
+    "optionalAssignmentContract": "47/47 PASS",
+    "uncertaintyBrowser": "9/9 PASS",
+    "typecheck": "PASS",
+    "productionBuild": "PASS"
+  },
+  "indexedFiles": {
+    "app/incentive-claims-panel.tsx": {
+      "changeStatus": "M",
+      "baseBlobOid": "ba22194d71582b6825c8066c29e2cc1afd84d29a",
+      "baseSha256": "6bac6c6a294510e105aee8d99feae241ad8016fb4926a1186476ac78f71724e7",
+      "stagedBlobOid": "040fe717b09718b1f7721caa8fc8955775a9c5a4",
+      "stagedSha256": "37dcb23b30e24b654ce22f1c8da213e6c43238324ac08779a57437f35daa0d5c"
+    },
+    "docs/current/SAHA-154-ACCEPTANCE-CONTRACT.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "f61d9eed9ec6a314dc6f05dd7419783d0cfd4a42",
+      "stagedSha256": "8cd2b81b2cc6e965f5527eafe58c577b6a07fb39b74434f99d09dec372bd4319"
+    },
+    "docs/current/SAHA-154-OPTIONAL-PAID-ASSIGNMENT-LOCAL-CODING-COMPLETION.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "7c96b2a41af2dca686b775df8bc9785e9a23df37",
+      "stagedSha256": "09c00dd25ee4f09c09f72e46cb36322b37cb26920eecd3edd297349d856ca634"
+    },
+    "docs/verification/saha154-apl177-contract-snapshot.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "691c921aa6a89b7cfe351c05895bfbc0686d68e1",
+      "stagedSha256": "215f64e57a6f5b57ce1f33239933b5ddd016cbdebcd0e57b96e56dc38ca30ca3"
+    },
+    "lib/saha/incentives-view.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "938f5a23e7ac1399522fd81ae03fb3c68882ffd0",
+      "baseSha256": "c3706cfb4329a4168e2230f36a1d9fb575e72bc14ea17ec55c3c51847bb87c3a",
+      "stagedBlobOid": "f7ec5bd966aa144bde40eb4924d121b49cd60acd",
+      "stagedSha256": "62eadbf95358850c279b6b09ffdeb6fc4c9072abb7a2dc5a5c4b19c0995b5abd"
+    },
+    "lib/saha/incentives.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "563e16c31937b32394048ddc6596dff9e8240024",
+      "baseSha256": "64bb11da5380a09caa3efb4f2531e26c7112f7301d377ba0aa2a6b7cf5ae13c1",
+      "stagedBlobOid": "6c41c04cb59b27ea0cacf076534fba92d15d4cd3",
+      "stagedSha256": "70d4d4d15e03467a826b0e846acd575214dd53925ef8b64efc078cfaaa7d6a9a"
+    },
+    "tests/incentive-claims-smoke.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "fc374d3653849027854d6bf8d439ffc5c3e02638",
+      "baseSha256": "41a46c2df8be3387b267eb6d05e6bf1acda23a5063d3820dc5edbe3e4c53706a",
+      "stagedBlobOid": "03d7ffd9f48861c81a3d5f8506093350442eb780",
+      "stagedSha256": "9430520fcd384be5be34bddbc84f99d86c2ff98cd4d30367dda621418a5f8aab"
+    },
+    "tests/saha154-optional-assignment-contract.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "46a3489815a18694c7b7f804b9befcccc68abad7",
+      "stagedSha256": "f266ddde16dfdb8e474884a6608a6ad39351b8816b19179339423562a0b1d76d"
+    },
+    "tests/saha154-optional-assignment-uncertainty-browser.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "0ebd1dcdf12c132488b40d56f5ecfdad03b8d553",
+      "stagedSha256": "dc2493ca559d83bb7f34fcde1f6cb0e628e64bf4c6119e0867dbb7c3287a265b"
+    }
+  },
+  "hashConvention": {
+    "algorithm": "SHA-256",
+    "manifestDigest": "SHA-256 of UTF-8 canonical JSON (sorted keys, compact separators) after removing the entire integrity object",
+    "receiptSelfHandling": "receipt excluded from indexedFiles to avoid recursive self-hashing"
+  },
+  "integrity": {
+    "manifestSha256": "151089f70140081fa0828fedc95612742b8d5ef9320dacd7e5e36da6e575b35c"
+  }
+}

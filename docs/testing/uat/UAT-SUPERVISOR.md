@@ -30,12 +30,12 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 | TC-BR-CARE-01-A | Action ownership acceptance | BR-CARE-01 (partial) | Not run |
 | TC-BR-CARE-04-A | Due work and escalation acceptance | BR-CARE-04 (partial) | Not run |
 | TC-BR-CARE-08-A | Worker activity evidence acceptance | BR-CARE-08 (partial) | Not run |
-| TC-BR-REP-01-A | Operational exception queues acceptance | BR-REP-01 (partial) | Not run |
+| TC-BR-REP-01-A | Operational exception queues acceptance | BR-REP-01 (implemented-local) | Not run |
 | TC-BR-REP-02-A | Governed indicator definitions acceptance | BR-REP-02 (partial) | Not run |
 | TC-BR-REP-03-A | Data freshness and completeness acceptance | BR-REP-03 (partial) | Not run |
 | TC-BR-REP-04-A | Privacy-preserving aggregation acceptance | BR-REP-04 (partial) | Not run |
 | TC-BR-REP-05-A | Reconciled exports acceptance | BR-REP-05 (partial) | Not run |
-| TC-BR-REP-06-A | Population prioritisation acceptance | BR-REP-06 (partial) | Not run |
+| TC-BR-REP-06-A | Population prioritisation acceptance | BR-REP-06 (implemented-local) | Not run |
 | TC-BR-RULE-08-A | No silent adverse allocation acceptance | BR-RULE-08 (implemented-local) | Not run |
 
 ## Cases
@@ -246,7 +246,7 @@ Visit-backed outreach completion and correction-aware evidence. Slice 4c: per-wo
 
 ### TC-BR-REP-01-A — Operational exception queues acceptance
 
-- **Requirement:** BR-REP-01 — Operational exception queues. Assessment: **partial**. Target R15. Priority Must, BRD phase R1.
+- **Requirement:** BR-REP-01 — Operational exception queues. Assessment: **implemented-local**. Target R15. Priority Must, BRD phase R1.
 - **Catalogue:** Functional, fixture FX-REP-01, catalogue owner "QA with Supervisor and programme manager".
 - **Run as:** Supervisor. Basis: requirement area default (BR-REP; catalogue owner "QA with Supervisor and programme manager").
 - **Default result:** Not run
@@ -264,11 +264,11 @@ Visit-backed outreach completion and correction-aware evidence. Slice 4c: per-wo
 
 **Expected result** (catalogue): Each seeded failure is discoverable and assignable without searching individual worker transcripts.
 
-**Known gaps** (assessment, remaining work for BR-REP-01): Assignment from the queue itself, scoped device-diagnostic discovery/assignment and recovery queue; reporting while offline/without a trusted notebook organisation, notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.
+**Known gaps** (assessment, remaining work for BR-REP-01): Formal TC-BR-REP-01-A/B execution with the controlled FX-REP-01/NEG fixtures, independent review, exact-source CI, physical-device failure/loss validation, approved live notification-provider acceptance, merge and observed deployment remain pending.
 
 <details><summary>What the build does today (assessment, current state of BR-REP-01)</summary>
 
-Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events. A06 adds trusted care-worker fixed-code device failure reports with strict bounded counts, stable metadata operations and chained audit; raw errors and patient content are refused.
+Operational backlog counts plus the established item queue, trace, alert and redacted device-report foundations. SAHA-107 local completion adds explicit scoped identity-conflict and append-only fixed-code device-diagnostic rows; versioned assignment from every visible row with current viewer/assignee scope, stale-row and race refusal, bounded history and audit; a metadata-only stable device diagnostic outbox for offline or not-yet-attributed failures that drains after trusted reconnect; and opaque one-occurrence-per-item demonstration notification planning. Assignment never executes recovery, retries delivery, merges identities or changes clinical records. Focused synthetic contract, device, notification, TypeScript and production-build evidence is recorded in docs/current/SAHA-107-OPERATIONAL-EXCEPTION-QUEUES.md.
 
 </details>
 
@@ -416,11 +416,11 @@ Audited scoped CSV with generation time/window and formula escaping. Slice 6k: t
 
 ### TC-BR-REP-06-A — Population prioritisation acceptance
 
-- **Requirement:** BR-REP-06 — Population prioritisation. Assessment: **partial**. Target R14. Priority Should, BRD phase R2.
+- **Requirement:** BR-REP-06 — Population prioritisation. Assessment: **implemented-local**. Target R14. Priority Should, BRD phase R2.
 - **Catalogue:** Functional, fixture FX-REP-06, catalogue owner "QA with Supervisor and programme manager".
 - **Run as:** Supervisor. Basis: requirement area default (BR-REP; catalogue owner "QA with Supervisor and programme manager").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-REP-06: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** None of the screens the evidence map cites is in this role's navigation. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Supervisor signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -434,11 +434,11 @@ Audited scoped CSV with generation time/window and formula escaping. Slice 6k: t
 
 **Expected result** (catalogue): Supervisors can inspect selection criteria and override an allocation with a reason; uncertainty remains visible.
 
-**Known gaps** (assessment, remaining work for BR-REP-06): Approved gap/risk measures and real data-quality/fairness validation.
+**Known gaps** (assessment, remaining work for BR-REP-06): Clinical/programme approval of any deployment-specific criterion, real data-quality and fairness validation, formal TC-BR-REP-06-A/B and TC-J12 execution, independent source review, CI, merge and observed deployment remain separate gates.
 
 <details><summary>What the build does today (assessment, current state of BR-REP-06)</summary>
 
-Human cohort selection with recorded criteria and allocation rationale.
+Governed operational care-gap criteria with independent configuration review, visible limitations and uncertainty, scoped supervisor selection, reasoned human inclusion/allocation overrides, stale authority/source invalidation, small-cohort refusal and draft-only outreach. The workflow never scores clinical risk, denies service, changes eligibility, worker pay or sanctions.
 
 </details>
 

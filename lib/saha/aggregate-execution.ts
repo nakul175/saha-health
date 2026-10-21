@@ -8,11 +8,13 @@ import { operationRefusal, refusalOf, type Refusal } from './adapter-operations'
 import { resolveDefinition, MIN_CELL, releasePopulation } from './indicators';
 import { ledgerFull, pruneLedger, screenReleases } from './indicator-differencing';
 import { candidateReleases, ledgerHash, readLedger, writeLedger, type Candidate } from './indicator-ledger';
-import { assertAggregateEnvelope, aggregateDestination, aggregateRefusal, applyAggregateReceipt, approveReport, buildPayload, bytesOf, compactReports, computeRuns, OPEN_STATES, PAYLOAD_BYTES, REPORTS_BYTES, demoAggregateTransport, findReport, minimisationCheck, REPORT_LIMIT, reportEvent, reportingScope, reportList, type AggregateCommand, type AggregateReport, type AggregateTransport, type TeamRun } from './aggregate-delivery';
+import { assertAggregateEnvelope, aggregateDestination, aggregateRefusal, applyAggregateReceipt, approveReport, buildPayload, bytesOf, canonical, compactReports, computeRuns, OPEN_STATES, PAYLOAD_BYTES, REPORTS_BYTES, demoAggregateTransport, findReport, minimisationCheck, periodWindow, REPORT_LIMIT, reportEvent, reportingScope, reportList, sha256Hex, type AggregateCommand, type AggregateReport, type AggregateReporting, type AggregateTransport, type TeamRun } from './aggregate-delivery';
 import type { Member, OrgState } from './types';
 // Slice 7g: preparing, approving, sending and looking up aggregate reports (see aggregate-delivery.ts).
 export const LEDGER_WRITE_REFUSED='the differencing ledger could not record this release (storage refused the write), so the release could not be protected.';
 const LEDGER_ATTEMPTS=3,receiver=(destinationId:string)=>`destination:${destinationId}`;
+export type AggregateReportingProvider={evaluate:(s:OrgState,m:Member,r:Pick<AggregateReport,'definitions'|'teamIds'|'period'|'computedAt'>)=>Promise<AggregateReporting>;assertCurrent:(s:OrgState,m:Member,reporting:AggregateReporting,definitions:string[],teamIds:string[])=>Promise<void>};
+async function conservativeReporting(r:Pick<AggregateReport,'definitions'|'teamIds'|'period'|'computedAt'>):Promise<AggregateReporting>{const window={since:new Date(r.period.start+'T00:00:00Z').toISOString(),until:periodWindow(r.period,new Date(r.computedAt)).until.toISOString()},basis=await sha256Hex(canonical({version:1,window,definitions:r.definitions,teamIds:r.teamIds,status:'no-governed-source-evidence'})),body={version:1 as const,evaluatedAt:r.computedAt,window,coverage:'incomplete-or-unknown' as const,clinicalDenominator:'unknown' as const,calendars:[],affectedDenominatorCoverage:[],affectedSourcePeriods:[],sources:[],freshness:{shareMinimum:20,note:'No governed source evidence provider was attached; completeness and freshness remain unknown.',teams:[]},notice:'No governed source evidence was attached. Expected-source coverage and the clinical denominator remain unknown.'};return {...body,evidenceBasis:basis,evidenceDigest:await sha256Hex(canonical(body))};}
 const audit=(s:OrgState,u:Actor,m:Member,action:string,subject:string,detail:string,at:string)=>s.workspace.audit.push({id:uuid(),at,actor:u.displayName,actorId:u.userId,role:m.role,action,subject,detail});
 // The differencing screen for one report against the destination's recent releases (slice 6s/6w): a team whose
 // cohort would reveal a remainder of 1 to 4 is withheld whole; otherwise each definition is screened.
@@ -30,11 +32,11 @@ async function screen(db:D1Database,s:OrgState,destinationId:string,runs:TeamRun
 }
 // Recomputes a report from its recorded parameters (pinned definition versions, period, teams, grouping and the
 // preparation time) on the state given, screened against the destination's current releases.
-async function compute(db:D1Database,s:OrgState,m:Member,r:Pick<AggregateReport,'id'|'definitions'|'teamIds'|'group'|'period'|'computedAt'|'destinationId'>,releaseAt:string){
- const runs=computeRuns(s,m,r,new Date(r.computedAt)),sc=await screen(db,s,r.destinationId,runs,releaseAt);
- return {payload:await buildPayload(s,r.id,r,runs,sc.released,r.computedAt),screen:sc};
+async function compute(db:D1Database,s:OrgState,m:Member,r:Pick<AggregateReport,'id'|'definitions'|'teamIds'|'group'|'period'|'computedAt'|'destinationId'>,releaseAt:string,reportingProvider?:AggregateReportingProvider){
+ const runs=computeRuns(s,m,r,new Date(r.computedAt)),sc=await screen(db,s,r.destinationId,runs,releaseAt),reporting=reportingProvider?await reportingProvider.evaluate(s,m,r):await conservativeReporting(r);
+ return {payload:await buildPayload(s,r.id,r,runs,sc.released,r.computedAt,reporting),screen:sc,reporting};
 }
-async function prepare(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'prepareAggregateReport'}>,u:Actor,m:Member,key:string,hash:string){
+async function prepare(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'prepareAggregateReport'}>,u:Actor,m:Member,key:string,hash:string,reportingProvider?:AggregateReportingProvider){
  reportingScope(m,c.teamIds);
  // The aggregate operation is checked before anything is prepared.
  const now=new Date(),at=now.toISOString(),i=aggregateDestination(s,c.destinationId),refused=aggregateRefusal(i,'before-send',at);if(refused)fail(409,refused.text+' Nothing was prepared.');
@@ -43,12 +45,12 @@ async function prepare(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type
  if(reportList(s).filter(r=>OPEN_STATES.includes(r.state)).length>=REPORT_LIMIT)fail(409,`This organisation has ${REPORT_LIMIT} open aggregate reports, the most this release keeps open. Send, or let expire, an open report first.`);
  const definitions=c.definitions.map(ref=>{const d=resolveDefinition(s,ref);return `${d.id}@${d.version}`;});
  const id=uuid(),params={id,definitions,teamIds:c.teamIds,group:c.group,period:c.period,computedAt:at,destinationId:i.id};
- const {payload}=await compute(db,s,m,params,at);
+ const {payload,reporting}=await compute(db,s,m,params,at,reportingProvider);
  if(!payload.manifest.rows)fail(422,'Nothing in this report can be released: every block is withheld to protect small groups. Widen the teams, period or grouping.');
- const check=minimisationCheck(payload,s,'prepare',at);if(!check.passed)fail(422,`The report failed the payload minimisation check: ${check.problems[0]} Nothing was prepared.`);
+ const check=minimisationCheck(payload,s,'prepare',at,i);if(!check.passed)fail(422,`The report failed the payload minimisation check: ${check.problems[0]} Nothing was prepared.`);
  // Slice 6ad (finding 3): a payload and the stored reports are bounded so the operations row never reaches D1's limit.
  if(bytesOf(payload)>PAYLOAD_BYTES)fail(422,`This report is too large to keep (${Math.ceil(bytesOf(payload)/1000)} kB; at most ${PAYLOAD_BYTES/1000} kB). Choose fewer teams or indicators, or a coarser grouping. Nothing was prepared.`);
- const before=structuredClone(s),r:AggregateReport={...params,destinationName:i.name,state:'prepared',preparedBy:u.userId,preparedByName:u.displayName,preparedAt:at,payload,payloadSha256:payload.manifest.sha256,rowCount:payload.manifest.rows,attempts:0,minimisation:[check],events:[],message:'',updatedAt:at};
+ const before=structuredClone(s),r:AggregateReport={...params,destinationName:i.name,state:'prepared',preparedBy:u.userId,preparedByName:u.displayName,preparedAt:at,payload,reporting,payloadSha256:payload.manifest.sha256,rowCount:payload.manifest.rows,attempts:0,minimisation:[check],events:[],message:'',updatedAt:at};
  reportEvent(r,at,`Prepared by ${u.displayName}: ${definitions.join(', ')} for ${c.period.start} to ${c.period.end}, ${c.teamIds.length} team${c.teamIds.length===1?'':'s'}. A different authorised person must approve it before it is sent.`);
  if(bytesOf(reportList(s))+bytesOf(r)>REPORTS_BYTES)fail(409,'The stored aggregate reports have reached the space this release keeps for them. Nothing was prepared; archiving closed reports is not built in this release.');
  reportList(s).push(r);
@@ -65,7 +67,7 @@ async function closeRefused(db:D1Database,s:OrgState,r:AggregateReport,c:{type:s
  audit(s,u,m,'aggregateReportRefused',r.id,r.message,at);linkTrace(before,s,c.type,key,u.userId);
  await persist(db,before,s,u,c,key,hash,{reportId:r.id,state:r.state,refused:true});return {reportId:r.id,state:r.state,refused:true,message:r.message};
 }
-async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'sendAggregateReport'|'lookupAggregateReport'}>,u:Actor,m:Member,key:string,hash:string,transport:AggregateTransport){
+async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'sendAggregateReport'|'lookupAggregateReport'}>,u:Actor,m:Member,key:string,hash:string,transport:AggregateTransport,reportingProvider?:AggregateReportingProvider){
  const r=findReport(s,c.reportId);reportingScope(m,r.teamIds);const lookup=c.type==='lookupAggregateReport',now=new Date().toISOString();
  const i=s.workspace.integrations.find(x=>x.id===r.destinationId);if(!i)fail(409,'The destination connection no longer exists. Nothing was sent.');
  let releases:Candidate[]=[];
@@ -81,9 +83,9 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
   if(!r.expiresAt||r.expiresAt<now)fail(409,'The approval has expired. Prepare and approve a new report.');
   // Before the checkpoint: the operation, the stored payload's minimisation, and a recomputation that must match what was approved.
   const refused=aggregateRefusal(i!,'before-send',now);if(refused)return await closeRefused(db,s,r,c,u,m,key,hash,refused.text,refused.refusal);
-  const check=minimisationCheck(r.payload,s,'before-send',now);r.minimisation.push(check);
+  const check=minimisationCheck(r.payload,s,'before-send',now,i!);r.minimisation.push(check);
   if(!check.passed)return await closeRefused(db,s,r,c,u,m,key,hash,`the payload failed the minimisation check (${check.problems[0]})`,{...refusalOf(i!,'aggregate','before-send',now),reason:'minimisation'});
-  const again=await compute(db,s,m,r,now);
+  const again=await compute(db,s,m,r,now,reportingProvider);
   if(again.payload.manifest.sha256!==r.payloadSha256)return await closeRefused(db,s,r,c,u,m,key,hash,'the report would now differ from what was approved, because records or earlier reports to this destination changed.',{...refusalOf(i!,'aggregate','before-send',now),reason:'changed'});
   releases=again.screen.accepted;
  }
@@ -91,17 +93,17 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
  await recordAccess(db,s,u,m,{action:'externalRequest',subject:r.id,personId:null,detail:`${c.type}: ${lookup?'receipt lookup':'aggregate report'} ${r.id} to ${i!.name} about to be sent (${r.rowCount} rows, SHA-256 ${r.payloadSha256}; no patient-level data). The outcome is recorded separately.`});
  const before=structuredClone(s),operationId=uuid();r.operationId=operationId;r.startedAt=now;if(!lookup){r.state='sending';r.attempts++;}
  reportEvent(r,now,lookup?'Receipt lookup reserved; the report is not sent again.':'Checkpoint saved before the request to the destination.');
- audit(s,u,m,c.type,r.id,r.message,now);linkTrace(before,s,c.type,key,u.userId);
+ audit(s,u,m,c.type,r.id,r.message,now);linkTrace(before,s,c.type,key,u.userId,undefined,lookup?'lookup_'+operationId:r.id);
  await persist(db,before,s,u,c,key,hash,{reportId:r.id,state:r.state});
  // Inside the checkpoint, on a fresh read: the operation, the stored payload, and (for a send) the destination's release ledger.
  let withdrawn:string|null=null,refusal:(Refusal&{reason?:string})|undefined,check:ReturnType<typeof minimisationCheck>|undefined;
- {const latest=await readState(db,s.organisation.id),li=latest.workspace.integrations.find(x=>x.id===r.destinationId),stored=latest.operations&&((latest.operations as any).aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id);
+ {const latest=await readState(db,s.organisation.id),li=latest.workspace.integrations.find(x=>x.id===r.destinationId),stored=latest.operations&&((latest.operations as (typeof latest.operations & {aggregateReports?:AggregateReport[]})|undefined)?.aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id);
   if(!li)withdrawn='The destination connection no longer exists.';
   else if(lookup){withdrawn=operationRefusal(li,'lookup','none');if(withdrawn)refusal=refusalOf(li,'lookup','checkpoint');}
   // Slice 6ad (ninth review, finding 7): the checkpoint also re-checks operating mode, as an EHR publication does.
   else if(latest.operations?.maintenance){withdrawn='the organisation was paused for maintenance.';refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'maintenance'};}
   else {const x=aggregateRefusal(li,'checkpoint',new Date().toISOString());if(x){withdrawn=x.text;refusal=x.refusal;}
-   else {check=minimisationCheck(stored?.payload,latest,'checkpoint',new Date().toISOString());if(!check.passed){withdrawn=`the payload failed the minimisation check (${check.problems[0]})`;refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'minimisation'};}}
+   else {check=minimisationCheck(stored?.payload,latest,'checkpoint',new Date().toISOString(),li);if(!check.passed){withdrawn=`the payload failed the minimisation check (${check.problems[0]})`;refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'minimisation'};}}
    // Slice 13d (tenth review): the population screen counts the people in the sender's scope, as at preparation. The state read
    // inside the checkpoint is unscoped (every person unassigned), which made the population empty and the screen pass trivially.
    if(!withdrawn){try{scope(latest,m.userId);}catch{withdrawn='the sender\'s membership is no longer active.';refusal=refusalOf(li,'aggregate','checkpoint');}}
@@ -109,7 +111,7 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
    if(withdrawn&&!refusal&&li)refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'differencing'};}}
  let raw:unknown;if(!withdrawn)try{raw=await transport(i!,lookup?{contract:'saha-aggregate-v1',operation:'lookup',key:r.id,payloadHash:r.payloadSha256}:r.payload,lookup?'lookup_'+operationId:r.id);}catch(e){if(e&&typeof e==='object'&&'serviceRefusal' in e)withdrawn=e instanceof Error?e.message:'Service authority unavailable.';}
  for(let n=0;n<3;n++){
-  const after=await readState(db,s.organisation.id),old=structuredClone(after),target=((after.operations as any)?.aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id) as AggregateReport|undefined,at=new Date().toISOString();
+  const after=await readState(db,s.organisation.id),old=structuredClone(after),target=((after.operations as (typeof after.operations & {aggregateReports?:AggregateReport[]})|undefined)?.aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id) as AggregateReport|undefined,at=new Date().toISOString();
   if(!target)fail(409,'The report checkpoint is unavailable.');
   if(target!.operationId!==operationId||['accepted','rejected','cancelled'].includes(target!.state)){
    // Slice 6ad (ninth review, finding 6): an answer that arrives after a lookup took over, or after the report closed,
@@ -155,8 +157,8 @@ async function recordReleases(db:D1Database,s:OrgState,releases:Candidate[],at:s
  }
  return 'many indicator releases were being recorded at once, so this release could not be recorded.';
 }
-export async function executeAggregate(db:D1Database,s:OrgState,c:AggregateCommand,u:Actor,m:Member,key:string,hash:string,transport:AggregateTransport=demoAggregateTransport){
- let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,null,{intent:c.type==='lookupAggregateReport'?'lookup':'send',purpose:'reporting',authorize:(latest,member)=>{
+export async function executeAggregate(db:D1Database,s:OrgState,c:AggregateCommand,u:Actor,m:Member,key:string,hash:string,transport:AggregateTransport=demoAggregateTransport,reportingProvider?:AggregateReportingProvider){
+ let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,null,{intent:c.type==='lookupAggregateReport'?'lookup':'send',purpose:'reporting',auditAlreadyRecorded:true,authorize:async(latest,member)=>{
    if(!('reportId' in c))fail(422,'Unsupported report request.');const prepared=findReport(s,c.reportId),r=findReport(latest,c.reportId);reportingScope(member,r.teamIds);
    if(r.operationId!==prepared.operationId||r.payloadSha256!==prepared.payloadSha256||!['sending','uncertain'].includes(r.state))fail(409,'Report checkpoint changed.');
    const li=latest.workspace.integrations.find(x=>x.id===i.id);if(!li||li.version!==i.version)fail(409,'Report destination changed.');
@@ -164,13 +166,15 @@ export async function executeAggregate(db:D1Database,s:OrgState,c:AggregateComma
    aggregateDestination(latest,r.destinationId);const refusal=aggregateRefusal(li,'checkpoint',new Date().toISOString());if(refusal)fail(409,refusal.text);
    if(JSON.stringify([r.teamIds,r.definitions,r.period,r.group,r.preparedBy,r.approvedBy,r.approvedAt,r.expiresAt])!==JSON.stringify([prepared.teamIds,prepared.definitions,prepared.period,prepared.group,prepared.preparedBy,prepared.approvedBy,prepared.approvedAt,prepared.expiresAt]))fail(409,'Report approval or scope changed.');
    if(r.state!=='sending'||![r.preparedBy,r.approvedBy].includes(u.userId)||!r.expiresAt||r.expiresAt<new Date().toISOString())fail(409,'Report approval changed or expired.');
-   const check=minimisationCheck(r.payload,latest,'checkpoint',new Date().toISOString());if(!check.passed)fail(409,'Report minimisation changed.');
+   const check=minimisationCheck(r.payload,latest,'checkpoint',new Date().toISOString(),li);if(!check.passed)fail(409,'Report minimisation changed.');
+   if(!r.reporting)fail(409,'Report source completeness was not pinned. Prepare a new report.');
+   if(reportingProvider)await reportingProvider.assertCurrent(latest,member,r.reporting,r.definitions,r.teamIds);
    // The ledger already contains this reserved release. Compare its prepared source population
    // instead of recording or recomputing the same release twice in the audit window.
    const source=(state:OrgState)=>{const people=state.workspace.people.filter(p=>r.teamIds.includes(p.teamId)),ids=new Set(people.map(p=>p.id));return JSON.stringify({people:people.map(p=>[p.id,p.version,p.consentVersion]).sort(),visits:state.workspace.visits.filter(v=>ids.has(v.personId)).map(v=>[v.id,v.version,v.state,v.voidedAt,v.supersededBy]).sort()});};
    if(source(s)!==source(latest))fail(409,'Report source records changed during dispatch. Prepare a new report.');
   }});await assertAggregateEnvelope(args[0],args[1]);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw Object.assign(e instanceof Error?e:Error(serviceRefusal),{serviceRefusal:true});}return deliver(i,...args);};
- if(c.type==='prepareAggregateReport')return prepare(db,s,c,u,m,key,hash);
+ if(c.type==='prepareAggregateReport')return prepare(db,s,c,u,m,key,hash,reportingProvider);
  if(c.type==='approveAggregateReport'){const before=structuredClone(s),result=approveReport(s,c,u,m,new Date().toISOString());linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,result);return result;}
- return send(db,s,c,u,m,key,hash,transport);
+ return send(db,s,c,u,m,key,hash,transport,reportingProvider);
 }

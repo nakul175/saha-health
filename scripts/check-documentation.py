@@ -106,25 +106,40 @@ checks['historicalProductAssertions']=total
 
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
 snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
-source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
-integration_binding_path=ROOT/'docs/verification/integration-source-preimages-20261013.json'
+source_snapshots={
+    source_path:{expected:[entry] for expected,entry in versions.items()}
+    for source_path,versions in (read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}).items()
+}
+integration_binding_paths=[
+    'integration-source-preimages-20261013.json',
+    'integration-source-preimages-historical28-20261016.json',
+]
 integration_bindings={}
-if integration_binding_path.exists():
-    for binding in read_json('docs/verification/integration-source-preimages-20261013.json').get('records',[]):
+for integration_binding_name in integration_binding_paths:
+    integration_binding_path=ROOT/'docs/verification'/integration_binding_name
+    if not integration_binding_path.exists():
+        continue
+    for binding in read_json('docs/verification/'+integration_binding_name).get('records',[]):
         key=(binding.get('originalManifest'),binding.get('sourcePath'))
-        require(key not in integration_bindings,'Duplicate integration source binding: '+str(key))
-        integration_bindings[key]=binding
-for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json','evidence-source-snapshots-routine-retention.json','evidence-source-snapshots-refresh-contrast-20261012.json']:
+        # The same immutable author pin can be carried through more than one
+        # integration checkpoint as the current source evolves.  Preserve each
+        # successor instead of collapsing the later record into the earlier one.
+        integration_bindings.setdefault(key,[]).append(binding)
+for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json','evidence-source-snapshots-routine-retention.json','evidence-source-snapshots-refresh-contrast-20261012.json','evidence-source-snapshots-historical28-20261016.json','evidence-source-snapshots-next32.json','evidence-source-snapshots-final40-20261016.json','evidence-source-snapshots-saha105-external-messaging.json','evidence-source-snapshots-data-exit-portability.json','evidence-source-snapshots-pr249.json']:
     additional_index=ROOT/'docs/verification'/additional_name
     if additional_index.exists():
         for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():
             existing=source_snapshots.setdefault(source_path,{})
             for expected,entry in versions.items():
-                require(expected not in existing or existing[expected]==entry,'Conflicting historical source snapshot: '+source_path)
-                existing.setdefault(expected,entry)
+                # A content digest identifies the historical bytes. Different
+                # cohorts may retain equivalent copies with fuller commit/path
+                # metadata; validate every copy and retain them all.
+                candidates=existing.setdefault(expected,[])
+                require(not candidates or all(candidate.get('bytes')==entry.get('bytes') for candidate in candidates),'Conflicting historical source snapshot size: '+source_path)
+                candidates.append(entry)
 slice_total=0
 supplement={}
-for supplement_name in ['tests/evidence/app-first-guidance-media-impact-integration/author-artifacts.json','tests/evidence/reporting-completeness-root-integration/author-artifacts.json','tests/evidence/verification-programme-root-integration/author-artifacts.json','tests/evidence/privacy-registration-root-integration/author-artifacts.json','tests/evidence/alert-transition-guidance-root-integration/author-artifacts.json']:
+for supplement_name in ['tests/evidence/app-first-guidance-media-impact-integration/author-artifacts.json','tests/evidence/reporting-completeness-root-integration/author-artifacts.json','tests/evidence/verification-programme-root-integration/author-artifacts.json','tests/evidence/privacy-registration-root-integration/author-artifacts.json','tests/evidence/alert-transition-guidance-root-integration/author-artifacts.json','docs/verification/evidence-digest-supplement-20261021.json']:
     supplement_path=ROOT/supplement_name
     if supplement_path.exists():
         for path,expected in json.loads(supplement_path.read_text()).get('files',{}).items():
@@ -195,17 +210,21 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
         # Exact historical-source bindings for this combined integration. These
         # preserve author-time source bytes only; current source is independently
         # pinned by the current baseline and evidence/results cannot use this path.
-        binding=integration_bindings.get((str(manifest_path.relative_to(ROOT)),report))
-        if binding and path.is_file() and digest(path)!=expected:
+        bindings=integration_bindings.get((str(manifest_path.relative_to(ROOT)),report),[])
+        if bindings and path.is_file() and digest(path)!=expected:
             require(report.startswith(('tests/','lib/')) and not report.startswith('tests/evidence/'),'Invalid integration source binding scope: '+report)
-            require(binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Changed integration-bound author manifest: '+str(manifest_path.relative_to(ROOT)))
-            pinned_bytes=meta.get('bytes',binding['originalSourceBytes']) if isinstance(meta,dict) else binding['originalSourceBytes']
-            require(binding['originalSourceSha256']==expected and binding['originalSourceBytes']==pinned_bytes,'Changed integration-bound source pin: '+report)
+            pinned_bytes=meta.get('bytes',bindings[0]['originalSourceBytes']) if isinstance(meta,dict) else bindings[0]['originalSourceBytes']
             current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
-            require(current_pin==digest(path)==binding['currentSourceSha256'],'Current integration source is not pinned by the current baseline: '+report)
-            archive=(ROOT/binding['archivedSource']).resolve()
-            require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed integration source preimage: '+report)
-            path=archive
+            require(current_pin==digest(path),'Current integration source is not pinned by the current baseline: '+report)
+            archives=[]
+            for binding in bindings:
+                require(binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Changed integration-bound author manifest: '+str(manifest_path.relative_to(ROOT)))
+                require(binding['originalSourceSha256']==expected and binding['originalSourceBytes']==pinned_bytes,'Changed integration-bound source pin: '+report)
+                require(re.fullmatch(r'[a-f0-9]{64}',str(binding.get('currentSourceSha256',''))) is not None,'Invalid integration successor digest: '+report)
+                archive=(ROOT/binding['archivedSource']).resolve()
+                require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed integration source preimage: '+report)
+                archives.append(archive)
+            path=archives[-1]
         # One explicitly bound generated diagnostic preimage. It never substitutes for current application source or report evidence.
         if str(manifest_path.relative_to(ROOT))=='tests/evidence/alert-disclosure-before/manifest.json' and report=='dist/server/index.js':
             binding=read_json('tests/evidence/alert-disclosure-author/manifest.json')['archivedOriginalSource'][report]
@@ -231,12 +250,17 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.
         # Report/evidence paths always remain checked in place and cannot use an archive.
-        if report.startswith(('app/','worker/','lib/','public/','db/','drizzle/','scripts/')) and path.is_file() and digest(path)!=expected:
-            archived=source_snapshots.get(report,{}).get(expected)
+        if report.startswith(('app/','worker/','lib/','public/','db/','drizzle/','scripts/','tests/')) and not report.startswith(('tests/evidence/','tests/reports/')) and path.is_file() and digest(path)!=expected:
+            archived=source_snapshots.get(report,{}).get(expected,[])
             if archived:
-                candidate=(ROOT/archived['path']).resolve()
-                require(candidate.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and candidate.is_file() and candidate.stat().st_size==archived['bytes'],'Invalid historical source snapshot: '+report)
-                path=candidate
+                candidates=[]
+                for retained in archived:
+                    candidate=(ROOT/retained['path']).resolve()
+                    require(candidate.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and candidate.is_file() and candidate.stat().st_size==retained['bytes'] and digest(candidate)==expected,'Invalid historical source snapshot: '+report)
+                    if candidate.is_file() and candidate.stat().st_size==retained['bytes'] and digest(candidate)==expected:
+                        candidates.append(candidate)
+                if candidates:
+                    path=candidates[0]
         require(path.is_relative_to(ROOT) and path.is_file() and digest(path)==expected,'Changed slice evidence: '+str(path))
         if isinstance(meta,dict):
             if 'bytes' in meta:

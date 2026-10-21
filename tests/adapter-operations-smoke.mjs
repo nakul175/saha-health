@@ -40,7 +40,7 @@ export async function adapterOperationsSmoke({get,post,check,accounts,org,base})
  check(()=>{assert.equal(r.status,200);const th=t.threads.find(x=>x.id==='submission:'+sub.id);assert.deepEqual([th.refusal.operation,th.refusal.stage],['create','before-send']);const step=th.steps.at(-1);assert.equal(step.state,'cancelled');assert.equal(step.command,'executePlan');assert.equal(step.linked,true);assert.ok(step.auditId);});
  // The exception queue raises it for operations members.
  const q=await get(o,'/api/exceptions',200,org);const row=(q.items??[]).find(x=>x.id==='operation-refused:submission:'+sub.id);
- check(()=>{assert.equal(q.rulesVersion,'1.3.0');assert.ok(q.counts['operation-refused']>=1);if(!row)assert.equal(q.truncated,true,'row missing from an untruncated queue');});
+ check(()=>{assert.equal(q.rulesVersion,'1.4.0');assert.ok(q.counts['operation-refused']>=1);if(!row)assert.equal(q.truncated,true,'row missing from an untruncated queue');});
  if(row)check(()=>{assert.ok(row,'refused delivery in the exception queue');assert.equal(row.kind,'operation-refused');assert.deepEqual(row.trace,{query:'submission',id:sub.id});assert.match(row.what,/not sent, create not permitted \(setting version 3\)/);});
  // Aggregate-only: a destination that may receive aggregate reports only never gets a patient-level record.
  await set('mis_community',['lookup','aggregate'],true);

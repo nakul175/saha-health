@@ -97,7 +97,7 @@ export const BLOCKED_REQUIREMENTS = {
   'BR-PROG-06': ['remaining', 'Destination-authorised enrolment request/rejection/acceptance lifecycle.'],
   'BR-INT-16': ['remaining', 'Verified HFR/HPR or destination professional/facility attribution and expiry checks.'],
   'BR-INT-22': ['remaining', 'Approved legacy HL7 v2/CDA/REST/SOAP/file adapters as selected by buyer.'],
-  'BR-SEC-05': ['remaining', 'Independent storage/key-management, rotation, media and end-to-end encryption assessment.'],
+  'BR-SEC-05': ['remaining', 'Independent hosted storage/KMS and backup custody, actual provider rotation, deployed bundle/log/context inspection, physical-device media assessment, end-to-end encryption assessment and formal security acceptance.'],
   'BR-SEC-09': ['current', 'No record is deleted.'],
   'BR-SEC-14': ['remaining', 'Enforced legal data-location policy across storage, providers, backups, analytics and support.'],
 };
@@ -106,7 +106,7 @@ const CLINICAL_GENERATION = { req: 'BR-AI-02', field: 'current', quote: 'clinica
 export const BLOCKED_JOURNEY_STEPS = {
   'TC-J02': { steps: [3, 4, 5], ...CLINICAL_GENERATION },
   'TC-J08': { steps: [3, 4], ...CLINICAL_GENERATION },
-  'TC-J10': { steps: [3], req: 'BR-CARE-03', field: 'remaining', quote: 'Facility-verified outcomes and external outcome evidence.' },
+  'TC-J10': { steps: [3], req: 'BR-CARE-03', field: 'remaining', quote: 'Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.' },
 };
 const FIELD_LABEL = { current: 'The assessment records the current state as', remaining: 'The assessment lists as remaining work' };
 function verifiedReason(assessment, req, field, quote) {
@@ -143,6 +143,8 @@ export const PLAN_REVIEW_SCREEN = 'Candidate ASHA action review (/plan-review; l
 export const ASSISTANCE_SCREEN='Candidate ASHA own assistance status and cancellation (/assistance-control; no provider activation; deployment pending)';
 export const WORKFORCE_SCREEN='Candidate existing-owner workforce suspension (/workforce-status; no activation or institutional verification; deployment pending)';
 export const SELECTIVE_REUSE_SCREEN='Candidate permitted-reuse review (/selective-reuse; preview only; approval and sending remain separate)';
+export const DEPLOYMENT_CONFIGURATION_SCREEN='Candidate deployment configuration (/deployment-configuration; publication and deployment remain separate)';
+export const PRIORITISATION_SCREEN='Candidate governed population prioritisation (/prioritisation; human draft only; deployment pending)';
 export const PANEL_HOME = {
   'app/routine-visit/save-status.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/record-matching/page.tsx':[MATCHING_SCREEN],
@@ -160,6 +162,9 @@ export const PANEL_HOME = {
   'app/workforce-status/page.tsx':[WORKFORCE_SCREEN],
   'app/workforce-status/workforce-status.tsx':[WORKFORCE_SCREEN],
   'app/selective-reuse/screen.tsx':[SELECTIVE_REUSE_SCREEN],
+  'app/deployment-configuration/page.tsx':[DEPLOYMENT_CONFIGURATION_SCREEN],
+  'app/deployment-configuration/screen.tsx':[DEPLOYMENT_CONFIGURATION_SCREEN],
+  'app/prioritisation/page.tsx':[PRIORITISATION_SCREEN],
   'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/resume-work/resume-work.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/resume-work/page.tsx': [ROUTINE_CAPTURE_SCREEN],

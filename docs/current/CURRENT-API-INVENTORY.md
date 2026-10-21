@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **123 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **153 HTTP method/route pairs** and **323 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -15,22 +15,36 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | GET | `/api/anaemia-provider` | [app/api/anaemia-provider/route.ts](../../app/api/anaemia-provider/route.ts) |
 | POST | `/api/anaemia-provider` | [app/api/anaemia-provider/route.ts](../../app/api/anaemia-provider/route.ts) |
 | POST | `/api/anaemia-screenings` | [app/api/anaemia-screenings/route.ts](../../app/api/anaemia-screenings/route.ts) |
+| GET | `/api/approved-sources` | [app/api/approved-sources/route.ts](../../app/api/approved-sources/route.ts) |
 | GET | `/api/assistance-control` | [app/api/assistance-control/route.ts](../../app/api/assistance-control/route.ts) |
 | POST | `/api/assistance-control` | [app/api/assistance-control/route.ts](../../app/api/assistance-control/route.ts) |
 | GET | `/api/audit/chain` | [app/api/audit/chain/route.ts](../../app/api/audit/chain/route.ts) |
 | GET | `/api/audit` | [app/api/audit/route.ts](../../app/api/audit/route.ts) |
+| GET | `/api/authentication-recovery` | [app/api/authentication-recovery/route.ts](../../app/api/authentication-recovery/route.ts) |
+| POST | `/api/authentication-recovery` | [app/api/authentication-recovery/route.ts](../../app/api/authentication-recovery/route.ts) |
 | GET | `/api/availability` | [app/api/availability/route.ts](../../app/api/availability/route.ts) |
 | POST | `/api/availability` | [app/api/availability/route.ts](../../app/api/availability/route.ts) |
+| GET | `/api/capability-registration` | [app/api/capability-registration/route.ts](../../app/api/capability-registration/route.ts) |
+| POST | `/api/capability-registration` | [app/api/capability-registration/route.ts](../../app/api/capability-registration/route.ts) |
 | GET | `/api/caseload` | [app/api/caseload/route.ts](../../app/api/caseload/route.ts) |
 | POST | `/api/clinical-sources` | [app/api/clinical-sources/route.ts](../../app/api/clinical-sources/route.ts) |
 | GET | `/api/clinical-sources` | [app/api/clinical-sources/route.ts](../../app/api/clinical-sources/route.ts) |
 | POST | `/api/commands` | [app/api/commands/route.ts](../../app/api/commands/route.ts) |
+| GET | `/api/configuration-publications` | [app/api/configuration-publications/route.ts](../../app/api/configuration-publications/route.ts) |
+| POST | `/api/configuration-publications` | [app/api/configuration-publications/route.ts](../../app/api/configuration-publications/route.ts) |
+| GET | `/api/contextual-academy` | [app/api/contextual-academy/route.ts](../../app/api/contextual-academy/route.ts) |
 | GET | `/api/continuity` | [app/api/continuity/route.ts](../../app/api/continuity/route.ts) |
 | GET | `/api/data-exit` | [app/api/data-exit/route.ts](../../app/api/data-exit/route.ts) |
 | GET | `/api/delegations` | [app/api/delegations/route.ts](../../app/api/delegations/route.ts) |
+| GET | `/api/deployment-configuration` | [app/api/deployment-configuration/route.ts](../../app/api/deployment-configuration/route.ts) |
 | GET | `/api/deployment-evidence-review` | [app/api/deployment-evidence-review/route.ts](../../app/api/deployment-evidence-review/route.ts) |
 | POST | `/api/device-work` | [app/api/device-work/route.ts](../../app/api/device-work/route.ts) |
+| GET | `/api/disagreement-review` | [app/api/disagreement-review/route.ts](../../app/api/disagreement-review/route.ts) |
+| POST | `/api/disagreement-review` | [app/api/disagreement-review/route.ts](../../app/api/disagreement-review/route.ts) |
+| GET | `/api/due-work` | [app/api/due-work/route.ts](../../app/api/due-work/route.ts) |
 | GET | `/api/environment` | [app/api/environment/route.ts](../../app/api/environment/route.ts) |
+| GET | `/api/event-geotags` | [app/api/event-geotags/route.ts](../../app/api/event-geotags/route.ts) |
+| POST | `/api/event-geotags` | [app/api/event-geotags/route.ts](../../app/api/event-geotags/route.ts) |
 | GET | `/api/exceptional` | [app/api/exceptional/route.ts](../../app/api/exceptional/route.ts) |
 | GET | `/api/exceptions` | [app/api/exceptions/route.ts](../../app/api/exceptions/route.ts) |
 | GET | `/api/expansion` | [app/api/expansion/route.ts](../../app/api/expansion/route.ts) |
@@ -46,10 +60,13 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | GET | `/api/handover` | [app/api/handover/route.ts](../../app/api/handover/route.ts) |
 | POST | `/api/handover` | [app/api/handover/route.ts](../../app/api/handover/route.ts) |
 | GET | `/api/history` | [app/api/history/route.ts](../../app/api/history/route.ts) |
+| GET | `/api/hosting-controls` | [app/api/hosting-controls/route.ts](../../app/api/hosting-controls/route.ts) |
 | GET | `/api/household` | [app/api/household/route.ts](../../app/api/household/route.ts) |
 | GET | `/api/household-proxy-review` | [app/api/household-proxy-review/route.ts](../../app/api/household-proxy-review/route.ts) |
 | POST | `/api/identifier-search` | [app/api/identifier-search/route.ts](../../app/api/identifier-search/route.ts) |
 | GET | `/api/identity-cases` | [app/api/identity-cases/route.ts](../../app/api/identity-cases/route.ts) |
+| GET | `/api/identity-link-review` | [app/api/identity-link-review/route.ts](../../app/api/identity-link-review/route.ts) |
+| POST | `/api/identity-link-review` | [app/api/identity-link-review/route.ts](../../app/api/identity-link-review/route.ts) |
 | POST | `/api/import-rejections` | [app/api/import-rejections/route.ts](../../app/api/import-rejections/route.ts) |
 | GET | `/api/imported-evidence` | [app/api/imported-evidence/route.ts](../../app/api/imported-evidence/route.ts) |
 | POST | `/api/imported-evidence` | [app/api/imported-evidence/route.ts](../../app/api/imported-evidence/route.ts) |
@@ -68,6 +85,9 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | POST | `/api/institution-roster-review` | [app/api/institution-roster-review/route.ts](../../app/api/institution-roster-review/route.ts) |
 | GET | `/api/interface-language` | [app/api/interface-language/route.ts](../../app/api/interface-language/route.ts) |
 | POST | `/api/interface-language` | [app/api/interface-language/route.ts](../../app/api/interface-language/route.ts) |
+| GET | `/api/local-registration` | [app/api/local-registration/route.ts](../../app/api/local-registration/route.ts) |
+| POST | `/api/local-registration` | [app/api/local-registration/route.ts](../../app/api/local-registration/route.ts) |
+| POST | `/api/media/[id]/review` | [app/api/media/[id]/review/route.ts](../../app/api/media/[id]/review/route.ts) |
 | GET | `/api/media/[id]` | [app/api/media/[id]/route.ts](../../app/api/media/[id]/route.ts) |
 | DELETE | `/api/media/[id]` | [app/api/media/[id]/route.ts](../../app/api/media/[id]/route.ts) |
 | POST | `/api/media` | [app/api/media/route.ts](../../app/api/media/route.ts) |
@@ -76,6 +96,7 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | GET | `/api/notification-channel` | [app/api/notification-channel/route.ts](../../app/api/notification-channel/route.ts) |
 | POST | `/api/offline-opens` | [app/api/offline-opens/route.ts](../../app/api/offline-opens/route.ts) |
 | GET | `/api/operations` | [app/api/operations/route.ts](../../app/api/operations/route.ts) |
+| POST | `/api/organisational-federation` | [app/api/organisational-federation/route.ts](../../app/api/organisational-federation/route.ts) |
 | GET | `/api/outreach` | [app/api/outreach/route.ts](../../app/api/outreach/route.ts) |
 | GET | `/api/own-care-permissions` | [app/api/own-care-permissions/route.ts](../../app/api/own-care-permissions/route.ts) |
 | GET | `/api/pack-installations` | [app/api/pack-installations/route.ts](../../app/api/pack-installations/route.ts) |
@@ -87,6 +108,7 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | GET | `/api/pilot` | [app/api/pilot/route.ts](../../app/api/pilot/route.ts) |
 | GET | `/api/plan-review` | [app/api/plan-review/route.ts](../../app/api/plan-review/route.ts) |
 | POST | `/api/plan-review` | [app/api/plan-review/route.ts](../../app/api/plan-review/route.ts) |
+| GET | `/api/prioritisation` | [app/api/prioritisation/route.ts](../../app/api/prioritisation/route.ts) |
 | GET | `/api/programme-migration` | [app/api/programme-migration/route.ts](../../app/api/programme-migration/route.ts) |
 | GET | `/api/programme-pack-review` | [app/api/programme-pack-review/route.ts](../../app/api/programme-pack-review/route.ts) |
 | GET | `/api/programme-status` | [app/api/programme-status/route.ts](../../app/api/programme-status/route.ts) |
@@ -102,15 +124,23 @@ Generated from source: **123 HTTP method/route pairs** and **253 command schema 
 | GET | `/api/referral-requests` | [app/api/referral-requests/route.ts](../../app/api/referral-requests/route.ts) |
 | POST | `/api/reminder-optout/callback` | [app/api/reminder-optout/callback/route.ts](../../app/api/reminder-optout/callback/route.ts) |
 | POST | `/api/reminder-optout` | [app/api/reminder-optout/route.ts](../../app/api/reminder-optout/route.ts) |
+| GET | `/api/report-exports` | [app/api/report-exports/route.ts](../../app/api/report-exports/route.ts) |
+| POST | `/api/report-exports` | [app/api/report-exports/route.ts](../../app/api/report-exports/route.ts) |
 | GET | `/api/reporting-completeness` | [app/api/reporting-completeness/route.ts](../../app/api/reporting-completeness/route.ts) |
 | POST | `/api/reporting-completeness` | [app/api/reporting-completeness/route.ts](../../app/api/reporting-completeness/route.ts) |
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
+| GET | `/api/reuse-measurements` | [app/api/reuse-measurements/route.ts](../../app/api/reuse-measurements/route.ts) |
+| POST | `/api/reuse-measurements` | [app/api/reuse-measurements/route.ts](../../app/api/reuse-measurements/route.ts) |
+| GET | `/api/rights/package` | [app/api/rights/package/route.ts](../../app/api/rights/package/route.ts) |
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |
+| GET | `/api/route-suggestions` | [app/api/route-suggestions/route.ts](../../app/api/route-suggestions/route.ts) |
 | GET | `/api/routine-visit` | [app/api/routine-visit/route.ts](../../app/api/routine-visit/route.ts) |
 | POST | `/api/routine-visit` | [app/api/routine-visit/route.ts](../../app/api/routine-visit/route.ts) |
 | GET | `/api/selective-reuse` | [app/api/selective-reuse/route.ts](../../app/api/selective-reuse/route.ts) |
 | GET | `/api/service-authority-review` | [app/api/service-authority-review/route.ts](../../app/api/service-authority-review/route.ts) |
+| GET | `/api/shared-question-review` | [app/api/shared-question-review/route.ts](../../app/api/shared-question-review/route.ts) |
+| GET | `/api/support-cases` | [app/api/support-cases/route.ts](../../app/api/support-cases/route.ts) |
 | GET | `/api/today` | [app/api/today/route.ts](../../app/api/today/route.ts) |
 | GET | `/api/trace` | [app/api/trace/route.ts](../../app/api/trace/route.ts) |
 | GET | `/api/value-range-protocols` | [app/api/value-range-protocols/route.ts](../../app/api/value-range-protocols/route.ts) |

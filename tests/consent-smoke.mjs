@@ -32,7 +32,7 @@ export async function consentSmoke({get,post,check,accounts,org,sql}){
  const grant={type:'grantEhrPermission',personId:pid,linkId,direction:'write',purpose:'care-coordination',from:'2026-09-01T00:00:00.000Z',to:new Date().toISOString(),expiresAt:new Date(Date.now()+86400000).toISOString()};
  const permissionId=(await post(o,grant)).result.permissionId;
  // ABDM (mock): ABHA, a linked care context, one granted consent with a completed fetch and one still requested.
- await post(o,{type:'abhaLink',personId:pid,version:person(pid).version,abhaNumber:`55-1122-${String(Math.floor(Math.random()*9000)+1000)}-${String(Date.now()).slice(-4)}`,otp:'123456'});
+ await post(o,{type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:pid,version:person(pid).version,abhaNumber:`55-1122-${String(Math.floor(Math.random()*9000)+1000)}-${String(Date.now()).slice(-4)}`,demographicMatch:'matched',confirmed:true,otp:'123456'});
  await post(o,{type:'abdmCareContextLink',personId:pid,version:person(pid).version,visitIds:[v1]});
  const today=new Date().toISOString().slice(0,10),request=()=>({type:'abdmConsentRequest',personId:pid,version:person(pid).version,purpose:'CAREMGT',hiTypes:['OPConsultation'],from:'2026-01-01',to:today,expiresAt:new Date(Date.now()+10*86400000).toISOString()});
  const granted=(await post(o,request())).result.consentId;await post(o,{type:'abdmConsentDecide',personId:pid,consentId:granted,decision:'GRANTED'});
@@ -42,6 +42,7 @@ export async function consentSmoke({get,post,check,accounts,org,sql}){
  let report=await get(o,'/api/outreach',200,org);let hi=report.templates.find(t=>t.language==='hi');
  if(!hi){await post(o,{type:'messageTemplatePropose',language:'hi'});report=await get(o,'/api/outreach',200,org);hi=report.templates.find(t=>t.language==='hi');}
  if(hi.state!=='approved'){await post(a,{type:'messageTemplateReview',templateId:hi.id,version:hi.version,state:'approved',reference:'SYNTHETIC-CONSENT',reason:'Neutral Hindi template reviewed for synthetic use'},200,crypto.randomUUID(),org);}
+ report=await get(o,'/api/outreach',200,org);for(const existing of report.channels.filter(c=>c.kind==='sms'&&c.state!=='suspended'))await post(o,{type:'externalChannelReview',channelId:existing.id,version:existing.version,state:'suspended',reference:'SYNTHETIC-CONSENT-REPLACE',reason:'Replace prior readiness after fixture authority changes; preserve its history.'});const channelId=(await post(o,{type:'externalChannelPropose',kind:'sms',capabilities:{deliveryEvidence:true,optOutHandling:true,recoveryWork:true},reason:'Synthetic consent fixture requires independently reviewed channel readiness.'})).result.channelId;await post(a,{type:'externalChannelReview',channelId,version:1,state:'ready',reference:'SYNTHETIC-CONSENT-CHANNEL',reason:'Independent synthetic readiness review; no provider or credential configured.'});report=await get(o,'/api/outreach',200,org);const smsChannel=report.channels.find(c=>c.id===channelId);
  const prefs={method:'sms',destination:'TEST-CONSENT-001',ownership:'personal',language:'hi',timezone:new Date().getUTCHours()===23?'Etc/GMT+12':'UTC',from:'00:00',to:'23:59',permission:true,privateContact:false,reference:'SYNTHETIC-CONTACT'};
  await post(o,{type:'setContactPreferences',personId:pid,version:person(pid).version,preferences:prefs});
  check(()=>{const e=person(pid).consentHistory.at(-1);assert.equal(e.purpose,'contact');assert.equal(e.action,'granted');assert.equal(e.channel,'contact-preferences');assert.equal(e.reference,'SYNTHETIC-CONTACT');});
@@ -49,7 +50,7 @@ export async function consentSmoke({get,post,check,accounts,org,sql}){
  const planId=(await post(o,{type:'outreachCreate',title:'Consent synthetic outreach',date,teamId:'default',ownerId:o.id,personIds:[pid],criteria:'Synthetic case for the consent withdrawal exercise.'})).result.planId;
  await post(o,{type:'outreachTransition',planId,version:1,state:'scheduled',reason:'Schedule the synthetic consent exercise'});
  report=await get(o,'/api/outreach',200,org);const itemId=report.plans.find(p=>p.id===planId).items[0].id;
- const messageId=(await post(o,{type:'messageCreate',planId,itemId,templateId:hi.id,scheduledAt:new Date(Date.now()+86400000).toISOString()})).result.messageId;
+ const messageId=(await post(o,{type:'messageCreate',planId,itemId,templateId:hi.id,channelId:smsChannel.id,scheduledAt:new Date(Date.now()+86400000).toISOString()})).result.messageId;
 
  // Refusals: role, scope, schema, version and replay.
  const withdraw=(over={})=>({type:'withdrawConsent',personId:pid,version:person(pid).version,purpose:'exchange',channel:'in-person',reference:'FORM-CONSENT-1',reason:'Patient no longer wants records shared outside',...over});
@@ -71,6 +72,16 @@ export async function consentSmoke({get,post,check,accounts,org,sql}){
  check(()=>{assert.deepEqual(by('ehr-permission'),{[permissionId]:'stopped'});assert.equal(p.ehr.permissions.find(g=>g.id===permissionId).status,'revoked');assert.equal(p.ehr.links.find(l=>l.id===linkId).status,'active');});
  check(()=>{assert.deepEqual(by('abdm-consent'),{[granted]:'stopped',[requested]:'stopped'});assert.ok(p.abdmConsents.every(x=>x.status==='REVOKED'));assert.equal(Object.values(by('abdm-care-context'))[0],'kept');assert.equal(Object.values(by('abdm-received'))[0],'kept');});
  check(()=>assert.equal(e.items.some(i=>i.kind.startsWith('ai-')),false,'AI work is not part of a sharing withdrawal'));
+ // The accepted copy remains immutable while privacy operators append the manual request and observed destination outcome.
+ const externalRef=sub('mis_maternal').id,disposition=(over={})=>({type:'recordWithdrawalDisposition',personId:pid,version:person(pid).version,eventId:done.result.eventId,itemKind:'programme-submission',itemRef:externalRef,outcome:'request-recorded',evidenceReference:'DEST-CASE-1',note:'Restriction request sent through the destination process.',...over});
+ await post(a,disposition(),403,crypto.randomUUID(),org);await post(o,disposition({itemRef:sub(mis.id).id}),409);await post(o,disposition({itemRef:'missing'}),404);await post(o,disposition({evidenceReference:'x'}),422);
+ await get(c,'/api/workspace',200,org);const staleDispositionVersion=c.state.people.find(q=>q.id===pid).version;
+ const recorded=await post(o,disposition());
+ check(()=>{assert.equal(recorded.result.outcome,'request-recorded');assert.equal(recorded.result.history,1);assert.equal(sub('mis_maternal').state,'accepted','recording downstream work does not rewrite completed delivery');});
+ await post(c,disposition({version:staleDispositionVersion,outcome:'restriction-confirmed',evidenceReference:'DEST-RECEIPT-2',note:'Destination reported that access to its retained copy is restricted.'}),409,crypto.randomUUID(),org);
+ await get(c,'/api/workspace',200,org);const final=await post(c,disposition({version:c.state.people.find(q=>q.id===pid).version,outcome:'restriction-confirmed',evidenceReference:'DEST-RECEIPT-2',note:'Destination reported that access to its retained copy is restricted.'}),200,crypto.randomUUID(),org);await get(o,'/api/workspace',200,org);
+ check(()=>{const item=person(pid).consentHistory.find(x=>x.id===done.result.eventId).items.find(x=>x.ref===externalRef);assert.equal(final.result.history,2);assert.deepEqual(item.externalDisposition.map(x=>[x.outcome,x.evidenceReference]),[['request-recorded','DEST-CASE-1'],['restriction-confirmed','DEST-RECEIPT-2']]);assert.equal(item.externalDisposition[1].by,c.id);});
+ check(()=>{const rows=sql.prepare("SELECT action,detail FROM audit_events WHERE org_id=? AND person_id=? AND action='recordWithdrawalDisposition' ORDER BY at").all(org,pid);assert.equal(rows.length,2);assert.match(rows[1].detail,/does not claim Saha erased an external record/);});
  // Stopped work stays stopped.
  const held=await post(o,{type:'sendSubmission',submissionId:sub(mis.id).id});check(()=>assert.equal(held.result.state,'cancelled'));
  await post(o,{type:'abdmFetch',personId:pid,version:person(pid).version,consentId:granted},409);

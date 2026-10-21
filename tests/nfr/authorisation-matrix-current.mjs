@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 // requested as every role and anonymously, and a representative set of POST /api/commands commands is sent as every role.
 // Invariants (each is a check; a failure is a possible security defect to report, never to fix from here):
 //   (i)   no route returns 5xx for any role;                                  (ii)  anonymous gets 401 on every /api/ route;
-//   (iii) the stranger never gets 2xx, and no response carries this organisation's data, when it sends this organisation's id;
+//   (iii) the stranger never gets 2xx on organisation-scoped routes, and no response carries this organisation's data when it sends this organisation's id;
 //   (iv)  an ASHA asking for another ASHA's patient gets 403 or 404 and sees none of that patient's data on any route;
 //   (v)   the admin (no patient scope) never receives a patient name;        (vi)  no response carries an invitation token or its stored hash;
 //   (vii) every API response is Cache-Control: no-store (identity-dependent data must not be cached);
@@ -35,6 +35,10 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 // Documented query parameters per GET route (read from the route readers). kind: which resource the request names.
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
+  '/api/authentication-recovery': () => [{ q: '', kind: 'account' }],
+  '/api/local-registration': () => [{ q: '' }],
+  '/api/reuse-measurements': () => [{ q: '', binding: true }],
+  '/api/shared-question-review': w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/programme-status': w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/handover': w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/record-matching': () => [{q:''}],
@@ -47,6 +51,8 @@ const ROUTE_PARAMS = {
   '/api/selective-reuse': w=>[{q:`?personId=${w.people.a2}`,kind:'person'}],
   '/api/programme-pack-review': ()=>[{q:'',kind:'plain',binding:true}],
   '/api/workforce-status': ()=>[{q:''}],
+  '/api/contextual-academy': w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }],
+  '/api/route-suggestions': () => [{ q: '' }],
   '/api/today': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/routine-visit': w => [
     { q: `?personId=${w.people.a2}`, kind: 'person' },
@@ -61,8 +67,19 @@ const ROUTE_PARAMS = {
   '/api/installed-pack-transition': () => [{q:''}], // migration 0032: audited read of reviewed programme transitions; every principal is checked for patient, token and organisation leakage like the other GET routes
   '/api/imported-evidence': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
   '/api/clinical-sources': w => [{q:w.sourceQuery}],
+  '/api/event-geotags': w => [
+    {q:`?personId=${w.people.a2}&visitId=${w.visits.v2}`,kind:'person'},
+    {q:'?policy=1',kind:'plain'},
+  ],
+  '/api/approved-sources': () => [{ q: '' }],
+  '/api/capability-registration': () => [{ q: '' }],
+  // The synthetic world has no two reviewable agent runs. A real assigned
+  // encounter still exercises the route; 409 is its valid empty-review state.
+  '/api/disagreement-review': w => [{ q: `?personId=${w.people.a2}&visitId=${w.visits.v2}`, kind: 'plain' }],
+  '/api/identity-link-review': w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }],
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),
   '/api/rights': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
+  '/api/rights/package': () => [{ q: '?requestId=missing-rights-request', kind: 'resource-empty' }],
   '/api/work-burden/support': w => [{ q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
   '/api/work-burden/attribution': () => [{ q: '' }],
   '/api/trace': w => [{ q: `?visit=${w.visits.v2}`, kind: 'visit' }],
@@ -70,7 +87,7 @@ const ROUTE_PARAMS = {
   '/api/fhir/[id]': w => [{ path: `/api/fhir/${w.visits.v2}`, q: `?organisationId=${w.org}`, kind: 'visit' }],
   '/api/media/[id]': w => [{ path: `/api/media/${w.mediaId}`, q: `?organisationId=${w.org}`, kind: 'media' }],
   // Routes with no resource parameter (or only optional filters): requested bare.
-  ...Object.fromEntries(['/api/work-burden/policy', '/api/work-burden', '/api/availability', '/api/value-range-protocols', '/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/deployment-evidence-review', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/institution-roster-review', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/own-care-permissions', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/service-authority-review', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
+  ...Object.fromEntries(['/api/work-burden/policy', '/api/work-burden', '/api/availability', '/api/value-range-protocols', '/api/configuration-publications', '/api/deployment-configuration', '/api/due-work', '/api/hosting-controls', '/api/prioritisation', '/api/report-exports', '/api/support-cases', '/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/deployment-evidence-review', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/institution-roster-review', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/own-care-permissions', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/service-authority-review', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
 };
 const PRINCIPALS = ['anonymous', ...ROLES];
 const ABBR = { anonymous: 'anon', owner: 'owner', admin: 'admin', supervisor: 'super', asha1: 'asha1', asha2: 'asha2', clinician: 'clin', stranger: 'strngr' };
@@ -137,7 +154,21 @@ try {
   await r.check('route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)', () => none(unclassified, `unclassified GET routes: ${unclassified.join(', ')}`));
   await r.check(`grid is complete: ${cases.length} requests x ${PRINCIPALS.length} principals, every cell has a status`, () => { if (cases.length < 40) throw new Error(`only ${cases.length} cases`); none(violations((c, p) => (Number.isInteger(c.cells[p].status) ? '' : 'no status')), 'cells'); });
   // These explicit ASHA-only routes refuse the owner; all old legacy owner responses remain unchanged.
-  await r.check('control: owner gets 2xx on legacy routes and403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions'].includes(c.route) ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  const ASHA_ONLY_ROUTES = ['/api/today', '/api/routine-visit', '/api/contextual-academy', '/api/route-suggestions', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/local-registration', '/api/shared-question-review', '/api/disagreement-review', '/api/identity-link-review'];
+  await r.check('control: owner gets 2xx on legacy routes and 403 on exact ASHA-only routes', () => none(violations((c, p) => p === 'owner' && (ASHA_ONLY_ROUTES.includes(c.route) ? c.cells[p].status !== 403 : c.kind === 'resource-empty' ? c.cells[p].status !== 404 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('Route suggestions permit current ASHAs only and preserve role boundaries', () => {
+    const row = cases.find(c => c.route === '/api/route-suggestions'); assert.ok(row);
+    for (const role of ['asha1', 'asha2']) assert.equal(row.cells[role].status, 200, fmt(row, role));
+    for (const role of ['owner', 'admin', 'supervisor', 'clinician', 'stranger']) assert.equal(row.cells[role].status, 403, fmt(row, role));
+    assert.equal(row.cells.anonymous.status, 401, fmt(row, 'anonymous'));
+  });
+  await r.check('Contextual Academy permits only its assigned ASHA and refuses every other principal', () => {
+    const row = cases.find(c => c.route === '/api/contextual-academy'); assert.ok(row);
+    assert.equal(row.cells.asha2.status, 200, fmt(row, 'asha2'));
+    assert.ok([403, 404].includes(row.cells.asha1.status), fmt(row, 'asha1'));
+    for (const role of ['owner', 'admin', 'supervisor', 'clinician', 'stranger']) assert.equal(row.cells[role].status, 403, fmt(row, role));
+    assert.equal(row.cells.anonymous.status, 401, fmt(row, 'anonymous'));
+  });
   for (const [route, label] of [['/api/programme-status', 'Programme status'], ['/api/handover', 'Receiving handover']]) {
     await r.check(`${label} permits only its assigned ASHA and refuses every other principal`, () => {
       const row = cases.find(c => c.route === route); assert.ok(row);
@@ -154,6 +185,13 @@ try {
     for (const role of ['owner', 'admin', 'supervisor', 'clinician', 'stranger']) assert.equal(row.cells[role].status, 403, fmt(row, role));
     assert.equal(row.cells.anonymous.status, 401);
   });
+  await r.check('Event location views stay in current care scope and policy disclosure stays owner-only',()=>{
+    const patient=cases.find(c=>c.route==='/api/event-geotags'&&c.kind==='person'),policy=cases.find(c=>c.route==='/api/event-geotags'&&c.kind==='plain');
+    assert.ok(patient&&policy);assert.equal(patient.cells.asha2.status,200);assert.ok([403,404].includes(patient.cells.asha1.status));
+    for(const role of ['owner','supervisor','clinician'])assert.equal(patient.cells[role].status,200,fmt(patient,role));
+    for(const role of ['admin','stranger'])assert.equal(patient.cells[role].status,403,fmt(patient,role));assert.equal(patient.cells.anonymous.status,401);
+    for(const role of ROLES)assert.equal(policy.cells[role].status,role==='owner'?200:403,fmt(policy,role));assert.equal(policy.cells.anonymous.status,401);
+  });
   await r.check('Today list allows both active ASHAs and refuses all other roles; ASHA 2 opens its own record', () => {
     const list = cases.find(c => c.route === '/api/today' && c.kind === 'plain');
     const detail = cases.find(c => c.route === '/api/today' && c.kind === 'person');
@@ -162,7 +200,7 @@ try {
     assert.equal(detail.cells.asha2.status, 200);
     assert.ok([403, 404].includes(detail.cells.asha1.status));
   });
-  await r.check('control: for every ASHA-readable route naming a resource of ASHA 2, ASHA 2 gets 200 (so ASHA 1\'s refusal is a scope refusal, not a malformed request)', () => none(violations((c, p) => p === 'asha2' && c.kind !== 'plain' && c.kind !== 'clinical-source-person' && c.cells[p].status !== 200 ? 'expected 200' : ''), 'asha2 control'));
+  await r.check('control: for every ASHA-readable route naming a resource of ASHA 2, ASHA 2 gets 200 (so ASHA 1\'s refusal is a scope refusal, not a malformed request)', () => none(violations((c, p) => p === 'asha2' && !['plain', 'clinical-source-person', 'resource-empty'].includes(c.kind) && c.cells[p].status !== 200 ? 'expected 200' : ''), 'asha2 control'));
   await r.check('clinical source history permits scoped clinicians and refuses both ASHAs including the assigned ASHA', () => { const c=cases.find(c=>c.route==='/api/imported-evidence');assert.ok(c);for(const p of ['owner','clinician'])assert.equal(c.cells[p].status,200,fmt(c,p));for(const p of ['asha1','asha2'])assert.equal(c.cells[p].status,403,fmt(c,p)); });
   await r.check('inbound conflict history permits scoped care clinicians and supervisor and refuses ASHAs and administrator', () => { const c=cases.find(c=>c.route==='/api/inbound-conflicts');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','clinician','supervisor'].includes(p)?200:403,fmt(c,p)); });
   await r.check('frozen figure metadata permits current reporting owner/supervisor and refuses other roles', () => { const c=cases.find(c=>c.route==='/api/indicator-figures');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','supervisor'].includes(p)?200:403,fmt(c,p)); });
@@ -173,12 +211,12 @@ try {
   await r.check('Workforce roster permits only current organisation owner metadata',()=>{const c=cases.find(c=>c.route==='/api/workforce-status');assert.ok(c);for(const role of ROLES)assert.equal(c.cells[role].status,role==='owner'?200:403,fmt(c,role));assert.equal(c.cells.anonymous.status,401);});
   await r.check('(i) no route returns 5xx for any role or anonymously', () => none(violations((c, p) => c.cells[p].status >= 500 ? 'server error' : ''), '5xx'));
   await r.check('(ii) anonymous gets 401 on every GET /api/ route', () => none(violations((c, p) => p === 'anonymous' && c.cells[p].status !== 401 ? 'expected 401' : ''), 'anonymous'));
-  await r.check('(iii-a) the stranger never gets 2xx for this organisation (every GET route refuses with 403)', () => none(violations((c, p) => p === 'stranger' && c.cells[p].status !== 403 ? 'expected 403' : ''), 'stranger status'));
+  await r.check('(iii-a) the stranger never gets 2xx for this organisation (every organisation-scoped GET route refuses with 403)', () => none(violations((c, p) => p === 'stranger' && c.kind !== 'account' && c.cells[p].status !== 403 ? 'expected 403' : ''), 'stranger status'));
   await r.check('(iii-b) no response to the stranger (success or error) carries this organisation\'s id, name, patients, visits, media or members', () => none(violations((c, p) => p === 'stranger' && c.cells[p].orgMarkers.length ? `leaked ${JSON.stringify(c.cells[p].orgMarkers)} at ${c.cells[p].paths.join(',')}` : ''), 'stranger leak'));
-  await r.check('(iv-a) ASHA 1 asking for ASHA 2\'s patient, visit or media gets 403 or 404 on every such route', () => none(violations((c, p) => p === 'asha1' && c.kind !== 'plain' && ![403, 404].includes(c.cells[p].status) ? 'expected 403 or 404' : ''), 'asha1 refusal'));
+  await r.check('(iv-a) ASHA 1 asking for ASHA 2\'s patient, visit or media gets 403 or 404 on every such route', () => none(violations((c, p) => p === 'asha1' && !['plain','account'].includes(c.kind) && ![403, 404].includes(c.cells[p].status) ? 'expected 403 or 404' : ''), 'asha1 refusal'));
   await r.check('(iv-b) on every route, ASHA 1 never receives ASHA 2\'s patient names, patient ids, visit ids or media id, and ASHA 2 never receives ASHA 1\'s', () => none(violations((c, p) => c.cells[p].hidden.length ? `saw another ASHA's ${JSON.stringify(c.cells[p].hidden)} at ${c.cells[p].paths.join(',') || 'response text'}` : ''), 'cross-ASHA leak'));
   await r.check('(v-a) the admin (no patient scope) never receives a patient name on any route', () => none(violations((c, p) => p === 'admin' && c.cells[p].patientNames.length ? `leaked ${JSON.stringify(c.cells[p].patientNames)} at ${c.cells[p].paths.join(',')}` : ''), 'admin names'));
-  await r.check('(v-b) the admin gets 403 or 404 on every route that names a patient, visit or media item', () => none(violations((c, p) => p === 'admin' && c.kind !== 'plain' && ![403, 404].includes(c.cells[p].status) ? 'expected 403 or 404' : ''), 'admin refusal'));
+  await r.check('(v-b) the admin gets 403 or 404 on every route that names a patient, visit or media item', () => none(violations((c, p) => p === 'admin' && !['plain','account'].includes(c.kind) && ![403, 404].includes(c.cells[p].status) ? 'expected 403 or 404' : ''), 'admin refusal'));
   await r.check('(vi) no response carries an invitation token or its stored hash (searched by value, for every principal)', () => none(violations((c, p) => c.cells[p].tokenHash.length ? `invitation secret in the response: ${c.cells[p].tokenHash.join(',')}` : ''), 'token hash'));
   await r.check('(vii) every API response is Cache-Control: no-store', () => none(violations((c, p) => !/no-store/.test(c.cells[p].cache ?? '') ? `cache-control: ${c.cells[p].cache}` : ''), 'caching'));
 
@@ -380,7 +418,7 @@ try {
   });
 
   // Revocation: membership is read on every request (no session cache), so suspension must stop access on the very next request.
-  await r.check('(viii) suspending a member stops access on the next request: every GET route and a command are refused for the suspended ASHA, and access returns when reactivated', async () => {
+  await r.check('(viii) suspending a member stops access on the next request: every organisation-scoped GET route and a command are refused for the suspended ASHA, and access returns when reactivated', async () => {
     const m = (await world.load('owner', org)).members.find(x => x.userId === who.asha1.id);
     const before = await api.get(who.asha1, '/api/workspace', org); if (before.status !== 200) throw new Error(`control before suspension: ${before.status}`);
     const sus = await api.command(who.owner, { type: 'updateMember', userId: m.userId, version: m.version, role: 'asha', teamIds: ['default'], isOwner: false, status: 'suspended', reason: 'Synthetic suspension for the revocation check' }, org);
@@ -389,7 +427,7 @@ try {
     if (first.status !== 403) throw new Error(`first request after the suspension acknowledgement: expected 403, got ${first.status}`);
     r.measure('ms from suspension acknowledgement to the first denied request (BRD limit 5 minutes)', firstDenialMs, { budget: 5 * 60 * 1000 });
     const allowed = [];
-    for (const c of cases) { const x = await api.call(who.asha1, c.path, { org }); if (x.status >= 200 && x.status < 300) allowed.push(`${c.path} ${x.status}`); }
+    for (const c of cases.filter(x => x.kind !== 'account')) { const x = await api.call(who.asha1, c.path, { org }); if (x.status >= 200 && x.status < 300) allowed.push(`${c.path} ${x.status}`); }
     const cmd = await api.command(who.asha1, { type: 'startVisit', personId: world.people.a1 }, org); if (cmd.status >= 200 && cmd.status < 300) allowed.push(`startVisit ${cmd.status}`);
     const mid = (await world.load('owner', org)).members.find(x => x.userId === who.asha1.id);
     const back = await api.command(who.owner, { type: 'updateMember', userId: mid.userId, version: mid.version, role: 'asha', teamIds: ['default'], isOwner: false, status: 'active', reason: 'Synthetic reactivation after the revocation check' }, org); if (back.status !== 200) throw new Error(`reactivate: ${back.status} ${back.text.slice(0, 120)}`);

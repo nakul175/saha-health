@@ -83,7 +83,7 @@ try {
     !(await db.prepare('SELECT key FROM command_receipts WHERE actor_id=? AND key=?').bind(owner.id, absentKey).first()), 'Recovery with no committed receipt performs no replacement operation');
   check((await post(intent(first, owner.id))).status === 422, 'Original self-suspension protection remains explicit');
   const afterRead = await tableRows();
-  check(Object.keys(beforeRead).length === 60 && sameRows(beforeRead, afterRead), 'All protected sixty-table read/refusal data remains unchanged except original audit/metrics');
+  check(Object.keys(beforeRead).length === 62 && sameRows(beforeRead, afterRead), 'All protected sixty-two-table read/refusal data remains unchanged except original audit/metrics');
   browser = await chromium.launch({ headless: true }); const context = await browser.newContext({ viewport: { width: 390, height: 844 }, extraHTTPHeaders: owner.headers });
   await context.route('**/*', route => { if (!route.request().url().startsWith(worker.base + '/')) { external.push(route.request().url()); return route.abort(); } return route.continue(); });
   // Additive actual visible owner entry/return qualification after the e873 return-link failure.

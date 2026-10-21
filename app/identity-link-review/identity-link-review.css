@@ -1,0 +1,81 @@
+.identity-links {
+  max-width: 46rem;
+  margin: auto;
+  padding: 1rem;
+  color: #152b31;
+  background: #fff;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.identity-links h1 {
+  font-size: 1.7rem;
+}
+.identity-links h2 {
+  font-size: 1.3rem;
+}
+.identity-links section,
+.identity-links form {
+  border: 1px solid #9badb3;
+  border-radius: 0.7rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+.identity-links label {
+  display: block;
+  margin: 0.8rem 0;
+}
+.identity-links input:not([type='checkbox']),
+.identity-links select,
+.identity-links textarea {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #526c75;
+  border-radius: 0.3rem;
+  padding: 0.55rem;
+  background: #fff;
+  color: #152b31;
+}
+.identity-links textarea {
+  min-height: 90px;
+}
+.identity-links button,
+.identity-links > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.6rem;
+  border: 1px solid #335d64;
+  border-radius: 0.3rem;
+  margin: 0.35rem 0.35rem 0.35rem 0;
+  color: #153d44;
+  background: #edf5f5;
+}
+.identity-links button:disabled {
+  background: #e3e9ea;
+  color: #4c6065;
+}
+.identity-links .confirm {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+}
+.identity-links input[type='checkbox'] {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.identity-links dd {
+  margin-left: 0;
+}
+.identity-links dt {
+  font-weight: 600;
+}
+.identity-links li {
+  margin: 1rem 0;
+}
+.identity-links :focus-visible {
+  outline: 3px solid #165d70;
+  outline-offset: 3px;
+}

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 // Slice 3h: a clinician acts on a field referral request (slice 3g) through the built Worker and local D1.
 export async function referralRequestSmoke({get,post,check,accounts,org,sql}){
- const {worker:w,clinician:c}=accounts;await get(w,'/api/workspace',200,org);await get(c,'/api/workspace',200,org);
+ const {owner:o,worker:w,clinician:c}=accounts;await get(w,'/api/workspace',200,org);await get(c,'/api/workspace',200,org);const operations=await get(o,'/api/operations',200,org);const currentClinician=o.state.members.find(m=>m.userId===c.id);await post(o,{type:'clinicalAuthorityApprove',version:operations.operations.version,memberId:c.id,memberVersion:currentClinician.version,qualificationRef:'SYNTHETIC-CLINICIAN-CREDENTIAL',actions:['referral-order'],teamIds:['default'],expiresAt:new Date(Date.now()+86400000).toISOString(),reason:'Synthetic referral-order scope qualification'});
  check(()=>{assert.equal(w.state.role,'asha');assert.equal(c.state.role,'clinician');});
  const tag=crypto.randomUUID().slice(0,6),at=new Date(Date.now()-3600000),facts={date:at.toISOString().slice(0,16),systolic:'168',diastolic:'104',weight:'',temperature:'',weeks:'',coughDays:'',notes:'Synthetic first visit with a referral request.',source:'measured'};
  const register=async name=>(await post(w,{type:'registerFieldPerson',registrationId:crypto.randomUUID(),capturedAt:at.toISOString(),name,age:52,sex:'Male',village:'Synthetic request locality '+tag,programme:'Chronic care',teamId:'default',facts,referralRequest:{facility:'Synthetic block hospital',reason:'Synthetic very high reading.'}})).result;

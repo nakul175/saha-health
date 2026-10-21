@@ -32,7 +32,7 @@ Run the 148 Functional and 12 End to end cases of [the test catalogue](../../cur
 | Performance or control | 28 | 0 | not in this pack |
 | **Total** | 364 | 158 | |
 
-Of the 146 functional cases, 14 rest on a requirement assessed **implemented-local** and 132 on one assessed **partial**. The assessment is in [requirements/assessment.tsv](../../../requirements/assessment.tsv).
+Of the 146 functional cases, 19 rest on a requirement assessed **implemented-local** and 127 on one assessed **partial**. The assessment is in [requirements/assessment.tsv](../../../requirements/assessment.tsv).
 
 ## 4. Entry criteria
 
@@ -177,10 +177,10 @@ Sign-off records that the run met the exit criteria for the scripts named. It do
 
 | Script | Cases | of which implemented-local | of which partial |
 | --- | ---: | ---: | ---: |
-| Organisation owner / programme lead | 53 | 2 | 51 |
-| ASHA worker | 44 | 6 | 38 |
-| Supervisor | 13 | 1 | 12 |
-| Clinician | 29 | 5 | 24 |
+| Organisation owner / programme lead | 53 | 3 | 50 |
+| ASHA worker | 44 | 7 | 37 |
+| Supervisor | 13 | 3 | 10 |
+| Clinician | 29 | 6 | 23 |
 | Administrator | 7 | 0 | 7 |
 | End to end | 12 | journeys mix statuses | |
 
@@ -192,13 +192,13 @@ Sign-off records that the run met the exit criteria for the scripts named. It do
 | TC-BR-PROG-06-A | BR-PROG-06 | The assessment lists as remaining work “Destination-authorised enrolment request/rejection/acceptance lifecycle.” (BR-PROG-06, remaining field of requirements/assessment.tsv). |
 | TC-BR-INT-16-A | BR-INT-16 | The assessment lists as remaining work “Verified HFR/HPR or destination professional/facility attribution and expiry checks.” (BR-INT-16, remaining field of requirements/assessment.tsv). |
 | TC-BR-INT-22-A | BR-INT-22 | The assessment lists as remaining work “Approved legacy HL7 v2/CDA/REST/SOAP/file adapters as selected by buyer.” (BR-INT-22, remaining field of requirements/assessment.tsv). |
-| TC-BR-SEC-05-A | BR-SEC-05 | The assessment lists as remaining work “Independent storage/key-management, rotation, media and end-to-end encryption assessment.” (BR-SEC-05, remaining field of requirements/assessment.tsv). |
+| TC-BR-SEC-05-A | BR-SEC-05 | The assessment lists as remaining work “Independent hosted storage/KMS and backup custody, actual provider rotation, deployed bundle/log/context inspection, physical-device media assessment, end-to-end encryption assessment and formal security acceptance.” (BR-SEC-05, remaining field of requirements/assessment.tsv). |
 | TC-BR-SEC-09-A | BR-SEC-09 | The assessment records the current state as “No record is deleted.” (BR-SEC-09, current field of requirements/assessment.tsv). |
 | TC-BR-SEC-14-A | BR-SEC-14 | The assessment lists as remaining work “Enforced legal data-location policy across storage, providers, backups, analytics and support.” (BR-SEC-14, remaining field of requirements/assessment.tsv). |
 | TC-BR-ID-03-A | BR-ID-03 | The assessment lists as remaining work “Verified privileged MFA, workforce recovery/device replacement and session revocation acceptance.” (BR-ID-03, remaining field of requirements/assessment.tsv). |
 | TC-BR-ID-09-A | BR-ID-09 | The assessment records the current state as “service accounts are documented as unsupported by both identity providers” (BR-ID-09, current field of requirements/assessment.tsv). |
 | TC-J02 (steps 3, 4, 5) | BR-AI-02 | The assessment records the current state as “clinical generation remains unavailable.” (BR-AI-02, current field of requirements/assessment.tsv). |
 | TC-J08 (steps 3, 4) | BR-AI-02 | The assessment records the current state as “clinical generation remains unavailable.” (BR-AI-02, current field of requirements/assessment.tsv). |
-| TC-J10 (step 3) | BR-CARE-03 | The assessment lists as remaining work “Facility-verified outcomes and external outcome evidence.” (BR-CARE-03, remaining field of requirements/assessment.tsv). |
+| TC-J10 (step 3) | BR-CARE-03 | The assessment lists as remaining work “Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.” (BR-CARE-03, remaining field of requirements/assessment.tsv). |
 
 **Regenerating.** `node tests/uat/generate-uat-pack.mjs` rewrites the plan and scripts and creates the register only if it is missing; a register that exists is never overwritten, because it holds the testers' results. To start a fresh blank register, delete the file and regenerate. `node tests/uat/generate-uat-pack.mjs --check` fails if the committed files differ from what the sources now produce.

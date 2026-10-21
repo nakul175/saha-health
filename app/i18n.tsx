@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
-import { message, plural, labelFor, signOffLine, type Language, type MessageKey, type Params } from '@/lib/saha/messages';
+import { message, plural, labelFor, signOffLine, languageResource, type Language, type MessageKey, type Params } from '@/lib/saha/messages';
 
 // Slice 10j: the workspace language for the signed-in member (lib/saha/messages.ts holds the catalogue and the saved choice).
 // A component reads it with useI18n(); outside a provider everything is English, the default and the fallback.
@@ -33,5 +33,6 @@ export function TranslationNotice({ partial, untranslated }: { partial: boolean;
   return <div className="translation-strip" role="note" aria-label={`${message('hi', 'common.noticeLabel')} · ${message('en', 'common.noticeLabel')}`}>
     <p lang="hi"><strong>{message('hi', 'common.draftNotice')}</strong> {message('hi', 'common.recordedNotice')}{untranslated ? ' ' + message('hi', 'common.untranslatedNotice') : partial ? ' ' + message('hi', 'common.partialNotice') : ''}</p>
     <p lang="en" className="translation-en">{message('en', 'common.draftNotice')}{untranslated ? ' ' + message('en', 'common.untranslatedNotice') : partial ? ' ' + message('en', 'common.partialNotice') : ''}</p>
+    {!languageResource('hi','clinical.noProtocol').available&&<p role="alert"><span lang="hi">{message('hi','common.criticalUnavailable')}</span> <span lang="en">{message('en','common.criticalUnavailable')}</span></p>}
   </div>;
 }

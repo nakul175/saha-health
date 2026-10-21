@@ -16,6 +16,7 @@ import { evaluateIfDue } from './alert-delivery-server';
 import { fail, uuid } from './core';
 import { CARE_SCOPED, SOURCE_SCOPED, CHANNELS, CHANNEL_RULES_VERSION, DEFAULT_ESCALATE_MINUTES, LOG_LIMIT, MAX_ESCALATE_MINUTES, MAX_RECIPIENTS, MAX_SENDS_PER_EVALUATION, MIN_ESCALATE_MINUTES, NOTIFIABLE_KINDS, NOTIFIABLE_OWNERS, SIMULATOR_NOTICE, SOURCE_KINDS, TIERS, channelOf, demoAddress, ladderFor, messageKey, notifiableKindsFor, planNotifications, planSourceNotifications, redactFor, simulatorRefusal, sourceKey, type ChannelOccurrence, type ChannelPresent, type PlannedMessage } from './notification-channel';
 import { channelSources, SOURCE_RULES_VERSION } from './notification-sources';
+import { readDeviceDiagnosticReports } from './exception-diagnostics';
 import type { Audit, OrgState, Role } from './types';
 
 // The simulator is not a person: its messages and audit events are written under a fixed system identity.
@@ -79,7 +80,7 @@ export async function evaluateChannelSources(d: D1Database, s: OrgState, now = n
   const environment = environmentOf(env ?? rawRuntime()).name;
   result.refused = simulatorRefusal(environment);
   if (result.refused) return result;
-  const sources = channelSources(s, now);
+  const sources = await channelSources(s, now, await readDeviceDiagnosticReports(d, s));
   if (!sources.length) return result;
   const ids = sources.map(x => sourceKey(x.kind, x.scopeKey));
   const sent = new Set((await d.prepare(`SELECT occurrence_id,tier,user_id FROM notification_messages WHERE org_id=? AND occurrence_id IN (${ids.map(() => '?').join(',')})`).bind(s.organisation.id, ...ids).all<{ occurrence_id: string; tier: number; user_id: string }>()).results.map(r => messageKey(r.occurrence_id, r.tier, r.user_id)));

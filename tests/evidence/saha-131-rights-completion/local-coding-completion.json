@@ -1,0 +1,50 @@
+{
+  "storyId": "SAHA-131",
+  "linearIssue": "APL-154",
+  "title": "Rights and correction workflow",
+  "baseSha": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "contract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-154.md",
+    "sha256": "280fb877ce7207f5009f86518fe85c7597e33fc1b90d6761056eddf16ffc15fd"
+  },
+  "localCodingComplete": true,
+  "completedAt": "2026-10-20T13:00:04.275Z",
+  "implemented": [
+    "append-only organisation rights-policy versions with per-kind deadlines, accountable route, allowed identity methods and stale-settings refusal",
+    "structured requester verification and current representative-grant enforcement",
+    "patient-scoped portable record-copy JSON with a SHA-256 reference, read audit and changed-record refusal",
+    "append-only outcome evidence required before evidence-backed closure",
+    "accountable grievance escalation, policy-derived escalation deadline and evidence-backed resolution",
+    "retention-policy deletion eligibility review, active-hold refusal and an explicit no-deletion boundary",
+    "downstream destination tracking, current-authority checks and per-request optimistic concurrency",
+    "patient and handover UI for policy configuration, intake, copy preparation, evidence, escalation, deletion review and closure"
+  ],
+  "checks": [
+    {"name": "rights contract", "command": "node tests/rights-contract.mjs", "status": "passed", "assertions": 20},
+    {"name": "TypeScript", "command": "pnpm run typecheck", "status": "passed"},
+    {"name": "production build", "command": "pnpm run build", "status": "passed", "route": "/api/rights/package"},
+    {"name": "persisted API and D1 regression", "command": "SAHA_TEST_PORT=8794 node scripts/test.mjs integration --only integration/run-api-smoke --report tests/evidence/saha-131-rights-completion/api-suite.json", "status": "passed", "assertions": 5026, "failed": 0, "skipped": 0}
+  ],
+  "retainedAttempts": [
+    {"status": "blocked", "stage": "initial API run", "reason": "sandbox refused the local 127.0.0.1 listener; no application assertion ran"},
+    {"status": "failed", "stage": "first unrestricted API run", "reason": "test expected an intentionally non-member admin fixture to read policy; denial was retained and the test expectation corrected"},
+    {"status": "failed", "stage": "record-package API run", "reason": "test supplied operations version 0 after earlier suites changed settings; the fixture now reads and submits the current server version"}
+  ],
+  "sourceSha256": {
+    "lib/saha/rights.ts": "16fe7dca3e08fbc9e759b4c11de38b8999dcb63b5209255f5eeef25b6bf457cf",
+    "lib/saha/rights-server.ts": "9a1d6b09d63b09e1638c9a119b749304cfb8619a5b3681d1f0b0137125eeed82",
+    "lib/saha/operations.ts": "ebe7fc313d76026fd160c24f548849fcaa0cb60d8940310745321add4c88da02",
+    "app/rights-panel.tsx": "e87062ec486b01416a7ce0a7f74e0982619fc88132944a71c917d7b958335c0c",
+    "app/api/rights/package/route.ts": "b9c4fc2ace277a9bdeaace34d06e2cb0eef26e199c0264e67725797fb109cb19",
+    "tests/rights-contract.mjs": "da943b4d18143eba9beee742782fa0ff9c632daa980f7506ca64f84807e79464",
+    "tests/rights-smoke.mjs": "018d44dd42301bd10a858cea69ad7ce433396b78c48f64dfc00bf5b832c293a8"
+  },
+  "separatePendingGates": [
+    "organisation privacy/legal owner approval of real policy values and verification methods",
+    "formal TC-BR-SEC-10-A and TC-BR-SEC-10-B execution by QA with privacy/security owners",
+    "independent source review and exact-source CI",
+    "merge and observed deployment",
+    "restore-safe disposal execution for records found eligible; this workflow deliberately performs no deletion"
+  ],
+  "claimsExcluded": ["formal acceptance", "CI", "merge", "deployment", "real patient use", "legal policy approval", "destructive deletion"]
+}

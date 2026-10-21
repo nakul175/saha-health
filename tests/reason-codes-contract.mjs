@@ -10,7 +10,7 @@ const dir = mkdtempSync(join(process.cwd(), '.reason-codes-contract-'));
 let passed = 0;
 const check = fn => { fn(); passed++; };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'reason-codes', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes','installed-transition-authority', 'provider-sandbox', 'purpose-scope', 'reason-codes', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const R = await import(pathToFileURL(join(dir, 'reason-codes.js')));
   const P = await import(pathToFileURL(join(dir, 'fact-provenance.js')));
@@ -86,6 +86,13 @@ try {
   // 8. Summary reason-codes line (the existing free-text summary is unchanged).
   check(() => assert.equal(R.summaryReasonCodes({ provenance: { weight: { source: 'reported' } } }), ''));
   check(() => assert.equal(R.summaryReasonCodes({ provenance: { temperature: { source: 'declined' } } }), 'Reason codes (saha-reason-codes-1.0.0): temperature=declined (refused).'));
+  check(() => assert.deepEqual(R.modelReasonContext({ provenance: { weight: { source: 'reported' }, temperature: { source: 'declined' }, weeks: { source: 'unknown' } } }, { cough: 'Not measured', consent: 'Declined' }), [
+    'measurement temperature: declined [refused]',
+    'measurement weeks: unknown [uncertain]',
+    'programme consent: declined [refused]',
+    'programme cough: not-asked [missing]',
+  ]));
+  check(() => assert.deepEqual(R.modelReasonContext({ provenance: { weight: { source: 'reported' } } }, {}), []));
 
   // 9. The mapping applies to the real downstream resources.
   const hour = 3600000, minute = t => new Date(t).toISOString().slice(0, 16);

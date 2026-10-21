@@ -1,0 +1,165 @@
+{"suite":"SAHA-125 sensitive data and proxy contract","passed":15,"completedAt":"2026-10-20T12:40:08.747Z"}
+{"suite":"rights request contract (slice 6b)","passed":18,"completedAt":"2026-10-20T12:40:12.698Z"}
+{"suite":"household contract (slice 1)","passed":12,"completedAt":"2026-10-20T12:40:13.104Z"}
+{"suite":"Read-only household/proxy boundary review","passed":60,"failed":0,"skipped":0,"completedAt":"2026-10-20T12:40:13.955Z"}
+
+  vinext build  (Vite 8.0.13)
+
+[1/5] analyze client references...
+[2Ktransforming...✓ 641 modules transformed.
+rendering chunks...
+✓ built in 1.34s
+[2/5] analyze server references...
+[2Ktransforming...✓ 479 modules transformed.
+rendering chunks...
+✓ built in 397ms
+[3/5] build rsc environment...
+[2Ktransforming...✓ 638 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 854ms
+[4/5] build client environment...
+[2Ktransforming...✓ 2243 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 763ms
+[5/5] build ssr environment...
+[2Ktransforming...✓ 485 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 421ms
+[0m
+  Route (app)
+  ┌ ƒ /
+  ├ ƒ /amendments
+  ├ λ /api/abdm
+  ├ λ /api/action-plan
+  ├ λ /api/aggregate-reports
+  ├ λ /api/alerts
+  ├ λ /api/amendments
+  ├ λ /api/anaemia-connection-test
+  ├ λ /api/anaemia-demo-visit
+  ├ λ /api/anaemia-provider
+  ├ λ /api/anaemia-screenings
+  ├ λ /api/assistance-control
+  ├ λ /api/audit
+  ├ λ /api/audit/chain
+  ├ λ /api/availability
+  ├ λ /api/caseload
+  ├ λ /api/clinical-sources
+  ├ λ /api/commands
+  ├ λ /api/continuity
+  ├ λ /api/data-exit
+  ├ λ /api/delegations
+  ├ λ /api/deployment-evidence-review
+  ├ λ /api/device-work
+  ├ λ /api/environment
+  ├ λ /api/exceptional
+  ├ λ /api/exceptions
+  ├ λ /api/expansion
+  ├ λ /api/facility-scope
+  ├ λ /api/fact-freshness
+  ├ λ /api/fhir/:id
+  ├ λ /api/fixture-migration
+  ├ λ /api/frontline-assessments
+  ├ λ /api/frontline-connection-test
+  ├ λ /api/frontline-providers
+  ├ λ /api/governance
+  ├ λ /api/handover
+  ├ λ /api/history
+  ├ λ /api/household
+  ├ λ /api/household-proxy-review
+  ├ λ /api/identifier-search
+  ├ λ /api/identity-cases
+  ├ λ /api/import-rejections
+  ├ λ /api/imported-evidence
+  ├ λ /api/inbound-conflicts
+  ├ λ /api/incentive-claims
+  ├ λ /api/indicator-figures
+  ├ λ /api/indicators
+  ├ λ /api/installed-pack-transition
+  ├ λ /api/installed-pack-work
+  ├ λ /api/institution-roster-review
+  ├ λ /api/interface-language
+  ├ λ /api/media
+  ├ λ /api/media/:id
+  ├ λ /api/mis/callback
+  ├ λ /api/notification-channel
+  ├ λ /api/offline-opens
+  ├ λ /api/operations
+  ├ λ /api/outreach
+  ├ λ /api/own-care-permissions
+  ├ λ /api/pack-installations
+  ├ λ /api/patient-import
+  ├ λ /api/patient-matches
+  ├ λ /api/patients
+  ├ λ /api/patients/detail
+  ├ λ /api/pilot
+  ├ λ /api/plan-review
+  ├ λ /api/programme-migration
+  ├ λ /api/programme-pack-review
+  ├ λ /api/programme-status
+  ├ λ /api/provider-sandbox
+  ├ λ /api/purpose-scope
+  ├ λ /api/reassignment
+  ├ λ /api/reconciliation
+  ├ λ /api/record-import
+  ├ λ /api/record-matching
+  ├ λ /api/record-opened
+  ├ λ /api/referral-escalations
+  ├ λ /api/referral-requests
+  ├ λ /api/reminder-optout
+  ├ λ /api/reminder-optout/callback
+  ├ λ /api/reporting-completeness
+  ├ λ /api/retention
+  ├ λ /api/rights
+  ├ λ /api/roster
+  ├ λ /api/routine-visit
+  ├ λ /api/selective-reuse
+  ├ λ /api/service-authority-review
+  ├ λ /api/today
+  ├ λ /api/trace
+  ├ λ /api/value-range-protocols
+  ├ λ /api/work-burden
+  ├ λ /api/work-burden/attribution
+  ├ λ /api/work-burden/policy
+  ├ λ /api/work-burden/support
+  ├ λ /api/worker-activity
+  ├ λ /api/workforce-import
+  ├ λ /api/workforce-status
+  ├ λ /api/worklists
+  ├ λ /api/workspace
+  ├ ƒ /app
+  ├ ? /assistance-control
+  ├ ƒ /care-permissions
+  ├ ? /deployment-evidence-review
+  ├ ? /fact-freshness
+  ├ ƒ /follow-ups
+  ├ ƒ /handover
+  ├ ? /household-proxy-review
+  ├ ? /indicator-definitions
+  ├ ? /indicator-figures
+  ├ ? /institution-roster-review
+  ├ ? /plan-review
+  ├ ? /programme-pack-review
+  ├ ƒ /programme-status
+  ├ ? /record-matching
+  ├ ? /reporting-completeness
+  ├ ƒ /resume-work
+  ├ ƒ /routine-visit
+  ├ ? /selective-reuse
+  ├ ? /service-authority-review
+  ├ ? /task-entry
+  ├ ƒ /today
+  └ ƒ /workforce-status
+
+  λ API  ƒ Dynamic  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  Build complete. Run `vinext start` to start the production server.
+
+
+API/D1 integration: 5020/5020 passed (tests/evidence/saha-125-sensitive-proxy/api-smoke-summary.json)

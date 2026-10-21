@@ -8,8 +8,8 @@
     "extraction": "Requirement and acceptance text extracted from the supplied BRD; sourceTextLine refers to the temporary paragraph extraction, not a Word page number."
   },
   "counts": {
-    "implemented-local": 14,
-    "partial": 151,
+    "implemented-local": 19,
+    "partial": 146,
     "not-built": 2,
     "unverified": 9
   },
@@ -1062,8 +1062,8 @@
       "sourceTextLine": 225,
       "implementation": "partial",
       "target": "R12",
-      "current": "Per-connector mapping allowlists, AI permission and scoped EHR permissions. Slice R09 added purpose-limited grants; slice 13a checks them at every data-flow checkpoint (plans, submissions, destination enrolment, identifier corrections, incentive claims, EHR and ABDM flows, assistant runs, anaemia and frontline providers, aggregate reports and indicator figures, household disclosure). Overnight access/recovery checkpoint (11 October 2026): final consistent Routine/Today access checks, bounded ACCESS append liveness, original-organisation dispatch and original-account exact-attempt recovery have scoped native/browser and final203-unit/API/restore evidence. See docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md and EVIDENCE-20261011-AUTHORITY.json. Current-head CI, complete applicable physical/reference-device NFR and hosted A10 remain pending; wider captured-member helper and formal acceptance are not closed. Integrated audit qualification (11 October 2026): current-membership append/postcheck and native excess-count witness pass fresh current305 full205/10791 guarded205; same-runtime canonical166/14529 passes guarded166 with one inherited media skip and excluded old13 unit fixture declared. All380 prior guard records remain exact. See docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md and EVIDENCE-20261011-AUDIT-GUARD.json for exact source/setup limits and saved Git receipts. Complete real UI/reference NFR02, originalNFR5, final-head CI, separate final review and A10 remain pending; physical/clinical/formal acceptance is unchanged. Selective-reuse qualification (13 October 2026): the current destination/purpose projection exposes only the configured destination mapping, withholds values for an unapproved purpose, revalidates exact original plan/receipt evidence, and clears protected values on authority/deadline changes. The composed owned native test now proves that withdrawing programme-delivery permission after prepare/approve/queue refuses the actual sendSubmission command, leaves the queued submission unchanged and produces zero external egress (60/60 checks). Existing dispatch keeps immutable approved payloads and blocks stale mapping/consent/purpose/authority rather than silently altering them; a fresh plan is required.",
-      "remaining": "Approve the purpose vocabulary and per-destination reuse policy; run the named formal positive/adverse cases with frontline and programme-data-owner review; observe the exact deployed commit and authorised synthetic journey.",
+      "current": "Per-connector mapping allowlists, AI permission and scoped EHR permissions. Slice R09 added purpose-limited grants; slice 13a checks them at every data-flow checkpoint (plans, submissions, destination enrolment, identifier corrections, incentive claims, EHR and ABDM flows, assistant runs, anaemia and frontline providers, aggregate reports and indicator figures, household disclosure). Overnight access/recovery checkpoint (11 October 2026): final consistent Routine/Today access checks, bounded ACCESS append liveness, original-organisation dispatch and original-account exact-attempt recovery have scoped native/browser and final203-unit/API/restore evidence. See docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md and EVIDENCE-20261011-AUTHORITY.json. Current-head CI, complete applicable physical/reference-device NFR and hosted A10 remain pending; wider captured-member helper and formal acceptance are not closed. Integrated audit qualification (11 October 2026): current-membership append/postcheck and native excess-count witness pass fresh current305 full205/10791 guarded205; same-runtime canonical166/14529 passes guarded166 with one inherited media skip and excluded old13 unit fixture declared. All380 prior guard records remain exact. See docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md and EVIDENCE-20261011-AUDIT-GUARD.json for exact source/setup limits and saved Git receipts. Complete real UI/reference NFR02, originalNFR5, final-head CI, separate final review and A10 remain pending; physical/clinical/formal acceptance is unchanged. Selective-reuse qualification (13 October 2026): the current destination/purpose projection exposes only the configured destination mapping, withholds values for an unapproved purpose, revalidates exact original plan/receipt evidence, and clears protected values on authority/deadline changes. The composed owned native test now proves that withdrawing programme-delivery permission after prepare/approve/queue refuses the actual sendSubmission command, leaves the queued submission unchanged and produces zero external egress (60/60 checks). Existing dispatch keeps immutable approved payloads and blocks stale mapping/consent/purpose/authority rather than silently altering them; a fresh plan is required. Local coding completion (20 October 2026): destination-specific mapping, independent purpose refusal, exact original plan/receipt binding, dispatch-time authority/consent/mapping rechecks and refusal-safe UI clearing have focused46, owned native Worker/D1/browser60, dispatch100, typecheck and build evidence. Malformed legacy destination or patient programme membership is withheld rather than throwing or retaining an earlier payload. No identified application-code gap remains against the frozen story; see docs/current/SAHA-029-LOCAL-CODING-COMPLETION-20261020.md.",
+      "remaining": "Obtain independent source review and exact-source CI; approve the purpose vocabulary and per-destination reuse policy; run the named formal positive/adverse cases with frontline and programme-data-owner review; merge and observe the exact deployed synthetic commit.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -1567,7 +1567,9 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/approved-execution.ts",
+        "tests/approved-execution-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1592,7 +1594,9 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/approved-execution.ts",
+        "tests/approved-execution-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1617,7 +1621,9 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/approved-execution.ts",
+        "tests/approved-execution-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1642,7 +1648,9 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/approved-execution.ts",
+        "tests/approved-execution-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1823,7 +1831,9 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/approved-execution.ts",
+        "tests/approved-execution-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3360,8 +3370,8 @@
       "sourceTextLine": 479,
       "implementation": "partial",
       "target": "R14",
-      "current": "Dated referral events with evidence. Slice 4a adds accepted, scheduled (with appointment time), attended, did-not-attend, declined, cancelled and unknown states under an explicit transition table; closed states are immutable.",
-      "remaining": "Facility-verified outcomes and external outcome evidence.",
+      "current": "Dated referral events with evidence. SAHA-101 locally distinguishes proposed, authorised, sent, received, scheduled, attended and completed states; completion requires prior attendance, a coded service outcome, evidence source/reference and the recording actor. Declined, cancelled, not-attended and unknown dispositions remain distinct; closed states are immutable.",
+      "remaining": "Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -3475,21 +3485,22 @@
       "requirement": "Contact method, language, timing and disclosure preferences shall be recorded. Shared phone ownership shall be treated explicitly; sensitive content shall not be placed in notifications or message previews by default.",
       "acceptance": "Acceptance: A patient requesting private contact receives no revealing automated message through a household contact number.",
       "sourceTextLine": 488,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R14",
-      "current": "Explicit synthetic contact ownership, language, privacy, hours and withdrawal controls.",
-      "remaining": "Real notice/permission workflow, shared-phone field safety and approved notification channels.",
+      "current": "Per-person, purpose and channel contact preferences now retain bounded ordered before/after change history, explicit phone ownership, preferred language, local contact window, permission, private-contact choice and a disclosure limit. Reminder drafts bind an exact purpose and recheck that purpose/channel before review and synthetic execution. Shared-phone delivery is limited to the fixed neutral template when explicitly permitted; private or unknown ownership prevents notification disclosure and retains the private or in-person follow-up path. Preference changes cancel only pending work for the affected purpose. Current assignment, record version and care-coordination purpose authority are enforced. Focused local contract evidence passes; no provider was called and no patient was contacted.",
+      "remaining": "Formal TC-BR-CARE-06-A/B execution, representative-worker/domain acceptance, reviewed Hindi copy, approved live channel/provider and observed deployment remain pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "lib/saha/continuity.ts",
         "lib/saha/outreach.ts",
-        "lib/saha/field.ts",
-        "tests/continuity-smoke.mjs",
-        "tests/outreach-smoke.mjs",
-        "lib/saha/governance.ts",
-        "tests/governance-smoke.mjs",
-        "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "lib/saha/consent.ts",
+        "lib/saha/outreach-server.ts",
+        "app/outreach-panel.tsx",
+        "app/consent-panel.tsx",
+        "tests/safe-communication-preferences-contract.mjs",
+        "tests/outreach-contract.mjs",
+        "tests/consent-contract.mjs",
+        "tests/contact-import-contract.mjs",
+        "docs/current/SAHA-104-LOCAL-CODING-COMPLETION-20261020.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3507,6 +3518,14 @@
       "remaining": "Approved SMS/IVR/appointment provider, real incoming events/receipts, channel qualification and formal acceptance remain pending. Mock provider is synthetic/training only.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
+        "lib/saha/outreach.ts",
+        "lib/saha/outreach-server.ts",
+        "app/outreach-panel.tsx",
+        "tests/external-messaging-contract.mjs",
+        "tests/outreach-smoke.mjs",
+        "tests/evidence/saha-105-external-messaging/contract-result.json",
+        "tests/evidence/saha-105-external-messaging/http-report.json",
+        "docs/current/SAHA-105-LOCAL-CODING-COMPLETION.md",
         "lib/saha/reminder-optout.ts",
         "lib/saha/reminder-optout-server.ts",
         "app/reminder-optout-panel.tsx",
@@ -3565,10 +3584,10 @@
       "requirement": "Supervisors shall see overdue work, identity conflicts, rejected submissions, unresolved clinical reviews and synchronisation problems within their scope. Queues shall identify owner, age and recovery action.",
       "acceptance": "Acceptance: Each seeded failure is discoverable and assignable without searching individual worker transcripts.",
       "sourceTextLine": 499,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R15",
-      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events. A06 adds trusted care-worker fixed-code device failure reports with strict bounded counts, stable metadata operations and chained audit; raw errors and patient content are refused.",
-      "remaining": "Assignment from the queue itself, scoped device-diagnostic discovery/assignment and recovery queue; reporting while offline/without a trusted notebook organisation, notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.",
+      "current": "Operational backlog counts plus the established item queue, trace, alert and redacted device-report foundations. SAHA-107 local completion adds explicit scoped identity-conflict and append-only fixed-code device-diagnostic rows; versioned assignment from every visible row with current viewer/assignee scope, stale-row and race refusal, bounded history and audit; a metadata-only stable device diagnostic outbox for offline or not-yet-attributed failures that drains after trusted reconnect; and opaque one-occurrence-per-item demonstration notification planning. Assignment never executes recovery, retries delivery, merges identities or changes clinical records. Focused synthetic contract, device, notification, TypeScript and production-build evidence is recorded in docs/current/SAHA-107-OPERATIONAL-EXCEPTION-QUEUES.md.",
+      "remaining": "Formal TC-BR-REP-01-A/B execution with the controlled FX-REP-01/NEG fixtures, independent review, exact-source CI, physical-device failure/loss validation, approved live notification-provider acceptance, merge and observed deployment remain pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3604,7 +3623,18 @@
         "docs/current/SCOPE-FOLLOWUP-INDEPENDENT-REVIEW.md",
         "tests/evidence/device-work-fail-closed",
         "tests/evidence/device-privacy-fixed-independent-review",
-        "tests/evidence/scope-followup-independent-review"
+        "tests/evidence/scope-followup-independent-review",
+        "app/exceptions-panel.tsx",
+        "app/operations-panel.tsx",
+        "lib/saha/exception-diagnostics.ts",
+        "lib/saha/exceptions-server.ts",
+        "lib/saha/notification-sources.ts",
+        "lib/saha/platform.ts",
+        "lib/saha/server.ts",
+        "tests/exception-assignment-contract.mjs",
+        "tests/exception-assignment-contract-result.json",
+        "tests/notification-sources-contract.mjs",
+        "docs/current/SAHA-107-OPERATIONAL-EXCEPTION-QUEUES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3825,15 +3855,20 @@
       "requirement": "Approved risk or gap-analysis tools may identify populations needing review. Such results shall identify data limitations and support human planning rather than automatically denying service or ranking worker pay.",
       "acceptance": "Acceptance: Supervisors can inspect selection criteria and override an allocation with a reason; uncertainty remains visible.",
       "sourceTextLine": 514,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R14",
-      "current": "Human cohort selection with recorded criteria and allocation rationale.",
-      "remaining": "Approved gap/risk measures and real data-quality/fairness validation.",
+      "current": "Governed operational care-gap criteria with independent configuration review, visible limitations and uncertainty, scoped supervisor selection, reasoned human inclusion/allocation overrides, stale authority/source invalidation, small-cohort refusal and draft-only outreach. The workflow never scores clinical risk, denies service, changes eligibility, worker pay or sanctions.",
+      "remaining": "Clinical/programme approval of any deployment-specific criterion, real data-quality and fairness validation, formal TC-BR-REP-06-A/B and TC-J12 execution, independent source review, CI, merge and observed deployment remain separate gates.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "lib/saha/operations.ts",
-        "lib/saha/pilot.ts",
-        "tests/operations-smoke.mjs"
+        "lib/saha/prioritisation.ts",
+        "lib/saha/prioritisation-server.ts",
+        "app/prioritisation/page.tsx",
+        "app/api/prioritisation/route.ts",
+        "tests/prioritisation-contract.mjs",
+        "tests/prioritisation-contract-result.json",
+        "docs/current/SAHA-112-LOCAL-CODING-COMPLETION.md",
+        "docs/verification/saha-112-local-coding-evidence-sha256.json"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3891,10 +3926,10 @@
       "requirement": "Administrators shall configure organisation, geography, facilities, roles, programmes, languages, provider eligibility and operational limits. Changes shall be scoped to the deployment and validated before activation.",
       "acceptance": "Acceptance: Updating one tenant's configuration cannot change another tenant's behaviour or data visibility.",
       "sourceTextLine": 522,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R15",
-      "current": "Tenant/team/member and selected provider/connector settings are scoped; an owner-only read-only configuration check reports missing or unsafe deployment settings and per-connection credential, grant and allowlist state without secret values.",
-      "remaining": "Facilities, jurisdiction, full language/provider eligibility, validated deployment limits and validation before configuration changes take effect.",
+      "current": "SAHA-114 adds a tenant-scoped, versioned deployment configuration lifecycle. An organisation owner stages exact organisation, geography, facility, role, programme, language, provider-eligibility and operational-limit settings; a different current deployment operator independently reviews the exact source-bound revision; a different current owner activates it only after all references and authority are revalidated. Active settings enforce role, programme, language, provider, location, member, patient-record and external-connection boundaries on current command paths. Configuration history and audit are retained, no provider is activated by configuration, and one tenant record cannot affect another. Synthetic contract34/34, TypeScript and production build pass on 20 October 2026.",
+      "remaining": "Formal TC-BR-OPS-01-A/B remain not run; named human/domain approval, exact-source CI, protected merge and observed hosted deployment remain separate.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3909,7 +3944,15 @@
         "docs/current/SLICE-6N-ENVIRONMENTS.md",
         "tests/availability-contract.mjs",
         "tests/ui/availability.mjs",
-        "docs/current/SYNTHETIC-AVAILABILITY.md"
+        "docs/current/SYNTHETIC-AVAILABILITY.md",
+        "lib/saha/deployment-configuration.ts",
+        "lib/saha/deployment-configuration-server.ts",
+        "app/api/deployment-configuration/route.ts",
+        "app/deployment-configuration/page.tsx",
+        "app/deployment-configuration/screen.tsx",
+        "tests/deployment-configuration-contract.mjs",
+        "tests/evidence/saha-114-deployment-configuration/result.json",
+        "docs/current/SAHA-114-DEPLOYMENT-CONFIGURATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3933,10 +3976,22 @@
         "tests/pilot-smoke.mjs",
         "lib/saha/environment.ts",
         "lib/saha/environment-server.ts",
+        "lib/saha/server.ts",
+        "lib/saha/core.ts",
+        "lib/saha/mis.ts",
+        "lib/saha/mis-execution.ts",
+        "lib/saha/fhir-document.ts",
+        "lib/saha/fhir.ts",
+        "lib/saha/ehr.ts",
+        "lib/saha/ehr-provider.ts",
+        "lib/saha/agent-minimisation.ts",
+        "app/api/fhir/[id]/route.ts",
         "app/environment-panel.tsx",
         "tests/environment-contract.mjs",
         "tests/environment-smoke.mjs",
-        "docs/current/SLICE-6N-ENVIRONMENTS.md"
+        "tests/environment-separation-contract.mjs",
+        "docs/current/SLICE-6N-ENVIRONMENTS.md",
+        "docs/current/SAHA-115-ENVIRONMENT-SEPARATION-LOCAL-COMPLETION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4025,8 +4080,8 @@
       "sourceTextLine": 534,
       "implementation": "partial",
       "target": "R15",
-      "current": "Redacted technical support export and generic incidents.",
-      "remaining": "Task-linked support cases and purpose/time-limited exceptional support access.",
+      "current": "Redacted technical support export and generic incidents. SAHA-118 adds task-linked fixed-diagnostic support cases, server-authorized routine queues, separately approved fixed-scope exceptional access with recorded purpose and 15–120 minute duration, expiry/revocation, chained patient-linked read audit, stale-write/race refusal and unchanged clinical records. Synthetic Worker/D1 checks pass 24 assertions.",
+      "remaining": "Formal TC-BR-OPS-05-A/B remain Not run; independent review, CI, deployment operations acceptance, merge and observed hosted deployment remain pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -4067,8 +4122,8 @@
       "sourceTextLine": 540,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked). Slice 6q: the audit-chain and operations export retries refuse (409, nothing delivered) a changed care scope and, for the operations CSV, a changed reporting reach. Slice 6u: household members and caseload transfer patients outside the exporter's scope are left out of those rows and counted, and the verifier checks them; pilot dossier and expansion pack exports retry their audit commit with access rechecked. Slice 6z: alert notifications are exported for the exporter only; other members' notifications (counts from their own care scope) are left out and counted in the manifest.",
-      "remaining": "Buyer-authorised export beyond the owner's care scope, independent re-import tooling, staged exports for large tenants and queue disposition on provider termination.",
+      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked). Slice 6q: the audit-chain and operations export retries refuse (409, nothing delivered) a changed care scope and, for the operations CSV, a changed reporting reach. Slice 6u: household members and caseload transfer patients outside the exporter's scope are left out of those rows and counted, and the verifier checks them; pilot dossier and expansion pack exports retry their audit commit with access rechecked. Slice 6z: alert notifications are exported for the exporter only; other members' notifications (counts from their own care scope) are left out and counted in the manifest. SAHA-120 local successor adds a fail-closed whole-organisation mode that requires existing normal authority for every person, source-bound staged parts, explicit per-connection termination rehearsal disposition, value-free field units/provenance and a non-destructive validation re-import command; see docs/current/SAHA-120-DATA-EXIT-LOCAL-CODING-COMPLETION.md.",
+      "remaining": "Independent operation of the 1000-person rehearsal, representative large-tenant capacity, buyer approval of the format, exact-source CI/review and formal acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -4091,7 +4146,11 @@
         "tests/fourth-review-fixes-contract.mjs",
         "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
         "tests/sixth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md",
+        "app/data-exit-panel.tsx",
+        "scripts/reimport-export.mjs",
+        "tests/data-exit-portability-contract.mjs",
+        "docs/current/SAHA-120-DATA-EXIT-LOCAL-CODING-COMPLETION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4137,7 +4196,10 @@
         "lib/saha/server.ts",
         "lib/saha/access.ts",
         "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/consent.ts",
+        "app/consent-panel.tsx",
+        "tests/notice-consent-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4158,7 +4220,10 @@
         "lib/saha/server.ts",
         "lib/saha/access.ts",
         "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/consent.ts",
+        "app/consent-panel.tsx",
+        "tests/notice-consent-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4172,8 +4237,8 @@
       "sourceTextLine": 554,
       "implementation": "partial",
       "target": "R15",
-      "current": "Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. A06 adds original prepared-grant provenance, redacted own-only purge instructions after current care access is removed, encrypted revision-checked notebook/media deletion before durable client acknowledgement, and minimal tombstones preserving uncertain sync/media receipt references without blind care retries. Independent actual browser checks verify fail-closed known-refusal storage failures and offline reload on both surfaces; partial committed deletion batches survive later faults. Registration follow-up now records immutable original registration/match provenance, verifies the trusted original notebook account, clears cached candidate copies before connected reuse, and atomically removes known-withdrawn local registration copies while retaining unknown receipt proof. Append-only actual wire receipt mappings resolve observed raw/parsed ordering differences; pure privacy authority does not depend on a strict receipt lookup succeeding. Both surfaces pass synthetic encrypted-store and actual Worker recovery checks.",
-      "remaining": "Destination notification with verified external outcomes, wider local copy inventory, physical-device/hosted privacy validation, real ABDM consent-manager revocation and approved policy for retained completed transactions. Legacy unobserved wire variants retain unknown proof; no permission to care-replay after withdrawal.",
+      "current": "Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. A06 adds original prepared-grant provenance, redacted own-only purge instructions after current care access is removed, encrypted revision-checked notebook/media deletion before durable client acknowledgement, and minimal tombstones preserving uncertain sync/media receipt references without blind care retries. Independent actual browser checks verify fail-closed known-refusal storage failures and offline reload on both surfaces; partial committed deletion batches survive later faults. Registration follow-up now records immutable original registration/match provenance, verifies the trusted original notebook account, clears cached candidate copies before connected reuse, and atomically removes known-withdrawn local registration copies while retaining unknown receipt proof. Append-only actual wire receipt mappings resolve observed raw/parsed ordering differences; pure privacy authority does not depend on a strict receipt lookup succeeding. Both surfaces pass synthetic encrypted-store and actual Worker recovery checks. SAHA-124 adds an append-only, patient-version-guarded request and reported-outcome trail for in-flight or already-sent external items, with evidence references, scoped care authority, patient revisions and explicit no-external-erasure wording; completed receipts remain immutable.",
+      "remaining": "Automated notification through approved real destinations and independent verification of their outcomes, wider deployed copy inventory, physical-device/hosted privacy validation, real ABDM consent-manager revocation and approved policy for retained completed transactions. Legacy unobserved wire variants retain unknown proof; no permission to care-replay after withdrawal.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -4181,9 +4246,15 @@
         "lib/saha/store.ts",
         "REMAINING-RELEASES.md",
         "lib/saha/consent.ts",
+        "app/consent-panel.tsx",
         "tests/consent-contract.mjs",
         "tests/consent-smoke.mjs",
+        "tests/withdrawal-disposition-contract.mjs",
+        "tests/withdrawal-disposition-http.mjs",
+        "tests/evidence/withdrawal-disposition/contract.json",
+        "tests/evidence/withdrawal-disposition/http.json",
         "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md",
+        "docs/current/SAHA-124-WITHDRAWAL-DISPOSITION-LOCAL-COMPLETION.md",
         "app/api/device-work/route.ts",
         "lib/saha/device-work.ts",
         "public/field/device-work.js",
@@ -4238,14 +4309,17 @@
       "sourceTextLine": 560,
       "implementation": "partial",
       "target": "R15",
-      "current": "TLS hosting, server secrets, encrypted field vault and encrypted local backups.",
-      "remaining": "Independent storage/key-management, rotation, media and end-to-end encryption assessment.",
+      "current": "TLS hosting, server secrets, encrypted field vault/media and encrypted local backups. SAHA-126 adds strict metadata-only secret ownership/rotation records, staging/production fail-closed deployment checks and a fingerprint-only review tool for client bundles, configuration exports, logs and model context; no usable secret value enters either report.",
+      "remaining": "Independent hosted storage/KMS and backup custody, actual provider rotation, deployed bundle/log/context inspection, physical-device media assessment, end-to-end encryption assessment and formal security acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
         "lib/saha/access.ts",
         "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/consent.ts",
+        "app/consent-panel.tsx",
+        "tests/notice-consent-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4259,8 +4333,8 @@
       "sourceTextLine": 563,
       "implementation": "partial",
       "target": "R15",
-      "current": "Organisation/patient scope tested across current APIs and exports.",
-      "remaining": "Independent adversarial coverage of hosted backup, future indexes/media and asynchronous services.",
+      "current": "Organisation/patient scope tested across current APIs and exports. SAHA-127 adds active-membership resolution for every explicitly named tenant before target, search, report, export or traffic-triggered background work; focused Worker/D1 evidence covers positive, foreign-tenant, wrong-record, suspension, lineage and export-authority-race paths without disclosed tenant markers or prepared archive bytes.",
+      "remaining": "Formal TC-BR-SEC-06-A/B, independent source review and adversarial hosted coverage of backup/restore, future indexes/retrieval stores, hosted media/file links and scheduled/asynchronous infrastructure.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -4276,7 +4350,11 @@
         "docs/current/WORK-SUPPORT-CURRENT-HELPERS.md",
         "docs/current/WORK-SUPPORT-CURRENT-SNAPSHOT.md",
         "docs/current/WORK-SUPPORT-FIX-INDEPENDENT-REVIEW.md",
-        "docs/current/WORK-SUPPORT-WORKFLOW-RACE-REVIEW.md"
+        "docs/current/WORK-SUPPORT-WORKFLOW-RACE-REVIEW.md",
+        "tests/tenant-record-isolation-http.mjs",
+        "tests/evidence/tenant-record-isolation/http.json",
+        "tests/evidence/tenant-record-isolation/authorisation-matrix-boundary.json",
+        "docs/current/SAHA-127-TENANT-RECORD-ISOLATION-LOCAL-COMPLETION-20261020.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4290,8 +4368,8 @@
       "sourceTextLine": 566,
       "implementation": "partial",
       "target": "R15",
-      "current": "Fixed route/status telemetry and redacted support exports. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs. Slice 6q (second independent review): the paged patient list no longer puts names in URLs (opaque cursor, POST search); the static check also flags free-text and search keys set on URLSearchParams. Routine retention repair (11 October 2026): independent source review confirmed a shared metadata deletion authority gap on refused foreign/suspended requests. Only the existing DELETE adds the same trusted actor active-membership predicate; separate code review, fresh build and all nine native HTTP scenarios/64 named check groups pass with independent whole-row/source/build evidence verification; normal CI fixture qualification, exact successor CI/full NFR and hosted acceptance remain pending. See docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md. Original formal status, policies, criteria and minima unchanged.",
-      "remaining": "Hosted log, crash-report and analytics configuration and retention, identifiers in request paths, and a separate access-controlled store for necessary sensitive diagnostics with policy review.",
+      "current": "Fixed route/status telemetry and redacted support exports. SAHA-128 routes every request and failure console record through a fixed-field encoder; raw exception objects, messages, stacks, URLs, bodies and identifiers are excluded, while necessary patient-linked diagnostic evidence remains in separately authorised audit/revision stores. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs. Slice 6q (second independent review): the paged patient list no longer puts names in URLs (opaque cursor, POST search); the static check also flags free-text and search keys set on URLSearchParams. Routine retention repair (11 October 2026): independent source review confirmed a shared metadata deletion authority gap on refused foreign/suspended requests. Only the existing DELETE adds the same trusted actor active-membership predicate; separate code review, fresh build and all nine native HTTP scenarios/64 named check groups pass with independent whole-row/source/build evidence verification; normal CI fixture qualification, exact successor CI/full NFR and hosted acceptance remain pending. See docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md. Original formal status, policies, criteria and minima unchanged.",
+      "remaining": "Hosted platform log/crash/analytics configuration and retention inspection, privacy-owner policy review, representative hosted leakage testing, identifiers in request paths, and formal TC-BR-SEC-07-A/B.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -4307,7 +4385,9 @@
         "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
         "docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md",
         "docs/current/d03/telemetry-retention-evidence-20261011/MANIFEST.json",
-        "tests/integration/routine-telemetry-retention-http.mjs"
+        "tests/integration/routine-telemetry-retention-http.mjs",
+        "lib/saha/observability.ts",
+        "docs/current/SAHA-128-LOCAL-CODING-COMPLETION-20261020.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4454,10 +4534,10 @@
       "requirement": "Any exceptional access shall have a defined eligible role, reason, time limit, minimum scope and retrospective review. It shall not create permanent access or bypass clinical authority.",
       "acceptance": "Acceptance: A break-glass event is visible to the designated reviewer and automatically expires; an ordinary worker cannot invoke it unless specifically authorised.",
       "sourceTextLine": 578,
-      "implementation": "partial",
+      "implementation": "implemented-local",
       "target": "R15",
-      "current": "Slice 6a: clinician emergency access to one out-of-scope patient by record reference, 15 minutes to 4 hours, with reason, caps, urgent-care actions only, audit and single independent review by the patient's team. Slice 6r: the urgent-care-only restriction resolves every patient a command names (merge survivor/duplicate, identity and safety cases, legal holds, visits) and fails closed; reviewers need normal access to the patient and the review queue follows it. Slice 6u: outreach item and plan commands and reminder creation are restricted too (an item's patient, or every patient on the plan).",
-      "remaining": "Approved eligibility policy, support-staff access, step-up authentication, team notification and material-read audit during access.",
+      "current": "Slice 6a: clinician emergency access to one out-of-scope patient by record reference, 15 minutes to 4 hours, with reason, caps, urgent-care actions only, audit and single independent review by the patient team. Slice 6r: every patient reference is resolved and restricted fail-closed; reviewers need normal access. Slice 6u: outreach item, plan and reminder references are restricted. SAHA-132: the emergency register and designated review queue now append a minimised, patient-linked material-read event before disclosure (including an organisation-level empty-queue event), recheck current membership, and compare the same-time register after audit so changed authority or grant state refuses stale content. Synthetic direct contract 19/0, typecheck, production build and guarded built-Worker/fresh-D1 integration 5023/0 pass.",
+      "remaining": "Production-approved eligibility and default-limit policy; support-staff access only if explicitly authorised; identity-provider step-up and proactive team notification; independent review, exact-source CI, merge, observed deployment, TC-BR-SEC-11-A/B and formal clinical/domain acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -4468,7 +4548,13 @@
         "tests/main-review-fixes-contract.mjs",
         "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
         "tests/fourth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "lib/saha/exceptional-server.ts",
+        "lib/saha/access-audit.ts",
+        "tests/exceptional-contract.mjs",
+        "tests/exceptional-smoke.mjs",
+        "docs/current/SAHA-132-EMERGENCY-SUPPORT-ACCESS.md",
+        "tests/access-audit-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4511,7 +4597,10 @@
         "lib/saha/server.ts",
         "lib/saha/access.ts",
         "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/consent.ts",
+        "app/consent-panel.tsx",
+        "tests/notice-consent-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4532,7 +4621,10 @@
         "lib/saha/server.ts",
         "lib/saha/access.ts",
         "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/consent.ts",
+        "app/consent-panel.tsx",
+        "tests/notice-consent-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -5369,8 +5461,8 @@
       "sourceTextLine": 753,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local full-database restore, limited structured exports and a documented organisation export with identifiers, relationships and version metadata; a 1000-person synthetic export re-imports in the contract suite with matching counts and an intact audit chain. Slice 6p: the manifest counts withheld entries inside organisation documents and is complete only when none is withheld; the offline verifier checks every personId inside those documents against the exported patients and that completeness claim. Slice 6q: export audit retries also re-check care scope and, for the operations CSV, reporting teams and delegation ids. Slice 6z: the manifest counts other members' alert notifications left out (otherMembersRows); they are not patient rows and do not affect completeness.",
-      "remaining": "Independent re-import by a third party, units and provenance documentation for every JSON field, and buyer sign-off of the format.",
+      "current": "Local full-database restore, limited structured exports and a documented organisation export with identifiers, relationships and version metadata; a 1000-person synthetic export re-imports in the contract suite with matching counts and an intact audit chain. Slice 6p: the manifest counts withheld entries inside organisation documents and is complete only when none is withheld; the offline verifier checks every personId inside those documents against the exported patients and that completeness claim. Slice 6q: export audit retries also re-check care scope and, for the operations CSV, reporting teams and delegation ids. Slice 6z: the manifest counts other members' alert notifications left out (otherMembersRows); they are not patient rows and do not affect completeness. SAHA-120 adds a reusable verifier-gated validation re-import command for one full archive or all source-bound staged parts, plus an archive-specific dictionary for every observed structured path with explicit unit/null and provenance. A current source-adapted inherited run re-imported 1000 synthetic persons and 55 tables with complete relationships and intact audit chain; see docs/current/SAHA-120-DATA-EXIT-LOCAL-CODING-COMPLETION.md.",
+      "remaining": "Independently operated 1000-person re-import, representative staged capacity, buyer sign-off of the documented format, exact-source CI/review and formal acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/fhir-document.ts",
@@ -5387,7 +5479,11 @@
         "docs/current/SLICE-6P-REVIEW-FIXES.md",
         "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
         "tests/sixth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md",
+        "app/data-exit-panel.tsx",
+        "scripts/reimport-export.mjs",
+        "tests/data-exit-portability-contract.mjs",
+        "docs/current/SAHA-120-DATA-EXIT-LOCAL-CODING-COMPLETION.md"
       ],
       "automatedAcceptanceClaim": false
     },

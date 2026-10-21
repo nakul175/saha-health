@@ -90,6 +90,11 @@ p=o.state.people.find(p=>p.id==='p_meena');await post(o,{type:'assignPatient',pe
 const ix=await invite(x,'asha');await post(o,{type:'revokeInvite',inviteId:ix.invitationId});await post(x,{type:'joinOrganisation',token:ix.token},403);
 const expired=await invite(x,'asha');sql.prepare('UPDATE invitations SET expires_at=? WHERE id=?').run('2020-01-01T00:00:00.000Z',expired.invitationId);await post(x,{type:'joinOrganisation',token:expired.token},403);
 await post(o,{type:'createTeam',name:'CSRF test'},403,crypto.randomUUID(),org,{Origin:'https://evil.example'});
+// The activation below advances the synthetic connector to release 3. Seed the complete exact-release provider inventory required by the current fail-closed gate without changing the product gate or using a real provider.
+const assuranceRow=sql.prepare('SELECT data FROM operations WHERE org_id=?').get(org),assuranceOperations=assuranceRow?JSON.parse(assuranceRow.data):{version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null},assuranceAt=new Date().toISOString();
+assuranceOperations.supplyChain=[...(assuranceOperations.supplyChain??[]),{id:`privacy-registration-mis-maternal-${id}`,kind:'provider',name:'Synthetic maternal register assurance',release:'3',ownerId:o.id,controls:['Signed synthetic provider release'],subprocessors:[{name:'None disclosed',purpose:'Explicit synthetic provider declaration',jurisdiction:'Not applicable'}],incidentContact:'SECURITY-CASE-QUEUE',updateObligation:'Notify the accountable owner before this supported release changes.',supportUntil:'2099-01-01',materialChange:'Exact synthetic release 3 assessed for the privacy-registration activation fixture.',componentId:'mis_maternal',version:1,updatedBy:o.id,updatedAt:assuranceAt,findings:[],history:[]}];
+assuranceOperations.supplyChain.push({id:`privacy-registration-mis-community-${id}`,kind:'provider',name:'Synthetic community register assurance',release:'1',ownerId:o.id,controls:['Signed synthetic provider release'],subprocessors:[{name:'None disclosed',purpose:'Explicit synthetic provider declaration',jurisdiction:'Not applicable'}],incidentContact:'SECURITY-CASE-QUEUE',updateObligation:'Notify the accountable owner before this supported release changes.',supportUntil:'2099-01-01',materialChange:'Exact synthetic release 1 assessed for the aggregate receipt-loss fixture.',componentId:'mis_community',version:1,updatedBy:o.id,updatedAt:assuranceAt,findings:[],history:[]});
+sql.prepare('INSERT INTO operations (org_id,data) VALUES (?,?) ON CONFLICT(org_id) DO UPDATE SET data=excluded.data').run(org,JSON.stringify(assuranceOperations));
 await post(o,{type:'toggleIntegration',integrationId:'mis_maternal',version:o.state.integrations.find(i=>i.id==='mis_maternal').version});await post(o,{type:'toggleIntegration',integrationId:'mis_maternal',version:o.state.integrations.find(i=>i.id==='mis_maternal').version});
 const newOrg=await post(o,{type:'createOrganisation',name:'Isolated second organisation'});check(()=>{assert.equal(newOrg.snapshot.people.length,0);assert.equal(newOrg.snapshot.visits.length,0);assert.notEqual(newOrg.snapshot.organisation.id,org)});await get(o,`/api/fhir/${visitId}?organisationId=${newOrg.snapshot.organisation.id}`,404);await post(o,{type:'switchOrganisation',organisationId:org});check(()=>assert.equal(o.state.submissions.length,2));
 const template=sql.prepare('SELECT * FROM record_revisions WHERE org_id=? AND entity_type=? LIMIT 1').get(legacyOrg,'person');
@@ -100,7 +105,7 @@ const ap=await get(legacyUser,'/api/audit',200,legacyOrg);check(()=>{assert.equa
 const {programmeSmoke}=await import('./programme-smoke.mjs');await programmeSmoke({o,w,s,a,post,get,check,org});
 const {agentSmoke}=await import('./agent-smoke.mjs');await agentSmoke({o,c,w,a,s,post,get,check,org,sql});
 const {misSmoke}=await import('./mis-smoke.mjs');await misSmoke({get,post,check,accounts,org,sql});
-const {ehrSmoke}=await import('./ehr-smoke.mjs');await ehrSmoke({get,post,check,accounts,org});
+const {ehrSmoke}=await import('./ehr-smoke.mjs');await ehrSmoke({get,post,check,accounts,org,sql});
 const {fieldSmoke}=await import('./field-smoke.mjs');await fieldSmoke({get,post,check,accounts,org});
 const {operationsSmoke}=await import('./operations-privacy-registration-current.mjs');await operationsSmoke({get,post,check,accounts,org,sql});
 const {pilotSmoke}=await import('./pilot-smoke.mjs');await pilotSmoke({get,post,check,accounts,org,sql});
@@ -151,7 +156,7 @@ const {agentQualitySmoke}=await import('./agent-quality-smoke.mjs');await agentQ
 const {capabilityLifecycleSmoke}=await import('./capability-lifecycle-smoke.mjs');await capabilityLifecycleSmoke({get,post,check,accounts,org});
 const {shadowSmoke}=await import('./shadow-smoke.mjs');await shadowSmoke({get,post,check,accounts,org});
 const {dataExitSmoke}=await import('./data-exit-smoke.mjs');await dataExitSmoke({get,post,check,accounts,org,sql,base});
-const {environmentSmoke}=await import('./environment-smoke.mjs');await environmentSmoke({get,post,check,accounts,org,base});
+const {environmentSmoke}=await import('./environment-smoke.mjs');await environmentSmoke({get,post,check,accounts,org,base,sql});
 const {fixtureMigrationSmoke}=await import('./fixture-migration-smoke.mjs');await fixtureMigrationSmoke({get,post,check,accounts,org,sql,base});
 const {programmeMigrationSmoke}=await import('./programme-migration-smoke.mjs');await programmeMigrationSmoke({get,post,check,accounts,org,sql,base});
 // Slice 4f: governed installation of a programme pack (stage, independent review, activation, retirement).

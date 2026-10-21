@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import ts from 'typescript';
+
+const dir=mkdtempSync(join(tmpdir(),'saha-local-escalation-'));
+const source=readFileSync('lib/saha/local-escalation.ts','utf8');
+writeFileSync(join(dir,'local-escalation.js'),ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
+const {localUrgentRoute}=await import(pathToFileURL(join(dir,'local-escalation.js')));
+let passed=0;const check=fn=>{fn();passed++};
+const urgent={entryId:'protocol-1',ruleId:'danger',label:'Synthetic danger sign',urgency:'urgent_review',action:'Use the approved urgent action now.',service:{id:'service-1',title:'Reviewed facility',contactRoute:'TEST-CONTACT-001',location:'Synthetic district'},evidence:'workerConcern: yes',sources:[]};
+const visit={id:'v1',personId:'p1',version:4,state:'confirmed',facts:{},createdAt:'2026-10-16T08:00:00.000Z',aiResults:[],recordVersion:2,agentRuns:[{id:'ai-1',status:'pending'}],protocolChecks:[{id:'old',at:'2026-10-16T07:00:00.000Z',protocols:[{id:'p0',manifestHash:'0'.repeat(64),revision:1,title:'Old'}],findings:[{...urgent,action:'Older action'}],unknowns:[]},{id:'current',at:'2026-10-16T08:00:00.000Z',protocols:[{id:'p1',manifestHash:'1'.repeat(64),revision:3,title:'Approved urgent protocol'}],findings:[urgent,{...urgent,ruleId:'routine',urgency:'review'}],unknowns:[]}]};
+check(()=>{const route=localUrgentRoute(visit);assert.equal(route.checkId,'current');assert.equal(route.findings.length,1);assert.equal(route.findings[0].action,'Use the approved urgent action now.');assert.equal(route.findings[0].service.contactRoute,'TEST-CONTACT-001');assert.equal(route.protocolPins[0].manifestHash,'1'.repeat(64));});
+check(()=>{const before=JSON.stringify(visit);localUrgentRoute(visit);assert.equal(JSON.stringify(visit),before,'local read does not mutate the visit or pending AI run');});
+check(()=>assert.equal(localUrgentRoute({...visit,voidedAt:'2026-10-16T08:01:00.000Z'}),null));
+check(()=>assert.equal(localUrgentRoute({...visit,supersededBy:'v2'}),null));
+check(()=>assert.equal(localUrgentRoute({...visit,protocolChecks:[{...visit.protocolChecks[1],decision:{decision:'rejected'}}]}),null));
+check(()=>assert.equal(localUrgentRoute({...visit,protocolChecks:[{...visit.protocolChecks[1],findings:[{...urgent,urgency:'review'}]}]}),null));
+check(()=>{const panel=readFileSync('app/clinical-panel.tsx','utf8');assert.match(panel,/localUrgent&&\(loading\|\|error\)/);assert.match(panel,/AI, MIS or the current network request is unavailable/);assert.ok(panel.indexOf('localUrgent&&(loading||error)')<panel.indexOf("error?<p"),'urgent route renders before request error');});
+rmSync(dir,{recursive:true,force:true});
+console.log(`${passed} local escalation assertions passed`);

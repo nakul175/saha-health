@@ -4,16 +4,18 @@
 // record them in request logs. A new console call or free-text URL parameter fails this suite
 // until it is reviewed and added here.
 import assert from 'node:assert/strict';
-import { readFileSync, writeFileSync, globSync } from 'node:fs';
+import { readFileSync, writeFileSync, globSync, mkdtempSync, rmSync } from 'node:fs';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import ts from 'typescript';
 let passed = 0;
 const check = fn => { fn(); passed++; };
 const files = [...globSync('lib/**/*.ts'), ...globSync('app/**/*.{ts,tsx}'), ...globSync('worker/**/*.ts'), ...globSync('public/field/*.js')].sort();
 const reviewed = [
-  // B26: fixed metadata-storage status; never a key, actor, raw error or body.
-  "lib/saha/server.ts: console.error('Saha work-burden counter unavailable')",
-  "lib/saha/monitoring.ts: console.error('Saha request metrics unavailable')",
-  "lib/saha/monitoring.ts: console.log(JSON.stringify({event:'saha_request',requestId,route,status:response.status,durationMs:elapsed}))",
-  "lib/saha/server.ts: console.error('Workspace operation failed',e instanceof Error?e.name:'unknown')",
+  // SAHA-128: all general request/failure output passes through the fixed-field
+  // observability encoder. It receives no URL, request body, identifiers or free text.
+  "lib/saha/observability.ts: console.log(JSON.stringify(safeRequestEvent(route,status,durationMs,requestId)))",
+  "lib/saha/observability.ts: console.error(JSON.stringify(safeFailureEvent(code,error,requestId)))",
   // Slice 6t: an audit store failure on a read or export logs only the status or error class, never the event or content.
   "lib/saha/access-audit.ts: console.error('Access audit not recorded', e instanceof AppError ? e.status : e instanceof Error ? e.name : 'unknown')",
   "lib/saha/alert-delivery-server.ts: console.error('Alert delivery evaluation failed', e instanceof Error ? e.name : 'unknown')",
@@ -27,8 +29,6 @@ const reviewed = [
   "worker/index.ts: console.error('Scheduled job refused: environment is not configured correctly')",
   "worker/index.ts: console.log(JSON.stringify({ event: 'saha_scheduled', cron: controller.cron, organisations: run.organisations.length, notReached: run.notReached, stoppedBy: run.stoppedBy, transfers: sum(o => (o.transfers?.applied ?? 0) + (o.transfers?.held ?? 0)), reviews: sum(o => o.reviews?.marked ?? 0), problems: sum(o => o.problems.length), queries: run.queries, durationMs: Date.now() - started }))",
   "worker/index.ts: console.error('Scheduled job failed', e instanceof Error ? e.name : 'unknown')",
-  // Development builds only (guarded by import.meta.env.DEV); a production build never prints the error object.
-  'lib/saha/server.ts: console.error(e)',
 ];
 const calls = [];
 for (const f of files) {
@@ -40,8 +40,8 @@ for (const f of files) {
   }
 }
 check(() => assert.deepEqual(calls.sort(), [...reviewed].sort(), 'every console call is reviewed'));
-check(() => assert.match(readFileSync('lib/saha/server.ts', 'utf8'), /if\(import\.meta\.env\.DEV\)console\.error\(e\)/, 'the full error object is printed in development only'));
-check(() => { const line = /console\.log\(JSON\.stringify\(\{([^}]*)\}\)\)/.exec(readFileSync('lib/saha/monitoring.ts', 'utf8'))[1]; assert.deepEqual(line.split(',').map(x => x.split(':')[0]), ['event', 'requestId', 'route', 'status', 'durationMs']); });
+check(() => { const server=readFileSync('lib/saha/server.ts','utf8');assert.ok(!server.includes('console.error(e)'));assert.ok(!server.includes("e instanceof Error?e.name"));assert.ok(server.includes("writeFailureEvent('workspace-operation-failed',e)")); });
+check(() => { const source=readFileSync('lib/saha/observability.ts','utf8');assert.match(source,/return \{event:'saha_request' as const,requestId,route,status:boundedInteger\(status,599\),durationMs:boundedInteger\(durationMs,86_400_000\)\}/);assert.ok(!/error\.(message|stack|name)/.test(source)); });
 // Slice 10a: the scheduled log line has fixed counters only (no organisation id, patient, message or error text).
 check(() => { const line = /console\.log\(JSON\.stringify\(\{ event: 'saha_scheduled', (.*) \}\)\)/.exec(readFileSync('worker/index.ts', 'utf8'))[1]; assert.deepEqual(line.split(/, (?=[a-zA-Z]+:)/).map(x => x.split(':')[0]), ['cron', 'organisations', 'notReached', 'stoppedBy', 'transfers', 'reviews', 'problems', 'queries', 'durationMs']); });
 check(() => assert.match(readFileSync('lib/saha/monitoring.ts', 'utf8'), /INSERT INTO request_metrics \(org_id,bucket,route,status,count,total_ms,max_ms\)/, 'request metrics store fixed columns only'));
@@ -63,6 +63,16 @@ const built = clientFiles.flatMap(f => readFileSync(f, 'utf8').split('\n').map((
 check(() => assert.deepEqual(built, [], 'no search or free text set on client URL parameters'));
 check(() => { const panel = readFileSync('app/patient-directory-panel.tsx', 'utf8'); assert.ok(panel.includes("fetch('/api/patients',{method:'POST'")); assert.ok(!panel.includes('/api/patients?')); });
 check(() => { const lib = readFileSync('lib/saha/patient-directory.ts', 'utf8'); assert.ok(lib.includes('nextCursor: last ? `after:${last.id}` : null')); assert.ok(!/JSON\.stringify\(\[last\.name/.test(lib), 'the cursor carries no patient name'); });
+// Execute the encoder with deliberately sensitive synthetic inputs. Only the fixed reason class and
+// generated correlation identifier may survive in general operational output.
+const temp=mkdtempSync(join(process.cwd(),'.safe-observability-'));
+try{
+ writeFileSync(join(temp,'observability.js'),ts.transpileModule(readFileSync('lib/saha/observability.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
+ const log=await import(pathToFileURL(join(temp,'observability.js'))),id='123e4567-e89b-42d3-a456-426614174000';
+ check(()=>assert.deepEqual(log.safeRequestEvent('workspace',503,12.4,id),{event:'saha_request',requestId:id,route:'workspace',status:503,durationMs:12}));
+ check(()=>assert.throws(()=>log.safeRequestEvent('workspace/Synthetic Patient?token=secret',500,1,id),/Unsafe operational route/));
+ check(()=>{const secret='Synthetic complete patient narrative and sk-secret-value',encoded=JSON.stringify(log.safeFailureEvent('workspace-operation-failed',new Error(secret),id));assert.ok(!encoded.includes(secret));assert.ok(!encoded.includes('Error'));assert.deepEqual(Object.keys(JSON.parse(encoded)),['event','code','kind','requestId']);});
+}finally{rmSync(temp,{recursive:true,force:true});}
 const result = { suite: 'safe logs contract (slice 6l)', passed, consoleCalls: calls.length, filesScanned: files.length, completedAt: new Date().toISOString() };
 writeFileSync('tests/safe-logs-contract-result.json', JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result));

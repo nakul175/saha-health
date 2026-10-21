@@ -1,10 +1,11 @@
 import { activeOrg, db, identity, json, loadFor, snapshotFor } from './server';
-import { fail } from './core';
+import { digest, fail } from './core';
 import { scope } from './store';
 import { accessRoute, recordAccess } from './access-audit';
 import { recordPatientList } from './read-audit';
 import { boundedJsonBody } from './request-body';
 import { pageQuery, patientId, patientPage } from './patient-directory';
+import { reportingPatientAccess } from './reporting-patient-access';
 import type { Member } from './types';
 
 // Slice 0b-3: GET /api/patients — one page of the viewer's permitted patients, searchable by name,
@@ -35,12 +36,31 @@ export async function patientsRead(request: Request) {
 // Slice 0b-3: GET /api/patients/detail?personId= — the patient partition snapshot for one permitted
 // patient, in the same shape as a command delta, for the workspace to merge when the record is opened.
 export async function patientDetailRead(request: Request) {
-  const u = await identity(), id = patientId(new URL(request.url).searchParams.get('personId'));
+  const u = await identity(), url = new URL(request.url), id = patientId(url.searchParams.get('personId'));
+  const context = url.searchParams.get('context') ?? 'care', format = url.searchParams.get('format') ?? 'json';
+  if (!['care', 'reporting'].includes(context)) fail(400, 'Choose care or reporting patient access.');
+  if (!['json', 'download'].includes(format)) fail(400, 'Choose a supported patient record format.');
+  if (format === 'download' && context !== 'reporting') fail(403, 'Patient exports require an approved reporting purpose and separate patient access.');
   const state = await loadFor(u, request.headers.get('x-saha-organisation'), async () => [id]);
-  const delta = await snapshotFor(state, u);
+  const reportingGate = (current: typeof state) => {
+    const member = scope(current, u.userId), person = current.workspace.people.find(x => x.id === id);
+    if (!person) fail(404, 'This patient is not in your care scope.');
+    if (context === 'reporting') reportingPatientAccess(current, member, person);
+    return { member, person };
+  };
+  const initial = reportingGate(state), delta = await snapshotFor(state, u);
   if (!delta.people.some(p => p.id === id)) fail(404, 'This patient is not in your care scope.');
   // Slice 6t: opening the full record is a material read, recorded before the record is returned.
-  const m = scope(state, u.userId), p = state.workspace.people.find(x => x.id === id)!;
-  await recordAccess(db(), state, u, m, { action: 'viewPatientRecord', subject: id, personId: id, detail: `Full patient record opened: ${delta.visits.length} visit${delta.visits.length === 1 ? '' : 's'}, ${delta.referrals.length} referral${delta.referrals.length === 1 ? '' : 's'}.${accessRoute(m, p)}` });
-  return json({ delta, partition: [id] });
+  const basis = await digest({ organisation: state.organisation.id, revision: state.organisation.revision, patientRevision: state.organisation.patientRevision ?? 0, member: initial.member, person: initial.person, purposeGrants: state.operations?.purposeGrants ?? null, delegations: state.operations?.delegations ?? null });
+  await recordAccess(db(), state, u, initial.member, { action: 'viewPatientRecord', subject: id, personId: id, detail: `${context === 'reporting' ? format === 'download' ? 'Patient record exported from reporting context' : 'Patient record opened from reporting context' : 'Full patient record opened'}: ${delta.visits.length} visit${delta.visits.length === 1 ? '' : 's'}, ${delta.referrals.length} referral${delta.referrals.length === 1 ? '' : 's'}.${accessRoute(initial.member, initial.person)}` });
+  // Audit is fail-closed and authority is checked again afterwards. A purpose, delegation,
+  // membership, patient-scope or record change during preparation returns no patient content.
+  if (context === 'reporting') {
+    const fresh = await loadFor(u, state.organisation.id, async () => [id]), current = reportingGate(fresh);
+    const currentBasis = await digest({ organisation: fresh.organisation.id, revision: fresh.organisation.revision, patientRevision: fresh.organisation.patientRevision ?? 0, member: current.member, person: current.person, purposeGrants: fresh.operations?.purposeGrants ?? null, delegations: fresh.operations?.delegations ?? null });
+    if (currentBasis !== basis) fail(409, 'Patient reporting authority or record changed while it was prepared. Refresh before viewing or exporting it.');
+  }
+  const body = { delta, partition: [id] };
+  if (format === 'download') return new Response(JSON.stringify(body), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Content-Disposition': `attachment; filename="saha-patient-${id}.json"`, 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
+  return json(body);
 }

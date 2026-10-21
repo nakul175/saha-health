@@ -1,6 +1,7 @@
 import {offlineOpenHarness} from './lib/offline-open-harness.mjs';
 // Device privacy is injected here; its server/IndexedDB effects are verified in device-work-contract/browser.
 import {deviceDigest} from '../public/field/device-work.js';
+import {appGrantCurrent,appBookOwnerValid,appValidateOnlineBook} from '../public/field/app-grants.js';
 // Slice 3k: field notebook at 200 visit drafts plus 100 queued photos and voice notes. Runs public/field/app.js in
 // Node with real Web Crypto and the real vault sealing, injected storage/network and a minimal DOM (harness from
 // tests/field-capacity-client.mjs). Covers the device media budget (100 open items, 25 MB), refusal of the 201st draft
@@ -16,7 +17,7 @@ let record=null,calls=[],network=async()=>{throw Error('Network disconnected')};
 const encode=src=>{const out=new Uint8Array(Math.max(1200,Math.round(src.length/4)));out.set([0xff,0xd8,0xff,0xe0]);for(let i=4;i<out.length;i++)out[i]=src[i%src.length]^0x5a;return out;};
 const isImage=b=>b.length>=512&&[0x89,0x50,0x4e,0x47].every((x,i)=>b[i]===x);
 class FakeCanvas{constructor(w,h){this.w=w;this.h=h;}getContext(){return {drawImage:bmp=>{this.src=bmp.src;}};}async convertToBlob({type}){return new Blob([encode(this.src)],{type});}}
-const context=vm.createContext({...offlineOpenHarness(()=>context.writeVault),deviceDigest,privacyReviewRequired:()=>false,clearPrivacyReviewRequired:()=>true,discardCachedRegistrationMatches:async(value,key,salt,revision)=>({book:value,revision}),reconcileRegistrationBook:async(value,key,salt,revision)=>({book:value,revision}),reconcileDeviceBook:async(book,_key,_salt,revision)=>({book,revision,removed:0}),reportDeviceFailure:async()=>false,Blob,OffscreenCanvas:FakeCanvas,createImageBitmap:async blob=>{const b=new Uint8Array(await blob.arrayBuffer());if(!isImage(b))throw Error('decode failed');return {width:3000,height:2000,src:b,close(){}};},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Set,Array,Promise,Error,JSON,Uint8Array,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
+const context=vm.createContext({appGrantCurrent,appBookOwnerValid,appValidateOnlineBook,...offlineOpenHarness(()=>context.writeVault),deviceDigest,privacyReviewRequired:()=>false,clearPrivacyReviewRequired:()=>true,discardCachedRegistrationMatches:async(value,key,salt,revision)=>({book:value,revision}),reconcileRegistrationBook:async(value,key,salt,revision)=>({book:value,revision}),reconcileDeviceBook:async(book,_key,_salt,revision)=>({book,revision,removed:0}),reportDeviceFailure:async()=>false,Blob,OffscreenCanvas:FakeCanvas,createImageBitmap:async blob=>{const b=new Uint8Array(await blob.arrayBuffer());if(!isImage(b))throw Error('decode failed');return {width:3000,height:2000,src:b,close(){}};},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Set,Array,Promise,Error,JSON,Uint8Array,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null;media.clear();},
  writeMedia:async(id,value)=>{media.set(id,structuredClone(value))},readMedia:async id=>structuredClone(media.get(id)??null),deleteMedia:async id=>{media.delete(id)},listMediaIds:async()=>[...media.keys()],
  fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{body:{dataset:{}},hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
@@ -29,7 +30,7 @@ await unlock();assert.ok(run('book'));
 const pair=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
 // Signed fixture questions authorize the pre-existing synthetic capacity answers.
 async function draft(i){
- const payload={schema:1,leaseId:'lease-'+String(i).padStart(3,'0'),userId:'worker-1',organisationId:'org-1',personId:'p-'+i,personName:'Synthetic media capacity '+i,identityHash:'id',visitId:'v-'+i,visitVersion:1,expiresAt:new Date(Date.now()+24*3600000).toISOString(),issuedAt:new Date().toISOString(),facts:{date:new Date().toISOString().slice(0,16),source:'measured',notes:'Synthetic media capacity note '+i+' '.padEnd(120,'x'),weight:'61',systolic:'118',diastolic:'76',temperature:'',weeks:'',coughDays:''},programmeCapture:{packs:[{enrolmentId:'synthetic-capacity-episode',pack:{id:'synthetic-capacity-pack',version:1,name:'Synthetic capacity documentary pack',programme:'Synthetic capacity fixture',purpose:'Synthetic capacity fixture only.',questions:[{id:'q-anc-visit',label:'Synthetic visit answer',options:['yes','no'],required:true}]}}],answers:{},absence:{}}};
+ const payload={schema:1,leaseId:'lease-'+String(i).padStart(3,'0'),userId:'worker-1',organisationId:'org-1',personId:'p-'+i,personName:'Synthetic media capacity '+i,identityHash:'id',visitId:'v-'+i,visitVersion:1,consentVersion:1,expiresAt:new Date(Date.now()+24*3600000).toISOString(),issuedAt:new Date().toISOString(),facts:{date:new Date().toISOString().slice(0,16),source:'measured',notes:'Synthetic media capacity note '+i+' '.padEnd(20,'x'),weight:'61',systolic:'118',diastolic:'76',temperature:'',weeks:'',coughDays:''},programmeCapture:{packs:[{enrolmentId:'synthetic-capacity-episode',pack:{id:'synthetic-capacity-pack',version:1,name:'Synthetic capacity documentary pack',programme:'Synthetic capacity fixture',purpose:'Synthetic capacity fixture only.',questions:[{id:'q-anc-visit',label:'Synthetic visit answer',options:['yes','no'],required:true}]}}],answers:{},absence:{}}};
  const packet={payload,signature:Array.from(new Uint8Array(await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},pair.privateKey,new TextEncoder().encode(JSON.stringify(payload))))),publicKey:await crypto.subtle.exportKey('jwk',pair.publicKey)};
  return {packet,packageHash:await packetHash(packet),facts:structuredClone(payload.facts),answers:{'q-anc-visit':'yes'},absence:{},state:'draft',pending:null};
 }
@@ -59,7 +60,7 @@ await assert.rejects(()=>run('attach(book.drafts[25],file,purpose)'),/at most 10
 context.file=voice(501);context.purpose='voice-note';
 await assert.rejects(()=>run('attach(book.drafts[199],file,purpose)'),/at most 100 photos and voice notes/);passed++;names.push('101st voice note refused');
 check('nothing written or lost by the refusals',()=>{assert.equal(record.revision,before.revision);assert.equal(media.size,100);assert.equal([...media.keys()].sort().join(),before.ids);assert.equal(run('book.drafts[25].media?.length??0'),0);assert.equal(calls.length,0);});
-const people=Array.from({length:201},(_,i)=>({id:'p-'+i,name:'Synthetic '+i,assignedTo:'worker-1',version:1}));
+const people=Array.from({length:201},(_,i)=>({id:'p-'+i,name:'Synthetic '+i,assignedTo:'worker-1',version:1,consentVersion:1}));
 context.ws={user:{userId:'worker-1'},role:'asha',organisation:{id:'org-1',name:'Synthetic org'},organisations:[],people,visits:[]};
 network=async()=>{throw Error('Prepare network used')};await run('workspace=ws');byId('patient').value='p-200';calls=[];
 await assert.rejects(()=>run('prepare()'),/at most 200 visit drafts/);passed++;names.push('201st draft refused');
@@ -69,6 +70,7 @@ await run('discardMedia(book.drafts[0],book.drafts[0].media[0])');context.file=p
 await run('attach(book.drafts[0],file,purpose)');
 check('discarding one item frees one place',()=>{assert.equal(run('book.drafts.flatMap(d=>d.media??[]).length'),100);assert.equal(media.size,100);});
 
+context.navigator.onLine=false;
 // Lock and unlock: all 200 drafts and 100 sealed items return.
 run('lock()');await run('chain');check('lock clears the notebook from memory',()=>assert.equal(run('book'),null));
 t=performance.now();await unlock();timings.unlockMs=ms(t);
@@ -79,8 +81,8 @@ check('a sealed voice note opens to its recorded hash after unlock',()=>{assert.
 
 // Fake idempotent server: a key seen before replays its first result; a lease or media applied twice is a duplicate.
 const server={byLease:new Map(),commands:new Map(),applied:[],media:new Map(),mediaApplied:[],duplicates:0,workspaceReads:0};let loseCommandAt=-1,loseMediaAt=-1;
-const visits=Array.from({length:200},(_,i)=>({id:'v-'+i,personId:'p-'+i,state:'draft',version:1}));
-network=async(url,options)=>{
+const visits=Array.from({length:200},(_,i)=>({id:'v-'+i,personId:'p-'+i,state:'draft',version:1,consentVersion:1}));
+context.navigator.onLine=true;network=async(url,options)=>{
  if(url==='/api/workspace'){server.workspaceReads++;return {ok:true,json:async()=>({user:{userId:'worker-1'},role:'asha',organisation:{id:'org-1',name:'Synthetic org'},organisations:[],people:people.slice(0,200),visits})};}
  const key=options.headers['Idempotency-Key'];
  if(url==='/api/commands'){const b=JSON.parse(options.body);let result=server.commands.get(key);
@@ -97,8 +99,8 @@ await assert.rejects(()=>run('syncAll()'),/Sync all: 0 registrations, 119 visit 
 timings.firstRunMs=ms(t);
 const stuck=run('book.drafts[119]');
 check('the 120th draft keeps its pending key; later drafts were not sent',()=>{assert.ok(stuck.pending?.key);assert.equal(stuck.state,'draft');assert.equal(server.applied.length,120);assert.deepEqual(server.applied,notebookOrder.slice(0,120));});
-// Restart: the page is closed (lock) and reopened (unlock), as after a reload.
-run('lock()');await run('chain');await unlock();
+// Restart offline: persistence is checked without substituting a connected authority refresh.
+context.navigator.onLine=false;run('lock()');await run('chain');await unlock();context.navigator.onLine=true;
 check('after restart 119 drafts are synced with receipts and one is pending',()=>{assert.equal(run('book.drafts.filter(d=>d.state==="synced").length'),119);assert.equal(run('book.drafts[119].pending.key'),stuck.pending.key);});
 // Second run: drafts resume in order with the stored key first; the 50th media upload then loses its response.
 // The idle lock is re-armed after every confirmed step, so a long run stays open while it progresses (slice 3k).
@@ -113,7 +115,7 @@ check('resumed drafts start with the stored key, then notebook order',()=>{asser
 check('no visit was applied twice',()=>{assert.equal(server.applied.length,200);assert.equal(new Set(server.applied).size,200);assert.equal(server.duplicates,0);});
 const pendingItem=run('book.drafts.flatMap(d=>d.media??[]).find(x=>x.pending)');
 check('the lost upload keeps its key and its sealed copy',()=>{assert.ok(pendingItem);assert.equal(pendingItem.state,'queued');assert.ok(media.has(pendingItem.id));assert.equal(media.size,51);});
-run('lock()');await run('chain');await unlock();
+context.navigator.onLine=false;run('lock()');await run('chain');await unlock();context.navigator.onLine=true;
 check('restart keeps the pending item and its copy (sweep spares it)',()=>{assert.ok(media.has(pendingItem.id));assert.equal(media.size,51);});
 // Third run: the pending upload is resent with the same key and the server replays; the remaining 50 upload once.
 const mediaSentBefore=calls.length;t=performance.now();

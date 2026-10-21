@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-21",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -653,6 +653,11 @@
       "file": "tests/reporting-completeness-repaired-http.mjs",
       "minPassed": 97
     },
+    "integration/resume-guided-progress-browser": {
+      "layer": "integration",
+      "file": "tests/resume-guided-progress-browser.mjs",
+      "minPassed": 7
+    },
     "integration/routine-attempt-browser": {
       "layer": "integration",
       "file": "tests/integration/routine-attempt-browser.mjs",
@@ -803,6 +808,11 @@
       "file": "tests/work-support-visibility-http.mjs",
       "minPassed": 23
     },
+    "integration/workforce-lifecycle-complete": {
+      "layer": "integration",
+      "file": "tests/workforce-lifecycle-complete.mjs",
+      "minPassed": 15
+    },
     "integration/workspace-metadata-smoke": {
       "layer": "integration",
       "file": "tests/workspace-metadata-smoke.mjs",
@@ -883,6 +893,11 @@
       "file": "tests/smoke/household-proxy-review-browser.mjs",
       "minPassed": 60
     },
+    "smoke/identity-link-review-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/identity-link-review-browser.mjs",
+      "minPassed": 58
+    },
     "smoke/institution-roster-review-browser": {
       "layer": "smoke",
       "file": "tests/smoke/institution-roster-review-browser.mjs",
@@ -937,6 +952,11 @@
       "layer": "smoke",
       "file": "tests/smoke/resume-work-browser.mjs",
       "minPassed": 31
+    },
+    "smoke/route-suggestions-worker": {
+      "layer": "smoke",
+      "file": "tests/smoke/route-suggestions-worker.mjs",
+      "minPassed": 8
     },
     "smoke/routine-visit-browser": {
       "layer": "smoke",
@@ -1023,6 +1043,11 @@
       "file": "tests/access-scope-contract.mjs",
       "minPassed": 8
     },
+    "unit/action-authority-contract": {
+      "layer": "unit",
+      "file": "tests/action-authority-contract.mjs",
+      "minPassed": 17
+    },
     "unit/action-plan-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-action-plan-contract.mjs",
@@ -1038,15 +1063,30 @@
       "file": "tests/root-verification-current-agent-contract.mjs",
       "minPassed": 25
     },
+    "unit/agent-contract-validation": {
+      "layer": "unit",
+      "file": "tests/agent-contract-validation.mjs",
+      "minPassed": 17
+    },
+    "unit/agent-explanation-contract": {
+      "layer": "unit",
+      "file": "tests/agent-explanation-contract.mjs",
+      "minPassed": 30
+    },
     "unit/agent-minimisation-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-agent-minimisation-contract.mjs",
-      "minPassed": 38
+      "minPassed": 46
     },
     "unit/agent-quality-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-agent-quality-contract.mjs",
-      "minPassed": 50
+      "minPassed": 51
+    },
+    "unit/agent-release-control-contract": {
+      "layer": "unit",
+      "file": "tests/agent-release-control-contract.mjs",
+      "minPassed": 16
     },
     "unit/aggregate-checkpoint-population-contract": {
       "layer": "unit",
@@ -1061,12 +1101,22 @@
     "unit/ai-budget-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-ai-budget-contract.mjs",
-      "minPassed": 41
+      "minPassed": 44
+    },
+    "unit/ai-cost-ledger-contract": {
+      "layer": "unit",
+      "file": "tests/ai-cost-ledger-contract.mjs",
+      "minPassed": 6
     },
     "unit/ai-invoice-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-ai-invoice-contract.mjs",
       "minPassed": 54
+    },
+    "unit/ai-version-pin-contract": {
+      "layer": "unit",
+      "file": "tests/ai-version-pin-contract.mjs",
+      "minPassed": 18
     },
     "unit/alert-delivery-contract": {
       "layer": "unit",
@@ -1123,6 +1173,16 @@
       "file": "tests/app-sw-review-contract.mjs",
       "minPassed": 16
     },
+    "unit/approved-execution-contract": {
+      "layer": "unit",
+      "file": "tests/approved-execution-contract.mjs",
+      "minPassed": 13
+    },
+    "unit/approved-source-library-contract": {
+      "layer": "unit",
+      "file": "tests/approved-source-library-contract.mjs",
+      "minPassed": 14
+    },
     "unit/assistance-control-contract": {
       "layer": "unit",
       "file": "tests/assistance-control-contract.mjs",
@@ -1178,10 +1238,25 @@
       "file": "tests/capability-age-boundary-contract.mjs",
       "minPassed": 24
     },
+    "unit/capability-eligibility-contract": {
+      "layer": "unit",
+      "file": "tests/capability-eligibility-contract.mjs",
+      "minPassed": 13
+    },
     "unit/capability-lifecycle-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-capability-lifecycle-contract.mjs",
-      "minPassed": 25
+      "minPassed": 29
+    },
+    "unit/capability-registration-contract": {
+      "layer": "unit",
+      "file": "tests/capability-registration-contract.mjs",
+      "minPassed": 66
+    },
+    "unit/capability-safety-suspension-contract": {
+      "layer": "unit",
+      "file": "tests/capability-safety-suspension-contract.mjs",
+      "minPassed": 7
     },
     "unit/caseload-contract": {
       "layer": "unit",
@@ -1192,6 +1267,12 @@
       "layer": "unit",
       "file": "tests/root-verification-current-caseload-schedule-contract.mjs",
       "minPassed": 33
+    },
+    "unit/clinical-continuity-contract": {
+      "layer": "unit",
+      "file": "tests/clinical-continuity-contract.mjs",
+      "minPassed": null,
+      "note": "no assertion count reported; the guard only checks that the suite exists and exits 0"
     },
     "unit/clinical-source-contract": {
       "layer": "unit",
@@ -1265,7 +1346,7 @@
     },
     "unit/data-exit-contract": {
       "layer": "unit",
-      "file": "tests/integration-installed-work-portability-contract.mjs",
+      "file": "tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs",
       "minPassed": 44
     },
     "unit/delegation-contract": {
@@ -1281,7 +1362,7 @@
     "unit/deployment-evidence-review-contract": {
       "layer": "unit",
       "file": "tests/deployment-evidence-review-contract.mjs",
-      "minPassed": 35
+      "minPassed": 45
     },
     "unit/destination-enrolment-contract": {
       "layer": "unit",
@@ -1293,10 +1374,20 @@
       "file": "tests/device-work-contract.mjs",
       "minPassed": 46
     },
+    "unit/disagreement-contract": {
+      "layer": "unit",
+      "file": "tests/disagreement-contract.mjs",
+      "minPassed": 45
+    },
     "unit/drift-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-drift-contract.mjs",
       "minPassed": 15
+    },
+    "unit/durable-progress-contract": {
+      "layer": "unit",
+      "file": "tests/durable-progress-contract.mjs",
+      "minPassed": 11
     },
     "unit/ehr-contract": {
       "layer": "unit",
@@ -1466,7 +1557,7 @@
     "unit/governance-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-governance-contract.mjs",
-      "minPassed": 27
+      "minPassed": 41
     },
     "unit/handover-contract": {
       "layer": "unit",
@@ -1501,7 +1592,7 @@
     "unit/i18n-contract": {
       "layer": "unit",
       "file": "tests/i18n-contract.mjs",
-      "minPassed": 4318
+      "minPassed": 4328
     },
     "unit/identifier-crosswalk-contract": {
       "layer": "unit",
@@ -1512,6 +1603,11 @@
       "layer": "unit",
       "file": "tests/identity-contract.mjs",
       "minPassed": 19
+    },
+    "unit/identity-link-review-contract": {
+      "layer": "unit",
+      "file": "tests/identity-link-review-contract.mjs",
+      "minPassed": 45
     },
     "unit/identity-numeric-dates-contract": {
       "layer": "unit",
@@ -1573,6 +1669,11 @@
       "file": "tests/root-verification-current-indicators-contract.mjs",
       "minPassed": 9
     },
+    "unit/input-quality-gates-contract": {
+      "layer": "unit",
+      "file": "tests/input-quality-gates-contract.mjs",
+      "minPassed": 46
+    },
     "unit/installed-programme-execution-contract": {
       "layer": "unit",
       "file": "tests/installed-programme-execution-repair-contract.mjs",
@@ -1588,10 +1689,21 @@
       "file": "tests/interface-language-contract.mjs",
       "minPassed": 42
     },
+    "unit/language-resource-qualification-contract": {
+      "layer": "unit",
+      "file": "tests/language-resource-qualification-contract.mjs",
+      "minPassed": 10
+    },
     "unit/main-review-fixes-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-main-review-fixes-contract.mjs",
       "minPassed": 25
+    },
+    "unit/mapping-authority-contract": {
+      "layer": "unit",
+      "file": "tests/mapping-authority-contract.mjs",
+      "minPassed": null,
+      "note": "no assertion count reported; the guard only checks that the suite exists and exits 0"
     },
     "unit/mapping-conformance-contract": {
       "layer": "unit",
@@ -1627,6 +1739,11 @@
       "layer": "unit",
       "file": "tests/root-verification-current-mis-delivery.mjs",
       "minPassed": 16
+    },
+    "unit/multi-provider-result-history-contract": {
+      "layer": "unit",
+      "file": "tests/multi-provider-result-history-contract.mjs",
+      "minPassed": 47
     },
     "unit/ninth-review-fixes-contract": {
       "layer": "unit",
@@ -1708,10 +1825,16 @@
       "file": "tests/operations-pre-alert-recovery-contract.mjs",
       "minPassed": 60
     },
+    "unit/organisational-federation-contract": {
+      "layer": "unit",
+      "file": "tests/organisational-federation-contract.mjs",
+      "minPassed": null,
+      "note": "no assertion count reported; the guard only checks that the suite exists and exits 0"
+    },
     "unit/outreach-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-outreach-contract.mjs",
-      "minPassed": 55
+      "minPassed": 72
     },
     "unit/own-care-permissions-contract": {
       "layer": "unit",
@@ -1721,7 +1844,7 @@
     "unit/pack-installation-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-pack-installation-contract.mjs",
-      "minPassed": 52
+      "minPassed": 58
     },
     "unit/patient-directory-contract": {
       "layer": "unit",
@@ -1758,10 +1881,15 @@
       "file": "tests/process-memory-contract.mjs",
       "minPassed": 6
     },
+    "unit/programme-manager-analysis-contract": {
+      "layer": "unit",
+      "file": "tests/programme-manager-analysis-contract.mjs",
+      "minPassed": 14
+    },
     "unit/programme-migration-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-programme-migration-contract.mjs",
-      "minPassed": 32
+      "minPassed": 34
     },
     "unit/programme-pack-review-contract": {
       "layer": "unit",
@@ -1828,6 +1956,11 @@
       "file": "tests/provider-image-envelope-contract.mjs",
       "minPassed": 12
     },
+    "unit/provider-invocation-contract": {
+      "layer": "unit",
+      "file": "tests/provider-invocation-contract.mjs",
+      "minPassed": 25
+    },
     "unit/provider-mis-envelope-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-provider-mis-envelope-contract.mjs",
@@ -1881,7 +2014,7 @@
     "unit/record-import-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-record-import-contract.mjs",
-      "minPassed": 49
+      "minPassed": 55
     },
     "unit/record-matching-contract": {
       "layer": "unit",
@@ -1968,6 +2101,11 @@
       "file": "tests/root-verification-current-roster-contract.mjs",
       "minPassed": 13
     },
+    "unit/route-suggestions-contract": {
+      "layer": "unit",
+      "file": "tests/route-suggestions-contract.mjs",
+      "minPassed": 31
+    },
     "unit/routine-conflict-contract": {
       "layer": "unit",
       "file": "tests/routine-conflict-contract.mjs",
@@ -1987,6 +2125,16 @@
       "layer": "unit",
       "file": "tests/safe-logs-contract.mjs",
       "minPassed": 13
+    },
+    "unit/saha-027-media-review-contract": {
+      "layer": "unit",
+      "file": "tests/saha-027-media-review-contract.mjs",
+      "minPassed": 27
+    },
+    "unit/saha-062-local-completion": {
+      "layer": "unit",
+      "file": "tests/saha-062-local-completion.mjs",
+      "minPassed": 12
     },
     "unit/scheduled-job-contract": {
       "layer": "unit",
@@ -2036,7 +2184,7 @@
     "unit/shadow-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-shadow-contract.mjs",
-      "minPassed": 55
+      "minPassed": 56
     },
     "unit/shadow-recompute-contract": {
       "layer": "unit",
@@ -2046,7 +2194,7 @@
     "unit/sixth-review-fixes-contract": {
       "layer": "unit",
       "file": "tests/aggregate-export-current-sixth-review-fixes-contract.mjs",
-      "minPassed": 41
+      "minPassed": 42
     },
     "unit/speech-contract": {
       "layer": "unit",
@@ -2080,8 +2228,8 @@
     },
     "unit/test-runner-contract": {
       "layer": "unit",
-      "file": "tests/test-runner-privacy-registration-current-contract.mjs",
-      "minPassed": 27
+      "file": "tests/test-runner-manual-intake-v2-contract.mjs",
+      "minPassed": 28
     },
     "unit/trace-contract": {
       "layer": "unit",
@@ -2228,6 +2376,16 @@
       },
       "lowered": {},
       "removed": []
+    },
+    {
+      "date": "2026-10-16",
+      "reason": "Historical-28 integration registers two previously unclassified complete observed suites. Original 389 objects, minima, failed receipts and prior log entries remain unchanged.",
+      "lowered": {},
+      "removed": [],
+      "added": [
+        "integration/resume-guided-progress-browser",
+        "integration/workforce-lifecycle-complete"
+      ]
     }
   ]
 }

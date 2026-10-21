@@ -1,0 +1,55 @@
+import { z } from 'zod';
+import { requireServiceIdentity, resolveServiceIdentityTarget } from './service-identity.js';
+import { inForce, SCOPE, KIND_LABEL, MAX_STORED } from './delegation.js';
+const ref = z.string().min(1).max(200), actor = z.string().min(1), instant = z.string().datetime(), version = z.number().int().nonnegative();
+const service = z.object({ id: ref, name: z.string().min(1), kind: z.enum(['connector', 'agent']), targetId: ref, ownerId: actor, ownerName: z.string().min(1), createdAt: instant, createdBy: actor, expiresAt: instant, status: z.enum(['active', 'revoked']), revokedAt: instant.optional(), revokedBy: actor.optional() }).passthrough();
+const delegation = z.object({ id: ref, version: z.number().int().positive(), kind: z.enum(['team-supervision', 'reporting']), grantorId: actor, delegateId: actor, teamIds: z.array(ref).min(1).max(10), from: instant, until: instant, reason: z.string().min(1), createdAt: instant, revokedAt: instant.optional(), revokedBy: actor.optional(), revokeReason: z.string().optional() }).passthrough();
+const operations = z.object({ version, serviceIdentities: z.array(service).max(100).optional(), serviceBindings: z.record(z.string()).optional(), delegations: z.array(delegation).max(MAX_STORED).optional() }).passthrough();
+const record = z.object({ id: ref, type: z.enum(['service', 'delegation']), label: z.string().min(1) }).strict();
+export const serviceAuthorityResponse = z.object({ actorId: actor, organisation: z.object({ id: ref, name: z.string().min(1), revision: version }).strict(), operationsVersion: version, evaluatedAt: instant, refreshAt: instant.nullable(), records: z.array(record).max(1100), selected: z.discriminatedUnion('type', [z.object({ type: z.literal('service'), id: ref, name: z.string().min(1), kind: z.enum(['connector', 'agent']), targetId: ref, targetName: z.string().min(1), ownerId: actor, ownerName: z.string().min(1), createdAt: instant, expiresAt: instant, revokedAt: instant.nullable(), status: z.enum(['valid-local-record', 'expired', 'revoked', 'unavailable']), boundToTarget: z.boolean() }).strict(), z.object({ type: z.literal('delegation'), id: ref, version: z.number().int().positive(), kind: z.enum(['team-supervision', 'reporting']), kindLabel: z.string().min(1), scope: z.string().min(1), grantorId: actor, grantorName: z.string().min(1), delegateId: actor, delegateName: z.string().min(1), teams: z.array(z.object({ id: ref, name: z.string().min(1) }).strict()).min(1).max(10), from: instant, until: instant, reason: z.string().min(1), revokedAt: instant.nullable(), status: z.enum(['in-force', 'ended', 'revoked', 'not-in-force']) }).strict()]).nullable() }).strict().superRefine((v, c) => { const ids = v.records.map(r => r.type + ':' + r.id); if (new Set(ids).size !== ids.length)
+    c.addIssue({ code: 'custom', message: 'Duplicate authority references.' }); if (v.selected && !v.records.some(r => r.id === v.selected.id && r.type === v.selected.type))
+    c.addIssue({ code: 'custom', message: 'Selected authority changed.' }); });
+export function serviceAuthoritySelection(q) { if ([...q.keys()].some(k => !['type', 'id', 'version'].includes(k)) || [...q.keys()].some(k => q.getAll(k).length !== 1) || q.size !== 0 && q.size !== 3)
+    throw Error('Choose one exact recorded authority.'); if (!q.size)
+    return null; const raw = q.get('version'); if (!raw || !/^(0|[1-9]\d*)$/.test(raw) || !Number.isSafeInteger(+raw))
+    throw Error('Choose current recorded version.'); return { type: z.enum(['service', 'delegation']).parse(q.get('type')), id: ref.parse(q.get('id')), version: +raw }; }
+export function serviceAuthorityProjection(s, who, choice, now) {
+    instant.parse(now);
+    const op = operations.parse(s.operations ?? { version: 0 }), services = op.serviceIdentities ?? [], delegations = op.delegations ?? [], records = [...services.map(x => ({ id: x.id, type: 'service', label: x.name })), ...delegations.map(x => ({ id: x.id, type: 'delegation', label: KIND_LABEL[x.kind] + ' · ' + (s.members.find(m => m.userId === x.delegateId)?.displayName ?? 'Former member') }))];
+    if (choice && choice.version !== op.version)
+        throw Error('Operations version changed.');
+    const name = (id) => s.members.find(m => m.userId === id)?.displayName ?? 'Former member';
+    let selected = null;
+    let refreshAt = null;
+    if (choice?.type === 'service') {
+        const si = services.find(x => x.id === choice.id);
+        if (!si)
+            throw Error('Authority unavailable.');
+        let status = si.status === 'revoked' ? 'revoked' : si.expiresAt <= now ? 'expired' : 'valid-local-record';
+        let targetName = si.targetId;
+        try {
+            requireServiceIdentity(s, si.id, si.kind, si.targetId, now);
+            targetName = resolveServiceIdentityTarget(s, si.kind, si.targetId).name;
+        }
+        catch {
+            if (status === 'valid-local-record')
+                status = 'unavailable';
+        }
+        selected = { type: 'service', id: si.id, name: si.name, kind: si.kind, targetId: si.targetId, targetName, ownerId: si.ownerId, ownerName: si.ownerName, createdAt: si.createdAt, expiresAt: si.expiresAt, revokedAt: si.revokedAt ?? null, status, boundToTarget: op.serviceBindings?.[si.targetId] === si.id };
+        if (si.status === 'active' && si.expiresAt > now)
+            refreshAt = si.expiresAt;
+    }
+    else if (choice?.type === 'delegation') {
+        const d = delegations.find(x => x.id === choice.id);
+        if (!d)
+            throw Error('Authority unavailable.');
+        selected = { type: 'delegation', id: d.id, version: d.version, kind: d.kind, kindLabel: KIND_LABEL[d.kind], scope: SCOPE[d.kind], grantorId: d.grantorId, grantorName: name(d.grantorId), delegateId: d.delegateId, delegateName: name(d.delegateId), teams: d.teamIds.map(id => ({ id, name: s.teams.find(t => t.id === id)?.name ?? id })), from: d.from, until: d.until, reason: d.reason, revokedAt: d.revokedAt ?? null, status: d.revokedAt ? 'revoked' : d.until <= now ? 'ended' : inForce(s, d, now) ? 'in-force' : 'not-in-force' };
+        if (!d.revokedAt) {
+            if (d.from > now)
+                refreshAt = d.from;
+            else if (d.until > now)
+                refreshAt = d.until;
+        }
+    }
+    return serviceAuthorityResponse.parse({ actorId: who, organisation: { id: s.organisation.id, name: s.organisation.name, revision: s.organisation.revision }, operationsVersion: op.version, evaluatedAt: now, refreshAt, records, selected });
+}

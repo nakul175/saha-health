@@ -1,0 +1,597 @@
+{
+  "effectiveAt": "2026-10-12T20:33:46.625Z",
+  "transferId": "df67ba60-5da6-4c76-98c5-f756bd58138d",
+  "future": {
+    "organisationId": "org_42accfd9314ee21b3de4083728c6fa68",
+    "actorId": "auth0|opaque/shared-worker/0e8fc4fd",
+    "person": {
+      "id": "0fb71b2e-3851-49d7-8b0d-e1da18fec407",
+      "name": "Synthetic shared question person",
+      "version": 7
+    },
+    "refreshAt": "2026-10-12T20:33:46.625Z",
+    "visits": [
+      {
+        "id": "86015128-41dc-4446-ae55-50a3a8ecbac5",
+        "version": 2,
+        "state": "draft",
+        "createdAt": "2026-10-12T20:33:42.012Z"
+      }
+    ],
+    "selected": {
+      "id": "86015128-41dc-4446-ae55-50a3a8ecbac5",
+      "version": 2,
+      "state": "draft",
+      "createdAt": "2026-10-12T20:33:42.012Z",
+      "packs": [
+        {
+          "enrolmentId": "cca438f8-cde0-422e-83d3-666c9e5a4309",
+          "packId": "maternal",
+          "version": 1,
+          "name": "Maternal care",
+          "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+          "installationId": null,
+          "manifestHash": null
+        },
+        {
+          "enrolmentId": "8f9c02cc-b917-48ed-a507-975e4beacd1a",
+          "packId": "tb",
+          "version": 1,
+          "name": "TB screening",
+          "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+          "installationId": null,
+          "manifestHash": null
+        },
+        {
+          "enrolmentId": "f50c2e80-5dda-4618-a207-b55627f98490",
+          "packId": "hypertension",
+          "version": 1,
+          "name": "Hypertension follow-up",
+          "purpose": "Record current measurements and reported medication access; no prescribing.",
+          "installationId": null,
+          "manifestHash": null
+        },
+        {
+          "enrolmentId": "bbf46a07-46d2-4bc9-ba4f-3f282196c3b4",
+          "packId": "child_growth",
+          "version": 1,
+          "name": "Child growth check",
+          "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+          "installationId": "c3d2f076-387f-4c46-8a93-5e8f24364253",
+          "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+        }
+      ],
+      "questions": [
+        {
+          "question": {
+            "id": "weight",
+            "label": "Weight",
+            "required": true,
+            "fact": "weight",
+            "unit": "kg"
+          },
+          "destinations": [
+            {
+              "enrolmentId": "cca438f8-cde0-422e-83d3-666c9e5a4309",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "8f9c02cc-b917-48ed-a507-975e4beacd1a",
+              "packId": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "f50c2e80-5dda-4618-a207-b55627f98490",
+              "packId": "hypertension",
+              "version": 1,
+              "name": "Hypertension follow-up",
+              "purpose": "Record current measurements and reported medication access; no prescribing.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "bbf46a07-46d2-4bc9-ba4f-3f282196c3b4",
+              "packId": "child_growth",
+              "version": 1,
+              "name": "Child growth check",
+              "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+              "installationId": "c3d2f076-387f-4c46-8a93-5e8f24364253",
+              "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "systolic",
+            "label": "Systolic blood pressure",
+            "required": true,
+            "fact": "systolic",
+            "unit": "mmHg"
+          },
+          "destinations": [
+            {
+              "enrolmentId": "cca438f8-cde0-422e-83d3-666c9e5a4309",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "f50c2e80-5dda-4618-a207-b55627f98490",
+              "packId": "hypertension",
+              "version": 1,
+              "name": "Hypertension follow-up",
+              "purpose": "Record current measurements and reported medication access; no prescribing.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "diastolic",
+            "label": "Diastolic blood pressure",
+            "required": true,
+            "fact": "diastolic",
+            "unit": "mmHg"
+          },
+          "destinations": [
+            {
+              "enrolmentId": "cca438f8-cde0-422e-83d3-666c9e5a4309",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            },
+            {
+              "enrolmentId": "f50c2e80-5dda-4618-a207-b55627f98490",
+              "packId": "hypertension",
+              "version": 1,
+              "name": "Hypertension follow-up",
+              "purpose": "Record current measurements and reported medication access; no prescribing.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "weeks",
+            "label": "Gestational age, reported",
+            "required": true,
+            "fact": "weeks",
+            "unit": "weeks"
+          },
+          "destinations": [
+            {
+              "enrolmentId": "cca438f8-cde0-422e-83d3-666c9e5a4309",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "maternal_contact",
+            "label": "Was a care appointment discussed?",
+            "required": true,
+            "options": [
+              "Yes",
+              "No"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "cca438f8-cde0-422e-83d3-666c9e5a4309",
+              "packId": "maternal",
+              "version": 1,
+              "name": "Maternal care",
+              "purpose": "Document a locally confirmed pregnancy episode and visit follow-up.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "cough",
+            "label": "Does the person report a cough?",
+            "required": true,
+            "options": [
+              "Yes",
+              "No"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "8f9c02cc-b917-48ed-a507-975e4beacd1a",
+              "packId": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "coughDays",
+            "label": "Cough duration, reported",
+            "required": true,
+            "fact": "coughDays",
+            "unit": "days",
+            "when": {
+              "id": "cough",
+              "value": "Yes"
+            }
+          },
+          "destinations": [
+            {
+              "enrolmentId": "8f9c02cc-b917-48ed-a507-975e4beacd1a",
+              "packId": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "testing",
+            "label": "Is a testing follow-up already arranged?",
+            "required": true,
+            "options": [
+              "Yes",
+              "No"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "8f9c02cc-b917-48ed-a507-975e4beacd1a",
+              "packId": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "medication_access",
+            "label": "Reported access to prescribed medicines",
+            "required": true,
+            "options": [
+              "Available",
+              "Access difficulty",
+              "No medicines reported"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "f50c2e80-5dda-4618-a207-b55627f98490",
+              "packId": "hypertension",
+              "version": 1,
+              "name": "Hypertension follow-up",
+              "purpose": "Record current measurements and reported medication access; no prescribing.",
+              "installationId": null,
+              "manifestHash": null
+            }
+          ]
+        },
+        {
+          "question": {
+            "id": "feeding_concern",
+            "label": "Does the carer report a feeding concern?",
+            "required": true,
+            "options": [
+              "Yes",
+              "No"
+            ]
+          },
+          "destinations": [
+            {
+              "enrolmentId": "bbf46a07-46d2-4bc9-ba4f-3f282196c3b4",
+              "packId": "child_growth",
+              "version": 1,
+              "name": "Child growth check",
+              "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+              "installationId": "c3d2f076-387f-4c46-8a93-5e8f24364253",
+              "manifestHash": "ad2b1e03e329dc4d4d6679f53c463f94adcb0e3f4413fe64c1bc2125bd623ca2"
+            }
+          ]
+        }
+      ],
+      "conditionalDeferred": []
+    }
+  },
+  "beforeFuture": {
+    "abha_review_reservations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "accounts": "bfc6802d8158349eaae71b062580115dc6f253ecb34ba07d99e4f10bdd2e0fc8",
+    "ai_results": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "alert_notifications": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "alert_occurrences": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "audit_events": "40078d87a830f3236a8aae81c44119ed97a290c8acf2116ca3a45049da6a5c67",
+    "availability_samples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "caseload_transfers": "781c97b95c2f14c119640ab6c8573d1ffa8874c5308b5971dccf69f126b0a4c6",
+    "clinical_source_documents": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "command_receipts": "aa1f039c012a91066c4fd9754ff72fd248f585142dd9ba753fd60a3f71417cb4",
+    "device_match_copies": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_grants": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_wire_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_work_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_work_grants": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "expansions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "governance": "c077b1cd2d0886ed11a402d39271d124ddf967deed9ad46c55d8306e268d0f22",
+    "households": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "identity_cases": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_disclosures": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_units": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figures": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "installed_pack_transition_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "installed_pack_work_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "integrations": "2fd044781f88aa0d1b64dc19d1d76cb1ba9b4009a0c5ec641a47d7738a9d5ece",
+    "invitations": "3f205e9a5ae1e32daebf8cacfeebeb3292a97d0ee2b4373d0ca2e7d706d7e0de",
+    "legacy_migrations": "3c384894422728621a040a6bb04367382efb9339355c20a38a99cc2ff142a731",
+    "media": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "media_custody": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "memberships": "7bbc4c6b986b0786c73578875b28f584bb9ff6653f0e53fc11dc5773506e8539",
+    "notification_messages": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "offline_open_reports": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "offline_open_subjects": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "operations": "355e4381ad0f339e1adc5692115809ab873c4bf302d0a3e4277c737741897591",
+    "organisations": "42f7562174fa9bd0972277b2679535fe5331c97ad1669bf119ddc60a6f574dfc",
+    "outreach": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "patients": "a3f43cf8e018f89d32d35d0f5e748a9b65d7a3eb5dc2467e06d5d275e9ebc16a",
+    "pilot": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "plans": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "record_revisions": "52d3e34c4ee8a40ae859b5c5ba7dab7c6d33609e206c126f08bd0f88967403b9",
+    "referrals": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_calendar_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_calendars": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_completeness_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_completeness_snapshots": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_coverage": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "request_metrics": "abc9f77d5e3e54790ba5fc4d2cf0cf2ac3f4d7bbeab20de373663150d6b779dc",
+    "retention": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "rights_requests": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "scheduled_cursor": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "submissions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "team_members": "7f1c7459f83697d2a8c363a7d079aa11c142afb2adaf01a0fd7f9d507cba16dc",
+    "teams": "2dc99c34690b5486359933a0e50d62ba6e221454a2e0ea1bab839cbaa79d8e81",
+    "visits": "0af76380bc1e2603b57ce6e1dfa80b8536d2444ecbfc77d9e7113c6eb7d2306b",
+    "work_burden_samples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "work_support_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "workspaces": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "beforeDue": {
+    "abha_review_reservations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "accounts": "bfc6802d8158349eaae71b062580115dc6f253ecb34ba07d99e4f10bdd2e0fc8",
+    "ai_results": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "alert_notifications": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "alert_occurrences": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "audit_events": "6ca5029ad53f4612cfd77f6b022145ed2a499481f7658ce95cd2dcb52a9214a7",
+    "availability_samples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "caseload_transfers": "781c97b95c2f14c119640ab6c8573d1ffa8874c5308b5971dccf69f126b0a4c6",
+    "clinical_source_documents": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "command_receipts": "aa1f039c012a91066c4fd9754ff72fd248f585142dd9ba753fd60a3f71417cb4",
+    "device_match_copies": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_grants": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_wire_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_work_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_work_grants": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "expansions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "governance": "c077b1cd2d0886ed11a402d39271d124ddf967deed9ad46c55d8306e268d0f22",
+    "households": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "identity_cases": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_disclosures": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_units": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figures": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "installed_pack_transition_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "installed_pack_work_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "integrations": "2fd044781f88aa0d1b64dc19d1d76cb1ba9b4009a0c5ec641a47d7738a9d5ece",
+    "invitations": "3f205e9a5ae1e32daebf8cacfeebeb3292a97d0ee2b4373d0ca2e7d706d7e0de",
+    "legacy_migrations": "3c384894422728621a040a6bb04367382efb9339355c20a38a99cc2ff142a731",
+    "media": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "media_custody": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "memberships": "7bbc4c6b986b0786c73578875b28f584bb9ff6653f0e53fc11dc5773506e8539",
+    "notification_messages": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "offline_open_reports": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "offline_open_subjects": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "operations": "355e4381ad0f339e1adc5692115809ab873c4bf302d0a3e4277c737741897591",
+    "organisations": "42f7562174fa9bd0972277b2679535fe5331c97ad1669bf119ddc60a6f574dfc",
+    "outreach": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "patients": "a3f43cf8e018f89d32d35d0f5e748a9b65d7a3eb5dc2467e06d5d275e9ebc16a",
+    "pilot": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "plans": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "record_revisions": "52d3e34c4ee8a40ae859b5c5ba7dab7c6d33609e206c126f08bd0f88967403b9",
+    "referrals": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_calendar_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_calendars": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_completeness_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_completeness_snapshots": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_coverage": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "request_metrics": "185c67583c016221e2b7893252201bd1b31bd916ad25af07919a3fc5a1ddf261",
+    "retention": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "rights_requests": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "scheduled_cursor": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "submissions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "team_members": "7f1c7459f83697d2a8c363a7d079aa11c142afb2adaf01a0fd7f9d507cba16dc",
+    "teams": "2dc99c34690b5486359933a0e50d62ba6e221454a2e0ea1bab839cbaa79d8e81",
+    "visits": "0af76380bc1e2603b57ce6e1dfa80b8536d2444ecbfc77d9e7113c6eb7d2306b",
+    "work_burden_samples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "work_support_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "workspaces": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "due": {
+    "status": 409,
+    "json": {
+      "error": "An assignment transfer is due or held. Return to Today and refresh current authority before reopening this review."
+    },
+    "text": "{\"error\":\"An assignment transfer is due or held. Return to Today and refresh current authority before reopening this review.\"}",
+    "ms": 3.2957500000002256,
+    "headers": {}
+  },
+  "beforeHeld": {
+    "abha_review_reservations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "accounts": "bfc6802d8158349eaae71b062580115dc6f253ecb34ba07d99e4f10bdd2e0fc8",
+    "ai_results": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "alert_notifications": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "alert_occurrences": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "audit_events": "6ca5029ad53f4612cfd77f6b022145ed2a499481f7658ce95cd2dcb52a9214a7",
+    "availability_samples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "caseload_transfers": "2cf4e2cc4cd97657a13ef0f4b77a937350a3c84ff235baa0876319286a782fe4",
+    "clinical_source_documents": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "command_receipts": "aa1f039c012a91066c4fd9754ff72fd248f585142dd9ba753fd60a3f71417cb4",
+    "device_match_copies": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_grants": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_wire_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_work_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_work_grants": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "expansions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "governance": "c077b1cd2d0886ed11a402d39271d124ddf967deed9ad46c55d8306e268d0f22",
+    "households": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "identity_cases": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_disclosures": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_units": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figures": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "installed_pack_transition_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "installed_pack_work_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "integrations": "2fd044781f88aa0d1b64dc19d1d76cb1ba9b4009a0c5ec641a47d7738a9d5ece",
+    "invitations": "3f205e9a5ae1e32daebf8cacfeebeb3292a97d0ee2b4373d0ca2e7d706d7e0de",
+    "legacy_migrations": "3c384894422728621a040a6bb04367382efb9339355c20a38a99cc2ff142a731",
+    "media": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "media_custody": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "memberships": "7bbc4c6b986b0786c73578875b28f584bb9ff6653f0e53fc11dc5773506e8539",
+    "notification_messages": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "offline_open_reports": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "offline_open_subjects": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "operations": "355e4381ad0f339e1adc5692115809ab873c4bf302d0a3e4277c737741897591",
+    "organisations": "42f7562174fa9bd0972277b2679535fe5331c97ad1669bf119ddc60a6f574dfc",
+    "outreach": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "patients": "a3f43cf8e018f89d32d35d0f5e748a9b65d7a3eb5dc2467e06d5d275e9ebc16a",
+    "pilot": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "plans": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "record_revisions": "52d3e34c4ee8a40ae859b5c5ba7dab7c6d33609e206c126f08bd0f88967403b9",
+    "referrals": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_calendar_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_calendars": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_completeness_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_completeness_snapshots": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_coverage": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "request_metrics": "8e7225bb066e94a2dfeeba79ae969ef4d1e483b943ef7404cf25941d1254ffd7",
+    "retention": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "rights_requests": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "scheduled_cursor": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "submissions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "team_members": "7f1c7459f83697d2a8c363a7d079aa11c142afb2adaf01a0fd7f9d507cba16dc",
+    "teams": "2dc99c34690b5486359933a0e50d62ba6e221454a2e0ea1bab839cbaa79d8e81",
+    "visits": "0af76380bc1e2603b57ce6e1dfa80b8536d2444ecbfc77d9e7113c6eb7d2306b",
+    "work_burden_samples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "work_support_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "workspaces": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "beforeCorrupt": {
+    "abha_review_reservations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "accounts": "bfc6802d8158349eaae71b062580115dc6f253ecb34ba07d99e4f10bdd2e0fc8",
+    "ai_results": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "alert_notifications": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "alert_occurrences": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "audit_events": "6ca5029ad53f4612cfd77f6b022145ed2a499481f7658ce95cd2dcb52a9214a7",
+    "availability_samples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "caseload_transfers": "8fff6e73a8a04ed3f04a18c3a7ca34d3569db4b0077ae42231db6352963ab970",
+    "clinical_source_documents": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "command_receipts": "aa1f039c012a91066c4fd9754ff72fd248f585142dd9ba753fd60a3f71417cb4",
+    "device_match_copies": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_grants": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_registration_wire_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_work_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "device_work_grants": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "expansions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "governance": "c077b1cd2d0886ed11a402d39271d124ddf967deed9ad46c55d8306e268d0f22",
+    "households": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "identity_cases": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_disclosures": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figure_units": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "indicator_figures": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "installed_pack_transition_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "installed_pack_work_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "integrations": "2fd044781f88aa0d1b64dc19d1d76cb1ba9b4009a0c5ec641a47d7738a9d5ece",
+    "invitations": "3f205e9a5ae1e32daebf8cacfeebeb3292a97d0ee2b4373d0ca2e7d706d7e0de",
+    "legacy_migrations": "3c384894422728621a040a6bb04367382efb9339355c20a38a99cc2ff142a731",
+    "media": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "media_custody": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "memberships": "7bbc4c6b986b0786c73578875b28f584bb9ff6653f0e53fc11dc5773506e8539",
+    "notification_messages": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "offline_open_reports": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "offline_open_subjects": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "operations": "355e4381ad0f339e1adc5692115809ab873c4bf302d0a3e4277c737741897591",
+    "organisations": "42f7562174fa9bd0972277b2679535fe5331c97ad1669bf119ddc60a6f574dfc",
+    "outreach": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "patients": "a3f43cf8e018f89d32d35d0f5e748a9b65d7a3eb5dc2467e06d5d275e9ebc16a",
+    "pilot": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "plans": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "record_revisions": "52d3e34c4ee8a40ae859b5c5ba7dab7c6d33609e206c126f08bd0f88967403b9",
+    "referrals": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_calendar_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_calendars": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_completeness_receipts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_completeness_snapshots": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "reporting_coverage": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "request_metrics": "95ad980d9ab4c847b06c1ba18968b025fb5706657d8d05c5f804ff8bae41b9ec",
+    "retention": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "rights_requests": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "scheduled_cursor": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "submissions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "team_members": "7f1c7459f83697d2a8c363a7d079aa11c142afb2adaf01a0fd7f9d507cba16dc",
+    "teams": "2dc99c34690b5486359933a0e50d62ba6e221454a2e0ea1bab839cbaa79d8e81",
+    "visits": "0af76380bc1e2603b57ce6e1dfa80b8536d2444ecbfc77d9e7113c6eb7d2306b",
+    "work_burden_samples": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "work_support_events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "workspaces": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "afterAudit": {
+    "status": 409,
+    "body": {
+      "error": "An assignment transfer is due or held. Return to Today and refresh current authority before reopening this review."
+    }
+  },
+  "todayStatus": 200,
+  "assigned": {
+    "assigned_to": "t-0e8fc4fd-clinician"
+  },
+  "limits": "Separate original transfer command and deliberate SQL audit-trigger fixture. Read phases unchanged except original auditmetrics; originalToday writer intentionally mutates afterward. No physical/invisible-account/domain approval."
+}

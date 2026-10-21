@@ -31,6 +31,7 @@ test('Hindi: My work shows Hindi text with lang="hi", the choice is saved, and E
     await expect(notice).toHaveAttribute('role', 'note');
     await expect(notice).toContainText('यह हिंदी पाठ मसौदा अनुवाद है');                        // draft translation, in Hindi first
     await expect(notice).toContainText('This Hindi text is a draft translation');             // and in English for reviewers
+    await expect(notice).toContainText('Safety-critical Hindi content is unavailable');       // critical strings fail closed
     await expect(page.getByRole('button', { name: new RegExp(MEENA) }).first()).toBeVisible();  // names stay as recorded
     expect((await page.locator('[lang=hi]').count()), 'several regions are tagged lang="hi"').toBeGreaterThan(3);
     await lab.scan(page, 'ASHA · My work (Hindi)');
@@ -40,7 +41,7 @@ test('Hindi: My work shows Hindi text with lang="hi", the choice is saved, and E
     await openPatient(page);
     const panel = page.locator('.clinical-panel').first();
     await panel.scrollIntoViewIfNeeded();
-    await expect(panel).toContainText('तत्काल समीक्षा · Urgent review');                       // the danger sign is never Hindi-only
+    await expect(panel).toContainText('Urgent review');                                        // unqualified critical Hindi fails closed to source English
     await expect(panel).toContainText('Kheda CHC / First Referral Unit (synthetic)');          // facility names stay as recorded
     await expect(panel).toContainText(/systolic: 152/);                                          // values and digits are as recorded, not translated
     await expect(panel).toContainText(/diastolic: 114/);

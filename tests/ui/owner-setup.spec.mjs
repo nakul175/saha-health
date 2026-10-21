@@ -28,6 +28,14 @@ test('owner sets a name, invites an ASHA by account code and assigns one person;
     await lab.scan(ownerPage, 'Owner · organisation page');
     await menu(ownerPage, 'My work').click();                      // with a name set, the sidebar no longer shows the random e-mail address
     await expect(ownerPage.getByRole('heading', { level: 1, name: 'Today’s work' })).toBeVisible();
+    // Chromium can defer repainting the fixed sidebar after the long organisation page scrolls it
+    // back into view. Prove the primary navigation is visible and rasterise that layer once before
+    // the page-level golden so a transient compositor frame cannot become visual evidence.
+    await expect(ownerPage.getByText('saha.', { exact: true })).toBeVisible();
+    await expect(menu(ownerPage, 'My work')).toBeVisible();
+    const sidebar = ownerPage.locator('[data-slot="sidebar-inner"]');
+    await expect(sidebar.getByText('Rampur care organisation', { exact: true })).toBeVisible();
+    await sidebar.screenshot();
     await lab.shot(ownerPage, 'owner-home.png');
     await menu(ownerPage, 'Organisation & team').click();
   });

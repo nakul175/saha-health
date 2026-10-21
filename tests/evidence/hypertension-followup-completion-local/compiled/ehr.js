@@ -1,0 +1,260 @@
+import { requireServiceIdentity } from './service-identity.js';
+import { z } from 'zod';
+import { digest, fail, person, uuid, visit } from './core.js';
+import { assertPatientDocumentNotes, assertOutboundPrivacy, fhirDocument, inspectDocument } from './fhir-document.js';
+import { validateOutbound } from './fhir-validate.js';
+import { operationRefusal } from './adapter-operations.js';
+export function ehrServiceAuthority(s, targetId) { const bound = s.operations?.serviceBindings?.[targetId] ?? null; if (!bound)
+    return null; const si = requireServiceIdentity(s, bound, 'connector', targetId), owner = s.members.find(m => m.userId === si.ownerId); return { id: si.id, kind: si.kind, targetId: si.targetId, ownerId: si.ownerId, expiresAt: si.expiresAt, status: si.status, owner: { version: owner.version, role: owner.role, isOwner: owner.isOwner, status: owner.status } }; }
+export async function inboundCandidateAuthority(s, p, linkId, permissionId) { const { i, link, permission } = await ehrAccess(s, p, linkId, permissionId, 'read'); if (i.status !== 'active')
+    fail(409, 'The retrieved source connection is no longer active.'); return digest({ format: 'saha-ehr-source-authority-v2', identity: await identityHash(p), consentVersion: p.consentVersion, link, permission, integration: { id: i.id, version: i.version, kind: i.kind, mode: i.mode, status: i.status, endpoint: i.endpoint, credentialBinding: i.credentialBinding, ehr: i.ehr }, serviceAuthority: ehrServiceAuthority(s, i.id) }); }
+const id = z.string().min(1).max(200), external = z.string().regex(/^[A-Za-z0-9.-]{1,64}$/), version = z.number().int().positive(), date = z.string().datetime();
+export const ehrSchema = z.discriminatedUnion('type', [
+    z.object({ type: z.literal('configureEhr'), integrationId: id, version, read: z.boolean(), write: z.boolean() }).strict(),
+    z.object({ type: z.literal('probeEhr'), integrationId: id, version }).strict(),
+    z.object({ type: z.literal('activateEhr'), integrationId: id, version }).strict(),
+    z.object({ type: z.literal('linkEhr'), personId: id, version, integrationId: id, externalId: external, externalName: z.string().trim().min(1).max(200), confirmed: z.literal(true), reason: z.string().trim().min(5).max(500) }).strict(),
+    z.object({ type: z.literal('revokeEhrLink'), personId: id, linkId: id }).strict(),
+    z.object({ type: z.literal('grantEhrPermission'), personId: id, linkId: id, direction: z.enum(['read', 'write']), purpose: z.literal('care-coordination'), from: date, to: date, expiresAt: date }).strict(),
+    z.object({ type: z.literal('revokeEhrPermission'), personId: id, permissionId: id }).strict(),
+    z.object({ type: z.literal('importEhrDocument'), personId: id, linkId: id, permissionId: id, json: z.string().min(1).max(12000) }).strict(),
+    z.object({ type: z.literal('reviewEhrDocument'), personId: id, documentId: id, hash: id, decision: z.enum(['reviewed', 'rejected']) }).strict(),
+    z.object({ type: z.literal('retrieveEhrDocument'), personId: id, linkId: id, permissionId: id, bundleId: external }).strict(),
+    z.object({ type: z.literal('prepareEhrPublish'), personId: id, linkId: id, permissionId: id, visitId: id }).strict(),
+    z.object({ type: z.literal('executeEhrPublish'), personId: id, operationId: id, hash: id }).strict(),
+    z.object({ type: z.literal('lookupEhrPublish'), personId: id, operationId: id }).strict(),
+    z.object({ type: z.literal('setEhrLookupPolicy'), integrationId: id, version: z.number().int().min(0), authoritative: z.boolean(), consistencySeconds: z.number().int().min(0).max(86400), ownerId: id.nullable(), reason: z.string().trim().min(5).max(500) }).strict(),
+]);
+export const ehrState = (p) => p.ehr ?? (p.ehr = { links: [], permissions: [], documents: [], operations: [] });
+export const identityHash = (p) => digest({ name: p.name, age: p.age, sex: p.sex, village: p.village });
+// Slice 7f limits. A publication attempt (patient read and write, 15 seconds each, plus rechecks) is treated as able to
+// reach the partner for EHR_ATTEMPT_WINDOW_SECONDS after its checkpoint, the same bound the lookup already uses for a
+// stuck checkpoint; the partner's stated consistency delay is counted from the end of that window.
+// The write request itself (15-second timeout) must therefore start within EHR_WRITE_DEADLINE_SECONDS of the checkpoint;
+// a publication whose pre-write steps take longer is closed as not sent, so the window is enforced, not assumed.
+export const EHR_LOOKUP_LIMIT = 24, EHR_ATTEMPT_WINDOW_SECONDS = 45, EHR_WRITE_DEADLINE_SECONDS = 30, EHR_LOOKUP_HISTORY = 20;
+// States in which a publication still holds (or may hold) a document at the partner: no other publication of the same
+// visit to the same link may be prepared or sent while one exists.
+export const EHR_HOLDING_STATES = ['running', 'accepted', 'uncertain', 'conflict'];
+export function lookupPolicyOf(i) { const l = i.ehr?.lookup; return { version: l?.version ?? 0, authoritative: !!(l?.authoritative && i.ehr?.write), declared: !!l?.authoritative, consistencySeconds: l?.consistencySeconds ?? 0, ownerId: l?.ownerId ?? null }; }
+export function ehrAudit(s, u, m, action, subject, detail, personId) { s.workspace.audit.push({ id: uuid(), at: new Date().toISOString(), actor: u.displayName, actorId: u.userId, role: m.role, action, subject, personId, detail }); }
+export function ehrIntegration(s, id) { const i = s.workspace.integrations.find(x => x.id === id); if (!i || i.kind !== 'ehr' || i.mode !== 'http')
+    fail(422, 'Choose an HTTP EHR connection.'); return i; }
+export function ehrCredential(i, orgId, env) { if (env.SAHA_EXTERNAL_APIS_ENABLED !== 'true')
+    fail(409, 'External EHR services are disabled.'); if (!i.endpoint || !/^SAHA_EHR_[A-Z0-9_]+$/.test(i.credentialBinding ?? ''))
+    fail(409, 'A dedicated SAHA_EHR_ credential binding is required.'); const url = new URL(i.endpoint); if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.hostname === 'localhost' || /^[\d.]+$/.test(url.hostname) || url.hostname.includes(':') || url.hostname.endsWith('.local'))
+    fail(403, 'Use an approved public HTTPS FHIR base URL.'); let grants; try {
+    grants = JSON.parse(env.SAHA_EHR_CONNECTIONS ?? '[]');
+}
+catch {
+    fail(409, 'Invalid EHR server grants.');
+} if (!Array.isArray(grants) || !grants.some(g => g.organisationId === orgId && g.integrationId === i.id && g.baseUrl === i.endpoint && g.credentialBinding === i.credentialBinding))
+    fail(403, 'No server grant exists for this organisation and exact EHR base URL.'); const key = env[i.credentialBinding]; if (!key)
+    fail(409, 'EHR credential is not configured.'); return key; }
+export function ehrReadiness(i, orgId, env) { try {
+    ehrCredential(i, orgId, env);
+    return { id: i.id, ready: true, message: 'Dedicated server credential and scope configured.' };
+}
+catch (e) {
+    return { id: i.id, ready: false, message: e instanceof Error ? e.message : 'EHR unavailable.' };
+} }
+export async function ehrAccess(s, p, linkId, permissionId, direction) {
+    const e = ehrState(p), link = e.links.find(x => x.id === linkId && x.status === 'active'), permission = e.permissions.find(x => x.id === permissionId && x.status === 'active');
+    if (!p.exchangeConsent || !link || link.identityHash !== await identityHash(p))
+        fail(409, 'Sharing permission or patient identity link is no longer current.');
+    if (!permission || permission.linkId !== link.id || permission.direction !== direction || permission.purpose !== 'care-coordination' || permission.expiresAt <= new Date().toISOString())
+        fail(409, 'A current, direction-specific care-coordination permission is required.');
+    const i = ehrIntegration(s, link.integrationId);
+    if (!i.ehr?.[direction])
+        fail(409, 'This EHR direction is not enabled.');
+    return { link, permission, i };
+}
+export function withinPermission(summary, g) { for (const date of summary.dates)
+    if (Date.parse(date) < Date.parse(g.from) || Date.parse(date) > Date.parse(g.to))
+        fail(403, 'Document contains observations outside the permitted date range.'); }
+export async function stageDocument(s, p, linkId, permissionId, bundle, origin, intake) {
+    const { link, permission } = await ehrAccess(s, p, linkId, permissionId, 'read'), e = ehrState(p);
+    const summary = inspectDocument(bundle, link.externalId);
+    if (summary.patientName.trim().replace(/\s+/g, ' ').toLowerCase() !== link.externalName.trim().replace(/\s+/g, ' ').toLowerCase())
+        fail(409, 'Document patient name differs from the confirmed link. Reconcile identity before importing.');
+    withinPermission(summary, permission);
+    const hash = await digest(bundle);
+    const existing = e.documents.find(d => d.linkId === linkId && d.hash === hash);
+    if (existing)
+        return existing;
+    const original = e.documents.find(d => d.linkId === linkId && d.summary.identifier === summary.identifier && d.hash !== hash);
+    if (original) {
+        if (origin !== 'ehr' || !intake)
+            fail(409, 'The same document identifier has different content. Preserve the source and resolve the version conflict with the partner.');
+        if (await digest(original.bundle) !== original.hash)
+            fail(409, 'The original document digest changed. Preserve source history.');
+        const authorityHash = await inboundCandidateAuthority(s, p, linkId, permissionId), list = e.inboundCandidates ??= [];
+        const duplicate = list.find(x => x.documentId === original.id && x.incoming.hash === hash && x.authorityHash === authorityHash);
+        if (duplicate)
+            return { ...original, inboundCandidateId: duplicate.id };
+        if (list.length >= 40)
+            fail(413, 'Retrieved version history is full. Existing evidence is preserved.');
+        const localSnapshots = s.workspace.visits.filter(v => v.personId === p.id && v.state === 'draft' && !v.voidedAt && !v.supersededBy);
+        if (localSnapshots.length > 20)
+            fail(413, 'Too many pending local drafts to retain a complete intake comparison.');
+        for (const token of [original.bundle.meta?.versionId, bundle.meta?.versionId])
+            if (token !== undefined && (typeof token !== 'string' || !/^[A-Za-z0-9._-]{1,64}$/.test(token)))
+                fail(422, 'A supplied document version token must be a bounded string. No clinical values changed.');
+        const at = new Date().toISOString(), candidate = { id: uuid(), documentId: original.id, source: structuredClone(original), incoming: { id: uuid(), linkId, permissionId, hash, bundle: structuredClone(bundle), summary, status: 'review', at, origin: 'ehr' }, sourceVersion: original.bundle.meta?.versionId ?? original.hash, incomingVersion: bundle.meta?.versionId ?? hash, effectiveAt: summary.date, receivedBy: intake.actorId, receiptKey: intake.receiptKey, at, authorityRules: 'saha-ehr-source-authority-v2', serviceBinding: s.operations?.serviceBindings?.[link.integrationId] ?? null, authorityHash, localSnapshots: structuredClone(localSnapshots) };
+        list.push(candidate);
+        return { ...original, inboundCandidateId: candidate.id };
+    }
+    if (e.documents.length >= 20)
+        fail(422, 'This patient has reached the 20-document review limit.');
+    const d = { id: uuid(), linkId, permissionId, hash, bundle, summary, status: 'review', at: new Date().toISOString(), origin };
+    e.documents.push(d);
+    return d;
+}
+export async function applyEhr(s, c, u, m, env) {
+    if (c.type === 'configureEhr' || c.type === 'activateEhr') {
+        if (!m.isOwner)
+            fail(403, 'Only an organisation owner can configure EHR exchange.');
+        const i = ehrIntegration(s, c.integrationId);
+        if (i.version !== c.version)
+            fail(409, 'Connection changed. Refresh first.');
+        if (c.type === 'configureEhr') {
+            if (!c.read && !c.write)
+                fail(422, 'Choose at least one supported direction.');
+            i.ehr = { read: c.read, write: c.write, ...(i.ehr?.lookup ? { lookup: i.ehr.lookup } : {}) };
+            i.status = 'suspended';
+            i.version++;
+        }
+        else {
+            ehrCredential(i, s.organisation.id, env);
+            if (!i.ehr?.test || i.ehr.test.version !== i.version || Date.parse(i.ehr.test.at) < Date.now() - 86400000 || (i.ehr.read && !i.ehr.test.read) || (i.ehr.write && !i.ehr.test.write))
+                fail(409, 'A passing capability test within 24 hours is required.');
+            i.status = 'active';
+            i.version++;
+            i.ehr.test.version = i.version;
+        }
+        ehrAudit(s, u, m, c.type, i.id, 'EHR capability configuration updated; prior approvals invalidated.');
+        return { ok: true };
+    }
+    if (c.type === 'setEhrLookupPolicy') {
+        if (!m.isOwner)
+            fail(403, 'Only an organisation owner can change how EHR lookups are treated.');
+        const i = ehrIntegration(s, c.integrationId), current = lookupPolicyOf(i);
+        if (current.version !== c.version)
+            fail(409, 'The lookup policy changed. Refresh and review it again.');
+        if (c.authoritative && !i.ehr?.write)
+            fail(422, 'Enable document storage (which requires identifier search) before declaring the search authoritative.');
+        if (c.authoritative && !c.ownerId)
+            fail(422, 'Name a reconciliation owner before declaring the search authoritative: conflicts need a named person.');
+        const owner = c.ownerId ? s.members.find(x => x.userId === c.ownerId) : null;
+        if (c.ownerId && (!owner || owner.status !== 'active' || !(owner.isOwner || owner.role === 'admin')))
+            fail(422, 'The reconciliation owner must be an active organisation owner or administrator, who sees delivery exceptions.');
+        const l = i.ehr.lookup;
+        if (l && l.authoritative === c.authoritative && l.consistencySeconds === c.consistencySeconds && l.ownerId === c.ownerId)
+            fail(409, 'Nothing changed.');
+        if (!l && !c.authoritative && !c.ownerId)
+            fail(409, 'Nothing changed.');
+        const now = new Date().toISOString(), prior = l ? [...l.history, { version: l.version, authoritative: l.authoritative, consistencySeconds: l.consistencySeconds, ownerId: l.ownerId, setBy: l.setBy, setAt: l.setAt, reason: l.reason }] : [];
+        i.ehr.lookup = { version: current.version + 1, authoritative: c.authoritative, consistencySeconds: c.consistencySeconds, ownerId: c.ownerId, setBy: u.userId, setAt: now, reason: c.reason, history: prior.slice(-EHR_LOOKUP_HISTORY) };
+        ehrAudit(s, u, m, c.type, i.id, `${i.name}: identifier search ${c.authoritative ? `declared authoritative by the partner contract, consistency delay ${c.consistencySeconds} s` : 'not authoritative (only one matching document resolves a publication)'}; reconciliation owner ${owner ? owner.displayName : 'not named'} (lookup policy version ${i.ehr.lookup.version}). Publications already resolved are unchanged. Reason: ${c.reason}`);
+        return { integrationId: i.id, version: i.ehr.lookup.version, authoritative: c.authoritative, consistencySeconds: c.consistencySeconds, ownerId: c.ownerId };
+    }
+    if (!('personId' in c) || ['retrieveEhrDocument', 'executeEhrPublish', 'lookupEhrPublish'].includes(c.type))
+        return null;
+    if (!['asha', 'clinician'].includes(m.role))
+        fail(403, 'A care role is required for EHR record operations.');
+    const p = person(s.workspace, c.personId), e = ehrState(p), now = new Date().toISOString();
+    let result = { ok: true }, detail = '';
+    if (c.type === 'linkEhr') {
+        if (c.version !== p.version)
+            fail(409, 'Patient changed. Review identity again.');
+        ehrIntegration(s, c.integrationId);
+        if (e.links.length >= 20)
+            fail(422, 'Patient link limit reached.');
+        if (s.workspace.people.some(other => other.ehr?.links.some(l => l.integrationId === c.integrationId && l.externalId === c.externalId && l.status === 'active')))
+            fail(409, 'That external patient reference is already linked. Investigate the existing match; records are never automatically merged.');
+        const link = { id: uuid(), integrationId: c.integrationId, externalId: c.externalId, externalName: c.externalName, identityHash: await identityHash(p), status: 'active', at: now, verifiedBy: u.userId, method: 'worker-confirmed' };
+        e.links.push(link);
+        result = { linkId: link.id };
+        detail = 'Worker explicitly confirmed an external patient reference. This is not ABHA verification. Reason: ' + c.reason;
+    }
+    else if (c.type === 'revokeEhrLink') {
+        const l = e.links.find(x => x.id === c.linkId);
+        if (!l)
+            fail(404, 'Link not found.');
+        l.status = 'revoked';
+        for (const g of e.permissions.filter(g => g.linkId === l.id))
+            g.status = 'revoked';
+        detail = 'Patient link revoked; new exchange blocked. Existing documents retained for audit.';
+    }
+    else if (c.type === 'grantEhrPermission') {
+        const l = e.links.find(x => x.id === c.linkId && x.status === 'active');
+        if (!p.exchangeConsent || !l || l.identityHash !== await identityHash(p))
+            fail(409, 'Record current sharing permission and a confirmed identity link first.');
+        if (e.permissions.length >= 30)
+            fail(422, 'Permission limit reached.');
+        if (c.from > c.to || c.expiresAt <= now || Date.parse(c.expiresAt) > Date.now() + 30 * 86400000)
+            fail(422, 'Use an ordered date range and an expiry within 30 days.');
+        const g = { id: uuid(), linkId: l.id, direction: c.direction, purpose: c.purpose, from: new Date(c.from).toISOString(), to: new Date(c.to).toISOString(), expiresAt: new Date(c.expiresAt).toISOString(), status: 'active', at: now };
+        e.permissions.push(g);
+        result = { permissionId: g.id };
+        detail = 'Local synthetic permission recorded for care-coordination and visit documents. Not an ABDM consent artefact.';
+    }
+    else if (c.type === 'revokeEhrPermission') {
+        const g = e.permissions.find(x => x.id === c.permissionId);
+        if (!g)
+            fail(404, 'Permission not found.');
+        g.status = 'revoked';
+        detail = 'Permission revoked for future exchange. No record recall claimed.';
+    }
+    else if (c.type === 'importEhrDocument') {
+        let bundle;
+        try {
+            bundle = JSON.parse(c.json);
+        }
+        catch {
+            fail(422, 'Invalid document JSON.');
+        }
+        const d = await stageDocument(s, p, c.linkId, c.permissionId, bundle, 'file');
+        result = { documentId: d.id };
+        detail = 'Document staged for human review; no current visit values changed. File origin is not authenticated partner provenance.';
+    }
+    else if (c.type === 'reviewEhrDocument') {
+        const d = e.documents.find(x => x.id === c.documentId);
+        if (!d || d.hash !== c.hash || d.status !== 'review')
+            fail(409, 'Review the current staged document.');
+        const { permission } = await ehrAccess(s, p, d.linkId, d.permissionId, 'read');
+        withinPermission(d.summary, permission);
+        d.status = c.decision;
+        d.reviewedAt = now;
+        d.reviewedBy = u.userId;
+        detail = 'External document ' + c.decision + '. Imported observations stay separate from current visit facts.';
+    }
+    else if (c.type === 'prepareEhrPublish') {
+        const { link, permission, i } = await ehrAccess(s, p, c.linkId, c.permissionId, 'write');
+        // Slice 7e: the connection must be permitted to create records before anything is prepared.
+        const refused = operationRefusal(i, 'create', 'patient');
+        if (refused)
+            fail(409, refused);
+        const v = visit(s.workspace, c.visitId);
+        if (v.personId !== p.id || v.state !== 'confirmed' || v.voidedAt || v.supersededBy)
+            fail(409, 'Choose a current confirmed visit for this patient.');
+        if (v.amendsVisitId)
+            fail(409, 'EHR amendment publication requires a partner-specific correction workflow.');
+        if (e.operations.length >= 20)
+            fail(422, 'Exchange operation limit reached.');
+        if (e.operations.some(o => o.visitId === v.id && o.linkId === link.id && EHR_HOLDING_STATES.includes(o.state)))
+            fail(409, 'This visit has a prior external delivery. Reconcile its receipt before another publication.');
+        const id = uuid(), bundle = fhirDocument(p, v, s.organisation.name, u.displayName, id, link.externalId), validation = validateOutbound(bundle, link.externalId, now);
+        assertOutboundPrivacy(bundle);
+        assertPatientDocumentNotes(s, p.id, bundle);
+        withinPermission(inspectDocument(bundle, link.externalId), permission);
+        const op = { id, linkId: link.id, permissionId: permission.id, actorId: u.userId, integrationVersion: i.version, identityHash: await identityHash(p), consentVersion: p.consentVersion, state: 'prepared', visitId: v.id, visitVersion: v.version, approvalUntil: new Date(Date.now() + 15 * 60000).toISOString(), bundle, hash: await digest(bundle), at: now, message: 'Review the exact document before approving one publication.', validation };
+        e.operations.push(op);
+        result = { operationId: id };
+        detail = `Document and destination prepared for explicit review; no external request sent. Passed ${validation.ruleset} ${validation.version}.`;
+    }
+    else
+        return null;
+    ehrAudit(s, u, m, c.type, p.id, detail, p.id);
+    return result;
+}

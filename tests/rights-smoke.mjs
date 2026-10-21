@@ -11,14 +11,16 @@ export async function rightsSmoke({get,post,check,accounts,org,sql,base}){
  const hh=await post(o,{type:'householdCreate',personId:R,version:person(R).version,label:'Rights synthetic household',relationship:'head'});
  await post(o,{type:'householdAddMember',householdId:hh.result.householdId,version:1,personId:H,personVersion:person(H).version,relationship:'spouse'});
  const grant=await post(o,{type:'proxyGrant',personId:R,version:person(R).version,proxyPersonId:H,relationship:'spouse',purposes:['care-coordination'],classes:[],evidence:'SYNTH-PROXY-R',expiresAt:new Date(Date.now()+30*86400000).toISOString()});
- const create=(over={})=>({type:'rightsCreate',personId:R,kind:'access',channel:'in-person',requester:'self',identityCheck:'Synthetic ID card seen',detail:'Asks for a copy of her records',...over});
+ const policyShell=await view(o);
+ await post(o,{type:'rightsPolicySet',operationsVersion:policyShell.operationsVersion,rules:['access','correction','restriction','deletion','grievance'].map(kind=>({kind,dueDays:30})),responsibleOrganisation:'Synthetic accountable health organisation',grievanceEscalationOrganisation:'Synthetic independent grievance office',grievanceEscalationDays:7,identityMethods:['in-person-document','known-care-relationship','verified-callback','signed-written-request','representative-grant'],basis:'SYNTH-RIGHTS-POLICY-HTTP approved for isolated testing'});
+ const create=(over={})=>({type:'rightsCreate',personId:R,kind:'access',channel:'in-person',requester:'self',identityMethod:'in-person-document',identityEvidence:'SYNTH-ID-1',detail:'Asks for a copy of her records',...over});
  await post(a,create(),403);await post(w,create(),403);
  await post(o,create({requester:'proxy'}),422);
  await post(o,create({requester:'proxy',proxyGrantId:'not-a-grant'}),422);
  await post(o,create({detail:'short'}),422);
  const access=await post(o,create());
  check(()=>{assert.ok(access.result.requestId);assert.equal(access.result.items,0);assert.ok(access.result.dueAt>new Date(Date.now()+29*86400000).toISOString());});
- const grievance=await post(o,create({kind:'grievance',requester:'proxy',proxyGrantId:grant.result.grantId,channel:'phone',detail:'Spouse complains that a home visit was missed'}));
+ const grievance=await post(o,create({kind:'grievance',requester:'proxy',proxyGrantId:grant.result.grantId,identityMethod:'representative-grant',channel:'phone',detail:'Spouse complains that a home visit was missed'}));
  let v=await view(o,R);
  check(()=>{assert.equal(v.requests.length,2);assert.equal(v.proxies.length,1);assert.ok(v.owners.some(x=>x.userId===c.id));assert.equal(v.requests.find(r=>r.id===grievance.result.requestId).requester,'proxy');});
  await view(a,R,403);await view(w,R,403);
@@ -29,12 +31,16 @@ export async function rightsSmoke({get,post,check,accounts,org,sql,base}){
  await post(s,{type:'rightsAssign',requestId:req.id,version:req.version,ownerId:c.id,note:'Clinician to prepare the copy'});
  await post(w,{type:'rightsClose',requestId:req.id,version:2,outcome:'fulfilled',response:'Copy handed over',evidence:'COPY-1'},403);
  await post(c,{type:'rightsClose',requestId:req.id,version:1,outcome:'fulfilled',response:'Copy handed over',evidence:'COPY-1'},409);
- const done=await post(c,{type:'rightsClose',requestId:req.id,version:2,outcome:'fulfilled',response:'Printed visit summary handed over in person',evidence:'COPY-1'});
+ const deniedCopy=await fetch(`${base}/api/rights/package?requestId=${req.id}`,{headers:{...w.headers,'x-saha-organisation':org}});check(()=>assert.equal(deniedCopy.status,403));
+ const copyResponse=await fetch(`${base}/api/rights/package?requestId=${req.id}`,{headers:{...c.headers,'x-saha-organisation':org}}),copy=await copyResponse.json(),copyHash=copyResponse.headers.get('x-saha-rights-package-sha256');check(()=>{assert.equal(copyResponse.status,200);assert.equal(copy.format,'saha-patient-record-copy-v1');assert.equal(copy.patient.id,R);assert.equal(copy.request.id,req.id);assert.equal(copyHash.length,64);assert.deepEqual(Object.keys(copy.patient).sort(),['age','createdAt','due','id','name','programmes','sex','status','task','version','village']);assert.ok(copy.visits.every(v=>Object.keys(v).every(k=>['id','state','facts','createdAt','confirmedAt','recordVersion','amendsVisitId','supersededBy','voidedAt','voidReason'].includes(k))));assert.ok(copy.rightsHistory.every(r=>!('history' in r)&&!('evidence' in r)));const body=JSON.stringify(copy);for(const forbidden of ['audit_events','assignedTo','proxies','agentRuns','media','identityEvidence','grantedBy'])assert.equal(body.includes(forbidden),false,forbidden);});
+ await post(c,{type:'rightsEvidenceAdd',requestId:req.id,version:2,kind:'record-copy',reference:copyHash,note:'Portable record copy handed over in person'});
+ const done=await post(c,{type:'rightsClose',requestId:req.id,version:3,outcome:'fulfilled',response:'Printed visit summary handed over in person',evidence:copyHash});
  check(()=>assert.equal(done.result.late,false));
  await post(c,{type:'rightsClose',requestId:req.id,version:3,outcome:'withdrawn',response:'Closing twice attempt',evidence:'COPY-2'},409);
  // Restriction pauses sharing and optional AI, then lifts.
  const restriction=await post(o,create({kind:'restriction',detail:'Asks that nothing is shared with programmes for now'}));
- await post(o,{type:'rightsClose',requestId:restriction.result.requestId,version:1,outcome:'fulfilled',response:'Sharing paused until she asks otherwise',evidence:'FORM-R1'});
+ await post(o,{type:'rightsEvidenceAdd',requestId:restriction.result.requestId,version:1,kind:'restriction-outcome',reference:'FORM-R1',note:'Restriction decision reviewed with the requester'});
+ await post(o,{type:'rightsClose',requestId:restriction.result.requestId,version:2,outcome:'fulfilled',response:'Sharing paused until she asks otherwise',evidence:'FORM-R1'});
  await get(o,'/api/workspace',200,org);check(()=>assert.equal(person(R).restrictions.filter(x=>!x.liftedAt).length,1));
  const visit=(await post(o,{type:'startVisit',personId:R})).result.visitId;
  const blocked=await post(o,{type:'preparePlan',visitId:visit,recipients:['mis_maternal']},409);
@@ -50,5 +56,5 @@ export async function rightsSmoke({get,post,check,accounts,org,sql,base}){
  const q=await view(s);check(()=>{assert.ok(q.open.some(r=>r.id===grievance.result.requestId));assert.equal(q.open.some(r=>r.id===access.result.requestId),false);});
  await view(a,null,403);
  check(()=>{const rows=Object.fromEntries(sql.prepare('SELECT state,count(*) AS n FROM rights_requests WHERE org_id=? AND person_id=? GROUP BY state').all(org,R).map(x=>[x.state,x.n]));assert.equal(rows.open,1);assert.equal(rows.closed,2);});
- check(()=>assert.equal(sql.prepare("SELECT count(*) AS n FROM audit_events WHERE org_id=? AND person_id=? AND action LIKE 'rights%'").get(org,R).n,7));
+ check(()=>assert.equal(sql.prepare("SELECT count(*) AS n FROM audit_events WHERE org_id=? AND person_id=? AND action LIKE 'rights%'").get(org,R).n,9));
 }

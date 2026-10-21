@@ -1,0 +1,17 @@
+{
+  "story": "SAHA-121",
+  "command": "node tests/run-api-smoke.mjs",
+  "result": "failed-before-target-suite",
+  "targetSuite": "tests/expansion-smoke.mjs",
+  "targetSuiteReached": false,
+  "failure": {
+    "file": "tests/operations-smoke.mjs",
+    "line": 7,
+    "assertion": "overview.report.patients > 0",
+    "message": "The expression evaluated to a falsy value"
+  },
+  "fixture": "fresh owned local D1 after applying repository migrations",
+  "classification": "inherited synthetic fixture prerequisite; retained without an API-pass claim",
+  "productionDataUsed": false,
+  "externalProviderUsed": false
+}

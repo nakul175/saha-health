@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "receiptType": "exact-staged-successor-integration",
+  "story": "SAHA-159",
+  "scope": "Worker-controlled optional route suggestions",
+  "createdAt": "2026-10-20T23:16:55.662267Z",
+  "population": {
+    "programme": "Saha Health 140 canonical story local coding completion",
+    "cohort": "remaining-40",
+    "ledger": "outputs/saha-140-local-completion/CURRENT.json",
+    "membershipVerified": true
+  },
+  "integration": {
+    "baseCommit": "3e1de3661217f3b634aa2904d668d0e1877013f5",
+    "historicalCandidateHead": "f11aa38c56a7ee8292cd35873001bf32b4e869de",
+    "historicalCandidateCommits": [
+      "47177b1835f66eb64d09e80b85c5d718ca7c626d",
+      "cff1b9ef4fd4fe529053dc6c06e62f1ffd218fbf",
+      "f11aa38c56a7ee8292cd35873001bf32b4e869de"
+    ],
+    "historicalCandidateBase": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+    "historicalCandidateManifestsApplicableToSuccessor": false
+  },
+  "contract": {
+    "nativeIssue": "APL-182",
+    "portableSnapshot": "docs/verification/saha159-apl182-contract-snapshot.json",
+    "decodedPinnedSourceSha256": "f05a056c1a77aaa8976321e9abd252b7734b3643ec540829988820388227e64e",
+    "nativeFrozenSectionSha256": "1f3d5b084620aceac527f9fac9b12d8ff517bc42d6f6bc6065ecfe5871c2ae44",
+    "localImplementationContract": "docs/current/SAHA-159-ACCEPTANCE-CONTRACT.md",
+    "localImplementationContractSha256": "71a8148272b0e835ca2523457c192edc8e04791d19c4ccce1bda610c484fe1b5"
+  },
+  "review": {
+    "status": "PENDING_DIFFERENT_AGENT_CURRENT_PARENT_REVIEW",
+    "semanticPatchSha256": "72553da198e24f1ea46ad2a0c6feeab7cd276fe1a8207fdf5ef464ef1402a097"
+  },
+  "validation": {
+    "ciBaselineGuard": "PASS: immutable original 389 canonical objects/minima preserved; current 463 suites are the exact set union of original 389 plus 74 additions, with no lowered minimum",
+    "focusedContract": "31/31 PASS",
+    "workerD1Smoke": "8/8 PASS",
+    "authorizationStoryRow": "PASS; both current ASHAs 200, owner/admin/supervisor/clinician/stranger 403, anonymous 401",
+    "authorizationAggregate": "HOLD 70 passed / 5 failed; seven unclassified GET routes, two owner-control groups, and EHR/MIS activation ordering retained",
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "catalogue": "HOLD: tests/point-of-need-help-browser.mjs, tests/point-of-need-help-component.mjs, and tests/saha154-optional-assignment-uncertainty-browser.mjs remain unclassified",
+    "inheritedHostingControls": "51/51 PASS after semantic conflict union retained SAHA-135 authorization and route checks",
+    "documentationGeneration": "PASS: affected authoritative current documents regenerated from exact staged source; scripts/build-documentation.py --check passes",
+    "saha158Preservation": "PASS: event-geotag contract 66/66, Worker/D1 10/10, visit import 54/54, data exit 46/46; current authorization matrix includes the inherited SAHA-158 row and retains its aggregate HOLD"
+  },
+  "limits": [
+    "Synthetic local evidence only",
+    "No external mapping/navigation provider, coordinates, GPS, travel-time claim or background tracking",
+    "No formal/domain/ASHA acceptance, CI, merge or observed deployment claim",
+    "Historical candidate evidence/manifests remain candidate-only; current-parent exactness is established by indexedFiles and semanticPatchSha256"
+  ],
+  "indexedFiles": {
+    ".github/workflows/ci.yml": {
+      "changeStatus": "M",
+      "baseBlobOid": "91e2ddf8c79474db00e76fc774100608062a8028",
+      "baseSha256": "4f786f4b557000ab7697b2e683c6eab1378cf4b3a9655ec7311d640b7b6871fd",
+      "stagedBlobOid": "b2cf7a1cf34d95504bbffb062152509048fb2e8f",
+      "stagedSha256": "6892b425ec0e4c400d73009e475ba6167869ea6bafe2e0731e92d9e11c542baa"
+    },
+    "app/api/route-suggestions/route.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "7a9483494166298556e71b667663344fdde75d97",
+      "stagedSha256": "39721d98f7a627361b54b312cbdd5d9e4710db1e4d1bbc1c8efb21715fd6dd91"
+    },
+    "app/route-suggestions-panel.tsx": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "b0fc4975ada78ca517ed16b3932a9ac99ab5f382",
+      "stagedSha256": "58cde5063a53e61b2299133f369f669dcb530b1adbc66571f3c363e6f8804ea6"
+    },
+    "app/workspace.tsx": {
+      "changeStatus": "M",
+      "baseBlobOid": "a751fb3f6880ff852a785e4920cb53001edcad43",
+      "baseSha256": "b0b3c3a110ced703f070acf3fa1066a3d0102822416d1e0977ad891b4f245b15",
+      "stagedBlobOid": "b76ff179ade1c9397d40a6b8b72dd76db7b06cd1",
+      "stagedSha256": "3aedb148ca0af701349f759d62f05644a8c6ec6903077bc8c2487902c4cd63b6"
+    },
+    "docs/current/COMMAND-CATALOGUE.csv": {
+      "changeStatus": "M",
+      "baseBlobOid": "5e117322f1af9d0cdaa6c058e5a92c854056b6c2",
+      "baseSha256": "ccd3a012011560c3b7259df9f14d7881a4d38d4edd179af544e5151a29d88648",
+      "stagedBlobOid": "960031a7b77c8e436e9f4b08e19b50755f772e3f",
+      "stagedSha256": "9235cf459dd9477a4cfb26c695092f1530b6e01dfaeddbce856e2ee9d2d0c4b5"
+    },
+    "docs/current/CURRENT-API-INVENTORY.md": {
+      "changeStatus": "M",
+      "baseBlobOid": "6f43ad76dd5ce80fd935eaaf8a5b8ba8e885cb28",
+      "baseSha256": "a4992a3b34dff47a3a5d0b93e1a09d8440b743cfbdbd19f48996379fb66a3577",
+      "stagedBlobOid": "b4d9d08772d105cff86a91c8da1894e270756109",
+      "stagedSha256": "8b431c2653473f28562231b0d31e0607a6cda881f937c0f57e741927d63b3fc6"
+    },
+    "docs/current/EXECUTION-REGISTER.csv": {
+      "changeStatus": "M",
+      "baseBlobOid": "ec7b275094ffb944ccb492f3a6f59248c7adeb7a",
+      "baseSha256": "10e0c172d5da9349bc05e5e61e6b901d2bbebe6bdacd54504ddf3fad76bc84f1",
+      "stagedBlobOid": "fe77086a914a1bbf16159a5453b1260c17ca1dbd",
+      "stagedSha256": "1098e50f0b2cacf44d03ff747fa3f05cd6acaeec5a06151d78f23ba1d68275d2"
+    },
+    "docs/current/HTTP-ROUTES.csv": {
+      "changeStatus": "M",
+      "baseBlobOid": "606df1dae4153d6fc72e67d5a0dc38ca101ebbeb",
+      "baseSha256": "f1b3ee1d7ee24d73ecdd6660f55033d6a05ab1097504ab9f499c5ec8867fb486",
+      "stagedBlobOid": "f605e2e0a78dda02589ef93dccdd4f7e89a29fc9",
+      "stagedSha256": "964d6728af80d14a6a07403f036e9a2f018434a8680d61ade78dad58205a2403"
+    },
+    "docs/current/SAHA-159-ACCEPTANCE-CONTRACT.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "fa53e171251376e8da0df97dc1063c78f72acd53",
+      "stagedSha256": "71a8148272b0e835ca2523457c192edc8e04791d19c4ccce1bda610c484fe1b5"
+    },
+    "docs/current/SAHA-159-ROUTE-SUGGESTIONS-LOCAL-CODING-COMPLETION.md": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "e4dd2bae778148fcad3af76228d52e76124cdcb8",
+      "stagedSha256": "948824a5091b07ebf2cf118a615198cf0f1ca24cf38eb6cac0b2a2a0825361df"
+    },
+    "docs/current/TEST-CATALOGUE.csv": {
+      "changeStatus": "M",
+      "baseBlobOid": "8a0d7a0c50dfb503dccc1e71360cba437f4d0d12",
+      "baseSha256": "3ce2d157761b1c498c28afe0a9a8323697823616a27e7df18be4e6ca30345d54",
+      "stagedBlobOid": "caa9aee9d3a7385703bb8eb743e80feb82f4becd",
+      "stagedSha256": "0e700a17e43be0fd9ebc98e3e3bb374f07c930dbd779556960ecc741bb79fa15"
+    },
+    "docs/verification/application-saha159-route-suggestions-approved-20261020-sha256.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "3ec02453cff250e2e07704a3e7954a33c54ede9c",
+      "stagedSha256": "1ed0fa5563b7b716cd01a640f4f86da7b2db51255b2c404ad5d341112dd3b9f1"
+    },
+    "docs/verification/application-saha159-route-suggestions-ci-repair-20261020-sha256.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "1b3552689178b2b00c72fb691400d9ad40fc79b9",
+      "stagedSha256": "5703ab6a39377f7d7856a5c3bbe7b6263cc61ee81cae66a169022d42ca177a6b"
+    },
+    "docs/verification/application-saha159-route-suggestions-review-repair-20261020-sha256.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "78472966719ba4870b91094cbc8c155a504227f2",
+      "stagedSha256": "55460f3b0f53252f5daecf06e52a9e0ae253c47dd1ebc08f3bfcb8034abd10ba"
+    },
+    "docs/verification/generated-inventory.json": {
+      "changeStatus": "M",
+      "baseBlobOid": "f9f2b2cdf3f7ce525df7b134d16680821234bb2e",
+      "baseSha256": "9732a16ab64a6622e2a7db0cefb7f804299f54f584544d7b94eb5d0a0b63248a",
+      "stagedBlobOid": "bf6e488d66b258de2179388fd09f6d8c3365773e",
+      "stagedSha256": "18efd47b388717787da68c8a063f1fd44bfbb75ab749afac6275fe89f65e1675"
+    },
+    "docs/verification/saha159-apl182-contract-snapshot.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "34f82de7721ea045496b920eb995d39081916b2c",
+      "stagedSha256": "c4eeb665a6e8c44a8f2b120f35740f8a72310fe46afa26d1a704ae77991c3b0a"
+    },
+    "lib/saha/platform.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "120c5209ce9438734854ad5a48826ad1cc6df2b0",
+      "baseSha256": "756dd3aefeb44e9dcc2e97db6a99852d82565bd87fec5d0d4c2fc05ee6d6c213",
+      "stagedBlobOid": "53b458c45b1ae03eaaba17f90c470e9bf48cc650",
+      "stagedSha256": "36f0685c44a6fa5c8911eb32af458f4e838366394aed97787174ce02842f4cad"
+    },
+    "lib/saha/route-suggestions-server.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "59d9e05f25749c646b31d5e7e2645008913be822",
+      "stagedSha256": "dcf80effb1ed5cce3b1cd867ab4f292455bddfc1bfd0bd0230db11f50171321f"
+    },
+    "lib/saha/route-suggestions.ts": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "66a3ec81f8d9a5d4b846a2fe97c8bd883d9e1ffa",
+      "stagedSha256": "250b901b6203b6e7690af28ed67d8bed899ba0135ecd5d152d2ac38ca63d63ca"
+    },
+    "lib/saha/server.ts": {
+      "changeStatus": "M",
+      "baseBlobOid": "470bb9dc7c7ed71b3e2a2c50ab7f56756ad5e061",
+      "baseSha256": "f2f0e0ebcf687f261fe906fc8b0d6b880cb3c1e256c4cdfb1cf17c1b7469b36d",
+      "stagedBlobOid": "48b44afea29c3d39f53dab9b8777a27d5d8be93f",
+      "stagedSha256": "11f9ad6b77d54436b585e4a63aa5b5c5c4344fb69b6e878fec09d22c2bab43cd"
+    },
+    "scripts/test-catalogue.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "e679ed33f1559decedbb1ba8ac8c4c3574051f63",
+      "baseSha256": "06f20bff65c8fb7d77ecbf8f0434014cd34d8c781f57a3c0b690525cd30535c8",
+      "stagedBlobOid": "480a852affe8f659482ee7705164ba740b591d84",
+      "stagedSha256": "8473713287ca2d322f46c9c4c7ceec3c07ee9b836163f573e817cf7b68576e81"
+    },
+    "tests/evidence/saha-159-route-suggestions/baseline-registration.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "5b476fb8ee4069cebe3c391bd9fbd166b457f63e",
+      "stagedSha256": "652834193e3db9c408bc2126edf736ac3e2399658d7896d82301c3e0201d924c"
+    },
+    "tests/evidence/saha-159-route-suggestions/guarded-final.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "4703a21844709351dfd02a4505c9f33491099e11",
+      "stagedSha256": "eacf14b6e5fc2b90fa7e251a736fd10aa8895ef39c75bf85606096962aae6118"
+    },
+    "tests/evidence/saha-159-route-suggestions/manifest.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "721390cfe87a61f70aca7ff9597cc5007b8d8a1a",
+      "stagedSha256": "37427eb60a9d28ae3036dbc12a473f2b5da5ba6110ca57dabe4534c2ac47b13b"
+    },
+    "tests/evidence/saha-159-route-suggestions/post-audit-race-before.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "f9d14f4c851a47e059b5079fc5366a8eda05c488",
+      "stagedSha256": "ba8bee852d0c4bbabfc55e386444fa167cea7380181fdd1fcbfdbfc3edbc03ec"
+    },
+    "tests/evidence/saha-159-route-suggestions/worker-d1-result.json": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "526bf546b8c783724bb6e42680e5b750b406b244",
+      "stagedSha256": "da10ca25972a5ec40e1410145115276c06d035f566ab8e26fb2b5fb82fb1c347"
+    },
+    "tests/nfr/authorisation-matrix-current.mjs": {
+      "changeStatus": "M",
+      "baseBlobOid": "50ef1fb1900d5bb124d37aef695c40b9cc4b8a6f",
+      "baseSha256": "bde45b4b397b8dd45ac09c9188211817126eefeebaf1021e82a73854db63662d",
+      "stagedBlobOid": "f619e85a6b8badd9e029c410767d82745989917d",
+      "stagedSha256": "6454b7d4d88dc57d5ac2767c08fec015abce437a9fb51835a16ded198402d130"
+    },
+    "tests/regression-baseline.json": {
+      "changeStatus": "M",
+      "baseBlobOid": "84768ad309ccaef42c6e326808b37b3e6d8afecb",
+      "baseSha256": "f37a650a96fd9b53b0573cdac13068d4444eebcb642ede3750bedc79cd96bf1a",
+      "stagedBlobOid": "8f1b41f53ff28c96e06f4f3529da2bf1d2075eef",
+      "stagedSha256": "db85746bd536b7d9a7ee0857dba1dc00fcf76cb1efa64e2ffcf2d1c2d7b1d8fc"
+    },
+    "tests/route-suggestions-contract.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "941f2e8002efcccef206bb56275bc6cfaa540a98",
+      "stagedSha256": "3477e28d09bf02de1d397114e699ab3aab567a43e84a165f7147228226415c16"
+    },
+    "tests/smoke/route-suggestions-worker.mjs": {
+      "changeStatus": "A",
+      "baseBlobOid": null,
+      "baseSha256": null,
+      "stagedBlobOid": "2ba26194665a5f728836cbf98c585b28d5809b96",
+      "stagedSha256": "1959e447dc63b8b9b43c9d05b530f8cd7b4079022996136db526765ca7ae79a6"
+    }
+  },
+  "hashConvention": {
+    "fileSha256": "SHA-256 of exact Git blob bytes",
+    "semanticPatchSha256": "SHA-256 of `git diff --cached --binary HEAD -- <sorted indexed paths>` bytes",
+    "manifestSha256": "SHA-256 of canonical compact sorted-key JSON for this receipt with the top-level integrity field removed; no trailing newline"
+  },
+  "integrity": {
+    "manifestSha256": "38f418f9798ffa7c90b45b8378e68251d7efa75539393e98d6edf1592dfc3063"
+  }
+}

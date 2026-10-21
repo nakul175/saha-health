@@ -193,7 +193,7 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
   });
   await checkAsync('4 the evaluation time is recorded in the organisation record with an audit event', async () => {
     const s = await state(D); assert.equal(s.operations.scheduledJob.evaluatedAt, T4); assert.equal(s.operations.scheduledJob.recordedBecause, 'first'); assert.equal(s.operations.scheduledJob.version, '1.0.0');
-    assert.equal(s.operations.scheduledJob.alertRules, '1.2.0'); assert.equal(s.operations.scheduledJob.deliveryRules, '1.0.0');
+    assert.equal(s.operations.scheduledJob.alertRules, '1.3.0'); assert.equal(s.operations.scheduledJob.deliveryRules, '1.0.0');
     const a = audits(D, 'scheduledAlertEvaluation'); assert.equal(a.length, 1); assert.equal(a[0].actor_id, 'system'); assert.equal(a[0].actor_name, 'Saha scheduled job'); assert.match(a[0].detail, /In-app only; nothing was sent outside Saha/);
     assert.equal(o4.recorded, true); assert.equal(s.operations.version, 1, 'the operations edit version is not moved by the job');
   });

@@ -72,7 +72,7 @@ try {
   check(await proposal.count() === 0 && await phrase.inputValue() === '', 'Reload does not restore a persisted proposal or entered phrase');
   check(requests.length === 0 && external.length === 0, 'All launcher proposals/refusals/corrections/cancellation perform zero API or provider requests');
   after = await snapshot();
-  check(Object.keys(before).length === 60 && JSON.stringify(before) === JSON.stringify(after), 'Complete sixty native tables unchanged by launcher interactions');
+  check(Object.keys(before).length === 62 && JSON.stringify(before) === JSON.stringify(after), 'Complete sixty-two native tables unchanged by launcher interactions');
   const geometry = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, width: innerWidth, controls: [...document.querySelectorAll('main button,main a,main input')].map(e => ({ width: e.getBoundingClientRect().width, height: e.getBoundingClientRect().height })) }));
   check(geometry.scroll <= geometry.width && geometry.controls.every(c => c.width >= 44 && c.height >= 44), 'Rendered phone layout has no horizontal overflow and all controls meet44px target');
   await page.screenshot({ path: folder + '/task-entry-phone.png', fullPage: true });

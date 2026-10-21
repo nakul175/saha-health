@@ -1,0 +1,164 @@
+{
+  "storyId": "SAHA-122",
+  "linearIssue": "APL-145",
+  "requirement": "BR-SEC-01",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "applicationCodeGapsIdentified": 0,
+  "codingComplete": true,
+  "checks": {
+    "dataFlowAuthorityContract": {
+      "passed": 15,
+      "failed": 0
+    },
+    "dataFlowAuthorityPanelContract": {
+      "passed": 7,
+      "failed": 0
+    },
+    "serviceDispatchContract": {
+      "passed": 102,
+      "failed": 0
+    },
+    "misContract": {
+      "passed": 45,
+      "failed": 0
+    },
+    "ehrContract": {
+      "passed": 48,
+      "failed": 0
+    },
+    "governanceContract": {
+      "passed": 27,
+      "failed": 0
+    },
+    "actualSyntheticApiSmoke": {
+      "passed": 5020,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "diffCheck": "passed"
+  },
+  "boundaries": {
+    "localAndDemoInProcessTransports": "do not require an external processing authority record",
+    "httpAndIndependentExternalTargets": "require exact approved purpose, direction, basis and current target fingerprint"
+  },
+  "formalAcceptance": "pending",
+  "independentSourceReview": "pending-final",
+  "exactSourceCi": "not-run",
+  "merged": false,
+  "observedDeployed": false,
+  "files": [
+    {
+      "path": "app/anaemia-panel.tsx",
+      "sha256": "22fb6a31a6118e746a1bbf3a494d6e1f27b1110670932e46f7646a13f36df7b2"
+    },
+    {
+      "path": "app/data-flow-authority-panel.tsx",
+      "sha256": "b68900ee0853a12523fdac1d60618e6dfe5dc102c016bfa5cbffa992ddeb4a33"
+    },
+    {
+      "path": "app/frontline-panel.tsx",
+      "sha256": "06af786d335bea9d2f9837945119a4733f9044ab0f3f65993dadd78c5adf1821"
+    },
+    {
+      "path": "app/governance-panel.tsx",
+      "sha256": "0e5702a38cf7cc00ad79169f9064738e69d5bea32cf5668cd95bd7a2189c38a5"
+    },
+    {
+      "path": "app/workspace.tsx",
+      "sha256": "ea7aaa405af1a235f3a224e53487f55a95bd6a0405947432ff7aea45db56955d"
+    },
+    {
+      "path": "lib/saha/agent-execution.ts",
+      "sha256": "b013aedbb74263bb084860e44386d6d68fe3744734916d563f97ba97d4249be1"
+    },
+    {
+      "path": "lib/saha/anaemia-server.ts",
+      "sha256": "b7575d55673f48b2ff1017e2db3869bbdb2fcaf524d840066a727d385824d166"
+    },
+    {
+      "path": "lib/saha/anaemia.ts",
+      "sha256": "8b0a4340aa7c921853dc5f3182e7789a815b3eefd9b67d846a6709032373f839"
+    },
+    {
+      "path": "lib/saha/data-flow-authority-view.ts",
+      "sha256": "8fc25ef8358d6332b8649f80917bea6cb009bf85e618aaa33650ae0058c7f8b5"
+    },
+    {
+      "path": "lib/saha/data-flow-authority.ts",
+      "sha256": "1372b840f73c547ed4b91a9aa6aaa97b2c918dc45b55acbbe514079700593657"
+    },
+    {
+      "path": "lib/saha/ehr-execution.ts",
+      "sha256": "e110ae2a85c9c9589bfda5d248c80d33003b166f82440de81cc61534d299bcc9"
+    },
+    {
+      "path": "lib/saha/ehr.ts",
+      "sha256": "21f772e48c9d7b522f1334e0555fd60e6d39ffd315f85897f82d5b47e756ed52"
+    },
+    {
+      "path": "lib/saha/evaluation-execution.ts",
+      "sha256": "f2771e6034c45e8eb0de136d5dcf3bc04990560416e999b0d3c4db627a2c64e1"
+    },
+    {
+      "path": "lib/saha/frontline-server.ts",
+      "sha256": "06d4c2843fe519c8860853766b8f9d39f3426f32acaccb67418dcc1a1ccd7cae"
+    },
+    {
+      "path": "lib/saha/governance.ts",
+      "sha256": "a8595dca180fd6ba3eecb7b3480d0bedfdb467448ed46609c73c7160d7588b05"
+    },
+    {
+      "path": "lib/saha/mis.ts",
+      "sha256": "a850f01133a18bb7b68b7e0159cfc6a74a2a3a134accf6974ab764a84c374c82"
+    },
+    {
+      "path": "lib/saha/operations.ts",
+      "sha256": "8ae2687e5727907b18e7894e5a5bb95a6fb9f610bc26ced4ca687357595adfb2"
+    },
+    {
+      "path": "lib/saha/platform.ts",
+      "sha256": "daf73cfac51babdb66ff9ef797f7bb5f05f07ca3b4c1d1999abb50cdfa143659"
+    },
+    {
+      "path": "lib/saha/provider-version.ts",
+      "sha256": "225a5e9b7ce324e08828faf8e46d2158f840fff6c5653e5cdea65bc32be634b9"
+    },
+    {
+      "path": "lib/saha/server.ts",
+      "sha256": "7a81735ff7f397bc9422ec81baaa12e6c78c22efa3bd0d022bc0fe71d0c407ca"
+    },
+    {
+      "path": "lib/saha/service-dispatch.ts",
+      "sha256": "66ecd0e00d919933fe4f90d0a95f6a1669c6832bf5551c84f7013f22c56c21f5"
+    },
+    {
+      "path": "lib/saha/types.ts",
+      "sha256": "5366b81a0a174252f816dd3c7d1d1912ad64b9b0859a1f12955f0de19bf628fd"
+    },
+    {
+      "path": "tests/data-flow-authority-contract.mjs",
+      "sha256": "f0b80f7fdf56096f8ed1b0d99f7018325452f5ccb829bb0556672ac557249f95"
+    },
+    {
+      "path": "tests/data-flow-authority-panel-contract.mjs",
+      "sha256": "1950c3a9fbd8d7ef9f5ec68dad26fb6eab1fc4b624173965215611730f3db30e"
+    },
+    {
+      "path": "tests/ehr-contract.mjs",
+      "sha256": "d48f854f3faf0b474d2fe7cd9167cb084224452e9583f0d8dc52bf825704e9c2"
+    },
+    {
+      "path": "tests/governance-contract.mjs",
+      "sha256": "63f6fb48e53a67fd3ff703b88ec75e950054505a9ea1b3ff330cc028547e2b2a"
+    },
+    {
+      "path": "tests/mis-contract.mjs",
+      "sha256": "8faeac57ac61056ac4c86276a5020a05f4e601148159a68995525591d7506490"
+    },
+    {
+      "path": "tests/service-dispatch-contract.mjs",
+      "sha256": "79836cde095a8f48716cb70b9dc834b337125f81ec2e1c7332d31b88f7f9a6be"
+    }
+  ]
+}

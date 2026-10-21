@@ -26,12 +26,12 @@ try {
   const fakeFetch = async url => { fetches++; assert.equal(url, `https://${team}/cdn-cgi/access/certs`); return new Response(JSON.stringify({ keys: [jwk] }), { status: 200 }); };
   const now = Date.parse('2026-09-30T00:00:00Z'), deps = { fetch: fakeFetch, now: () => now };
   const sign = async (claims, { kid = 'k1', alg = 'RS256', key = pair.privateKey } = {}) => { const h = enc({ alg, kid, typ: 'JWT' }), p = enc(claims); const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, new TextEncoder().encode(h + '.' + p)); return `${h}.${p}.${b64(new Uint8Array(sig))}`; };
-  const base = { iss: `https://${team}`, aud: [aud], sub: 'synthetic-subject-1', email: 'worker@example.invalid', name: 'Synthetic Worker', iat: now / 1000 - 10, exp: now / 1000 + 600 };
+  const base = { iss: `https://${team}`, aud: [aud], sub: 'synthetic-subject-1', email: 'worker@example.invalid', name: 'Synthetic Worker', amr: ['pwd', 'mfa'], jti: 'synthetic-credential-1', iat: now / 1000 - 10, exp: now / 1000 + 600 };
   const principal = async (token, extra = {}) => id.principalFromHeaders(headers({ 'cf-access-jwt-assertion': token, ...extra }), cfg, deps);
 
   await check(() => { assert.deepEqual(id.identityConfig({}), { provider: 'sites-chatgpt' }); assert.equal(cfg.teamDomain, team); assert.equal(cfg.error, undefined); });
   await check(() => { assert.ok(id.identityConfig({ ...env, SAHA_ACCESS_TEAM_DOMAIN: 'evil.example.com' }).error); assert.ok(id.identityConfig({ ...env, SAHA_ACCESS_AUD: 'short' }).error); assert.ok(id.identityConfig({ SAHA_IDENTITY_PROVIDER: 'other' }).error); });
-  await check(async () => { const p = await principal(await sign(base)); assert.deepEqual(p, { userId: 'access:synthetic-subject-1', displayName: 'Synthetic Worker', email: 'worker@example.invalid', fullName: 'Synthetic Worker', provider: 'cloudflare-access' }); });
+  await check(async () => { const p = await principal(await sign(base)); assert.deepEqual(p, { userId: 'access:synthetic-subject-1', displayName: 'Synthetic Worker', email: 'worker@example.invalid', fullName: 'Synthetic Worker', provider: 'cloudflare-access', authentication: { mfa: true, issuedAt: now / 1000 - 10, credentialId: 'synthetic-credential-1' } }); });
   await check(async () => { await principal(await sign(base)); assert.equal(fetches, 1, 'keys are cached'); });
   await check(async () => assert.equal(await principal(await sign({ ...base, aud: ['b'.repeat(64)] })), null));
   await check(async () => assert.equal(await principal(await sign({ ...base, iss: 'https://other.cloudflareaccess.com' })), null));

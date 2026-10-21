@@ -21,9 +21,18 @@ export async function exceptionsSmoke({get,post,check,accounts,org,base}){
  let q=await queue(s);const row=id=>q.items.find(i=>i.id===id);
  check(()=>{const r=row('referral-overdue:'+rid);assert.ok(r,'overdue referral listed');assert.equal(r.severity,'high');assert.equal(r.patient.id,pid);assert.deepEqual(r.link,{personId:pid,visitId:vid,href:`/?patient=${encodeURIComponent(pid)}&visit=${encodeURIComponent(vid)}`});assert.match(r.what,/urgent referral overdue by 6 days/);assert.ok(r.ageDays>=6);assert.match(r.recovery,/reasoned delay/);});
  check(()=>{const f=row('follow-up-overdue:'+fid);assert.ok(f,'overdue follow-up listed');assert.equal(f.link.href,`/?patient=${encodeURIComponent(pid)}`);assert.match(f.what,/TB screening follow-up "Sputum sample check"/);assert.equal(f.owner.startsWith('Supervisors'),false,'named owner with access');});
- check(()=>{assert.equal(q.total,Object.values(q.counts).reduce((n,v)=>n+v,0));assert.ok(q.items.every(i=>i.patient&&i.link),'supervisor rows are all in scope');assert.equal(q.rulesVersion,'1.3.0');});
+ check(()=>{assert.equal(q.total,Object.values(q.counts).reduce((n,v)=>n+v,0));assert.ok(q.items.every(i=>i.patient&&i.link),'supervisor rows are all in scope');assert.equal(q.rulesVersion,'1.4.0');});
+ // The queue itself assigns accountable recovery work. The server rechecks the current item, version and patient scope.
+ const overdue=row('follow-up-overdue:'+fid);await send(s,{type:'assignException',itemId:overdue.id,itemSince:overdue.since,rulesVersion:q.rulesVersion,expectedAssignmentVersion:0,assigneeId:w.id,reason:'Synthetic ASHA owns recovery of this overdue task.'});
+ q=await queue(s);check(()=>{const assigned=row('follow-up-overdue:'+fid);assert.equal(assigned.owner,'Same test name');assert.equal(assigned.assignment.assignedTo,w.id);assert.equal(assigned.assignment.version,1);assert.match(assigned.assignment.reason,/owns recovery/);});
+ await send(s,{type:'assignException',itemId:overdue.id,itemSince:overdue.since,rulesVersion:q.rulesVersion,expectedAssignmentVersion:0,assigneeId:o.id,reason:'Synthetic stale assignment must not overwrite current ownership.'},409);
+ // A device's fixed-code, count-only report is joined from append-only diagnostic evidence and is assignable in scope.
+ const operationId=crypto.randomUUID(),reported=await fetch(`${base}/api/device-work`,{method:'POST',headers:{...w.headers,'Content-Type':'application/json','x-saha-organisation':org},body:JSON.stringify({type:'report',operationId,code:'sync-transport',draftCount:2,pendingCount:1})});check(()=>assert.equal(reported.status,200));
+ q=await queue(s);const diagnostic=row('device-diagnostic:'+operationId);check(()=>{assert.ok(diagnostic);assert.equal(diagnostic.patient,null);assert.equal(diagnostic.link,null);assert.match(diagnostic.what,/2 drafts, 1 awaiting/);assert.equal(diagnostic.diagnosticActorId,w.id);});
+ await send(s,{type:'assignException',itemId:diagnostic.id,itemSince:diagnostic.since,rulesVersion:q.rulesVersion,expectedAssignmentVersion:0,assigneeId:s.id,reason:'Supervisor owns the synthetic device recovery.'});
+ q=await queue(s);check(()=>{const assigned=row(diagnostic.id);assert.equal(assigned.assignment.assignedTo,s.id);assert.equal(assigned.owner,'Same test name');});
  // Scope: administrators get delivery rows without patient details; care roles and strangers are refused.
- const qa=await queue(a);check(()=>{assert.ok(qa.items.every(i=>['submission','ehr-publication'].includes(i.kind)&&i.patient===null&&i.link===null));assert.equal(JSON.stringify(qa).includes('Exception Queue'),false);});
+ const qa=await queue(a);check(()=>{assert.ok(qa.items.every(i=>['submission','ehr-publication','device-diagnostic'].includes(i.kind)&&i.patient===null&&i.link===null));assert.equal(JSON.stringify(qa).includes('Exception Queue'),false);});
  await queue(w,403);await queue(c,403);await queue(x,403);
  const qo=await queue(o);check(()=>assert.ok(qo.items.some(i=>i.id==='referral-overdue:'+rid)));
  // Recovery clears the row: a reasoned delay ends the escalation; completing the follow-up removes it.

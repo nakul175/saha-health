@@ -1,8 +1,8 @@
 // Slice 6o consent withdrawal contract: authority, each downstream kind, history, the switch path and bounds.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const dir = mkdtempSync(join(process.cwd(), '.consent-contract-'));
@@ -10,8 +10,31 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
-    writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
+  const compiled = new Set();
+  const compile = f => {
+    if (compiled.has(f)) return;
+    compiled.add(f);
+    const sourcePath = `lib/saha/${f}.ts`;
+    const source = readFileSync(sourcePath, 'utf8');
+    const dependencies = [
+      ...source.matchAll(/from\s+['"]\.\/([^'"]+)['"]/g),
+      ...source.matchAll(/import\s+['"]\.\/([^'"]+)['"]/g),
+      ...source.matchAll(/import\s*\(\s*['"]\.\/([^'"]+)['"]\s*\)/g),
+    ];
+    for (const match of dependencies) {
+      const dependency = match[1].replace(/\.(?:js|ts)$/, '');
+      if (existsSync(`lib/saha/${dependency}.ts`)) compile(dependency);
+    }
+    const output = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText
+      .replace(/from (['"])(\.\/[^'"]+)\1/g, (_match, quote, path) => `from ${quote}${path}.js${quote}`)
+      .replace(/import (['"])(\.\/[^'"]+)\1/g, (_match, quote, path) => `import ${quote}${path}.js${quote}`)
+      .replace(/import\((['"])(\.\/[^'"]+)\1\)/g, (_match, quote, path) => `import(${quote}${path}.js${quote})`);
+    const outputPath = join(dir, f + '.js');
+    mkdirSync(dirname(outputPath), { recursive: true });
+    writeFileSync(outputPath, output);
+  };
+  compile('consent');
+  compile('access');
   const x = await import(pathToFileURL(join(dir, 'consent.js')));
   const { allowed } = await import(pathToFileURL(join(dir, 'access.js')));
   const now = '2026-09-30T06:00:00.000Z', later = '2026-10-30T06:00:00.000Z', past = '2026-09-01T00:00:00.000Z';

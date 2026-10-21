@@ -6,7 +6,7 @@ export async function abdmSmoke({get,post,check,accounts,org,base}){
  const person=id=>o.state.people.find(p=>p.id===id);
  const pid=(await post(o,{type:'createPerson',name:`ABHA Synthetic ${crypto.randomUUID().slice(0,6)}`,age:36,sex:'Female',village:'ABDM synthetic locality',programme:'General care',teamId:'default'})).result.personId;
  const tail=String(Date.now()).slice(-4),abha=`55-6677-8899-${tail}`;
- const link={type:'abhaLink',personId:pid,version:person(pid).version,abhaNumber:abha,otp:'123456'};
+ const link={type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:pid,version:person(pid).version,abhaNumber:abha,demographicMatch:'matched',confirmed:true,otp:'123456'};
  await post(o,link,409);
  const cfg={type:'abdmConfigure',environment:'mock',modules:{abha:true,hip:false,hiu:true},facilityId:'SYN-FACILITY-API',approvals:[{module:'abha',reference:'APPROVAL-ABHA'},{module:'hiu',reference:'APPROVAL-HIU'}],reason:'Synthetic mock configuration for the test'};
  await post(c,cfg,403);await post(o,{...cfg,environment:'production'},409);await post(o,{...cfg,approvals:[]},422);
@@ -15,7 +15,7 @@ export async function abdmSmoke({get,post,check,accounts,org,base}){
  const linked=await post(o,link);check(()=>assert.equal(linked.result.abha,`55-XXXX-XXXX-${tail}`));
  check(()=>{assert.equal(person(pid).abha.state,'linked');assert.match(person(pid).abha.number,/XXXX/,'snapshots carry masked ABHA numbers');});
  const other=(await post(o,{type:'createPerson',name:`ABHA Other ${crypto.randomUUID().slice(0,6)}`,age:50,sex:'Male',village:'ABDM synthetic locality',programme:'General care',teamId:'default'})).result.personId;
- await post(o,{type:'abhaLink',personId:other,version:person(other).version,abhaNumber:abha,otp:'123456'},409);
+ await post(o,{type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:other,version:person(other).version,abhaNumber:abha,demographicMatch:'matched',confirmed:true,otp:'123456'},409);
  await post(o,{type:'abhaDecline',personId:other,version:person(other).version,reason:'Prefers not to create an ABHA'});
  // Consent artefact: request, mock grant, checks, revoke.
  const today=new Date().toISOString().slice(0,10),exp=new Date(Date.now()+20*86400000).toISOString();

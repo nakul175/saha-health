@@ -89,6 +89,12 @@ p=o.state.people.find(p=>p.id==='p_meena');await post(o,{type:'assignPatient',pe
 const ix=await invite(x,'asha');await post(o,{type:'revokeInvite',inviteId:ix.invitationId});await post(x,{type:'joinOrganisation',token:ix.token},403);
 const expired=await invite(x,'asha');sql.prepare('UPDATE invitations SET expires_at=? WHERE id=?').run('2020-01-01T00:00:00.000Z',expired.invitationId);await post(x,{type:'joinOrganisation',token:expired.token},403);
 await post(o,{type:'createTeam',name:'CSRF test'},403,crypto.randomUUID(),org,{Origin:'https://evil.example'});
+// SAHA-133: this legacy toggle fixture activates the exact post-toggle release 3.
+// Seed a complete synthetic assurance inventory without consuming an operations
+// command version; the dedicated supply-chain contracts cover the owner command.
+const assuranceRow=sql.prepare('SELECT data FROM operations WHERE org_id=?').get(org),assuranceOperations=assuranceRow?JSON.parse(assuranceRow.data):{version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null},assuranceAt=new Date().toISOString();
+assuranceOperations.supplyChain=[...(assuranceOperations.supplyChain??[]),{id:`api-smoke-mis-maternal-${id}`,kind:'provider',name:'Synthetic maternal register assurance',release:'3',ownerId:o.id,controls:['Signed synthetic provider release'],subprocessors:[{name:'None disclosed',purpose:'Explicit synthetic provider declaration',jurisdiction:'Not applicable'}],incidentContact:'SECURITY-CASE-QUEUE',updateObligation:'Notify the accountable owner before this supported release changes.',supportUntil:'2099-01-01',materialChange:'Exact synthetic release 3 assessed for the API smoke activation fixture.',componentId:'mis_maternal',version:1,updatedBy:o.id,updatedAt:assuranceAt,findings:[],history:[]}];
+sql.prepare('INSERT INTO operations (org_id,data) VALUES (?,?) ON CONFLICT(org_id) DO UPDATE SET data=excluded.data').run(org,JSON.stringify(assuranceOperations));
 await post(o,{type:'toggleIntegration',integrationId:'mis_maternal',version:o.state.integrations.find(i=>i.id==='mis_maternal').version});await post(o,{type:'toggleIntegration',integrationId:'mis_maternal',version:o.state.integrations.find(i=>i.id==='mis_maternal').version});
 const newOrg=await post(o,{type:'createOrganisation',name:'Isolated second organisation'});check(()=>{assert.equal(newOrg.snapshot.people.length,0);assert.equal(newOrg.snapshot.visits.length,0);assert.notEqual(newOrg.snapshot.organisation.id,org)});await get(o,`/api/fhir/${visitId}?organisationId=${newOrg.snapshot.organisation.id}`,404);await post(o,{type:'switchOrganisation',organisationId:org});check(()=>assert.equal(o.state.submissions.length,2));
 const template=sql.prepare('SELECT * FROM record_revisions WHERE org_id=? AND entity_type=? LIMIT 1').get(legacyOrg,'person');
@@ -99,7 +105,7 @@ const ap=await get(legacyUser,'/api/audit',200,legacyOrg);check(()=>{assert.equa
 const {programmeSmoke}=await import('./programme-smoke.mjs');await programmeSmoke({o,w,s,a,post,get,check,org});
 const {agentSmoke}=await import('./agent-smoke.mjs');await agentSmoke({o,c,w,a,s,post,get,check,org,sql});
 const {misSmoke}=await import('./mis-smoke.mjs');await misSmoke({get,post,check,accounts,org,sql});
-const {ehrSmoke}=await import('./ehr-smoke.mjs');await ehrSmoke({get,post,check,accounts,org});
+const {ehrSmoke}=await import('./ehr-smoke.mjs');await ehrSmoke({get,post,check,accounts,org,sql});
 const {fieldSmoke}=await import('./field-smoke.mjs');await fieldSmoke({get,post,check,accounts,org});
 const {operationsSmoke}=await import('./operations-smoke.mjs');await operationsSmoke({get,post,check,accounts,org,sql});
 const {pilotSmoke}=await import('./pilot-smoke.mjs');await pilotSmoke({get,post,check,accounts,org,sql});
@@ -119,9 +125,9 @@ const {rightsSmoke}=await import('./rights-smoke.mjs');await rightsSmoke({get,po
 await globalThis.sahaRecycleWorker?.(); // slice 10k: fresh Worker isolate, same D1 state (see run-api-smoke.mjs)
 const {retentionSmoke}=await import('./retention-smoke.mjs');await retentionSmoke({get,post,check,accounts,org,sql,base});
 const {fourthReviewSmoke}=await import('./fourth-review-smoke.mjs');await fourthReviewSmoke({check,org,base});
-const {indicatorsSmoke}=await import('./indicators-smoke.mjs');await indicatorsSmoke({get,post,check,accounts,org,base});
+const {indicatorsSmoke}=await import('./indicators-privacy-registration-current.mjs');await indicatorsSmoke({get,post,check,accounts,org,base});
 const {referralSmoke}=await import('./referral-smoke.mjs');await referralSmoke({get,post,check,accounts,org,base});
-const {reuseSmoke}=await import('./reuse-smoke.mjs');await reuseSmoke({get,post,check,accounts,org,base});
+const {reuseSmoke}=await import('./reuse-privacy-registration-current.mjs');await reuseSmoke({get,post,check,accounts,org,base});
 const {rosterSmoke}=await import('./roster-smoke.mjs');await rosterSmoke({get,post,check,accounts,org,base});
 const {abdmSmoke}=await import('./abdm-smoke.mjs');await abdmSmoke({get,post,check,accounts,org,base});
 // Slice 6z: the out-of-scope ABHA refusal is the ordinary link refusal and is recorded for an identity steward.
@@ -136,11 +142,11 @@ const {planDependenciesSmoke}=await import('./plan-dependencies-smoke.mjs');awai
 // Slice 10f: household visit slots and cross-pack referral consolidation.
 const {householdVisitSmoke}=await import('./household-visit-smoke.mjs');await householdVisitSmoke({get,post,check,accounts,org,sql,base});
 const {exceptionsSmoke}=await import('./exceptions-smoke.mjs');await exceptionsSmoke({get,post,check,accounts,org,base});
-const {reportExportSmoke}=await import('./report-export-smoke.mjs');await reportExportSmoke({get,check,accounts,org,sql,base});
+const {reportExportSmoke}=await import('./report-export-privacy-registration-current.mjs');await reportExportSmoke({get,post,check,accounts,org,sql,base});
 const {auditChainSmoke}=await import('./audit-chain-smoke.mjs');await auditChainSmoke({get,post,check,accounts,org,sql,base});
 const {accessAuditSmoke}=await import('./access-audit-smoke.mjs');await accessAuditSmoke({get,post,check,accounts,org,sql,base});
 // Slice 10h: workspace loads, record opens, patient searches and lists, and aggregate views are audited the same way.
-const {readAuditCompletionSmoke}=await import('./read-audit-completion-smoke.mjs');await readAuditCompletionSmoke({get,post,check,accounts,org,sql,base});
+const {readAuditCompletionSmoke}=await import('./read-audit-completion-privacy-registration-current.mjs');await readAuditCompletionSmoke({get,post,check,accounts,org,sql,base});
 const {aiBudgetSmoke}=await import('./ai-budget-smoke.mjs');await aiBudgetSmoke({get,post,check,accounts,org});
 await globalThis.sahaRecycleWorker?.(); // slice 10k: fresh Worker isolate, same D1 state (see run-api-smoke.mjs)
 const {aiInvoiceSmoke}=await import('./ai-invoice-smoke.mjs');await aiInvoiceSmoke({get,post,check,accounts,org});
@@ -150,13 +156,13 @@ const {agentQualitySmoke}=await import('./agent-quality-smoke.mjs');await agentQ
 const {capabilityLifecycleSmoke}=await import('./capability-lifecycle-smoke.mjs');await capabilityLifecycleSmoke({get,post,check,accounts,org});
 const {shadowSmoke}=await import('./shadow-smoke.mjs');await shadowSmoke({get,post,check,accounts,org});
 const {dataExitSmoke}=await import('./data-exit-smoke.mjs');await dataExitSmoke({get,post,check,accounts,org,sql,base});
-const {environmentSmoke}=await import('./environment-smoke.mjs');await environmentSmoke({get,post,check,accounts,org,base});
+const {environmentSmoke}=await import('./environment-smoke.mjs');await environmentSmoke({get,post,check,accounts,org,base,sql});
 const {fixtureMigrationSmoke}=await import('./fixture-migration-smoke.mjs');await fixtureMigrationSmoke({get,post,check,accounts,org,sql,base});
 const {programmeMigrationSmoke}=await import('./programme-migration-smoke.mjs');await programmeMigrationSmoke({get,post,check,accounts,org,sql,base});
 // Slice 4f: governed installation of a programme pack (stage, independent review, activation, retirement).
 const {packInstallationSmoke}=await import('./pack-installation-smoke.mjs');await packInstallationSmoke({get,post,check,accounts,org,sql,base});
 const {consentSmoke}=await import('./consent-smoke.mjs');await consentSmoke({get,post,check,accounts,org,sql});
-const {delegationSmoke}=await import('./delegation-smoke.mjs');await delegationSmoke({get,post,check,accounts,org,sql,base});
+const {delegationSmoke}=await import('./delegation-privacy-registration-current.mjs');await delegationSmoke({get,post,check,accounts,org,sql,base});
 const {workerActivitySmoke}=await import('./worker-activity-smoke.mjs');await workerActivitySmoke({get,post,check,accounts,org,base});
 // Slice 10c: synthetic worker incentive claims (schedule, claim, verification, approval into a digest chain, correction, CSV).
 const {incentiveClaimsSmoke}=await import('./incentive-claims-smoke.mjs');await incentiveClaimsSmoke({get,post,check,accounts,org,sql,base});
@@ -175,12 +181,12 @@ const {identifierSearchSmoke}=await import('./identifier-search-smoke.mjs');awai
 const {workforceImportSmoke}=await import('./workforce-import-smoke.mjs');await workforceImportSmoke({get,post,check,accounts,org,sql,base});
 // Slice 10i: controlled import of historical visits with clinical content (kind visits of the record import).
 const {visitImportSmoke}=await import('./visit-import-smoke.mjs');await visitImportSmoke({get,post,check,accounts,org,sql,base});
-const {indicatorRegistrySmoke}=await import('./indicator-registry-smoke.mjs');await indicatorRegistrySmoke({get,post,check,accounts,org,sql,base});
-const {indicatorFreshnessSmoke}=await import('./indicator-freshness-smoke.mjs');await indicatorFreshnessSmoke({get,post,check,accounts,org,sql,base});
+const {indicatorRegistrySmoke}=await import('./indicator-registry-privacy-registration-current.mjs');await indicatorRegistrySmoke({get,post,check,accounts,org,sql,base});
+const {indicatorFreshnessSmoke}=await import('./indicator-freshness-privacy-registration-current.mjs');await indicatorFreshnessSmoke({get,post,check,accounts,org,sql,base});
 const {alertDeliverySmoke}=await import('./alert-delivery-smoke.mjs');await alertDeliverySmoke({get,post,check,accounts,org,sql});
 // Slice 10b: owner-managed out-of-app notification channel (demonstration simulator). Runs right after 6v, which it builds on, and leaves the channel off.
 const {notificationChannelSmoke}=await import('./notification-channel-smoke.mjs');await notificationChannelSmoke({get,post,check,accounts,org,sql});
-const {noteAnswerSignOffSmoke}=await import('./note-answer-signoff-smoke.mjs');await noteAnswerSignOffSmoke({get,post,check,accounts,org,sql,base});
+const {noteAnswerSignOffSmoke}=await import('./verification-api-note-answer-signoff-current.mjs');await noteAnswerSignOffSmoke({get,post,check,accounts,org,sql,base});
 const {traceSmoke}=await import('./trace-smoke.mjs');await traceSmoke({get,post,check,accounts,org,sql,base});
 const {adapterOperationsSmoke}=await import('./adapter-operations-smoke.mjs');await adapterOperationsSmoke({get,post,check,accounts,org,base});
 const {aggregateDeliverySmoke}=await import('./aggregate-delivery-smoke.mjs');await aggregateDeliverySmoke({get,post,check,accounts,org,sql});

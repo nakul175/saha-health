@@ -1,0 +1,60 @@
+import { z } from 'zod';
+import { digest, fail } from './core.js';
+import { normallyAllowed } from './access.js';
+import { AGENT_VERSION, FIELD_LABEL, current, eligible, providers, validateOutput, conflictsFor } from './agent.js';
+import { governanceSchema } from './governance.js';
+const ref = z.string().regex(/^[A-Za-z0-9_:.-]{1,120}$/), version = z.number().int().positive(), hash = z.string().regex(/^[0-9a-f]{64}$/);
+export const disagreementInput = z.object({ action: z.literal('reject-existing-result'), personId: ref, visitId: ref, runIds: z.tuple([ref, ref]).refine(x => x[0] !== x[1]), runId: ref, version, contextHash: hash, reason: z.string().trim().min(10).max(1000), reference: z.string().trim().min(1).max(200), affirmed: z.literal(true) }).strict();
+const envelope = z.object({ id: ref, actorId: z.string().min(1), task: z.enum(['extract', 'summary', 'review']), status: z.enum(['pending', 'running', 'review', 'applied', 'cancelled', 'failed', 'blocked']), createdAt: z.string().datetime(), provider: z.object({ id: z.string(), name: z.string(), model: z.string(), version: z.number().int().nonnegative(), mode: z.enum(['local', 'openai', 'http']) }).passthrough() }).passthrough();
+export function disagreementReviewExpiry(r, now = Date.now()) { if (r.status !== 'review')
+    return; const expiry = Date.parse(r.expiresAt); if (!Number.isFinite(expiry) || expiry <= now)
+    fail(409, 'The original active review result expired. Review a current result.'); }
+export async function disagreementProjection(s, m, u, id, visitId, ids, refreshAt, rt) {
+    const p = s.workspace.people.find(p => p.id === id && p.assignedTo === u.userId && normallyAllowed(m, p) && !p.mergedInto), v = s.workspace.visits.find(v => v.id === visitId && v.personId === id && !v.voidedAt && !v.supersededBy && !v.imported);
+    if (!p || !v)
+        fail(404, 'Choose the current encounter of your assigned record.');
+    if (m.role !== 'asha')
+        fail(403, 'An assigned ASHA review is required.');
+    if (v.state !== 'draft')
+        fail(409, 'Review the current existing draft.');
+    if ([m.version, p.version, p.consentVersion, v.version].some(x => !Number.isSafeInteger(x) || x < 1))
+        fail(503, 'Current source versions are unavailable.');
+    eligible(s, m, v, providers([], {}).find(x => x.id === 'local'));
+    const parsed = z.array(envelope).max(30).refine(x => new Set(x.map(r => r.id)).size === x.length).safeParse(v.agentRuns === undefined ? [] : v.agentRuns);
+    if (!parsed.success)
+        fail(503, 'Stored review catalogue is unavailable.');
+    const requests = parsed.data.filter(r => r.actorId === u.userId && r.task === 'extract' && r.provider.id === 'local' && r.provider.mode === 'local' && ['review', 'cancelled'].includes(r.status)).map(r => ({ id: r.id, status: r.status, createdAt: r.createdAt }));
+    if (ids.length !== 0 && (ids.length !== 2 || new Set(ids).size !== 2))
+        fail(400, 'Choose two different existing results.');
+    const selected = ids.map(id => { const r = v.agentRuns?.find(r => r.id === id && r.actorId === u.userId && r.task === 'extract' && r.provider.id === 'local' && r.provider.mode === 'local'); if (!r || !['review', 'cancelled'].includes(r.status) || r.status === 'cancelled' && r.reviewDecision?.decision !== 'rejected')
+        fail(409, 'Choose your two existing extraction review results.'); return r; });
+    const results = [];
+    for (const r of selected) {
+        if (r.version !== AGENT_VERSION || !z.string().datetime().safeParse(r.expiresAt).success || typeof r.input !== 'string' || r.input.length < 5 || r.input.length > 3000 || !r.output || !Array.isArray(r.warnings) || r.warnings.length > 20 || r.warnings.some(x => typeof x !== 'string') || [r.visitVersion, r.personVersion, r.consentVersion].some(x => !Number.isSafeInteger(x) || x < 1))
+            fail(503, 'Stored source/output binding is unavailable.');
+        disagreementReviewExpiry(r);
+        const bound = await digest({ actor: r.actorId, scope: r.taskScope, version: r.visitVersion, personVersion: r.personVersion, consentVersion: r.consentVersion, provider: r.provider, task: r.task, input: r.input, context: r.context ?? { language: 'en', setting: 'community', device: 'browser' }, governance: r.governance ?? null, approvedExecution: r.approvedExecution, release: r.release, versionPin: r.versionPin, agent: r.version });
+        if (bound !== r.inputHash)
+            fail(409, 'The original result source binding changed.');
+        const checked = validateOutput(r.output, r.input, 'extract');
+        if (JSON.stringify(r.assessment ?? null) !== JSON.stringify(checked.output.assessment ?? null))
+            fail(503, 'Stored assessment differs from validated output.');
+        if (r.status === 'review') {
+            if (r.reviewDecision)
+                fail(409, 'This result already has a decision.');
+            current(s, v, r, m, u, providers(s.workspace.integrations, rt));
+        }
+        else if (!r.reviewDecision || r.reviewDecision.by !== u.userId || !z.string().datetime().safeParse(r.reviewDecision.at).success || typeof r.reviewDecision.reason !== 'string' || typeof r.reviewDecision.reference !== 'string')
+            fail(503, 'Original rejection evidence unavailable.');
+        const conflicts = conflictsFor({ ...v, agentRuns: selected }, r).filter(c => c.kind === 'other-run');
+        results.push({ id: r.id, inputHash: r.inputHash, status: r.status, provider: r.provider.name, model: r.provider.model, providerVersion: r.provider.version, agentVersion: r.version, intendedUse: 'Documentary extraction of supported measurements; not diagnosis, a risk score or independent corroboration.', source: r.input, expiresAt: r.expiresAt, proposals: checked.output.proposals.map(p => ({ field: p.field, label: FIELD_LABEL[p.field], value: p.value, quote: p.quote, conflicting: conflicts.some(c => c.field === p.field) })), highlights: checked.output.highlights.map(x => x.quote), warnings: [...r.warnings, ...checked.warnings], assessment: checked.output.assessment ? { detail: checked.output.assessment.detail, retry: checked.output.assessment.retry } : null, decision: r.reviewDecision ? { decision: r.reviewDecision.decision, at: r.reviewDecision.at, reason: r.reviewDecision.reason, reference: r.reviewDecision.reference } : null, canReject: r.status === 'review' && !r.reviewDecision });
+    }
+    const disagreement = selected.length === 2 && selected[0].output.proposals.some(a => selected[1].output.proposals.some(b => a.field === b.field && a.value !== b.value));
+    const contextHash = await digest({ organisation: s.organisation.id, actor: u.userId, person: p, visit: v, member: m, operations: s.operations ?? null, governance: s.governance ?? null, providers: providers(s.workspace.integrations, rt), ids, refreshAt });
+    return { organisationId: s.organisation.id, actorId: u.userId, personId: id, visitId, visitVersion: v.version, refreshAt, contextHash, requests, results, disagreement };
+}
+export function disagreementCommand(c) { return governanceSchema.parse({ type: 'reviewAgentResult', visitId: c.visitId, runId: c.runId, version: c.version, decision: 'rejected', reason: c.reason, reference: c.reference }); }
+export function disagreementFresh(c, v) { if (v.contextHash !== c.contextHash || v.visitVersion !== c.version || JSON.stringify(v.results.map(r => r.id)) !== JSON.stringify(c.runIds) || !v.results.some(r => r.id === c.runId && r.canReject))
+    fail(409, 'Review both current original results before an explicit rejection.'); }
+export function disagreementReceipt(c, r, u, result) { const d = r?.reviewDecision; if (result?.ok !== true || !r || r.id !== c.runId || r.status !== 'cancelled' || !d || d.by !== u || d.decision !== 'rejected' || d.reason !== c.reason || d.reference !== c.reference || !z.string().datetime().safeParse(d.at).success)
+    fail(409, 'Original human rejection receipt is unresolved; nothing was repeated.'); return { runId: r.id, status: 'rejected-with-original-output-retained', at: d.at, reason: d.reason, reference: d.reference }; }

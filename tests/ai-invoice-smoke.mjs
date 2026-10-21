@@ -6,7 +6,7 @@ export async function aiInvoiceSmoke({get,post,check,accounts,org}){
  // Visibility follows budgets: owners and administrators, not supervisors.
  const supView=await get(sv,'/api/operations',200,org);check(()=>assert.equal(supView.invoices,null));
  let view=await get(o,'/api/operations',200,org);const budgetsBefore=view.operations.budgets??[],ratesBefore=view.operations.rates??null;
- check(()=>{assert.equal(view.alertRules,'1.2.0');assert.deepEqual(view.invoices.records,[]);assert.deepEqual(view.invoices.columns,['provider','model','month','input_tokens','output_tokens','amount_usd','invoice_reference']);assert.match(view.invoices.notice,/never changes budgets or cost assumptions/);assert.ok(!view.alerts.some(x=>x.id.startsWith('ai-invoice')),'no provider use, nothing to reconcile');});
+ check(()=>{assert.equal(view.alertRules,'1.3.0'/* SAHA-117 adds operational signals; invoice rules remain enforced */);assert.deepEqual(view.invoices.records,[]);assert.deepEqual(view.invoices.columns,['provider','model','month','input_tokens','output_tokens','amount_usd','invoice_reference']);assert.match(view.invoices.notice,/never changes budgets or cost assumptions/);assert.ok(!view.alerts.some(x=>x.id.startsWith('ai-invoice')),'no provider use, nothing to reconcile');});
  const adminView=await get(a,'/api/operations',200,org);check(()=>assert.deepEqual(adminView.invoices.records,[]));
  const H='provider,model,month,input_tokens,output_tokens,amount_usd,invoice_reference',body=(csv,extra={})=>({type:'opsInvoiceReconcile',version:view.operations.version,csv,thresholdPercent:5,reason:'Synthetic monthly invoice review',...extra});
  const first=`${H}\nopenai,synthetic-model,${prev},1000,500,0.05,INV-SYN-001`;

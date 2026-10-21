@@ -1,0 +1,18 @@
+import { factAuditText, factProvenance, unusualNoteText } from './fact-provenance.js';
+export function fhirExample(p, v) {
+    const pid = p.id.replace(/_/g, '-');
+    const coding = (code, display) => ({ coding: [{ system: 'http://loinc.org', code, display }] });
+    const patient = { resourceType: 'Patient', id: pid, meta: { tag: [{ system: 'https://saha.example/environment', code: 'synthetic', display: 'Synthetic demonstration record' }] }, name: [{ text: p.name }], gender: p.sex === 'Female' ? 'female' : p.sex === 'Male' ? 'male' : 'unknown' };
+    const encounter = { resourceType: 'Encounter', id: v.id, status: 'finished', class: { system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode', code: 'HH', display: 'home health' }, subject: { reference: `Patient/${pid}` }, period: { start: new Date(v.facts.date + 'Z').toISOString() } };
+    const resources = [patient, encounter];
+    const common = { resourceType: 'Observation', status: 'final', subject: { reference: `Patient/${pid}` }, encounter: { reference: `Encounter/${v.id}` } };
+    // Slice 2c: each observation carries its own time and source (visit-level when none was recorded).
+    const base = (m) => { const pv = factProvenance(v.facts, m); return { ...common, effectiveDateTime: new Date(pv.at + 'Z').toISOString(), ...(pv.source === 'reported' ? { method: { text: 'Reported by the person or carer; not measured during the visit' } } : {}), note: [{ text: `Source: ${pv.source}${pv.own ? '' : ' (visit-level)'}.${factAuditText(v, m)}${m === 'bloodPressure' ? unusualNoteText(v, 'systolic') + unusualNoteText(v, 'diastolic') : unusualNoteText(v, m)} Synthetic example; not ABDM validated.` }] }; };
+    if (v.facts.weight)
+        resources.push({ ...base('weight'), id: `${v.id}-weight`, code: coding('29463-7', 'Body weight'), valueQuantity: { value: +v.facts.weight, unit: 'kg', system: 'http://unitsofmeasure.org', code: 'kg' } });
+    if (v.facts.temperature)
+        resources.push({ ...base('temperature'), id: `${v.id}-temperature`, code: coding('8310-5', 'Body temperature'), valueQuantity: { value: +v.facts.temperature, unit: '°C', system: 'http://unitsofmeasure.org', code: 'Cel' } });
+    if (v.facts.systolic && v.facts.diastolic)
+        resources.push({ ...base('bloodPressure'), id: `${v.id}-bp`, code: coding('85354-9', 'Blood pressure panel'), component: [{ code: coding('8480-6', 'Systolic blood pressure'), valueQuantity: { value: +v.facts.systolic, unit: 'mmHg', system: 'http://unitsofmeasure.org', code: 'mm[Hg]' } }, { code: coding('8462-4', 'Diastolic blood pressure'), valueQuantity: { value: +v.facts.diastolic, unit: 'mmHg', system: 'http://unitsofmeasure.org', code: 'mm[Hg]' } }] });
+    return { resourceType: 'Bundle', type: 'collection', timestamp: new Date().toISOString(), meta: { tag: [{ system: 'https://saha.example/environment', code: 'synthetic-unvalidated' }] }, entry: resources.map(resource => ({ resource })) };
+}

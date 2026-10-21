@@ -9,6 +9,11 @@ export async function misSmoke({get,post,check,accounts,org,sql}){
  await post(o,{...config,mapping:[{source:'notes',target:'constructor',required:false}]},422);
  const replayKey=crypto.randomUUID();await post(o,config,200,replayKey);await post(o,config,200,replayKey);i=o.state.integrations.find(x=>x.id===i.id);
  check(()=>{if(i.version!==2||i.status!=='suspended'||i.mis.mapping.length!==3)throw Error('Mapping not persisted');});
+ // SAHA-133: activation remains fail-closed until the exact post-toggle release has a complete provider assurance inventory.
+ // Seed only this synthetic fixture's dynamic component; the command below still exercises the product gate.
+ const assuranceRow=sql.prepare('SELECT data FROM operations WHERE org_id=?').get(org),assuranceOperations=assuranceRow?JSON.parse(assuranceRow.data):{version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null},assuranceAt=new Date().toISOString();
+ assuranceOperations.supplyChain=[...(assuranceOperations.supplyChain??[]),{id:`mis-smoke-${i.id}`,kind:'provider',name:'Synthetic programme API assurance',release:'3',ownerId:o.id,controls:['Signed synthetic provider release'],subprocessors:[{name:'None disclosed',purpose:'Explicit synthetic provider declaration',jurisdiction:'Not applicable'}],incidentContact:'SECURITY-CASE-QUEUE',updateObligation:'Notify the accountable owner before this supported release changes.',supportUntil:'2099-01-01',materialChange:'Exact synthetic release 3 assessed for the dynamic MIS activation fixture.',componentId:i.id,version:1,updatedBy:o.id,updatedAt:assuranceAt,findings:[],history:[]}];
+ sql.prepare('INSERT INTO operations (org_id,data) VALUES (?,?) ON CONFLICT(org_id) DO UPDATE SET data=excluded.data').run(org,JSON.stringify(assuranceOperations));
  await post(o,config,409);await post(o,{type:'activateMis',integrationId:i.id,version:i.version},409);await post(o,{type:'toggleIntegration',integrationId:i.id,version:i.version},409);await post(o,{type:'testMis',integrationId:i.id,version:i.version},409);
  // Simulate a previously onboarded profile in local D1 only. Transport stays disabled.
  i.status='active';i.mis.test={at:new Date().toISOString(),version:i.version,ok:true,message:'Fixture only'};sql.prepare('UPDATE integrations SET status=?,data=? WHERE org_id=? AND id=?').run(i.status,JSON.stringify(i),org,i.id);

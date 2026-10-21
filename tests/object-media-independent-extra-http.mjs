@@ -14,11 +14,12 @@ try{
  const bytes=new Uint8Array(700000);bytes.set([137,80,78,71,13,10,26,10]);for(let i=8;i<bytes.length;i++)bytes[i]=i%251;
  const key=crypto.randomUUID();
  const upload=async({who=actor,expected=actor.id,key:requestKey=key,body=bytes}={})=>{const r=await fetch(w.base+`/api/media?visitId=${v}&purpose=document-or-card`,{method:'POST',headers:{...who?.headers,'x-saha-organisation':org,'x-saha-expected-actor':expected,'Content-Type':'image/png','Idempotency-Key':requestKey},body});return {status:r.status,json:await r.json()};};
+ const review=async id=>api.call(actor,`/api/media/${id}/review`,{method:'POST',org,headers:{'x-saha-expected-actor':actor.id,'Idempotency-Key':crypto.randomUUID()},body:{scan:'clean',quality:'acceptable',personMatch:true,retention:'visit-record',note:'Synthetic independent object-media fixture reviewed for this visit.',extractionDrafts:[]}});
  const simultaneous=await Promise.all([upload(),upload()]);
  check(()=>assert.ok(simultaneous.some(r=>r.status===200),JSON.stringify(simultaneous)));
  check(()=>assert.ok(simultaneous.every(r=>[200,409,503].includes(r.status)),JSON.stringify(simultaneous)));
  const recovered=await upload();check(()=>assert.equal(recovered.status,200));check(()=>assert.equal(recovered.json.replayed,true));
- const id=recovered.json.mediaId,row=await db.prepare('SELECT * FROM media WHERE org_id=? AND id=?').bind(org,id).first(),ref=JSON.parse(row.storage_ref);
+ const id=recovered.json.mediaId,row=await db.prepare('SELECT * FROM media WHERE org_id=? AND id=?').bind(org,id).first(),ref=JSON.parse(row.storage_ref);const reviewed=await review(id);check(()=>assert.equal(reviewed.status,200,reviewed.text));
  const count=async table=>(await db.prepare(`SELECT count(*) n FROM ${table} WHERE org_id=?`).bind(org).first()).n;
  check(()=>assert.equal(simultaneous.find(r=>r.status===200).json.mediaId,id));
  const rows=await count('media'),intents=await count('media_custody'),receipts=(await db.prepare('SELECT count(*) n FROM command_receipts WHERE actor_id=? AND key=?').bind(actor.id,key).first()).n,objects=await bucket.list();

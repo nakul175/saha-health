@@ -33,7 +33,7 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 | TC-J09 | Consented ABDM retrieval and publication | BR-INT-13 (partial); BR-INT-15 (partial); BR-INT-18 (partial); BR-INT-19 (partial) | Not run |
 | TC-J10 | Cross facility referral and diagnostic return | BR-CARE-03 (partial); BR-INT-12 (partial); BR-INT-20 (partial) | Blocked |
 | TC-J11 | Coordinated chronic care follow up | BR-PROG-04 (partial); BR-CARE-05 (partial); BR-INT-21 (partial) | Not run |
-| TC-J12 | Supervisor outreach planning | BR-REP-06 (partial); BR-AG-11 (partial); BR-RULE-08 (implemented-local) | Not run |
+| TC-J12 | Supervisor outreach planning | BR-REP-06 (implemented-local); BR-AG-11 (partial); BR-RULE-08 (implemented-local) | Not run |
 
 ## Cases
 
@@ -332,7 +332,7 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 - **Requirements:** BR-SEC-03 (partial); BR-OFF-04 (partial). Priority Must, catalogue release R1.
 - **Catalogue:** End to end, fixture FX-J07, catalogue owner "Product QA and programme owner".
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-SEC-03, BR-OFF-04: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use the navigation of each role in the journey (plan section 6).
+- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path. An entry a role does not see in its navigation is not available to that role.
 - **Preconditions:** Catalogue precondition (target design): "Synthetic environment; role Patient through authorised worker; journey-specific providers and destinations configured as test adapters; no live clinical data." On hosted staging the "test adapters" are the seeded demonstration connectors (plan section 7); real providers, programme destinations, facilities and patients are not available. Sign in as each role the journey names (plan section 6); fixture FX-J07 cannot be loaded, so use synthetic records and note which.
 
 **Journey steps** (catalogue wording; record what you observed under each)
@@ -356,12 +356,12 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 **Known gaps** (assessment, remaining work per requirement):
 
-- BR-SEC-03 (partial): Destination notification with verified external outcomes, wider local copy inventory, physical-device/hosted privacy validation, real ABDM consent-manager revocation and approved policy for retained completed transactions. Legacy unobserved wire variants retain unknown proof; no permission to care-replay after withdrawal.
+- BR-SEC-03 (partial): Automated notification through approved real destinations and independent verification of their outcomes, wider deployed copy inventory, physical-device/hosted privacy validation, real ABDM consent-manager revocation and approved policy for retained completed transactions. Legacy unobserved wire variants retain unknown proof; no permission to care-replay after withdrawal.
 - BR-OFF-04 (partial): Provider/capability revalidation once media is sent to a provider; clinical adequacy of reduced photos; background upload; real-device, low-storage and eviction testing.
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
-- **BR-SEC-03:** Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. A06 adds original prepared-grant provenance, redacted own-only purge instructions after current care access is removed, encrypted revision-checked notebook/media deletion before durable client acknowledgement, and minimal tombstones preserving uncertain sync/media receipt references without blind care retries. Independent actual browser checks verify fail-closed known-refusal storage failures and offline reload on both surfaces; partial committed deletion batches survive later faults. Registration follow-up now records immutable original registration/match provenance, verifies the trusted original notebook account, clears cached candidate copies before connected reuse, and atomically removes known-withdrawn local registration copies while retaining unknown receipt proof. Append-only actual wire receipt mappings resolve observed raw/parsed ordering differences; pure privacy authority does not depend on a strict receipt lookup succeeding. Both surfaces pass synthetic encrypted-store and actual Worker recovery checks.
+- **BR-SEC-03:** Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. A06 adds original prepared-grant provenance, redacted own-only purge instructions after current care access is removed, encrypted revision-checked notebook/media deletion before durable client acknowledgement, and minimal tombstones preserving uncertain sync/media receipt references without blind care retries. Independent actual browser checks verify fail-closed known-refusal storage failures and offline reload on both surfaces; partial committed deletion batches survive later faults. Registration follow-up now records immutable original registration/match provenance, verifies the trusted original notebook account, clears cached candidate copies before connected reuse, and atomically removes known-withdrawn local registration copies while retaining unknown receipt proof. Append-only actual wire receipt mappings resolve observed raw/parsed ordering differences; pure privacy authority does not depend on a strict receipt lookup succeeding. Both surfaces pass synthetic encrypted-store and actual Worker recovery checks. SAHA-124 adds an append-only, patient-version-guarded request and reported-outcome trail for in-flight or already-sent external items, with evidence references, scoped care authority, patient revisions and explicit no-external-erasure wording; completed receipts remain immutable.
 - **BR-OFF-04:** Slice 3a: field-notebook queue of photos and voice notes with purpose, local quality checks and device retention, sealed per item; on reconnection the grant, patient access and draft visit are rechecked before upload, and failures route items to review without sending. Slices 3d and 3e: voice notes recorded in the notebook; camera photos re-encoded on the device under the size limit without embedded location metadata.
 
 </details>
@@ -486,7 +486,7 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
    - Observed: ______
 2. Send through the destination supported route and record acknowledgement.
    - Observed: ______
-3. The receiving service records assessment, attendance and result in its own authoritative system. **Blocked by default.** Not testable in current build: The assessment lists as remaining work “Facility-verified outcomes and external outcome evidence.” (BR-CARE-03, remaining field of requirements/assessment.tsv).
+3. The receiving service records assessment, attendance and result in its own authoritative system. **Blocked by default.** Not testable in current build: The assessment lists as remaining work “Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.” (BR-CARE-03, remaining field of requirements/assessment.tsv).
    - Observed: ______ (Blocked)
 4. Receive the result through the authorised EHR, ABDM or controlled document route.
    - Observed: ______
@@ -501,13 +501,13 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 **Known gaps** (assessment, remaining work per requirement):
 
-- BR-CARE-03 (partial): Facility-verified outcomes and external outcome evidence.
+- BR-CARE-03 (partial): Facility-verified outcomes, partner integration, formal QA and observed external outcome evidence.
 - BR-INT-12 (partial): Element-level author/device, receipt/effective time and transformation lineage for all resources.
 - BR-INT-20 (partial): Reference-partner profile covering all declared search/update/version/receipt/support behaviour.
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
-- **BR-CARE-03:** Dated referral events with evidence. Slice 4a adds accepted, scheduled (with appointment time), attended, did-not-attend, declined, cancelled and unknown states under an explicit transition table; closed states are immutable.
+- **BR-CARE-03:** Dated referral events with evidence. SAHA-101 locally distinguishes proposed, authorised, sent, received, scheduled, attended and completed states; completion requires prior attendance, a coded service outcome, evidence source/reference and the recording actor. Declined, cancelled, not-attended and unknown dispositions remain distinct; closed states are immutable.
 - **BR-INT-12:** Imported source documents, timestamps and local submission provenance retained.
 - **BR-INT-20:** Native FHIR capability profile gates document retrieval/publication.
 
@@ -568,10 +568,10 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 ### TC-J12 — Supervisor outreach planning
 
-- **Requirements:** BR-REP-06 (partial); BR-AG-11 (partial); BR-RULE-08 (implemented-local). Priority Must, catalogue release R2.
+- **Requirements:** BR-REP-06 (implemented-local); BR-AG-11 (partial); BR-RULE-08 (implemented-local). Priority Must, catalogue release R2.
 - **Catalogue:** End to end, fixture FX-J12, catalogue owner "Product QA and programme owner".
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-REP-06, BR-AG-11, BR-RULE-08: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use the navigation of each role in the journey (plan section 6).
+- **Start from:** Candidate governed population prioritisation (/prioritisation; human draft only; deployment pending). These are the screens the requirement's own evidence-map entry cites, not a verified click path. An entry a role does not see in its navigation is not available to that role.
 - **Preconditions:** Catalogue precondition (target design): "Synthetic environment; role Block supervisor; journey-specific providers and destinations configured as test adapters; no live clinical data." On hosted staging the "test adapters" are the seeded demonstration connectors (plan section 7); real providers, programme destinations, facilities and patients are not available. Sign in as each role the journey names (plan section 6); fixture FX-J12 cannot be loaded, so use synthetic records and note which.
 
 **Journey steps** (catalogue wording; record what you observed under each)
@@ -595,13 +595,13 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 **Known gaps** (assessment, remaining work per requirement):
 
-- BR-REP-06 (partial): Approved gap/risk measures and real data-quality/fairness validation.
+- BR-REP-06 (implemented-local): Clinical/programme approval of any deployment-specific criterion, real data-quality and fairness validation, formal TC-BR-REP-06-A/B and TC-J12 execution, independent source review, CI, merge and observed deployment remain separate gates.
 - BR-AG-11 (partial): Natural-language analysis under governance, validated definitions with an approval workflow, owner-defined measures, and differencing protection across viewers, non-nested filters and groupings.
 - BR-RULE-08 (implemented-local): Independent adversarial acceptance of the final agent catalogue.
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
-- **BR-REP-06:** Human cohort selection with recorded criteria and allocation rationale.
+- **BR-REP-06:** Governed operational care-gap criteria with independent configuration review, visible limitations and uncertainty, scoped supervisor selection, reasoned human inclusion/allocation overrides, stale authority/source invalidation, small-cohort refusal and draft-only outreach. The workflow never scores clinical risk, denies service, changes eligibility, worker pay or sanctions.
 - **BR-AG-11:** Slice 6d: a catalogue of eight versioned indicators queried over the viewer's scope with cohort minimum, small-cell and complementary suppression and freshness, plus a keyword interpreter that maps a question to catalogue entries for review without running it or using a model. Slice 6s: the catalogue is an owner-maintained registry of versioned definitions built from a fixed vocabulary of measures, filters and exclusions; the interpreter follows the registry; results name their definition version; one viewer's nested queries over seven days are checked for differencing and withheld when they would reveal a group of 1 to 4 people. Slice 6w: indicator queries are POST only (GET answers the catalogue and interpretation), a view no longer commits organisation-wide, and the CSV export is recorded as an access-audit event; differencing fixes as in BR-REP-04. Slice 6aa: indicator results carry the stated limits of small-group protection, and owners see them in the registry; the population-based differencing check withholds more results for small teams and narrow filters.
 - **BR-RULE-08:** Closed command catalogue has no denial, benefit sanction, pay or employment transaction.
 

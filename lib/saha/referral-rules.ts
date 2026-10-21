@@ -1,11 +1,12 @@
 // Slice 4a: referral lifecycle and escalation rules. Pure data and functions, shared by server and client.
-export const REFERRAL_STATES=['draft','sent','received','scheduled','attended','completed','declined','not-attended','cancelled','unknown'] as const;
+export const REFERRAL_STATES=['draft','authorised','sent','received','scheduled','attended','completed','declined','not-attended','cancelled','unknown'] as const;
 export type ReferralState=typeof REFERRAL_STATES[number];
 export const REFERRAL_EVENTS=REFERRAL_STATES.filter(s=>s!=='draft') as Exclude<ReferralState,'draft'>[];
 export const TERMINAL:ReadonlySet<string>=new Set(['completed','declined','cancelled']);
 // Which recorded event may follow the current state. Completion straight after acceptance stays allowed.
 export const NEXT:Record<ReferralState,readonly ReferralState[]>={
- draft:['sent','cancelled'],
+ draft:['authorised','cancelled'],
+ authorised:['sent','cancelled'],
  sent:['received','declined','unknown','cancelled'],
  received:['scheduled','attended','completed','declined','unknown','cancelled'],
  scheduled:['attended','not-attended','unknown','cancelled'],
@@ -14,9 +15,10 @@ export const NEXT:Record<ReferralState,readonly ReferralState[]>={
  unknown:['received','scheduled','attended','completed','declined','not-attended','cancelled'],
  completed:[],declined:[],cancelled:[],
 };
-export const STATE_LABEL:Record<ReferralState,string>={draft:'Draft',sent:'Sent',received:'Accepted by facility',scheduled:'Appointment scheduled',attended:'Attended',completed:'Completed',declined:'Declined',
+export const STATE_LABEL:Record<ReferralState,string>={draft:'Proposed',authorised:'Authorised',sent:'Sent',received:'Accepted by facility',scheduled:'Appointment scheduled',attended:'Attended',completed:'Completed',declined:'Declined',
  'not-attended':'Did not attend',cancelled:'Cancelled',unknown:'Outcome unknown'};
 export const URGENCIES=['routine','urgent','emergency'] as const;
+export const REFERRAL_OUTCOMES=['service-delivered','assessment-completed','treatment-started','care-transferred'] as const;
 export type Urgency=typeof URGENCIES[number];
 // Days past the due date before an open referral is escalated, by urgency.
 export const ESCALATE_AFTER:Record<Urgency,number>={emergency:0,urgent:1,routine:7};
@@ -33,6 +35,6 @@ export function escalation(r:{state:string;due?:string;ownerId?:string;urgency?:
  else if(r.due<today&&daysOverdue>ESCALATE_AFTER[urgency])reasons.push(`${urgency} referral overdue by ${daysOverdue} day${daysOverdue===1?'':'s'}`);
  else if(r.due<today)watch.push(`Overdue by ${daysOverdue} day${daysOverdue===1?'':'s'}`);
  if(['unknown','not-attended'].includes(r.state)){const since=r.events?.at(-1)?.occurredAt??r.createdAt,days=Math.floor((Date.parse(now)-Date.parse(since))/day);if(days>=STALE_UNCERTAIN_DAYS)reasons.push(`${r.state==='unknown'?'Outcome unknown':'Missed appointment'} for ${days} days`);else watch.push(r.state==='unknown'?'Outcome unknown':'Missed appointment');}
- if(urgency==='emergency'&&['draft','sent'].includes(r.state))reasons.push('Emergency referral not yet accepted');
+ if(urgency==='emergency'&&['draft','authorised','sent'].includes(r.state))reasons.push('Emergency referral not yet accepted');
  return reasons.length?{level:'escalated',reasons:[...reasons,...watch],daysOverdue}:watch.length?{level:'watch',reasons:watch,daysOverdue}:{level:'none',reasons:[],daysOverdue};
 }

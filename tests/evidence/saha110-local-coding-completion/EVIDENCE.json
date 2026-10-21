@@ -1,0 +1,46 @@
+{
+  "storyId": "SAHA-110",
+  "linearIssue": "APL-133",
+  "requirement": "BR-REP-04",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "frozenContract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-133.md",
+    "sha256": "e0d093307565a0a4e7872490ccd346d281ac8ae73ae9e672ad0e5112f439863d"
+  },
+  "applicationCodeGapsIdentified": 0,
+  "codingComplete": true,
+  "implementedOutcome": {
+    "aggregateSuppression": "minimum-five, contributor, complementary, cross-viewer, non-nested, composite and retained-history disclosure controls fail closed",
+    "patientDrilldown": "explicit reporting context requires approved reporting purpose plus independent patient-care scope",
+    "delegationBoundary": "reporting-only delegation never widens patient record access",
+    "patientExport": "download is reporting-context only, audited before release and guarded again against changed authority or record basis",
+    "aggregateExport": "scoped protected CSV remains reconciled, checksummed and audited"
+  },
+  "checks": {
+    "reportingPatientAccessContract": { "passed": 5, "failed": 0 },
+    "operationalPrivacyContract": { "passed": 41, "failed": 0 },
+    "operationalPrivacyExportContract": { "passed": 7, "failed": 0 },
+    "patientDirectoryContract": { "passed": 56, "failed": 0 },
+    "operationalPrivacyIndependentExtraContract": { "passed": 49, "failed": 0 },
+    "operationalPrivacyCompositeIndependentContract": { "passed": 57, "failed": 0 },
+    "operationalPrivacyCompositeMeasuresContract": { "passed": 57, "failed": 0 },
+    "focusedAssertions": { "passed": 272, "failed": 0 },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "diffCheck": "passed"
+  },
+  "fixtureRepairs": [
+    "Two direct contract runners now transpile the current installed-transition-authority dependency imported by programmes.ts; original oracles and minima are unchanged."
+  ],
+  "formalAcceptance": "pending",
+  "domainApproval": "pending",
+  "independentSourceReview": "pending",
+  "exactSourceCi": "not-run",
+  "merged": false,
+  "observedDeployed": false,
+  "files": [
+    { "path": "lib/saha/reporting-patient-access.ts", "sha256": "0d0a6027c65ed355cfce3a29f3d722530c4b9dffcbe4881b4d8bd7a2ded5ac6b" },
+    { "path": "lib/saha/patient-directory-server.ts", "sha256": "fee122cd1c8fe4fb68703851ed35444b1246ee087ed34b8c178c87856d062fcf" },
+    { "path": "tests/reporting-patient-access-contract.mjs", "sha256": "577793efe0f28558a2473892fdefb1cc352596c0833575436d2b82d0c1c27782" }
+  ]
+}

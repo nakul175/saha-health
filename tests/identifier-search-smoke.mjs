@@ -39,9 +39,9 @@ export async function identifierSearchSmoke({get,post,check,sql,base}){
  // 2. ABHA number format on the link command: 14 digits or hyphenated 2-4-4-4 (mixed grouping refused), stored grouped.
  await post_(o,{type:'abdmConfigure',environment:'mock',modules:{abha:true,hip:false,hiu:false},facilityId:'SYN-FACILITY-IDS',approvals:[{module:'abha',reference:'APPROVAL-ABHA-IDS'}],reason:'Synthetic mock configuration for the identifier test'});
  const abhaDigits=`${rnd(2)}${rnd(4)}${rnd(4)}${rnd(4)}`,abhaGrouped=`${abhaDigits.slice(0,2)}-${abhaDigits.slice(2,6)}-${abhaDigits.slice(6,10)}-${abhaDigits.slice(10)}`;
- for(const bad of [`${abhaDigits.slice(0,2)}-${abhaDigits.slice(2,10)}-${abhaDigits.slice(10)}`,abhaDigits.slice(0,13),`${abhaDigits}5`,`${abhaGrouped.slice(0,-1)}x`])await post_(o,{type:'abhaLink',personId:B,version:person(B).version,abhaNumber:bad,otp:'123456'},422);
- const badAbha=await post_(o,{type:'abhaLink',personId:B,version:person(B).version,abhaNumber:`${abhaDigits.slice(0,2)}-${abhaDigits.slice(2,10)}-${abhaDigits.slice(10)}`,otp:'123456'},422);check(()=>assert.match(badAbha.error,/14 digits or grouped 2-4-4-4 with hyphens/));
- await post_(o,{type:'abhaLink',personId:B,version:person(B).version,abhaNumber:abhaDigits,otp:'123456'});
+ for(const bad of [`${abhaDigits.slice(0,2)}-${abhaDigits.slice(2,10)}-${abhaDigits.slice(10)}`,abhaDigits.slice(0,13),`${abhaDigits}5`,`${abhaGrouped.slice(0,-1)}x`])await post_(o,{type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:B,version:person(B).version,abhaNumber:bad,demographicMatch:'matched',confirmed:true,otp:'123456'},422);
+ const badAbha=await post_(o,{type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:B,version:person(B).version,abhaNumber:`${abhaDigits.slice(0,2)}-${abhaDigits.slice(2,10)}-${abhaDigits.slice(10)}`,demographicMatch:'matched',confirmed:true,otp:'123456'},422);check(()=>assert.match(badAbha.error,/14 digits or grouped 2-4-4-4 with hyphens/));
+ await post_(o,{type:'abhaLink', demographicMatch:'matched', confirmed:true,personId:B,version:person(B).version,abhaNumber:abhaDigits,demographicMatch:'matched',confirmed:true,otp:'123456'});
  check(()=>{assert.equal(JSON.parse(sql.prepare('SELECT data FROM patients WHERE org_id=? AND id=?').get(org,B).data).abha.number,abhaGrouped,'stored in the grouped form');});
  // 3. The identifier ledger over HTTP: link with provenance, masked in snapshots and history, stored in full.
  const RA=rnd(12),KA=rnd(7),RN=rnd(12),RN2=rnd(12),RN3=rnd(12);

@@ -1,0 +1,1 @@
+export const AVAILABILITY_CADENCE_MS = 300000;

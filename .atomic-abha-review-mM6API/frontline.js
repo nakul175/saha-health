@@ -1,0 +1,113 @@
+import { carriesSensitive, sensitiveText } from './agent-minimisation.js';
+import { z } from 'zod';
+import { frontlineAgreement as agreement } from './service-identity.js';
+export { frontlineAgreement as agreement } from './service-identity.js';
+import { fail, visit } from './core.js';
+import { normallyAllowed } from './access.js';
+import { activeRestriction } from './rights.js';
+import { openDisputes } from './send-gate.js';
+import { environmentOf, livePolicy } from './environment.js';
+import catalog from './frontline/catalog.json.js';
+import { assess, hash, verify, validateInput, validateFields } from './frontline/rules.mjs.js';
+export const FRONTLINE = catalog;
+const RECEIPT_KEYS = ['action', 'appId', 'basis', 'clinicalUse', 'createdAt', 'customer', 'evidenceKind', 'evidenceText', 'fields', 'inferenceProvenance', 'inputHash', 'model', 'modelRole', 'priority', 'providerOrganisation', 'requestId', 'schemaVersion', 'signature', 'status', 'title'].join(',');
+export const runSchema = z.object({ action: z.literal('run'), appId: z.string(), visitId: z.string().min(1).max(200), version: z.number().int().positive(), consentVersion: z.number().int().positive(), agreementVersion: z.number().int().positive(), confirmed: z.literal(true), fields: z.record(z.union([z.number(), z.boolean()])), evidence: z.object({ kind: z.enum(['manual', 'sample', 'ocr', 'asr']), engine: z.string().max(100), text: z.string().max(4000) }).strict() }).strict();
+export const otherSchema = z.object({ action: z.enum(['lookup', 'review']), visitId: z.string().min(1).max(200), runId: z.string().min(1).max(100), decision: z.enum(['acknowledged', 'rejected']).optional(), reason: z.string().trim().min(5).max(500).optional() }).strict();
+export function config(appId, e) { const c = FRONTLINE.find(c => c.id === appId); if (!c)
+    fail(422, 'Unknown community-health app.'); if (environmentOf(e).name !== 'synthetic' || !livePolicy(e).allowed || e.SAHA_FRONTLINE_DEMO_ENABLED !== 'true')
+    fail(409, 'These apps are available only in the enabled synthetic demonstration.'); if (!(e.SAHA_ALLOWED_ORIGINS ?? '').split(',').map(x => x.trim()).includes(c.origin))
+    fail(409, 'Provider origin is not approved on this server.'); let settings; try {
+    settings = JSON.parse(e.SAHA_FRONTLINE_PROVIDERS_JSON ?? '{}');
+}
+catch {
+    fail(503, 'Provider settings are invalid.');
+} const s = settings[appId]; if (!s || s.origin !== c.origin || !s.key || s.key.length < 32 || !s.dispatch)
+    fail(409, 'This independent provider is not configured.'); return { ...c, ...s }; }
+export function access(s, m, visitId, e, appId, run) { const v = visit(s.workspace, visitId), p = s.workspace.people.find(p => p.id === v.personId); if (!['asha', 'clinician'].includes(m.role) || !normallyAllowed(m, p))
+    fail(403, 'An assigned care role is required.'); if (v.imported || v.state !== 'confirmed' || v.voidedAt || v.supersededBy)
+    fail(409, 'Open a current confirmed, non-imported visit.'); if (p.synthetic !== true || p.mergedInto || p.identityReview?.state === 'provisional')
+    fail(409, 'A resolved synthetic patient is required.'); if (!p.aiConsent || activeRestriction(p))
+    fail(409, 'Current AI permission without a processing restriction is required.'); if (s.operations?.maintenance)
+    fail(423, 'The organisation is paused.'); if (openDisputes(v).length)
+    fail(409, 'Resolve open visit disputes first.'); const c = config(appId, e), a = agreement(s, appId); if (!a.active)
+    fail(409, 'This provider is suspended.'); if (run && (run.visitVersion !== v.version || run.personVersion !== p.version || run.consentVersion !== p.consentVersion || run.agreementVersion !== a.version))
+    fail(409, 'Patient, visit, permission or provider agreement changed.'); return { v, p, c, a }; }
+export async function checkFrontlineEnvelope(c, run, input, sensitive = new Set()) { try {
+    validateInput(c, input);
+}
+catch {
+    fail(422, 'Frontline envelope differs from the approved contract. Review the observations; nothing was sent.');
+} if (input.requestId !== run.requestId || await hash(input) !== run.inputHash)
+    fail(409, 'Frontline input differs from its reserved digest. Review the observations; nothing was sent.'); if ([input.evidence.engine, input.evidence.text].some(text => carriesSensitive(text, sensitive) || identifierIn(text, { name: '', village: '' })))
+    fail(422, 'Remove names, village names, contact details and identifiers from the evidence before sending it. This safeguard is not a de-identification guarantee.'); }
+export async function invoke(run, e, input, send = fetch, sensitive = new Set()) {
+    const c = config(run.appId, e);
+    if (input)
+        await checkFrontlineEnvelope(c, run, input, sensitive);
+    const r = await send(c.origin + (input ? '/api/assess' : '/api/receipts/' + encodeURIComponent(run.requestId)), { method: input ? 'POST' : 'GET', headers: { Authorization: 'Bearer ' + c.key, 'OAI-Sites-Authorization': 'Bearer ' + c.dispatch, ...(input ? { 'Content-Type': 'application/json', 'Idempotency-Key': run.requestId } : {}) }, ...(input ? { body: JSON.stringify(input) } : {}), redirect: 'manual', signal: AbortSignal.timeout(20000) });
+    if (r.status === 202)
+        return null;
+    if (r.status !== 200)
+        throw Error('Provider response not confirmed.');
+    const reader = r.body?.getReader();
+    if (!reader)
+        throw Error('Missing result.');
+    let n = 0, parts = [];
+    for (;;) {
+        const x = await reader.read();
+        if (x.done)
+            break;
+        n += x.value.length;
+        if (n > 16000) {
+            await reader.cancel();
+            throw Error('Oversized result.');
+        }
+        parts.push(x.value);
+    }
+    const bytes = new Uint8Array(n);
+    let at = 0;
+    for (const x of parts) {
+        bytes.set(x, at);
+        at += x.length;
+    }
+    const j = JSON.parse(new TextDecoder().decode(bytes));
+    if (j.schemaVersion !== 'frontline.v1' || j.appId !== run.appId || j.requestId !== run.requestId || j.customer !== 'saha-demo' || j.inputHash !== run.inputHash || j.clinicalUse !== false || j.status !== 'review_required' || j.model !== c.model || j.providerOrganisation !== c.organisation || j.modelRole !== c.modelRole || !['review', 'prompt', 'urgent'].includes(j.priority) || !await verify(j, c.key))
+        throw Error('Provider receipt failed verification.');
+    validateFields(c, j.fields);
+    for (const k of ['title', 'action', 'basis', 'inferenceProvenance', 'evidenceText'])
+        if (typeof j[k] !== 'string' || j[k].length > 4000)
+            throw Error('Invalid result field.');
+    // Slice 13b (review of #145, L1): a verified signature proves who signed, not that the receipt answers this request. The receipt
+    // must have exactly the contract's keys; its observations and evidence must be exactly what Saha sent (the request hash is
+    // recomputed from them, with the engine recorded at reservation); and its prompt must be what the shared demonstration rules
+    // give for those observations. A run reserved before this slice has no recorded engine, so its lookup cannot recompute the hash.
+    const keys = Object.keys(j).sort().join(',');
+    if (keys !== RECEIPT_KEYS)
+        throw Error('Provider receipt does not match the service contract.');
+    const engine = input?.evidence?.engine ?? run.engine;
+    if (engine !== undefined && await hash({ schemaVersion: 'frontline.v1', appId: run.appId, requestId: run.requestId, environment: 'synthetic', confirmed: true, fields: j.fields, evidence: { kind: j.evidenceKind, engine, text: j.evidenceText } }) !== run.inputHash)
+        throw Error('Provider receipt does not answer the request Saha sent.');
+    const expected = assess(c, j.fields);
+    for (const k of ['clinicalUse', 'status', 'priority', 'title', 'action', 'basis'])
+        if (j[k] !== expected[k])
+            throw Error('Provider receipt does not follow the demonstration rules.');
+    if (j.inferenceProvenance !== (j.evidenceKind === 'asr' || j.evidenceKind === 'ocr' ? 'client-reported; not server-verified' : 'no AI inference claimed'))
+        throw Error('Provider receipt misstates how the text was produced.');
+    return j;
+}
+export function finish(s, m, visitId, runId, e, result) { const v = visit(s.workspace, visitId), r = v.frontlineRuns?.find(x => x.id === runId); if (!r)
+    fail(404, 'Request not found.'); if (!['running', 'uncertain'].includes(r.status))
+    return r; try {
+    access(s, m, visitId, e, r.appId, r);
+}
+catch {
+    r.status = 'blocked';
+    r.message = 'Result withheld after access, permission, visit or agreement changed.';
+    delete r.result;
+    return r;
+} r.status = result ? 'review' : 'uncertain'; r.message = result ? 'Independent provider receipt verified. Worker review required.' : 'No result confirmed. Check the same receipt; do not resend.'; if (result)
+    r.result = result; return r; }
+// Integration of #145 (review finding M3): the same identifier safeguard as other external AI sources (lib/saha/agent.ts):
+// e-mail addresses, phone-like numbers of 10 or more digits, and the patient's name or village. A safeguard, not de-identification.
+export function identifierIn(text, p) { const t = sensitiveText(text); return /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(t) || (t.match(/\+?\d[\d ()-]{8,}\d/g) ?? []).some(x => x.replace(/\D/g, '').length >= 10) || [p.name, p.village].filter(x => typeof x === 'string' && x.length >= 3).some(x => t.includes(sensitiveText(x))); }
+export { hash, validateInput };

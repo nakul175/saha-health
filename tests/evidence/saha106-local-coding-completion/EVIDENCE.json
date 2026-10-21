@@ -1,0 +1,86 @@
+{
+  "storyId": "SAHA-106",
+  "linearIssue": "APL-129",
+  "requirement": "BR-CARE-08",
+  "base": "af2a9cd6866e3cd5c7c10094d781ff7623d413b0",
+  "frozenContract": {
+    "path": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-129.md",
+    "sha256": "bf4bccabced36e95de7e91b2e77e47e3be11f80fb586223b8e96a88672fc15e1"
+  },
+  "applicationCodeGapsIdentified": 0,
+  "codingComplete": true,
+  "implementedOutcome": {
+    "activityStates": "performed, claimed, verified and submitted are separately derived and reviewable",
+    "corrections": "wrong-patient and superseded visits leave original trace/history but are removed from current derived counts",
+    "preparedEvidence": "submitted, verified and approved synthetic claim lines are marked stale when source evidence stops being current",
+    "recovery": "verification/approval fail closed on stale evidence; approved evidence is corrected through a linked reversal claim without mutation",
+    "scope": "server-enforced organisation/team/care scope; no location in worker rows and no patient identifier in approved-claim CSV",
+    "paymentBoundary": "synthetic placeholder units only; no payment promise or provider action"
+  },
+  "checks": {
+    "workerActivityContract": {
+      "passed": 12,
+      "failed": 0
+    },
+    "incentiveClaimsContract": {
+      "passed": 35,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "diffCheck": "passed"
+  },
+  "fixtureRepair": "Both legacy direct contract runners now transpile the existing installed-transition-authority dependency imported by programmes.ts; assertions and original oracles are unchanged.",
+  "formalAcceptance": "pending",
+  "domainApproval": "pending",
+  "independentSourceReview": "pending",
+  "exactSourceCi": "not-run",
+  "merged": false,
+  "observedDeployed": false,
+  "externalPending": [
+    "real scheme rates and rules",
+    "beneficiary or field verification",
+    "payment and reconciliation",
+    "buyer reporting",
+    "external anchoring or qualified signing",
+    "archive policy"
+  ],
+  "files": [
+    {
+      "path": "lib/saha/worker-activity.ts",
+      "sha256": "b27bf00faccadcd3d4df50f27f30245da0a7b6ef73f59bfd455a4db3e8ac7cff"
+    },
+    {
+      "path": "lib/saha/worker-activity-server.ts",
+      "sha256": "751b40e6ada5a23cada8cf7441fd544152136cc0a4c33715b08af20794aa0bd5"
+    },
+    {
+      "path": "lib/saha/incentives.ts",
+      "sha256": "64bb11da5380a09caa3efb4f2531e26c7112f7301d377ba0aa2a6b7cf5ae13c1"
+    },
+    {
+      "path": "lib/saha/incentives-view.ts",
+      "sha256": "c3706cfb4329a4168e2230f36a1d9fb575e72bc14ea17ec55c3c51847bb87c3a"
+    },
+    {
+      "path": "lib/saha/incentives-server.ts",
+      "sha256": "f6536216afa12bba324ddb3f6bd6c7aa7758fe518ace33e87cac2fbbbeb25cef"
+    },
+    {
+      "path": "app/worker-activity-panel.tsx",
+      "sha256": "c366531a5c152ecf87f772bc40906680333803f4e441c97a5493306588903ce9"
+    },
+    {
+      "path": "app/incentive-claims-panel.tsx",
+      "sha256": "6bac6c6a294510e105aee8d99feae241ad8016fb4926a1186476ac78f71724e7"
+    },
+    {
+      "path": "tests/worker-activity-contract.mjs",
+      "sha256": "515831e105901056ead60eda74a39d43cba89150a6a0bb448df63163685ffc1c"
+    },
+    {
+      "path": "tests/incentive-claims-contract.mjs",
+      "sha256": "1505328c6187312d316a80b9698761b6e08bb72a84b855435e21c1f46c801121"
+    }
+  ]
+}

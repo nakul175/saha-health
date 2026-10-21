@@ -1,0 +1,40 @@
+{
+  "storyId": "SAHA-083",
+  "linearIssue": "APL-106",
+  "title": "ABDM participation scope",
+  "contractPath": "outputs/saha-product-plan-v4.2/plan/backlog/issues/APL-106.md",
+  "contractSha256": "aa9ce178b0da289a29822936734b6a709173d46bc2ae53a39b33b525d5675e5a",
+  "completedAtUtc": "2026-10-16T10:11:04Z",
+  "definition": "No identified local application-code gap remains against the frozen SAHA-083 scope; formal acceptance, partner onboarding, sandbox credentials, facility registry verification, independent review, CI, merge and deployment remain separate.",
+  "implementation": [
+    "Records explicit approved ABDM roles and operations per deployment, including the complete declared role vocabulary for ABHA, Scan and Share, HIP, HIU, consented exchange and NHCX.",
+    "Binds the declaration to environment, facility, a non-secret client credential reference, active responsible organisation owner and owner evidence.",
+    "Refuses role-operation mismatches, inactive or non-owner responsibility, undeclared operations, unapproved modules and stale concurrent configuration writes before side effects.",
+    "Shows the resulting participation declaration in administration and preserves the existing local-mock-only boundary."
+  ],
+  "changedFiles": [
+    "lib/saha/abdm.ts",
+    "lib/saha/abdm-transfer.ts",
+    "app/abdm-panel.tsx",
+    "tests/abdm-participation-contract.mjs"
+  ],
+  "verification": [
+    {"command": "node tests/abdm-participation-contract.mjs", "result": "PASS", "checks": 11, "coverage": "positive, refusal, authorization, no-side-effect, stale-write race"},
+    {"command": "node tests/abdm-contract.mjs", "result": "PASS", "checks": 14},
+    {"command": "node tests/abdm-transfer-contract.mjs", "result": "PASS", "checks": 21},
+    {"command": "node tests/adapter-operations-contract.mjs", "result": "PASS", "checks": 14},
+    {"command": "node node_modules/typescript/bin/tsc --noEmit", "result": "PASS"},
+    {"command": "npm run build", "result": "PASS", "note": "Production build completed; existing chunk-size advisory only."}
+  ],
+  "codingComplete": true,
+  "tested": true,
+  "ciPassed": false,
+  "merged": false,
+  "observedDeployed": false,
+  "remainingExternal": [
+    "ABDM sandbox and production onboarding",
+    "real credential provisioning and facility registry verification",
+    "partner conformance and formal TC-BR-INT-13-A/B and TC-J09 execution",
+    "independent and accountable domain review"
+  ]
+}

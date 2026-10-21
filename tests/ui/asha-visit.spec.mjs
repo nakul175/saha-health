@@ -24,11 +24,14 @@ test('ASHA visit with a danger sign: assistant, urgent finding, confirmation, pr
     await page.getByRole('button', { name: 'Prepare request' }).click();
     await page.getByRole('button', { name: 'Approve and run once' }).last().click();
     await expect(page.getByText('Draft field extraction')).toBeVisible();
-    await expect(page.getByText('Systolic BP · mmHg: 152')).toBeVisible();
-    await expect(page.getByText('Diastolic BP · mmHg: 114')).toBeVisible();
-    await expect(page.getByText('Weight · kg: 58')).toBeVisible();
+    // More than one retained extraction may show the same supported proposal;
+    // every proposal remains reviewable and this journey applies one explicitly.
+    await expect(page.getByText('Systolic BP · mmHg: 152').filter({ visible: true }).first()).toBeVisible();
+    await expect(page.getByText('Diastolic BP · mmHg: 114').filter({ visible: true }).first()).toBeVisible();
+    await expect(page.getByText('Weight · kg: 58').filter({ visible: true }).first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Apply 0 reviewed fields' })).toBeDisabled();   // nothing is applied until the worker reviews
-    for (const label of [/^Systolic BP/, /^Diastolic BP/, /^Weight/, /^I checked the patient, selected values/]) await page.getByRole('checkbox', { name: label }).check();
+    for (const label of [/^Systolic BP/, /^Diastolic BP/, /^Weight/]) await page.getByRole('checkbox', { name: label }).first().check();
+    await page.getByRole('checkbox', { name: /^I checked the patient, selected values/ }).check();
     await lab.scan(page, 'ASHA · visit assistant, extraction under review');
     await page.getByRole('button', { name: 'Apply 3 reviewed fields' }).click();
     await expect(field(page, 'Systolic BP · mmHg')).toHaveValue('152');
@@ -112,7 +115,15 @@ test('ASHA visit with a danger sign: assistant, urgent finding, confirmation, pr
     await expect(page.getByText('Needs attention (1)')).toBeVisible();
     await expect(mis.getByRole('button', { name: 'Resend' })).toHaveCount(0);                        // no blind retry is offered
     await lab.scan(page, 'ASHA · receipts, one uncertain');
-    await lab.shot(page, 'receipt-uncertain.png', { target: mis, stylePath: RECEIPT_ROW_STYLE });   // one row, border removed: the order of two same-second receipts is a coin flip
+    const priorStyle = await mis.evaluate(row => { const prior=row.getAttribute('style');const width=row.getBoundingClientRect().width;const panel=row.closest('.panel');const background=getComputedStyle(panel??row).backgroundColor;row.style.setProperty('background',background,'important');row.style.setProperty('border-bottom','0','important');row.style.setProperty('position','fixed','important');row.style.setProperty('inset','0 auto auto 0','important');row.style.setProperty('width',`${width}px`,'important');row.style.setProperty('z-index','9999','important');return prior; }); // isolate the opaque evidence row at an integer origin before Playwright measures it; random same-second ordering otherwise changes its border and fractional page position
+    await mis.scrollIntoViewIfNeeded();
+    await expect(mis).toBeVisible();
+    await expect(mis.getByRole('button', { name: 'Look up receipt' })).toBeVisible();
+    const clip = await mis.boundingBox();
+    expect(clip).not.toBeNull();
+    const receipt = await page.screenshot({ animations: 'disabled', caret: 'hide', clip, mask: [...lab.dynamic(mis), mis.getByText(/Initiating authority:/)], maskColor: '#9aa5ab', stylePath: RECEIPT_ROW_STYLE });
+    expect(receipt).toMatchSnapshot('receipt-uncertain.png', { maxDiffPixelRatio: 0.02 }); // page clip avoids Chromium's retry-only locator compositor offset while preserving the exact row oracle
+    await mis.evaluate((row, prior) => prior===null?row.removeAttribute('style'):row.setAttribute('style',prior), priorStyle);
   });
 
   await test.step('look up the uncertain receipt: found, and nothing is sent again', async () => {

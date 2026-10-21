@@ -1,0 +1,124 @@
+import { z } from 'zod';
+import { identity, db, json, runtime, command } from './server.js';
+import { readState, scope } from './store.js';
+import { fail, digest } from './core.js';
+import { environmentOf } from './environment.js';
+import { recordAccess } from './access-audit.js';
+import { boundedJsonBody } from './request-body.js';
+import { capabilityRegistrationInput, registrationCommand, registrationProjection, registrationProvider, registrationOriginalAuthority, registrationReceipt, capabilityRegistrationSaved } from './capability-registration.js';
+import { capabilityRegistrationTransferProof, CAPABILITY_REGISTRATION_TRANSFER_SQL } from './capability-registration-read-guard.js';
+const ref = z.string().trim().min(1).max(200);
+const queries = ['SELECT id,name,revision FROM organisations WHERE id=?', 'SELECT m.user_id,m.role,m.status,m.version,m.is_owner,a.display_name FROM memberships m JOIN accounts a ON a.user_id=m.user_id WHERE m.org_id=? ORDER BY m.user_id', 'SELECT user_id,team_id FROM team_members WHERE org_id=? ORDER BY user_id,team_id', 'SELECT id,name FROM teams WHERE org_id=? ORDER BY id', 'SELECT id,version,kind,status,data FROM integrations WHERE org_id=? ORDER BY id', 'SELECT data FROM operations WHERE org_id=?', 'SELECT data FROM governance WHERE org_id=?', CAPABILITY_REGISTRATION_TRANSFER_SQL];
+async function proof(org) { return (await db().batch(queries.map(sql => db().prepare(sql).bind(org)))).map(x => x.results); }
+async function binding(request) { if (!['synthetic', 'training'].includes(environmentOf(runtime()).name))
+    fail(409, 'Use a synthetic or training capability registration workspace.'); const actor = await identity(), org = ref.safeParse(request.headers.get('x-saha-organisation')); if (!org.success)
+    fail(400, 'Choose one explicit organisation.'); const expected = request.headers.get('x-saha-operation-actor'); if (expected !== null && expected !== actor.userId)
+    fail(403, 'The original signed-in owner account is required.'); return { actor, org: org.data }; }
+async function current(actor, org, dispatch = false) {
+    const before = await proof(org), state = await readState(db(), org, [], actor.userId, true), member = scope(state, actor.userId);
+    if (!member.isOwner)
+        fail(403, 'A current deployment owner is required.');
+    const single = (rows, source, name) => { if (rows.length > 1)
+        fail(503, 'Current ' + name + ' source is unavailable.'); let value; try {
+        value = rows.length ? JSON.parse(rows[0].data) : undefined;
+    }
+    catch {
+        fail(503, 'Current ' + name + ' source is unavailable.');
+    } if (value !== undefined && (!value || typeof value !== 'object' || Array.isArray(value)))
+        fail(503, 'Current ' + name + ' source is unavailable.'); if (JSON.stringify(value ?? {}) !== JSON.stringify(source ?? {}))
+        fail(409, 'Current ' + name + ' changed.'); };
+    single(before[5], state.operations, 'organisation');
+    single(before[6], state.governance, 'governance');
+    const connectors = before[4];
+    if (connectors.length !== state.workspace.integrations.length)
+        fail(409, 'Registered provider configuration changed.');
+    for (const row of connectors) {
+        let raw;
+        try {
+            raw = JSON.parse(row.data);
+        }
+        catch {
+            fail(503, 'Registered provider metadata is unavailable.');
+        }
+        const loaded = state.workspace.integrations.find(x => x.id === row.id);
+        if (!loaded || raw.id !== row.id || raw.version !== row.version || raw.kind !== row.kind || raw.status !== row.status || JSON.stringify(raw) !== JSON.stringify(loaded))
+            fail(409, 'Registered provider metadata changed.');
+    }
+    const transfer = capabilityRegistrationTransferProof(before[7], new Date().toISOString(), dispatch), value = await registrationProjection(state, actor.userId, before, runtime(), transfer.refreshAt);
+    await recordAccess(db(), state, actor, member, { action: 'viewWorkspace', subject: org, detail: 'Minimal capability draft registration metadata; no patient records, credential, evaluation, provider invocation, approval or activation.' });
+    const after = await proof(org);
+    if (JSON.stringify(before) !== JSON.stringify(after))
+        fail(409, 'Owner, governance or registered provider context changed. Refresh authority.');
+    capabilityRegistrationTransferProof(after[7], new Date().toISOString(), dispatch);
+    if (value.refreshAt && Date.parse(value.refreshAt) <= Date.now())
+        fail(409, 'Assignment context expired.');
+    return { context: value, state, raw: after };
+}
+function reply(value, actor, org) { const r = json(value); r.headers.set('x-saha-operation-actor', actor.userId); r.headers.set('x-saha-organisation', org); return r; }
+export async function capabilityRegistrationRead(request) { const { actor, org } = await binding(request); if (new URL(request.url).search)
+    fail(400, 'Registration metadata does not accept URL instructions.'); return reply((await current(actor, org)).context, actor, org); }
+export async function capabilityRegistrationWrite(request) {
+    const { actor, org } = await binding(request);
+    if (request.headers.get('x-saha-operation-actor') !== actor.userId)
+        fail(403, 'Bind the original signed-in owner before registration.');
+    if (new URL(request.url).search)
+        fail(400, 'Registration does not accept URL instructions.');
+    const origin = request.headers.get('origin');
+    if (origin && origin !== new URL(request.url).origin || request.headers.get('sec-fetch-site') === 'cross-site')
+        fail(403, 'Cross-origin changes are not allowed.');
+    if (!request.headers.get('content-type')?.startsWith('application/json'))
+        fail(415, 'Use JSON for this action.');
+    const parsed = capabilityRegistrationInput.safeParse(await boundedJsonBody(request, 16000)), key = z.string().uuid().safeParse(request.headers.get('idempotency-key'));
+    if (!parsed.success)
+        fail(422, 'Manifest incomplete: ' + parsed.error.issues.map(x => x.path.join('.') + ': ' + x.message).join('; ').slice(0, 800));
+    if (!key.success)
+        fail(422, 'Keep one original UUID operation key.');
+    const c = parsed.data, original = registrationCommand(c), hash = await digest(original), initial = await current(actor, org);
+    registrationProvider(c, initial.context);
+    registrationOriginalAuthority(initial.state, actor.userId, c);
+    const saved = await db().prepare('SELECT org_id,hash,command_type,result FROM command_receipts WHERE actor_id=? AND key=?').bind(actor.userId, key.data).first();
+    if (saved && (saved.org_id !== org || saved.hash !== hash || saved.command_type !== 'createGovernance'))
+        fail(409, 'This key belongs to another original operation.');
+    let result, replayed = false;
+    if (saved) {
+        result = JSON.parse(saved.result);
+        replayed = true;
+    }
+    else {
+        const final = await current(actor, org, true);
+        registrationProvider(c, final.context);
+        registrationOriginalAuthority(final.state, actor.userId, c);
+        if (c.contextHash !== final.context.contextHash)
+            fail(409, 'Registration source changed. Refresh before a new action.');
+        const headers = new Headers(request.headers);
+        headers.delete('content-length');
+        headers.set('x-saha-organisation', org);
+        await command(new Request(request.url, { method: 'POST', headers, body: JSON.stringify(original) }));
+        const received = await db().prepare('SELECT org_id,hash,command_type,result FROM command_receipts WHERE actor_id=? AND key=?').bind(actor.userId, key.data).first();
+        if (!received || received.org_id !== org || received.hash !== hash || received.command_type !== 'createGovernance')
+            fail(409, 'The original local receipt could not be matched. Keep the exact attempt unresolved.');
+        result = JSON.parse(received.result);
+    }
+    const latest = await current(actor, org);
+    registrationProvider(c, latest.context);
+    registrationOriginalAuthority(latest.state, actor.userId, c);
+    let operation;
+    try {
+        operation = await registrationReceipt(c, result, latest.state, actor.userId);
+    }
+    catch {
+        fail(409, 'Current manifest cannot be bound to the original receipt. Keep the exact attempt unresolved.');
+    }
+    // Receipt and authority are checked in one last consistent batch; no awaited
+    // computation follows the proof before disclosing the bound registration result.
+    const final = await db().batch([db().prepare('SELECT org_id,hash,command_type,result FROM command_receipts WHERE actor_id=? AND key=?').bind(actor.userId, key.data), ...queries.map(sql => db().prepare(sql).bind(org))]);
+    const receipt = final[0].results;
+    if (receipt.length !== 1 || receipt[0].org_id !== org || receipt[0].hash !== hash || receipt[0].command_type !== 'createGovernance' || receipt[0].result !== JSON.stringify(result))
+        fail(409, 'The original receipt changed before readback.');
+    // The exact latest source is also pinned by the context hash. A synchronous
+    // digest is unavailable here, so current retains raw rows for exact equality.
+    if (JSON.stringify(final.slice(1).map(x => x.results)) !== JSON.stringify(latest.raw))
+        fail(409, 'Registration authority or source changed before readback.');
+    capabilityRegistrationTransferProof(final[8].results, new Date().toISOString());
+    return reply(capabilityRegistrationSaved.parse({ context: latest.context, operation: { key: key.data, ...operation, replayed } }), actor, org);
+}
