@@ -1,6 +1,6 @@
 {
   "story": "SAHA-130",
-  "recordedAt": "2026-10-21T03:22:00Z",
+  "recordedAt": "2026-10-21T04:35:00Z",
   "approvalRecord": "outputs/saha-140-qa/SAHA-130-PRODUCT-POLICY-APPROVAL.json",
   "approvalRecordSha256": "109041a0a2c377188ae4af17acd90b0b2d1c7335906cf814476a597b7a454bec",
   "commits": {
@@ -10,7 +10,10 @@
     "independentAuditGateRepair": "befad0a7",
     "delegatedDefaults": "b4d6dba4",
     "configuredProductWindows": "e0d2a8f5",
-    "syntheticProviderContract": "09a89c05"
+    "syntheticProviderContract": "09a89c05",
+    "crossClassQa": "ca27a473",
+    "applicationPolicyWiring": "9c9d579e",
+    "runtimeProviderWiring": "6e67168c"
   },
   "checks": {
     "retentionClassPolicy": "48/48 pass",
@@ -18,7 +21,10 @@
     "syntheticS3VersionedDeletion": "20/20 pass; no network or credentials",
     "crossClassQa": "21/21 pass; local refusal and restore-filter behavior only",
     "typecheck": "pass",
-    "productionBuild": "pass with existing chunk-size advisory"
+    "productionBuild": "pass with existing chunk-size advisory",
+    "retentionApi": "22/22 pass",
+    "runtimeProviderWiring": "25/25 pass; no network or credentials",
+    "dataExitRetention": "28/28 pass"
   },
   "implementedBoundary": [
     "Explicit fail-closed disposition states for patient records, model outputs, field packages, local caches, audit events, exports and backups",
@@ -38,6 +44,6 @@
     "Approved backup recovery window and provider generation deletion interface",
     "Verified conditional/version-specific hosted-object deletion provider primitive"
   ],
-  "verdict": "QA_HOLD",
-  "reason": "The approved conservative policy enabled safe interfaces and refusal paths, but the authoritative class-specific and provider inputs required to execute and verify disposal do not yet exist. No whole-story, main, staging or production completion is claimed."
+  "verdict": "ENGINEERING_COMPLETE_QA_HOLD",
+  "reason": "The approved product defaults, application refusal/disposition paths, cross-class checks and production-only provider seam are implemented and independently reviewed with no P0/P1 defect. Whole-story acceptance remains QA_HOLD until authoritative external device, destination, backup, audit and real-provider evidence plus genuine required approvals exist. No main, staging or production completion is claimed."
 }
