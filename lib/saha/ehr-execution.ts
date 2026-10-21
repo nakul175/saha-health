@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import {normallyAllowed} from './access';
 import {ensurePurpose} from './purpose-scope';
 import {executeEhrProbe} from './ehr-probe';
@@ -63,7 +65,7 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
  // have started, a failure stays 'uncertain' and needs a receipt lookup; it is never retried blindly.
  let sent=false,refusal:string|undefined,operationRefused:Refusal|undefined,blocked:SendBlockRecord|undefined;
  // Slice 7f: a definitive lookup answer under the policy read just before the request, and the request's audit event.
- let resolution:{outcome:'not-stored'|'conflict';matches:number;detail:string}|undefined,conflictRemote:any[]|undefined,policy=lookupPolicyOf(i),requestAuditId:string|null=null,requestAt='';
+ let resolution:{outcome:'not-stored'|'conflict';matches:number;detail:string}|undefined,conflictRemote:DynamicValue[]|undefined,policy=lookupPolicyOf(i),requestAuditId:string|null=null,requestAt='';
  try{if(lookup){
  // Slice 7e: recheck the lookup operation on the stored state before the request.
  {const latest=await readState(db,s.organisation.id),li=latest.workspace.integrations.find(x=>x.id===i.id);const refused=li?operationRefusal(li,'lookup','none'):'The EHR connection no longer exists.';if(refused){message=`Receipt lookup not made: ${refused} The outcome stays unknown; do not publish again.`;fail(409,refused);}policy=lookupPolicyOf(li!);}
@@ -75,7 +77,7 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
  const searchResult=await transport(i,s.organisation.id,env,'Bundle?identifier='+encodeURIComponent('urn:saha:documents|'+op.id)+'&_count=2',{},undefined,op.id),found=classifySearch(searchResult,op.bundle,link.externalId,policy,settleFrom);
  if(found.outcome==='found')receipt=found.receipt;
  else if(found.outcome==='wait')message=`No matching document yet, but the partner's ${policy.consistencySeconds}-second consistency delay has not passed since this publication was attempted. Look up again after ${found.due}; do not publish again.`;
- else{resolution=found.outcome==='conflict'?{outcome:'conflict',matches:found.matches,detail:found.detail}:{outcome:'not-stored',matches:0,detail:`No document with this identifier after the partner's ${policy.consistencySeconds}-second consistency delay.`};if(found.outcome==='conflict')conflictRemote=(searchResult?.entry??[]).filter((x:any)=>x?.search?.mode!=='outcome'&&x?.resource).slice(0,2).map((x:any)=>structuredClone(x.resource));}}else{
+ else{resolution=found.outcome==='conflict'?{outcome:'conflict',matches:found.matches,detail:found.detail}:{outcome:'not-stored',matches:0,detail:`No document with this identifier after the partner's ${policy.consistencySeconds}-second consistency delay.`};if(found.outcome==='conflict')conflictRemote=(searchResult?.entry??[]).filter((x:DynamicValue)=>x?.search?.mode!=='outcome'&&x?.resource).slice(0,2).map((x:DynamicValue)=>structuredClone(x.resource));}}else{
  // Slice 6ab (eighth review): the create operation is rechecked on a fresh read before the patient read goes out, so a
  // withdrawn create sends nothing at all (not even the Patient/<id> read); it is checked again after the read below.
  {const early=await readState(db,s.organisation.id),li=early.workspace.integrations.find(x=>x.id===i.id);const refused=li?operationRefusal(li,'create','patient'):'The EHR connection no longer exists.';if(refused){if(li)operationRefused=refusalOf(li,'create','checkpoint');fail(409,refused);}

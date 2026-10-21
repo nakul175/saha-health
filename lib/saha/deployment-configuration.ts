@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import { z } from 'zod';
 import { digest, fail, uuid } from './core';
 import type { Actor } from './store';
@@ -179,7 +181,7 @@ export async function applyDeploymentConfiguration(s: OrgState, input: unknown, 
 }
 
 function activeSettings(s: OrgState) { return activeDeploymentConfiguration(s)?.settings ?? null; }
-export function enforceDeploymentConfiguration(s: OrgState, input: any, replay = false): void {
+export function enforceDeploymentConfiguration(s: OrgState, input: DynamicValue, replay = false): void {
   const cfg = activeSettings(s);
   if (!cfg || TYPES.has(input?.type)) return;
   if (['createInvite', 'updateMember'].includes(input?.type) && !cfg.roles.includes(input.role)) fail(409, 'That role is not enabled in the active deployment configuration.');

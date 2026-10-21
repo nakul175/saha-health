@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import { z } from 'zod';
 import { AppError, fail, uuid } from './core';
 import { canonicalSpec, indicatorRun, manager, MIN_CELL, resolveDefinition, type Series } from './indicators';
@@ -40,7 +42,7 @@ export function compactReports(s:OrgState,now:string,expire=true){
   if(!expire){}
   else if(r.state==='prepared'&&Date.parse(r.preparedAt)+window<t){r.state='cancelled';reportEvent(r,now,`Expired: not approved within ${APPROVAL_HOURS} hours of preparation. Nothing was sent; prepare a new report if it is still needed.`);closed.push(r);}
   else if(r.state==='approved'&&(!r.expiresAt||r.expiresAt<now)){r.state='cancelled';reportEvent(r,now,`Expired: not sent within ${APPROVAL_HOURS} hours of approval. Nothing was sent; prepare a new report if it is still needed.`);closed.push(r);}
-  if(!OPEN_STATES.includes(r.state)&&(r as any).payload)delete (r as any).payload;
+  if(!OPEN_STATES.includes(r.state)&&(r as DynamicValue).payload)delete (r as DynamicValue).payload;
  }
  return closed;
 }
@@ -58,7 +60,7 @@ export type MinimisationCheck={at:string;stage:'prepare'|'before-send'|'checkpoi
 export type ReportEvent={at:string;state:string;detail:string;ref?:TraceRef;attempt?:number};
 export type Cell={group:string;value:number|null;numerator:number|null;denominator:number|null;suppressed:boolean};
 export type Block={team:string;indicator:string;version:number;unit:'count'|'proportion';withheld:'cohort'|'differencing'|null;cells:Cell[]};
-export type AggregateReporting={version:1;evaluatedAt:string;window:{since:string;until:string};coverage:'operator-declared-complete'|'incomplete-or-unknown';clinicalDenominator:'unknown';evidenceBasis:string;evidenceDigest:string;calendars:any[];affectedDenominatorCoverage:any[];affectedSourcePeriods:any[];sources:any[];freshness:any;notice:string};
+export type AggregateReporting={version:1;evaluatedAt:string;window:{since:string;until:string};coverage:'operator-declared-complete'|'incomplete-or-unknown';clinicalDenominator:'unknown';evidenceBasis:string;evidenceDigest:string;calendars:DynamicValue[];affectedDenominatorCoverage:DynamicValue[];affectedSourcePeriods:DynamicValue[];sources:DynamicValue[];freshness:DynamicValue;notice:string};
 export type AggregatePayload={contract:typeof AGGREGATE_CONTRACT;environment:'synthetic';operation:'aggregate';report:{id:string;period:{start:string;end:string};group:AggregateGroup;minimumCell:number;computedAt:string};manifest:{definitions:{id:string;version:number;canonicalSha256:string}[];rows:number;sha256:string};reporting:AggregateReporting;blocks:Block[]};
 export type AggregateReport={id:string;destinationId:string;destinationName:string;definitions:string[];period:{start:string;end:string};teamIds:string[];group:AggregateGroup;computedAt:string;
  state:'prepared'|'approved'|'sending'|'accepted'|'rejected'|'uncertain'|'cancelled';preparedBy:string;preparedByName:string;preparedAt:string;approvedBy?:string;approvedByName?:string;approvedAt?:string;expiresAt?:string;
@@ -73,15 +75,15 @@ export const aggregateSchema=z.discriminatedUnion('type',[
 ]);
 export type AggregateCommand=z.infer<typeof aggregateSchema>;
 export const AGGREGATE_TYPES=new Set(['prepareAggregateReport','approveAggregateReport','sendAggregateReport','lookupAggregateReport']);
-export const reportsOf=(s:OrgState):AggregateReport[]=>((s.operations as any)?.aggregateReports??[]) as AggregateReport[];
-export const reportList=(s:OrgState):AggregateReport[]=>{const ops=(s.operations??={version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null}) as any;return (ops.aggregateReports??=[]);};
+export const reportsOf=(s:OrgState):AggregateReport[]=>((s.operations as DynamicValue)?.aggregateReports??[]) as AggregateReport[];
+export const reportList=(s:OrgState):AggregateReport[]=>{const ops=(s.operations??={version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null}) as DynamicValue;return (ops.aggregateReports??=[]);};
 export function findReport(s:OrgState,reportId:string){const r=reportsOf(s).find(x=>x.id===reportId);if(!r)fail(404,'Aggregate report not found.');return r!;}
 // Who may act on a report: an active owner or supervisor (not an administrator or ASHA, as for indicators) whose own
 // teams include every team in it. Owner authority does not widen the teams: owners report on their own teams too.
 export function reportingScope(m:Member,teamIds:string[]){manager(m);if(teamIds.some(t=>!m.teamIds.includes(t)))fail(403,'Choose teams in your own reporting scope.');}
 // Checked on first run and again when a saved command is replayed.
 export function authorizeAggregate(s:OrgState,m:Member,c:{type:string}){
- if(!AGGREGATE_TYPES.has(c.type))return;const x=c as any;
+ if(!AGGREGATE_TYPES.has(c.type))return;const x=c as DynamicValue;
  if(c.type==='prepareAggregateReport'){reportingScope(m,Array.isArray(x.teamIds)?x.teamIds:[]);return;}
  const r=reportsOf(s).find(y=>y.id===x.reportId);if(r)reportingScope(m,r.teamIds);else manager(m);
 }
@@ -107,8 +109,8 @@ export function periodWindow(period:{start:string;end:string},now=new Date()){
 }
 export async function sha256Hex(text:string){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))].map(b=>b.toString(16).padStart(2,'0')).join('');}
 // Canonical JSON (sorted keys) so the SHA-256 is stable whatever order the fields were built in.
-export const canonical=(v:unknown):string=>Array.isArray(v)?`[${v.map(canonical).join(',')}]`:v&&typeof v==='object'?`{${Object.keys(v as object).sort().map(k=>`${JSON.stringify(k)}:${canonical((v as any)[k])}`).join(',')}}`:JSON.stringify(v);
-export type TeamRun={teamId:string;teamName:string;series:Series[];results:any[]|null};
+export const canonical=(v:unknown):string=>Array.isArray(v)?`[${v.map(canonical).join(',')}]`:v&&typeof v==='object'?`{${Object.keys(v as object).sort().map(k=>`${JSON.stringify(k)}:${canonical((v as DynamicValue)[k])}`).join(',')}}`:JSON.stringify(v);
+export type TeamRun={teamId:string;teamName:string;series:Series[];results:DynamicValue[]|null};
 // Runs each named definition for each team (one indicator query per team, filtered to that team). A team below
 // the minimum cohort is withheld whole, as the indicator page refuses it.
 export function computeRuns(s:OrgState,m:Member,r:{definitions:string[];teamIds:string[];group:AggregateGroup;period:{start:string;end:string}},now:Date):TeamRun[]{
@@ -126,9 +128,9 @@ export async function buildPayload(s:OrgState,reportId:string,r:{definitions:str
  const defs=r.definitions.map(ref=>resolveDefinition(s,ref));
  const blocks:Block[]=[];
  for(const run of runs)for(const d of defs){
-  const res=run.results?.find((x:any)=>x.id===d.id&&x.version===d.version),ok=released.get(run.teamId)?.has(d.id+'@'+d.version);
+  const res=run.results?.find((x:DynamicValue)=>x.id===d.id&&x.version===d.version),ok=released.get(run.teamId)?.has(d.id+'@'+d.version);
   const withheld:Block['withheld']=!run.results?'cohort':res?.refused==='cohort'?'cohort':!ok?'differencing':null;
-  blocks.push({team:run.teamName,indicator:d.id,version:d.version,unit:d.spec.unit,withheld,cells:withheld?[]:(res.rows as any[]).map(c=>({group:c.group,value:c.suppressed?null:c.value,numerator:c.suppressed?null:c.numerator,denominator:c.suppressed?null:c.denominator,suppressed:!!c.suppressed}))});
+  blocks.push({team:run.teamName,indicator:d.id,version:d.version,unit:d.spec.unit,withheld,cells:withheld?[]:(res.rows as DynamicValue[]).map(c=>({group:c.group,value:c.suppressed?null:c.value,numerator:c.suppressed?null:c.numerator,denominator:c.suppressed?null:c.denominator,suppressed:!!c.suppressed}))});
  }
  const definitions=await Promise.all(defs.map(async d=>({id:d.id,version:d.version,canonicalSha256:await sha256Hex(canonicalSpec(d))})));
  const report={id:reportId,period:r.period,group:r.group,minimumCell:MIN_CELL,computedAt};
@@ -139,11 +141,11 @@ const operand=z.object({definitionRef:z.string().max(80),component:z.enum(['nume
 const aggregateReportingSchema=z.object({version:z.literal(1),evaluatedAt:z.string().datetime(),window:z.object({since:z.string().datetime(),until:z.string().datetime()}).strict(),coverage:z.enum(['operator-declared-complete','incomplete-or-unknown']),clinicalDenominator:z.literal('unknown'),evidenceBasis:z.string().regex(/^[a-f0-9]{64}$/),evidenceDigest:z.string().regex(/^[a-f0-9]{64}$/),calendars:z.array(z.object({id,version:z.number().int().positive(),digest:z.string().regex(/^[a-f0-9]{64}$/),effectiveAt:z.string().datetime().nullable(),title:z.string().max(80),definitions:z.array(z.string().max(80)).max(32)}).strict()).max(64),affectedDenominatorCoverage:z.array(operand.extend({sourceId:id,periodId:id,teamId:id}).strict()).max(4096),affectedSourcePeriods:z.array(z.object({calendarId:id,calendarVersion:z.number().int().positive(),teamId:id,periodId:id,sourceId:id,status:z.string().max(80),affectedOperands:z.array(operand).max(32)}).strict()).max(4096),sources:z.array(z.object({calendarId:id,calendarVersion:z.number().int().positive(),teamId:id,periodId:id,start:z.string().datetime(),end:z.string().datetime(),sourceId:id,source:z.string().max(80),kind:z.enum(['online-visits','field-syncs','imports','programme-receipts','mis','ehr']),status:z.string().max(80),deadline:z.string().datetime(),deadlinePassed:z.boolean(),affectedOperands:z.array(operand).max(32),lateHours:z.number().int().nonnegative(),syncHours:z.number().int().nonnegative(),coverageTimeliness:z.string().max(120),refreshAt:z.string().datetime().nullable(),warning:z.string().max(300)}).strict()).max(4096),freshness:z.object({shareMinimum:z.number().int().positive(),note:z.string().max(1000),teams:z.array(z.object({team:z.string().max(200),sources:z.array(z.object({source:z.enum(['online-visits','field-syncs','imports','programme-receipts']),label:z.string().max(100),latestAt:z.string().datetime().nullable(),arrivals:z.string().max(40),late:z.string().max(40),lateShare:z.number().nullable(),lateShareNote:z.string().max(300).nullable(),thresholdHours:z.number().nullable().optional(),thresholdPolicy:z.string().max(80).optional()}).strict()).max(8),syncing:z.object({grants:z.string().max(40),message:z.string().max(300)}).strict().nullable(),syncThresholdHours:z.number().nullable().optional()}).strict()).max(10)}).strict(),notice:z.string().max(1000)}).strict();
 const aggregateEnvelopeSchema=z.object({contract:z.literal(AGGREGATE_CONTRACT),environment:z.literal('synthetic'),operation:z.literal('aggregate'),report:z.object({id,period:z.object({start:day,end:day}).strict(),group:z.enum(AGGREGATE_GROUPS),minimumCell:z.literal(MIN_CELL),computedAt:z.string()}).strict(),manifest:z.object({definitions:z.array(z.object({id,version:z.number().int().positive(),canonicalSha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict()).max(8),rows:z.number().int().nonnegative(),sha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict(),reporting:aggregateReportingSchema,blocks:z.array(z.object({team:id,indicator:id,version:z.number().int().positive(),unit:z.enum(['count','proportion']),withheld:z.enum(['cohort','differencing']).nullable(),cells:z.array(z.object({group:z.string().max(200),value:z.number().finite().nullable(),numerator:z.number().finite().nullable(),denominator:z.number().finite().nullable(),suppressed:z.boolean()}).strict()).max(5000)}).strict()).max(80)}).strict();
 const legacyAggregateEnvelopeSchema=aggregateEnvelopeSchema.omit({reporting:true}).extend({contract:z.literal(LEGACY_AGGREGATE_CONTRACT)}).strict();
-const validAggregateEnvelope=(body:any)=>aggregateEnvelopeSchema.safeParse(body).success||legacyAggregateEnvelopeSchema.safeParse(body).success;
-export async function assertAggregateEnvelope(body:any,key:string){
+const validAggregateEnvelope=(body:DynamicValue)=>aggregateEnvelopeSchema.safeParse(body).success||legacyAggregateEnvelopeSchema.safeParse(body).success;
+export async function assertAggregateEnvelope(body:DynamicValue,key:string){
  if(body?.operation==='lookup'){if(!z.object({contract:z.union([z.literal(AGGREGATE_CONTRACT),z.literal(LEGACY_AGGREGATE_CONTRACT)]),operation:z.literal('lookup'),key:id,payloadHash:z.string().regex(/^[a-f0-9]{64}$/)}).strict().safeParse(body).success)fail(409,'Aggregate receipt lookup differs from its metadata-only contract.');return;}
  if(bytesOf(body)>PAYLOAD_BYTES||!validAggregateEnvelope(body)||body.report.id!==key)fail(409,'Aggregate envelope differs from its approved contract; review and prepare a fresh report.');
- if(!minimisationCheck(body,{workspace:{people:[],visits:[]}} as unknown as OrgState,'checkpoint',new Date().toISOString()).passed)fail(409,'Aggregate cells differ from the suppression contract; nothing was sent.');const signed=body.contract===AGGREGATE_CONTRACT?{report:body.report,definitions:body.manifest.definitions,reporting:body.reporting,blocks:body.blocks}:{report:body.report,definitions:body.manifest.definitions,blocks:body.blocks};if(body.manifest.rows!==body.blocks.reduce((n:number,b:any)=>n+b.cells.length,0)||await sha256Hex(canonical(signed))!==body.manifest.sha256)fail(409,'Aggregate envelope differs from its approved digest; nothing was sent.');
+ if(!minimisationCheck(body,{workspace:{people:[],visits:[]}} as unknown as OrgState,'checkpoint',new Date().toISOString()).passed)fail(409,'Aggregate cells differ from the suppression contract; nothing was sent.');const signed=body.contract===AGGREGATE_CONTRACT?{report:body.report,definitions:body.manifest.definitions,reporting:body.reporting,blocks:body.blocks}:{report:body.report,definitions:body.manifest.definitions,blocks:body.blocks};if(body.manifest.rows!==body.blocks.reduce((n:number,b:DynamicValue)=>n+b.cells.length,0)||await sha256Hex(canonical(signed))!==body.manifest.sha256)fail(409,'Aggregate envelope differs from its approved digest; nothing was sent.');
 }
 // ---- payload minimisation (BR-INT-09) ----
 const ALLOWED_KEYS=new Set(['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','reporting','evaluatedAt','window','since','until','coverage','clinicalDenominator','evidenceBasis','evidenceDigest','calendars','digest','effectiveAt','title','affectedDenominatorCoverage','affectedSourcePeriods','definitionRef','component','sourceId','periodId','teamId','calendarId','calendarVersion','status','affectedOperands','sources','source','kind','deadline','deadlinePassed','lateHours','syncHours','coverageTimeliness','refreshAt','warning','freshness','shareMinimum','note','teams','label','latestAt','arrivals','late','lateShare','lateShareNote','thresholdHours','thresholdPolicy','syncing','grants','message','syncThresholdHours','notice','blocks','team','indicator','unit','withheld','cells','value','numerator','denominator','suppressed']);
@@ -157,11 +159,11 @@ export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationC
  for(const v of s.workspace.visits??[])ids.add(normalize(v.id));
  const walk=(x:unknown,path:string,depth=0)=>{if(depth>20){problems.push('Aggregate nesting exceeds the mapped contract.');return;}
   if(Array.isArray(x)){x.forEach((y,i)=>walk(y,`${path}[${i}]`,depth+1));return;}
-  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" is not permitted.`);else if(!ALLOWED_KEYS.has(k))problems.push('An unexpected field is not part of the aggregate contract.');else if(destinationAllowed&&!destinationAllowed.has(k as any))problems.push(`Field "${k}" is not authorised by ${destination!.name}'s destination allowlist (version ${destinationFields!.version}).`);walk(v,path?`${path}.${k}`:k,depth+1);}return;}
+  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" is not permitted.`);else if(!ALLOWED_KEYS.has(k))problems.push('An unexpected field is not part of the aggregate contract.');else if(destinationAllowed&&!destinationAllowed.has(k as DynamicValue))problems.push(`Field "${k}" is not authorised by ${destination!.name}'s destination allowlist (version ${destinationFields!.version}).`);walk(v,path?`${path}.${k}`:k,depth+1);}return;}
   if(typeof x==='string'&&ids.has(normalize(x)))problems.push('A value matches a patient identifier, name or ABHA number.');
  };
  walk(payload,'');if(!validAggregateEnvelope(payload))problems.push('Aggregate envelope differs from its mapped path contract.');
- for(const b of (Array.isArray((payload as any)?.blocks)?(payload as any).blocks:[]) as any[])for(const c of (Array.isArray(b?.cells)?b.cells:[]) as any[]){cells++;
+ for(const b of (Array.isArray((payload as DynamicValue)?.blocks)?(payload as DynamicValue).blocks:[]) as DynamicValue[])for(const c of (Array.isArray(b?.cells)?b.cells:[]) as DynamicValue[]){cells++;
   if(c?.suppressed){if([c.value,c.numerator,c.denominator].some(v=>v!==null))problems.push('A suppressed cell carries a value.');continue;}
   const parts=[c?.numerator,c?.denominator,b?.unit==='count'?c?.value:null,b?.unit==='proportion'&&typeof c?.denominator==='number'&&typeof c?.numerator==='number'?c.denominator-c.numerator:null];
   if(parts.some(small))problems.push(`A released cell is below the suppression threshold of ${MIN_CELL}.`);}
@@ -188,7 +190,7 @@ export const aggregateReceiptSchema=z.object({contract:z.literal(AGGREGATE_CONTR
  // receipt the outcome remains uncertain and must be reconciled; it must never be promoted to accepted or retried.
  if(x.status==='accepted'&&!x.receipt)ctx.addIssue({code:z.ZodIssueCode.custom,path:['receipt'],message:'An accepted destination result must include its receipt.'});
 });
-export type AggregateTransport=(i:Integration,body:any,key:string)=>Promise<unknown>;
+export type AggregateTransport=(i:Integration,body:DynamicValue,key:string)=>Promise<unknown>;
 // A deterministic in-process simulator. A destination with behaviour "uncertain" stores the report but its response
 // is lost on the first send; a lookup then finds the receipt without the report being sent again.
 export const demoAggregateTransport:AggregateTransport=async(i,body,key)=>{

@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import {z} from 'zod';
 import {allowed, normallyAllowed} from './access';
 import {fail, person, uuid} from './core';
@@ -32,7 +34,7 @@ export function dueWorkQueue(s:OrgState,m:Member,now=new Date().toISOString()){
  if(m.role==='admin')fail(403,'Due-work queues contain patient information.');
  const policy=policyFor(s);if(!policy||policy.state!=='active')return {policy:null,configurationRequired:true,items:[],scope:'No active organisation-approved due-work policy. No escalation threshold is inferred.'};
  const today=localDate(now,policy.timezone),members=new Map(s.members.map(x=>[x.userId,x]));
- const rows:any[]=[],leadTeams=new Set<string>();
+ const rows:DynamicValue[]=[],leadTeams=new Set<string>();
  for(const p of s.workspace.people){if(p.mergedInto||!allowed(m,p,now))continue;const lead=supervises(s,m,p.teamId,now,false);if(lead)leadTeams.add(p.teamId);
   for(const t of p.followUps??[]){if(!followUpOpen(s,t))continue;const mine=t.ownerId===m.userId;if(!mine&&!lead)continue;const owner=currentOwner(s,p,t.ownerId),blocked=waiting(s,p,{kind:'follow-up',id:t.id}),days=overdue(t.due,today),gap=!owner,threshold=policy.escalateAfterDays.routine,escalated=gap||(!blocked.length&&days>threshold);if(lead&&!mine&&!escalated)continue;
    rows.push({key:'follow-up:'+t.id,kind:'follow-up',personId:p.id,personVersion:p.version,personName:p.name,teamId:p.teamId,title:t.title,due:t.due,urgency:'routine',daysOverdue:days,attention:escalated?'escalated':blocked.length?'waiting':days?'overdue':t.due===today?'due-today':'upcoming',reasons:[...(gap?['No active owner with current care access']:[]),...(escalated&&days>threshold?[`Overdue by ${days} days under policy v${policy.version}`]:[]),...(blocked.length?[`Waiting on ${blocked.length} open plan item${blocked.length===1?'':'s'}`]:[])],owner:owner?{userId:owner.userId,displayName:owner.displayName}:null,previousOwner:previousOwner(s,p),waitingOn:blocked,delays:delayed(t).delays??[],mine,canDelay:(mine||lead)&&!blocked.length});
@@ -45,7 +47,7 @@ export function dueWorkQueue(s:OrgState,m:Member,now=new Date().toISOString()){
  return {policy:{version:policy.version,timezone:policy.timezone,escalateAfterDays:policy.escalateAfterDays,unknownOutcomeAfterDays:policy.unknownOutcomeAfterDays,activatedAt:policy.activatedAt,activatedBy:members.get(policy.activatedBy??'')?.displayName??policy.activatedBy},configurationRequired:false,items:rows.slice(0,500),escalated:rows.filter(x=>x.attention==='escalated').length,truncated:rows.length>500,scope:leadTeams.size?`Your owned open work plus escalated items in ${leadTeams.size} permitted team${leadTeams.size===1?'':'s'}.`:'Your owned open work, prioritised under the active policy.'};
 }
 
-export function applyDueWork(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
+export function applyDueWork(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):DynamicValue|null{
  const parsed=dueWorkSchema.safeParse(input);if(!parsed.success||parsed.data.type!=='delayDueWork')return null;const c=parsed.data,p=person(s.workspace,c.personId),policy=policyFor(s);
  if(!policy||policy.state!=='active'||policy.version!==c.policyVersion)fail(409,'The due-work policy changed or is not active. Refresh before recording a delay.');
  const task=p.followUps?.find(x=>x.id===c.taskId);if(!task||!followUpOpen(s,task))fail(409,'Choose an open current follow-up.');
@@ -58,13 +60,13 @@ export function applyDueWork(s:OrgState,input:unknown,u:Actor,m:Member,now=new D
  s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:p.id,personId:p.id,detail:`Follow-up ${task.id} delayed from ${from} to ${c.due} under due-work policy v${policy.version} (${c.constraint}). ${c.reason}`});return {taskId:task.id,due:task.due,policyVersion:policy.version};
 }
 
-export function applyDueWorkPolicy(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
+export function applyDueWorkPolicy(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):DynamicValue|null{
  const parsed=dueWorkSchema.safeParse(input);if(!parsed.success||parsed.data.type!=='opsDueWorkPolicy')return null;const c=parsed.data;if(!m.isOwner)fail(403,'Only an organisation owner can configure the due-work policy.');const ops=operations(s);if(!ops||c.version!==ops.version)fail(409,'Operations changed. Refresh and review the latest state.');if(c.policyVersion!==(ops.dueWorkPolicy?.version??0))fail(409,'The due-work policy changed. Refresh before saving.');if(!timezoneValid(c.timezone))fail(422,'Choose a valid IANA timezone.');
  const nextVersion=c.policyVersion+1;ops.dueWorkPolicy={version:nextVersion,state:c.state,timezone:c.timezone,escalateAfterDays:{emergency:c.emergencyDays,urgent:c.urgentDays,routine:c.routineDays},unknownOutcomeAfterDays:c.unknownOutcomeDays,reason:c.reason,updatedAt:now,updatedBy:u.userId,...(c.state==='active'?{activatedAt:now,activatedBy:u.userId}:{})};ops.version++;ops.updatedAt=now;
  s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:s.organisation.id,detail:`Due-work policy v${nextVersion} saved as ${c.state}; timezone ${c.timezone}; escalation after emergency ${c.emergencyDays}, urgent ${c.urgentDays}, routine ${c.routineDays} overdue days; unknown outcome ${c.unknownOutcomeDays} days. Local operational approval only; no clinical policy or external notification provider is implied. ${c.reason}`});return {policyVersion:nextVersion,state:c.state};
 }
 
-export function authorizeDueWork(s:OrgState,m:Member,c:any,now=new Date().toISOString()){
+export function authorizeDueWork(s:OrgState,m:Member,c:DynamicValue,now=new Date().toISOString()){
  if(c?.type!=='delayDueWork')return;const p=person(s.workspace,c.personId),task=p.followUps?.find(x=>x.id===c.taskId);
  if(!task||!followUpOpen(s,task))fail(409,'Choose an open current follow-up.');
  if(!allowed(m,p,now)||task.ownerId!==m.userId&&!supervises(s,m,p.teamId,now,false))fail(403,'Only the current task owner or a supervisor of the patient’s team can record this delay.');

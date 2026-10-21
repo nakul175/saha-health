@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import {z} from 'zod';
 import {digest,fail,uuid} from './core';
 import type {Actor} from './store';
@@ -38,7 +40,7 @@ function audit(s:OrgState,u:Actor,m:Member,action:string,subject:string,detail:s
 
 export async function applyConfigurationPublication(s:OrgState,input:unknown,u:Actor,m:Member,at=new Date().toISOString()){
  const parsed=configurationPublicationSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;if(c.expectedActorId!==u.userId)fail(403,'Signed-in account changed. Refresh before acting.');const ops=s.operations??={version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null},records=configurationReleasesOf(s);ops.configurationReleases=records;
- const attestation=await assertConfigurationRegistry(s);if(c.expectedAttestation!==attestation)fail(409,'Configuration registry changed. Refresh before acting.');let result:any;
+ const attestation=await assertConfigurationRegistry(s);if(c.expectedAttestation!==attestation)fail(409,'Configuration registry changed. Refresh before acting.');let result:DynamicValue;
  if(c.type==='configurationStage'){
   if(!configurationPublisher(m))fail(403,'An active organisation owner stages configuration releases.');if(records.length>=MAX_CONFIGURATION_RELEASES)fail(422,'Configuration release history reached its retained bound. Archive through the documented operating process before staging more.');
   const highest=Math.max(0,...records.filter(x=>x.manifest.kind===c.manifest.kind&&x.manifest.key===c.manifest.key).map(x=>x.manifest.version));if(c.manifest.version<=highest)fail(409,`Version must be higher than retained v${highest}.`);

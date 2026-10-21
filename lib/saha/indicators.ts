@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import { fail } from './core';
 import { openPatientWork } from './continuity';
 import { ABSENCE, own, questions, followUpOpen } from './programmes';
@@ -14,12 +16,12 @@ const visitsOf=(c:Ctx,p:Person)=>c.s.workspace.visits.filter(v=>v.personId===p.i
 const inWindow=(c:Ctx,t?:string)=>!!t&&t>=c.since&&t<=c.until;
 // Slice 2a: reuse metering, reproducible from stored visits. A question shared by N programme packs in
 // one visit is N-1 reuse opportunities; answering it once reuses it for all N; an absence reason blocks it.
-export function reuseOf(v:{facts:Record<string,any>;programmeCapture?:any}){const c=v.programmeCapture,blockedBy=Object.fromEntries(ABSENCE.map(x=>[x,0])) as Record<typeof ABSENCE[number],number>;let opportunities=0,reused=0,blocked=0,unresolved=0;if(!c)return {opportunities,reused,blocked,unresolved,blockedBy};
+export function reuseOf(v:{facts:Record<string,DynamicValue>;programmeCapture?:DynamicValue}){const c=v.programmeCapture,blockedBy=Object.fromEntries(ABSENCE.map(x=>[x,0])) as Record<typeof ABSENCE[number],number>;let opportunities=0,reused=0,blocked=0,unresolved=0;if(!c)return {opportunities,reused,blocked,unresolved,blockedBy};
  const current=new Map(questions(c).map(q=>[q.id,q])),snapshot=Array.isArray(c.reuseOpportunities)?c.reuseOpportunities:questions(c).filter(q=>q.programmes.length>1).map(q=>({questionId:q.id,links:q.programmes.length-1}));
- for(const o of snapshot){const k=Number(o.links);if(!Number.isInteger(k)||k<1)continue;opportunities+=k;const q=current.get(String(o.questionId)),value=q?.fact?v.facts[q.fact]:own(c.answers,String(o.questionId)),reason=own(c.absence,String(o.questionId));if(String(value??'').trim())reused+=k;else if(ABSENCE.includes(reason as any)){blocked+=k;blockedBy[reason as typeof ABSENCE[number]]+=k;}else unresolved+=k;}
+ for(const o of snapshot){const k=Number(o.links);if(!Number.isInteger(k)||k<1)continue;opportunities+=k;const q=current.get(String(o.questionId)),value=q?.fact?v.facts[q.fact]:own(c.answers,String(o.questionId)),reason=own(c.absence,String(o.questionId));if(String(value??'').trim())reused+=k;else if(ABSENCE.includes(reason as DynamicValue)){blocked+=k;blockedBy[reason as typeof ABSENCE[number]]+=k;}else unresolved+=k;}
  return {opportunities,reused,blocked,unresolved,blockedBy};}
 const confirmedIn=(c:Ctx,p:Person)=>visitsOf(c,p).filter(v=>v.state==='confirmed'&&inWindow(c,v.confirmedAt??v.createdAt));
-const signature=(v:{facts:Record<string,any>})=>[String(v.facts.date??'').slice(0,10),v.facts.weight,v.facts.systolic,v.facts.diastolic,v.facts.temperature].join('|');
+const signature=(v:{facts:Record<string,DynamicValue>})=>[String(v.facts.date??'').slice(0,10),v.facts.weight,v.facts.systolic,v.facts.diastolic,v.facts.temperature].join('|');
 // Slice 6s: the computation vocabulary. Every definition, built-in or owner-maintained, is a numerator
 // and optional denominator drawn from these per-patient measures, cohort filters from a fixed list and
 // exclusions from a fixed list. Bounded versioned calculations can combine these measures; free field access is refused.
@@ -56,14 +58,14 @@ export type Operand=MeasureId|CompositeOperand;
 export type MeasureRef=MeasureId|`expr-v1:${string}`;
 const MAX_CONTRIBUTION=100000;
 const integer=(n:unknown,max=MAX_CONTRIBUTION)=>typeof n==='number'&&Number.isSafeInteger(n)&&n>=0&&n<=max;
-const object=(x:any)=>!!x&&typeof x==='object'&&!Array.isArray(x);
-const exact=(x:any,keys:string[])=>object(x)&&Object.keys(x).length===keys.length&&keys.every(k=>Object.hasOwn(x,k));
-export function expressionError(root:unknown):string|null{let nodes=0,operations=0,leaves=0;const walk=(n:any,depth:number):boolean=>{
+const object=(x:DynamicValue)=>!!x&&typeof x==='object'&&!Array.isArray(x);
+const exact=(x:DynamicValue,keys:string[])=>object(x)&&Object.keys(x).length===keys.length&&keys.every(k=>Object.hasOwn(x,k));
+export function expressionError(root:unknown):string|null{let nodes=0,operations=0,leaves=0;const walk=(n:DynamicValue,depth:number):boolean=>{
  if(++nodes>31||depth>5||!object(n))return false;
  if(exact(n,['measure'])){leaves++;return MEASURE_IDS.includes(n.measure);}
  if(exact(n,['constant']))return integer(n.constant,1000);
  operations++;if(exact(n,['op','term','value'])&&n.op==='at-least')return integer(n.value)&&n.value>0&&walk(n.term,depth+1);
- return exact(n,['op','terms'])&&['sum','min','max','any','all'].includes(n.op)&&Array.isArray(n.terms)&&n.terms.length>=2&&n.terms.length<=4&&n.terms.every((t:any)=>walk(t,depth+1));
+ return exact(n,['op','terms'])&&['sum','min','max','any','all'].includes(n.op)&&Array.isArray(n.terms)&&n.terms.length>=2&&n.terms.length<=4&&n.terms.every((t:DynamicValue)=>walk(t,depth+1));
  };return walk(root,1)&&leaves>0&&operations>0?null:'Choose a calculation with known measures, 2–4 terms, at most 31 nodes and 5 levels; constants 0–1000 and thresholds 1–100000.';}
 export function expressionLeaves(n:Expression):MeasureId[]{if('measure' in n)return [n.measure];if('constant' in n)return [];return [...new Set(('term' in n?[n.term]:n.terms).flatMap(expressionLeaves))].sort();}
 export function evaluateExpression(n:Expression,input:(id:MeasureId)=>number):number{let value:number;if('measure' in n)value=input(n.measure);else if('constant' in n)value=n.constant;else if(n.op==='at-least')value=evaluateExpression(n.term,input)>=n.value?1:0;else{const a=n.terms.map(t=>evaluateExpression(t,input));value=n.op==='sum'?a.reduce((x,y)=>x+y,0):n.op==='min'?Math.min(...a):n.op==='max'?Math.max(...a):n.op==='any'?(a.some(x=>x>0)?1:0):(a.every(x=>x>0)?1:0);}if(!integer(value))fail(422,'A calculation contribution exceeds the supported nonnegative integer range. Nothing was shown.');return value;}
@@ -105,9 +107,9 @@ const BUILT_IN=[
 ];
 export const BUILT_IN_IDS=BUILT_IN.map(x=>x.record.id);
 // Every version of every definition: built-in version 1 entries, then the owner's appended records.
-export const registryRecords=(s?:OrgState):DefinitionRecord[]=>[...BUILT_IN.map(x=>x.record),...(((s?.operations as any)?.indicatorDefinitions??[]) as DefinitionRecord[])];
+export const registryRecords=(s?:OrgState):DefinitionRecord[]=>[...BUILT_IN.map(x=>x.record),...(((s?.operations as DynamicValue)?.indicatorDefinitions??[]) as DefinitionRecord[])];
 export type DefinitionEvent={id:string;definitionId:string;definitionVersion:number;sequence:number;kind:'proposed'|'approved'|'rejected'|'released'|'withdrawn';by:string;byName:string;at:string;reason:string;memberVersion:number;role:Member['role'];reviewEventId?:string;effectiveAt?:string};
-export const definitionEvents=(s?:OrgState):DefinitionEvent[]=>((s?.operations as any)?.indicatorDefinitionEvents??[]);
+export const definitionEvents=(s?:OrgState):DefinitionEvent[]=>((s?.operations as DynamicValue)?.indicatorDefinitionEvents??[]);
 export function definitionLifecycle(s:OrgState|undefined,r:DefinitionRecord,now=new Date()){
  const events=definitionEvents(s).filter(e=>e.definitionId===r.id&&e.definitionVersion===r.version),last=events.at(-1),review=[...events].reverse().find(e=>e.kind==='approved'),release=events.find(e=>e.kind==='released');
  const eligible=r.status!=='proposed'||!!(release&&last?.kind!=='withdrawn'&&release.effectiveAt&&Date.parse(release.effectiveAt)<=now.getTime());
@@ -163,7 +165,7 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date(),governan
  if(!GROUPS.includes(q.group))fail(422,'Choose a grouping from the catalogue.');if(!Number.isInteger(q.days)||q.days<1||q.days>366)fail(422,'Choose a window of 1 to 366 days.');
  if(q.team&&!m.teamIds.includes(q.team))fail(403,'Choose one of your teams.');
  const today=now.toISOString().slice(0,10),ctx0={since:new Date(Date.parse(today+'T00:00:00Z')-(q.days-1)*86400000).toISOString(),until:now.toISOString(),today};
- const people=s.workspace.people.filter(p=>p.assigned&&!p.mergedInto&&(!q.team||p.teamId===q.team)&&(!q.village||p.village===q.village)&&(!q.programme||p.programmes.includes(q.programme as any)));
+ const people=s.workspace.people.filter(p=>p.assigned&&!p.mergedInto&&(!q.team||p.teamId===q.team)&&(!q.village||p.village===q.village)&&(!q.programme||p.programmes.includes(q.programme as DynamicValue)));
  // Filter-composition protection: a cohort smaller than the minimum cell is refused outright.
  if(people.length<MIN_CELL)fail(422,`This cohort has fewer than ${MIN_CELL} people. Widen the filters.`);
  const ctx:Ctx={s,people,...ctx0};
@@ -201,7 +203,7 @@ export function indicatorQuery(s:OrgState,m:Member,q:Query,now=new Date(),govern
 // rewriting the organisation-wide ledger it cannot write.
 export type AffectedRelease={at:string;k:string|null};
 export function affectedReleases(s:OrgState,confirmedAt?:string):AffectedRelease[]{
- const releases=((s.operations as any)?.indicatorReleases??[]) as {at?:string;k?:string|null}[];
+ const releases=((s.operations as DynamicValue)?.indicatorReleases??[]) as {at?:string;k?:string|null}[];
  if(!confirmedAt)return [];
  return releases.filter(r=>typeof r?.at==='string'&&r.at>=confirmedAt).map(r=>({at:r.at!,k:typeof r.k==='string'?r.k:null}));
 }

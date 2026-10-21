@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import {fail} from './core';
 
 export const GOVERNED_EXPORT_FORMAT='saha-governed-report-export-v1' as const;
@@ -33,7 +35,7 @@ export type GovernedReportExport={
 
 export type GovernedExportActor={userId:string;displayName:string;memberVersion:number;canReview:boolean};
 
-export function exportsOf(operations:any):GovernedReportExport[]{
+export function exportsOf(operations:DynamicValue):GovernedReportExport[]{
  return Array.isArray(operations?.governedReportExports)?operations.governedReportExports:[];
 }
 

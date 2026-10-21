@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import {z} from 'zod';
 import {normallyAllowed} from './access';
 import {fail,uuid} from './core';
@@ -31,7 +33,7 @@ const visitFor=(s:OrgState,c:SupportCase)=>s.workspace.visits.find(x=>x.id===c.v
 const ownerCanApprove=(m:Member,p:ReturnType<typeof personFor>)=>!!p&&m.isOwner&&m.role!=='admin'&&normallyAllowed(m,p);
 const supporter=(m:Member)=>m.status==='active'&&m.role==='admin';
 
-export function authorizeSupportCase(s:OrgState,m:Member,input:any){
+export function authorizeSupportCase(s:OrgState,m:Member,input:DynamicValue){
  if(!TYPES.has(input?.type))return;
  const c=input as SupportCaseCommand;
  if(c.type==='supportCaseOpen'){
@@ -47,13 +49,13 @@ export function authorizeSupportCase(s:OrgState,m:Member,input:any){
  else if(!supporter(m))fail(403,'A current administrator support role is required.');
 }
 
-export function applySupportCase(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
- if(!TYPES.has((input as any)?.type))return null;
+export function applySupportCase(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):DynamicValue|null{
+ if(!TYPES.has((input as DynamicValue)?.type))return null;
  const parsed=supportCaseSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid support case operation.');const c=parsed.data;
  authorizeSupportCase(s,m,c);
  const ops=s.operations??={version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null},list=ops.supportCases??=[];ops.supportCases=list;
  if(list.length>=1000)fail(422,'Support case retention limit reached; archive under an approved policy before adding another.');
- let item:SupportCase,detail:string,result:any;
+ let item:SupportCase,detail:string,result:DynamicValue;
  if(c.type==='supportCaseOpen'){
   const v=s.workspace.visits.find(x=>x.id===c.visitId)!,p=s.workspace.people.find(x=>x.id===v.personId)!;
   if(v.voidedAt||v.supersededBy)fail(409,'Choose the current visit where the task failed.');

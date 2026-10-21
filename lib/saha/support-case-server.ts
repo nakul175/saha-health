@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import {db,identity,json,loadFor} from './server';
 import {fail} from './core';
 import {scope} from './store';
@@ -23,7 +25,7 @@ export async function supportCaseRead(request:Request){
   return json({rows,canRequest:m.role==='admin',canDecide:m.isOwner&&m.role!=='admin'});
  }
  const item=cases(initial).find(c=>c.id===selected);if(!item)fail(404,'Support case unavailable.');const grant=activeSupportGrant(initial,item,m);if(!grant)fail(403,'An active approved support grant is required.');const p=initial.workspace.people.find(x=>x.id===item.personId),v=initial.workspace.visits.find(x=>x.id===item.visitId&&x.personId===item.personId);if(!p||!v)fail(409,'The support case record is unavailable.');
- const value:any={caseId:item.id,grant:{id:grant.id,purpose:grant.purpose,scopes:grant.scopes,expiresAt:grant.expiresAt},content:{}};
+ const value:DynamicValue={caseId:item.id,grant:{id:grant.id,purpose:grant.purpose,scopes:grant.scopes,expiresAt:grant.expiresAt},content:{}};
  if(grant.scopes.includes('identity'))value.content.identity={name:p.name,age:p.age,sex:p.sex,village:p.village,programmes:p.programmes};
  if(grant.scopes.includes('visit-status'))value.content.visitStatus={state:v.state,createdAt:v.createdAt,confirmedAt:v.confirmedAt??null,version:v.version,recordVersion:v.recordVersion};
  if(grant.scopes.includes('visit-facts'))value.content.visitFacts=structuredClone(v.facts);

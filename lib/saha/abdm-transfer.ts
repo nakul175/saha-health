@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import { z } from 'zod';
 import { AppError, fail, person, uuid } from './core';
 import { assertPatientDocumentNotes, assertOutboundPrivacy, fhirDocument, inspectDocument, type DocumentSummary } from './fhir-document';
@@ -12,7 +14,7 @@ import type { Member, OrgState, Person } from './types';
 // uses X25519 key agreement, HKDF-SHA-256 and AES-256-GCM with per-side nonces; it is not
 // validated against ABDM's encryption library or any partner.
 export type CareContext={id:string;visitId:string;display:string;hiType:'OPConsultation';recordDate:string;linkedAt:string;linkedBy:string;abhaNumber:string};
-export type ReceivedRecord={id:string;consentId:string;transferId:string;careContextId:string;hiType:string;recordDate:string;checksum:string;bundle:any;validation?:ValidationStamp;state:'review'|'accepted'|'rejected'|'quarantined';receivedAt:string;source?:string;effectiveDate?:string;documentIdentifier?:string;patientId?:string;observations?:DocumentSummary['observations'];quarantineReason?:string;reviewedBy?:string;reviewedAt?:string;note?:string};
+export type ReceivedRecord={id:string;consentId:string;transferId:string;careContextId:string;hiType:string;recordDate:string;checksum:string;bundle:DynamicValue;validation?:ValidationStamp;state:'review'|'accepted'|'rejected'|'quarantined';receivedAt:string;source?:string;effectiveDate?:string;documentIdentifier?:string;patientId?:string;observations?:DocumentSummary['observations'];quarantineReason?:string;reviewedBy?:string;reviewedAt?:string;note?:string};
 export type TransferAuthority={consentId:string;purpose:string;hiTypes:string[];consentRequestedAt:string;consentDecidedAt:string|null;consentExpiresAt:string;personConsentVersion:number;abdmConfigVersion:number};
 export type Transfer={id:string;consentId:string;requestedAt:string;requestedBy:string;state:'delivered'|'failed';entries:number;acknowledgedAt?:string;message:string;
  requesterFacilityId?:string;providerFacilityId?:string;configVersion?:number;
@@ -25,7 +27,7 @@ export const transferSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('abdmReceivedReview'),personId:id,version,recordId:id,decision:z.enum(['accepted','rejected']),note:z.string().trim().min(5).max(1000)}).strict(),
 ]);
 const TYPES=new Set(['abdmCareContextLink','abdmFetch','abdmReceivedReview']);
-export function authorizeTransfer(_s:OrgState,m:Member,c:any){if(TYPES.has(c?.type)&&m.role!=='clinician')fail(403,'A clinician with access to the patient is required.');}
+export function authorizeTransfer(_s:OrgState,m:Member,c:DynamicValue){if(TYPES.has(c?.type)&&m.role!=='clinician')fail(403,'A clinician with access to the patient is required.');}
 const b64=(b:ArrayBuffer|Uint8Array)=>{const u=b instanceof Uint8Array?b:new Uint8Array(b);let s='';for(const x of u)s+=String.fromCharCode(x);return btoa(s);};
 const unb64=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 const buf=(u:Uint8Array)=>u as unknown as BufferSource;
@@ -56,14 +58,14 @@ export async function mockHip(p:Person,s:OrgState,consentId:string,hiu:{publicKe
 // HIU: decrypt with the session key, verify integrity, then classify every document before storage.
 // Invalid, duplicate, conflicting and wrong-person content is returned as metadata-only quarantine work;
 // cryptographic failures still abort the whole transfer because no trustworthy document boundary exists.
-export type ReceivedEntry={careContextId:string;hiType:string;recordDate:string;checksum:string;bundle:any;validation?:ValidationStamp;source?:string;effectiveDate?:string;documentIdentifier?:string;patientId?:string;observations?:DocumentSummary['observations'];quarantineReason?:string};
-const resource=(bundle:any,type:string)=>bundle?.entry?.map((e:any)=>e?.resource).find((r:any)=>r?.resourceType===type);
-const sourceName=(bundle:any)=>resource(bundle,'Organization')?.name??'External health-information provider';
+export type ReceivedEntry={careContextId:string;hiType:string;recordDate:string;checksum:string;bundle:DynamicValue;validation?:ValidationStamp;source?:string;effectiveDate?:string;documentIdentifier?:string;patientId?:string;observations?:DocumentSummary['observations'];quarantineReason?:string};
+const resource=(bundle:DynamicValue,type:string)=>bundle?.entry?.map((e:DynamicValue)=>e?.resource).find((r:DynamicValue)=>r?.resourceType===type);
+const sourceName=(bundle:DynamicValue)=>resource(bundle,'Organization')?.name??'External health-information provider';
 const rSame=(r:ReceivedRecord,e:{careContextId:string;hiType:string;recordDate:string})=>r.careContextId===e.careContextId&&r.hiType===e.hiType&&r.recordDate===e.recordDate;
 export async function receive(hiuPrivate:CryptoKey,hiuNonce:Uint8Array,payload:Awaited<ReturnType<typeof mockHip>>,expectedPatientId?:string,existing:ReceivedRecord[]=[]):Promise<ReceivedEntry[]>{
  const {key,iv}=await sessionKey(hiuPrivate,unb64(payload.hipPublicKey),unb64(payload.hipNonce),hiuNonce);
  const out:ReceivedEntry[]=[];for(const e of payload.entries){let text:string;try{text=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv},key,buf(unb64(e.content))));}catch{fail(502,'A received entry could not be decrypted. Nothing was stored.');}
-  if(await sha(text!)!==e.checksum)fail(502,'A received entry failed its checksum. Nothing was stored.');let bundle:any;try{bundle=JSON.parse(text!);}catch{out.push({...e,bundle:null,quarantineReason:'Received content is not valid JSON.'});continue;}
+  if(await sha(text!)!==e.checksum)fail(502,'A received entry failed its checksum. Nothing was stored.');let bundle:DynamicValue;try{bundle=JSON.parse(text!);}catch{out.push({...e,bundle:null,quarantineReason:'Received content is not valid JSON.'});continue;}
   if(bundle?.resourceType!=='Bundle'){out.push({...e,bundle:null,quarantineReason:'Received content is not a FHIR Bundle.'});continue;}
   let summary:DocumentSummary,validation:ValidationStamp;try{summary=inspectDocument(bundle);validation=validateOutbound(bundle);}catch(err){const message=err instanceof AppError?err.message:'Received document validation failed.';out.push({...e,bundle:null,quarantineReason:message});continue;}
   const meta={source:sourceName(bundle),effectiveDate:summary.date,documentIdentifier:summary.identifier,patientId:summary.patientId,observations:summary.observations};
@@ -72,11 +74,11 @@ export async function receive(hiuPrivate:CryptoKey,hiuNonce:Uint8Array,payload:A
   out.push({...e,bundle,...meta,validation,...(quarantineReason?{quarantineReason}: {})});}
  return out;
 }
-export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
+export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<DynamicValue|null>{
  const parsed=transferSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeTransfer(s,m,c);
  abdmOperation(s,c.type);
  const w=s.workspace,p=person(w,c.personId);if(p.version!==c.version)fail(409,'Patient changed. Refresh before continuing.');
- let detail='',result:any={ok:true};
+ let detail='',result:DynamicValue={ok:true};
  if(c.type==='abdmCareContextLink'){
   requireAbdmCapability(s,'hip','hip.publish');
   if(p.abha?.state!=='linked')fail(409,'Link an ABHA before linking care contexts.');

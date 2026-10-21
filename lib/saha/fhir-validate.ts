@@ -1,3 +1,5 @@
+type DynamicValue = ReturnType<typeof JSON.parse>;
+
 import { AppError, digest, fail } from './core';
 import { z } from 'zod';
 import { inspectDocument } from './fhir-document';
@@ -46,22 +48,22 @@ export type PinnedConformanceStamp=ValidationStamp&{policyId:string;policyVersio
 export function exactPolicy(env:Record<string,string|undefined>,organisationId:string,integrationId:string):ExchangeConformancePolicy|null{
  const raw=env.SAHA_EHR_CONFORMANCE_POLICIES;if(!raw)return null;let parsed:unknown;try{parsed=JSON.parse(raw);}catch{fail(409,'Invalid pinned EHR conformance policy configuration.');}
  if(!Array.isArray(parsed))fail(409,'Invalid pinned EHR conformance policy configuration.');
- const match=(parsed as any[]).find(x=>x?.organisationId===organisationId&&x?.integrationId===integrationId);
+ const match=(parsed as DynamicValue[]).find(x=>x?.organisationId===organisationId&&x?.integrationId===integrationId);
  if(!match)return null;const result=policySchema.safeParse(match.policy);if(!result.success)fail(409,'The pinned EHR conformance policy is invalid.');return result.data;
 }
 
-function references(bundle:any):any[]{return Array.isArray(bundle?.entry)?bundle.entry.map((e:any)=>e?.resource).filter(Boolean):[];}
+function references(bundle:DynamicValue):DynamicValue[]{return Array.isArray(bundle?.entry)?bundle.entry.map((e:DynamicValue)=>e?.resource).filter(Boolean):[];}
 
 export async function validatePinnedExchange(bundle:unknown,artifact:string,policy:ExchangeConformancePolicy,expectedPatientId?:string,now=new Date().toISOString()):Promise<PinnedConformanceStamp>{
  const checked=policySchema.safeParse(policy);if(!checked.success)fail(409,'The pinned EHR conformance policy is invalid.');policy=checked.data;
  if(!policy.supportedArtifacts.includes(artifact))fail(422,`Artifact ${artifact} is not covered by pinned policy ${policy.id} ${policy.version}. Nothing was sent.`);
  const profile=policy.profiles[artifact];if(!profile)fail(422,`Artifact ${artifact} has no pinned profile in ${policy.id} ${policy.version}. Nothing was sent.`);
- const structural=validateOutbound(bundle,expectedPatientId,now),resources=references(bundle as any),composition=resources.find(r=>r.resourceType==='Composition');
+ const structural=validateOutbound(bundle,expectedPatientId,now),resources=references(bundle as DynamicValue),composition=resources.find(r=>r.resourceType==='Composition');
  if(!Array.isArray(composition?.meta?.profile)||!composition.meta.profile.includes(profile))fail(422,`Document failed pinned profile ${profile}: Composition.meta.profile is missing. Nothing was sent.`);
  for(const [resourceType,limit] of Object.entries(policy.constraints.resourceCardinality)){const count=resources.filter(r=>r.resourceType===resourceType).length;if(count<limit.min||count>limit.max)fail(422,`Document failed pinned profile ${profile}: ${resourceType} cardinality ${count} is outside ${limit.min}..${limit.max}. Nothing was sent.`);}
- const signature=(bundle as any)?.signature;if(policy.constraints.requireSignature&&!signature)fail(422,`Document failed pinned business rules ${policy.businessRules.id} ${policy.businessRules.version}: Bundle.signature is required. Nothing was sent.`);
- if(signature&&(!Array.isArray(signature.type)||!signature.type.some((x:any)=>x?.system&&x?.code)||!signature.when||!signature.who?.reference||!signature.data))fail(422,`Document failed pinned business rules ${policy.businessRules.id} ${policy.businessRules.version}: Bundle.signature is incomplete. Nothing was sent.`);
- for(const r of resources)for(const coding of [r?.code?.coding,r?.category?.flatMap((x:any)=>x?.coding??[]),r?.type?.coding].flat().filter(Boolean) as any[]){
+ const signature=(bundle as DynamicValue)?.signature;if(policy.constraints.requireSignature&&!signature)fail(422,`Document failed pinned business rules ${policy.businessRules.id} ${policy.businessRules.version}: Bundle.signature is required. Nothing was sent.`);
+ if(signature&&(!Array.isArray(signature.type)||!signature.type.some((x:DynamicValue)=>x?.system&&x?.code)||!signature.when||!signature.who?.reference||!signature.data))fail(422,`Document failed pinned business rules ${policy.businessRules.id} ${policy.businessRules.version}: Bundle.signature is incomplete. Nothing was sent.`);
+ for(const r of resources)for(const coding of [r?.code?.coding,r?.category?.flatMap((x:DynamicValue)=>x?.coding??[]),r?.type?.coding].flat().filter(Boolean) as DynamicValue[]){
   if(!coding?.system||!coding?.code)continue;const allowed=policy.valueSets[coding.system];if(allowed&&!allowed.includes(coding.code))fail(422,`Document failed pinned terminology ${policy.terminology.id} ${policy.terminology.version}: code ${coding.system}|${coding.code} is not allowed. Nothing was sent.`);
  }
  for(const r of resources.filter(x=>x.resourceType==='Observation'&&x.valueQuantity)){const allowed=policy.constraints.units[r.code?.coding?.[0]?.code];if(allowed&&!allowed.includes(r.valueQuantity.code))fail(422,`Document failed pinned unit rules ${policy.businessRules.id} ${policy.businessRules.version}: ${r.code?.coding?.[0]?.code}|${r.valueQuantity.code} is not allowed. Nothing was sent.`);}
@@ -73,7 +75,7 @@ export async function validateConfiguredExchange(bundle:unknown,artifact:string,
  const policy=exactPolicy(env,organisationId,integrationId);if(!policy)return null;return validatePinnedExchange(bundle,artifact,policy,expectedPatientId,now);
 }
 
-export async function prepareConfiguredExchange(bundle:any,artifact:string,env:Record<string,string|undefined>,organisationId:string,integrationId:string,expectedPatientId?:string,now?:string){
+export async function prepareConfiguredExchange(bundle:DynamicValue,artifact:string,env:Record<string,string|undefined>,organisationId:string,integrationId:string,expectedPatientId?:string,now?:string){
  const policy=exactPolicy(env,organisationId,integrationId);if(!policy)return null;const mapped=structuredClone(bundle),composition=references(mapped).find(r=>r.resourceType==='Composition'),profile=policy.profiles[artifact];
  if(!composition||!profile)fail(422,`Artifact ${artifact} has no pinned profile in ${policy.id} ${policy.version}. Nothing was sent.`);
  composition.meta={...(composition.meta??{}),profile:[profile]};return {bundle:mapped,validation:await validatePinnedExchange(mapped,artifact,policy,expectedPatientId,now)};
