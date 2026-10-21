@@ -1,6 +1,6 @@
 {
   "story": "SAHA-130",
-  "recordedAt": "2026-10-21T06:45:00Z",
+  "recordedAt": "2026-10-21T08:31:36Z",
   "approvalRecord": "outputs/saha-140-qa/SAHA-130-PRODUCT-POLICY-APPROVAL.json",
   "approvalRecordSha256": "109041a0a2c377188ae4af17acd90b0b2d1c7335906cf814476a597b7a454bec",
   "commits": {
@@ -25,7 +25,10 @@
     "auditAndLiveQaSafetyRepair": "62712790",
     "allAuditWriterCompensation": "efd5f4a3",
     "compensationAndNamespaceRepair": "3bdc4193",
-    "reservedLiveQaNamespace": "a48accb6"
+    "reservedLiveQaNamespace": "a48accb6",
+    "vaultKvV2Provider": "bd7b0b8b",
+    "vaultDestructionVerificationRepair": "9484e201",
+    "vaultLiveReceipt": "adb336df"
   },
   "checks": {
     "retentionClassPolicy": "48/48 pass",
@@ -47,7 +50,9 @@
     "auditWriterCompensationCoverage": "17/17 pass",
     "auditCompensationRefusal": "5/5 pass",
     "liveRetentionQaHarness": "35/35 pass; invalid inputs make zero provider calls; live mode not executed",
-    "independentSourceReview": "device repair and reserved live-QA namespace approved; prior P1 findings repaired"
+    "vaultKvV2ProviderContract": "20/20 pass recorded for exact candidate; AppRole login, token renewal/relogin, CAS replay/race reconciliation, lost-write-response reconciliation, exact-version destroy verification, absent-version refusal, invalid evidence refusal and secret-log redaction covered with a synthetic loopback Vault server",
+    "vaultLiveExactVersionDeletion": "pass; restricted AppRole created one synthetic KV-v2 version, read-before returned 200, exact destroy returned 204, read-after returned 404 with destroyed metadata, and synthetic metadata cleanup returned 204",
+    "independentSourceReview": "device repair and reserved live-QA namespace approved; prior P1 findings repaired. The Vault adapter repair is recorded separately from final whole-story acceptance."
   },
   "implementedBoundary": [
     "Explicit fail-closed disposition states for patient records, model outputs, field packages, local caches, audit events, exports and backups",
@@ -60,17 +65,24 @@
     "New audit detail can be encrypted before chain hashing with exact key-version lifecycle evidence; historical plaintext is never rewritten",
     "Every protected audit writer compensates uncommitted provider reservations and fails closed with digest-only evidence when cleanup is incomplete",
     "Export and backup custody requires exact provider coordinates and evidence; owner responses expose only provider and coordinate digest",
-    "Live retention QA is restricted to the code-reserved saha-retention-live-qa namespace and synthetic UUID identifiers"
+    "Live retention QA is restricted to the code-reserved saha-retention-live-qa namespace and synthetic UUID identifiers",
+    "The audit runtime can bind a configured Vault KV-v2 AppRole provider; it fails closed on incomplete configuration, uses CAS creation and verifies exact-version destruction through Vault metadata",
+    "A restricted localhost-only self-hosted Vault proved exact-version creation and destruction for a synthetic reserved-path record without retaining credentials in this evidence"
   ],
   "crossClassQaPlan": "outputs/saha-140-qa/SAHA-130-CROSS-CLASS-QA-PLAN.md",
   "remainingInputs": [
     "A real managed Android device or independent lab/MDM authority, enrolled verifier and retained signed deletion receipt for the authoritative device gate",
-    "A production key-service binding that can seal and destroy exact audit-detail key versions, plus production migration and live unavailability receipt",
+    "Production deployment/configuration of the reviewed Vault binding, any required historical-data migration decision, and a live application audit-detail write/destroy/unavailability receipt through the production runtime",
     "A named accountable export destination owner and executed synthetic live custody/export control receipt",
     "Executed 35-day backup recovery/tombstone reapplication test, generation-key inaccessibility evidence and exact-version deletion receipts",
     "Genuine Health/Privacy/Security/Audit-owner approval references for the final retention and erasure evidence"
   ],
   "verdict": "ENGINEERING_COMPLETE_QA_HOLD",
-  "reason": "All identified application-code and reviewed P1 safety gaps for the device, audit-detail, export and backup evidence gates are closed, and the existing DigitalOcean exact-version deletion proof is verified. Whole-story acceptance remains QA_HOLD until real device authority evidence, production key-service evidence, live export/backup custody execution and genuine named approvals are retained. No main, staging or production completion is claimed.",
-  "liveProviderReceipt": "outputs/saha-140-qa/SAHA-130-DIGITALOCEAN-LIVE-QA.json"
+  "reason": "The Vault KV-v2 AppRole adapter is present in the audit runtime, its exact candidate contract records 20/20 passing checks, and a restricted self-hosted Vault proved synthetic exact-version destruction. This closes the previously identified application-code binding gap, but it does not prove the production application path or complete SAHA-130. Whole-story acceptance remains QA_HOLD until real device authority evidence, a live production audit-detail write/destroy receipt, live export/backup custody execution, the backup recovery test and genuine named approvals are retained. No main, staging or production completion is claimed.",
+  "liveProviderReceipt": "outputs/saha-140-qa/SAHA-130-DIGITALOCEAN-LIVE-QA.json",
+  "liveProviderReceipts": [
+    "outputs/saha-140-qa/SAHA-130-DIGITALOCEAN-LIVE-QA.json",
+    "outputs/saha-140-qa/SAHA-130-VAULT-LIVE-QA.json"
+  ],
+  "vaultLiveReceiptSha256": "d33e1f8020b7cb3f01e5ad5a4a2c6dee1aa161e6387a321ad1c07dabe14aa51e"
 }
