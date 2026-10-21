@@ -1,6 +1,6 @@
 {
   "story": "SAHA-130",
-  "recordedAt": "2026-10-21T04:35:00Z",
+  "recordedAt": "2026-10-21T05:53:13Z",
   "approvalRecord": "outputs/saha-140-qa/SAHA-130-PRODUCT-POLICY-APPROVAL.json",
   "approvalRecordSha256": "109041a0a2c377188ae4af17acd90b0b2d1c7335906cf814476a597b7a454bec",
   "commits": {
@@ -24,7 +24,8 @@
     "productionBuild": "pass with existing chunk-size advisory",
     "retentionApi": "22/22 pass",
     "runtimeProviderWiring": "25/25 pass; no network or credentials",
-    "dataExitRetention": "28/28 pass"
+    "dataExitRetention": "28/28 pass",
+    "digitalOceanSpacesLiveExactVersionDeletion": "8/8 pass; two synthetic versions created, selected version permanently deleted with matching receipt, survivor verified, exact cleanup completed"
   },
   "implementedBoundary": [
     "Explicit fail-closed disposition states for patient records, model outputs, field packages, local caches, audit events, exports and backups",
@@ -41,9 +42,9 @@
     "Approved handling of unsynced clinical work and authoritative device evidence interface",
     "Approved audit minimum envelope and detail-erasure adapter",
     "Registered export destination and authoritative destination deletion interface",
-    "Approved backup recovery window and provider generation deletion interface",
-    "Verified conditional/version-specific hosted-object deletion provider primitive"
+    "Approved backup recovery window and provider generation deletion interface"
   ],
   "verdict": "ENGINEERING_COMPLETE_QA_HOLD",
-  "reason": "The approved product defaults, application refusal/disposition paths, cross-class checks and production-only provider seam are implemented and independently reviewed with no P0/P1 defect. Whole-story acceptance remains QA_HOLD until authoritative external device, destination, backup, audit and real-provider evidence plus genuine required approvals exist. No main, staging or production completion is claimed."
+  "reason": "The approved product defaults, application refusal/disposition paths, cross-class checks, production provider seam and live DigitalOcean exact-version deletion are verified. Whole-story acceptance remains QA_HOLD until authoritative external device, destination, backup and audit evidence plus genuine required approvals exist. No main, staging or production completion is claimed.",
+  "liveProviderReceipt": "outputs/saha-140-qa/SAHA-130-DIGITALOCEAN-LIVE-QA.json"
 }
