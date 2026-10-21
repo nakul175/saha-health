@@ -5,6 +5,7 @@ import {boundedJsonBody} from './request-body';
 import {digest,fail,uuid} from './core';
 import {mediaBackend} from './media-storage';
 import {purgeReservedPrivateObject,recordRetentionDisposalOutcome,reserveRetentionDisposal,retentionDisposalJob,tombstoneForJob} from './retention-disposal';
+import {productionS3ConditionalDelete} from './s3-versioned-delete-runtime';
 // Slice 6c: retention schedule, holds and eligibility counts for organisation owners.
 export async function retentionRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId),now=new Date().toISOString();
@@ -25,7 +26,8 @@ export async function retentionWrite(request:Request){
  let job=await retentionDisposalJob(db(),s.organisation.id,jobId);if(!job)fail(404,'Pending disposal not found.');if(job.request_key===key&&job.request_hash&&job.request_hash!==hash)fail(409,'This operation key was already used for different input.');if(job.state==='completed')return json({completed:true,jobId,outcome:job.outcome,replayed:true});if(job.state==='blocked')fail(409,'This disposal is blocked by changed authority or object identity. Review its immutable outcome evidence.');
  if(job.state==='pending'){tombstoneForJob(s,job);const now=new Date().toISOString();job=await reserveRetentionDisposal(db(),job,u.userId,key,hash,now,uuid(),uuid());}
  let authorityCurrent=true;try{const latest=await loadFor(u,s.organisation.id),latestMember=scope(latest,u.userId);if(!latestMember.isOwner)authorityCurrent=false;else tombstoneForJob(latest,job);}catch{authorityCurrent=false;}
- let outcome:{state:'reserved'|'completed'|'blocked';outcome:string;error:string|null};try{outcome=await purgeReservedPrivateObject(mediaBackend(rawRuntime()).bucket,job,{allowDelete:authorityCurrent});}catch{outcome={state:'reserved',outcome:'provider-error',error:'object-disposal-provider-error'};}const now=new Date().toISOString();
+ const providerRuntime=rawRuntime(),conditionalDelete=productionS3ConditionalDelete(providerRuntime);
+ let outcome:{state:'reserved'|'completed'|'blocked';outcome:string;error:string|null};try{outcome=await purgeReservedPrivateObject(mediaBackend(providerRuntime).bucket,job,{allowDelete:authorityCurrent,conditionalDelete:conditionalDelete??undefined});}catch{outcome={state:'reserved',outcome:'provider-error',error:'object-disposal-provider-error'};}const now=new Date().toISOString();
  await recordRetentionDisposalOutcome(db(),job,outcome.state,outcome.outcome,outcome.error,u.userId,now,uuid());
  if(outcome.state==='completed')return json({completed:true,jobId,outcome:outcome.outcome});
  if(outcome.state==='blocked')fail(409,'The reserved disposal was blocked. No unreserved object was deleted; inspect its immutable outcome evidence.');
