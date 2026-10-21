@@ -1,0 +1,108 @@
+// Slice 6n environment contract: declared environment, live-call policy enforced through the provider
+// paths' own checks, fixture seeding by environment (including a new account's home organisation through
+// the real store and migrations), command guards for demonstration connectors and synthetic fixture
+// records, and a configuration report that names settings without revealing secret values.
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import { readFileSync, writeFileSync, mkdtempSync, rmSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { DatabaseSync } from 'node:sqlite';
+
+const dir = mkdtempSync(join(process.cwd(), '.environment-contract-'));
+let passed = 0;
+const check = fn => { fn(); passed++; };
+class Statement {
+  constructor(db, sql, args = []) { this.db = db; this.sql = sql; this.args = args; }
+  bind(...args) { return new Statement(this.db, this.sql, args); }
+  exec() { const s = this.db.prepare(this.sql); if (/^\s*(SELECT|WITH)/i.test(this.sql)) return { results: s.all(...this.args), meta: { changes: 0 } }; const r = s.run(...this.args); return { results: [], meta: { changes: Number(r.changes) } }; }
+  async first() { return this.db.prepare(this.sql).get(...this.args) ?? null; }
+  async all() { return { results: this.db.prepare(this.sql).all(...this.args) }; }
+  async run() { return this.exec(); }
+}
+class D1 {
+  constructor() { this.db = new DatabaseSync(':memory:'); }
+  prepare(sql) { return new Statement(this.db, sql); }
+  async batch(statements) { this.db.exec('BEGIN'); try { const out = statements.map(s => s.exec()); this.db.exec('COMMIT'); return out; } catch (e) { this.db.exec('ROLLBACK'); throw e; } }
+}
+
+try {
+  // Compile the current module graph rather than keeping a stale hand-maintained list.
+  // This fixture had silently fallen behind shared core imports before SAHA-126.
+  for (const file of readdirSync('lib/saha').filter(file => file.endsWith('.ts'))) {
+    const f = file.slice(0, -3);
+    writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${file}`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
+  }
+  const E = await import(pathToFileURL(join(dir, 'environment.js')));
+  const { misCredential } = await import(pathToFileURL(join(dir, 'mis.js')));
+  const { ehrCredential } = await import(pathToFileURL(join(dir, 'ehr.js')));
+  const { seedWorkspace } = await import(pathToFileURL(join(dir, 'seed.js')));
+  const store = await import(pathToFileURL(join(dir, 'store.js')));
+  const throws = (fn, pattern) => { assert.throws(fn, e => pattern.test(e.message)); };
+
+  // A complete synthetic deployment with one granted MIS and EHR connection. Secret values are distinctive.
+  const SECRET = 'SECRET-VALUE-4f1c', CALLBACK = 'SECRET-CALLBACK-9a2e', EHR_KEY = 'SECRET-EHR-77d0', AI_KEY = 'SECRET-AI-5b3a';
+  const mis = { id: 'mis_live', name: 'Programme MIS', kind: 'mis', mode: 'http', status: 'active', version: 2, description: '', programmes: [], endpoint: 'https://mis.example.org/v1', credentialBinding: 'SAHA_MIS_TOKEN' };
+  const ehr = { id: 'ehr_live', name: 'Facility EHR', kind: 'ehr', mode: 'http', status: 'active', version: 1, description: '', programmes: [], endpoint: 'https://ehr.example.org/fhir', credentialBinding: 'SAHA_EHR_TOKEN' };
+  const ai = { id: 'ai_live', name: 'Summary provider', kind: 'ai', mode: 'http', status: 'suspended', version: 1, description: '', programmes: [], endpoint: 'https://ai.example.org/v1/run', credentialBinding: 'OPENAI_API_KEY' };
+  const ROTATION = JSON.stringify(['SAHA_MIS_TOKEN', 'SAHA_MIS_CALLBACK', 'SAHA_EHR_TOKEN', 'OPENAI_API_KEY'].map(binding => ({ binding, owner: 'synthetic-security-owner', rotatedAt: '2026-09-01T00:00:00.000Z', rotateBy: '2099-01-01T00:00:00.000Z' })));
+  const base = { SAHA_EXTERNAL_APIS_ENABLED: 'true', SAHA_MIS_TOKEN: SECRET, SAHA_MIS_CALLBACK: CALLBACK, SAHA_EHR_TOKEN: EHR_KEY, OPENAI_API_KEY: AI_KEY, SAHA_SECRET_ROTATION_RECORDS: ROTATION, SAHA_ALLOWED_ORIGINS: 'https://ai.example.org',
+    SAHA_MIS_CONNECTIONS: JSON.stringify([{ organisationId: 'org_env', integrationId: 'mis_live', origin: 'https://mis.example.org', credentialBinding: 'SAHA_MIS_TOKEN', callbackBinding: 'SAHA_MIS_CALLBACK' }]),
+    SAHA_EHR_CONNECTIONS: JSON.stringify([{ organisationId: 'org_env', integrationId: 'ehr_live', baseUrl: 'https://ehr.example.org/fhir', credentialBinding: 'SAHA_EHR_TOKEN' }]) };
+  const as = (name, extra = {}) => ({ ...base, ...(name ? { SAHA_ENVIRONMENT: name } : {}), ...extra });
+
+  // 1. The declared environment: unset is synthetic by default; unknown values fail closed.
+  check(() => { assert.deepEqual(E.environmentOf({}), { name: 'synthetic', declared: null, source: 'default' }); for (const n of E.ENVIRONMENTS) assert.equal(E.environmentOf({ SAHA_ENVIRONMENT: ` ${n} ` }).name, n); assert.deepEqual(E.environmentOf({ SAHA_ENVIRONMENT: 'Prod' }), { name: 'misconfigured', declared: 'Prod', source: 'invalid' }); });
+  // 2. Live-call policy by environment.
+  check(() => { for (const n of [undefined, ...E.ENVIRONMENTS]) assert.equal(E.livePolicy(as(n, { SAHA_EXTERNAL_APIS_ENABLED: 'false' })).allowed, false); });
+  check(() => { assert.equal(E.livePolicy(as()).allowed, true); assert.equal(E.livePolicy(as('synthetic')).allowed, true); assert.equal(E.livePolicy(as('staging')).allowed, true); });
+  check(() => { assert.match(E.livePolicy(as('training')).reason, /training environment never calls live services/); assert.match(E.livePolicy(as('Prod')).reason, /not configured correctly/); });
+  check(() => { const p = E.livePolicy(as('production')); assert.equal(p.allowed, false); assert.match(p.reason, /outbound-labels/); });
+  check(() => { assert.match(E.livePolicy(as('staging', { SAHA_ALLOWED_ORIGINS: 'http://ai.example.org' })).reason, /allowed-origins/); assert.match(E.livePolicy(as('staging', { SAHA_IDENTITY_PROVIDER: 'bogus' })).reason, /identity/); assert.match(E.livePolicy(as('staging', { SAHA_MIS_CONNECTIONS: '{not json' })).reason, /saha_mis_connections/); assert.equal(E.livePolicy(as('synthetic', { SAHA_ALLOWED_ORIGINS: 'http://x' })).allowed, true, 'synthetic keeps the switch-only rule; per-call checks still refuse unsafe origins'); });
+  check(() => { const p = E.livePolicy(as('staging', { SAHA_SECRET_ROTATION_RECORDS: '[]' })); assert.equal(p.allowed, false); assert.match(p.reason, /secret-rotation:OPENAI_API_KEY|secret-rotation:SAHA_/); });
+  check(() => { const p = E.livePolicy(as('staging', { SAHA_SECRET_ROTATION_RECORDS: '{' })); assert.equal(p.allowed, false); assert.match(p.reason, /secret-rotation-records/); });
+  check(() => { const expired = JSON.stringify(JSON.parse(ROTATION).map(x => ({ ...x, rotateBy: '2026-09-29T00:00:00.000Z' }))); const r = E.configurationReport(as('staging', { SAHA_SECRET_ROTATION_RECORDS: expired }), { organisation: { id: 'org_env' }, workspace: { ...seedWorkspace(), integrations: [] } }, '2026-09-30T00:00:00.000Z'); assert.equal(r.live.allowed, false); assert.ok(r.checks.some(c => c.id.startsWith('secret-rotation:') && c.status === 'error')); assert.equal(JSON.stringify(r).includes(SECRET), false); });
+  // 3. The effective runtime turns the switch off, and the existing provider checks then refuse.
+  check(() => { const raw = as('training'), eff = E.effectiveRuntime(raw); assert.equal(eff.SAHA_EXTERNAL_APIS_ENABLED, 'false'); assert.equal(raw.SAHA_EXTERNAL_APIS_ENABLED, 'true', 'the raw configuration is not modified'); assert.equal(eff.SAHA_MIS_TOKEN, SECRET); const allowed = as('synthetic'); assert.equal(E.effectiveRuntime(allowed), allowed, 'an allowed runtime is passed through unchanged'); });
+  check(() => { assert.equal(misCredential(mis, 'org_env', E.effectiveRuntime(as('synthetic'))), SECRET); assert.equal(ehrCredential(ehr, 'org_env', E.effectiveRuntime(as('staging'))), EHR_KEY); });
+  check(() => { for (const n of ['training', 'production', 'Prod']) { throws(() => misCredential(mis, 'org_env', E.effectiveRuntime(as(n))), /External programme services are disabled/); throws(() => misCredential(mis, 'org_env', E.effectiveRuntime(as(n)), true), /External programme services are disabled/); throws(() => ehrCredential(ehr, 'org_env', E.effectiveRuntime(as(n))), /External EHR services are disabled/); } });
+  // 4. Fixtures by environment: synthetic people (marked) and demonstration connectors only in synthetic and training.
+  check(() => { for (const n of ['synthetic', 'training']) { const w = E.fixturesFor({ SAHA_ENVIRONMENT: n }, seedWorkspace()); assert.equal(w.people.length, 6); assert.ok(w.people.every(p => p.synthetic === true)); assert.ok(w.integrations.some(i => i.mode === 'demo')); } });
+  check(() => { for (const n of ['staging', 'production', 'Prod']) { const w = E.fixturesFor({ SAHA_ENVIRONMENT: n }, seedWorkspace()); assert.equal(w.people.length, 0); assert.equal(w.visits.length, 0); assert.equal(w.integrations.some(i => i.mode === 'demo'), false); assert.ok(w.integrations.length > 0 && w.integrations.every(i => i.mode === 'unconfigured')); } });
+  // 5. A new account's home organisation through the real store: fixtures follow the environment.
+  const d1 = new D1();
+  for (const file of readdirSync('drizzle').filter(f => /^\d{4}_.*\.sql$/.test(f)).sort()) for (const stmt of readFileSync(join('drizzle', file), 'utf8').split('--> statement-breakpoint')) if (stmt.trim()) d1.db.exec(stmt);
+  const home = async (userId, name) => { const u = { userId, displayName: `Synthetic ${userId}`, email: `${userId}@example.invalid` }; await store.ensureAccount(d1, u, w => E.fixturesFor({ SAHA_ENVIRONMENT: name }, w)); const org = await store.homeOrg(userId); return { org, patients: d1.db.prepare('SELECT data FROM patients WHERE org_id=?').all(org).map(r => JSON.parse(r.data)), integrations: d1.db.prepare('SELECT data FROM integrations WHERE org_id=?').all(org).map(r => JSON.parse(r.data)) }; };
+  const synth = await home('env-synthetic', 'synthetic'), prod = await home('env-production', 'production');
+  check(() => { assert.equal(synth.patients.length, 6); assert.ok(synth.patients.every(p => p.synthetic === true)); assert.equal(prod.patients.length, 0); assert.equal(prod.integrations.some(i => i.mode === 'demo'), false); assert.ok(prod.integrations.length >= 2); });
+  const byDefault = await home('env-default', undefined);
+  check(() => assert.equal(byDefault.patients.length, 6, 'an undeclared environment keeps the synthetic behaviour of earlier releases'));
+  // 6. Command guards: demonstration connectors and synthetic fixture records stay out of non-synthetic destinations.
+  const state = n => { const w = E.fixturesFor({ SAHA_ENVIRONMENT: 'synthetic' }, seedWorkspace()); w.people.push({ ...structuredClone(w.people[0]), id: 'p_real', name: 'Registered person', synthetic: undefined });
+    w.integrations.push(structuredClone(mis));
+    w.visits = [{ id: 'v_fixture', personId: 'p_meena', state: 'confirmed', plan: { recipients: ['mis_live'] } }, { id: 'v_demo', personId: 'p_real', state: 'confirmed', plan: { recipients: ['mis_maternal'] } }, { id: 'v_real', personId: 'p_real', state: 'confirmed', plan: { recipients: ['mis_live'] } }];
+    w.submissions = [{ id: 'sub_fixture', personId: 'p_meena', visitId: 'v_fixture' }, { id: 'sub_real', personId: 'p_real', visitId: 'v_real' }];
+    return { organisation: { id: 'org_env' }, workspace: w }; };
+  const guard = (n, c) => () => E.ensureEnvironment(state(n), c, { SAHA_ENVIRONMENT: n });
+  const demoPaused = (n) => { const s = state(n); s.workspace.integrations.find(i => i.id === 'mis_maternal').status = 'suspended'; return () => E.ensureEnvironment(s, { type: 'toggleIntegration', integrationId: 'mis_maternal', version: 1 }, { SAHA_ENVIRONMENT: n }); };
+  check(() => { for (const n of ['staging', 'production', 'Prod']) { throws(demoPaused(n), /Demonstration connectors cannot be activated/); throws(guard(n, { type: 'executePlan', visitId: 'v_demo', planId: 'x' }), /Demonstration connectors do not receive records/); } });
+  check(() => { for (const n of ['synthetic', 'training']) { assert.doesNotThrow(demoPaused(n)); assert.doesNotThrow(guard(n, { type: 'executePlan', visitId: 'v_demo', planId: 'x' })); } assert.doesNotThrow(guard('production', { type: 'toggleIntegration', integrationId: 'mis_maternal', version: 1 }), 'suspending an active demonstration connector stays possible'); });
+  check(() => { for (const n of ['training', 'staging', 'production']) { throws(guard(n, { type: 'sendSubmission', submissionId: 'sub_fixture' }), /Synthetic fixture records cannot be sent/); throws(guard(n, { type: 'executeEhrPublish', personId: 'p_meena', operationId: 'o', hash: 'h' }), /Synthetic fixture records/); throws(guard(n, { type: 'executePlan', visitId: 'v_fixture', planId: 'x' }), /Synthetic fixture records/); } });
+  check(() => { const s = state('training'); s.workspace.visits.push({ id: 'v_fixture_demo', personId: 'p_meena', state: 'confirmed', plan: { recipients: ['mis_maternal'] } }); assert.doesNotThrow(() => E.ensureEnvironment(s, { type: 'executePlan', visitId: 'v_fixture_demo', planId: 'x' }, { SAHA_ENVIRONMENT: 'training' }), 'training practice: fixture records to demonstration connectors'); assert.throws(() => E.ensureEnvironment(s, { type: 'executePlan', visitId: 'v_fixture_demo', planId: 'x' }, { SAHA_ENVIRONMENT: 'production' }), /Demonstration connectors do not receive records/); });
+  check(() => { for (const n of ['staging', 'production']) { assert.doesNotThrow(guard(n, { type: 'sendSubmission', submissionId: 'sub_real' })); assert.doesNotThrow(guard(n, { type: 'executePlan', visitId: 'v_real', planId: 'x' })); } for (const c of [{ type: 'sendSubmission', submissionId: 'sub_fixture' }, { type: 'executePlan', visitId: 'v_fixture', planId: 'x' }]) assert.doesNotThrow(guard('synthetic', c)); });
+  // 7. The configuration report names settings and states; it never contains a secret value.
+  const orgState = n => { const s = state(n); s.workspace.integrations.push(structuredClone(ehr), structuredClone(ai)); return s; };
+  const reports = ['synthetic', 'training', 'staging', 'production', 'Prod'].map(n => E.configurationReport(as(n === 'synthetic' ? undefined : n), orgState(n), '2026-09-30T00:00:00.000Z'));
+  check(() => { const text = JSON.stringify(reports); for (const secret of [SECRET, CALLBACK, EHR_KEY, AI_KEY]) assert.equal(text.includes(secret), false, secret); });
+  check(() => { const r = reports[0]; assert.equal(r.environment, 'synthetic'); assert.equal(r.source, 'default'); assert.equal(r.checks.find(c => c.id === 'environment').status, 'warning'); assert.equal(r.live.allowed, true); assert.equal(r.checks.find(c => c.id === 'connection:mis_live').status, 'ok'); assert.match(r.checks.find(c => c.id === 'connection:mis_live').message, /credential SAHA_MIS_TOKEN is set/); assert.equal(r.checks.find(c => c.id === 'connection:ehr_live').status, 'ok'); assert.equal(r.checks.find(c => c.id === 'connection:ai_live').status, 'ok'); });
+  check(() => { const r = reports[1]; assert.equal(r.live.allowed, false); assert.equal(r.checks.find(c => c.id === 'external-switch').status, 'error'); assert.ok(r.checks.some(c => c.id === 'synthetic-records' && c.status === 'warning')); assert.equal(r.checks.some(c => c.id === 'demo-connectors'), false); });
+  check(() => { const r = reports[3]; assert.equal(r.environment, 'production'); assert.equal(r.source, 'configured'); assert.equal(r.live.allowed, false); assert.equal(r.checks.find(c => c.id === 'outbound-labels').status, 'error'); assert.match(r.checks.find(c => c.id === 'demo-connectors').message, /demonstration connectors are still active/); assert.match(r.checks.find(c => c.id === 'synthetic-records').message, /^6 synthetic fixture records are present/); assert.equal(r.counts.ok + r.counts.warning + r.counts.error, r.checks.length); });
+  check(() => { const r = reports[4]; assert.equal(r.environment, 'misconfigured'); assert.match(r.checks.find(c => c.id === 'environment').message, /"Prod", which is not one of synthetic, training, staging, production/); assert.equal(r.label, 'Environment not configured correctly'); });
+  check(() => { const r = E.configurationReport(as('staging', { SAHA_MIS_TOKEN: '', SAHA_EHR_CONNECTIONS: '[]' }), orgState('staging')); assert.equal(r.checks.find(c => c.id === 'connection:mis_live').status, 'error'); assert.match(r.checks.find(c => c.id === 'connection:mis_live').message, /credential SAHA_MIS_TOKEN is not set on the server/); assert.match(r.checks.find(c => c.id === 'connection:ehr_live').message, /no SAHA_EHR_CONNECTIONS grant for this organisation/); assert.equal(r.checks.find(c => c.id === 'connection:ai_live').status, 'ok'); });
+  check(() => { const s = orgState('staging'); s.workspace.integrations.find(i => i.id === 'ai_live').endpoint = 'https://other.example.org/run'; const r = E.configurationReport(as('staging'), s); assert.match(r.checks.find(c => c.id === 'connection:ai_live').message, /origin is not in SAHA_ALLOWED_ORIGINS/); assert.equal(r.checks.find(c => c.id === 'connection:ai_live').status, 'warning', 'a suspended connection is a warning, an active one an error'); });
+  check(() => { const r = E.configurationReport({}, { organisation: { id: 'org_env' }, workspace: seedWorkspace() }); assert.equal(r.live.allowed, false); assert.match(r.live.reason, /switch is off/); assert.equal(r.checks.filter(c => c.status === 'error').length, 0); });
+
+  const result = { suite: 'environment contract (slice 6n)', passed, completedAt: new Date().toISOString() };
+  writeFileSync('tests/environment-contract-result.json', JSON.stringify(result, null, 2) + '\n');
+  console.log(JSON.stringify(result));
+} finally { rmSync(dir, { recursive: true, force: true }); }

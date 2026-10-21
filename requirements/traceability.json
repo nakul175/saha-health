@@ -8,8 +8,8 @@
     "extraction": "Requirement and acceptance text extracted from the supplied BRD; sourceTextLine refers to the temporary paragraph extraction, not a Word page number."
   },
   "counts": {
-    "implemented-local": 15,
-    "partial": 150,
+    "implemented-local": 19,
+    "partial": 146,
     "not-built": 2,
     "unverified": 9
   },
@@ -3394,10 +3394,10 @@
       "requirement": "Workers and supervisors shall receive prioritised task lists based on approved urgency and due dates. Missed tasks shall escalate under programme rules while retaining the reason for delay and service constraints.",
       "acceptance": "Acceptance: An overdue case enters the correct supervisor queue and remains visible until completion or a documented resolution.",
       "sourceTextLine": 482,
-      "implementation": "implemented-local",
+      "implementation": "partial",
       "target": "R14",
-      "current": "Versioned organisation-owned urgency and missed-outcome policy with explicit IANA timezone; no threshold is inferred before activation. Viewer-scoped worker priorities and supervisor/delegated-supervisor escalation cover open follow-ups and referrals, apply action-plan dependencies, retain current and prior patient ownership, due dates, reasoned delays and service constraints, and preserve source/audit history through completion or documented resolution. Follow-up delays pin patient, prior due date and policy versions and refuse changed scope, assignment, dependency or source. Nothing is sent and work is never reassigned automatically. See docs/current/SAHA-102-DUE-WORK-AND-ESCALATION.md.",
-      "remaining": "Formal TC-BR-CARE-04-A/B, independent source review, exact-source CI, merge and observed deployment remain pending. Deployment-specific organisation/domain approval of thresholds and timezone, real recipient/on-call configuration and external notification delivery acceptance remain external gates.",
+      "current": "Due dates and overdue counts; scoped handover exception queue. Slice 4a adds urgency, reasoned delays with constraint and history, and a computed escalation queue ordered by level, urgency and days overdue. Slice 3i: a queue of open field referral requests for clinicians, supervisors and owners in scope (clinical concern first, then oldest, with waiting time and a link to the visit); requests waiting 48 hours or more are also exception-queue rows. Slice 4d: in the action plan an item waiting on an open blocker is not counted as overdue and is listed after other work; an overdue blocker keeps its own place, and an ownership gap still escalates a waiting item. Slice 0b-4: in a workspace paged for a scope above 500 people, the follow-up list (due dates and overdue marks) and the referral tracker on My work cover the viewer's whole scope, built on the server page by page with the same order and counts as the unpaged workspace; before, they covered only opened records. Slice 10b: the overdue-referral, overdue-follow-up and undated-referral alerts can be sent out of the app to a listed recipient tier as simulated messages carrying a count and a link only, and an unacknowledged alert escalates to the next tier after an owner-set interval; every message has a receipt and an audit event (demonstration simulator in synthetic and training environments only).",
+      "remaining": "Approved urgency policy, delivery of real notifications to approved recipients, on-call escalation, and automatic reassignment. The referral escalation queue, caseload and handover counts do not yet apply action dependencies.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -3512,10 +3512,10 @@
       "requirement": "Approved SMS, IVR, messaging or appointment services may be integrated with authorisation, delivery evidence, opt-out handling and escalation. Channels require separate readiness checks and shall not expose provider credentials to the agent.",
       "acceptance": "Acceptance: Delivery failure creates a retry or follow-up task and is not reported as patient acknowledgement.",
       "sourceTextLine": 491,
-      "implementation": "implemented-local",
+      "implementation": "partial",
       "target": "R14",
-      "current": "Synthetic-only complete application path: independently staged and reviewed per-channel readiness; exact message approval binds the current person, assignment, contact, template and channel; provider delivery, opt-out, recovery and direct patient acknowledgement are distinct; delivery failure creates worker-owned bounded retry and follow-up; synthetic execution refuses production; no credentials or provider calls. Existing staff STOP simulation and exact-organisation signed mock callback preserve stable durable receipts, preference/consent history and unsent reminder cancellation.",
-      "remaining": "Approved live SMS/IVR/messaging/appointment provider, server credentials, real incoming events or receipts, sender/channel/language qualification, formal TC-BR-CARE-07-A/B, independent final review, CI, merge and observed deployment remain pending.",
+      "current": "Independent reminder simulation, receipts, bounded retry and owned failure follow-up. App-first R77: synthetic staff STOP simulation and exact-organisation signed mock callback, stable durable receipts, preference/consent history and unsent reminder cancellation; scope rechecked for staff receipt replay.",
+      "remaining": "Approved SMS/IVR/appointment provider, real incoming events/receipts, channel qualification and formal acceptance remain pending. Mock provider is synthetic/training only.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/outreach.ts",
@@ -3966,8 +3966,8 @@
       "sourceTextLine": 525,
       "implementation": "partial",
       "target": "R15",
-      "current": "Declared environment (synthetic, training, staging, production; invalid values fail closed) decides fixture seeding, live provider calls, demonstration connectors and whether synthetic fixture records may reach a destination. SAHA-115 local completion requires environment-bound identity, data and credential namespace attestations before staging/production live calls; training reads fail closed on any record not explicitly synthetic; new training/synthetic registrations retain the synthetic mark; MIS, FHIR and legacy AI envelopes plus transport headers follow the declared environment and stale prepared labels are refused before I/O.",
-      "remaining": "Provision and independently verify physically separate production/training identity tenants, databases and credential stores; execute TC-BR-OPS-02-A/B with deployment operations, exact hosted configuration and formal review.",
+      "current": "Declared environment (synthetic, training, staging, production; invalid values fail closed) decides fixture seeding, live provider calls, demonstration connectors and whether synthetic fixture records may reach a destination; shown in the banner; disabled real credentials and private deployment.",
+      "remaining": "Separate production/training identities, databases and credentials per deployment, and outbound labels that follow the environment.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -4084,11 +4084,10 @@
       "remaining": "Formal TC-BR-OPS-05-A/B remain Not run; independent review, CI, deployment operations acceptance, merge and observed hosted deployment remain pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "lib/saha/support-case.ts",
-        "lib/saha/support-case-server.ts",
-        "app/support-case-panel.tsx",
-        "tests/support-case-http.mjs",
-        "docs/current/SAHA-118-LOCAL-CODING-COMPLETION-20261020.md"
+        "lib/saha/operations.ts",
+        "lib/saha/pilot.ts",
+        "tests/operations-smoke.mjs",
+        "tests/pilot-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4310,8 +4309,8 @@
       "sourceTextLine": 560,
       "implementation": "partial",
       "target": "R15",
-      "current": "TLS hosting, server secrets, encrypted field vault and encrypted local backups.",
-      "remaining": "Independent storage/key-management, rotation, media and end-to-end encryption assessment.",
+      "current": "TLS hosting, server secrets, encrypted field vault/media and encrypted local backups. SAHA-126 adds strict metadata-only secret ownership/rotation records, staging/production fail-closed deployment checks and a fingerprint-only review tool for client bundles, configuration exports, logs and model context; no usable secret value enters either report.",
+      "remaining": "Independent hosted storage/KMS and backup custody, actual provider rotation, deployed bundle/log/context inspection, physical-device media assessment, end-to-end encryption assessment and formal security acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -4334,7 +4333,7 @@
       "sourceTextLine": 563,
       "implementation": "partial",
       "target": "R15",
-      "current": "Organisation/patient scope tested across current APIs and exports. SAHA-127 local completion adds active-membership resolution for every explicitly named tenant before target, search, report, export or traffic-triggered background work. Focused actual Worker/D1 evidence passes 44 synthetic positive, foreign-tenant, wrong-record, suspension, lineage and export-authority-race checks with no disclosed tenant marker or prepared archive bytes.",
+      "current": "Organisation/patient scope tested across current APIs and exports. SAHA-127 adds active-membership resolution for every explicitly named tenant before target, search, report, export or traffic-triggered background work; focused Worker/D1 evidence covers positive, foreign-tenant, wrong-record, suspension, lineage and export-authority-race paths without disclosed tenant markers or prepared archive bytes.",
       "remaining": "Formal TC-BR-SEC-06-A/B, independent source review and adversarial hosted coverage of backup/restore, future indexes/retrieval stores, hosted media/file links and scheduled/asynchronous infrastructure.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4369,8 +4368,8 @@
       "sourceTextLine": 566,
       "implementation": "partial",
       "target": "R15",
-      "current": "Fixed route/status telemetry and redacted support exports. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs. Slice 6q (second independent review): the paged patient list no longer puts names in URLs (opaque cursor, POST search); the static check also flags free-text and search keys set on URLSearchParams. Routine retention repair (11 October 2026): independent source review confirmed a shared metadata deletion authority gap on refused foreign/suspended requests. Only the existing DELETE adds the same trusted actor active-membership predicate; separate code review, fresh build and all nine native HTTP scenarios/64 named check groups pass with independent whole-row/source/build evidence verification; normal CI fixture qualification, exact successor CI/full NFR and hosted acceptance remain pending. See docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md. Original formal status, policies, criteria and minima unchanged. SAHA-128 local application boundary (20 October 2026): every request and failure console record now passes through a fixed-field encoder; raw exception objects, messages, stacks, URLs, bodies and identifiers are excluded even in development. Necessary patient-linked diagnostic evidence remains in the separately authorised audit/revision stores governed by existing retention controls. Focused encoder/static tests pass 16/16 and the actual routine telemetry tenant-retention integration passes 64/64. This is not hosted telemetry, privacy-policy or formal acceptance.",
-      "remaining": "Hosted platform log/crash/analytics configuration and retention inspection, privacy-owner policy review, and representative end-to-end hosted leakage testing remain; formal TC-BR-SEC-07-A/B are Not run.",
+      "current": "Fixed route/status telemetry and redacted support exports. SAHA-128 routes every request and failure console record through a fixed-field encoder; raw exception objects, messages, stacks, URLs, bodies and identifiers are excluded, while necessary patient-linked diagnostic evidence remains in separately authorised audit/revision stores. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs. Slice 6q (second independent review): the paged patient list no longer puts names in URLs (opaque cursor, POST search); the static check also flags free-text and search keys set on URLSearchParams. Routine retention repair (11 October 2026): independent source review confirmed a shared metadata deletion authority gap on refused foreign/suspended requests. Only the existing DELETE adds the same trusted actor active-membership predicate; separate code review, fresh build and all nine native HTTP scenarios/64 named check groups pass with independent whole-row/source/build evidence verification; normal CI fixture qualification, exact successor CI/full NFR and hosted acceptance remain pending. See docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md. Original formal status, policies, criteria and minima unchanged.",
+      "remaining": "Hosted platform log/crash/analytics configuration and retention inspection, privacy-owner policy review, representative hosted leakage testing, identifiers in request paths, and formal TC-BR-SEC-07-A/B.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
