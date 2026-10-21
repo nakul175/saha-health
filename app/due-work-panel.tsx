@@ -9,7 +9,7 @@ import {CONSTRAINTS} from '@/lib/saha/referral-rules';
 type JsonData = ReturnType<typeof JSON.parse>;
 export function DueWorkPanel({data,busy,command,initialValue}:{data:Snapshot;busy:boolean;command:(c:JsonData,m?:string)=>Promise<JsonData>;initialValue?:JsonData}){
  const [value,setValue]=useState<JsonData>(initialValue??null),[error,setError]=useState(''),[editing,setEditing]=useState<string|null>(null),[due,setDue]=useState(''),[constraint,setConstraint]=useState('patient-unavailable'),[reason,setReason]=useState('');
- const load=useCallback(async()=>{try{const r=await fetch('/api/due-work',{cache:'no-store',headers:{'x-saha-organisation':data.organisation.id}}),j:JsonData=await r.json();if(!r.ok)throw Error(j.error);setValue(j);setError('');}catch(e){setError(e instanceof Error?e.message:'Due work is unavailable.');}},[data.organisation.id]);
+ const revision=data.organisation.revision; const load=useCallback(async()=>{void revision;try{const r=await fetch('/api/due-work',{cache:'no-store',headers:{'x-saha-organisation':data.organisation.id}}),j:JsonData=await r.json();if(!r.ok)throw Error(j.error);setValue(j);setError('');}catch(e){setError(e instanceof Error?e.message:'Due work is unavailable.');}},[data.organisation.id,revision]);
  useEffect(()=>{const timer=window.setTimeout(()=>{if(initialValue){setValue(initialValue);setError('')}else void load()},0);return()=>window.clearTimeout(timer)},[initialValue,load]);if(data.role==='admin')return null;
  if(error)return <section className="panel"><h2>Due work and escalation</h2><p role="alert">{error}</p><Button variant="outline" onClick={load}>Retry</Button></section>;
  if(!value)return <p role="status">Loading due work…</p>;
