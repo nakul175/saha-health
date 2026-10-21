@@ -7,11 +7,16 @@
     "approval": "842dd6d40372f0cd7bc10cf813726e319d948bd8",
     "providerGate": "e7acc2baa0f6e666a2df37db684a43801d6b9dfa",
     "classPolicy": "3dfb7ea6",
-    "independentAuditGateRepair": "befad0a7"
+    "independentAuditGateRepair": "befad0a7",
+    "delegatedDefaults": "b4d6dba4",
+    "configuredProductWindows": "e0d2a8f5",
+    "syntheticProviderContract": "09a89c05"
   },
   "checks": {
-    "retentionClassPolicy": "30/30 pass",
+    "retentionClassPolicy": "48/48 pass",
     "retentionPhysicalDisposal": "39/39 pass",
+    "syntheticS3VersionedDeletion": "20/20 pass; no network or credentials",
+    "crossClassQa": "21/21 pass; local refusal and restore-filter behavior only",
     "typecheck": "pass",
     "productionBuild": "pass with existing chunk-size advisory"
   },
@@ -23,6 +28,7 @@
     "Hosted private-object deletion requires an exact conditional/version-specific provider capability",
     "Generic provider deletion is blocked and unconfirmed results remain retryable"
   ],
+  "crossClassQaPlan": "outputs/saha-140-qa/SAHA-130-CROSS-CLASS-QA-PLAN.md",
   "remainingInputs": [
     "Jurisdiction-specific patient-record schedules and minimum retained evidence schema",
     "Per-output clinical classification",
