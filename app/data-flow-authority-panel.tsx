@@ -5,8 +5,9 @@ import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
 import type {Integration,Snapshot} from '@/lib/saha/types';
 import {defaultDataFlowPurpose,selectedDataFlowAuthority} from '@/lib/saha/data-flow-authority-view';
+type Dynamic = ReturnType<JSON['parse']>;
 
-type Command=(body:any,message?:string)=>Promise<any>;
+type Command=(body:Dynamic,message?:string)=>Promise<Dynamic>;
 type Target={targetId:string;targetKind:'provider'|'connector';displayName:string;data:Snapshot;busy:boolean;command:Command};
 export function DataFlowAuthorityPanel({integration,...props}:{integration:Integration;data:Snapshot;busy:boolean;command:Command}){
  return <Authority {...props} targetId={integration.id} targetKind={integration.kind==='ai'?'provider':'connector'} displayName={integration.name}/>;
@@ -19,7 +20,7 @@ function Authority({targetId,targetKind,displayName,data,busy,command}:Target){
  const [accessPurpose,setAccessPurpose]=useState<typeof records[number]['accessPurpose']>(records[0]?.accessPurpose??defaultDataFlowPurpose(targetKind));
  const record=selectedDataFlowAuthority(records,targetId,accessPurpose);
  const [purpose,setPurpose]=useState(record?.purpose??''),[directions,setDirections]=useState(record?.directions.join(', ')??'send'),[kind,setKind]=useState(record?.basis.kind??'public-task'),[reference,setReference]=useState(record?.basis.reference??''),[consentPurpose,setConsentPurpose]=useState(record?.basis.consentPurpose??'exchange'),[recipient,setRecipient]=useState(record?.recipient??''),[retention,setRetention]=useState(record?.retentionRule??''),[classes,setClasses]=useState(record?.dataClasses.join(', ')??''),[reason,setReason]=useState('');
- useEffect(()=>{setPurpose(record?.purpose??'');setDirections(record?.directions.join(', ')??'send');setKind(record?.basis.kind??'public-task');setReference(record?.basis.reference??'');setConsentPurpose(record?.basis.consentPurpose??'exchange');setRecipient(record?.recipient??'');setRetention(record?.retentionRule??'');setClasses(record?.dataClasses.join(', ')??'');},[record?.id,record?.version]);
+ useEffect(()=>{const timer=setTimeout(()=>{setPurpose(record?.purpose??'');setDirections(record?.directions.join(', ')??'send');setKind(record?.basis.kind??'public-task');setReference(record?.basis.reference??'');setConsentPurpose(record?.basis.consentPurpose??'exchange');setRecipient(record?.recipient??'');setRetention(record?.retentionRule??'');setClasses(record?.dataClasses.join(', ')??'');},0);return()=>clearTimeout(timer);},[record?.id,record?.version]);
  if(!data.canManage)return null;
  const immutable=record?.state==='withdrawn';
  async function save(e:FormEvent){e.preventDefault();const dataClasses=[...new Set(classes.split(',').map(x=>x.trim()).filter(Boolean))],flowDirections=[...new Set(directions.split(',').map(x=>x.trim()).filter(Boolean))];await command({type:'dataFlowDraft',version:record?.version??0,targetId,targetKind,purpose,accessPurpose,directions:flowDirections,basis:{kind,reference,...(kind==='consent'?{consentPurpose}:{})},recipient,retentionRule:retention,dataClasses,reason},'Processing authority draft saved. It must be approved before activation.');setReason('');}

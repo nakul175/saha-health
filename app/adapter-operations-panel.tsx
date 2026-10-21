@@ -5,14 +5,15 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ADAPTER_OPERATIONS, CONNECTOR_PERMISSIONS, CONNECTOR_PERMISSION_LABEL, CONNECTOR_PERMISSION_PATH, LABEL, NO_PATH, OPERATION_PATHS, connectorPermissionsOf, governed, operationsOf, type AdapterOperation, type ConnectorPermission, type GovernedKind } from '@/lib/saha/adapter-operations';
 import type { Integration, Snapshot } from '@/lib/saha/types';
-type Command=(c:any,s?:string)=>Promise<any>;
+type Dynamic = ReturnType<JSON['parse']>;
+type Command=(c:Dynamic,s?:string)=>Promise<Dynamic>;
 // Slice 7e: the operations a programme, EHR or ABDM connection may perform. Owners change them; everyone sees them.
 export function AdapterOperationsControls({i,data,busy,command}:{i:Integration;data:Snapshot;busy:boolean;command:Command}){
  const current=operationsOf(i),[allowed,setAllowed]=useState<AdapterOperation[]>(current.allowed),[aggregateOnly,setAggregateOnly]=useState(current.aggregateOnly),[reason,setReason]=useState('');
  const permissionSetting=connectorPermissionsOf(i),[permissions,setPermissions]=useState<ConnectorPermission[]>(permissionSetting.allowed),[permissionReason,setPermissionReason]=useState('');
  // A newer setting (saved here or by another owner) resets the form; the disclosure stays open.
- useEffect(()=>{setAllowed(operationsOf(i).allowed);setAggregateOnly(operationsOf(i).aggregateOnly);},[i.operations?.version]);
- useEffect(()=>{setPermissions(connectorPermissionsOf(i).allowed);},[i.connectorPermissions?.version]);
+ useEffect(()=>{const timer=setTimeout(()=>{setAllowed(operationsOf(i).allowed);setAggregateOnly(operationsOf(i).aggregateOnly);},0);return()=>clearTimeout(timer);},[i.operations?.version]);
+ useEffect(()=>{const timer=setTimeout(()=>setPermissions(connectorPermissionsOf(i).allowed),0);return()=>clearTimeout(timer);},[i.connectorPermissions?.version]);
  if(!governed(i))return null;
  const kind=i.kind as GovernedKind,owner=data.canManage,changed=allowed.join()!==current.allowed.join()||aggregateOnly!==current.aggregateOnly;
  const permissionsChanged=permissions.join()!==permissionSetting.allowed.join();

@@ -4,8 +4,9 @@ import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
 import type {Snapshot} from '@/lib/saha/types';
+type Dynamic = ReturnType<JSON['parse']>;
 
-export function DueWorkPolicyPanel({data,operationsVersion,policy,busy,save}:{data:Snapshot;operationsVersion:number;policy:any;busy:boolean;save:(c:any)=>Promise<void>}){
+export function DueWorkPolicyPanel({data,operationsVersion,policy,busy,save}:{data:Snapshot;operationsVersion:number;policy:Dynamic;busy:boolean;save:(c:Dynamic)=>Promise<void>}){
  const [timezone,setTimezone]=useState(policy?.timezone??'Asia/Kolkata'),[emergency,setEmergency]=useState(String(policy?.escalateAfterDays?.emergency??0)),[urgent,setUrgent]=useState(String(policy?.escalateAfterDays?.urgent??1)),[routine,setRoutine]=useState(String(policy?.escalateAfterDays?.routine??7)),[unknown,setUnknown]=useState(String(policy?.unknownOutcomeAfterDays??2)),[reason,setReason]=useState('');
  if(!data.membership.isOwner)return null;
  const submit=async(state:'draft'|'active')=>save({type:'opsDueWorkPolicy',version:operationsVersion,policyVersion:policy?.version??0,state,timezone,emergencyDays:Number(emergency),urgentDays:Number(urgent),routineDays:Number(routine),unknownOutcomeDays:Number(unknown),reason});

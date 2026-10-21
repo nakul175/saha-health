@@ -27,8 +27,8 @@ try{
  await applyPilot(state,{type:'pilotReviewActivation',version:0,userId:'worker',decision:'restricted',reference:'COMP-RESTRICTED',note:'Retain restriction while exercises are incomplete.'},{userId:'owner',displayName:'Owner'},owner);
  const failedMatch=await applyPilot(state,{type:'pilotAssessTraining',version:state.pilot.version,userId:'worker',module:'matching',result:'needs_practice',reference:'COMP-MATCH-FAIL',note:'Synthetic ambiguous matching exercise requires more practice.'},{userId:'owner',displayName:'Owner'},owner);
  await assert.rejects(()=>applyPilot(state,{type:'pilotAcknowledgeTraining',version:state.pilot.version,id:failedMatch.trainingId},{userId:'worker',displayName:'Worker'},worker),/more practice/);passed++;
- for(const module of required){
-  const assessed=await applyPilot(state,{type:'pilotAssessTraining',version:state.pilot.version,userId:'worker',module,result:'passed',reference:`COMP-${module}`,note:'Different assessor observed the synthetic role-specific exercise.'},{userId:'owner',displayName:'Owner'},owner);
+ for(const moduleId of required){
+  const assessed=await applyPilot(state,{type:'pilotAssessTraining',version:state.pilot.version,userId:'worker',module:moduleId,result:'passed',reference:`COMP-${moduleId}`,note:'Different assessor observed the synthetic role-specific exercise.'},{userId:'owner',displayName:'Owner'},owner);
   await applyPilot(state,{type:'pilotAcknowledgeTraining',version:state.pilot.version,id:assessed.trainingId},{userId:'worker',displayName:'Worker'},worker);
  }
  view=await pilotReadiness(state,new Date('2026-10-20T12:00:00Z'));
