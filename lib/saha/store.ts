@@ -8,7 +8,7 @@ import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
 import type { DelegationUse } from './delegation';
 import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
-import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, ACCESS_CHAIN_ATTEMPTS, accessChainBackoff, isAuditSequenceConflict, chainBackoff, chainMoved, linkRows } from './audit-chain';
+import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, ACCESS_CHAIN_ATTEMPTS, accessChainBackoff, isAuditSequenceConflict, chainBackoff, chainMoved, linkRows, compensateUncommittedAuditDetails } from './audit-chain';
 import {assertPrimaryStorageWrite} from './hosting-controls';
 let primaryStorageRuntime=()=>undefined as string|undefined;
 export function bindPrimaryStorageRuntime(read:()=>string|undefined){primaryStorageRuntime=read;}
@@ -233,7 +233,7 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
  if(switchOrg)stmts.push(db.prepare('UPDATE accounts SET active_org_id=? WHERE user_id=? AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)').bind(orgId,actor.userId,orgId,token));
  if(extraStatements)stmts.push(...extraStatements(token));
  checkStorage();
- let saved;try{saved=await db.batch(stmts);}catch(e){if(access&&!isAuditSequenceConflict(e))throw e;if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<chainAttempts){await(access?accessChainBackoff(attempt):chainBackoff(attempt));continue;}fail(409,'Many changes are being saved in this organisation at once. Nothing was saved; your input is kept on screen. Please try again.');}
+ let saved;try{saved=await db.batch(stmts);}catch(e){if(access&&!isAuditSequenceConflict(e)){Object.assign(e instanceof Error?e:new Error('Audit write failed.'),{auditDetailCompensation:await compensateUncommittedAuditDetails(rows)});throw e;}if(!await chainMoved(db,orgId,chain.base)){Object.assign(e instanceof Error?e:new Error('Audit write failed.'),{auditDetailCompensation:await compensateUncommittedAuditDetails(rows)});throw e;}if(attempt<chainAttempts){await(access?accessChainBackoff(attempt):chainBackoff(attempt));continue;}await compensateUncommittedAuditDetails(rows);fail(409,'Many changes are being saved in this organisation at once. Nothing was saved; your input is kept on screen. Please try again.');}
  if(accessMembership){
   if(saved.length!==expectedAccessChanges.length||saved.some(result=>!Number.isSafeInteger(result.meta?.changes)||result.meta.changes<0))throw new Error('Access audit append result is unavailable.');
   if(saved.some((result,i)=>result.meta.changes<expectedAccessChanges[i])){
@@ -275,7 +275,7 @@ export async function persistScheduledRecord(db:D1Database,orgId:string,key:type
    db.prepare(`UPDATE organisations SET last_command=? WHERE id=? AND NOT EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json_extract(data,'$.maintenance')=1) AND COALESCE((SELECT json(json_extract(data,'${path}')) FROM operations WHERE org_id=?),'')=?`).bind(token,orgId,orgId,orgId,prior),
    db.prepare(`INSERT INTO operations (org_id,data) SELECT ?,? WHERE EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?) ON CONFLICT(org_id) DO UPDATE SET data=json_set(operations.data,'${path}',json(?))`).bind(orgId,j({...NEW_OPERATIONS,[key]:record}),orgId,token,j(record)),
    ...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)];
-  let saved;try{saved=await db.batch(stmts);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}return false;}
+  let saved;try{saved=await db.batch(stmts);}catch(e){if(!await chainMoved(db,orgId,chain.base)){Object.assign(e instanceof Error?e:new Error('Scheduled audit write failed.'),{auditDetailCompensation:await compensateUncommittedAuditDetails(rows)});throw e;}if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}await compensateUncommittedAuditDetails(rows);return false;}
   return saved[0].meta.changes===1;
  }
 }

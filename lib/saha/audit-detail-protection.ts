@@ -9,7 +9,9 @@ const eventContentDigest=(e:EventRow)=>sha256(JSON.stringify([e.org_id,e.id,e.pe
 export const AUDIT_DETAIL_TOKEN_FORMAT='saha-audit-detail-ciphertext-v1';
 export type AuditDetailSeal={keyId:string;keyVersion:string;algorithm:string;nonce:string;ciphertext:string;lifecycleToken:string};
 export type AuditDetailKeyProvider={
- seal(input:{plaintext:string;aad:string;keyPurpose:'audit-detail'}):Promise<AuditDetailSeal>;
+ // idempotencyKey is stable for one immutable organisation/event identity. A
+ // provider must return the same reserved key for retries of that identity.
+ seal(input:{plaintext:string;aad:string;keyPurpose:'audit-detail';idempotencyKey:string}):Promise<AuditDetailSeal>;
  destroy(input:{keyId:string;keyVersion:string;expectedLifecycleTokenDigest:string}):Promise<{state:'inaccessible'|'pending'|'mismatch';receipt:string|null}>;
 };
 export type AuditDetailProtectionMetadata={orgId:string;eventId:string;keyId:string;keyVersion:string;algorithm:string;tokenDigest:string;lifecycleTokenDigest:string;eligibleAt:string;createdAt:string};
@@ -27,7 +29,7 @@ export function auditDetailProtectionRuntime(env:Record<string,unknown>):AuditDe
 export async function protectAuditDetailAtWrite(event:EventRow,provider:AuditDetailKeyProvider,eligibleAt:string,createdAt=new Date().toISOString()):Promise<ProtectedAuditDetail>{
  canonical(eligibleAt,'Audit detail eligibility');canonical(createdAt,'Audit detail protection time');if(eligibleAt<=createdAt)fail(422,'Audit detail eligibility must be after protection time.');
  if(event.seq!=null||event.prev_hash!=null||event.hash!=null)fail(409,'Audit detail protection must happen before the event is linked.');
- bounded(event.detail,'Audit detail',8000);const sealed=await provider.seal({plaintext:event.detail,aad:aadFor(event),keyPurpose:'audit-detail'});
+ bounded(event.detail,'Audit detail',8000);const aad=aadFor(event),sealed=await provider.seal({plaintext:event.detail,aad,keyPurpose:'audit-detail',idempotencyKey:await sha256(aad)});
  for(const [label,value,max] of [['key id',sealed.keyId,200],['key version',sealed.keyVersion,200],['algorithm',sealed.algorithm,100],['nonce',sealed.nonce,1000],['ciphertext',sealed.ciphertext,16000],['lifecycle token',sealed.lifecycleToken,1000]] as const)bounded(value,label,max);
  const token=JSON.stringify({format:AUDIT_DETAIL_TOKEN_FORMAT,keyId:sealed.keyId,keyVersion:sealed.keyVersion,algorithm:sealed.algorithm,nonce:sealed.nonce,ciphertext:sealed.ciphertext}),protectedEvent={...event,detail:token};
  return {event:protectedEvent,metadata:{orgId:event.org_id,eventId:event.id,keyId:sealed.keyId,keyVersion:sealed.keyVersion,algorithm:sealed.algorithm,tokenDigest:await sha256(token),lifecycleTokenDigest:await sha256(sealed.lifecycleToken),eligibleAt,createdAt}};

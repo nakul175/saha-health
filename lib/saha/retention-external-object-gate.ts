@@ -5,6 +5,8 @@ type BoundArtifact=RetentionArtifact&{externalDeletion?:SpacesRetentionCustody};
 export type ExternalObjectDeletionGate={ready:boolean;state:'not-applicable'|'custody-unavailable'|'provider-unavailable'|'custody-mismatch'|'policy-refused'|'ready';reason:string};
 
 const present=(value:unknown)=>typeof value==='string'&&value.trim().length>=3;
+const hex=(buffer:ArrayBuffer)=>Array.from(new Uint8Array(buffer),x=>x.toString(16).padStart(2,'0')).join('');
+export async function externalCustodySummary(c:SpacesRetentionCustody){const coordinatesDigest=hex(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify([c.endpoint,c.region,c.accountId,c.bucket,c.objectKey,c.versionId,c.etag,c.custodyEvidenceRef]))));return {provider:c.provider,coordinatesDigest};}
 export function externalObjectDeletionGate(artifact:BoundArtifact,runtime:Record<string,unknown>):ExternalObjectDeletionGate{
  if(artifact.recordClass!=='export'&&artifact.recordClass!=='backup')return {ready:false,state:'not-applicable',reason:'This class does not use the external export/backup object gate.'};
  const c=artifact.externalDeletion;if(!c||c.provider!=='digitalocean-spaces'||!present(c.objectKey)||!present(c.versionId)||!present(c.etag)||!present(c.custodyEvidenceRef))return {ready:false,state:'custody-unavailable',reason:'The registered inventory is metadata-only and has no exact Spaces key/version custody binding.'};

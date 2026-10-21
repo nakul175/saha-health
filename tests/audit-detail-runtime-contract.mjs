@@ -14,10 +14,10 @@ try{
  let passed=0;const check=async f=>{await f();passed++;};
  const emptyDb={prepare(sql){return {bind(){return this;},async first(){return null;},async all(){return {results:[]};}};}};
  const event=()=>({table:'audit_events',keys:['org_id','id'],append:true,values:{org_id:'org',id:'event-1',person_id:'person-1',actor_id:'worker',actor_name:'Synthetic worker',role:'clinician',action:'viewPatientRecord',subject:'person-1',detail:'synthetic sensitive detail',at:'2026-01-01T00:00:00.000Z'}});
- let sealCalls=0;
+ let sealCalls=0,destroyCalls=0,idempotencyKeys=[];
  const keyService={
-  async seal({plaintext,aad}){sealCalls++;return {keyId:'synthetic-key',keyVersion:'v1',algorithm:'synthetic-test-aead',nonce:'synthetic-nonce',ciphertext:Buffer.from(`${plaintext}|${aad}`).toString('base64'),lifecycleToken:'synthetic-lifecycle'};},
-  async destroy(){return {state:'inaccessible',receipt:'synthetic-receipt'};}
+  async seal({plaintext,aad,idempotencyKey}){sealCalls++;idempotencyKeys.push(idempotencyKey);return {keyId:`synthetic-key-${idempotencyKey.slice(0,8)}`,keyVersion:'v1',algorithm:'synthetic-test-aead',nonce:'synthetic-nonce',ciphertext:Buffer.from(`${plaintext}|${aad}`).toString('base64'),lifecycleToken:'synthetic-lifecycle'};},
+  async destroy(){destroyCalls++;return {state:'inaccessible',receipt:'synthetic-receipt'};}
  };
  const configured=protection.auditDetailProtectionRuntime({SAHA_AUDIT_DETAIL_PROTECTION:'required',SAHA_AUDIT_DETAIL_YEARS:'2',AUDIT_DETAIL_KEY_SERVICE:keyService});
  await check(()=>{assert.equal(configured.mode,'required');assert.equal(configured.provider,keyService);assert.equal(configured.eligibleAt(event().values),'2028-01-01T00:00:00.000Z');});
@@ -25,11 +25,14 @@ try{
  chain.bindAuditDetailProtectionRuntime(()=>configured);
  const rows=[event()];
  await chain.linkRows(emptyDb,'org',rows,'2026-01-01T00:00:01.000Z');
- await check(()=>{assert.equal(rows.length,3);assert.equal(rows.filter(x=>x.table==='audit_detail_protections').length,1);assert.equal(rows.filter(x=>x.table==='audit_detail_key_events').length,1);assert.equal(rows[0].values.detail.includes('synthetic sensitive detail'),false);assert.equal(protection.parseAuditDetailToken(String(rows[0].values.detail)).keyId,'synthetic-key');assert.equal(sealCalls,1);});
+ await check(()=>{assert.equal(rows.length,3);assert.equal(rows.filter(x=>x.table==='audit_detail_protections').length,1);assert.equal(rows.filter(x=>x.table==='audit_detail_key_events').length,1);assert.equal(rows[0].values.detail.includes('synthetic sensitive detail'),false);assert.match(protection.parseAuditDetailToken(String(rows[0].values.detail)).keyId,/^synthetic-key-/);assert.equal(sealCalls,1);assert.equal(idempotencyKeys[0].length,64);});
  const metadata=rows.find(x=>x.table==='audit_detail_protections').values;
  await check(()=>{assert.equal(metadata.org_id,'org');assert.equal(metadata.event_id,'event-1');assert.equal(metadata.eligible_at,'2028-01-01T00:00:00.000Z');assert.equal(String(metadata.token_digest).length,64);assert.equal(String(metadata.lifecycle_token_digest).length,64);});
  await chain.linkRows(emptyDb,'org',rows,'2026-01-01T00:00:02.000Z');
  await check(()=>{assert.equal(rows.filter(x=>x.table==='audit_detail_protections').length,1);assert.equal(rows.filter(x=>x.table==='audit_detail_key_events').length,1);assert.equal(sealCalls,1);});
+ const forged=event();forged.values.id='forged-token';forged.values.detail=JSON.stringify({format:protection.AUDIT_DETAIL_TOKEN_FORMAT,keyId:'attacker-key',keyVersion:'v1',algorithm:'fake',nonce:'fake',ciphertext:'plaintext-shaped-as-token'});const forgedRows=[forged];await chain.linkRows(emptyDb,'org',forgedRows,'2026-01-01T00:00:02.000Z');
+ await check(()=>{assert.equal(sealCalls,2,'fresh token-shaped detail is sealed, never trusted');assert.equal(forgedRows.length,3);assert.notEqual(protection.parseAuditDetailToken(String(forgedRows[0].values.detail)).keyId,'attacker-key');});
+ const compensated=await chain.compensateUncommittedAuditDetails(forgedRows);await check(()=>{assert.equal(compensated.complete,true);assert.equal(compensated.evidence.length,1);assert.equal(compensated.evidence[0].receiptDigest.length,64);assert.equal(destroyCalls,1);});
  const unavailable=protection.auditDetailProtectionRuntime({SAHA_AUDIT_DETAIL_PROTECTION:'required'});chain.bindAuditDetailProtectionRuntime(()=>unavailable);const refused=[event()];
  await check(async()=>{await assert.rejects(()=>chain.linkRows(emptyDb,'org',refused,'2026-01-01T00:00:01.000Z'),e=>e.status===503);assert.equal(refused.length,1);assert.equal(refused[0].values.detail,'synthetic sensitive detail');});
  chain.bindAuditDetailProtectionRuntime(()=>protection.auditDetailProtectionRuntime({}));const disabled=[event()];await chain.linkRows(emptyDb,'org',disabled,'2026-01-01T00:00:01.000Z');

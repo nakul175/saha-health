@@ -81,7 +81,16 @@ export async function linkRows(db: D1Database, orgId: string, rows: ChainRow[], 
   if (!audit.length) return { base: null, genesis: null };
   const protection=auditDetailRuntime();if(protection.mode==='required'){
     if(!protection.provider)throw Object.assign(new Error('Audit detail key service is unavailable. No event was saved.'),{status:503});
-    for(const row of audit){if(parseAuditDetailToken(String(row.values.detail)))continue;const protectedWrite=await protectAuditDetailAtWrite(row.values as unknown as EventRow,protection.provider,protection.eligibleAt(row.values as unknown as EventRow),now),m=protectedWrite.metadata;row.values.detail=protectedWrite.event.detail;rows.push({table:'audit_detail_protections',values:{org_id:m.orgId,event_id:m.eventId,key_id:m.keyId,key_version:m.keyVersion,algorithm:m.algorithm,token_digest:m.tokenDigest,lifecycle_token_digest:m.lifecycleTokenDigest,eligible_at:m.eligibleAt,created_at:m.createdAt},keys:['org_id','event_id'],append:true},{table:'audit_detail_key_events',values:{org_id:m.orgId,id:crypto.randomUUID(),event_id:m.eventId,phase:'sealed',outcome:'key-created',key_id:m.keyId,key_version:m.keyVersion,lifecycle_token_digest:m.lifecycleTokenDigest,at:m.createdAt,receipt:null},keys:['org_id','id'],append:true});}
+    for(const row of audit){
+      const parsed=parseAuditDetailToken(String(row.values.detail));
+      const companion=rows.find(candidate=>candidate.table==='audit_detail_protections'&&candidate.values.org_id===row.values.org_id&&candidate.values.event_id===row.values.id);
+      // A ciphertext-looking string is not authoritative. It is safe to reuse only the
+      // exact in-memory successor produced by an earlier attempt, with companion
+      // metadata bound to this event and token. Fresh token-shaped input is sealed as
+      // plaintext like every other audit detail.
+      if(parsed&&companion&&companion.values.key_id===parsed.keyId&&companion.values.key_version===parsed.keyVersion&&companion.values.algorithm===parsed.algorithm&&companion.values.token_digest===await sha256(String(row.values.detail)))continue;
+      const protectedWrite=await protectAuditDetailAtWrite(row.values as unknown as EventRow,protection.provider,protection.eligibleAt(row.values as unknown as EventRow),now),m=protectedWrite.metadata;row.values.detail=protectedWrite.event.detail;rows.push({table:'audit_detail_protections',values:{org_id:m.orgId,event_id:m.eventId,key_id:m.keyId,key_version:m.keyVersion,algorithm:m.algorithm,token_digest:m.tokenDigest,lifecycle_token_digest:m.lifecycleTokenDigest,eligible_at:m.eligibleAt,created_at:m.createdAt},keys:['org_id','event_id'],append:true},{table:'audit_detail_key_events',values:{org_id:m.orgId,id:crypto.randomUUID(),event_id:m.eventId,phase:'sealed',outcome:'key-created',key_id:m.keyId,key_version:m.keyVersion,lifecycle_token_digest:m.lifecycleTokenDigest,at:m.createdAt,receipt:null},keys:['org_id','id'],append:true});
+    }
   }
   const base = await chainHead(db, orgId);
   let seq = base ? base.seq : -1, prev = base ? base.hash : GENESIS_PREV, genesis: ChainRow | null = null;
@@ -91,6 +100,18 @@ export async function linkRows(db: D1Database, orgId: string, rows: ChainRow[], 
   for (const r of audit) { if (Object.keys(r.values).join(',') !== cols) throw new Error('Audit rows must share one column set.'); await assign(r.values); }
   if (genesis) genesis.values = Object.fromEntries(Object.keys(audit[0].values).map(k => [k, genesis!.values[k] ?? null]));
   return { base, genesis };
+}
+// Compensates provider reservations when the database definitively refuses the
+// batch. Chain-conflict retries deliberately keep the exact metadata-bound
+// reservation and reuse the provider idempotency key instead.
+export async function compensateUncommittedAuditDetails(rows:ChainRow[]){
+  const runtime=auditDetailRuntime(),provider=runtime.provider;if(runtime.mode!=='required'||!provider)return {complete:true,evidence:[] as {eventId:string;state:string;receiptDigest:string|null}[]};
+  const evidence=[] as {eventId:string;state:string;receiptDigest:string|null}[];
+  for(const m of rows.filter(r=>r.table==='audit_detail_protections')){
+    try{const result=await provider.destroy({keyId:String(m.values.key_id),keyVersion:String(m.values.key_version),expectedLifecycleTokenDigest:String(m.values.lifecycle_token_digest)});evidence.push({eventId:String(m.values.event_id),state:result.state,receiptDigest:result.receipt?await sha256(result.receipt):null});}
+    catch{evidence.push({eventId:String(m.values.event_id),state:'provider-error',receiptDigest:null});}
+  }
+  return {complete:evidence.every(x=>x.state==='inaccessible'),evidence};
 }
 // After a failed batch: did another commit extend the chain since `base` was read?
 export async function chainMoved(db: D1Database, orgId: string, base: Head) {
