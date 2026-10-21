@@ -2,7 +2,7 @@ import {z} from 'zod';
 import type {D1Database} from '@cloudflare/workers-types';
 import {guarded,type Actor,type Row} from './store';
 import {digest,fail,uuid} from './core';
-import {linkRows,chainMoved,chainBackoff,compensateUncommittedAuditDetails,compensatedAuditWriteError} from './audit-chain';
+import {linkRows,chainMoved,chainBackoff,requireAuditDetailCompensation,compensatedAuditWriteError} from './audit-chain';
 
 const ref=z.string().regex(/^[a-zA-Z0-9_-]{1,200}$/);
 const id=z.string().uuid(),hash=z.string().regex(/^[0-9a-f]{64}$/),common={id,surface:z.enum(['app','field']),claimedAt:z.string().datetime({offset:true}).max(40)};
@@ -74,7 +74,7 @@ export async function reportOfflineOpens(d:D1Database,u:Actor,org:string,input:u
   // An audit-only token changes no clinical or organisation revision. Unique
   // report IDs and chain sequence enforce all-or-nothing concurrent replay.
   try{const saved=await d.batch([d.prepare('UPDATE organisations SET last_command=? WHERE id=?').bind(token,org),...guarded(d,org,token,chain.genesis?[chain.genesis,...rows]:rows)]);if(saved[0].meta.changes!==1)refuse();return {userId:u.userId,accepted:prepared.map(x=>x.event.id),replayed:false};}
-  catch(error){if(attempt<5&&(await chainMoved(d,org,chain.base)||await d.prepare('SELECT 1 FROM offline_open_reports WHERE actor_id=? AND id=?').bind(u.userId,fresh[0].event.id).first())){await compensateUncommittedAuditDetails(rows);await chainBackoff(attempt);continue;}throw await compensatedAuditWriteError(error,rows);}
+  catch(error){if(attempt<5&&(await chainMoved(d,org,chain.base)||await d.prepare('SELECT 1 FROM offline_open_reports WHERE actor_id=? AND id=?').bind(u.userId,fresh[0].event.id).first())){await chainBackoff(attempt);continue;}throw await compensatedAuditWriteError(error,rows);}
  }
  return fail(409,'Keep the original offline report keys for retry.');
 }

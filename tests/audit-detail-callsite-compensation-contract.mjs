@@ -14,4 +14,6 @@ assert.deepEqual(callers.sort(),['device-work.ts','indicator-figures-server.ts',
 const chain=readFileSync(join(root,'audit-chain.ts'),'utf8');
 assert.match(chain,/receiptDigest:result\.receipt\?await sha256\(result\.receipt\):null/,'compensation evidence must retain only a receipt digest');
 assert.match(chain,/state:'provider-error',receiptDigest:null/,'provider compensation failure must remain explicit');
-console.log(JSON.stringify({suite:'audit detail direct-writer compensation coverage',passed:9,callers:callers.length}));
+for(const file of callers){const source=readFileSync(join(root,file),'utf8');assert.doesNotMatch(source,/await compensateUncommittedAuditDetails\(/,`${file} must not discard incomplete compensation`);}
+for(const file of ['device-work.ts','offline-opens.ts']){const source=readFileSync(join(root,file),'utf8');assert.doesNotMatch(source,/requireAuditDetailCompensation\([^)]*\);[^\n]*continue/,`${file} must retain provider reservations across a chain retry`);}
+console.log(JSON.stringify({suite:'audit detail direct-writer compensation coverage',passed:17,callers:callers.length}));

@@ -113,7 +113,8 @@ export async function compensateUncommittedAuditDetails(rows:ChainRow[]){
   }
   return {complete:evidence.every(x=>x.state==='inaccessible'),evidence};
 }
-export async function compensatedAuditWriteError(error:unknown,rows:ChainRow[]){const failure=error instanceof Error?error:new Error('Audit write failed.');return Object.assign(failure,{auditDetailCompensation:await compensateUncommittedAuditDetails(rows)});}
+export async function requireAuditDetailCompensation(rows:ChainRow[]){const compensation=await compensateUncommittedAuditDetails(rows);if(!compensation.complete)throw Object.assign(new Error('Audit detail key compensation is incomplete and requires reconciliation.'),{status:503,auditDetailCompensation:compensation});return compensation;}
+export async function compensatedAuditWriteError(error:unknown,rows:ChainRow[]){const compensation=await compensateUncommittedAuditDetails(rows);if(!compensation.complete)return Object.assign(new Error('Audit write failed and audit detail key compensation requires reconciliation.'),{status:503,cause:error,auditDetailCompensation:compensation});const failure=error instanceof Error?error:new Error('Audit write failed.');return Object.assign(failure,{auditDetailCompensation:compensation});}
 // After a failed batch: did another commit extend the chain since `base` was read?
 export async function chainMoved(db: D1Database, orgId: string, base: Head) {
   const now = await chainHead(db, orgId);
