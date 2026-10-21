@@ -6,6 +6,7 @@ import {digest,fail,uuid} from './core';
 import {mediaBackend} from './media-storage';
 import {purgeReservedPrivateObject,recordRetentionDisposalOutcome,reserveRetentionDisposal,retentionDisposalJob,tombstoneForJob} from './retention-disposal';
 import {productionObjectDeleteCapability} from './s3-versioned-delete-runtime';
+import {externalObjectDeletionGate} from './retention-external-object-gate';
 // Slice 6c: retention schedule, holds and eligibility counts for organisation owners.
 export async function retentionRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId),now=new Date().toISOString();
@@ -13,7 +14,9 @@ export async function retentionRead(request:Request){
  const total=await db().prepare('SELECT count(*) AS n FROM audit_events WHERE org_id=?').bind(s.organisation.id).first<{n:number}>();
  const past=rule?await db().prepare('SELECT count(*) AS n FROM audit_events WHERE org_id=? AND at<?').bind(s.organisation.id,yearsAgo(now,rule.years)).first<{n:number}>():null;
  const pending=await db().prepare("SELECT id,record_class,record_id,state,outcome,created_at,attempts,last_attempt_at,last_error FROM retention_disposal_jobs WHERE org_id=? AND state IN ('pending','reserved','blocked') ORDER BY created_at,id LIMIT 101").bind(s.organisation.id).all<Record<string,unknown>>();if(pending.results.length>100)fail(503,'Pending disposal inventory exceeds the review limit. Ask for controlled reconciliation.');
- return json({...retentionReview(s,m,{total:total?.n??0,pastSchedule:past?.n??0},now),pendingDisposals:pending.results.map(x=>({id:x.id,recordClass:x.record_class,recordId:x.record_id,state:x.state,outcome:x.outcome,createdAt:x.created_at,attempts:x.attempts,lastAttemptAt:x.last_attempt_at,lastError:x.last_error}))});
+ const review=retentionReview(s,m,{total:total?.n??0,pastSchedule:past?.n??0},now),runtime=rawRuntime();
+ const artifacts=review.inventory.artifacts.map(a=>'recordClass' in a&&(a.recordClass==='export'||a.recordClass==='backup')?{...a,externalObjectDeletion:externalObjectDeletionGate(a,runtime)}:a);
+ return json({...review,inventory:{...review.inventory,artifacts},pendingDisposals:pending.results.map(x=>({id:x.id,recordClass:x.record_class,recordId:x.record_id,state:x.state,outcome:x.outcome,createdAt:x.created_at,attempts:x.attempts,lastAttemptAt:x.last_attempt_at,lastError:x.last_error}))});
 }
 
 export async function retentionWrite(request:Request){
