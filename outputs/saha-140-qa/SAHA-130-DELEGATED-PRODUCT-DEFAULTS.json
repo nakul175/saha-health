@@ -1,0 +1,48 @@
+{
+  "story": "SAHA-130",
+  "decisionAt": "2026-10-21T04:20:00Z",
+  "authority": "Human sponsor delegated unresolved product defaults to the engineering agent in this chat.",
+  "status": "PRODUCT_DEFAULTS_FROZEN",
+  "legalBoundary": "These are conservative configurable product defaults. They do not replace jurisdiction-specific legal, privacy, clinical, security or audit approval, and a stricter applicable duty always overrides them.",
+  "defaults": {
+    "patientRecords": {
+      "baselineYearsAfterLastClinicalActivity": 3,
+      "recordOfTruth": "healthcare-provider",
+      "overrides": ["active-treatment", "clinical-duty", "legal-hold", "government-programme", "stricter-jurisdiction-rule"]
+    },
+    "externalModelOutputs": {
+      "unreviewedRawOutputMaxDays": 30,
+      "acceptedDisposition": "retain human decision and non-content provenance under the patient-record schedule",
+      "providerRequirements": ["documented-authority", "processing-agreement", "no-training", "retention-terms", "security-and-audit-evidence"]
+    },
+    "offlinePackagesAndCaches": {
+      "normalLeaseDays": 7,
+      "hardMaximumDays": 30,
+      "unsyncedClinicalWork": "block disposal and escalate",
+      "completionEvidence": "authoritative device or provider attestation; app acknowledgement alone is insufficient"
+    },
+    "audit": {
+      "minimalEnvelopeYears": 7,
+      "sensitiveDetailDays": 365,
+      "minimalEnvelope": ["actor-token", "role", "organisation", "action", "subject-token", "time", "result", "policy-version", "hashes"],
+      "completionEvidence": "verified chain plus explicit sensitive-detail unavailability"
+    },
+    "exports": {
+      "serverPayloadHours": 24,
+      "keyMaximumDays": 7,
+      "requirements": ["encryption", "short-lived-single-use-access", "registered-destination", "accountable-owner"],
+      "unmanagedCopyClaim": "cryptographic erasure only; never claim physical deletion without authoritative destination evidence"
+    },
+    "backups": {
+      "dailyRecoveryDays": 35,
+      "monthlyCheckpointMonths": 12,
+      "requirements": ["per-generation-key", "tombstone-aware-restore", "hold-aware-restore", "provider-version-and-replica-deletion-receipt"]
+    },
+    "hostedObjects": {
+      "requiredCapability": "exact versionId plus If-Match ETag deletion enforced by storage policy",
+      "referenceArchitecture": "version-enabled S3-compatible general-purpose object storage",
+      "currentBehavior": "fail closed until a real adapter and provider capability are verified"
+    }
+  },
+  "gateEffect": "Resolves the product-default decision gap. It does not itself prove provider/device deletion, formal acceptance, QA_PASS, merge or deployment."
+}
