@@ -1,4 +1,5 @@
 import type { D1Database } from '@cloudflare/workers-types';
+import {parseAuditDetailToken,protectAuditDetailAtWrite,type AuditDetailProtectionRuntime} from './audit-detail-protection';
 // Slice 6j: tamper-evident audit chain (BR-SEC-08, NFR-10).
 //
 // Each organisation has one linear chain over its audit events. Every event written through
@@ -38,6 +39,8 @@ export type Head = { seq: number; hash: string } | null;
 export type Prior = { count: number; lastAt: string | null; lastId: string | null; digest: string };
 export type Break = { seq: number; id: string | null; reason: string };
 export type Verification = { chainVersion: string; status: 'intact' | 'broken' | 'not-started' | 'incomplete'; events: number; priorEvents: number; head: { seq: number; hash: string; at: string } | null; genesisAt: string | null; firstBreak: Break | null; clockRegressions: { count: number; largestMs: number; firstSeq: number | null }; checkedAt: string };
+let auditDetailRuntime=():AuditDetailProtectionRuntime=>({mode:'disabled',provider:null,eligibleAt:()=>{throw new Error('disabled');}});
+export function bindAuditDetailProtectionRuntime(read:()=>AuditDetailProtectionRuntime){auditDetailRuntime=read;}
 
 const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join('');
 export const sha256 = async (text: string) => hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)));
@@ -76,6 +79,10 @@ export const genesisEvent = (orgId: string, at: string, prior: Prior): EventRow 
 export async function linkRows(db: D1Database, orgId: string, rows: ChainRow[], now: string): Promise<{ base: Head; genesis: ChainRow | null }> {
   const audit = rows.filter(r => r.table === 'audit_events');
   if (!audit.length) return { base: null, genesis: null };
+  const protection=auditDetailRuntime();if(protection.mode==='required'){
+    if(!protection.provider)throw Object.assign(new Error('Audit detail key service is unavailable. No event was saved.'),{status:503});
+    for(const row of audit){if(parseAuditDetailToken(String(row.values.detail)))continue;const protectedWrite=await protectAuditDetailAtWrite(row.values as unknown as EventRow,protection.provider,protection.eligibleAt(row.values as unknown as EventRow),now),m=protectedWrite.metadata;row.values.detail=protectedWrite.event.detail;rows.push({table:'audit_detail_protections',values:{org_id:m.orgId,event_id:m.eventId,key_id:m.keyId,key_version:m.keyVersion,algorithm:m.algorithm,token_digest:m.tokenDigest,lifecycle_token_digest:m.lifecycleTokenDigest,eligible_at:m.eligibleAt,created_at:m.createdAt},keys:['org_id','event_id'],append:true},{table:'audit_detail_key_events',values:{org_id:m.orgId,id:crypto.randomUUID(),event_id:m.eventId,phase:'sealed',outcome:'key-created',key_id:m.keyId,key_version:m.keyVersion,lifecycle_token_digest:m.lifecycleTokenDigest,at:m.createdAt,receipt:null},keys:['org_id','id'],append:true});}
+  }
   const base = await chainHead(db, orgId);
   let seq = base ? base.seq : -1, prev = base ? base.hash : GENESIS_PREV, genesis: ChainRow | null = null;
   const assign = async (v: Record<string, Value>) => { seq++; v.seq = seq; v.prev_hash = prev; v.hash = await linkHash(seq, prev, await contentDigest(v as unknown as EventRow)); prev = v.hash; };
