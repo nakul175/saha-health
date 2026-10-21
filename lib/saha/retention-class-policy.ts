@@ -14,6 +14,33 @@ export type ExportDisposition=Common&{recordClass:'export';serverPayloadPersiste
 export type BackupDisposition=Common&{recordClass:'backup';recoveryWindowApproved:boolean;tombstoneAwareRestoreVerified:boolean;generationKeyInaccessible:boolean;providerGenerationEvidence:boolean};
 export type PolicyDispositionInput=PatientRecordDisposition|ModelOutputDisposition|OfflineDisposition|AuditDisposition|ExportDisposition|BackupDisposition;
 
+export type RetentionProductDefaults={
+ patientRecordYears:number;externalModelRawDays:number;offlineLeaseDays:number;offlineHardMaxDays:number;
+ auditEnvelopeYears:number;auditSensitiveDetailYears:number;exportServerHours:number;exportKeyDays:number;
+ backupDailyDays:number;backupMonthlyMonths:number;
+};
+// Product defaults are configuration proposals, not legal, privacy, clinical or
+// audit approval. Eligibility calculations never bypass decidePolicyDisposition.
+export const RETENTION_PRODUCT_DEFAULTS:Readonly<RetentionProductDefaults>=Object.freeze({patientRecordYears:3,externalModelRawDays:30,offlineLeaseDays:7,offlineHardMaxDays:30,auditEnvelopeYears:7,auditSensitiveDetailYears:1,exportServerHours:24,exportKeyDays:7,backupDailyDays:35,backupMonthlyMonths:12});
+export type RetentionMilestones={recommendedAt:string;hardMaxAt?:string;policyApprovalRequired:true;basis:'product-default'};
+const positive=(value:number,name:string)=>{if(!Number.isInteger(value)||value<=0)fail(422,`${name} must be a positive whole number.`);return value;};
+export function validateRetentionProductDefaults(value:RetentionProductDefaults){for(const [name,v] of Object.entries(value))positive(v,name);if(value.offlineHardMaxDays<value.offlineLeaseDays)fail(422,'offlineHardMaxDays cannot be shorter than offlineLeaseDays.');if(value.auditEnvelopeYears<value.auditSensitiveDetailYears)fail(422,'auditEnvelopeYears cannot be shorter than auditSensitiveDetailYears.');if(value.exportKeyDays*24<value.exportServerHours)fail(422,'exportKeyDays cannot expire before the server payload window.');return Object.freeze({...value});}
+const instant=(value:string)=>{const d=new Date(value);if(!Number.isFinite(d.valueOf())||d.toISOString()!==value)fail(422,'A canonical UTC instant is required.');return d;};
+const days=(at:string,count:number)=>new Date(instant(at).valueOf()+positive(count,'days')*86400000).toISOString();
+const hours=(at:string,count:number)=>new Date(instant(at).valueOf()+positive(count,'hours')*3600000).toISOString();
+const calendar=(at:string,count:number,unit:'years'|'months')=>{const d=instant(at),day=d.getUTCDate();if(unit==='years')d.setUTCFullYear(d.getUTCFullYear()+positive(count,unit));else d.setUTCMonth(d.getUTCMonth()+positive(count,unit));if(d.getUTCDate()!==day)d.setUTCDate(0);return d.toISOString();};
+export function retentionMilestones(recordClass:PolicyControlledClass,triggerAt:string,options:{config?:RetentionProductDefaults;backupCadence?:'daily'|'monthly'}={}):RetentionMilestones{
+ const c=validateRetentionProductDefaults(options.config??RETENTION_PRODUCT_DEFAULTS),base={policyApprovalRequired:true as const,basis:'product-default' as const};
+ switch(recordClass){
+  case 'patient-record':return {...base,recommendedAt:calendar(triggerAt,c.patientRecordYears,'years')};
+  case 'model-output':return {...base,recommendedAt:days(triggerAt,c.externalModelRawDays)};
+  case 'field-package':case 'local-cache':return {...base,recommendedAt:days(triggerAt,c.offlineLeaseDays),hardMaxAt:days(triggerAt,c.offlineHardMaxDays)};
+  case 'audit-event':return {...base,recommendedAt:calendar(triggerAt,c.auditSensitiveDetailYears,'years'),hardMaxAt:calendar(triggerAt,c.auditEnvelopeYears,'years')};
+  case 'export':return {...base,recommendedAt:hours(triggerAt,c.exportServerHours),hardMaxAt:days(triggerAt,c.exportKeyDays)};
+  case 'backup':if(!options.backupCadence)fail(422,'Backup cadence is required.');return {...base,recommendedAt:options.backupCadence==='daily'?days(triggerAt,c.backupDailyDays):calendar(triggerAt,c.backupMonthlyMonths,'months')};
+ }
+}
+
 const retained=(reason:string):DispositionDecision=>({state:'retained',claim:'retained',reason,retryable:false});
 const blocked=(reason:string,retryable=false):DispositionDecision=>({state:'policy-blocked',claim:'retained',reason,retryable});
 const pending=(reason:string,claim:DispositionDecision['claim']='retained'):DispositionDecision=>({state:'purge-pending',claim,reason,retryable:true});
