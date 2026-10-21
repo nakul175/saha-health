@@ -59,6 +59,7 @@ const recipes = (visitId, org) => ({
   '/api/identity-cases': '?personId=p_meena', '/api/patients/detail': '?personId=p_meena', '/api/trace': `?visit=${visitId}`, '/api/fhir/[id]': `?organisationId=${org}`,
   '/api/work-burden/support': `?visitId=${encodeURIComponent(visitId)}`,
   '/api/contextual-academy': '?personId=p_meena',
+  '/api/event-geotags': `?personId=p_meena&visitId=${encodeURIComponent(visitId)}`,
 });
 // Routes that cannot be exercised in this run, with the reason. Anything else that answers 4xx without a parameter recipe is skipped and reported too.
 const unsuppliable = {
@@ -267,7 +268,23 @@ try {
         assert.doesNotMatch(JSON.stringify(res.json), /p_meena|personId|patientId|visitId|organisationId|assignedTo/);
         continue;
       }
+      if (route === '/api/route-suggestions') {
+        const refused = await c.get(owner, pathOf(route), org);
+        assert.equal(refused.status, 403, 'route suggestions require active ASHA membership');
+        assert.deepEqual(Object.keys(refused.json).sort(), ['error'], 'route-suggestion role refusal carries no assigned work');
+        const res = await c.get(asha, pathOf(route), org);
+        sweep.push({ route, path: pathOf(route), actor: 'assigned-asha', status: res.status, ms: Math.round(res.ms) });
+        assert.equal(res.status, 200, `assigned ASHA route suggestions: ${res.json?.error ?? ''}`);
+        assert.ok(Array.isArray(res.json.suggestions)); assert.ok(Array.isArray(res.json.work));
+        continue;
+      }
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
+      if (route === '/api/rights/package') {
+        assert.equal(res.status, 422, 'rights package requires one access-request id');
+        assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'missing rights-request refusal carries no patient record');
+        assert.match(res.json.error, /access request/i);
+        continue;
+      }
       if (['/api/today', '/api/routine-visit', '/api/programme-status', '/api/handover', '/api/record-matching', '/api/fact-freshness', '/api/amendments', '/api/plan-review', '/api/assistance-control', '/api/household-proxy-review', '/api/interface-language', '/api/own-care-permissions', '/api/local-registration', '/api/shared-question-review'].includes(route)) {
         assert.equal(res.status, 403, `${route} requires ASHA membership, even for an owner`);
         assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
