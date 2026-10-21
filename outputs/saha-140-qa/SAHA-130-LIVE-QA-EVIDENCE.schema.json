@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saha.invalid/schemas/saha-130-live-qa-evidence-v1.json",
+  "title": "SAHA-130 synthetic export and backup exact-version QA evidence",
+  "type": "object",
+  "required": ["schemaVersion", "story", "runId", "syntheticOnly", "provider", "trustedConfiguration", "objects", "mode", "verdict", "completedAt", "secretsRecorded"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "story": {"const": "SAHA-130"},
+    "runId": {"type": "string", "minLength": 3},
+    "syntheticOnly": {"const": true},
+    "provider": {"const": "digitalocean-spaces"},
+    "mode": {"enum": ["dry-run", "live"]},
+    "verdict": {"enum": ["READY_FOR_LIVE_EXECUTION", "QA_PASS"]},
+    "completedAt": {"type": "string", "format": "date-time"},
+    "secretsRecorded": {"const": false},
+    "trustedConfiguration": {"type": "object", "required": ["endpoint", "region", "accountIdSha256", "bucketSha256"], "additionalProperties": false},
+    "objects": {"type": "object", "required": ["export", "backup"], "additionalProperties": false},
+    "receipts": {"type": "object"}
+  },
+  "allOf": [{"if": {"properties": {"mode": {"const": "live"}}}, "then": {"required": ["receipts"], "properties": {"verdict": {"const": "QA_PASS"}}}}],
+  "additionalProperties": true
+}
