@@ -108,6 +108,7 @@ import type { OrgState, Integration, Member, Snapshot } from './types';
 import {eventGeotagDisclosureRevision,eventGeotagDisclosureVisit} from './event-geotag';
 import {bindAuditDetailProtectionRuntime} from './audit-chain';
 import {auditDetailProtectionRuntime} from './audit-detail-protection';
+import {vaultAuditDetailKeyProvider} from './vault-audit-detail-key-provider';
 export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u){const security=await db().prepare('SELECT revoked_before FROM credential_recoveries WHERE user_id=?').bind(u.userId).first<{revoked_before:number}>();if(security&&!credentialIsCurrent(u,security.revoked_before))fail(401,'This credential was superseded. Sign in again with the approved institutional method.');return u;}if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null,provider:'sites-chatgpt' as const};return fail(401,'Sign in to use your workspace.');}
 export function db(){if(!env.DB)fail(503,'Workspace storage is temporarily unavailable. Your unsaved input has been kept on screen.');return env.DB!;}
 export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null,material:boolean|SnapshotVia=false){const id=await activeOrg(u,orgId);
@@ -361,7 +362,7 @@ export async function organisationAudit(request:Request){const u=await identity(
 // Slice 6n: every provider path receives the environment-policy runtime; rawRuntime is for reporting only.
 export const rawRuntime=()=>env as unknown as Record<string,string|undefined>;
 bindPrimaryStorageRuntime(()=>rawRuntime().SAHA_PRIMARY_STORAGE_LOCATION);
-bindAuditDetailProtectionRuntime(()=>auditDetailProtectionRuntime(rawRuntime() as Record<string,unknown>));
+bindAuditDetailProtectionRuntime(()=>{const raw=rawRuntime() as Record<string,unknown>;return auditDetailProtectionRuntime({...raw,AUDIT_DETAIL_KEY_SERVICE:vaultAuditDetailKeyProvider(raw)});});
 export const runtime=()=>effectiveRuntime(rawRuntime());
 export const externalEnabled=()=>runtime().SAHA_EXTERNAL_APIS_ENABLED==='true';
 // Slice 6t: an external AI request is recorded in the audit chain after its checks and before it is sent;
