@@ -1,6 +1,6 @@
 {
   "story": "SAHA-130",
-  "recordedAt": "2026-10-21T05:53:13Z",
+  "recordedAt": "2026-10-21T06:45:00Z",
   "approvalRecord": "outputs/saha-140-qa/SAHA-130-PRODUCT-POLICY-APPROVAL.json",
   "approvalRecordSha256": "109041a0a2c377188ae4af17acd90b0b2d1c7335906cf814476a597b7a454bec",
   "commits": {
@@ -13,7 +13,19 @@
     "syntheticProviderContract": "09a89c05",
     "crossClassQa": "ca27a473",
     "applicationPolicyWiring": "9c9d579e",
-    "runtimeProviderWiring": "6e67168c"
+    "runtimeProviderWiring": "6e67168c",
+    "externalCustodyGate": "ae541045",
+    "authoritativeDeviceGate": "861e3b10",
+    "auditDetailErasureGate": "ab211e6b",
+    "auditDetailLifecycle": "6ccf27cc",
+    "exactCustodyRegistration": "adf929f6",
+    "auditRuntimeProtection": "c98d8b34",
+    "liveRetentionQaHarness": "826399c4",
+    "deviceGateReviewRepair": "45ee7c8b",
+    "auditAndLiveQaSafetyRepair": "62712790",
+    "allAuditWriterCompensation": "efd5f4a3",
+    "compensationAndNamespaceRepair": "3bdc4193",
+    "reservedLiveQaNamespace": "a48accb6"
   },
   "checks": {
     "retentionClassPolicy": "48/48 pass",
@@ -25,7 +37,17 @@
     "retentionApi": "22/22 pass",
     "runtimeProviderWiring": "25/25 pass; no network or credentials",
     "dataExitRetention": "28/28 pass",
-    "digitalOceanSpacesLiveExactVersionDeletion": "8/8 pass; two synthetic versions created, selected version permanently deleted with matching receipt, survivor verified, exact cleanup completed"
+    "digitalOceanSpacesLiveExactVersionDeletion": "8/8 pass; two synthetic versions created, selected version permanently deleted with matching receipt, survivor verified, exact cleanup completed",
+    "externalDeletionGates": "12/12 pass; no provider calls",
+    "exactCustodyRegistration": "24/24 pass; trusted runtime coordinates only",
+    "authoritativeDeviceEvidenceGate": "20/20 pass; synthetic verifier only, real device evidence not used",
+    "auditDetailErasureGate": "13/13 pass; live key service not used",
+    "auditDetailWriteProtection": "10/10 pass; synthetic key provider only",
+    "auditDetailRuntimeIntegration": "9/9 pass",
+    "auditWriterCompensationCoverage": "17/17 pass",
+    "auditCompensationRefusal": "5/5 pass",
+    "liveRetentionQaHarness": "35/35 pass; invalid inputs make zero provider calls; live mode not executed",
+    "independentSourceReview": "device repair and reserved live-QA namespace approved; prior P1 findings repaired"
   },
   "implementedBoundary": [
     "Explicit fail-closed disposition states for patient records, model outputs, field packages, local caches, audit events, exports and backups",
@@ -33,18 +55,22 @@
     "Cryptographic erasure remains distinct from verified physical deletion",
     "Audit detail cannot complete without explicit unavailability evidence",
     "Hosted private-object deletion requires an exact conditional/version-specific provider capability",
-    "Generic provider deletion is blocked and unconfirmed results remain retryable"
+    "Generic provider deletion is blocked and unconfirmed results remain retryable",
+    "Authoritative device evidence is bound to organisation, device authority, tombstone, record class and a single-use server challenge; OS attestation proves only a hardware-attested transaction",
+    "New audit detail can be encrypted before chain hashing with exact key-version lifecycle evidence; historical plaintext is never rewritten",
+    "Every protected audit writer compensates uncommitted provider reservations and fails closed with digest-only evidence when cleanup is incomplete",
+    "Export and backup custody requires exact provider coordinates and evidence; owner responses expose only provider and coordinate digest",
+    "Live retention QA is restricted to the code-reserved saha-retention-live-qa namespace and synthetic UUID identifiers"
   ],
   "crossClassQaPlan": "outputs/saha-140-qa/SAHA-130-CROSS-CLASS-QA-PLAN.md",
   "remainingInputs": [
-    "Jurisdiction-specific patient-record schedules and minimum retained evidence schema",
-    "Per-output clinical classification",
-    "Approved handling of unsynced clinical work and authoritative device evidence interface",
-    "Approved audit minimum envelope and detail-erasure adapter",
-    "Registered export destination and authoritative destination deletion interface",
-    "Approved backup recovery window and provider generation deletion interface"
+    "A real managed Android device or independent lab/MDM authority, enrolled verifier and retained signed deletion receipt for the authoritative device gate",
+    "A production key-service binding that can seal and destroy exact audit-detail key versions, plus production migration and live unavailability receipt",
+    "A named accountable export destination owner and executed synthetic live custody/export control receipt",
+    "Executed 35-day backup recovery/tombstone reapplication test, generation-key inaccessibility evidence and exact-version deletion receipts",
+    "Genuine Health/Privacy/Security/Audit-owner approval references for the final retention and erasure evidence"
   ],
   "verdict": "ENGINEERING_COMPLETE_QA_HOLD",
-  "reason": "The approved product defaults, application refusal/disposition paths, cross-class checks, production provider seam and live DigitalOcean exact-version deletion are verified. Whole-story acceptance remains QA_HOLD until authoritative external device, destination, backup and audit evidence plus genuine required approvals exist. No main, staging or production completion is claimed.",
+  "reason": "All identified application-code and reviewed P1 safety gaps for the device, audit-detail, export and backup evidence gates are closed, and the existing DigitalOcean exact-version deletion proof is verified. Whole-story acceptance remains QA_HOLD until real device authority evidence, production key-service evidence, live export/backup custody execution and genuine named approvals are retained. No main, staging or production completion is claimed.",
   "liveProviderReceipt": "outputs/saha-140-qa/SAHA-130-DIGITALOCEAN-LIVE-QA.json"
 }
