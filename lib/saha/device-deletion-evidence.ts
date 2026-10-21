@@ -1,40 +1,34 @@
 import {digest,fail} from './core';
-
-const hex=/^[0-9a-f]{64}$/;
-const ref=/^[A-Za-z0-9._:-]{3,200}$/;
-
-export type BrowserDeletionAcknowledgement={
- instructionId:string;leaseId:string;packageHash:string;removedDrafts:number;removedMedia:number;
- localRevision:number;attestation:'browser-transaction-completed';
-};
-export type DeviceDeletionTombstone={
- recordClass:'field-package'|'local-cache';recordId:string;disposedAt:string;instructionId:string;
-};
-export type AuthoritativeDeviceDeletionStatement={
- format:'saha-authoritative-device-deletion-v1';authorityKind:'managed-device'|'os-attestation'|'independent-device-lab';
- authorityReference:string;deviceKeyId:string;instructionId:string;leaseId:string;packageHash:string;
- vaultRevision:number;deletedAt:string;nonce:string;statementHash:string;signature:string;
-};
-export type DeviceDeletionVerifier=(input:{canonicalStatement:string;statement:AuthoritativeDeviceDeletionStatement})=>Promise<{verified:boolean;evidenceReference?:string}>;
-export type DeviceDeletionGateInput={acknowledgement:BrowserDeletionAcknowledgement|null;tombstone:DeviceDeletionTombstone|null;statement:AuthoritativeDeviceDeletionStatement|null;verify:DeviceDeletionVerifier|null};
-
-const instant=(value:string)=>{const date=new Date(value);return Number.isFinite(date.valueOf())&&date.toISOString()===value;};
-const canonical=(statement:AuthoritativeDeviceDeletionStatement)=>JSON.stringify({format:statement.format,authorityKind:statement.authorityKind,authorityReference:statement.authorityReference,deviceKeyId:statement.deviceKeyId,instructionId:statement.instructionId,leaseId:statement.leaseId,packageHash:statement.packageHash,vaultRevision:statement.vaultRevision,deletedAt:statement.deletedAt,nonce:statement.nonce});
-
-// A browser acknowledgement is deliberately insufficient. Completion needs an independently
-// verified statement bound to the exact purge instruction and the append-only retention tombstone.
+const hex=/^[0-9a-f]{64}$/,ref=/^[A-Za-z0-9._:-]{3,200}$/,authorityKinds=['managed-device','os-attestation','independent-device-lab'] as const;
+export type AuthorityKind=typeof authorityKinds[number];
+export type BrowserDeletionAcknowledgement={instructionId:string;leaseId:string;packageHash:string;removedDrafts:number;removedMedia:number;localRevision:number;attestation:'browser-transaction-completed'};
+export type DeviceDeletionTombstone={id:string;recordClass:'field-package'|'local-cache';recordId:string;disposedAt:string;instructionId:string;hash:string};
+export type DeviceAuthorityContext={organisationId:string;userId:string;deviceRegistrationId:string;deviceKeyId:string;authorityRevision:number};
+export type DeviceDeletionChallenge={id:string;nonce:string;issuedAt:string;expiresAt:string;consumed:boolean;consume:()=>Promise<boolean>};
+export type AuthoritativeDeviceDeletionStatement={format:'saha-authoritative-device-deletion-v2';authorityKind:AuthorityKind;authorityReference:string;organisationId:string;userId:string;deviceRegistrationId:string;deviceKeyId:string;deviceAuthorityRevision:number;tombstoneId:string;tombstoneHash:string;recordClass:'field-package'|'local-cache';instructionId:string;leaseId:string;packageHash:string;vaultRevision:number;deletedAt:string;challengeId:string;challengeNonce:string;statementHash:string;signature:string};
+export type DeviceDeletionVerifierVerdict={verified:boolean;signatureChainVerified:boolean;appIdentityVerified:boolean;deviceKeyActive:boolean;observationKind:'hardware-attested-transaction'|'managed-device-observed'|'independent-lab-observed';evidenceReference?:string};
+export type DeviceDeletionVerifier=(input:{canonicalStatement:string;statement:AuthoritativeDeviceDeletionStatement;authority:DeviceAuthorityContext})=>Promise<DeviceDeletionVerifierVerdict>;
+export type DeviceDeletionGateInput={acknowledgement:BrowserDeletionAcknowledgement|null;tombstone:DeviceDeletionTombstone|null;statement:AuthoritativeDeviceDeletionStatement|null;authority:DeviceAuthorityContext|null;challenge:DeviceDeletionChallenge|null;verify:DeviceDeletionVerifier|null;serverNow:string;maximumClockSkewSeconds?:number};
+const instant=(v:unknown):v is string=>typeof v==='string'&&Number.isFinite(new Date(v).valueOf())&&new Date(v).toISOString()===v,validRef=(v:unknown)=>typeof v==='string'&&ref.test(v),validHex=(v:unknown)=>typeof v==='string'&&hex.test(v),positive=(v:unknown)=>Number.isInteger(v)&&Number(v)>0,nonnegative=(v:unknown)=>Number.isInteger(v)&&Number(v)>=0;
+const canonical=(s:AuthoritativeDeviceDeletionStatement)=>JSON.stringify({format:s.format,authorityKind:s.authorityKind,authorityReference:s.authorityReference,organisationId:s.organisationId,userId:s.userId,deviceRegistrationId:s.deviceRegistrationId,deviceKeyId:s.deviceKeyId,deviceAuthorityRevision:s.deviceAuthorityRevision,tombstoneId:s.tombstoneId,tombstoneHash:s.tombstoneHash,recordClass:s.recordClass,instructionId:s.instructionId,leaseId:s.leaseId,packageHash:s.packageHash,vaultRevision:s.vaultRevision,deletedAt:s.deletedAt,challengeId:s.challengeId,challengeNonce:s.challengeNonce});
+const badAck=(a:BrowserDeletionAcknowledgement)=>a.attestation!=='browser-transaction-completed'||!validHex(a.instructionId)||!validRef(a.leaseId)||!validHex(a.packageHash)||!nonnegative(a.removedDrafts)||!nonnegative(a.removedMedia)||!positive(a.localRevision);
+const badTombstone=(t:DeviceDeletionTombstone)=>!validRef(t.id)||!['field-package','local-cache'].includes(t.recordClass)||!validRef(t.recordId)||!instant(t.disposedAt)||!validHex(t.instructionId)||!validHex(t.hash);
+const badAuthority=(a:DeviceAuthorityContext)=>!validRef(a.organisationId)||!validRef(a.userId)||!validRef(a.deviceRegistrationId)||!validRef(a.deviceKeyId)||!positive(a.authorityRevision);
+const badStatement=(s:AuthoritativeDeviceDeletionStatement)=>s.format!=='saha-authoritative-device-deletion-v2'||!(authorityKinds as readonly string[]).includes(s.authorityKind)||![s.authorityReference,s.organisationId,s.userId,s.deviceRegistrationId,s.deviceKeyId,s.tombstoneId,s.leaseId,s.challengeId,s.challengeNonce,s.signature].every(validRef)||![s.tombstoneHash,s.instructionId,s.packageHash,s.statementHash].every(validHex)||!['field-package','local-cache'].includes(s.recordClass)||!positive(s.deviceAuthorityRevision)||!positive(s.vaultRevision)||!instant(s.deletedAt);
 export async function authoritativeDeviceDeletionEvidence(input:DeviceDeletionGateInput){
- const acknowledgement=input.acknowledgement;if(!acknowledgement)return {verified:false as const,reason:'browser-acknowledgement-missing'};
- if(acknowledgement.attestation!=='browser-transaction-completed')fail(422,'Unsupported browser deletion acknowledgement.');
- const tombstone=input.tombstone;if(!tombstone)return {verified:false as const,reason:'retention-tombstone-missing'};
- if(tombstone.instructionId!==acknowledgement.instructionId||tombstone.recordId!==acknowledgement.leaseId)return {verified:false as const,reason:'retention-tombstone-mismatch'};
- const statement=input.statement;if(!statement)return {verified:false as const,reason:'authoritative-device-statement-missing'};
- if(statement.format!=='saha-authoritative-device-deletion-v1'||!ref.test(statement.authorityReference)||!ref.test(statement.deviceKeyId)||!ref.test(statement.nonce)||!ref.test(statement.signature)||!hex.test(statement.instructionId)||!hex.test(statement.packageHash)||!Number.isInteger(statement.vaultRevision)||statement.vaultRevision<=0||!instant(statement.deletedAt))fail(422,'Invalid authoritative device deletion statement.');
- if(statement.instructionId!==acknowledgement.instructionId||statement.leaseId!==acknowledgement.leaseId||statement.packageHash!==acknowledgement.packageHash||statement.vaultRevision!==acknowledgement.localRevision||statement.deletedAt<tombstone.disposedAt)return {verified:false as const,reason:'authoritative-device-statement-mismatch'};
- const canonicalStatement=canonical(statement);if(statement.statementHash!==await digest(canonicalStatement))return {verified:false as const,reason:'authoritative-device-statement-hash-mismatch'};
- if(!input.verify)return {verified:false as const,reason:'authoritative-device-verifier-unavailable'};
- const verdict=await input.verify({canonicalStatement,statement});if(!verdict.verified||!verdict.evidenceReference?.trim())return {verified:false as const,reason:'authoritative-device-verification-refused'};
- return {verified:true as const,claim:'physically-deleted' as const,evidenceReference:verdict.evidenceReference,recordClass:tombstone.recordClass,recordId:tombstone.recordId,instructionId:tombstone.instructionId,verifiedAt:statement.deletedAt};
+ const acknowledgement=input.acknowledgement;if(!acknowledgement)return {verified:false as const,reason:'browser-acknowledgement-missing'};if(badAck(acknowledgement))fail(422,'Invalid browser deletion acknowledgement.');
+ const tombstone=input.tombstone;if(!tombstone)return {verified:false as const,reason:'retention-tombstone-missing'};if(badTombstone(tombstone))fail(422,'Invalid retention tombstone binding.');if(tombstone.instructionId!==acknowledgement.instructionId||tombstone.recordId!==acknowledgement.leaseId)return {verified:false as const,reason:'retention-tombstone-mismatch'};
+ const authority=input.authority;if(!authority)return {verified:false as const,reason:'device-authority-missing'};if(badAuthority(authority))fail(422,'Invalid registered device authority.');
+ const challenge=input.challenge;if(!challenge)return {verified:false as const,reason:'server-challenge-missing'};if(!validRef(challenge.id)||!validRef(challenge.nonce)||!instant(challenge.issuedAt)||!instant(challenge.expiresAt)||challenge.expiresAt<=challenge.issuedAt||typeof challenge.consume!=='function')fail(422,'Invalid server deletion challenge.');if(challenge.consumed)return {verified:false as const,reason:'server-challenge-replayed'};
+ const now=input.serverNow;if(!instant(now))fail(422,'Invalid server verification time.');if(now<challenge.issuedAt||now>challenge.expiresAt)return {verified:false as const,reason:'server-challenge-expired'};
+ const statement=input.statement;if(!statement)return {verified:false as const,reason:'authoritative-device-statement-missing'};if(badStatement(statement))fail(422,'Invalid authoritative device deletion statement.');
+ if(statement.organisationId!==authority.organisationId||statement.userId!==authority.userId||statement.deviceRegistrationId!==authority.deviceRegistrationId||statement.deviceKeyId!==authority.deviceKeyId||statement.deviceAuthorityRevision!==authority.authorityRevision)return {verified:false as const,reason:'device-authority-mismatch'};
+ if(statement.tombstoneId!==tombstone.id||statement.tombstoneHash!==tombstone.hash||statement.recordClass!==tombstone.recordClass||statement.instructionId!==acknowledgement.instructionId||statement.leaseId!==acknowledgement.leaseId||statement.packageHash!==acknowledgement.packageHash||statement.vaultRevision!==acknowledgement.localRevision||statement.challengeId!==challenge.id||statement.challengeNonce!==challenge.nonce||statement.deletedAt<tombstone.disposedAt||statement.deletedAt<challenge.issuedAt)return {verified:false as const,reason:'authoritative-device-statement-mismatch'};
+ const skew=(input.maximumClockSkewSeconds??60)*1000;if(!Number.isFinite(skew)||skew<0||new Date(statement.deletedAt).valueOf()>new Date(now).valueOf()+skew)return {verified:false as const,reason:'authoritative-device-statement-future'};
+ const canonicalStatement=canonical(statement);if(statement.statementHash!==await digest(canonicalStatement))return {verified:false as const,reason:'authoritative-device-statement-hash-mismatch'};if(!input.verify)return {verified:false as const,reason:'authoritative-device-verifier-unavailable'};
+ const verdict=await input.verify({canonicalStatement,statement,authority});if(!verdict.verified||!verdict.signatureChainVerified||!verdict.appIdentityVerified||!verdict.deviceKeyActive||!verdict.evidenceReference?.trim())return {verified:false as const,reason:'authoritative-device-verification-refused'};
+ const allowed=statement.authorityKind==='os-attestation'?verdict.observationKind==='hardware-attested-transaction':statement.authorityKind==='managed-device'?verdict.observationKind==='managed-device-observed':verdict.observationKind==='independent-lab-observed';if(!allowed)return {verified:false as const,reason:'authority-observation-mismatch'};
+ if(!await challenge.consume())return {verified:false as const,reason:'server-challenge-replayed'};
+ return {verified:true as const,claim:statement.authorityKind==='os-attestation'?'hardware-attested-deletion-transaction' as const:'physically-deleted' as const,evidenceReference:verdict.evidenceReference,recordClass:tombstone.recordClass,recordId:tombstone.recordId,instructionId:tombstone.instructionId,verifiedAt:now};
 }
-
 export const canonicalDeviceDeletionStatement=canonical;
