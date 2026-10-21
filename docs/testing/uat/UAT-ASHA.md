@@ -61,7 +61,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 | TC-BR-OFF-07-A | Shared and lost devices acceptance | BR-OFF-07 (partial) | Not run |
 | TC-BR-OFF-08-A | Offline workflow capacity acceptance | BR-OFF-08 (partial) | Not run |
 | TC-BR-CARE-05-A | Unified action plan acceptance | BR-CARE-05 (partial) | Not run |
-| TC-BR-CARE-06-A | Safe communication preferences acceptance | BR-CARE-06 (partial) | Not run |
+| TC-BR-CARE-06-A | Safe communication preferences acceptance | BR-CARE-06 (implemented-local) | Not run |
 | TC-BR-SEC-02-A | Understandable notice and consent acceptance | BR-SEC-02 (partial) | Not run |
 | TC-BR-SEC-03-A | Withdrawal and downstream effects acceptance | BR-SEC-03 (partial) | Not run |
 | TC-BR-SEC-04-A | Sensitive data and proxy handling acceptance | BR-SEC-04 (partial) | Not run |
@@ -1331,11 +1331,11 @@ Shared visit facts and duplicate patient/day reminder suppression. Slice 4b: one
 
 ### TC-BR-CARE-06-A — Safe communication preferences acceptance
 
-- **Requirement:** BR-CARE-06 — Safe communication preferences. Assessment: **partial**. Target R14. Priority Must, BRD phase R1.
+- **Requirement:** BR-CARE-06 — Safe communication preferences. Assessment: **implemented-local**. Target R14. Priority Must, BRD phase R1.
 - **Catalogue:** Functional, fixture FX-CARE-06, catalogue owner "QA with Worker clinician and supervisor".
 - **Run as:** ASHA worker. Basis: contact preferences are recorded on the person's page.
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-CARE-06: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Outreach, Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -1349,11 +1349,11 @@ Shared visit facts and duplicate patient/day reminder suppression. Slice 4b: one
 
 **Expected result** (catalogue): A patient requesting private contact receives no revealing automated message through a household contact number.
 
-**Known gaps** (assessment, remaining work for BR-CARE-06): Real notice/permission workflow, shared-phone field safety and approved notification channels.
+**Known gaps** (assessment, remaining work for BR-CARE-06): Formal TC-BR-CARE-06-A/B execution, representative-worker/domain acceptance, reviewed Hindi copy, approved live channel/provider and observed deployment remain pending.
 
 <details><summary>What the build does today (assessment, current state of BR-CARE-06)</summary>
 
-Explicit synthetic contact ownership, language, privacy, hours and withdrawal controls.
+Per-person, purpose and channel contact preferences now retain bounded ordered before/after change history, explicit phone ownership, preferred language, local contact window, permission, private-contact choice and a disclosure limit. Reminder drafts bind an exact purpose and recheck that purpose/channel before review and synthetic execution. Shared-phone delivery is limited to the fixed neutral template when explicitly permitted; private or unknown ownership prevents notification disclosure and retains the private or in-person follow-up path. Preference changes cancel only pending work for the affected purpose. Current assignment, record version and care-coordination purpose authority are enforced. Focused local contract evidence passes; no provider was called and no patient was contacted.
 
 </details>
 
@@ -1403,7 +1403,7 @@ Optional AI can be declined; contact preferences and EHR scopes are recorded.
 - **Catalogue:** Functional, fixture FX-SEC-03, catalogue owner "QA with Privacy and security owners".
 - **Run as:** ASHA worker. Basis: withdrawal is recorded for a person and acts on the worker's queued recordings.
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-SEC-03: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -1417,11 +1417,11 @@ Optional AI can be declined; contact preferences and EHR scopes are recorded.
 
 **Expected result** (catalogue): Revocation blocks a queued provider upload and produces a traceable disposition record; the system does not claim to erase an external record without evidence.
 
-**Known gaps** (assessment, remaining work for BR-SEC-03): Destination notification with verified external outcomes, wider local copy inventory, physical-device/hosted privacy validation, real ABDM consent-manager revocation and approved policy for retained completed transactions. Legacy unobserved wire variants retain unknown proof; no permission to care-replay after withdrawal.
+**Known gaps** (assessment, remaining work for BR-SEC-03): Automated notification through approved real destinations and independent verification of their outcomes, wider deployed copy inventory, physical-device/hosted privacy validation, real ABDM consent-manager revocation and approved policy for retained completed transactions. Legacy unobserved wire variants retain unknown proof; no permission to care-replay after withdrawal.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-03)</summary>
 
-Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. A06 adds original prepared-grant provenance, redacted own-only purge instructions after current care access is removed, encrypted revision-checked notebook/media deletion before durable client acknowledgement, and minimal tombstones preserving uncertain sync/media receipt references without blind care retries. Independent actual browser checks verify fail-closed known-refusal storage failures and offline reload on both surfaces; partial committed deletion batches survive later faults. Registration follow-up now records immutable original registration/match provenance, verifies the trusted original notebook account, clears cached candidate copies before connected reuse, and atomically removes known-withdrawn local registration copies while retaining unknown receipt proof. Append-only actual wire receipt mappings resolve observed raw/parsed ordering differences; pure privacy authority does not depend on a strict receipt lookup succeeding. Both surfaces pass synthetic encrypted-store and actual Worker recovery checks.
+Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. A06 adds original prepared-grant provenance, redacted own-only purge instructions after current care access is removed, encrypted revision-checked notebook/media deletion before durable client acknowledgement, and minimal tombstones preserving uncertain sync/media receipt references without blind care retries. Independent actual browser checks verify fail-closed known-refusal storage failures and offline reload on both surfaces; partial committed deletion batches survive later faults. Registration follow-up now records immutable original registration/match provenance, verifies the trusted original notebook account, clears cached candidate copies before connected reuse, and atomically removes known-withdrawn local registration copies while retaining unknown receipt proof. Append-only actual wire receipt mappings resolve observed raw/parsed ordering differences; pure privacy authority does not depend on a strict receipt lookup succeeding. Both surfaces pass synthetic encrypted-store and actual Worker recovery checks. SAHA-124 adds an append-only, patient-version-guarded request and reported-outcome trail for in-flight or already-sent external items, with evidence references, scoped care authority, patient revisions and explicit no-external-erasure wording; completed receipts remain immutable.
 
 </details>
 

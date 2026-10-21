@@ -186,11 +186,11 @@ Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: 
 
 **Expected result** (catalogue): A routine support agent can diagnose a sync failure without unrestricted patient access; exceptional access is logged and expires.
 
-**Known gaps** (assessment, remaining work for BR-OPS-05): Task-linked support cases and purpose/time-limited exceptional support access.
+**Known gaps** (assessment, remaining work for BR-OPS-05): Formal TC-BR-OPS-05-A/B remain Not run; independent review, CI, deployment operations acceptance, merge and observed hosted deployment remain pending.
 
 <details><summary>What the build does today (assessment, current state of BR-OPS-05)</summary>
 
-Redacted technical support export and generic incidents.
+Redacted technical support export and generic incidents. SAHA-118 adds task-linked fixed-diagnostic support cases, server-authorized routine queues, separately approved fixed-scope exceptional access with recorded purpose and 15–120 minute duration, expiry/revocation, chained patient-linked read audit, stale-write/race refusal and unchanged clinical records. Synthetic Worker/D1 checks pass 24 assertions.
 
 </details>
 
@@ -220,11 +220,11 @@ Redacted technical support export and generic incidents.
 
 **Expected result** (catalogue): A representative end-to-end test leaves no raw recording, credential or complete patient narrative in general operational telemetry.
 
-**Known gaps** (assessment, remaining work for BR-SEC-07): Hosted log, crash-report and analytics configuration and retention, identifiers in request paths, and a separate access-controlled store for necessary sensitive diagnostics with policy review.
+**Known gaps** (assessment, remaining work for BR-SEC-07): Hosted platform log/crash/analytics configuration and retention inspection, privacy-owner policy review, representative hosted leakage testing, identifiers in request paths, and formal TC-BR-SEC-07-A/B.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-07)</summary>
 
-Fixed route/status telemetry and redacted support exports. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs. Slice 6q (second independent review): the paged patient list no longer puts names in URLs (opaque cursor, POST search); the static check also flags free-text and search keys set on URLSearchParams. Routine retention repair (11 October 2026): independent source review confirmed a shared metadata deletion authority gap on refused foreign/suspended requests. Only the existing DELETE adds the same trusted actor active-membership predicate; separate code review, fresh build and all nine native HTTP scenarios/64 named check groups pass with independent whole-row/source/build evidence verification; normal CI fixture qualification, exact successor CI/full NFR and hosted acceptance remain pending. See docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md. Original formal status, policies, criteria and minima unchanged.
+Fixed route/status telemetry and redacted support exports. SAHA-128 routes every request and failure console record through a fixed-field encoder; raw exception objects, messages, stacks, URLs, bodies and identifiers are excluded, while necessary patient-linked diagnostic evidence remains in separately authorised audit/revision stores. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs. Slice 6q (second independent review): the paged patient list no longer puts names in URLs (opaque cursor, POST search); the static check also flags free-text and search keys set on URLSearchParams. Routine retention repair (11 October 2026): independent source review confirmed a shared metadata deletion authority gap on refused foreign/suspended requests. Only the existing DELETE adds the same trusted actor active-membership predicate; separate code review, fresh build and all nine native HTTP scenarios/64 named check groups pass with independent whole-row/source/build evidence verification; normal CI fixture qualification, exact successor CI/full NFR and hosted acceptance remain pending. See docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md. Original formal status, policies, criteria and minima unchanged.
 
 </details>
 

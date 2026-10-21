@@ -62,7 +62,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 | TC-BR-INT-23-A | Terminology and mapping governance acceptance | BR-INT-23 (partial) | Not run |
 | TC-BR-INT-24-A | Conformance and production claims acceptance | BR-INT-24 (implemented-local) | Not run |
 | TC-BR-CARE-07-A | External messaging and scheduling acceptance | BR-CARE-07 (partial) | Not run |
-| TC-BR-OPS-01-A | Deployment configuration acceptance | BR-OPS-01 (partial) | Not run |
+| TC-BR-OPS-01-A | Deployment configuration acceptance | BR-OPS-01 (implemented-local) | Not run |
 | TC-BR-OPS-02-A | Separation of environments acceptance | BR-OPS-02 (partial) | Not run |
 | TC-BR-OPS-03-A | Controlled publishing and rollback acceptance | BR-OPS-03 (partial) | Not run |
 | TC-BR-OPS-06-A | Training and competency acceptance | BR-OPS-06 (partial) | Not run |
@@ -234,11 +234,11 @@ MIS mapping versions and selected field allowlists are bound to submissions. App
 
 **Expected result** (catalogue): A fact approved for one task is excluded from another provider's payload when that second use lacks the required permission.
 
-**Known gaps** (assessment, remaining work for BR-DATA-10): Approve the purpose vocabulary and per-destination reuse policy; run the named formal positive/adverse cases with frontline and programme-data-owner review; observe the exact deployed commit and authorised synthetic journey.
+**Known gaps** (assessment, remaining work for BR-DATA-10): Obtain independent source review and exact-source CI; approve the purpose vocabulary and per-destination reuse policy; run the named formal positive/adverse cases with frontline and programme-data-owner review; merge and observe the exact deployed synthetic commit.
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-10)</summary>
 
-Per-connector mapping allowlists, AI permission and scoped EHR permissions. Slice R09 added purpose-limited grants; slice 13a checks them at every data-flow checkpoint (plans, submissions, destination enrolment, identifier corrections, incentive claims, EHR and ABDM flows, assistant runs, anaemia and frontline providers, aggregate reports and indicator figures, household disclosure). Overnight access/recovery checkpoint (11 October 2026): final consistent Routine/Today access checks, bounded ACCESS append liveness, original-organisation dispatch and original-account exact-attempt recovery have scoped native/browser and final203-unit/API/restore evidence. See docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md and EVIDENCE-20261011-AUTHORITY.json. Current-head CI, complete applicable physical/reference-device NFR and hosted A10 remain pending; wider captured-member helper and formal acceptance are not closed. Integrated audit qualification (11 October 2026): current-membership append/postcheck and native excess-count witness pass fresh current305 full205/10791 guarded205; same-runtime canonical166/14529 passes guarded166 with one inherited media skip and excluded old13 unit fixture declared. All380 prior guard records remain exact. See docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md and EVIDENCE-20261011-AUDIT-GUARD.json for exact source/setup limits and saved Git receipts. Complete real UI/reference NFR02, originalNFR5, final-head CI, separate final review and A10 remain pending; physical/clinical/formal acceptance is unchanged. Selective-reuse qualification (13 October 2026): the current destination/purpose projection exposes only the configured destination mapping, withholds values for an unapproved purpose, revalidates exact original plan/receipt evidence, and clears protected values on authority/deadline changes. The composed owned native test now proves that withdrawing programme-delivery permission after prepare/approve/queue refuses the actual sendSubmission command, leaves the queued submission unchanged and produces zero external egress (60/60 checks). Existing dispatch keeps immutable approved payloads and blocks stale mapping/consent/purpose/authority rather than silently altering them; a fresh plan is required.
+Per-connector mapping allowlists, AI permission and scoped EHR permissions. Slice R09 added purpose-limited grants; slice 13a checks them at every data-flow checkpoint (plans, submissions, destination enrolment, identifier corrections, incentive claims, EHR and ABDM flows, assistant runs, anaemia and frontline providers, aggregate reports and indicator figures, household disclosure). Overnight access/recovery checkpoint (11 October 2026): final consistent Routine/Today access checks, bounded ACCESS append liveness, original-organisation dispatch and original-account exact-attempt recovery have scoped native/browser and final203-unit/API/restore evidence. See docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md and EVIDENCE-20261011-AUTHORITY.json. Current-head CI, complete applicable physical/reference-device NFR and hosted A10 remain pending; wider captured-member helper and formal acceptance are not closed. Integrated audit qualification (11 October 2026): current-membership append/postcheck and native excess-count witness pass fresh current305 full205/10791 guarded205; same-runtime canonical166/14529 passes guarded166 with one inherited media skip and excluded old13 unit fixture declared. All380 prior guard records remain exact. See docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md and EVIDENCE-20261011-AUDIT-GUARD.json for exact source/setup limits and saved Git receipts. Complete real UI/reference NFR02, originalNFR5, final-head CI, separate final review and A10 remain pending; physical/clinical/formal acceptance is unchanged. Selective-reuse qualification (13 October 2026): the current destination/purpose projection exposes only the configured destination mapping, withholds values for an unapproved purpose, revalidates exact original plan/receipt evidence, and clears protected values on authority/deadline changes. The composed owned native test now proves that withdrawing programme-delivery permission after prepare/approve/queue refuses the actual sendSubmission command, leaves the queued submission unchanged and produces zero external egress (60/60 checks). Existing dispatch keeps immutable approved payloads and blocks stale mapping/consent/purpose/authority rather than silently altering them; a fresh plan is required. Local coding completion (20 October 2026): destination-specific mapping, independent purpose refusal, exact original plan/receipt binding, dispatch-time authority/consent/mapping rechecks and refusal-safe UI clearing have focused46, owned native Worker/D1/browser60, dispatch100, typecheck and build evidence. Malformed legacy destination or patient programme membership is withheld rather than throwing or retaining an earlier payload. No identified application-code gap remains against the frozen story; see docs/current/SAHA-029-LOCAL-CODING-COMPLETION-20261020.md.
 
 </details>
 
@@ -1366,11 +1366,11 @@ Independent reminder simulation, receipts, bounded retry and owned failure follo
 
 ### TC-BR-OPS-01-A — Deployment configuration acceptance
 
-- **Requirement:** BR-OPS-01 — Deployment configuration. Assessment: **partial**. Target R15. Priority Must, BRD phase R1.
+- **Requirement:** BR-OPS-01 — Deployment configuration. Assessment: **implemented-local**. Target R15. Priority Must, BRD phase R1.
 - **Catalogue:** Functional, fixture FX-OPS-01, catalogue owner "QA with Deployment operations".
 - **Run as:** Organisation owner / programme lead. Basis: the configuration check is owner-only (assessment).
 - **Default result:** Not run
-- **Start from:** Organisation & team. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
+- **Start from:** Organisation & team. Not in this role's navigation: Candidate deployment configuration (/deployment-configuration; publication and deployment remain separate). These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -1384,11 +1384,11 @@ Independent reminder simulation, receipts, bounded retry and owned failure follo
 
 **Expected result** (catalogue): Updating one tenant's configuration cannot change another tenant's behaviour or data visibility.
 
-**Known gaps** (assessment, remaining work for BR-OPS-01): Facilities, jurisdiction, full language/provider eligibility, validated deployment limits and validation before configuration changes take effect.
+**Known gaps** (assessment, remaining work for BR-OPS-01): Formal TC-BR-OPS-01-A/B remain not run; named human/domain approval, exact-source CI, protected merge and observed hosted deployment remain separate.
 
 <details><summary>What the build does today (assessment, current state of BR-OPS-01)</summary>
 
-Tenant/team/member and selected provider/connector settings are scoped; an owner-only read-only configuration check reports missing or unsafe deployment settings and per-connection credential, grant and allowlist state without secret values.
+SAHA-114 adds a tenant-scoped, versioned deployment configuration lifecycle. An organisation owner stages exact organisation, geography, facility, role, programme, language, provider-eligibility and operational-limit settings; a different current deployment operator independently reviews the exact source-bound revision; a different current owner activates it only after all references and authority are revalidated. Active settings enforce role, programme, language, provider, location, member, patient-record and external-connection boundaries on current command paths. Configuration history and audit are retained, no provider is activated by configuration, and one tenant record cannot affect another. Synthetic contract34/34, TypeScript and production build pass on 20 October 2026.
 
 </details>
 
@@ -1506,7 +1506,7 @@ Synthetic training assessment and personal acknowledgement records.
 - **Catalogue:** Functional, fixture FX-OPS-07, catalogue owner "QA with Deployment operations".
 - **Run as:** Organisation owner / programme lead. Basis: the organisation export is owner-only (assessment).
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-OPS-07: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Organisation & team. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -1520,11 +1520,11 @@ Synthetic training assessment and personal acknowledgement records.
 
 **Expected result** (catalogue): An exit rehearsal produces a usable export, a list of unresolved external actions and a named owner for open patient tasks.
 
-**Known gaps** (assessment, remaining work for BR-OPS-07): Buyer-authorised export beyond the owner's care scope, independent re-import tooling, staged exports for large tenants and queue disposition on provider termination.
+**Known gaps** (assessment, remaining work for BR-OPS-07): Independent operation of the 1000-person rehearsal, representative large-tenant capacity, buyer approval of the format, exact-source CI/review and formal acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-OPS-07)</summary>
 
-Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked). Slice 6q: the audit-chain and operations export retries refuse (409, nothing delivered) a changed care scope and, for the operations CSV, a changed reporting reach. Slice 6u: household members and caseload transfer patients outside the exporter's scope are left out of those rows and counted, and the verifier checks them; pilot dossier and expansion pack exports retry their audit commit with access rechecked. Slice 6z: alert notifications are exported for the exporter only; other members' notifications (counts from their own care scope) are left out and counted in the manifest.
+Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked). Slice 6q: the audit-chain and operations export retries refuse (409, nothing delivered) a changed care scope and, for the operations CSV, a changed reporting reach. Slice 6u: household members and caseload transfer patients outside the exporter's scope are left out of those rows and counted, and the verifier checks them; pilot dossier and expansion pack exports retry their audit commit with access rechecked. Slice 6z: alert notifications are exported for the exporter only; other members' notifications (counts from their own care scope) are left out and counted in the manifest. SAHA-120 local successor adds a fail-closed whole-organisation mode that requires existing normal authority for every person, source-bound staged parts, explicit per-connection termination rehearsal disposition, value-free field units/provenance and a non-destructive validation re-import command; see docs/current/SAHA-120-DATA-EXIT-LOCAL-CODING-COMPLETION.md.
 
 </details>
 
@@ -1613,18 +1613,18 @@ Local AI/sharing flags and EHR purpose/direction/time permissions.
 
 **Tester actions**
 
-1. Not testable in current build: The assessment lists as remaining work “Independent storage/key-management, rotation, media and end-to-end encryption assessment.” (BR-SEC-05, remaining field of requirements/assessment.tsv).
+1. Not testable in current build: The assessment lists as remaining work “Independent hosted storage/KMS and backup custody, actual provider rotation, deployed bundle/log/context inspection, physical-device media assessment, end-to-end encryption assessment and formal security acceptance.” (BR-SEC-05, remaining field of requirements/assessment.tsv).
 2. Check it: open the screens named under Start from and look for the behaviour described in the expected result below. Do not work around a missing control.
 3. If the behaviour is absent, leave the result Blocked and write in the register what you looked at and what was missing. If you can exercise part of it, do so, record exactly what you did and saw in Notes, and keep the result Blocked or set Fail if what you saw was wrong. A partial run is never a Pass.
 4. Original design step, for reference: "TLS, envelope encryption and secret references protect data; key rotation and access are audited separately."
 
 **Expected result** (catalogue): Security review finds no usable provider keys in the client bundle or agent context, and local data is unreadable outside the authorised application.
 
-**Known gaps** (assessment, remaining work for BR-SEC-05): Independent storage/key-management, rotation, media and end-to-end encryption assessment.
+**Known gaps** (assessment, remaining work for BR-SEC-05): Independent hosted storage/KMS and backup custody, actual provider rotation, deployed bundle/log/context inspection, physical-device media assessment, end-to-end encryption assessment and formal security acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-05)</summary>
 
-TLS hosting, server secrets, encrypted field vault and encrypted local backups.
+TLS hosting, server secrets, encrypted field vault/media and encrypted local backups. SAHA-126 adds strict metadata-only secret ownership/rotation records, staging/production fail-closed deployment checks and a fingerprint-only review tool for client bundles, configuration exports, logs and model context; no usable secret value enters either report.
 
 </details>
 
@@ -1654,11 +1654,11 @@ TLS hosting, server secrets, encrypted field vault and encrypted local backups.
 
 **Expected result** (catalogue): Cross-tenant adversarial tests and wrong-record reference tests result in denial with no content disclosure.
 
-**Known gaps** (assessment, remaining work for BR-SEC-06): Independent adversarial coverage of hosted backup, future indexes/media and asynchronous services.
+**Known gaps** (assessment, remaining work for BR-SEC-06): Formal TC-BR-SEC-06-A/B, independent source review and adversarial hosted coverage of backup/restore, future indexes/retrieval stores, hosted media/file links and scheduled/asynchronous infrastructure.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-06)</summary>
 
-Organisation/patient scope tested across current APIs and exports.
+Organisation/patient scope tested across current APIs and exports. SAHA-127 adds active-membership resolution for every explicitly named tenant before target, search, report, export or traffic-triggered background work; focused Worker/D1 evidence covers positive, foreign-tenant, wrong-record, suspension, lineage and export-authority-race paths without disclosed tenant markers or prepared archive bytes.
 
 </details>
 
