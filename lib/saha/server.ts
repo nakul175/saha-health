@@ -254,7 +254,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const delegation=applyDelegation(state,c,u,m);
   // Slice 6s: owner-maintained indicator definitions (append-only versions).
   const registry=applyIndicatorRegistry(state,c,u,m);
-  const retention=applyRetention(state,c,u,m);
+  const retention=applyRetention(state,c,u,m,new Date().toISOString(),rawRuntime());
   retentionDisposal=retention?await prepareRetentionDisposal(db(),before,state):null;
   if(retentionDisposal){applyRetentionTombstones(state);retention.privateObjectsPending=retentionDisposal.pendingObjects;}
   const fixture=await applyFixtureMark(state,c,u,m);

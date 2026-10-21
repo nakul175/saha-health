@@ -3,6 +3,7 @@ import { fail, person, uuid } from './core';
 import type { Actor } from './store';
 import type { Member, OrgState } from './types';
 import {decidePolicyDisposition,POLICY_CONTROLLED_CLASSES,retentionMilestones,type DispositionDecision,type RetentionMilestones} from './retention-class-policy';
+import {productionSpacesExactDelete} from './s3-versioned-delete-runtime';
 
 // BR-SEC-09: owner-maintained schedules and an append-only tombstone ledger.
 // Accountability records stay immutable while disposed operational material is
@@ -22,12 +23,14 @@ export const TRIGGER:Record<RecordClass,string>={
 export type RetentionRule={recordClass:RecordClass;years:number;purpose:string;location:string;jurisdiction:string};
 export type RetentionPolicy={version:number;rules:RetentionRule[];basis:string;setBy:string;setAt:string};
 export type Hold={id:string;scope:'organisation'|'person';personId?:string;reason:string;reference:string;placedBy:string;placedAt:string;released?:{by:string;at:string;reason:string}};
-export type RetentionArtifact={id:string;recordClass:RecordClass;recordId:string;personId?:string;createdAt:string;purpose:string;location:string;jurisdiction:string;registeredBy:string;registeredAt:string};
+export type SpacesRetentionCustody={provider:'digitalocean-spaces';endpoint:string;region:string;accountId:string;bucket:string;objectKey:string;versionId:string;etag:string;custodyEvidenceRef:string;destinationRegistered?:boolean;accountableOwnerRef?:string;serverPayloadPersisted?:boolean;keyInaccessible?:boolean;recoveryWindowApproved?:boolean;tombstoneAwareRestoreVerified?:boolean;generationKeyInaccessible?:boolean;cadence?:'daily'|'weekly'|'monthly';recoveryWindowDays?:number;exactVersionDeletionAfterWindow?:boolean;tombstoneAwareRestoreRequired?:boolean};
+export type RetentionArtifact={id:string;recordClass:RecordClass;recordId:string;personId?:string;createdAt:string;purpose:string;location:string;jurisdiction:string;registeredBy:string;registeredAt:string;externalDeletion?:SpacesRetentionCustody};
 export type RetentionTombstone={id:string;recordClass:RecordClass;recordId:string;personId?:string;policyVersion:number;triggerAt:string;purpose:string;location:string;jurisdiction:string;disposedBy:string;disposedAt:string;reason:string};
 export type Retention={policies:RetentionPolicy[];holds:Hold[];artifacts?:RetentionArtifact[];tombstones?:RetentionTombstone[]};
 
 const text=z.string().trim().min(10,'Write at least 10 characters.').max(1000),ref=z.string().trim().min(3).max(200),id=z.string().trim().min(1).max(200),dimension=z.string().trim().min(2).max(120),instant=z.string().datetime({offset:true});
 const rule=z.object({recordClass:z.enum(RECORD_CLASSES),years:z.number().int().min(1).max(50),purpose:dimension,location:dimension,jurisdiction:dimension}).strict();
+const externalObject=z.object({objectKey:z.string().trim().min(3).max(1000),versionId:z.string().trim().min(3).max(500),etag:z.string().trim().min(3).max(500),custodyEvidenceRef:ref}).strict();
 const tombstone=z.object({id,recordClass:z.enum(RECORD_CLASSES),recordId:id,personId:id.optional(),policyVersion:z.number().int().positive(),triggerAt:instant,purpose:dimension,location:dimension,jurisdiction:dimension,disposedBy:id,disposedAt:instant,reason:text}).passthrough();
 export function retentionTombstonesFromRaw(raw:string|null|undefined):RetentionTombstone[]{
  if(raw==null)return[];let value:unknown;try{value=JSON.parse(raw);}catch{fail(503,'Current retention authority is invalid. Nothing was returned.');}
@@ -39,7 +42,7 @@ export const retentionSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('retentionPolicySet'),rules:z.array(rule).min(1).max(RECORD_CLASSES.length).refine(r=>new Set(r.map(x=>x.recordClass)).size===r.length,'Set each record class once.'),basis:text}).strict(),
  z.object({type:z.literal('retentionHoldPlace'),scope:z.enum(['organisation','person']),personId:id.optional(),reason:text,reference:ref}).strict(),
  z.object({type:z.literal('retentionHoldRelease'),holdId:id,reason:text}).strict(),
- z.object({type:z.literal('retentionArtifactRegister'),recordClass:z.enum(RECORD_CLASSES),recordId:id,personId:id.optional(),createdAt:instant.optional(),purpose:dimension,location:dimension,jurisdiction:dimension}).strict(),
+ z.object({type:z.literal('retentionArtifactRegister'),recordClass:z.enum(RECORD_CLASSES),recordId:id,personId:id.optional(),createdAt:instant.optional(),purpose:dimension,location:dimension,jurisdiction:dimension,externalObject:externalObject.optional()}).strict(),
  z.object({type:z.literal('retentionDisposalApply'),expectedPolicyVersion:z.number().int().positive(),artifacts:z.array(z.object({recordClass:z.enum(RECORD_CLASSES),recordId:id}).strict()).min(1).max(100),reason:text}).strict(),
 ]);
 const TYPES:Set<string>=new Set(retentionSchema.options.map(x=>x.shape.type.value));
@@ -81,7 +84,7 @@ export function policyDispositionForArtifact(s:OrgState,a:RetentionArtifact,now=
  return {milestones:null,decision:{state:'retained',claim:'retained',reason:'This class uses its existing chain-safe disposal path.',retryable:false}};
 }
 
-export function applyRetention(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
+export function applyRetention(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString(),runtime:Record<string,unknown>={}):any|null{
  const parsed=retentionSchema.safeParse(input);if(!parsed.success){const type=input&&typeof input==='object'&&'type' in input?(input as {type?:unknown}).type:null;if(typeof type==='string'&&TYPES.has(type))fail(422,'This retention command uses an unsupported legacy or malformed contract. Refresh and submit the current command version.');return null;}const c=parsed.data;authorizeRetention(s,m,c);
  const r=s.retention??={policies:[],holds:[],artifacts:[],tombstones:[]};r.artifacts??=[];r.tombstones??=[];
  let subject=s.organisation.id,personId:string|undefined,detail='',result:any={ok:true};
@@ -98,8 +101,17 @@ export function applyRetention(s:OrgState,input:unknown,u:Actor,m:Member,now=new
   const h=r.holds.find(x=>x.id===c.holdId);if(!h)fail(404,'Hold not found.');if(h.released)fail(409,'This hold is already released.');if(h.personId){person(s.workspace,h.personId);personId=h.personId;}h.released={by:u.userId,at:now,reason:c.reason};subject=h.id;detail=`Hold released. ${c.reason}`;
  } else if(c.type==='retentionArtifactRegister'){
   if(r.artifacts.length>=5000)fail(422,'Retention inventory limit reached; archive the inventory before adding records.');if(r.artifacts.some(a=>tuple(a.recordClass,a.recordId)===tuple(c.recordClass,c.recordId)))fail(409,'This retention artifact is already registered.');if(r.tombstones.some(t=>tuple(t.recordClass,t.recordId)===tuple(c.recordClass,c.recordId)))fail(409,'A disposed record identifier cannot be registered again.');
+  if(c.externalObject&&c.recordClass!=='export'&&c.recordClass!=='backup')fail(422,'Exact external object custody can be registered only for an export or backup.');
   const canonical=canonicalBinding(s,c.recordClass,c.recordId);let createdAt:string;if(operational(c.recordClass)){if(!canonical)fail(404,'The operational record is unavailable in the current authorised scope.');createdAt=canonical.createdAt;personId=canonical.personId;}else{if(c.personId)fail(422,'Unbound inventory metadata cannot claim a patient relationship.');if(!c.createdAt)fail(422,'Record the inventory creation time.');createdAt=c.createdAt;}
-  if(createdAt>now)fail(422,'The artifact creation time cannot be in the future.');const body={recordClass:c.recordClass,recordId:c.recordId,createdAt,purpose:c.purpose,location:c.location,jurisdiction:c.jurisdiction};const a:RetentionArtifact={...body,id:uuid(),...(personId?{personId}:{}),registeredBy:u.userId,registeredAt:now};r.artifacts.push(a);subject=a.id;detail=`Retention artifact registered: ${a.recordClass} ${a.recordId}; ${a.purpose}; ${a.location}; ${a.jurisdiction}. Operational age and patient binding are derived from the canonical record.`;result={artifactId:a.id};
+  let externalDeletion:SpacesRetentionCustody|undefined;
+  if(c.externalObject){
+   if(!productionSpacesExactDelete(runtime))fail(409,'Verified DigitalOcean Spaces versioning and exact-version deletion configuration is required before external custody can be registered.');
+   const endpoint=runtime.SAHA_RETENTION_SPACES_ENDPOINT,region=runtime.SAHA_RETENTION_SPACES_REGION,accountId=runtime.SAHA_RETENTION_SPACES_ACCOUNT_ID,bucket=runtime.SAHA_RETENTION_SPACES_BUCKET;
+   if(typeof endpoint!=='string'||typeof region!=='string'||typeof accountId!=='string'||typeof bucket!=='string')fail(409,'Verified DigitalOcean Spaces custody coordinates are unavailable.');
+   const base={provider:'digitalocean-spaces' as const,endpoint,region,accountId,bucket,...c.externalObject};
+   externalDeletion=c.recordClass==='export'?{...base,accountableOwnerRef:'Saha Health system owner pending named human',destinationRegistered:false,serverPayloadPersisted:true,keyInaccessible:false}:{...base,cadence:'weekly',recoveryWindowDays:7,exactVersionDeletionAfterWindow:true,tombstoneAwareRestoreRequired:true,recoveryWindowApproved:false,tombstoneAwareRestoreVerified:false,generationKeyInaccessible:false};
+  }
+  if(createdAt>now)fail(422,'The artifact creation time cannot be in the future.');const body={recordClass:c.recordClass,recordId:c.recordId,createdAt,purpose:c.purpose,location:c.location,jurisdiction:c.jurisdiction};const a:RetentionArtifact={...body,id:uuid(),...(personId?{personId}:{}),...(externalDeletion?{externalDeletion}:{}),registeredBy:u.userId,registeredAt:now};r.artifacts.push(a);subject=a.id;detail=`Retention artifact registered: ${a.recordClass} ${a.recordId}; ${a.purpose}; ${a.location}; ${a.jurisdiction}.${externalDeletion?' Exact external object custody is bound to the trusted runtime account, region and bucket; deletion remains policy-gated.':''} Operational age and patient binding are derived from the canonical record.`;result={artifactId:a.id};
  } else {
   const policy=currentPolicy(r);if(!policy||policy.version!==c.expectedPolicyVersion)fail(409,'The retention schedule changed or is unavailable. Refresh before disposal.');if(held(r))fail(409,'An organisation hold prevents disposal.');const unique=new Set(c.artifacts.map(a=>tuple(a.recordClass,a.recordId)));if(unique.size!==c.artifacts.length)fail(422,'Choose each retention artifact once.');
   const selected=c.artifacts.map(x=>{const a=r.artifacts!.find(a=>tuple(a.recordClass,a.recordId)===tuple(x.recordClass,x.recordId));if(!a)fail(404,'Retention artifact not found.');if(!disposable(x.recordClass)){const disposition=policyDispositionForArtifact(s,a,now).decision;fail(422,`This record class has no supported physical-disposal command. Current disposition: ${disposition.state}/${disposition.claim}. ${disposition.reason}`);}if(r.tombstones!.some(t=>tuple(t.recordClass,t.recordId)===tuple(x.recordClass,x.recordId)))fail(409,'This artifact is already disposed.');const canonical=canonicalBinding(s,a.recordClass,a.recordId);if(!canonical||canonical.createdAt!==a.createdAt||canonical.personId!==a.personId)fail(409,'The artifact canonical age or patient binding changed or is unavailable. Refresh the inventory before disposal.');if(held(r,canonical.personId))fail(409,'A current hold protects one or more selected artifacts.');const rule=policy.rules.find(q=>q.recordClass===a.recordClass);if(!rule)fail(409,'The current policy does not schedule one or more selected artifacts.');if(rule.purpose!==a.purpose||rule.location!==a.location||rule.jurisdiction!==a.jurisdiction)fail(409,'An artifact no longer matches the current purpose, location and jurisdiction schedule.');if(canonical.createdAt>=yearsAgo(now,rule.years))fail(409,'One or more selected artifacts have not reached the configured disposal date.');return {a,rule};});

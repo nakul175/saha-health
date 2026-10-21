@@ -1,11 +1,6 @@
-import type {RetentionArtifact} from './retention';
+import type {RetentionArtifact,SpacesRetentionCustody} from './retention';
 import {productionSpacesExactDelete} from './s3-versioned-delete-runtime';
 
-export type SpacesRetentionCustody={
- provider:'digitalocean-spaces';endpoint:string;region:string;accountId:string;bucket:string;objectKey:string;versionId:string;etag:string;custodyEvidenceRef:string;
- destinationRegistered?:boolean;accountableOwnerRef?:string;serverPayloadPersisted?:boolean;keyInaccessible?:boolean;
- recoveryWindowApproved?:boolean;tombstoneAwareRestoreVerified?:boolean;generationKeyInaccessible?:boolean;cadence?:'daily'|'monthly';
-};
 type BoundArtifact=RetentionArtifact&{externalDeletion?:SpacesRetentionCustody};
 export type ExternalObjectDeletionGate={ready:boolean;state:'not-applicable'|'custody-unavailable'|'provider-unavailable'|'custody-mismatch'|'policy-refused'|'ready';reason:string};
 
