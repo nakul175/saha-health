@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **153 HTTP method/route pairs** and **323 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **154 HTTP method/route pairs** and **325 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -129,6 +129,7 @@ Generated from source: **153 HTTP method/route pairs** and **323 command schema 
 | GET | `/api/reporting-completeness` | [app/api/reporting-completeness/route.ts](../../app/api/reporting-completeness/route.ts) |
 | POST | `/api/reporting-completeness` | [app/api/reporting-completeness/route.ts](../../app/api/reporting-completeness/route.ts) |
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
+| POST | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
 | GET | `/api/reuse-measurements` | [app/api/reuse-measurements/route.ts](../../app/api/reuse-measurements/route.ts) |
 | POST | `/api/reuse-measurements` | [app/api/reuse-measurements/route.ts](../../app/api/reuse-measurements/route.ts) |
 | GET | `/api/rights/package` | [app/api/rights/package/route.ts](../../app/api/rights/package/route.ts) |

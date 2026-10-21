@@ -160,6 +160,9 @@ export const SUITE_RESULTS = {
   'tests/provider-ehr-execution-review.mjs': ['tests/evidence/provider-destination-independent/ehr-execution/result.json'],
 };
 const MANUAL = {
+  'tests/point-of-need-help-browser.mjs': { needsEnv: [], directOnly: true, note: 'Retained point-of-need help browser evidence driver; executed deliberately with its bounded synthetic fixture and not duplicated in the guarded regression selection.' },
+  'tests/point-of-need-help-component.mjs': { needsEnv: [], directOnly: true, note: 'Retained point-of-need help component evidence driver; executed deliberately with its bounded synthetic fixture and not duplicated in the guarded regression selection.' },
+  'tests/saha154-optional-assignment-uncertainty-browser.mjs': { needsEnv: [], directOnly: true, note: 'Retained SAHA-154 uncertainty-path browser evidence driver; executed deliberately against its synthetic runtime and not duplicated in the guarded regression selection.' },
  'tests/native-runtime-log-probe-v2.mjs':{needsEnv:[],directOnly:true,note:'All12 original console/error controls with actual owned Runtimeexception events; noclinicalcalls'},
  'tests/native-runtime-log-probe.mjs':{needsEnv:[],directOnly:true,note:'Actual native runtime console/HTTP observation control; runs deliberately before load, no clinical backend assertions'},
   'tests/smoke/routine-visit-browser.mjs':{needsEnv:[],directOnly:true,note:'Immutable original routine244 driver retained; current guarded ID runs native launcher with identical assertions and1000samples'},
