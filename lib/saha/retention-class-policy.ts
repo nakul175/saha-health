@@ -9,7 +9,7 @@ type Common={recordClass:PolicyControlledClass;hold:boolean;exception?:boolean};
 export type PatientRecordDisposition=Common&{recordClass:'patient-record';jurisdictionScheduleApproved:boolean;minimumEvidenceSchemaApproved:boolean};
 export type ModelOutputDisposition=Common&{recordClass:'model-output';classification:'unclassified'|'patient-record'|'non-authoritative-assistance';provenanceEnvelopeRetained:boolean;humanDecisionRetained:boolean};
 export type OfflineDisposition=Common&{recordClass:'field-package'|'local-cache';expired:boolean;unsyncedClinicalWork:boolean;keyInaccessible:boolean;authoritativeDeviceEvidence:boolean;appAcknowledged?:boolean};
-export type AuditDisposition=Common&{recordClass:'audit-event';detailErasureDesign:'unapproved'|'cryptographic'|'checkpoint-linked';minimumEnvelopeRetained:boolean;chainVerified:boolean;detailKeyInaccessible?:boolean};
+export type AuditDisposition=Common&{recordClass:'audit-event';detailErasureDesign:'unapproved'|'cryptographic'|'checkpoint-linked';minimumEnvelopeRetained:boolean;chainVerified:boolean;detailUnavailable:boolean;detailKeyInaccessible?:boolean};
 export type ExportDisposition=Common&{recordClass:'export';serverPayloadPersisted:boolean;destinationRegistered:boolean;keyInaccessible:boolean;authoritativeDestinationEvidence:boolean};
 export type BackupDisposition=Common&{recordClass:'backup';recoveryWindowApproved:boolean;tombstoneAwareRestoreVerified:boolean;generationKeyInaccessible:boolean;providerGenerationEvidence:boolean};
 export type PolicyDispositionInput=PatientRecordDisposition|ModelOutputDisposition|OfflineDisposition|AuditDisposition|ExportDisposition|BackupDisposition;
@@ -45,6 +45,7 @@ export function decidePolicyDisposition(input:PolicyDispositionInput):Dispositio
    if(input.detailErasureDesign==='unapproved')return retained('The immutable audit chain remains fully retained until a detail-erasure design is approved.');
    if(!input.minimumEnvelopeRetained||!input.chainVerified)return blocked('Audit detail erasure cannot break the minimum envelope or chain verification.');
    if(input.detailErasureDesign==='cryptographic'&&!input.detailKeyInaccessible)return pending('The approved audit-detail key remains accessible.');
+   if(!input.detailUnavailable)return evidence('The approved audit-detail design exists, but unavailability of the sensitive detail is not verified.','retained');
    return complete('Sensitive audit detail is unavailable while the verified minimum chain envelope remains.','crypto-erased');
   case 'export':
    if(input.serverPayloadPersisted)return blocked('Server export payloads must be ephemeral; dispose the server copy through its owning store first.',true);

@@ -28,10 +28,11 @@ try{
  eq(decide({...offline,authoritativeDeviceEvidence:true}).claim,'physically-deleted');
  eq(decide({...offline,recordClass:'local-cache',expired:false}).state,'retained');
 
- eq(decide({recordClass:'audit-event',detailErasureDesign:'unapproved',minimumEnvelopeRetained:true,chainVerified:true}).state,'retained');
- eq(decide({recordClass:'audit-event',detailErasureDesign:'checkpoint-linked',minimumEnvelopeRetained:false,chainVerified:true}).state,'policy-blocked');
- eq(decide({recordClass:'audit-event',detailErasureDesign:'cryptographic',minimumEnvelopeRetained:true,chainVerified:true,detailKeyInaccessible:false}).state,'purge-pending');
- eq(decide({recordClass:'audit-event',detailErasureDesign:'cryptographic',minimumEnvelopeRetained:true,chainVerified:true,detailKeyInaccessible:true}).claim,'crypto-erased');
+ eq(decide({recordClass:'audit-event',detailErasureDesign:'unapproved',minimumEnvelopeRetained:true,chainVerified:true,detailUnavailable:false}).state,'retained');
+ eq(decide({recordClass:'audit-event',detailErasureDesign:'checkpoint-linked',minimumEnvelopeRetained:false,chainVerified:true,detailUnavailable:false}).state,'policy-blocked');
+ eq(decide({recordClass:'audit-event',detailErasureDesign:'checkpoint-linked',minimumEnvelopeRetained:true,chainVerified:true,detailUnavailable:false}).state,'evidence-pending');
+ eq(decide({recordClass:'audit-event',detailErasureDesign:'cryptographic',minimumEnvelopeRetained:true,chainVerified:true,detailUnavailable:false,detailKeyInaccessible:false}).state,'purge-pending');
+ eq(decide({recordClass:'audit-event',detailErasureDesign:'cryptographic',minimumEnvelopeRetained:true,chainVerified:true,detailUnavailable:true,detailKeyInaccessible:true}).claim,'crypto-erased');
 
  const exported={recordClass:'export',serverPayloadPersisted:false,destinationRegistered:true,keyInaccessible:true,authoritativeDestinationEvidence:false};
  eq(decide({...exported,serverPayloadPersisted:true}).state,'policy-blocked');
